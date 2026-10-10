@@ -1,11 +1,684 @@
 {
-  "version":1,"patch":"26.20","author":"ChatGPT in this chat","authoredAt":"2026-10-10",
-  "builds":[
-    {"id":"cassio-poison-endurance","champion":"Cassiopeia","name":"Poison endurance","goal":"More useful Twin Fang casts during a sustained duel","hypothesis":"Mana, health and poison-based slows may let Cassiopeia keep casting for longer. Riftmaker converts some bonus health to AP and ramps during combat; Liandry adds target-health damage. This is an uptime hypothesis rather than a maximum single-hit claim.","itemIds":[6657,3040,3116,6653,4633,3135],"runePage":[8010,8009,9105,8299,8226,8210],"shards":[5007,5008,5001],"conditions":{"level":18,"rank":5,"eRank":5,"mode":"sequence","duration":10,"mana":2000,"rodStacks":10,"conquerorStacks":0,"combatSeconds":0},"testPlan":["Stack Rod of Ages to 10 and transform Archangel into Seraph; record actual AP and maximum mana before testing.","Against the same target, alternate Q and E for 10 seconds. Start Conqueror unstacked and record total damage, E count and mana remaining.","Repeat with the single-window build at matched gold. Test once stationary and once while dodging a moving opponent."],"failureConditions":["The target escapes poison or burst-kills you before durability yields extra casts.","Fewer casts or lower total damage than the comparison despite the extra health."],"tradeoffs":["No boots; positioning and movement can be worse than a boots build.","Delayed spikes from two stacking items; six-item performance says little about lane strength."],"buyOrder":["Early Tear; choose Rod first only if its delayed scaling fits the match.","Archangel, Rylai, Liandry, Riftmaker; adapt the timing of Void Staff to enemy MR.","Seraph is a transformation, not a directly purchasable item."],"coverageNotes":["The calculator omits Liandry burn/amplification, Seraph Awe, rune procs, Conqueror stacking and healing. Its damage number is partial.","Use the in-game log to test the full hypothesis; change available mana to your measured value."]},
-    {"id":"cassio-speed-spacing","champion":"Cassiopeia","name":"Speed-coil pursuit","goal":"Win damage through spacing and poison uptime","hypothesis":"Cassiopeia's current movement-speed amplification may reward Cosmic and Shurelya movement tools. Rylai makes pursuit easier, while Deathcap and Void preserve AP damage. The experiment asks whether more landed E casts offset a utility slot.","itemIds":[6657,4629,3116,2065,3089,3135],"runePage":[8230,8226,8234,8236,8009,9105],"shards":[5007,5010,5001],"conditions":{"level":18,"rank":5,"eRank":5,"mode":"sequence","duration":10,"mana":2000,"rodStacks":10,"combatSeconds":0},"testPlan":["Use the same moving opponent and starting distance. Measure E casts and total damage over a 10-second chase.","Trigger Shurelya at the same moment in every run; log whether Stormraider activates.","Repeat without Shurelya, substituting a damage item. Compare missed poison, time in E range and mana remaining."],"failureConditions":["Lower damage prevents Stormraider activation.","Movement does not improve poison hit rate or time in E range."],"tradeoffs":["Shurelya uses a slot and gold that could buy damage or protection.","Stationary-target damage cannot establish whether this movement plan works."],"buyOrder":["Rod if the scaling window is realistic; Cosmic and Rylai are the intended spacing core.","Add Shurelya only when its active creates useful uptime; Deathcap and Void are late damage slots."],"coverageNotes":["Movement, slows, active haste, rune effects and real opponent movement are not simulated.","The calculator can compare the AP/cooldown portion; prove the pursuit idea with a partner or match replay."]},
-    {"id":"cassio-single-window","champion":"Cassiopeia","name":"Single-window venom","goal":"Explore one Q plus one poisoned E against moderate MR","hypothesis":"High AP and penetration raise the Q/E ability component. Luden and Shadowflame are candidate burst effects worth testing against real health thresholds, while Seraph supports the mana pool. Their full effect behavior is not certified by this calculator.","itemIds":[3089,3135,4645,6655,3040,3020],"runePage":[8369,8321,8345,8347,8226,8233],"shards":[5008,5008,5011],"conditions":{"level":18,"rank":5,"eRank":5,"mode":"qe","duration":3,"mana":2000,"mr":50,"combatSeconds":0},"testPlan":["Transform Seraph and record AP, target MR, target current/max HP and Luden charges.","Land Q, then one E on a poisoned target. Wait for the full 3-second Q poison and record total damage.","Repeat at full and low target HP, and at 50 and 100 MR. Reset proc cooldowns and First Strike before each run."],"failureConditions":["The target attacks first and disables First Strike.","Utility or defensive losses prevent landing the intended Q/E window."],"tradeoffs":["Limited health and defense compared with the endurance build.","Proc cooldowns and target health can make a one-shot result hard to reproduce."],"buyOrder":["Early Tear into Archangel; finish Seraph through stacking.","Luden and Sorcerer shoes provide an early testable burst setup; adapt Void timing to MR, then Deathcap and Shadowflame."],"coverageNotes":["Luden procs, Shadowflame crit behavior, Seraph Awe and First Strike are omitted. The model estimates the ability/stat/penetration component only.","Current Cassio passive describes movement-speed amplification; verify actual shop eligibility for boots in the live patch."]},
-    {"id":"sett-grit-conversion","champion":"Sett","name":"Grit-to-damage conversion","goal":"Test a health/bonus-AD Haymaker ceiling with finite stacks","hypothesis":"Warmog's item-health bonus expands the Grit cap, and Bloodmail converts bonus HP to AD. Titanic and Shojin add both stats. Heartsteel supplies health and a finite earned-HP variable; Sterak's live AD passive must be measured because its formula is absent from this export.","itemIds":[2501,3083,3084,3748,3161,3053],"runePage":[8437,8401,8444,8451,9105,8299],"shards":[5008,5008,5001],"conditions":{"level":18,"rank":5,"mode":"w","gritMode":"fraction","grit":100,"center":true,"heartsteelHP":0,"bloodmailBonus":0},"testPlan":["Start at zero earned Heartsteel HP and no accumulated Grasp/Overgrowth health; record maximum HP and bonus AD.","Take enough post-mitigation damage to fill Grit and land W center before decay. Record your remaining HP and observed Bloodmail AD bonus.","Repeat at 50% Grit and a fixed absolute Grit value. Then test a finite earned-health amount, such as 300, and enter it explicitly.","Compare against the frontline build using equal gold, and record how often you can actually land center W."],"failureConditions":["Cannot safely fill Grit or land the true-damage center.","The long buildup and absent boots lose more fights than the ceiling wins."],"tradeoffs":["No boots and a 19,000-gold full build; this is a late-game experiment.","Warmog healing occurs outside combat and is not a way to heal through incoming Grit damage."],"buyOrder":["Use normal lane purchases; do not treat the six-item ceiling as a mandatory rush order.","Heartsteel early only if stacking opportunities justify it; Bloodmail becomes better as health accumulates.","Replace a slot with boots when access matters more than a maximum dummy hit."],"coverageNotes":["Sterak AD, Shojin damage stacks, Grasp, Overgrowth, Last Stand and Shield Bash are not modeled.","Use observed external bonus AD/HP inputs to compare the measured stats; damage is not a certified live-game maximum."]},
-    {"id":"sett-attack-pressure","champion":"Sett","name":"Alternating-fist pressure","goal":"Test an attack-led Sett duel instead of maximizing W alone","hypothesis":"Sett's alternating punches create an attack-heavy identity. BotRK, Trinity and Terminus may reward staying in range, while Stridebreaker and boots support access. Visage is a defensive sustain slot. The test is whether repeated attacks win the duel without relying on full Grit.","itemIds":[3153,3078,3302,6631,3065,3047],"runePage":[8005,9111,9104,8299,8444,8451],"shards":[5005,5008,5001],"conditions":{"level":18,"rank":5,"mode":"w","gritMode":"fraction","grit":50,"center":true},"testPlan":["Test an 8-second attack/Q duel with the same target armor and HP, starting all attack stacks unbuilt.","Use Stridebreaker for access and alternate attacks naturally; log attacks landed, total damage and survival.","Use W at a realistic Grit level and compare total duel damage against the conversion build at matched gold."],"failureConditions":["The opponent kites before attacks or Terminus stacks build.","Lower health makes W and survival too weak despite the attack output."],"tradeoffs":["Item damage needs attacks; it does not all transfer into Haymaker.","Enemy armor, attack access and target health dominate the outcome."],"buyOrder":["Choose Stridebreaker for access or BotRK for a testable sustained-duel hypothesis.","Boots and one defensive slot precede greedy late attack items; test Trinity/Terminus after the basic pattern works."],"coverageNotes":["No attack/Q simulator exists yet. Use in-game measurements for this objective.","The W calculator only shows the W component and omits most attack-item passives."]},
-    {"id":"sett-frontline-access","champion":"Sett","name":"Frontline that reaches the center","goal":"Trade a smaller W ceiling for repeatable access and survival","hypothesis":"Stridebreaker, Mercury boots and defensive health may help Sett reach a useful E/W angle. Bloodmail still turns health into damage, while Sterak and Visage may extend the chance to cast. This should be judged by successful fight participation, not just one maximum W.","itemIds":[6631,2501,3053,3065,3083,3111],"runePage":[8010,9111,9105,8299,8444,8453],"shards":[5008,5008,5001],"conditions":{"level":18,"rank":5,"mode":"w","gritMode":"fraction","grit":50,"center":true,"conquerorStacks":0,"bloodmailBonus":0},"testPlan":["Against a ranged or crowd-control opponent, count successful E engagements and center W hits over repeated fights.","Compare a fixed 50% Grit hit and a safely acquired full-Grit hit with the conversion build at equal gold.","Log survival, damage absorbed before W, and damage actually landed; reset Conqueror between trials."],"failureConditions":["Access remains poor or the opponent can avoid W even after E.","Defensive spending lowers threat enough that opponents ignore Sett."],"tradeoffs":["A lower training-dummy ceiling than a no-boots six-item health setup.","Resistance can reduce the rate of Grit gain for a fixed amount of incoming raw damage."],"buyOrder":["Stridebreaker plus appropriate boots for access; choose defensive components for the opponent's damage type.","Bloodmail after meaningful health; Sterak and Visage are conditional survival slots, with Warmog a later out-of-combat reset option."],"coverageNotes":["Shielding, healing, resist-based survival, Stridebreaker access, Sterak AD and rune effects are not simulated.","A practical fight test is required to evaluate this hypothesis."]}
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT in this chat",
+  "authoredAt": "2026-10-10",
+  "builds": [
+    {
+      "id": "cassio-control",
+      "champion": "Cassiopeia",
+      "name": "Control: venom carry",
+      "goal": "Start here: establish a reference for the experiments",
+      "hypothesis": "This is the control, not a novelty claim. Seraph supplies mana and a shield; Rylai may keep targets in E range; Liandry rewards long contact; Deathcap and Void preserve threat. Swifties support spacing. Compare unusual builds against this setup at two items as well as six: a late-game dummy result does not establish a usable build path.",
+      "itemIds": [
+        3040,
+        3116,
+        6653,
+        3089,
+        3135,
+        3009
+      ],
+      "runePage": [
+        8010,
+        8009,
+        9105,
+        8017,
+        8226,
+        8210
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "sequence",
+        "duration": 10,
+        "mana": 2000,
+        "combatSeconds": 0,
+        "conquerorStacks": 0,
+        "mr": 50,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "First test level 11, rank-5 E and rank-3 Q: Archangel/Seraph + Rylai + Swifties. Record actual Tear state, AP, mana and gold. Do not grant the shield before transformation.",
+        "At full build, test ten seconds of Q/E against 3000 HP / 50 MR, then 4000 HP / 150 MR. Start Conqueror unstacked; repeat three times. Record damage, E casts, Q hit rate and mana remaining.",
+        "Repeat against a moving partner with a fixed incoming damage pattern. Compare time alive and damage actually landed at matched level and gold spent; record unused gold.",
+        "Keep the rune page fixed during item comparisons, then change only the keystone to isolate rune effects."
+      ],
+      "failureConditions": [
+        "Rylai does not buy extra E casts.",
+        "A defensive slot gives more actual fight damage than an AP slot."
+      ],
+      "tradeoffs": [
+        "No armor or MR item: positioning and the shield must buy survival.",
+        "Cut Down targets high-health opponents; compare Last Stand when fighting while injured. Conqueror needs sustained contact."
+      ],
+      "buyOrder": [
+        "Early Tear and normal lane purchases; E max first, Q second, take R at normal levels.",
+        "Archangel and Rylai are the two-item control core; buy Swifties when spacing matters.",
+        "Liandry for long contact; move Void earlier into meaningful MR. Deathcap when affordable. Seraph is transformed Archangel."
+      ],
+      "coverageNotes": [
+        "Seraph Awe/shield, Liandry effects, Swifties slow resistance, rune procs and real opponent movement are omitted. The calculator gives partial Q/E damage; record full damage in game."
+      ]
+    },
+    {
+      "id": "cassio-resistance-erosion",
+      "champion": "Cassiopeia",
+      "name": "Resistance erosion",
+      "goal": "High-priority experiment: ramp against an MR-stacking frontline",
+      "hypothesis": "Poison plus repeated E may build Bloodletter's MR reduction quickly and help allied magic damage. Liandry adds target-health burn, Cosmic maintains contact, and Deathfire Touch offers a competing sustained keystone. Bloodletter gives health, haste and team benefit but weaker first-hit penetration than Void. Start the ramp from zero; do not gift full stacks.",
+      "itemIds": [
+        3040,
+        8010,
+        6653,
+        4629,
+        3089,
+        3009
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "sequence",
+        "duration": 10,
+        "mana": 2000,
+        "combatSeconds": 0,
+        "mr": 150,
+        "targetHP": 4000
+      },
+      "testPlan": [
+        "At level 11 compare Seraph + Bloodletter + Swifties against Seraph + Void + Swifties at matched spend. Test 50, 100 and 150 MR. Record first Q/E and ten-second damage separately.",
+        "At full build start Bloodletter at zero stacks. Record time to four stacks; do not assume every poison tick gives an immediate new stack.",
+        "Hold items fixed and compare Deathfire Touch against the control Conqueror page. Start unstacked; record rune damage, AP, healing and total damage over three runs.",
+        "Add a partner dealing magic damage at 150 MR. Compare combined team damage, and check debuff expiry after six seconds without new applications."
+      ],
+      "failureConditions": [
+        "Opponents leave before reduction or burns ramp.",
+        "Lost first-hit damage outweighs the health, haste and allied damage.",
+        "Deathfire Touch ramps unreliably or Conqueror provides more useful output/healing."
+      ],
+      "tradeoffs": [
+        "No Rylai: Cosmic must maintain access.",
+        "Bloodletter's source gives 7.5% MR reduction per stack, four stacks; this is not equivalent to Void's immediate 40% personal penetration.",
+        "Deathfire Touch replaces Conqueror; their effects cannot both be granted."
+      ],
+      "buyOrder": [
+        "Tear into Archangel, then Bloodletter as the second-item experiment into actual MR.",
+        "Swifties for access, Liandry for sustained HP damage, then Cosmic/Deathcap according to the fight."
+      ],
+      "coverageNotes": [
+        "Bloodletter reduction/stack timing, Deathfire Touch, Liandry and Cosmic movement are omitted. Use in-game measurements, not the calculator ranking.",
+        "Use Summoner's Rift item 8010; 4010 is the Arena Bloodletter record. Gathering Storm's elapsed-game stats must be recorded."
+      ]
+    },
+    {
+      "id": "cassio-frozen-duelist",
+      "champion": "Cassiopeia",
+      "name": "Frozen-fang duelist",
+      "goal": "Situational experiment: physical survival buys more Twin Fangs",
+      "hypothesis": "Frozen Heart sacrifices AP for armor, mana, haste and a nearby attack-speed reduction. Extra survival time may become additional poisoned E casts. Its mana may also feed Seraph Awe in game, but the unresolved amount is not invented here. The hypothesis targets nearby attack-led physical champions, not magic burst or true damage.",
+      "itemIds": [
+        3040,
+        3110,
+        3116,
+        6653,
+        3089,
+        3047
+      ],
+      "runePage": [
+        8010,
+        8009,
+        9105,
+        8299,
+        8429,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "sequence",
+        "duration": 10,
+        "mana": 2000,
+        "combatSeconds": 0,
+        "conquerorStacks": 0,
+        "mr": 50,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "At level 11 compare Seraph + Frozen Heart + Steelcaps against Seraph + Rylai + Steelcaps with the same physical opponent and matched spending. Record actual AP, armor and max mana.",
+        "Repeat a fixed eight-second attack-led all-in three times. Cast Q/E; log time alive, E casts, damage and mana remaining.",
+        "Repeat against physical ability burst, then magic damage. Check whether the attack-led opponent is actually inside Frozen Heart's aura.",
+        "At full build compare Frozen Heart with Cosmic or a damage slot. Into high MR try Void instead of Liandry: this proposal has no percentage penetration."
+      ],
+      "failureConditions": [
+        "You survive longer but still cannot poison or stay in E range.",
+        "Enemy damage is mostly magic/true damage or long-range burst.",
+        "Missing percentage penetration removes your threat."
+      ],
+      "tradeoffs": [
+        "Two defensive purchases lower the dummy ceiling.",
+        "Conditioning takes time; record finite Overgrowth health.",
+        "Last Stand is conditional; forcing low health is not the goal."
+      ],
+      "buyOrder": [
+        "Early Tear/Archangel; armor components and Steelcaps can come early into an appropriate opponent.",
+        "Frozen Heart is the isolated matchup test; Rylai follows for range control. Liandry and Deathcap are later damage slots."
+      ],
+      "coverageNotes": [
+        "Frozen Heart aura, Seraph mana conversion, incoming damage, Steelcaps mitigation and Resolve effects are omitted. Judge damage before death, not just a stationary dummy."
+      ]
+    },
+    {
+      "id": "cassio-sustain-engine",
+      "champion": "Cassiopeia",
+      "name": "Sustain engine",
+      "goal": "Riskier experiment: repeated E healing against sustained magic damage",
+      "hypothesis": "The rank-5 poisoned E source heals for 16% AP before modifiers. Deathcap raises damage and that healing; Visage amplifies received heals/shields, and Riftmaker adds health-derived AP and combat ramp. Seraph's shield may buy time to use the healing. This targets sustained magic damage, not burst or CC. Compare Riftmaker against Void rather than assuming sustain compensates for missing penetration.",
+      "itemIds": [
+        3040,
+        4633,
+        3065,
+        3116,
+        3089,
+        3111
+      ],
+      "runePage": [
+        8010,
+        8009,
+        9105,
+        8299,
+        8429,
+        8453
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "sequence",
+        "duration": 10,
+        "mana": 2000,
+        "combatSeconds": 0,
+        "conquerorStacks": 0,
+        "mr": 50,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "Isolate healing first: lower your HP, poison a champion target, and cast exactly one rank-5 E. Record AP and healing with/without Visage at matched AP where possible.",
+        "At 500 AP the source implies 80 base healing; Visage alone suggests 100 before other modifiers. Reset Conqueror/Rift state and remove other heals; record Grievous Wounds separately.",
+        "Against fixed sustained magic damage, record ten-second healing, shield absorbed, survival time, E casts and damage over three runs. Repeat with healing reduction and with a burst/CC pattern.",
+        "Compare Visage against Banshee's in the same slot, then Riftmaker against Void. Judge survival and net fight damage rather than the largest healing number."
+      ],
+      "failureConditions": [
+        "Burst or CC kills you before healing starts.",
+        "Healing reduction or missed poison removes the durability.",
+        "Lack of percentage penetration lets the target outlast you."
+      ],
+      "tradeoffs": [
+        "No armor or percentage penetration; highly matchup-dependent.",
+        "Current symbolic E healing is AP-based, not a fixed fraction of E damage.",
+        "Riftmaker and Conqueror start unstacked. Visage without meaningful AP may be a weak early purchase."
+      ],
+      "buyOrder": [
+        "Early Tear/Archangel, Rylai for poison/E access.",
+        "Visage only when sustained magic damage and existing healing justify it. Riftmaker/Deathcap complete the hypothesis; Mercury boots address some CC."
+      ],
+      "coverageNotes": [
+        "E healing, Visage/Revitalize interaction, Seraph shield, Conqueror healing and Riftmaker omnivamp are not simulated. Measure their interaction rather than blindly multiplying modifiers.",
+        "The symbolic E heal formula takes priority over the generic source summary, which describes healing as damage-based."
+      ]
+    },
+    {
+      "id": "cassio-spellblade-weave",
+      "champion": "Cassiopeia",
+      "name": "Spellblade weave",
+      "goal": "Fun, low-confidence experiment: attacks versus lost E uptime",
+      "hypothesis": "Lich Bane provides AP and movement, but its special value requires a real basic attack after casting. Test occasional attacks during movement or cooldowns rather than attacking after every E. Cassio's attack range is shorter than E range: walking closer and interrupting spells may erase the proc benefit. This is the most likely experiment to fail, but it asks a specific question.",
+      "itemIds": [
+        3040,
+        3100,
+        3116,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "sequence",
+        "duration": 10,
+        "mana": 2000,
+        "combatSeconds": 0,
+        "mr": 50,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "At level 11 compare Seraph + Lich Bane + Sorcerer shoes with Seraph + Cosmic + the same boots at matched spend. Cast Q then E without attacks first: E must not apply Spellblade.",
+        "Run three ten-second patterns: Q/E only; attacks only when Spellblade is ready; attack-heavy weaving. Count E casts, attacks, actual Spellblade procs and total damage.",
+        "Repeat with a moving partner near the edge of E range. Measure time spent walking into attack range and incoming damage; log whether Stormraider triggers.",
+        "If useful, test tower damage separately with identical tower conditions. A tower result does not establish a better champion-duel build."
+      ],
+      "failureConditions": [
+        "Weaving loses enough E casts to reduce damage.",
+        "Shorter attack range causes avoidable damage or missed poison.",
+        "Spellblade cooldown or Stormraider threshold makes the cadence unreliable."
+      ],
+      "tradeoffs": [
+        "Twin Fang is not an on-hit delivery mechanism.",
+        "Attack speed does not lower E cooldown; Nashor/Rageblade is not automatically an E synergy.",
+        "Stationary-target gains may disappear against movement."
+      ],
+      "buyOrder": [
+        "Tear/Archangel, then Lich Bane as the isolated experiment; normal movement purchases.",
+        "Rylai for access, Deathcap/Void for damage. Replace Lich with Cosmic or protection if weaving loses E uptime."
+      ],
+      "coverageNotes": [
+        "Basic attacks, Spellblade, attack windup and Stormraider are omitted; compare real game damage. This is intentionally lower confidence than the other candidates."
+      ]
+    },
+    {
+      "id": "cassio-poison-endurance",
+      "champion": "Cassiopeia",
+      "name": "Poison endurance",
+      "goal": "More useful Twin Fang casts during a sustained duel",
+      "hypothesis": "Mana, health and poison-based slows may let Cassiopeia keep casting for longer. Riftmaker converts some bonus health to AP and ramps during combat; Liandry adds target-health damage. This is an uptime hypothesis rather than a maximum single-hit claim.",
+      "itemIds": [
+        6657,
+        3040,
+        3116,
+        6653,
+        4633,
+        3135
+      ],
+      "runePage": [
+        8010,
+        8009,
+        9105,
+        8299,
+        8226,
+        8210
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "sequence",
+        "duration": 10,
+        "mana": 2000,
+        "rodStacks": 10,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Stack Rod of Ages to 10 and transform Archangel into Seraph; record actual AP and maximum mana before testing.",
+        "Against the same target, alternate Q and E for 10 seconds. Start Conqueror unstacked and record total damage, E count and mana remaining.",
+        "Repeat with the single-window build at matched gold. Test once stationary and once while dodging a moving opponent."
+      ],
+      "failureConditions": [
+        "The target escapes poison or burst-kills you before durability yields extra casts.",
+        "Fewer casts or lower total damage than the comparison despite the extra health."
+      ],
+      "tradeoffs": [
+        "No boots; positioning and movement can be worse than a boots build.",
+        "Delayed spikes from two stacking items; six-item performance says little about lane strength."
+      ],
+      "buyOrder": [
+        "Early Tear; choose Rod first only if its delayed scaling fits the match.",
+        "Archangel, Rylai, Liandry, Riftmaker; adapt the timing of Void Staff to enemy MR.",
+        "Seraph is a transformation, not a directly purchasable item."
+      ],
+      "coverageNotes": [
+        "The calculator omits Liandry burn/amplification, Seraph Awe, rune procs, Conqueror stacking and healing. Its damage number is partial.",
+        "Use the in-game log to test the full hypothesis; change available mana to your measured value."
+      ]
+    },
+    {
+      "id": "cassio-speed-spacing",
+      "champion": "Cassiopeia",
+      "name": "Speed-coil pursuit",
+      "goal": "Win damage through spacing and poison uptime",
+      "hypothesis": "Cassiopeia's current movement-speed amplification may reward Cosmic and Shurelya movement tools. Rylai makes pursuit easier, while Deathcap and Void preserve AP damage. The experiment asks whether more landed E casts offset a utility slot.",
+      "itemIds": [
+        6657,
+        4629,
+        3116,
+        2065,
+        3089,
+        3135
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5010,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "sequence",
+        "duration": 10,
+        "mana": 2000,
+        "rodStacks": 10,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Use the same moving opponent and starting distance. Measure E casts and total damage over a 10-second chase.",
+        "Trigger Shurelya at the same moment in every run; log whether Stormraider activates.",
+        "Repeat without Shurelya, substituting a damage item. Compare missed poison, time in E range and mana remaining."
+      ],
+      "failureConditions": [
+        "Lower damage prevents Stormraider activation.",
+        "Movement does not improve poison hit rate or time in E range."
+      ],
+      "tradeoffs": [
+        "Shurelya uses a slot and gold that could buy damage or protection.",
+        "Stationary-target damage cannot establish whether this movement plan works."
+      ],
+      "buyOrder": [
+        "Rod if the scaling window is realistic; Cosmic and Rylai are the intended spacing core.",
+        "Add Shurelya only when its active creates useful uptime; Deathcap and Void are late damage slots."
+      ],
+      "coverageNotes": [
+        "Movement, slows, active haste, rune effects and real opponent movement are not simulated.",
+        "The calculator can compare the AP/cooldown portion; prove the pursuit idea with a partner or match replay."
+      ]
+    },
+    {
+      "id": "cassio-single-window",
+      "champion": "Cassiopeia",
+      "name": "Single-window venom",
+      "goal": "Explore one Q plus one poisoned E against moderate MR",
+      "hypothesis": "High AP and penetration raise the Q/E ability component. Luden and Shadowflame are candidate burst effects worth testing against real health thresholds, while Seraph supports the mana pool. Their full effect behavior is not certified by this calculator.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        6655,
+        3040,
+        3020
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 3,
+        "mana": 2000,
+        "mr": 50,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Transform Seraph and record AP, target MR, target current/max HP and Luden charges.",
+        "Land Q, then one E on a poisoned target. Wait for the full 3-second Q poison and record total damage.",
+        "Repeat at full and low target HP, and at 50 and 100 MR. Reset proc cooldowns and First Strike before each run."
+      ],
+      "failureConditions": [
+        "The target attacks first and disables First Strike.",
+        "Utility or defensive losses prevent landing the intended Q/E window."
+      ],
+      "tradeoffs": [
+        "Limited health and defense compared with the endurance build.",
+        "Proc cooldowns and target health can make a one-shot result hard to reproduce."
+      ],
+      "buyOrder": [
+        "Early Tear into Archangel; finish Seraph through stacking.",
+        "Luden and Sorcerer shoes provide an early testable burst setup; adapt Void timing to MR, then Deathcap and Shadowflame."
+      ],
+      "coverageNotes": [
+        "Luden procs, Shadowflame crit behavior, Seraph Awe and First Strike are omitted. The model estimates the ability/stat/penetration component only.",
+        "Current Cassio passive describes movement-speed amplification; verify actual shop eligibility for boots in the live patch."
+      ]
+    },
+    {
+      "id": "sett-grit-conversion",
+      "champion": "Sett",
+      "name": "Grit-to-damage conversion",
+      "goal": "Test a health/bonus-AD Haymaker ceiling with finite stacks",
+      "hypothesis": "Warmog's item-health bonus expands the Grit cap, and Bloodmail converts bonus HP to AD. Titanic and Shojin add both stats. Heartsteel supplies health and a finite earned-HP variable; Sterak's live AD passive must be measured because its formula is absent from this export.",
+      "itemIds": [
+        2501,
+        3083,
+        3084,
+        3748,
+        3161,
+        3053
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9105,
+        8299
+      ],
+      "shards": [
+        5008,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "mode": "w",
+        "gritMode": "fraction",
+        "grit": 100,
+        "center": true,
+        "heartsteelHP": 0,
+        "bloodmailBonus": 0
+      },
+      "testPlan": [
+        "Start at zero earned Heartsteel HP and no accumulated Grasp/Overgrowth health; record maximum HP and bonus AD.",
+        "Take enough post-mitigation damage to fill Grit and land W center before decay. Record your remaining HP and observed Bloodmail AD bonus.",
+        "Repeat at 50% Grit and a fixed absolute Grit value. Then test a finite earned-health amount, such as 300, and enter it explicitly.",
+        "Compare against the frontline build using equal gold, and record how often you can actually land center W."
+      ],
+      "failureConditions": [
+        "Cannot safely fill Grit or land the true-damage center.",
+        "The long buildup and absent boots lose more fights than the ceiling wins."
+      ],
+      "tradeoffs": [
+        "No boots and a 19,000-gold full build; this is a late-game experiment.",
+        "Warmog healing occurs outside combat and is not a way to heal through incoming Grit damage."
+      ],
+      "buyOrder": [
+        "Use normal lane purchases; do not treat the six-item ceiling as a mandatory rush order.",
+        "Heartsteel early only if stacking opportunities justify it; Bloodmail becomes better as health accumulates.",
+        "Replace a slot with boots when access matters more than a maximum dummy hit."
+      ],
+      "coverageNotes": [
+        "Sterak AD, Shojin damage stacks, Grasp, Overgrowth, Last Stand and Shield Bash are not modeled.",
+        "Use observed external bonus AD/HP inputs to compare the measured stats; damage is not a certified live-game maximum."
+      ]
+    },
+    {
+      "id": "sett-attack-pressure",
+      "champion": "Sett",
+      "name": "Alternating-fist pressure",
+      "goal": "Test an attack-led Sett duel instead of maximizing W alone",
+      "hypothesis": "Sett's alternating punches create an attack-heavy identity. BotRK, Trinity and Terminus may reward staying in range, while Stridebreaker and boots support access. Visage is a defensive sustain slot. The test is whether repeated attacks win the duel without relying on full Grit.",
+      "itemIds": [
+        3153,
+        3078,
+        3302,
+        6631,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "mode": "w",
+        "gritMode": "fraction",
+        "grit": 50,
+        "center": true
+      },
+      "testPlan": [
+        "Test an 8-second attack/Q duel with the same target armor and HP, starting all attack stacks unbuilt.",
+        "Use Stridebreaker for access and alternate attacks naturally; log attacks landed, total damage and survival.",
+        "Use W at a realistic Grit level and compare total duel damage against the conversion build at matched gold."
+      ],
+      "failureConditions": [
+        "The opponent kites before attacks or Terminus stacks build.",
+        "Lower health makes W and survival too weak despite the attack output."
+      ],
+      "tradeoffs": [
+        "Item damage needs attacks; it does not all transfer into Haymaker.",
+        "Enemy armor, attack access and target health dominate the outcome."
+      ],
+      "buyOrder": [
+        "Choose Stridebreaker for access or BotRK for a testable sustained-duel hypothesis.",
+        "Boots and one defensive slot precede greedy late attack items; test Trinity/Terminus after the basic pattern works."
+      ],
+      "coverageNotes": [
+        "No attack/Q simulator exists yet. Use in-game measurements for this objective.",
+        "The W calculator only shows the W component and omits most attack-item passives."
+      ]
+    },
+    {
+      "id": "sett-frontline-access",
+      "champion": "Sett",
+      "name": "Frontline that reaches the center",
+      "goal": "Trade a smaller W ceiling for repeatable access and survival",
+      "hypothesis": "Stridebreaker, Mercury boots and defensive health may help Sett reach a useful E/W angle. Bloodmail still turns health into damage, while Sterak and Visage may extend the chance to cast. This should be judged by successful fight participation, not just one maximum W.",
+      "itemIds": [
+        6631,
+        2501,
+        3053,
+        3065,
+        3083,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "mode": "w",
+        "gritMode": "fraction",
+        "grit": 50,
+        "center": true,
+        "conquerorStacks": 0,
+        "bloodmailBonus": 0
+      },
+      "testPlan": [
+        "Against a ranged or crowd-control opponent, count successful E engagements and center W hits over repeated fights.",
+        "Compare a fixed 50% Grit hit and a safely acquired full-Grit hit with the conversion build at equal gold.",
+        "Log survival, damage absorbed before W, and damage actually landed; reset Conqueror between trials."
+      ],
+      "failureConditions": [
+        "Access remains poor or the opponent can avoid W even after E.",
+        "Defensive spending lowers threat enough that opponents ignore Sett."
+      ],
+      "tradeoffs": [
+        "A lower training-dummy ceiling than a no-boots six-item health setup.",
+        "Resistance can reduce the rate of Grit gain for a fixed amount of incoming raw damage."
+      ],
+      "buyOrder": [
+        "Stridebreaker plus appropriate boots for access; choose defensive components for the opponent's damage type.",
+        "Bloodmail after meaningful health; Sterak and Visage are conditional survival slots, with Warmog a later out-of-combat reset option."
+      ],
+      "coverageNotes": [
+        "Shielding, healing, resist-based survival, Stridebreaker access, Sterak AD and rune effects are not simulated.",
+        "A practical fight test is required to evaluate this hypothesis."
+      ]
+    }
+  ],
+  "researchSources": [
+    "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-20-notes/",
+    "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-18-notes/",
+    "data/lol/16.20.1/champions/Cassiopeia.json",
+    "public/data/catalog.json"
   ]
 }

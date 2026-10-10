@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import path from 'node:path';
+export function validateRequest(input,catalog){
+ if(!input||!catalog.champions.some(c=>c.alias===input.champion))throw new Error('Choose a known champion.');
+ if(typeof input.goal!=='string'||!input.goal.trim()||input.goal.length>4000)throw new Error('Enter a build goal of 1–4000 characters.');
+ if(!input.scenario||typeof input.scenario!=='object'||Array.isArray(input.scenario)||input.scenario.champion!==input.champion)throw new Error('Scenario does not match the champion.');
+ if(!Array.isArray(input.items)||input.items.length>6||input.items.some(id=>!Number.isInteger(id)||!catalog.items.some(i=>i.id===id)))throw new Error('Invalid item references.');
+ return {version:1,patch:'26.20',createdAt:new Date().toISOString(),champion:input.champion,goal:input.goal.trim(),scenario:input.scenario,items:input.items,instruction:'Author full builds for this request using the current local champion/item/rune sources. Write validated proposals to public/data/chatgpt-builds.json. Include test conditions, failure cases and limits; do not claim proven live-game optimality.'};
+}
+export function buildRequestMiddleware(root){return async(req,res,next)=>{
+ const route=req.url?.split('?')[0];if(route!=='/api/build-request'&&route!=='/data/chatgpt-builds.json')return next();
+ const send=(status,obj)=>{res.statusCode=status;res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify(obj));};
+ if(route==='/data/chatgpt-builds.json'){if(req.method!=='GET')return send(405,{error:'Use GET for the build inbox.'});try{return send(200,JSON.parse(fs.readFileSync(path.join(root,'public/data/chatgpt-builds.json'),'utf8')));}catch{return send(404,{error:'No valid ChatGPT build inbox is available.'});}}
+ if(req.method!=='POST')return send(405,{error:'Use POST to prepare a request.'});
+ if(req.headers.origin&&req.headers.origin!==`http://${req.headers.host}`)return send(403,{error:'Requests must come from this local app.'});
+ if(!req.headers['content-type']?.startsWith('application/json'))return send(415,{error:'Expected JSON.'});
+ try{let body='';for await(const chunk of req){body+=chunk;if(body.length>50000)return send(413,{error:'Request is too large.'});}const catalog=JSON.parse(fs.readFileSync(path.join(root,'public/data/catalog.json'),'utf8'));const request=validateRequest(JSON.parse(body),catalog);const directory=path.join(root,'data/requests');fs.mkdirSync(directory,{recursive:true});fs.writeFileSync(path.join(directory,'latest-build-request.json'),JSON.stringify(request,null,2));send(200,{ok:true,path:'data/requests/latest-build-request.json'});}catch(e){send(400,{error:e instanceof SyntaxError?'Invalid JSON.':e.message||'Could not save the request.'});}
+};}

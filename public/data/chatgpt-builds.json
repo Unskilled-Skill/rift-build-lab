@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT in this chat",
-  "authoredAt": "2026-10-10",
+  "authoredAt": "2026-10-11",
   "builds": [
     {
       "id": "cassio-control",
@@ -673,12 +673,379 @@
         "Shielding, healing, resist-based survival, Stridebreaker access, Sterak AD and rune effects are not simulated.",
         "A practical fight test is required to evaluate this hypothesis."
       ]
+    },
+    {
+      "id": "tahm-control",
+      "champion": "TahmKench",
+      "name": "Control: durable river king",
+      "goal": "Reference build: survive long enough to land attacks and Q",
+      "hypothesis": "Health supports passive damage, while armor/MR protect the time needed to acquire three stacks. Unending Despair and Visage may sustain close fights; Abyssal helps nearby magic damage. Heartsteel is conditional on real stacking opportunities, not a mandatory rush. This control tests reliable fight participation before chasing AP or attack-speed ceilings.",
+      "itemIds": [
+        3084,
+        2502,
+        3065,
+        8020,
+        6665,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5005,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "duration": 10,
+        "heartsteelHP": 0,
+        "extraHP": 0,
+        "mr": 50,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "At level 11 test Heartsteel + Unending Despair + Steelcaps against the same physical opponent. Record finite Heartsteel health, Grasp/Overgrowth health and actual stats; also test a resistance-first path if Heartsteel loses lane.",
+        "At six items repeat three ten-second fights at 3000 HP / 50 MR, then 4000 HP / 150 MR. Log attacks, Q hits, damage, time alive and mana remaining. Match gold/level in comparisons.",
+        "Compare Q at two stacks versus three stacks. The empowered Q consumes stacks for its stun; do not assume you can immediately enemy-Devour afterward.",
+        "Record E shield absorbed separately from E grey-health healing. Activating a shield and retaining the same grey health for healing are alternative uses, not free double recovery."
+      ],
+      "failureConditions": [
+        "Cannot reach the target or acquire three stacks.",
+        "Health stacking loses too much lane pressure or fails against percent-health damage.",
+        "Too much MR spending against a mostly physical opponent."
+      ],
+      "tradeoffs": [
+        "Abyssal and Visage are situational MR slots, not a universal six-item order.",
+        "Grasp and Overgrowth use finite earned health; a single-target E test differs from being near two enemies.",
+        "Shield Bash depends on real shields; do not grant every passive heal a shield proc."
+      ],
+      "buyOrder": [
+        "Normal lane start; Q max for the first tests, allocate E/W for the matchup and take R at normal levels.",
+        "Heartsteel early only when you can survive and collect stacks. Otherwise buy armor/MR first. Boots match the opponent.",
+        "Unending versus physical contact; Visage/Abyssal versus useful magic damage. Jak'Sho is a later mixed-defense comparison."
+      ],
+      "coverageNotes": [
+        "No Tahm numerical adapter exists. This build loads items/runes and a manual test sheet; all attack, ability, healing, shield and survival results must be measured in game."
+      ]
+    },
+    {
+      "id": "tahm-hybrid-brawler",
+      "champion": "TahmKench",
+      "name": "Hybrid appetite",
+      "goal": "High-priority experiment: health plus AP plus actual attack uptime",
+      "hypothesis": "Heartsteel supplies bonus health; Riftmaker converts some bonus health to AP; Nashor supplies AP, attack speed and real on-hit damage. Tahm's passive AP contribution itself grows with bonus health, so health and AP complement each other. Unending and Visage try to protect the attack uptime. The question is whether extra hits and earlier three-stack access outweigh lower resistance than the control.",
+      "itemIds": [
+        3084,
+        4633,
+        3115,
+        2502,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "duration": 10,
+        "heartsteelHP": 0,
+        "combatSeconds": 0,
+        "mr": 50,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "At level 11 compare Heartsteel + Nashor + Steelcaps with Heartsteel + Unending + Steelcaps at matched spending and earned health. Start rune/item combat effects fresh.",
+        "Use a ten-second attack/Q fight three times. Record time to three passive stacks, attacks, Q hits, total damage and survival; then test a moving opponent.",
+        "At full build compare Nashor against a resistance item. Keep runes fixed first, then compare Press the Attack with the control Grasp page.",
+        "Test 50 and 150 MR and repeat with healing reduction. If high MR kills the benefit, test Abyssal in a slot rather than assuming more AP solves it."
+      ],
+      "failureConditions": [
+        "The target kites or CCs you before the extra attacks land.",
+        "Missing defenses kill you before Riftmaker ramps.",
+        "Magic resistance or healing reduction removes the intended payoff."
+      ],
+      "tradeoffs": [
+        "Attack speed helps actual attacks, not Q cooldown.",
+        "Press the Attack requires real attacks; spell damage is not automatically three attack stacks.",
+        "Heartsteel proc and its earned health are finite and separate from passive stacks."
+      ],
+      "buyOrder": [
+        "Heartsteel only if the matchup permits; early boots/defensive components take priority over a greedy ceiling.",
+        "Nashor is the isolated attack experiment. Riftmaker follows if fights last long enough; Unending/Visage buy conditional survival."
+      ],
+      "coverageNotes": [
+        "Manual testing only: passive health/AP multiplication, Nashor, rune procs, Riftmaker ramp/healing and survival are not calculated for Tahm."
+      ]
+    },
+    {
+      "id": "tahm-double-taste",
+      "champion": "TahmKench",
+      "name": "Double taste",
+      "goal": "Interaction experiment: Dusk and Dawn repeats on-hits",
+      "hypothesis": "Dusk and Dawn provides health, AP, haste and attack speed, then repeats on-hit effects on a Spellblade attack. Combined with Nashor and health-backed passive damage, a proc could give stronger short trades. Whether the repeat also grants an additional Acquired Taste stack must be tested; damage repetition does not prove stack repetition. Compare this with Hybrid appetite before treating the interaction as strong.",
+      "itemIds": [
+        3084,
+        2510,
+        3115,
+        4633,
+        6665,
+        3111
+      ],
+      "runePage": [
+        9923,
+        8139,
+        8140,
+        8106,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "duration": 6,
+        "heartsteelHP": 0,
+        "combatSeconds": 0,
+        "mr": 50,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "Isolate Dusk and Dawn first. Start with zero passive stacks, cast an ability and land exactly one proc-ready attack on a champion. Record damage and the visible stack count; repeat without the item.",
+        "Add Nashor and compare an ordinary attack with a proc-ready attack. Measure actual repeated on-hit damage and the item cooldown rather than assuming every attack repeats.",
+        "At level 11 test Dusk and Dawn + Nashor + Mercury boots against a defensive two-item setup at matched spend. Time the first three-stack window and record incoming damage during the trade.",
+        "At full build compare six-second burst and ten-second sustained fights with Hybrid appetite. Keep the items fixed and compare Hail of Blades against Press the Attack separately.",
+        "Do not add Iceborn or Trinity on top of Dusk and Dawn and assume independent Spellblade procs. Keep one Spellblade item for this test."
+      ],
+      "failureConditions": [
+        "Repeated damage/stack behavior differs from the hypothesis.",
+        "Initial attack speed is wasted because you cannot remain in range.",
+        "The two offensive-item path loses too much durability before the interaction pays off."
+      ],
+      "tradeoffs": [
+        "Higher uncertainty than Hybrid appetite; the first test is mechanics, not a full-build damage screenshot.",
+        "Hail of Blades creates an opening window rather than permanent attack speed.",
+        "Only one resistance item plus boots; percent-health damage and burst remain dangerous."
+      ],
+      "buyOrder": [
+        "Test Dusk and Dawn as the first offensive item; add Nashor only after confirming the proc behavior.",
+        "Heartsteel is a conditional early scaling purchase, not something to buy late solely for imagined stacks.",
+        "Defensive boots and Jak'Sho when needed; Riftmaker only if sustained combat is realistic."
+      ],
+      "coverageNotes": [
+        "No on-hit or passive-stack simulator is present. Dusk and Dawn's export has unresolved damage/healing values and a zero cooldown placeholder; do not read that as zero live cooldown."
+      ]
+    },
+    {
+      "id": "tahm-devour-window",
+      "champion": "TahmKench",
+      "name": "Devour detonation",
+      "goal": "Riskier AP experiment: can you acquire stacks and deliver a large R?",
+      "hypothesis": "Q has a 100% AP ratio and W a 150% AP ratio in the current source. Enemy R gains seven percentage points of target maximum-health damage per 100 AP, before MR. Heartsteel/Riftmaker provide health-backed passive damage, Deathcap raises AP, and Void addresses MR. The ceiling is useful only if you survive and acquire the three stacks required to Devour.",
+      "itemIds": [
+        3084,
+        4633,
+        3089,
+        3135,
+        3157,
+        3111
+      ],
+      "runePage": [
+        9923,
+        8139,
+        8140,
+        8106,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "duration": 6,
+        "heartsteelHP": 0,
+        "combatSeconds": 0,
+        "mr": 100,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "At level 11 compare Heartsteel + Riftmaker + Mercury boots against Heartsteel + a resistance item + the same boots with equal spending and finite stacks.",
+        "Against a champion target record actual AP, target max HP/MR and R rank. Obtain three stacks with attacks; Devour, then spit and Q. Do not stun-Q away all stacks before attempting R.",
+        "Isolate R damage at 0, 100 and higher measured AP while holding defenses constant. Source-only reference: 500 AP adds 35 percentage points, producing a 50% max-HP component before MR, plus the flat R damage; this is not 50% true damage.",
+        "Repeat the complete approach against a moving target and one fixed burst pattern. Record deaths before R, stacks acquired, total fight damage and Zhonya use.",
+        "Compare Hail of Blades with the control rune page. Test a defense item instead of Deathcap if you frequently die before R."
+      ],
+      "failureConditions": [
+        "You die or lose stack access before Devour.",
+        "The opponent's MR or avoidance neutralizes the burst.",
+        "Using R offensively costs an ally rescue that would win the fight."
+      ],
+      "tradeoffs": [
+        "AP does not remove the three-stack requirement; W is telegraphed and can miss.",
+        "Zhonya stops your attacks while in stasis; it is survival, not a free damage window.",
+        "Expensive, slow path; late-game burst says little about winning lane."
+      ],
+      "buyOrder": [
+        "Conditional Heartsteel start and early movement/protection; Riftmaker is the hybrid core.",
+        "Void into real MR; Deathcap only when stack access is reliable. Zhonya is conditional protection, with an MR alternative if needed."
+      ],
+      "coverageNotes": [
+        "Manual game tests only. Tahm Q/W/R, passive damage, stacks, MR ordering, active stasis and offensive versus rescue decisions are not simulated."
+      ]
+    },
+    {
+      "id": "tahm-reset-engine",
+      "champion": "TahmKench",
+      "name": "Two-fight engine",
+      "goal": "Health-heavy experiment: survive contact, disengage, then return",
+      "hypothesis": "Warmog's item-health amplification feeds health-based passive damage, while Riftmaker converts bonus health to AP. Visage and Unending support close combat; Warmog supports a separate out-of-combat reset. This asks whether Tahm can survive a useful first engagement, leave, heal and fight again. It does not assume Warmog heals through damage or that the highest HP beats percent-health damage.",
+      "itemIds": [
+        3084,
+        3083,
+        4633,
+        2502,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8429,
+        8453,
+        9111,
+        9104
+      ],
+      "shards": [
+        5005,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "duration": 10,
+        "heartsteelHP": 0,
+        "combatSeconds": 0,
+        "mr": 50,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "At full build record bonus HP, AP and finite Heartsteel health. Verify Warmog's 2000-bonus-HP condition in game; never assign infinite health stacks.",
+        "Fight for eight seconds using attacks/Q/E, disengage without damage for the actual Warmog delay, then re-enter. Record first-fight damage, exit success, healing delay and second-fight damage.",
+        "Repeat with Warmog replaced by Jak'Sho at matched spending. Judge both fights together and whether the team can safely wait for the reset.",
+        "Repeat against percent-health damage and with healing reduction. Compare one versus two nearby enemies for E grey-health storage, using the same incoming damage pattern.",
+        "Test Q at fixed missing HP: rank-5 source gives 50 + 7% missing HP before modifiers. Keep grey-health healing and E shield use separate."
+      ],
+      "failureConditions": [
+        "You cannot disengage or your team loses during the reset.",
+        "Percent-health damage overwhelms health without enough resistances.",
+        "A normal resistance slot wins the first fight more reliably."
+      ],
+      "tradeoffs": [
+        "Warmog healing is out of combat; health alone does not solve burst or CC.",
+        "Low offensive range and no penetration; this is not a guaranteed dueling build.",
+        "Conditioning and finite stacks require time; the full setup is not a rush order."
+      ],
+      "buyOrder": [
+        "Heartsteel conditional on lane; boots and matchup defenses before the reset luxury.",
+        "Unending/Visage or Riftmaker according to the opponent. Warmog is a later test after reaching its threshold, not a first-item promise."
+      ],
+      "coverageNotes": [
+        "Warmog thresholds/regeneration, Q healing, E storage/shield/healing, incoming damage and repeated fights require manual measurement. No Tahm damage calculator is available."
+      ]
+    },
+    {
+      "id": "tahm-rescue-specialist",
+      "champion": "TahmKench",
+      "name": "Rescue specialist",
+      "goal": "Support experiment: win by keeping the carry alive",
+      "hypothesis": "Devour removes an ally from danger and grants a shield after release. Locket, Redemption, Mikael and Knight's Vow create different rescue tools; heal/shield power may improve eligible shields. The question is survival and preserved carry damage on a support budget, not Tahm's personal damage. Visage on Tahm increases healing/shields on Tahm, so it is not substituted here as an automatic amplifier of the ally R shield.",
+      "itemIds": [
+        3869,
+        3190,
+        3107,
+        3109,
+        3222,
+        3111
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5011
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "duration": 10,
+        "mr": 50,
+        "targetHP": 3000
+      },
+      "testPlan": [
+        "Test the support upgrade plus Locket and boots first at a realistic support level/gold. Celestial Opposition is earned through the support quest; do not treat it as a directly purchasable 400-gold legendary.",
+        "With a partner repeat a fixed enemy engage three times. Record ally survival, shield absorption, time inside Devour, positioning after release and carry damage lost while swallowed.",
+        "Hold items fixed and measure the ally R shield with and without eligible heal/shield power. Record R rank/AP and separate Guardian/Locket shields; do not assume all modifiers affect every shield.",
+        "Test Redemption timing and Mikael against eligible CC. Mikael's source excludes airborne and suppression: record failed saves rather than treating it as an answer to every CC.",
+        "Compare R used early versus late and Locket before versus after Devour. Knight's Vow redirection can kill Tahm; track both players' HP and successful rescues."
+      ],
+      "failureConditions": [
+        "You die before completing the rescue.",
+        "Swallowing prevents enough ally damage to lose the fight.",
+        "Too many overlapping actives cannot be used effectively or are unnecessary against the enemy."
+      ],
+      "tradeoffs": [
+        "Support economy rarely reaches the full list; prioritize the first useful active.",
+        "Low personal damage and wave control compared with solo-lane builds.",
+        "R used defensively cannot simultaneously finish an enemy in the same fight."
+      ],
+      "buyOrder": [
+        "Start the actual support quest item, upgrade through its quest, and use normal vision purchases.",
+        "Locket versus burst; Mikael only versus eligible CC; Redemption if the delay is useful. Knight's Vow for a carry you can protect.",
+        "Keep the support slot and appropriate boots; do not apply the solo-lane Heartsteel rush to a low-income support game."
+      ],
+      "coverageNotes": [
+        "No ally-safety simulator exists. Measure actual shields, active timing, carry uptime and deaths manually. Source variants above 300000 are not used in this Summoner's Rift proposal."
+      ]
     }
   ],
   "researchSources": [
     "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-20-notes/",
     "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-18-notes/",
     "data/lol/16.20.1/champions/Cassiopeia.json",
-    "public/data/catalog.json"
+    "public/data/catalog.json",
+    "public/data/champions/TahmKench.json",
+    "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-8-notes/"
   ]
 }

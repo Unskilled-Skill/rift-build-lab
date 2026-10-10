@@ -1,0 +1,12 @@
+import {it,expect} from 'vitest';
+import {searchBuilds} from '../src/search';
+import {parseSave,validRunePage} from '../src/storage';
+import {defaultScenario,calculate} from '../src/engine';
+import type {Champion,Item,RuneTree} from '../src/types';
+const c:Champion={id:875,alias:'Sett',name:'Sett',title:'',roles:[],stats:{hp:670,hpperlevel:114,attackdamage:60},profile:null};
+const pool:Item[]=[100,200,300].map((hp,i)=>({id:i+1,name:'HP'+hp,baseStats:[{name:'Health',value:hp,unit:'flat'}],gold:{total:1000},descriptionText:'',effectDescriptionText:'',shopListedBySource:true,maps:{'11':true},requiredChampion:null,buildsInto:[],tags:[],iconUrl:''}));
+it('matches an independent exhaustive two-slot comparison under budget',()=>{const s={...defaultScenario('Sett'),slots:2,budget:2000};const actual=searchBuilds(c,pool,s,[],[]);const expected=[[pool[0],pool[1]],[pool[0],pool[2]],[pool[1],pool[2]]].map(items=>calculate(c,items,s).damage);expect(actual.best[0].result.damage).toBe(Math.max(...expected));expect(actual.complete).toBe(true)});
+it('keeps locks, exclusions and budget constraints',()=>{const s={...defaultScenario('Sett'),slots:2,budget:2000};const r=searchBuilds(c,pool,s,[1],[3]);expect(r.best[0].ids).toEqual([1,2]);expect(searchBuilds(c,pool,{...s,budget:500},[1],[]).best).toHaveLength(0)});
+it('stops at a bound and does not claim complete search',()=>{expect(searchBuilds(c,pool,{...defaultScenario('Sett'),slots:2},[],[],1).complete).toBe(false)});
+it('round-trips scenarios and rejects hostile numeric and item data',()=>{const s=defaultScenario('Sett');const blob={version:1,patch:'26.20',scenario:s,items:[1]};expect(parseSave(JSON.stringify(blob),[c],pool).scenario).toEqual(s);expect(()=>parseSave(JSON.stringify({...blob,scenario:{...s,level:999}}),[c],pool)).toThrow();expect(()=>parseSave(JSON.stringify({...blob,items:[999]}),[c],pool)).toThrow();expect(()=>parseSave(JSON.stringify({...blob,scenario:{...s,extraAP:'100'}}),[c],pool)).toThrow()});
+it('rejects secondary runes from the same row',()=>{const trees:RuneTree[]=[{id:1,name:'a',slots:[{runes:[{id:10,name:''}]},{runes:[{id:11,name:''}]},{runes:[{id:12,name:''}]},{runes:[{id:13,name:''}]}]},{id:2,name:'b',slots:[{runes:[{id:20,name:''}]},{runes:[{id:21,name:''},{id:22,name:''}]},{runes:[{id:23,name:''}]},{runes:[{id:24,name:''}]}]}];expect(validRunePage([10,11,12,13,21,23],trees)).toBe(true);expect(validRunePage([10,11,12,13,21,22],trees)).toBe(false)});

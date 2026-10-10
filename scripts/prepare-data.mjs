@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import path from 'node:path';
+const base='data/lol/16.20.1',out='public/data';fs.mkdirSync(path.join(out,'champions'),{recursive:true});
+const read=p=>JSON.parse(fs.readFileSync(path.join(base,p),'utf8'));
+const profiles=read('playstyles/playstyles.json').profiles,champions=[];
+for(const p of profiles){const c=read(`champions/${p.alias}.json`);const stats={...c.baseStatsAndGrowth};const adGrowth=c.engineCharacterRecordRaw.damagePerLevelModifiable?.baseValue;if(Number.isFinite(adGrowth))stats.attackdamageperlevel=adGrowth;champions.push({id:c.id,alias:c.alias,name:c.name,title:c.title,roles:c.roles,stats,profile:p});
+ const detail={passive:{name:c.passive.name,description:c.passive.description},primaryAbilities:c.primaryAbilities.map(({riotSpellDataRaw,...a})=>a),allSpellRecords:c.allSpellRecords.map(s=>({path:s.path,internalName:s.internalName,primarySlot:s.primarySlot,name:s.name,summary:s.summary,tooltipWithSymbolicValues:s.tooltipWithSymbolicValues,dataValuesRaw:s.dataValuesRaw,effectAmountsRaw:s.effectAmountsRaw,calculations:Object.fromEntries(Object.entries(s.calculations).map(([key,v])=>[key,{expression:v.expression,displayAsPercent:v.displayAsPercent}])),unresolvedTooltipTokens:s.unresolvedTooltipTokens})),sources:c.sourceFiles};fs.writeFileSync(path.join(out,'champions',c.alias+'.json'),JSON.stringify(detail));}
+const runes=read('runes/runes.json'),items=read('items.json').items;
+fs.writeFileSync(path.join(out,'catalog.json'),JSON.stringify({patch:'26.20',version:'16.20.1',champions:champions.sort((a,b)=>a.name.localeCompare(b.name)),items,runes:runes.runes.map(({engineRecordRaw,clientRecordRaw,riotRuneRaw,...r})=>r),trees:runes.trees}));
+console.log(`Prepared ${champions.length} champions, ${items.length} items, ${runes.runes.length} runes/shards; champion formulas load on demand.`);

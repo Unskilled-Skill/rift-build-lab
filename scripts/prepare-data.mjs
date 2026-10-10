@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 const base='data/lol/16.20.1',out='public/data';fs.mkdirSync(path.join(out,'champions'),{recursive:true});
+if(!fs.existsSync(path.join(base,'items.json'))){const snapshot=JSON.parse(fs.readFileSync(path.join(out,'catalog.json'),'utf8'));if(snapshot.champions.length!==173||snapshot.items.length!==870||snapshot.runes.length!==69)throw new Error('Browser snapshot is incomplete. Restore the full source exports before rebuilding.');console.log('Using checked-in patch 26.20 browser snapshot; full raw exports are not present.');process.exit(0);}
 const read=p=>JSON.parse(fs.readFileSync(path.join(base,p),'utf8'));
 const profiles=read('playstyles/playstyles.json').profiles,champions=[];
 for(const p of profiles){const c=read(`champions/${p.alias}.json`);const stats={...c.baseStatsAndGrowth};const adGrowth=c.engineCharacterRecordRaw.damagePerLevelModifiable?.baseValue;if(Number.isFinite(adGrowth))stats.attackdamageperlevel=adGrowth;champions.push({id:c.id,alias:c.alias,name:c.name,title:c.title,roles:c.roles,stats,profile:p});

@@ -11,6 +11,10 @@ The user approved a browser app with scenario controls, legal build search, tran
 
 Success means a user can both explore an interesting hypothesis and inspect the evidence for it. High theoretical damage is not synonymous with a good build, nor proof of an undiscovered strategy.
 
+## Approach choice
+
+Three approaches were considered. A generic tooltip evaluator could appear to support every champion immediately, but unresolved types and script-dependent mechanics would make its rankings unreliable. An AI-only recommender could generate entertaining ideas, but would not substantiate their damage claims. The selected approach combines kit-based AI hypotheses with separately validated deterministic models. It offers broad inspiration immediately and grows trustworthy calculation coverage incrementally.
+
 ## Delivery scope
 
 The first working release includes three connected surfaces:

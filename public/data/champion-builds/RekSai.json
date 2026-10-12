@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "reksai-four-1",
+      "champion": "RekSai",
+      "name": "Reference: Contact fighter",
+      "goal": "Reference for Rek'Sai: establish a repeatable reference",
+      "hypothesis": "A tunnel-based melee ambusher who uses burrowed tracking to choose an entry, then spends Fury on a bite or recovery. Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "itemIds": [
+        6631,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Rek'Sai: Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit.",
+        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Rek'Sai's next 3 basic attacks deal bonus Physical Damage to nearby enemies.\n\nWhile Burrowed, Rek'Sai launches a burst of void-charged earth that damages and reveals enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "The route fails Rek'Sai's stated kit question: Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Rage",
+      "kitEvidence": [
+        {
+          "ability": "Furious Bite / Tunnel",
+          "slot": "E",
+          "source": "Characters/RekSai/Spells/RekSaiEAbility/RekSaiE",
+          "formula": "Unburrowed: Rek'Sai bites a target, dealing @spell.RekSaiE:BaseDamageCalculation@ physical damage. At max Fury, the bite deals @spell.RekSaiE:EmpoweredDamageCalculation@ true damage instead."
+        },
+        {
+          "ability": "Fury of the Xer'Sai",
+          "slot": "Passive",
+          "source": "Characters/RekSai/Spells/RekSaiPassiveAbility/RekSaiPassive",
+          "formula": "Rek'Sai generates [25] Fury when she Attacks and [25] Fury from Abilities.\n\nWhile Burrowed, she consumes her Fury to restore up to [(UNRESOLVED({ee18a47b}; see calculationRaw)) × Stat(12)] Health over [3] seconds, increasing with level."
+        },
+        {
+          "ability": "Queen's Wrath / Prey Seeker",
+          "slot": "Q",
+          "source": "Characters/RekSai/Spells/RekSaiQAbility/RekSaiQ",
+          "formula": "Unburrowed: Rek'Sai's next 3 Attacks within [3] seconds gain [35]% Attack Speed and deal an additional [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × AD] physical damage to nearby enemies. Attacks refresh the duration of this Ability."
+        },
+        {
+          "ability": "Void Rush",
+          "slot": "R",
+          "source": "Characters/RekSai/Spells/RekSaiRAbility/RekSaiR",
+          "formula": "Rek'Sai targets an enemy damaged by her in the last [5] seconds and then dives underground, becoming Untargetable. Moments later, she leaps unstoppably at her target, dealing [150 / 250 / 350 + (1) × AD[statFormula=2]] plus [15 / 20 / 25]% max Health physical damage and resets the cooldown of {{Spell_RekSaiW_Name}}."
+        },
+        {
+          "ability": "Burrow / Un-burrow",
+          "slot": "W",
+          "source": "Characters/RekSai/Spells/RekSaiWAbility/RekSaiW",
+          "formula": "Unburrowed: Rek'Sai burrows into the ground, gaining access to new Abilities but cannot Attack. She gains [5 / 10 / 15 / 20 / 25] Move Speed, [65]% reduced vision range, and nearby enemies that move and are otherwise unseen will have their positions revealed to Rek'sai and her allies."
+        }
+      ]
+    },
+    {
+      "id": "reksai-four-2",
+      "champion": "RekSai",
+      "name": "Damage interaction: AD spell pressure",
+      "goal": "Damage interaction for Rek'Sai: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A tunnel-based melee ambusher who uses burrowed tracking to choose an entry, then spends Fury on a bite or recovery. Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit. AD, haste and Black Cleaver may reward repeated physical ability hits.",
+      "itemIds": [
+        6692,
+        3161,
+        3071,
+        6333,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Rek'Sai: Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit.",
+        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Rek'Sai's next 3 basic attacks deal bonus Physical Damage to nearby enemies.\n\nWhile Burrowed, Rek'Sai launches a burst of void-charged earth that damages and reveals enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
+        "The route fails Rek'Sai's stated kit question: Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Rage",
+      "kitEvidence": [
+        {
+          "ability": "Furious Bite / Tunnel",
+          "slot": "E",
+          "source": "Characters/RekSai/Spells/RekSaiEAbility/RekSaiE",
+          "formula": "Unburrowed: Rek'Sai bites a target, dealing @spell.RekSaiE:BaseDamageCalculation@ physical damage. At max Fury, the bite deals @spell.RekSaiE:EmpoweredDamageCalculation@ true damage instead."
+        },
+        {
+          "ability": "Fury of the Xer'Sai",
+          "slot": "Passive",
+          "source": "Characters/RekSai/Spells/RekSaiPassiveAbility/RekSaiPassive",
+          "formula": "Rek'Sai generates [25] Fury when she Attacks and [25] Fury from Abilities.\n\nWhile Burrowed, she consumes her Fury to restore up to [(UNRESOLVED({ee18a47b}; see calculationRaw)) × Stat(12)] Health over [3] seconds, increasing with level."
+        },
+        {
+          "ability": "Queen's Wrath / Prey Seeker",
+          "slot": "Q",
+          "source": "Characters/RekSai/Spells/RekSaiQAbility/RekSaiQ",
+          "formula": "Unburrowed: Rek'Sai's next 3 Attacks within [3] seconds gain [35]% Attack Speed and deal an additional [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × AD] physical damage to nearby enemies. Attacks refresh the duration of this Ability."
+        },
+        {
+          "ability": "Void Rush",
+          "slot": "R",
+          "source": "Characters/RekSai/Spells/RekSaiRAbility/RekSaiR",
+          "formula": "Rek'Sai targets an enemy damaged by her in the last [5] seconds and then dives underground, becoming Untargetable. Moments later, she leaps unstoppably at her target, dealing [150 / 250 / 350 + (1) × AD[statFormula=2]] plus [15 / 20 / 25]% max Health physical damage and resets the cooldown of {{Spell_RekSaiW_Name}}."
+        },
+        {
+          "ability": "Burrow / Un-burrow",
+          "slot": "W",
+          "source": "Characters/RekSai/Spells/RekSaiWAbility/RekSaiW",
+          "formula": "Unburrowed: Rek'Sai burrows into the ground, gaining access to new Abilities but cannot Attack. She gains [5 / 10 / 15 / 20 / 25] Move Speed, [65]% reduced vision range, and nearby enemies that move and are otherwise unseen will have their positions revealed to Rek'sai and her allies."
+        }
+      ]
+    },
+    {
+      "id": "reksai-four-3",
+      "champion": "RekSai",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Rek'Sai: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A tunnel-based melee ambusher who uses burrowed tracking to choose an entry, then spends Fury on a bite or recovery. Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Rek'Sai: Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Rek'Sai's next 3 basic attacks deal bonus Physical Damage to nearby enemies.\n\nWhile Burrowed, Rek'Sai launches a burst of void-charged earth that damages and reveals enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Rek'Sai's stated kit question: Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Rage",
+      "kitEvidence": [
+        {
+          "ability": "Furious Bite / Tunnel",
+          "slot": "E",
+          "source": "Characters/RekSai/Spells/RekSaiEAbility/RekSaiE",
+          "formula": "Unburrowed: Rek'Sai bites a target, dealing @spell.RekSaiE:BaseDamageCalculation@ physical damage. At max Fury, the bite deals @spell.RekSaiE:EmpoweredDamageCalculation@ true damage instead."
+        },
+        {
+          "ability": "Fury of the Xer'Sai",
+          "slot": "Passive",
+          "source": "Characters/RekSai/Spells/RekSaiPassiveAbility/RekSaiPassive",
+          "formula": "Rek'Sai generates [25] Fury when she Attacks and [25] Fury from Abilities.\n\nWhile Burrowed, she consumes her Fury to restore up to [(UNRESOLVED({ee18a47b}; see calculationRaw)) × Stat(12)] Health over [3] seconds, increasing with level."
+        },
+        {
+          "ability": "Queen's Wrath / Prey Seeker",
+          "slot": "Q",
+          "source": "Characters/RekSai/Spells/RekSaiQAbility/RekSaiQ",
+          "formula": "Unburrowed: Rek'Sai's next 3 Attacks within [3] seconds gain [35]% Attack Speed and deal an additional [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × AD] physical damage to nearby enemies. Attacks refresh the duration of this Ability."
+        },
+        {
+          "ability": "Void Rush",
+          "slot": "R",
+          "source": "Characters/RekSai/Spells/RekSaiRAbility/RekSaiR",
+          "formula": "Rek'Sai targets an enemy damaged by her in the last [5] seconds and then dives underground, becoming Untargetable. Moments later, she leaps unstoppably at her target, dealing [150 / 250 / 350 + (1) × AD[statFormula=2]] plus [15 / 20 / 25]% max Health physical damage and resets the cooldown of {{Spell_RekSaiW_Name}}."
+        },
+        {
+          "ability": "Burrow / Un-burrow",
+          "slot": "W",
+          "source": "Characters/RekSai/Spells/RekSaiWAbility/RekSaiW",
+          "formula": "Unburrowed: Rek'Sai burrows into the ground, gaining access to new Abilities but cannot Attack. She gains [5 / 10 / 15 / 20 / 25] Move Speed, [65]% reduced vision range, and nearby enemies that move and are otherwise unseen will have their positions revealed to Rek'sai and her allies."
+        }
+      ]
+    },
+    {
+      "id": "reksai-four-4",
+      "champion": "RekSai",
+      "name": "Experiment: Physical pick",
+      "goal": "Experiment for Rek'Sai: test a different playstyle, with lower confidence",
+      "hypothesis": "A tunnel-based melee ambusher who uses burrowed tracking to choose an entry, then spends Fury on a bite or recovery. Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Rek'Sai: Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Rek'Sai's next 3 basic attacks deal bonus Physical Damage to nearby enemies.\n\nWhile Burrowed, Rek'Sai launches a burst of void-charged earth that damages and reveals enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Rek'Sai's stated kit question: Fix burrow state, Fury spent on bite versus healing and tunnel access. True-damage components and R target access must not be awarded to every physical hit.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Rage",
+      "kitEvidence": [
+        {
+          "ability": "Furious Bite / Tunnel",
+          "slot": "E",
+          "source": "Characters/RekSai/Spells/RekSaiEAbility/RekSaiE",
+          "formula": "Unburrowed: Rek'Sai bites a target, dealing @spell.RekSaiE:BaseDamageCalculation@ physical damage. At max Fury, the bite deals @spell.RekSaiE:EmpoweredDamageCalculation@ true damage instead."
+        },
+        {
+          "ability": "Fury of the Xer'Sai",
+          "slot": "Passive",
+          "source": "Characters/RekSai/Spells/RekSaiPassiveAbility/RekSaiPassive",
+          "formula": "Rek'Sai generates [25] Fury when she Attacks and [25] Fury from Abilities.\n\nWhile Burrowed, she consumes her Fury to restore up to [(UNRESOLVED({ee18a47b}; see calculationRaw)) × Stat(12)] Health over [3] seconds, increasing with level."
+        },
+        {
+          "ability": "Queen's Wrath / Prey Seeker",
+          "slot": "Q",
+          "source": "Characters/RekSai/Spells/RekSaiQAbility/RekSaiQ",
+          "formula": "Unburrowed: Rek'Sai's next 3 Attacks within [3] seconds gain [35]% Attack Speed and deal an additional [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × AD] physical damage to nearby enemies. Attacks refresh the duration of this Ability."
+        },
+        {
+          "ability": "Void Rush",
+          "slot": "R",
+          "source": "Characters/RekSai/Spells/RekSaiRAbility/RekSaiR",
+          "formula": "Rek'Sai targets an enemy damaged by her in the last [5] seconds and then dives underground, becoming Untargetable. Moments later, she leaps unstoppably at her target, dealing [150 / 250 / 350 + (1) × AD[statFormula=2]] plus [15 / 20 / 25]% max Health physical damage and resets the cooldown of {{Spell_RekSaiW_Name}}."
+        },
+        {
+          "ability": "Burrow / Un-burrow",
+          "slot": "W",
+          "source": "Characters/RekSai/Spells/RekSaiWAbility/RekSaiW",
+          "formula": "Unburrowed: Rek'Sai burrows into the ground, gaining access to new Abilities but cannot Attack. She gains [5 / 10 / 15 / 20 / 25] Move Speed, [65]% reduced vision range, and nearby enemies that move and are otherwise unseen will have their positions revealed to Rek'sai and her allies."
+        }
+      ]
+    }
+  ]
+}

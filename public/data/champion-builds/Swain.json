@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "swain-four-1",
+      "champion": "Swain",
+      "name": "Reference: Mana burn zones",
+      "goal": "Reference for Swain: establish a repeatable reference",
+      "hypothesis": "A sustained close-range mage who gains health from soul collection and keeps R active by draining champions. Roots and pulls create the proximity needed for repeated Q bolts and drain. Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range. Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "itemIds": [
+        2503,
+        6653,
+        3116,
+        8010,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Swain: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
+        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Swain unleashes several bolts of eldritch power that pierce through enemies. Enemies hit take more damage for each bolt they are struck by. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "The route fails Swain's stated kit question: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Demonic Ascension",
+          "slot": "R",
+          "source": "Characters/Swain/Spells/SwainRAbility/SwainR",
+          "formula": "Swain frees the demon, which deals [15 / 25 / 35 + (0.04) × AP] magic damage and drains [15 / 30 / 45 + (0.05) × AP + (0.015) × Stat(12)[statFormula=2]] Health per second from nearby enemies. His Demonic Energy depletes over time but can be recharged indefinitely by draining enemy Champions and is fully restored on Champion takedowns.\n\nAfter [2] seconds and every [8] seconds thereafter, Swain can cast Demonflare while transformed, which deals [150 / 250 / 350 + (0.4) × AP] magic damage and Slows enemies by [50]%, decaying over [1.5]s."
+        },
+        {
+          "ability": "Death's Hand",
+          "slot": "Q",
+          "source": "Characters/Swain/Spells/SwainQAbility/SwainQ",
+          "formula": "Swain unleashes 5 eldritch bolts, dealing [60 / 90 / 120 / 150 / 180 + (0.45) × AP] magic damage plus [(60 / 90 / 120 / 150 / 180 + (0.45) × AP) × (0.25)] magic damage per bolt past the first (max [(60 / 90 / 120 / 150 / 180 + (0.45) × AP) × (2)] magic damage)."
+        },
+        {
+          "ability": "Nevermove",
+          "slot": "E",
+          "source": "Characters/Swain/Spells/SwainEAbility/SwainE",
+          "formula": "Swain launches a wave of demonic power that returns, detonating on the first enemy hit to deal [90 / 130 / 170 / 210 / 250 + (0.7) × AP] magic damage and Root enemies in the area for [1.5] seconds.\n\nRooting a champion allows Swain to reactivate this ability to pull all champions Rooted by Nevermove toward him, gaining a Soul Fragment for each."
+        },
+        {
+          "ability": "Ravenous Flock",
+          "slot": "Passive",
+          "source": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
+          "formula": "Swain collects Soul Fragments from Vision of Empire, Nevermove, and enemy champion deaths. Soul Fragments restore [characterLevelInterpolation(0.06 → 0.06; raw flags preserved)] maximum Health and permanently grant Swain [15] max Health.\n\nSoul Fragments collected: @f1@\nTotal Health gained: [(15) × BuffStacks({0dc6979e})]"
+        },
+        {
+          "ability": "Vision of Empire",
+          "slot": "W",
+          "source": "Characters/Swain/Spells/SwainWAbility/SwainW",
+          "formula": "Swain opens a demon eye, revealing a location for 1.5 seconds, then deals [70 / 115 / 160 / 205 / 250 + (0.6) × AP] magic damage and Slows by [50]% for [1.5] seconds.\n\nChampions hit grant Swain a Soul Fragment and are revealed for [6] seconds."
+        }
+      ]
+    },
+    {
+      "id": "swain-four-2",
+      "champion": "Swain",
+      "name": "Damage interaction: AP health frontline",
+      "goal": "Damage interaction for Swain: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A sustained close-range mage who gains health from soul collection and keeps R active by draining champions. Roots and pulls create the proximity needed for repeated Q bolts and drain. Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range. Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
+      "itemIds": [
+        4633,
+        6653,
+        3116,
+        8010,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Swain: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
+        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Swain unleashes several bolts of eldritch power that pierce through enemies. Enemies hit take more damage for each bolt they are struck by. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "The route fails Swain's stated kit question: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Demonic Ascension",
+          "slot": "R",
+          "source": "Characters/Swain/Spells/SwainRAbility/SwainR",
+          "formula": "Swain frees the demon, which deals [15 / 25 / 35 + (0.04) × AP] magic damage and drains [15 / 30 / 45 + (0.05) × AP + (0.015) × Stat(12)[statFormula=2]] Health per second from nearby enemies. His Demonic Energy depletes over time but can be recharged indefinitely by draining enemy Champions and is fully restored on Champion takedowns.\n\nAfter [2] seconds and every [8] seconds thereafter, Swain can cast Demonflare while transformed, which deals [150 / 250 / 350 + (0.4) × AP] magic damage and Slows enemies by [50]%, decaying over [1.5]s."
+        },
+        {
+          "ability": "Death's Hand",
+          "slot": "Q",
+          "source": "Characters/Swain/Spells/SwainQAbility/SwainQ",
+          "formula": "Swain unleashes 5 eldritch bolts, dealing [60 / 90 / 120 / 150 / 180 + (0.45) × AP] magic damage plus [(60 / 90 / 120 / 150 / 180 + (0.45) × AP) × (0.25)] magic damage per bolt past the first (max [(60 / 90 / 120 / 150 / 180 + (0.45) × AP) × (2)] magic damage)."
+        },
+        {
+          "ability": "Nevermove",
+          "slot": "E",
+          "source": "Characters/Swain/Spells/SwainEAbility/SwainE",
+          "formula": "Swain launches a wave of demonic power that returns, detonating on the first enemy hit to deal [90 / 130 / 170 / 210 / 250 + (0.7) × AP] magic damage and Root enemies in the area for [1.5] seconds.\n\nRooting a champion allows Swain to reactivate this ability to pull all champions Rooted by Nevermove toward him, gaining a Soul Fragment for each."
+        },
+        {
+          "ability": "Ravenous Flock",
+          "slot": "Passive",
+          "source": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
+          "formula": "Swain collects Soul Fragments from Vision of Empire, Nevermove, and enemy champion deaths. Soul Fragments restore [characterLevelInterpolation(0.06 → 0.06; raw flags preserved)] maximum Health and permanently grant Swain [15] max Health.\n\nSoul Fragments collected: @f1@\nTotal Health gained: [(15) × BuffStacks({0dc6979e})]"
+        },
+        {
+          "ability": "Vision of Empire",
+          "slot": "W",
+          "source": "Characters/Swain/Spells/SwainWAbility/SwainW",
+          "formula": "Swain opens a demon eye, revealing a location for 1.5 seconds, then deals [70 / 115 / 160 / 205 / 250 + (0.6) × AP] magic damage and Slows by [50]% for [1.5] seconds.\n\nChampions hit grant Swain a Soul Fragment and are revealed for [6] seconds."
+        }
+      ]
+    },
+    {
+      "id": "swain-four-3",
+      "champion": "Swain",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Swain: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A sustained close-range mage who gains health from soul collection and keeps R active by draining champions. Roots and pulls create the proximity needed for repeated Q bolts and drain. Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Swain: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Swain unleashes several bolts of eldritch power that pierce through enemies. Enemies hit take more damage for each bolt they are struck by. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Swain's stated kit question: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Demonic Ascension",
+          "slot": "R",
+          "source": "Characters/Swain/Spells/SwainRAbility/SwainR",
+          "formula": "Swain frees the demon, which deals [15 / 25 / 35 + (0.04) × AP] magic damage and drains [15 / 30 / 45 + (0.05) × AP + (0.015) × Stat(12)[statFormula=2]] Health per second from nearby enemies. His Demonic Energy depletes over time but can be recharged indefinitely by draining enemy Champions and is fully restored on Champion takedowns.\n\nAfter [2] seconds and every [8] seconds thereafter, Swain can cast Demonflare while transformed, which deals [150 / 250 / 350 + (0.4) × AP] magic damage and Slows enemies by [50]%, decaying over [1.5]s."
+        },
+        {
+          "ability": "Death's Hand",
+          "slot": "Q",
+          "source": "Characters/Swain/Spells/SwainQAbility/SwainQ",
+          "formula": "Swain unleashes 5 eldritch bolts, dealing [60 / 90 / 120 / 150 / 180 + (0.45) × AP] magic damage plus [(60 / 90 / 120 / 150 / 180 + (0.45) × AP) × (0.25)] magic damage per bolt past the first (max [(60 / 90 / 120 / 150 / 180 + (0.45) × AP) × (2)] magic damage)."
+        },
+        {
+          "ability": "Nevermove",
+          "slot": "E",
+          "source": "Characters/Swain/Spells/SwainEAbility/SwainE",
+          "formula": "Swain launches a wave of demonic power that returns, detonating on the first enemy hit to deal [90 / 130 / 170 / 210 / 250 + (0.7) × AP] magic damage and Root enemies in the area for [1.5] seconds.\n\nRooting a champion allows Swain to reactivate this ability to pull all champions Rooted by Nevermove toward him, gaining a Soul Fragment for each."
+        },
+        {
+          "ability": "Ravenous Flock",
+          "slot": "Passive",
+          "source": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
+          "formula": "Swain collects Soul Fragments from Vision of Empire, Nevermove, and enemy champion deaths. Soul Fragments restore [characterLevelInterpolation(0.06 → 0.06; raw flags preserved)] maximum Health and permanently grant Swain [15] max Health.\n\nSoul Fragments collected: @f1@\nTotal Health gained: [(15) × BuffStacks({0dc6979e})]"
+        },
+        {
+          "ability": "Vision of Empire",
+          "slot": "W",
+          "source": "Characters/Swain/Spells/SwainWAbility/SwainW",
+          "formula": "Swain opens a demon eye, revealing a location for 1.5 seconds, then deals [70 / 115 / 160 / 205 / 250 + (0.6) × AP] magic damage and Slows by [50]% for [1.5] seconds.\n\nChampions hit grant Swain a Soul Fragment and are revealed for [6] seconds."
+        }
+      ]
+    },
+    {
+      "id": "swain-four-4",
+      "champion": "Swain",
+      "name": "Experiment: Magic tank experiment",
+      "goal": "Experiment for Swain: test a different playstyle, with lower confidence",
+      "hypothesis": "A sustained close-range mage who gains health from soul collection and keeps R active by draining champions. Roots and pulls create the proximity needed for repeated Q bolts and drain. Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range. Health-supported AP and close magic amplification trade defense for damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3084,
+        4633,
+        6653,
+        8020,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Swain: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
+        "Start with the early core (Safe health/defense core, then Riftmaker or Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health-supported AP and close magic amplification trade defense for damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Swain unleashes several bolts of eldritch power that pierce through enemies. Enemies hit take more damage for each bolt they are struck by. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
+        "The route fails Swain's stated kit question: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
+        "Full cost 16,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Safe health/defense core, then Riftmaker or Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Liandry's Torment, Abyssal Mask, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Demonic Ascension",
+          "slot": "R",
+          "source": "Characters/Swain/Spells/SwainRAbility/SwainR",
+          "formula": "Swain frees the demon, which deals [15 / 25 / 35 + (0.04) × AP] magic damage and drains [15 / 30 / 45 + (0.05) × AP + (0.015) × Stat(12)[statFormula=2]] Health per second from nearby enemies. His Demonic Energy depletes over time but can be recharged indefinitely by draining enemy Champions and is fully restored on Champion takedowns.\n\nAfter [2] seconds and every [8] seconds thereafter, Swain can cast Demonflare while transformed, which deals [150 / 250 / 350 + (0.4) × AP] magic damage and Slows enemies by [50]%, decaying over [1.5]s."
+        },
+        {
+          "ability": "Death's Hand",
+          "slot": "Q",
+          "source": "Characters/Swain/Spells/SwainQAbility/SwainQ",
+          "formula": "Swain unleashes 5 eldritch bolts, dealing [60 / 90 / 120 / 150 / 180 + (0.45) × AP] magic damage plus [(60 / 90 / 120 / 150 / 180 + (0.45) × AP) × (0.25)] magic damage per bolt past the first (max [(60 / 90 / 120 / 150 / 180 + (0.45) × AP) × (2)] magic damage)."
+        },
+        {
+          "ability": "Nevermove",
+          "slot": "E",
+          "source": "Characters/Swain/Spells/SwainEAbility/SwainE",
+          "formula": "Swain launches a wave of demonic power that returns, detonating on the first enemy hit to deal [90 / 130 / 170 / 210 / 250 + (0.7) × AP] magic damage and Root enemies in the area for [1.5] seconds.\n\nRooting a champion allows Swain to reactivate this ability to pull all champions Rooted by Nevermove toward him, gaining a Soul Fragment for each."
+        },
+        {
+          "ability": "Ravenous Flock",
+          "slot": "Passive",
+          "source": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
+          "formula": "Swain collects Soul Fragments from Vision of Empire, Nevermove, and enemy champion deaths. Soul Fragments restore [characterLevelInterpolation(0.06 → 0.06; raw flags preserved)] maximum Health and permanently grant Swain [15] max Health.\n\nSoul Fragments collected: @f1@\nTotal Health gained: [(15) × BuffStacks({0dc6979e})]"
+        },
+        {
+          "ability": "Vision of Empire",
+          "slot": "W",
+          "source": "Characters/Swain/Spells/SwainWAbility/SwainW",
+          "formula": "Swain opens a demon eye, revealing a location for 1.5 seconds, then deals [70 / 115 / 160 / 205 / 250 + (0.6) × AP] magic damage and Slows by [50]% for [1.5] seconds.\n\nChampions hit grant Swain a Soul Fragment and are revealed for [6] seconds."
+        }
+      ]
+    }
+  ]
+}

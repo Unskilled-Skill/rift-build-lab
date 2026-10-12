@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "katarina-four-1",
+      "champion": "Katarina",
+      "name": "Reference: AP dive",
+      "goal": "Reference for Katarina: establish a repeatable reference",
+      "hypothesis": "A reset-driven melee assassin who positions around daggers and enters after enemy interruption tools are spent. Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target. AP, penetration and Rocketbelt access test a short committed damage window.",
+      "itemIds": [
+        3152,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Katarina: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
+        "Start with the early core (Rocketbelt, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: AP, penetration and Rocketbelt access test a short committed damage window. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Katarina throws a Dagger at the target that then bounces to nearby enemies before ricocheting onto the ground. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "The active cannot replace every mobility tool; minimal sustained durability.",
+        "The route fails Katarina's stated kit question: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "The active cannot replace every mobility tool; minimal sustained durability.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Rocketbelt, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "None",
+      "kitEvidence": [
+        {
+          "ability": "Death Lotus",
+          "slot": "R",
+          "source": "Characters/Katarina/Spells/KatarinaRAbility/KatarinaR",
+          "formula": "Katarina becomes a flurry of blades, rapidly attacking the three nearest enemy champions with a flurry of knives. Each knife deals [25 / 37.5 / 50 + (0.19) × AP] magic damage and [(((0.16) × ((1 + (3.125) × Stat(4)[statFormula=2])))) × AD[statFormula=2]] physical damage, and applies [40]% Grievous Wounds for [3] seconds.\n\nTotal over [2.5] seconds to each enemy: [(25 / 37.5 / 50 + (0.19) × AP) × ((6) × (2.5))] magic damage and [((((0.16) × ((1 + (3.125) × Stat(4)[statFormula=2])))) × AD[statFormula=2]) × ((6) × (2.5))] physical damage."
+        },
+        {
+          "ability": "Bouncing Blade",
+          "slot": "Q",
+          "source": "Characters/Katarina/Spells/KatarinaQAbility/KatarinaQ",
+          "formula": "Katarina throws a Dagger, dealing [80 / 115 / 150 / 185 / 220 + (0.4) × AP] magic damage to the target and [2] nearby enemies. The Dagger then ricochets onto the ground behind the primary target."
+        },
+        {
+          "ability": "Shunpo",
+          "slot": "E",
+          "source": "Characters/Katarina/Spells/KatarinaEWrapperAbility/KatarinaEWrapper",
+          "formula": "Katarina blinks in the wink of an eye to the target ally, enemy, or Dagger. If it is an enemy, Katarina strikes for [20 / 30 / 40 / 50 / 60 + (0.25) × AP + (0.4) × AD] magic damage - otherwise she strikes the nearest enemy in range.\n\nPicking up a Dagger will reduce this Ability's Cooldown by [(characterLevelBreakpoints(start=0.78, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}])) × ((runtimeCooldownMultiplier) × (12 / 11 / 10 / 9 / 8))] seconds ([characterLevelBreakpoints(start=0.78, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}])]). Katarina can blink to any location near the target."
+        },
+        {
+          "ability": "Preparation",
+          "slot": "W",
+          "source": "Characters/Katarina/Spells/KatarinaWAbility/KatarinaW",
+          "formula": "Katarina tosses a Dagger into the air and gains [50 / 60 / 70 / 80 / 90]% Move Speed decaying over [1.25] seconds."
+        },
+        {
+          "ability": "Voracity",
+          "slot": "Passive",
+          "source": "Characters/Katarina/Spells/KatarinaPassiveAbility/KatarinaPassive",
+          "formula": "Whenever an enemy champion dies that Katarina has damaged in the last [3] seconds, her Ability Cooldowns are reduced by [15] seconds.\n\nIf Katarina picks up a Dagger, she uses it to slash through all nearby enemies, dealing [characterLevelTable[0, 68.1846, 72.1385, 76.8615, 82.3538, 88.6154, 95.6462, 103.446, 112.015, 121.354, 131.462, 142.338, 153.985, 166.4, 179.585, 193.538, 208.262, 223.754, 240.015, 257.046, 274.846, 293.415, 312.754, 332.862, 353.738, 375.385, 397.8, 420.985, 444.938, 469.662, 495.154] + (0.6) × AD[statFormula=2] + (characterLevelBreakpoints(start=0.7, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "katarina-four-2",
+      "champion": "Katarina",
+      "name": "Damage interaction: Spell-and-attack",
+      "goal": "Damage interaction for Katarina: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A reset-driven melee assassin who positions around daggers and enters after enemy interruption tools are spent. Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "itemIds": [
+        3100,
+        3115,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Katarina: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
+        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Katarina throws a Dagger at the target that then bounces to nearby enemies before ricocheting onto the ground. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "The route fails Katarina's stated kit question: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "None",
+      "kitEvidence": [
+        {
+          "ability": "Death Lotus",
+          "slot": "R",
+          "source": "Characters/Katarina/Spells/KatarinaRAbility/KatarinaR",
+          "formula": "Katarina becomes a flurry of blades, rapidly attacking the three nearest enemy champions with a flurry of knives. Each knife deals [25 / 37.5 / 50 + (0.19) × AP] magic damage and [(((0.16) × ((1 + (3.125) × Stat(4)[statFormula=2])))) × AD[statFormula=2]] physical damage, and applies [40]% Grievous Wounds for [3] seconds.\n\nTotal over [2.5] seconds to each enemy: [(25 / 37.5 / 50 + (0.19) × AP) × ((6) × (2.5))] magic damage and [((((0.16) × ((1 + (3.125) × Stat(4)[statFormula=2])))) × AD[statFormula=2]) × ((6) × (2.5))] physical damage."
+        },
+        {
+          "ability": "Bouncing Blade",
+          "slot": "Q",
+          "source": "Characters/Katarina/Spells/KatarinaQAbility/KatarinaQ",
+          "formula": "Katarina throws a Dagger, dealing [80 / 115 / 150 / 185 / 220 + (0.4) × AP] magic damage to the target and [2] nearby enemies. The Dagger then ricochets onto the ground behind the primary target."
+        },
+        {
+          "ability": "Shunpo",
+          "slot": "E",
+          "source": "Characters/Katarina/Spells/KatarinaEWrapperAbility/KatarinaEWrapper",
+          "formula": "Katarina blinks in the wink of an eye to the target ally, enemy, or Dagger. If it is an enemy, Katarina strikes for [20 / 30 / 40 / 50 / 60 + (0.25) × AP + (0.4) × AD] magic damage - otherwise she strikes the nearest enemy in range.\n\nPicking up a Dagger will reduce this Ability's Cooldown by [(characterLevelBreakpoints(start=0.78, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}])) × ((runtimeCooldownMultiplier) × (12 / 11 / 10 / 9 / 8))] seconds ([characterLevelBreakpoints(start=0.78, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}])]). Katarina can blink to any location near the target."
+        },
+        {
+          "ability": "Preparation",
+          "slot": "W",
+          "source": "Characters/Katarina/Spells/KatarinaWAbility/KatarinaW",
+          "formula": "Katarina tosses a Dagger into the air and gains [50 / 60 / 70 / 80 / 90]% Move Speed decaying over [1.25] seconds."
+        },
+        {
+          "ability": "Voracity",
+          "slot": "Passive",
+          "source": "Characters/Katarina/Spells/KatarinaPassiveAbility/KatarinaPassive",
+          "formula": "Whenever an enemy champion dies that Katarina has damaged in the last [3] seconds, her Ability Cooldowns are reduced by [15] seconds.\n\nIf Katarina picks up a Dagger, she uses it to slash through all nearby enemies, dealing [characterLevelTable[0, 68.1846, 72.1385, 76.8615, 82.3538, 88.6154, 95.6462, 103.446, 112.015, 121.354, 131.462, 142.338, 153.985, 166.4, 179.585, 193.538, 208.262, 223.754, 240.015, 257.046, 274.846, 293.415, 312.754, 332.862, 353.738, 375.385, 397.8, 420.985, 444.938, 469.662, 495.154] + (0.6) × AD[statFormula=2] + (characterLevelBreakpoints(start=0.7, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "katarina-four-3",
+      "champion": "Katarina",
+      "name": "Situational adaptation: AP health frontline",
+      "goal": "Situational adaptation for Katarina: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A reset-driven melee assassin who positions around daggers and enters after enemy interruption tools are spent. Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target. Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
+      "itemIds": [
+        4633,
+        6653,
+        3116,
+        8010,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Katarina: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
+        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Katarina throws a Dagger at the target that then bounces to nearby enemies before ricocheting onto the ground. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "The route fails Katarina's stated kit question: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "None",
+      "kitEvidence": [
+        {
+          "ability": "Death Lotus",
+          "slot": "R",
+          "source": "Characters/Katarina/Spells/KatarinaRAbility/KatarinaR",
+          "formula": "Katarina becomes a flurry of blades, rapidly attacking the three nearest enemy champions with a flurry of knives. Each knife deals [25 / 37.5 / 50 + (0.19) × AP] magic damage and [(((0.16) × ((1 + (3.125) × Stat(4)[statFormula=2])))) × AD[statFormula=2]] physical damage, and applies [40]% Grievous Wounds for [3] seconds.\n\nTotal over [2.5] seconds to each enemy: [(25 / 37.5 / 50 + (0.19) × AP) × ((6) × (2.5))] magic damage and [((((0.16) × ((1 + (3.125) × Stat(4)[statFormula=2])))) × AD[statFormula=2]) × ((6) × (2.5))] physical damage."
+        },
+        {
+          "ability": "Bouncing Blade",
+          "slot": "Q",
+          "source": "Characters/Katarina/Spells/KatarinaQAbility/KatarinaQ",
+          "formula": "Katarina throws a Dagger, dealing [80 / 115 / 150 / 185 / 220 + (0.4) × AP] magic damage to the target and [2] nearby enemies. The Dagger then ricochets onto the ground behind the primary target."
+        },
+        {
+          "ability": "Shunpo",
+          "slot": "E",
+          "source": "Characters/Katarina/Spells/KatarinaEWrapperAbility/KatarinaEWrapper",
+          "formula": "Katarina blinks in the wink of an eye to the target ally, enemy, or Dagger. If it is an enemy, Katarina strikes for [20 / 30 / 40 / 50 / 60 + (0.25) × AP + (0.4) × AD] magic damage - otherwise she strikes the nearest enemy in range.\n\nPicking up a Dagger will reduce this Ability's Cooldown by [(characterLevelBreakpoints(start=0.78, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}])) × ((runtimeCooldownMultiplier) × (12 / 11 / 10 / 9 / 8))] seconds ([characterLevelBreakpoints(start=0.78, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}])]). Katarina can blink to any location near the target."
+        },
+        {
+          "ability": "Preparation",
+          "slot": "W",
+          "source": "Characters/Katarina/Spells/KatarinaWAbility/KatarinaW",
+          "formula": "Katarina tosses a Dagger into the air and gains [50 / 60 / 70 / 80 / 90]% Move Speed decaying over [1.25] seconds."
+        },
+        {
+          "ability": "Voracity",
+          "slot": "Passive",
+          "source": "Characters/Katarina/Spells/KatarinaPassiveAbility/KatarinaPassive",
+          "formula": "Whenever an enemy champion dies that Katarina has damaged in the last [3] seconds, her Ability Cooldowns are reduced by [15] seconds.\n\nIf Katarina picks up a Dagger, she uses it to slash through all nearby enemies, dealing [characterLevelTable[0, 68.1846, 72.1385, 76.8615, 82.3538, 88.6154, 95.6462, 103.446, 112.015, 121.354, 131.462, 142.338, 153.985, 166.4, 179.585, 193.538, 208.262, 223.754, 240.015, 257.046, 274.846, 293.415, 312.754, 332.862, 353.738, 375.385, 397.8, 420.985, 444.938, 469.662, 495.154] + (0.6) × AD[statFormula=2] + (characterLevelBreakpoints(start=0.7, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "katarina-four-4",
+      "champion": "Katarina",
+      "name": "Experiment: Repeated on-hit",
+      "goal": "Experiment for Katarina: test a different playstyle, with lower confidence",
+      "hypothesis": "A reset-driven melee assassin who positions around daggers and enters after enemy interruption tools are spent. Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Katarina: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Katarina throws a Dagger at the target that then bounces to nearby enemies before ricocheting onto the ground. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Katarina's stated kit question: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "None",
+      "kitEvidence": [
+        {
+          "ability": "Death Lotus",
+          "slot": "R",
+          "source": "Characters/Katarina/Spells/KatarinaRAbility/KatarinaR",
+          "formula": "Katarina becomes a flurry of blades, rapidly attacking the three nearest enemy champions with a flurry of knives. Each knife deals [25 / 37.5 / 50 + (0.19) × AP] magic damage and [(((0.16) × ((1 + (3.125) × Stat(4)[statFormula=2])))) × AD[statFormula=2]] physical damage, and applies [40]% Grievous Wounds for [3] seconds.\n\nTotal over [2.5] seconds to each enemy: [(25 / 37.5 / 50 + (0.19) × AP) × ((6) × (2.5))] magic damage and [((((0.16) × ((1 + (3.125) × Stat(4)[statFormula=2])))) × AD[statFormula=2]) × ((6) × (2.5))] physical damage."
+        },
+        {
+          "ability": "Bouncing Blade",
+          "slot": "Q",
+          "source": "Characters/Katarina/Spells/KatarinaQAbility/KatarinaQ",
+          "formula": "Katarina throws a Dagger, dealing [80 / 115 / 150 / 185 / 220 + (0.4) × AP] magic damage to the target and [2] nearby enemies. The Dagger then ricochets onto the ground behind the primary target."
+        },
+        {
+          "ability": "Shunpo",
+          "slot": "E",
+          "source": "Characters/Katarina/Spells/KatarinaEWrapperAbility/KatarinaEWrapper",
+          "formula": "Katarina blinks in the wink of an eye to the target ally, enemy, or Dagger. If it is an enemy, Katarina strikes for [20 / 30 / 40 / 50 / 60 + (0.25) × AP + (0.4) × AD] magic damage - otherwise she strikes the nearest enemy in range.\n\nPicking up a Dagger will reduce this Ability's Cooldown by [(characterLevelBreakpoints(start=0.78, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}])) × ((runtimeCooldownMultiplier) × (12 / 11 / 10 / 9 / 8))] seconds ([characterLevelBreakpoints(start=0.78, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.05999999865889549, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}])]). Katarina can blink to any location near the target."
+        },
+        {
+          "ability": "Preparation",
+          "slot": "W",
+          "source": "Characters/Katarina/Spells/KatarinaWAbility/KatarinaW",
+          "formula": "Katarina tosses a Dagger into the air and gains [50 / 60 / 70 / 80 / 90]% Move Speed decaying over [1.25] seconds."
+        },
+        {
+          "ability": "Voracity",
+          "slot": "Passive",
+          "source": "Characters/Katarina/Spells/KatarinaPassiveAbility/KatarinaPassive",
+          "formula": "Whenever an enemy champion dies that Katarina has damaged in the last [3] seconds, her Ability Cooldowns are reduced by [15] seconds.\n\nIf Katarina picks up a Dagger, she uses it to slash through all nearby enemies, dealing [characterLevelTable[0, 68.1846, 72.1385, 76.8615, 82.3538, 88.6154, 95.6462, 103.446, 112.015, 121.354, 131.462, 142.338, 153.985, 166.4, 179.585, 193.538, 208.262, 223.754, 240.015, 257.046, 274.846, 293.415, 312.754, 332.862, 353.738, 375.385, 397.8, 420.985, 444.938, 469.662, 495.154] + (0.6) × AD[statFormula=2] + (characterLevelBreakpoints(start=0.7, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])) × AP] magic damage."
+        }
+      ]
+    }
+  ]
+}

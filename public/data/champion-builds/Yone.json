@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "yone-four-1",
+      "champion": "Yone",
+      "name": "Reference: Critical duel",
+      "goal": "Reference for Yone: establish a repeatable reference",
+      "hypothesis": "A melee attack skirmisher who builds a knock-up through Q, takes temporary spirit-form trades and returns after amplifying his attack and ability damage. Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter. Crit attacks and a conditional shield test repeated duel windows.",
+      "itemIds": [
+        6672,
+        6675,
+        3031,
+        6673,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yone: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
+        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Mortal Steel dashes Yone forward with a gust of wind knocking enemies Airborne. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "The route fails Yone's stated kit question: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Flow",
+      "kitEvidence": [
+        {
+          "ability": "Mortal Steel",
+          "slot": "Q",
+          "source": "Characters/Yone/Spells/YoneQAbility/YoneQ",
+          "formula": "Yone thrusts forward, dealing [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage.\n\nOn hit, grants a stack for [6] seconds. At 2 stacks, this ability causes Yone to dash forward with a wave of wind that Knocks Up for [0.75] seconds and deals [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage."
+        },
+        {
+          "ability": "Fate Sealed",
+          "slot": "R",
+          "source": "Characters/Yone/Spells/YoneRAbility/YoneR",
+          "formula": "Yone strikes all enemies along a path for [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] physical damage and [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] magic damage, teleporting behind the last champion hit and Knocking Up victims towards Yone."
+        },
+        {
+          "ability": "Soul Unbound",
+          "slot": "E",
+          "source": "Characters/Yone/Spells/YoneEAbility/YoneE",
+          "formula": "Yone enters a spirit form for [5] seconds, leaving his body behind for the duration and gaining [10]% to [30]% ramping Move Speed. \n\nWhen the spirit form ends, Yone snaps back to his body and repeats [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × 100]% of all Attack and Ability damage he dealt to champions during this time. You may Recast this ability during spirit form.\n\nRecast: End spirit form early."
+        },
+        {
+          "ability": "Spirit Cleave",
+          "slot": "W",
+          "source": "Characters/Yone/Spells/YoneWAbility/YoneW",
+          "formula": "Yone cleaves forward, dealing [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health physical damage and [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health magic damage.\n\nIf Yone hits, he gains [characterLevelInterpolation(40 → 90; raw flags preserved) + (0.65) × AD[statFormula=2]] Shield for [1.5] seconds. The amount of Shield increases for each champion struck."
+        },
+        {
+          "ability": "Way of the Hunter",
+          "slot": "Passive",
+          "source": "Characters/Yone/Spells/YonePassiveAbility/YonePassive",
+          "formula": "Steel and Spirit: Yone uses two blades, causing every second Attack to deal [50]% magic damage.\n\nIntent: Yone's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YoneCritToAD*.01@ Bonus AD for every 1% Critical Strike Chance above 100%."
+        }
+      ]
+    },
+    {
+      "id": "yone-four-2",
+      "champion": "Yone",
+      "name": "Damage interaction: Critical carry",
+      "goal": "Damage interaction for Yone: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A melee attack skirmisher who builds a knock-up through Q, takes temporary spirit-form trades and returns after amplifying his attack and ability damage. Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter. Attack cadence, crit and penetration support repeatable carry damage.",
+      "itemIds": [
+        6672,
+        3031,
+        3046,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yone: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
+        "Start with the early core (Kraken, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Attack cadence, crit and penetration support repeatable carry damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Mortal Steel dashes Yone forward with a gust of wind knocking enemies Airborne. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "The route fails Yone's stated kit question: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Phantom Dancer, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Flow",
+      "kitEvidence": [
+        {
+          "ability": "Mortal Steel",
+          "slot": "Q",
+          "source": "Characters/Yone/Spells/YoneQAbility/YoneQ",
+          "formula": "Yone thrusts forward, dealing [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage.\n\nOn hit, grants a stack for [6] seconds. At 2 stacks, this ability causes Yone to dash forward with a wave of wind that Knocks Up for [0.75] seconds and deals [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage."
+        },
+        {
+          "ability": "Fate Sealed",
+          "slot": "R",
+          "source": "Characters/Yone/Spells/YoneRAbility/YoneR",
+          "formula": "Yone strikes all enemies along a path for [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] physical damage and [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] magic damage, teleporting behind the last champion hit and Knocking Up victims towards Yone."
+        },
+        {
+          "ability": "Soul Unbound",
+          "slot": "E",
+          "source": "Characters/Yone/Spells/YoneEAbility/YoneE",
+          "formula": "Yone enters a spirit form for [5] seconds, leaving his body behind for the duration and gaining [10]% to [30]% ramping Move Speed. \n\nWhen the spirit form ends, Yone snaps back to his body and repeats [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × 100]% of all Attack and Ability damage he dealt to champions during this time. You may Recast this ability during spirit form.\n\nRecast: End spirit form early."
+        },
+        {
+          "ability": "Spirit Cleave",
+          "slot": "W",
+          "source": "Characters/Yone/Spells/YoneWAbility/YoneW",
+          "formula": "Yone cleaves forward, dealing [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health physical damage and [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health magic damage.\n\nIf Yone hits, he gains [characterLevelInterpolation(40 → 90; raw flags preserved) + (0.65) × AD[statFormula=2]] Shield for [1.5] seconds. The amount of Shield increases for each champion struck."
+        },
+        {
+          "ability": "Way of the Hunter",
+          "slot": "Passive",
+          "source": "Characters/Yone/Spells/YonePassiveAbility/YonePassive",
+          "formula": "Steel and Spirit: Yone uses two blades, causing every second Attack to deal [50]% magic damage.\n\nIntent: Yone's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YoneCritToAD*.01@ Bonus AD for every 1% Critical Strike Chance above 100%."
+        }
+      ]
+    },
+    {
+      "id": "yone-four-3",
+      "champion": "Yone",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Yone: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A melee attack skirmisher who builds a knock-up through Q, takes temporary spirit-form trades and returns after amplifying his attack and ability damage. Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yone: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Mortal Steel dashes Yone forward with a gust of wind knocking enemies Airborne. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Yone's stated kit question: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Flow",
+      "kitEvidence": [
+        {
+          "ability": "Mortal Steel",
+          "slot": "Q",
+          "source": "Characters/Yone/Spells/YoneQAbility/YoneQ",
+          "formula": "Yone thrusts forward, dealing [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage.\n\nOn hit, grants a stack for [6] seconds. At 2 stacks, this ability causes Yone to dash forward with a wave of wind that Knocks Up for [0.75] seconds and deals [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage."
+        },
+        {
+          "ability": "Fate Sealed",
+          "slot": "R",
+          "source": "Characters/Yone/Spells/YoneRAbility/YoneR",
+          "formula": "Yone strikes all enemies along a path for [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] physical damage and [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] magic damage, teleporting behind the last champion hit and Knocking Up victims towards Yone."
+        },
+        {
+          "ability": "Soul Unbound",
+          "slot": "E",
+          "source": "Characters/Yone/Spells/YoneEAbility/YoneE",
+          "formula": "Yone enters a spirit form for [5] seconds, leaving his body behind for the duration and gaining [10]% to [30]% ramping Move Speed. \n\nWhen the spirit form ends, Yone snaps back to his body and repeats [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × 100]% of all Attack and Ability damage he dealt to champions during this time. You may Recast this ability during spirit form.\n\nRecast: End spirit form early."
+        },
+        {
+          "ability": "Spirit Cleave",
+          "slot": "W",
+          "source": "Characters/Yone/Spells/YoneWAbility/YoneW",
+          "formula": "Yone cleaves forward, dealing [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health physical damage and [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health magic damage.\n\nIf Yone hits, he gains [characterLevelInterpolation(40 → 90; raw flags preserved) + (0.65) × AD[statFormula=2]] Shield for [1.5] seconds. The amount of Shield increases for each champion struck."
+        },
+        {
+          "ability": "Way of the Hunter",
+          "slot": "Passive",
+          "source": "Characters/Yone/Spells/YonePassiveAbility/YonePassive",
+          "formula": "Steel and Spirit: Yone uses two blades, causing every second Attack to deal [50]% magic damage.\n\nIntent: Yone's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YoneCritToAD*.01@ Bonus AD for every 1% Critical Strike Chance above 100%."
+        }
+      ]
+    },
+    {
+      "id": "yone-four-4",
+      "champion": "Yone",
+      "name": "Experiment: Attack-led side lane",
+      "goal": "Experiment for Yone: test a different playstyle, with lower confidence",
+      "hypothesis": "A melee attack skirmisher who builds a knock-up through Q, takes temporary spirit-form trades and returns after amplifying his attack and ability damage. Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3153,
+        3078,
+        3181,
+        3053,
+        6333,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yone: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
+        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Mortal Steel dashes Yone forward with a gust of wind knocking enemies Airborne. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "The route fails Yone's stated kit question: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Flow",
+      "kitEvidence": [
+        {
+          "ability": "Mortal Steel",
+          "slot": "Q",
+          "source": "Characters/Yone/Spells/YoneQAbility/YoneQ",
+          "formula": "Yone thrusts forward, dealing [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage.\n\nOn hit, grants a stack for [6] seconds. At 2 stacks, this ability causes Yone to dash forward with a wave of wind that Knocks Up for [0.75] seconds and deals [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage."
+        },
+        {
+          "ability": "Fate Sealed",
+          "slot": "R",
+          "source": "Characters/Yone/Spells/YoneRAbility/YoneR",
+          "formula": "Yone strikes all enemies along a path for [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] physical damage and [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] magic damage, teleporting behind the last champion hit and Knocking Up victims towards Yone."
+        },
+        {
+          "ability": "Soul Unbound",
+          "slot": "E",
+          "source": "Characters/Yone/Spells/YoneEAbility/YoneE",
+          "formula": "Yone enters a spirit form for [5] seconds, leaving his body behind for the duration and gaining [10]% to [30]% ramping Move Speed. \n\nWhen the spirit form ends, Yone snaps back to his body and repeats [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × 100]% of all Attack and Ability damage he dealt to champions during this time. You may Recast this ability during spirit form.\n\nRecast: End spirit form early."
+        },
+        {
+          "ability": "Spirit Cleave",
+          "slot": "W",
+          "source": "Characters/Yone/Spells/YoneWAbility/YoneW",
+          "formula": "Yone cleaves forward, dealing [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health physical damage and [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health magic damage.\n\nIf Yone hits, he gains [characterLevelInterpolation(40 → 90; raw flags preserved) + (0.65) × AD[statFormula=2]] Shield for [1.5] seconds. The amount of Shield increases for each champion struck."
+        },
+        {
+          "ability": "Way of the Hunter",
+          "slot": "Passive",
+          "source": "Characters/Yone/Spells/YonePassiveAbility/YonePassive",
+          "formula": "Steel and Spirit: Yone uses two blades, causing every second Attack to deal [50]% magic damage.\n\nIntent: Yone's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YoneCritToAD*.01@ Bonus AD for every 1% Critical Strike Chance above 100%."
+        }
+      ]
+    }
+  ]
+}

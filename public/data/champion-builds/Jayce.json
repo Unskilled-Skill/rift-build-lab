@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "jayce-four-1",
+      "champion": "Jayce",
+      "name": "Reference: Physical spell burst",
+      "goal": "Reference for Jayce: establish a repeatable reference",
+      "hypothesis": "A stance-switching fighter who uses ranged poke to create openings, then commits to melee burst or displacement. Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items. High AD and penetration test ability-first trades with a conditional anti-magic slot.",
+      "itemIds": [
+        6692,
+        6698,
+        6694,
+        3814,
+        3156,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Jayce: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
+        "Start with the early core (Eclipse, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: High AD and penetration test ability-first trades with a conditional anti-magic slot. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Hammer Stance: Leaps to an enemy dealing physical damage and slowing enemies.\n\nCannon Stance: Fires an orb of electricity that detonates upon hitting an enemy (or reaching the end of its path) dealing physical damage to all enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
+        "The route fails Jayce's stated kit question: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Eclipse, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Serylda's Grudge, Edge of Night, Maw of Malmortius are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Lightning Field / Hyper Charge",
+          "slot": "W",
+          "source": "Characters/Jayce/Spells/JayceStaticFieldAbility/JayceStaticField",
+          "formula": "Mercury Hammer - Passive: Jayce's Hammer Attacks grant @spell.JayceStaticField:ManaGain@ Mana.\n\nMercury Hammer - Active: Jayce creates an electric aura dealing @spell.JayceStaticField:Damage@ magic damage over @spell.JayceStaticField:Duration@ seconds."
+        },
+        {
+          "ability": "Hextech Capacitor",
+          "slot": "Passive",
+          "source": "Characters/Jayce/Spells/JaycePassiveAbility/JaycePassive",
+          "formula": "Jayce can swap between melee and ranged weapons using Mercury Cannon / Mercury Hammer starting from level 1. Swapping weapons also swaps all his Abilities and grants him [30] Move Speed for [0.75] seconds."
+        },
+        {
+          "ability": "Thundering Blow / Acceleration Gate",
+          "slot": "E",
+          "source": "Characters/Jayce/Spells/JayceThunderingBlowAbility/JayceThunderingBlow",
+          "formula": "Hammer Form: Jayce swings his hammer, Knocking Back his target and dealing @spell.JayceThunderingBlow:FlatDamage@ plus @spell.JayceThunderingBlow:PercHPDamage*100@% max Health magic damage."
+        },
+        {
+          "ability": "Mercury Cannon / Mercury Hammer",
+          "slot": "R",
+          "source": "Characters/Jayce/Spells/JayceStanceHtGAbility/JayceStanceHtG",
+          "formula": "Mercury Hammer: Jayce transforms his weapon into the Mercury Cannon, gaining Attack Range and new Abilities. Jayce's next Attack removes @spell.JayceStanceHtG:RangedFormShred@ Armor and Magic Resist for @spell.JayceStanceHtG:ShredDuration@ seconds."
+        },
+        {
+          "ability": "To the Skies! / Shock Blast",
+          "slot": "Q",
+          "source": "Characters/Jayce/Spells/JayceToTheSkiesAbility/JayceToTheSkies",
+          "formula": "Mercury Hammer: Jayce leaps to an enemy, dealing @spell.JayceToTheSkies:Damage@ physical damage to surrounding enemies and Slowing them by @spell.JayceToTheSkies:Slow*-100@% for @spell.JayceToTheSkies:SlowDuration@ seconds."
+        }
+      ]
+    },
+    {
+      "id": "jayce-four-2",
+      "champion": "Jayce",
+      "name": "Damage interaction: Mana spell-and-attack",
+      "goal": "Damage interaction for Jayce: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A stance-switching fighter who uses ranged poke to create openings, then commits to melee burst or displacement. Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items. A stacked mana item, real Spellblade attacks and haste test spell/attack cycling.",
+      "itemIds": [
+        3004,
+        3078,
+        6694,
+        3161,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Jayce: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
+        "Start with the early core (Early Tear, Trinity or Manamune by lane needs) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A stacked mana item, real Spellblade attacks and haste test spell/attack cycling. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Hammer Stance: Leaps to an enemy dealing physical damage and slowing enemies.\n\nCannon Stance: Fires an orb of electricity that detonates upon hitting an enemy (or reaching the end of its path) dealing physical damage to all enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Manamune must stack and transform in game; no guessed transformed damage or extra Spellblade items.",
+        "The route fails Jayce's stated kit question: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Manamune must stack and transform in game; no guessed transformed damage or extra Spellblade items.",
+        "Full cost 16,433 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Early Tear, Trinity or Manamune by lane needs. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Serylda's Grudge, Spear of Shojin, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Lightning Field / Hyper Charge",
+          "slot": "W",
+          "source": "Characters/Jayce/Spells/JayceStaticFieldAbility/JayceStaticField",
+          "formula": "Mercury Hammer - Passive: Jayce's Hammer Attacks grant @spell.JayceStaticField:ManaGain@ Mana.\n\nMercury Hammer - Active: Jayce creates an electric aura dealing @spell.JayceStaticField:Damage@ magic damage over @spell.JayceStaticField:Duration@ seconds."
+        },
+        {
+          "ability": "Hextech Capacitor",
+          "slot": "Passive",
+          "source": "Characters/Jayce/Spells/JaycePassiveAbility/JaycePassive",
+          "formula": "Jayce can swap between melee and ranged weapons using Mercury Cannon / Mercury Hammer starting from level 1. Swapping weapons also swaps all his Abilities and grants him [30] Move Speed for [0.75] seconds."
+        },
+        {
+          "ability": "Thundering Blow / Acceleration Gate",
+          "slot": "E",
+          "source": "Characters/Jayce/Spells/JayceThunderingBlowAbility/JayceThunderingBlow",
+          "formula": "Hammer Form: Jayce swings his hammer, Knocking Back his target and dealing @spell.JayceThunderingBlow:FlatDamage@ plus @spell.JayceThunderingBlow:PercHPDamage*100@% max Health magic damage."
+        },
+        {
+          "ability": "Mercury Cannon / Mercury Hammer",
+          "slot": "R",
+          "source": "Characters/Jayce/Spells/JayceStanceHtGAbility/JayceStanceHtG",
+          "formula": "Mercury Hammer: Jayce transforms his weapon into the Mercury Cannon, gaining Attack Range and new Abilities. Jayce's next Attack removes @spell.JayceStanceHtG:RangedFormShred@ Armor and Magic Resist for @spell.JayceStanceHtG:ShredDuration@ seconds."
+        },
+        {
+          "ability": "To the Skies! / Shock Blast",
+          "slot": "Q",
+          "source": "Characters/Jayce/Spells/JayceToTheSkiesAbility/JayceToTheSkies",
+          "formula": "Mercury Hammer: Jayce leaps to an enemy, dealing @spell.JayceToTheSkies:Damage@ physical damage to surrounding enemies and Slowing them by @spell.JayceToTheSkies:Slow*-100@% for @spell.JayceToTheSkies:SlowDuration@ seconds."
+        }
+      ]
+    },
+    {
+      "id": "jayce-four-3",
+      "champion": "Jayce",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Jayce: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A stance-switching fighter who uses ranged poke to create openings, then commits to melee burst or displacement. Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Jayce: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Hammer Stance: Leaps to an enemy dealing physical damage and slowing enemies.\n\nCannon Stance: Fires an orb of electricity that detonates upon hitting an enemy (or reaching the end of its path) dealing physical damage to all enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Jayce's stated kit question: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Lightning Field / Hyper Charge",
+          "slot": "W",
+          "source": "Characters/Jayce/Spells/JayceStaticFieldAbility/JayceStaticField",
+          "formula": "Mercury Hammer - Passive: Jayce's Hammer Attacks grant @spell.JayceStaticField:ManaGain@ Mana.\n\nMercury Hammer - Active: Jayce creates an electric aura dealing @spell.JayceStaticField:Damage@ magic damage over @spell.JayceStaticField:Duration@ seconds."
+        },
+        {
+          "ability": "Hextech Capacitor",
+          "slot": "Passive",
+          "source": "Characters/Jayce/Spells/JaycePassiveAbility/JaycePassive",
+          "formula": "Jayce can swap between melee and ranged weapons using Mercury Cannon / Mercury Hammer starting from level 1. Swapping weapons also swaps all his Abilities and grants him [30] Move Speed for [0.75] seconds."
+        },
+        {
+          "ability": "Thundering Blow / Acceleration Gate",
+          "slot": "E",
+          "source": "Characters/Jayce/Spells/JayceThunderingBlowAbility/JayceThunderingBlow",
+          "formula": "Hammer Form: Jayce swings his hammer, Knocking Back his target and dealing @spell.JayceThunderingBlow:FlatDamage@ plus @spell.JayceThunderingBlow:PercHPDamage*100@% max Health magic damage."
+        },
+        {
+          "ability": "Mercury Cannon / Mercury Hammer",
+          "slot": "R",
+          "source": "Characters/Jayce/Spells/JayceStanceHtGAbility/JayceStanceHtG",
+          "formula": "Mercury Hammer: Jayce transforms his weapon into the Mercury Cannon, gaining Attack Range and new Abilities. Jayce's next Attack removes @spell.JayceStanceHtG:RangedFormShred@ Armor and Magic Resist for @spell.JayceStanceHtG:ShredDuration@ seconds."
+        },
+        {
+          "ability": "To the Skies! / Shock Blast",
+          "slot": "Q",
+          "source": "Characters/Jayce/Spells/JayceToTheSkiesAbility/JayceToTheSkies",
+          "formula": "Mercury Hammer: Jayce leaps to an enemy, dealing @spell.JayceToTheSkies:Damage@ physical damage to surrounding enemies and Slowing them by @spell.JayceToTheSkies:Slow*-100@% for @spell.JayceToTheSkies:SlowDuration@ seconds."
+        }
+      ]
+    },
+    {
+      "id": "jayce-four-4",
+      "champion": "Jayce",
+      "name": "Experiment: Long-range finish",
+      "goal": "Experiment for Jayce: test a different playstyle, with lower confidence",
+      "hypothesis": "A stance-switching fighter who uses ranged poke to create openings, then commits to melee burst or displacement. Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items. Crit and a Rapid Firecannon attack window test safer pick damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6676,
+        3031,
+        3094,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Jayce: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
+        "Start with the early core (Collector, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit and a Rapid Firecannon attack window test safer pick damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Hammer Stance: Leaps to an enemy dealing physical damage and slowing enemies.\n\nCannon Stance: Fires an orb of electricity that detonates upon hitting an enemy (or reaching the end of its path) dealing physical damage to all enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "RFC does not extend every ability; its charged attack must actually be consumed.",
+        "The route fails Jayce's stated kit question: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "RFC does not extend every ability; its charged attack must actually be consumed.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Collector, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rapid Firecannon, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Lightning Field / Hyper Charge",
+          "slot": "W",
+          "source": "Characters/Jayce/Spells/JayceStaticFieldAbility/JayceStaticField",
+          "formula": "Mercury Hammer - Passive: Jayce's Hammer Attacks grant @spell.JayceStaticField:ManaGain@ Mana.\n\nMercury Hammer - Active: Jayce creates an electric aura dealing @spell.JayceStaticField:Damage@ magic damage over @spell.JayceStaticField:Duration@ seconds."
+        },
+        {
+          "ability": "Hextech Capacitor",
+          "slot": "Passive",
+          "source": "Characters/Jayce/Spells/JaycePassiveAbility/JaycePassive",
+          "formula": "Jayce can swap between melee and ranged weapons using Mercury Cannon / Mercury Hammer starting from level 1. Swapping weapons also swaps all his Abilities and grants him [30] Move Speed for [0.75] seconds."
+        },
+        {
+          "ability": "Thundering Blow / Acceleration Gate",
+          "slot": "E",
+          "source": "Characters/Jayce/Spells/JayceThunderingBlowAbility/JayceThunderingBlow",
+          "formula": "Hammer Form: Jayce swings his hammer, Knocking Back his target and dealing @spell.JayceThunderingBlow:FlatDamage@ plus @spell.JayceThunderingBlow:PercHPDamage*100@% max Health magic damage."
+        },
+        {
+          "ability": "Mercury Cannon / Mercury Hammer",
+          "slot": "R",
+          "source": "Characters/Jayce/Spells/JayceStanceHtGAbility/JayceStanceHtG",
+          "formula": "Mercury Hammer: Jayce transforms his weapon into the Mercury Cannon, gaining Attack Range and new Abilities. Jayce's next Attack removes @spell.JayceStanceHtG:RangedFormShred@ Armor and Magic Resist for @spell.JayceStanceHtG:ShredDuration@ seconds."
+        },
+        {
+          "ability": "To the Skies! / Shock Blast",
+          "slot": "Q",
+          "source": "Characters/Jayce/Spells/JayceToTheSkiesAbility/JayceToTheSkies",
+          "formula": "Mercury Hammer: Jayce leaps to an enemy, dealing @spell.JayceToTheSkies:Damage@ physical damage to surrounding enemies and Slowing them by @spell.JayceToTheSkies:Slow*-100@% for @spell.JayceToTheSkies:SlowDuration@ seconds."
+        }
+      ]
+    }
+  ]
+}

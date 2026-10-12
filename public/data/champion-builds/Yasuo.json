@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "yasuo-four-1",
+      "champion": "Yasuo",
+      "name": "Reference: Critical duel",
+      "goal": "Reference for Yasuo: establish a repeatable reference",
+      "hypothesis": "A mobile melee critical fighter who uses enemy units as dash routes, builds a knockup and punishes airborne targets. Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever. Crit attacks and a conditional shield test repeated duel windows.",
+      "itemIds": [
+        6672,
+        6675,
+        3031,
+        6673,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yasuo: Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever.",
+        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Steel Tempest fires a whirlwind that knocks Airborne.\n\nSteel Tempest is treated as a basic attack and scales with all the same things. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "The route fails Yasuo's stated kit question: Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Flow",
+      "kitEvidence": [
+        {
+          "ability": "Steel Tempest",
+          "slot": "Q",
+          "source": "Characters/Yasuo/Spells/YasuoQ1WrapperAbility/YasuoQ1Wrapper",
+          "formula": "Yasuo thrusts, dealing [20 / 45 / 70 / 95 / 120 + (1.05) × AD] physical damage. If he hits, he gains a stack for [6] seconds. While he has 2 stacks, his next use of this Ability fires a whirlwind from range, dealing the same damage and Knocking Up for [1] second.\n\nIf used while dashing, this Ability strikes in a circle rather than a stab."
+        },
+        {
+          "ability": "Sweeping Blade",
+          "slot": "E",
+          "source": "Characters/Yasuo/Spells/YasuoEAbility/YasuoE",
+          "formula": "Yasuo dashes through a target, dealing [70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP] magic damage. Each use of this Ability grants [(70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP) × (0.25)] bonus damage to subsequent uses for [5] seconds, stacking up to [4] times.\n\nThis Ability has a [10 / 9 / 8 / 7 / 6] second per-target Cooldown."
+        },
+        {
+          "ability": "Last Breath",
+          "slot": "R",
+          "source": "Characters/Yasuo/Spells/YasuoRAbility/YasuoR",
+          "formula": "Yasuo teleports to an Airborne enemy champion, dealing [200 / 350 / 500 + (1.5) × AD[statFormula=2]] physical damage and holding all nearby Airborne enemies up for an additional [1] second. Yasuo also gains maximum Flow, but loses all {{Spell_YasuoQ1Wrapper_Name}} stacks.\n\nAfterwards, Yasuo's critical strikes ignore [60]% bonus Armor for [15] seconds."
+        },
+        {
+          "ability": "Way of the Wanderer",
+          "slot": "Passive",
+          "source": "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive",
+          "formula": "Resolve: Moving grants Flow, which is tracked on Yasuo's resource bar. Moving faster grants more Flow. At maximum Flow, damage from a champion or monster briefly grants [characterLevelInterpolation(125 → 600; raw flags preserved)] Shield.\n\nIntent: Yasuo's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YasuoCritToAD*.01@ Bonus Attack Damage for every 1% Critical Strike Chance above 100%."
+        },
+        {
+          "ability": "Wind Wall",
+          "slot": "W",
+          "source": "Characters/Yasuo/Spells/YasuoWAbility/YasuoW",
+          "formula": "Yasuo creates a drifting wall of wind that blocks all enemy projectiles for 4 seconds."
+        }
+      ]
+    },
+    {
+      "id": "yasuo-four-2",
+      "champion": "Yasuo",
+      "name": "Damage interaction: Critical carry",
+      "goal": "Damage interaction for Yasuo: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A mobile melee critical fighter who uses enemy units as dash routes, builds a knockup and punishes airborne targets. Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever. Attack cadence, crit and penetration support repeatable carry damage.",
+      "itemIds": [
+        6672,
+        3031,
+        3046,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yasuo: Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever.",
+        "Start with the early core (Kraken, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Attack cadence, crit and penetration support repeatable carry damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Steel Tempest fires a whirlwind that knocks Airborne.\n\nSteel Tempest is treated as a basic attack and scales with all the same things. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "The route fails Yasuo's stated kit question: Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Phantom Dancer, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Flow",
+      "kitEvidence": [
+        {
+          "ability": "Steel Tempest",
+          "slot": "Q",
+          "source": "Characters/Yasuo/Spells/YasuoQ1WrapperAbility/YasuoQ1Wrapper",
+          "formula": "Yasuo thrusts, dealing [20 / 45 / 70 / 95 / 120 + (1.05) × AD] physical damage. If he hits, he gains a stack for [6] seconds. While he has 2 stacks, his next use of this Ability fires a whirlwind from range, dealing the same damage and Knocking Up for [1] second.\n\nIf used while dashing, this Ability strikes in a circle rather than a stab."
+        },
+        {
+          "ability": "Sweeping Blade",
+          "slot": "E",
+          "source": "Characters/Yasuo/Spells/YasuoEAbility/YasuoE",
+          "formula": "Yasuo dashes through a target, dealing [70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP] magic damage. Each use of this Ability grants [(70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP) × (0.25)] bonus damage to subsequent uses for [5] seconds, stacking up to [4] times.\n\nThis Ability has a [10 / 9 / 8 / 7 / 6] second per-target Cooldown."
+        },
+        {
+          "ability": "Last Breath",
+          "slot": "R",
+          "source": "Characters/Yasuo/Spells/YasuoRAbility/YasuoR",
+          "formula": "Yasuo teleports to an Airborne enemy champion, dealing [200 / 350 / 500 + (1.5) × AD[statFormula=2]] physical damage and holding all nearby Airborne enemies up for an additional [1] second. Yasuo also gains maximum Flow, but loses all {{Spell_YasuoQ1Wrapper_Name}} stacks.\n\nAfterwards, Yasuo's critical strikes ignore [60]% bonus Armor for [15] seconds."
+        },
+        {
+          "ability": "Way of the Wanderer",
+          "slot": "Passive",
+          "source": "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive",
+          "formula": "Resolve: Moving grants Flow, which is tracked on Yasuo's resource bar. Moving faster grants more Flow. At maximum Flow, damage from a champion or monster briefly grants [characterLevelInterpolation(125 → 600; raw flags preserved)] Shield.\n\nIntent: Yasuo's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YasuoCritToAD*.01@ Bonus Attack Damage for every 1% Critical Strike Chance above 100%."
+        },
+        {
+          "ability": "Wind Wall",
+          "slot": "W",
+          "source": "Characters/Yasuo/Spells/YasuoWAbility/YasuoW",
+          "formula": "Yasuo creates a drifting wall of wind that blocks all enemy projectiles for 4 seconds."
+        }
+      ]
+    },
+    {
+      "id": "yasuo-four-3",
+      "champion": "Yasuo",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Yasuo: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A mobile melee critical fighter who uses enemy units as dash routes, builds a knockup and punishes airborne targets. Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yasuo: Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Steel Tempest fires a whirlwind that knocks Airborne.\n\nSteel Tempest is treated as a basic attack and scales with all the same things. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Yasuo's stated kit question: Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Flow",
+      "kitEvidence": [
+        {
+          "ability": "Steel Tempest",
+          "slot": "Q",
+          "source": "Characters/Yasuo/Spells/YasuoQ1WrapperAbility/YasuoQ1Wrapper",
+          "formula": "Yasuo thrusts, dealing [20 / 45 / 70 / 95 / 120 + (1.05) × AD] physical damage. If he hits, he gains a stack for [6] seconds. While he has 2 stacks, his next use of this Ability fires a whirlwind from range, dealing the same damage and Knocking Up for [1] second.\n\nIf used while dashing, this Ability strikes in a circle rather than a stab."
+        },
+        {
+          "ability": "Sweeping Blade",
+          "slot": "E",
+          "source": "Characters/Yasuo/Spells/YasuoEAbility/YasuoE",
+          "formula": "Yasuo dashes through a target, dealing [70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP] magic damage. Each use of this Ability grants [(70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP) × (0.25)] bonus damage to subsequent uses for [5] seconds, stacking up to [4] times.\n\nThis Ability has a [10 / 9 / 8 / 7 / 6] second per-target Cooldown."
+        },
+        {
+          "ability": "Last Breath",
+          "slot": "R",
+          "source": "Characters/Yasuo/Spells/YasuoRAbility/YasuoR",
+          "formula": "Yasuo teleports to an Airborne enemy champion, dealing [200 / 350 / 500 + (1.5) × AD[statFormula=2]] physical damage and holding all nearby Airborne enemies up for an additional [1] second. Yasuo also gains maximum Flow, but loses all {{Spell_YasuoQ1Wrapper_Name}} stacks.\n\nAfterwards, Yasuo's critical strikes ignore [60]% bonus Armor for [15] seconds."
+        },
+        {
+          "ability": "Way of the Wanderer",
+          "slot": "Passive",
+          "source": "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive",
+          "formula": "Resolve: Moving grants Flow, which is tracked on Yasuo's resource bar. Moving faster grants more Flow. At maximum Flow, damage from a champion or monster briefly grants [characterLevelInterpolation(125 → 600; raw flags preserved)] Shield.\n\nIntent: Yasuo's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YasuoCritToAD*.01@ Bonus Attack Damage for every 1% Critical Strike Chance above 100%."
+        },
+        {
+          "ability": "Wind Wall",
+          "slot": "W",
+          "source": "Characters/Yasuo/Spells/YasuoWAbility/YasuoW",
+          "formula": "Yasuo creates a drifting wall of wind that blocks all enemy projectiles for 4 seconds."
+        }
+      ]
+    },
+    {
+      "id": "yasuo-four-4",
+      "champion": "Yasuo",
+      "name": "Experiment: Attack-led side lane",
+      "goal": "Experiment for Yasuo: test a different playstyle, with lower confidence",
+      "hypothesis": "A mobile melee critical fighter who uses enemy units as dash routes, builds a knockup and punishes airborne targets. Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3153,
+        3078,
+        3181,
+        3053,
+        6333,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yasuo: Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever.",
+        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Steel Tempest fires a whirlwind that knocks Airborne.\n\nSteel Tempest is treated as a basic attack and scales with all the same things. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "The route fails Yasuo's stated kit question: Account for kit crit/attack-speed rules and Q cooldown limits. Dash units and airborne setup are real constraints; excess attack speed need not create faster Q forever.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Flow",
+      "kitEvidence": [
+        {
+          "ability": "Steel Tempest",
+          "slot": "Q",
+          "source": "Characters/Yasuo/Spells/YasuoQ1WrapperAbility/YasuoQ1Wrapper",
+          "formula": "Yasuo thrusts, dealing [20 / 45 / 70 / 95 / 120 + (1.05) × AD] physical damage. If he hits, he gains a stack for [6] seconds. While he has 2 stacks, his next use of this Ability fires a whirlwind from range, dealing the same damage and Knocking Up for [1] second.\n\nIf used while dashing, this Ability strikes in a circle rather than a stab."
+        },
+        {
+          "ability": "Sweeping Blade",
+          "slot": "E",
+          "source": "Characters/Yasuo/Spells/YasuoEAbility/YasuoE",
+          "formula": "Yasuo dashes through a target, dealing [70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP] magic damage. Each use of this Ability grants [(70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP) × (0.25)] bonus damage to subsequent uses for [5] seconds, stacking up to [4] times.\n\nThis Ability has a [10 / 9 / 8 / 7 / 6] second per-target Cooldown."
+        },
+        {
+          "ability": "Last Breath",
+          "slot": "R",
+          "source": "Characters/Yasuo/Spells/YasuoRAbility/YasuoR",
+          "formula": "Yasuo teleports to an Airborne enemy champion, dealing [200 / 350 / 500 + (1.5) × AD[statFormula=2]] physical damage and holding all nearby Airborne enemies up for an additional [1] second. Yasuo also gains maximum Flow, but loses all {{Spell_YasuoQ1Wrapper_Name}} stacks.\n\nAfterwards, Yasuo's critical strikes ignore [60]% bonus Armor for [15] seconds."
+        },
+        {
+          "ability": "Way of the Wanderer",
+          "slot": "Passive",
+          "source": "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive",
+          "formula": "Resolve: Moving grants Flow, which is tracked on Yasuo's resource bar. Moving faster grants more Flow. At maximum Flow, damage from a champion or monster briefly grants [characterLevelInterpolation(125 → 600; raw flags preserved)] Shield.\n\nIntent: Yasuo's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YasuoCritToAD*.01@ Bonus Attack Damage for every 1% Critical Strike Chance above 100%."
+        },
+        {
+          "ability": "Wind Wall",
+          "slot": "W",
+          "source": "Characters/Yasuo/Spells/YasuoWAbility/YasuoW",
+          "formula": "Yasuo creates a drifting wall of wind that blocks all enemy projectiles for 4 seconds."
+        }
+      ]
+    }
+  ]
+}

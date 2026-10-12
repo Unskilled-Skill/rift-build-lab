@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "varus-four-1",
+      "champion": "Varus",
+      "name": "Reference: Repeated on-hit",
+      "goal": "Reference for Varus: establish a repeatable reference",
+      "hypothesis": "A mixed-damage ranged fighter who alternates attack-built Blight with charged detonations and spreading root setup. Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Varus: Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Varus readies and then fires a powerful shot that gains extra range and damage the longer he spends preparing to fire. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Varus's stated kit question: Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hail of Arrows",
+          "slot": "E",
+          "source": "Characters/Varus/Spells/VarusEAbility/VarusE",
+          "formula": "Varus fires a hail of arrows that deals [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and desecrates the ground for [4] seconds, Slowing enemies by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% and applying [40]% Grievous Wounds."
+        },
+        {
+          "ability": "Blighted Quiver",
+          "slot": "W",
+          "source": "Characters/Varus/Spells/VarusWAbility/VarusW",
+          "formula": "Passive: Varus' Attacks deal an additional [4 / 13 / 22 / 31 / 40 + (0.25) × AP + (0.15) × AD[statFormula=2]] magic damage and apply a Blight stack for [6] seconds (max [3] stacks).\n\nVarus' other Abilities detonate Blight stacks dealing [0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP] max Health magic damage per stack (max [(0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP) × (3)] max Health damage). Detonating Blight on champions and epic monsters also reduces his basic Abilities' Cooldowns by [13]% of their Maximum per stack.\n\nActive: Varus' next {{Spell_VarusQ_Name}} deals an additional [0.06 / 0.08 / 0.1 / 0.12 / 0.14] missing Health magic damage, increased up to [(0.06 / 0.08 / 0.1 / 0.12 / 0.14) × (1.5)] missing Health damage based on charge time."
+        },
+        {
+          "ability": "Living Vengeance",
+          "slot": "Passive",
+          "source": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+          "formula": "When Varus kills an enemy, he gains [characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] Attack Speed, [(11) × Stat(4)[statFormula=2]] Attack Damage, and [(11) × Stat(4)[statFormula=2]] Ability Power for [characterLevelBreakpoints(start=5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 26, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}])] seconds.\n\nChampion takedowns grant [0.3] Attack Speed that can bypass the Attack Speed cap, [(33) × Stat(4)[statFormula=2]] Attack Damage, and [(33) × Stat(4)[statFormula=2]] Ability Power instead."
+        },
+        {
+          "ability": "Piercing Arrow",
+          "slot": "Q",
+          "source": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+          "formula": "Begin Charging: Varus draws back his next shot, Slowing himself by [20]%. After [4] seconds, if not fired, Varus will cancel the Ability and refund [50]% of its Mana cost.\n\nRelease: Varus releases the arrow, dealing [(80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]) × (0.66667)] physical damage, reduced by [15]% per enemy hit (minimum [33]%). Damage and Blight detonation effects are increased by up to [50]% based on charge time (maximum [80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]]) ."
+        },
+        {
+          "ability": "Chain of Corruption",
+          "slot": "R",
+          "source": "Characters/Varus/Spells/VarusRAbility/VarusR",
+          "formula": "Varus flings out a tendril of corruption, Rooting the first champion hit for [2] seconds and dealing [150 / 250 / 350 + (1) × AP] magic damage. Rooted enemies gain [3] Blight stacks over the duration.\n\nThe corruption spreads from its target to uninfected enemy champions. If it reaches them, they take the same damage and Root."
+        }
+      ]
+    },
+    {
+      "id": "varus-four-2",
+      "champion": "Varus",
+      "name": "Damage interaction: AP attack experiment",
+      "goal": "Damage interaction for Varus: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A mixed-damage ranged fighter who alternates attack-built Blight with charged detonations and spreading root setup. Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell. AP-supported attacks and Nashor may create a second damage route.",
+      "itemIds": [
+        3115,
+        3124,
+        3089,
+        3135,
+        3157,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Varus: Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell.",
+        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Varus readies and then fires a powerful shot that gains extra range and damage the longer he spends preparing to fire. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "The route fails Varus's stated kit question: Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hail of Arrows",
+          "slot": "E",
+          "source": "Characters/Varus/Spells/VarusEAbility/VarusE",
+          "formula": "Varus fires a hail of arrows that deals [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and desecrates the ground for [4] seconds, Slowing enemies by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% and applying [40]% Grievous Wounds."
+        },
+        {
+          "ability": "Blighted Quiver",
+          "slot": "W",
+          "source": "Characters/Varus/Spells/VarusWAbility/VarusW",
+          "formula": "Passive: Varus' Attacks deal an additional [4 / 13 / 22 / 31 / 40 + (0.25) × AP + (0.15) × AD[statFormula=2]] magic damage and apply a Blight stack for [6] seconds (max [3] stacks).\n\nVarus' other Abilities detonate Blight stacks dealing [0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP] max Health magic damage per stack (max [(0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP) × (3)] max Health damage). Detonating Blight on champions and epic monsters also reduces his basic Abilities' Cooldowns by [13]% of their Maximum per stack.\n\nActive: Varus' next {{Spell_VarusQ_Name}} deals an additional [0.06 / 0.08 / 0.1 / 0.12 / 0.14] missing Health magic damage, increased up to [(0.06 / 0.08 / 0.1 / 0.12 / 0.14) × (1.5)] missing Health damage based on charge time."
+        },
+        {
+          "ability": "Living Vengeance",
+          "slot": "Passive",
+          "source": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+          "formula": "When Varus kills an enemy, he gains [characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] Attack Speed, [(11) × Stat(4)[statFormula=2]] Attack Damage, and [(11) × Stat(4)[statFormula=2]] Ability Power for [characterLevelBreakpoints(start=5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 26, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}])] seconds.\n\nChampion takedowns grant [0.3] Attack Speed that can bypass the Attack Speed cap, [(33) × Stat(4)[statFormula=2]] Attack Damage, and [(33) × Stat(4)[statFormula=2]] Ability Power instead."
+        },
+        {
+          "ability": "Piercing Arrow",
+          "slot": "Q",
+          "source": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+          "formula": "Begin Charging: Varus draws back his next shot, Slowing himself by [20]%. After [4] seconds, if not fired, Varus will cancel the Ability and refund [50]% of its Mana cost.\n\nRelease: Varus releases the arrow, dealing [(80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]) × (0.66667)] physical damage, reduced by [15]% per enemy hit (minimum [33]%). Damage and Blight detonation effects are increased by up to [50]% based on charge time (maximum [80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]]) ."
+        },
+        {
+          "ability": "Chain of Corruption",
+          "slot": "R",
+          "source": "Characters/Varus/Spells/VarusRAbility/VarusR",
+          "formula": "Varus flings out a tendril of corruption, Rooting the first champion hit for [2] seconds and dealing [150 / 250 / 350 + (1) × AP] magic damage. Rooted enemies gain [3] Blight stacks over the duration.\n\nThe corruption spreads from its target to uninfected enemy champions. If it reaches them, they take the same damage and Root."
+        }
+      ]
+    },
+    {
+      "id": "varus-four-3",
+      "champion": "Varus",
+      "name": "Situational adaptation: Critical duel",
+      "goal": "Situational adaptation for Varus: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A mixed-damage ranged fighter who alternates attack-built Blight with charged detonations and spreading root setup. Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell. Crit attacks and a conditional shield test repeated duel windows.",
+      "itemIds": [
+        6672,
+        6675,
+        3031,
+        6673,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Varus: Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell.",
+        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Varus readies and then fires a powerful shot that gains extra range and damage the longer he spends preparing to fire. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "The route fails Varus's stated kit question: Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hail of Arrows",
+          "slot": "E",
+          "source": "Characters/Varus/Spells/VarusEAbility/VarusE",
+          "formula": "Varus fires a hail of arrows that deals [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and desecrates the ground for [4] seconds, Slowing enemies by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% and applying [40]% Grievous Wounds."
+        },
+        {
+          "ability": "Blighted Quiver",
+          "slot": "W",
+          "source": "Characters/Varus/Spells/VarusWAbility/VarusW",
+          "formula": "Passive: Varus' Attacks deal an additional [4 / 13 / 22 / 31 / 40 + (0.25) × AP + (0.15) × AD[statFormula=2]] magic damage and apply a Blight stack for [6] seconds (max [3] stacks).\n\nVarus' other Abilities detonate Blight stacks dealing [0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP] max Health magic damage per stack (max [(0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP) × (3)] max Health damage). Detonating Blight on champions and epic monsters also reduces his basic Abilities' Cooldowns by [13]% of their Maximum per stack.\n\nActive: Varus' next {{Spell_VarusQ_Name}} deals an additional [0.06 / 0.08 / 0.1 / 0.12 / 0.14] missing Health magic damage, increased up to [(0.06 / 0.08 / 0.1 / 0.12 / 0.14) × (1.5)] missing Health damage based on charge time."
+        },
+        {
+          "ability": "Living Vengeance",
+          "slot": "Passive",
+          "source": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+          "formula": "When Varus kills an enemy, he gains [characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] Attack Speed, [(11) × Stat(4)[statFormula=2]] Attack Damage, and [(11) × Stat(4)[statFormula=2]] Ability Power for [characterLevelBreakpoints(start=5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 26, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}])] seconds.\n\nChampion takedowns grant [0.3] Attack Speed that can bypass the Attack Speed cap, [(33) × Stat(4)[statFormula=2]] Attack Damage, and [(33) × Stat(4)[statFormula=2]] Ability Power instead."
+        },
+        {
+          "ability": "Piercing Arrow",
+          "slot": "Q",
+          "source": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+          "formula": "Begin Charging: Varus draws back his next shot, Slowing himself by [20]%. After [4] seconds, if not fired, Varus will cancel the Ability and refund [50]% of its Mana cost.\n\nRelease: Varus releases the arrow, dealing [(80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]) × (0.66667)] physical damage, reduced by [15]% per enemy hit (minimum [33]%). Damage and Blight detonation effects are increased by up to [50]% based on charge time (maximum [80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]]) ."
+        },
+        {
+          "ability": "Chain of Corruption",
+          "slot": "R",
+          "source": "Characters/Varus/Spells/VarusRAbility/VarusR",
+          "formula": "Varus flings out a tendril of corruption, Rooting the first champion hit for [2] seconds and dealing [150 / 250 / 350 + (1) × AP] magic damage. Rooted enemies gain [3] Blight stacks over the duration.\n\nThe corruption spreads from its target to uninfected enemy champions. If it reaches them, they take the same damage and Root."
+        }
+      ]
+    },
+    {
+      "id": "varus-four-4",
+      "champion": "Varus",
+      "name": "Experiment: Physical pick",
+      "goal": "Experiment for Varus: test a different playstyle, with lower confidence",
+      "hypothesis": "A mixed-damage ranged fighter who alternates attack-built Blight with charged detonations and spreading root setup. Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Varus: Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Varus readies and then fires a powerful shot that gains extra range and damage the longer he spends preparing to fire. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Varus's stated kit question: Build Blight through real attacks then detonate it; compare attack damage with charged Q poke. Fix stacks, target HP and AP scaling rather than granting maximum Blight to every spell.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hail of Arrows",
+          "slot": "E",
+          "source": "Characters/Varus/Spells/VarusEAbility/VarusE",
+          "formula": "Varus fires a hail of arrows that deals [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and desecrates the ground for [4] seconds, Slowing enemies by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% and applying [40]% Grievous Wounds."
+        },
+        {
+          "ability": "Blighted Quiver",
+          "slot": "W",
+          "source": "Characters/Varus/Spells/VarusWAbility/VarusW",
+          "formula": "Passive: Varus' Attacks deal an additional [4 / 13 / 22 / 31 / 40 + (0.25) × AP + (0.15) × AD[statFormula=2]] magic damage and apply a Blight stack for [6] seconds (max [3] stacks).\n\nVarus' other Abilities detonate Blight stacks dealing [0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP] max Health magic damage per stack (max [(0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP) × (3)] max Health damage). Detonating Blight on champions and epic monsters also reduces his basic Abilities' Cooldowns by [13]% of their Maximum per stack.\n\nActive: Varus' next {{Spell_VarusQ_Name}} deals an additional [0.06 / 0.08 / 0.1 / 0.12 / 0.14] missing Health magic damage, increased up to [(0.06 / 0.08 / 0.1 / 0.12 / 0.14) × (1.5)] missing Health damage based on charge time."
+        },
+        {
+          "ability": "Living Vengeance",
+          "slot": "Passive",
+          "source": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+          "formula": "When Varus kills an enemy, he gains [characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] Attack Speed, [(11) × Stat(4)[statFormula=2]] Attack Damage, and [(11) × Stat(4)[statFormula=2]] Ability Power for [characterLevelBreakpoints(start=5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 26, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}])] seconds.\n\nChampion takedowns grant [0.3] Attack Speed that can bypass the Attack Speed cap, [(33) × Stat(4)[statFormula=2]] Attack Damage, and [(33) × Stat(4)[statFormula=2]] Ability Power instead."
+        },
+        {
+          "ability": "Piercing Arrow",
+          "slot": "Q",
+          "source": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+          "formula": "Begin Charging: Varus draws back his next shot, Slowing himself by [20]%. After [4] seconds, if not fired, Varus will cancel the Ability and refund [50]% of its Mana cost.\n\nRelease: Varus releases the arrow, dealing [(80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]) × (0.66667)] physical damage, reduced by [15]% per enemy hit (minimum [33]%). Damage and Blight detonation effects are increased by up to [50]% based on charge time (maximum [80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]]) ."
+        },
+        {
+          "ability": "Chain of Corruption",
+          "slot": "R",
+          "source": "Characters/Varus/Spells/VarusRAbility/VarusR",
+          "formula": "Varus flings out a tendril of corruption, Rooting the first champion hit for [2] seconds and dealing [150 / 250 / 350 + (1) × AP] magic damage. Rooted enemies gain [3] Blight stacks over the duration.\n\nThe corruption spreads from its target to uninfected enemy champions. If it reaches them, they take the same damage and Root."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "renata-four-1",
+      "champion": "Renata",
+      "name": "Reference: Protection specialist",
+      "goal": "Reference for Renata Glasc: establish a repeatable reference",
+      "hypothesis": "A protective controller who coordinates attack marks and keeps an ally fighting through Bailout's takedown condition. Her R turns enemy attack strength into disruption. Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up. Healing/shield power and timed actives test preserving an allied carry.",
+      "itemIds": [
+        3869,
+        6617,
+        3107,
+        3222,
+        6621,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Renata Glasc: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
+        "Start with the early core (Support quest, Moonstone only with useful eligible heals/shields, then the needed active) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Healing/shield power and timed actives test preserving an allied carry. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Renata sends out a missile rooting the first enemy hit, and can recast the ability to throw the unit in a direction. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
+        "The route fails Renata Glasc's stated kit question: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
+        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Support quest, Moonstone only with useful eligible heals/shields, then the needed active. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Redemption, Mikael's Blessing, Dawncore are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hostile Takeover",
+          "slot": "R",
+          "source": "Characters/Renata/Spells/RenataRAbility/RenataR",
+          "formula": "Renata sends out a wave of chemicals, Berserking enemies for [1.25 / 1.75 / 2.25] seconds, causing them to Attack the nearest unit, prioritizing their allies.\n\nWhile Berserk, enemies gain [100]% Attack Speed."
+        },
+        {
+          "ability": "Loyalty Program",
+          "slot": "E",
+          "source": "Characters/Renata/Spells/RenataEAbility/RenataE",
+          "formula": "Renata sends out a pair of chemtech missiles, dealing [65 / 95 / 125 / 155 / 185 + (0.55) × AP] magic damage and Slowing surrounding enemies and enemies hit by 30% for [2] seconds. Allies hit gain [50 / 65 / 80 / 95 / 110 + (0.5) × AP] Shield for [3] seconds."
+        },
+        {
+          "ability": "Leverage",
+          "slot": "Passive",
+          "source": "Characters/Renata/Spells/RenataPassiveAbility/RenataPassive",
+          "formula": "Renata's Attacks mark enemies for [6] seconds and deal an additional [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage if they were unmarked.\n\nAllied champions' Attacks or Abilities consume the mark, dealing [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage.\n\nRenata may only have one target marked at a time."
+        },
+        {
+          "ability": "Bailout",
+          "slot": "W",
+          "source": "Characters/Renata/Spells/RenataWAbility/RenataW",
+          "formula": "Renata infuses an ally champion, granting [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.01)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.01)] Move Speed towards enemies, increasing to [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.02)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.02)] Move Speed over [5] seconds. Takedowns refresh the duration of the buff.\n\nIf the ally would die, they instead return to full Health, which then decays over 3 seconds.\n\nIf they get a Takedown while decaying, they will be set to [20]% max Health and stop decaying.\n\nThe Champion's death can be delayed by healing or similar effects while in the decaying state, but cannot be prevented unless the Champion gets a Takedown. Champions can only delay their death once."
+        },
+        {
+          "ability": "Handshake",
+          "slot": "Q",
+          "source": "Characters/Renata/Spells/RenataQAbility/RenataQ",
+          "formula": "Renata sends out a missile from her arm, Rooting the first enemy hit for [1] second and dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage.\n\nRecast: Renata Pulls the enemy in a direction, dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage to enemies they are thrown into and Stunning for [0.5] seconds if the thrown enemy is a champion."
+        }
+      ]
+    },
+    {
+      "id": "renata-four-2",
+      "champion": "Renata",
+      "name": "Damage interaction: Attack-carry facilitator",
+      "goal": "Damage interaction for Renata Glasc: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A protective controller who coordinates attack marks and keeps an ally fighting through Bailout's takedown condition. Her R turns enemy attack strength into disruption. Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up. Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
+      "itemIds": [
+        3869,
+        6620,
+        3504,
+        6616,
+        3107,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Renata Glasc: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
+        "Start with the early core (Support quest, Helia if it can be triggered, then an ally-appropriate buff item) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Eligible healing/shielding may deliver ally buffs and repeated supportive value. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Renata sends out a missile rooting the first enemy hit, and can recast the ability to throw the unit in a direction. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
+        "The route fails Renata Glasc's stated kit question: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
+        "Full cost 10,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Support quest, Helia if it can be triggered, then an ally-appropriate buff item. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Ardent Censer, Staff of Flowing Water, Redemption are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hostile Takeover",
+          "slot": "R",
+          "source": "Characters/Renata/Spells/RenataRAbility/RenataR",
+          "formula": "Renata sends out a wave of chemicals, Berserking enemies for [1.25 / 1.75 / 2.25] seconds, causing them to Attack the nearest unit, prioritizing their allies.\n\nWhile Berserk, enemies gain [100]% Attack Speed."
+        },
+        {
+          "ability": "Loyalty Program",
+          "slot": "E",
+          "source": "Characters/Renata/Spells/RenataEAbility/RenataE",
+          "formula": "Renata sends out a pair of chemtech missiles, dealing [65 / 95 / 125 / 155 / 185 + (0.55) × AP] magic damage and Slowing surrounding enemies and enemies hit by 30% for [2] seconds. Allies hit gain [50 / 65 / 80 / 95 / 110 + (0.5) × AP] Shield for [3] seconds."
+        },
+        {
+          "ability": "Leverage",
+          "slot": "Passive",
+          "source": "Characters/Renata/Spells/RenataPassiveAbility/RenataPassive",
+          "formula": "Renata's Attacks mark enemies for [6] seconds and deal an additional [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage if they were unmarked.\n\nAllied champions' Attacks or Abilities consume the mark, dealing [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage.\n\nRenata may only have one target marked at a time."
+        },
+        {
+          "ability": "Bailout",
+          "slot": "W",
+          "source": "Characters/Renata/Spells/RenataWAbility/RenataW",
+          "formula": "Renata infuses an ally champion, granting [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.01)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.01)] Move Speed towards enemies, increasing to [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.02)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.02)] Move Speed over [5] seconds. Takedowns refresh the duration of the buff.\n\nIf the ally would die, they instead return to full Health, which then decays over 3 seconds.\n\nIf they get a Takedown while decaying, they will be set to [20]% max Health and stop decaying.\n\nThe Champion's death can be delayed by healing or similar effects while in the decaying state, but cannot be prevented unless the Champion gets a Takedown. Champions can only delay their death once."
+        },
+        {
+          "ability": "Handshake",
+          "slot": "Q",
+          "source": "Characters/Renata/Spells/RenataQAbility/RenataQ",
+          "formula": "Renata sends out a missile from her arm, Rooting the first enemy hit for [1] second and dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage.\n\nRecast: Renata Pulls the enemy in a direction, dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage to enemies they are thrown into and Stunning for [0.5] seconds if the thrown enemy is a champion."
+        }
+      ]
+    },
+    {
+      "id": "renata-four-3",
+      "champion": "Renata",
+      "name": "Situational adaptation: Tempo and pursuit",
+      "goal": "Situational adaptation for Renata Glasc: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A protective controller who coordinates attack marks and keeps an ally fighting through Bailout's takedown condition. Her R turns enemy attack strength into disruption. Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up. Movement tools and compatible control marks test coordinated pursuit or escape.",
+      "itemIds": [
+        3869,
+        2065,
+        4005,
+        3107,
+        3222,
+        3009
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Renata Glasc: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
+        "Start with the early core (Support quest, Shurelya or Mandate according to the kit) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Movement tools and compatible control marks test coordinated pursuit or escape. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Renata sends out a missile rooting the first enemy hit, and can recast the ability to throw the unit in a direction. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
+        "The route fails Renata Glasc's stated kit question: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
+        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Support quest, Shurelya or Mandate according to the kit. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Imperial Mandate, Redemption, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hostile Takeover",
+          "slot": "R",
+          "source": "Characters/Renata/Spells/RenataRAbility/RenataR",
+          "formula": "Renata sends out a wave of chemicals, Berserking enemies for [1.25 / 1.75 / 2.25] seconds, causing them to Attack the nearest unit, prioritizing their allies.\n\nWhile Berserk, enemies gain [100]% Attack Speed."
+        },
+        {
+          "ability": "Loyalty Program",
+          "slot": "E",
+          "source": "Characters/Renata/Spells/RenataEAbility/RenataE",
+          "formula": "Renata sends out a pair of chemtech missiles, dealing [65 / 95 / 125 / 155 / 185 + (0.55) × AP] magic damage and Slowing surrounding enemies and enemies hit by 30% for [2] seconds. Allies hit gain [50 / 65 / 80 / 95 / 110 + (0.5) × AP] Shield for [3] seconds."
+        },
+        {
+          "ability": "Leverage",
+          "slot": "Passive",
+          "source": "Characters/Renata/Spells/RenataPassiveAbility/RenataPassive",
+          "formula": "Renata's Attacks mark enemies for [6] seconds and deal an additional [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage if they were unmarked.\n\nAllied champions' Attacks or Abilities consume the mark, dealing [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage.\n\nRenata may only have one target marked at a time."
+        },
+        {
+          "ability": "Bailout",
+          "slot": "W",
+          "source": "Characters/Renata/Spells/RenataWAbility/RenataW",
+          "formula": "Renata infuses an ally champion, granting [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.01)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.01)] Move Speed towards enemies, increasing to [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.02)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.02)] Move Speed over [5] seconds. Takedowns refresh the duration of the buff.\n\nIf the ally would die, they instead return to full Health, which then decays over 3 seconds.\n\nIf they get a Takedown while decaying, they will be set to [20]% max Health and stop decaying.\n\nThe Champion's death can be delayed by healing or similar effects while in the decaying state, but cannot be prevented unless the Champion gets a Takedown. Champions can only delay their death once."
+        },
+        {
+          "ability": "Handshake",
+          "slot": "Q",
+          "source": "Characters/Renata/Spells/RenataQAbility/RenataQ",
+          "formula": "Renata sends out a missile from her arm, Rooting the first enemy hit for [1] second and dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage.\n\nRecast: Renata Pulls the enemy in a direction, dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage to enemies they are thrown into and Stunning for [0.5] seconds if the thrown enemy is a champion."
+        }
+      ]
+    },
+    {
+      "id": "renata-four-4",
+      "champion": "Renata",
+      "name": "Experiment: AP attack experiment",
+      "goal": "Experiment for Renata Glasc: test a different playstyle, with lower confidence",
+      "hypothesis": "A protective controller who coordinates attack marks and keeps an ally fighting through Bailout's takedown condition. Her R turns enemy attack strength into disruption. Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3115,
+        3124,
+        3089,
+        3135,
+        3157,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Renata Glasc: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
+        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Renata sends out a missile rooting the first enemy hit, and can recast the ability to throw the unit in a direction. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "The route fails Renata Glasc's stated kit question: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hostile Takeover",
+          "slot": "R",
+          "source": "Characters/Renata/Spells/RenataRAbility/RenataR",
+          "formula": "Renata sends out a wave of chemicals, Berserking enemies for [1.25 / 1.75 / 2.25] seconds, causing them to Attack the nearest unit, prioritizing their allies.\n\nWhile Berserk, enemies gain [100]% Attack Speed."
+        },
+        {
+          "ability": "Loyalty Program",
+          "slot": "E",
+          "source": "Characters/Renata/Spells/RenataEAbility/RenataE",
+          "formula": "Renata sends out a pair of chemtech missiles, dealing [65 / 95 / 125 / 155 / 185 + (0.55) × AP] magic damage and Slowing surrounding enemies and enemies hit by 30% for [2] seconds. Allies hit gain [50 / 65 / 80 / 95 / 110 + (0.5) × AP] Shield for [3] seconds."
+        },
+        {
+          "ability": "Leverage",
+          "slot": "Passive",
+          "source": "Characters/Renata/Spells/RenataPassiveAbility/RenataPassive",
+          "formula": "Renata's Attacks mark enemies for [6] seconds and deal an additional [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage if they were unmarked.\n\nAllied champions' Attacks or Abilities consume the mark, dealing [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage.\n\nRenata may only have one target marked at a time."
+        },
+        {
+          "ability": "Bailout",
+          "slot": "W",
+          "source": "Characters/Renata/Spells/RenataWAbility/RenataW",
+          "formula": "Renata infuses an ally champion, granting [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.01)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.01)] Move Speed towards enemies, increasing to [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.02)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.02)] Move Speed over [5] seconds. Takedowns refresh the duration of the buff.\n\nIf the ally would die, they instead return to full Health, which then decays over 3 seconds.\n\nIf they get a Takedown while decaying, they will be set to [20]% max Health and stop decaying.\n\nThe Champion's death can be delayed by healing or similar effects while in the decaying state, but cannot be prevented unless the Champion gets a Takedown. Champions can only delay their death once."
+        },
+        {
+          "ability": "Handshake",
+          "slot": "Q",
+          "source": "Characters/Renata/Spells/RenataQAbility/RenataQ",
+          "formula": "Renata sends out a missile from her arm, Rooting the first enemy hit for [1] second and dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage.\n\nRecast: Renata Pulls the enemy in a direction, dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage to enemies they are thrown into and Stunning for [0.5] seconds if the thrown enemy is a champion."
+        }
+      ]
+    }
+  ]
+}

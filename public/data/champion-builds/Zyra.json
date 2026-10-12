@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "zyra-four-1",
+      "champion": "Zyra",
+      "name": "Reference: Mana burn zones",
+      "goal": "Reference for Zyra: establish a repeatable reference",
+      "hypothesis": "A plant-based zone mage who prepares seeds, roots entry paths and strengthens a garden with a delayed knockup. Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack. Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "itemIds": [
+        2503,
+        6653,
+        3116,
+        8010,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zyra: Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack.",
+        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Thick vines spread through the ground and explode into spines, dealing magic damage to enemies within the area. If cast near a seed, Deadly Spines grows a Thorn Spitter plant, which fires at enemies from afar. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "The route fails Zyra's stated kit question: Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Stranglethorns",
+          "slot": "R",
+          "source": "Characters/Zyra/Spells/ZyraRAbility/ZyraR",
+          "formula": "Zyra summons the fury of nature, growing a twisted thicket that deals [200 / 300 / 400 + (0.7) × AP] magic damage. After 2 seconds, the vines snap upwards, Knocking Up for [1] second.\n\nZyra's plants within the thicket become enraged, resetting their duration, gaining [50]% Health and Attacking for [50]% bonus damage."
+        },
+        {
+          "ability": "Rampant Growth",
+          "slot": "W",
+          "source": "Characters/Zyra/Spells/ZyraWAbility/ZyraW",
+          "formula": "Zyra plants a Seed that lasts [60] seconds. These Seeds grant True Sight of enemy champions that step on them for [2] seconds, but are still destroyed.\n\nThis Ability has 2 charges with a @AmmoRechargeTime@ second recharge time. Killing an enemy minion or monster reduces the recharge time by [35]%. Champion takedowns reduce the recharge time by [100]% instead."
+        },
+        {
+          "ability": "Deadly Spines",
+          "slot": "Q",
+          "source": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ",
+          "formula": "Zyra causes thick vines to spread and explode into spines, dealing [60 / 100 / 140 / 180 / 220 + (0.65) × AP] magic damage.\n\nIf this Ability is cast near a Seed, the Seed grows into a Thorn Spitter that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Thorn Spitters have 575 range."
+        },
+        {
+          "ability": "Grasping Roots",
+          "slot": "E",
+          "source": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+          "formula": "Zyra sends vines forward, Rooting for [1 / 1.25 / 1.5 / 1.75 / 2] second(s) and dealing [60 / 95 / 130 / 165 / 200 + (0.6) × AP] magic damage. \n\nIf this Ability passes near a Seed, the Seed grows into a Vine Lasher that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Vine Lashers have 400 range, and their Attacks Slow by [30]% for [2] seconds. The Slow from multiple Vine Lashers stacks up to [2] times."
+        },
+        {
+          "ability": "Garden of Thorns",
+          "slot": "Passive",
+          "source": "Characters/Zyra/Spells/ZyraPAbility/ZyraP",
+          "formula": "Zyra spawns Seeds around herself every [characterLevelInterpolation(13.6 → 9.05; raw flags preserved)] seconds that last 30 seconds. She can have 8 Seeds planted at once. If an enemy champion steps on a Seed, it dies. Zyra will not spawn Seeds while hiding in brush.\n\nThese Seeds are used by her other Abilities to spawn plants that deal [characterLevelInterpolation(15 → 75; raw flags preserved) + (0.2) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "zyra-four-2",
+      "champion": "Zyra",
+      "name": "Damage interaction: Control and burn support",
+      "goal": "Damage interaction for Zyra: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A plant-based zone mage who prepares seeds, roots entry paths and strengthens a garden with a delayed knockup. Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack. Cheap income plus ability damage and compatible slows test offensive setup for allies.",
+      "itemIds": [
+        3869,
+        6653,
+        3116,
+        4005,
+        8010,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zyra: Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack.",
+        "Start with the early core (Support quest; Liandry/Rylai as an isolated offensive core) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Cheap income plus ability damage and compatible slows test offensive setup for allies. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Thick vines spread through the ground and explode into spines, dealing magic damage to enemies within the area. If cast near a seed, Deadly Spines grows a Thorn Spitter plant, which fires at enemies from afar. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana and defense may be weak; burns do not automatically make every control effect stack.",
+        "The route fails Zyra's stated kit question: Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Mana and defense may be weak; burns do not automatically make every control effect stack.",
+        "Full cost 12,400 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Support quest; Liandry/Rylai as an isolated offensive core. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Rylai's Crystal Scepter, Imperial Mandate, Bloodletter's Curse are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Stranglethorns",
+          "slot": "R",
+          "source": "Characters/Zyra/Spells/ZyraRAbility/ZyraR",
+          "formula": "Zyra summons the fury of nature, growing a twisted thicket that deals [200 / 300 / 400 + (0.7) × AP] magic damage. After 2 seconds, the vines snap upwards, Knocking Up for [1] second.\n\nZyra's plants within the thicket become enraged, resetting their duration, gaining [50]% Health and Attacking for [50]% bonus damage."
+        },
+        {
+          "ability": "Rampant Growth",
+          "slot": "W",
+          "source": "Characters/Zyra/Spells/ZyraWAbility/ZyraW",
+          "formula": "Zyra plants a Seed that lasts [60] seconds. These Seeds grant True Sight of enemy champions that step on them for [2] seconds, but are still destroyed.\n\nThis Ability has 2 charges with a @AmmoRechargeTime@ second recharge time. Killing an enemy minion or monster reduces the recharge time by [35]%. Champion takedowns reduce the recharge time by [100]% instead."
+        },
+        {
+          "ability": "Deadly Spines",
+          "slot": "Q",
+          "source": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ",
+          "formula": "Zyra causes thick vines to spread and explode into spines, dealing [60 / 100 / 140 / 180 / 220 + (0.65) × AP] magic damage.\n\nIf this Ability is cast near a Seed, the Seed grows into a Thorn Spitter that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Thorn Spitters have 575 range."
+        },
+        {
+          "ability": "Grasping Roots",
+          "slot": "E",
+          "source": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+          "formula": "Zyra sends vines forward, Rooting for [1 / 1.25 / 1.5 / 1.75 / 2] second(s) and dealing [60 / 95 / 130 / 165 / 200 + (0.6) × AP] magic damage. \n\nIf this Ability passes near a Seed, the Seed grows into a Vine Lasher that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Vine Lashers have 400 range, and their Attacks Slow by [30]% for [2] seconds. The Slow from multiple Vine Lashers stacks up to [2] times."
+        },
+        {
+          "ability": "Garden of Thorns",
+          "slot": "Passive",
+          "source": "Characters/Zyra/Spells/ZyraPAbility/ZyraP",
+          "formula": "Zyra spawns Seeds around herself every [characterLevelInterpolation(13.6 → 9.05; raw flags preserved)] seconds that last 30 seconds. She can have 8 Seeds planted at once. If an enemy champion steps on a Seed, it dies. Zyra will not spawn Seeds while hiding in brush.\n\nThese Seeds are used by her other Abilities to spawn plants that deal [characterLevelInterpolation(15 → 75; raw flags preserved) + (0.2) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "zyra-four-3",
+      "champion": "Zyra",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Zyra: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A plant-based zone mage who prepares seeds, roots entry paths and strengthens a garden with a delayed knockup. Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zyra: Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Thick vines spread through the ground and explode into spines, dealing magic damage to enemies within the area. If cast near a seed, Deadly Spines grows a Thorn Spitter plant, which fires at enemies from afar. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Zyra's stated kit question: Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Stranglethorns",
+          "slot": "R",
+          "source": "Characters/Zyra/Spells/ZyraRAbility/ZyraR",
+          "formula": "Zyra summons the fury of nature, growing a twisted thicket that deals [200 / 300 / 400 + (0.7) × AP] magic damage. After 2 seconds, the vines snap upwards, Knocking Up for [1] second.\n\nZyra's plants within the thicket become enraged, resetting their duration, gaining [50]% Health and Attacking for [50]% bonus damage."
+        },
+        {
+          "ability": "Rampant Growth",
+          "slot": "W",
+          "source": "Characters/Zyra/Spells/ZyraWAbility/ZyraW",
+          "formula": "Zyra plants a Seed that lasts [60] seconds. These Seeds grant True Sight of enemy champions that step on them for [2] seconds, but are still destroyed.\n\nThis Ability has 2 charges with a @AmmoRechargeTime@ second recharge time. Killing an enemy minion or monster reduces the recharge time by [35]%. Champion takedowns reduce the recharge time by [100]% instead."
+        },
+        {
+          "ability": "Deadly Spines",
+          "slot": "Q",
+          "source": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ",
+          "formula": "Zyra causes thick vines to spread and explode into spines, dealing [60 / 100 / 140 / 180 / 220 + (0.65) × AP] magic damage.\n\nIf this Ability is cast near a Seed, the Seed grows into a Thorn Spitter that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Thorn Spitters have 575 range."
+        },
+        {
+          "ability": "Grasping Roots",
+          "slot": "E",
+          "source": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+          "formula": "Zyra sends vines forward, Rooting for [1 / 1.25 / 1.5 / 1.75 / 2] second(s) and dealing [60 / 95 / 130 / 165 / 200 + (0.6) × AP] magic damage. \n\nIf this Ability passes near a Seed, the Seed grows into a Vine Lasher that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Vine Lashers have 400 range, and their Attacks Slow by [30]% for [2] seconds. The Slow from multiple Vine Lashers stacks up to [2] times."
+        },
+        {
+          "ability": "Garden of Thorns",
+          "slot": "Passive",
+          "source": "Characters/Zyra/Spells/ZyraPAbility/ZyraP",
+          "formula": "Zyra spawns Seeds around herself every [characterLevelInterpolation(13.6 → 9.05; raw flags preserved)] seconds that last 30 seconds. She can have 8 Seeds planted at once. If an enemy champion steps on a Seed, it dies. Zyra will not spawn Seeds while hiding in brush.\n\nThese Seeds are used by her other Abilities to spawn plants that deal [characterLevelInterpolation(15 → 75; raw flags preserved) + (0.2) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "zyra-four-4",
+      "champion": "Zyra",
+      "name": "Experiment: Mana burst",
+      "goal": "Experiment for Zyra: test a different playstyle, with lower confidence",
+      "hypothesis": "A plant-based zone mage who prepares seeds, roots entry paths and strengthens a garden with a delayed knockup. Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zyra: Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack.",
+        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Thick vines spread through the ground and explode into spines, dealing magic damage to enemies within the area. If cast near a seed, Deadly Spines grows a Thorn Spitter plant, which fires at enemies from afar. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "The route fails Zyra's stated kit question: Fix seeds, plant types and target contact. Plant damage and item proc cadence require actual verification; do not assume all plants survive or every hit creates a new burn stack.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Stranglethorns",
+          "slot": "R",
+          "source": "Characters/Zyra/Spells/ZyraRAbility/ZyraR",
+          "formula": "Zyra summons the fury of nature, growing a twisted thicket that deals [200 / 300 / 400 + (0.7) × AP] magic damage. After 2 seconds, the vines snap upwards, Knocking Up for [1] second.\n\nZyra's plants within the thicket become enraged, resetting their duration, gaining [50]% Health and Attacking for [50]% bonus damage."
+        },
+        {
+          "ability": "Rampant Growth",
+          "slot": "W",
+          "source": "Characters/Zyra/Spells/ZyraWAbility/ZyraW",
+          "formula": "Zyra plants a Seed that lasts [60] seconds. These Seeds grant True Sight of enemy champions that step on them for [2] seconds, but are still destroyed.\n\nThis Ability has 2 charges with a @AmmoRechargeTime@ second recharge time. Killing an enemy minion or monster reduces the recharge time by [35]%. Champion takedowns reduce the recharge time by [100]% instead."
+        },
+        {
+          "ability": "Deadly Spines",
+          "slot": "Q",
+          "source": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ",
+          "formula": "Zyra causes thick vines to spread and explode into spines, dealing [60 / 100 / 140 / 180 / 220 + (0.65) × AP] magic damage.\n\nIf this Ability is cast near a Seed, the Seed grows into a Thorn Spitter that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Thorn Spitters have 575 range."
+        },
+        {
+          "ability": "Grasping Roots",
+          "slot": "E",
+          "source": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+          "formula": "Zyra sends vines forward, Rooting for [1 / 1.25 / 1.5 / 1.75 / 2] second(s) and dealing [60 / 95 / 130 / 165 / 200 + (0.6) × AP] magic damage. \n\nIf this Ability passes near a Seed, the Seed grows into a Vine Lasher that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Vine Lashers have 400 range, and their Attacks Slow by [30]% for [2] seconds. The Slow from multiple Vine Lashers stacks up to [2] times."
+        },
+        {
+          "ability": "Garden of Thorns",
+          "slot": "Passive",
+          "source": "Characters/Zyra/Spells/ZyraPAbility/ZyraP",
+          "formula": "Zyra spawns Seeds around herself every [characterLevelInterpolation(13.6 → 9.05; raw flags preserved)] seconds that last 30 seconds. She can have 8 Seeds planted at once. If an enemy champion steps on a Seed, it dies. Zyra will not spawn Seeds while hiding in brush.\n\nThese Seeds are used by her other Abilities to spawn plants that deal [characterLevelInterpolation(15 → 75; raw flags preserved) + (0.2) × AP] magic damage."
+        }
+      ]
+    }
+  ]
+}

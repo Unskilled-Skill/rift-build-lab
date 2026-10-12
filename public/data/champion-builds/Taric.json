@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "taric-four-1",
+      "champion": "Taric",
+      "name": "Reference: Engage and rescue",
+      "goal": "Reference for Taric: establish a repeatable reference",
+      "hypothesis": "An armored support fighter who alternates spells with two fast Bravado attacks to recycle healing and control. A linked ally extends spell origins, while R demands predicting damage several seconds ahead. Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability. A support quest and protective actives test allied survival after an engage.",
+      "itemIds": [
+        3869,
+        3190,
+        3109,
+        3050,
+        3222,
+        3111
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Taric: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
+        "Start with the early core (Support quest, boots and Locket; choose later actives by threat) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A support quest and protective actives test allied survival after an engage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Heals nearby allied champions based on charges stored. Bravado-empowered attacks grant a charge of Starlight's Touch. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
+        "The route fails Taric's stated kit question: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
+        "Full cost 10,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Support quest, boots and Locket; choose later actives by threat. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Knight's Vow, Zeke's Convergence, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bravado",
+          "slot": "Passive",
+          "source": "Characters/Taric/Spells/TaricPassiveAbility/TaricPassive",
+          "formula": "After using an Ability, Taric's next 2 Attacks within [5] seconds gain 100% Attack Speed, deal an additional [(characterLevelInterpolation(25 → 93; raw flags preserved)) × (1) + (0.15) × Stat(1)[statFormula=2]] magic damage, and reduce his basic Ability Cooldowns by [(1 + (1 + (runtimeCooldownMultiplier) × (-1)))] second."
+        },
+        {
+          "ability": "Bastion",
+          "slot": "W",
+          "source": "Characters/Taric/Spells/TaricWAbility/TaricW",
+          "formula": "Passive: Taric gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and forms a tether between him and the ally bound by this Ability. As long as they are near each other, the ally gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and Taric casts all his Abilities from both himself and his linked ally.\n\nActive: Taric binds to an ally champion, granting a [7 / 8 / 9 / 10 / 11]% max Health Shield for [2.5] seconds."
+        },
+        {
+          "ability": "Cosmic Radiance",
+          "slot": "R",
+          "source": "Characters/Taric/Spells/TaricRAbility/TaricR",
+          "formula": "Taric calls down protection from the heavens. After [2.5] seconds, nearby ally champions become invulnerable for [2.5] seconds."
+        },
+        {
+          "ability": "Starlight's Touch",
+          "slot": "Q",
+          "source": "Characters/Taric/Spells/TaricQAbility/TaricQ",
+          "formula": "Passive: Gain a stack (max [1 / 2 / 3 / 4 / 5]) every [15] seconds and when hitting a Bravado Attack.\n\nActive: Consume all stacks to restore [25 + (0.15) × AP + (0.01) × Stat(12)] Health per stack to nearby ally champions ([(25 + (0.15) × AP + (0.01) × Stat(12)) × (1 / 2 / 3 / 4 / 5)] at [1 / 2 / 3 / 4 / 5] stacks)."
+        },
+        {
+          "ability": "Dazzle",
+          "slot": "E",
+          "source": "Characters/Taric/Spells/TaricEAbility/TaricE",
+          "formula": "Taric projects a beam of starlight, bursting after [1] second to deal [90 / 130 / 170 / 210 / 250 + (0.5) × AP + (0.5) × Stat(1)[statFormula=2]] magic damage and Stun enemies for [1.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "taric-four-2",
+      "champion": "Taric",
+      "name": "Damage interaction: Protection specialist",
+      "goal": "Damage interaction for Taric: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "An armored support fighter who alternates spells with two fast Bravado attacks to recycle healing and control. A linked ally extends spell origins, while R demands predicting damage several seconds ahead. Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability. Healing/shield power and timed actives test preserving an allied carry.",
+      "itemIds": [
+        3869,
+        6617,
+        3107,
+        3222,
+        6621,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Taric: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
+        "Start with the early core (Support quest, Moonstone only with useful eligible heals/shields, then the needed active) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Healing/shield power and timed actives test preserving an allied carry. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Heals nearby allied champions based on charges stored. Bravado-empowered attacks grant a charge of Starlight's Touch. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
+        "The route fails Taric's stated kit question: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
+        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Support quest, Moonstone only with useful eligible heals/shields, then the needed active. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Redemption, Mikael's Blessing, Dawncore are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bravado",
+          "slot": "Passive",
+          "source": "Characters/Taric/Spells/TaricPassiveAbility/TaricPassive",
+          "formula": "After using an Ability, Taric's next 2 Attacks within [5] seconds gain 100% Attack Speed, deal an additional [(characterLevelInterpolation(25 → 93; raw flags preserved)) × (1) + (0.15) × Stat(1)[statFormula=2]] magic damage, and reduce his basic Ability Cooldowns by [(1 + (1 + (runtimeCooldownMultiplier) × (-1)))] second."
+        },
+        {
+          "ability": "Bastion",
+          "slot": "W",
+          "source": "Characters/Taric/Spells/TaricWAbility/TaricW",
+          "formula": "Passive: Taric gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and forms a tether between him and the ally bound by this Ability. As long as they are near each other, the ally gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and Taric casts all his Abilities from both himself and his linked ally.\n\nActive: Taric binds to an ally champion, granting a [7 / 8 / 9 / 10 / 11]% max Health Shield for [2.5] seconds."
+        },
+        {
+          "ability": "Cosmic Radiance",
+          "slot": "R",
+          "source": "Characters/Taric/Spells/TaricRAbility/TaricR",
+          "formula": "Taric calls down protection from the heavens. After [2.5] seconds, nearby ally champions become invulnerable for [2.5] seconds."
+        },
+        {
+          "ability": "Starlight's Touch",
+          "slot": "Q",
+          "source": "Characters/Taric/Spells/TaricQAbility/TaricQ",
+          "formula": "Passive: Gain a stack (max [1 / 2 / 3 / 4 / 5]) every [15] seconds and when hitting a Bravado Attack.\n\nActive: Consume all stacks to restore [25 + (0.15) × AP + (0.01) × Stat(12)] Health per stack to nearby ally champions ([(25 + (0.15) × AP + (0.01) × Stat(12)) × (1 / 2 / 3 / 4 / 5)] at [1 / 2 / 3 / 4 / 5] stacks)."
+        },
+        {
+          "ability": "Dazzle",
+          "slot": "E",
+          "source": "Characters/Taric/Spells/TaricEAbility/TaricE",
+          "formula": "Taric projects a beam of starlight, bursting after [1] second to deal [90 / 130 / 170 / 210 / 250 + (0.5) × AP + (0.5) × Stat(1)[statFormula=2]] magic damage and Stun enemies for [1.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "taric-four-3",
+      "champion": "Taric",
+      "name": "Situational adaptation: Armor and control",
+      "goal": "Situational adaptation for Taric: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "An armored support fighter who alternates spells with two fast Bravado attacks to recycle healing and control. A linked ally extends spell origins, while R demands predicting damage several seconds ahead. Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability. Armor and a real Spellblade attack may preserve close fighting windows.",
+      "itemIds": [
+        6662,
+        2502,
+        3075,
+        3143,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Taric: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
+        "Start with the early core (Iceborn if attack access is useful, otherwise matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and a real Spellblade attack may preserve close fighting windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Heals nearby allied champions based on charges stored. Bravado-empowered attacks grant a charge of Starlight's Touch. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Do not add another Spellblade item; Thornmail and Randuin are conditional purchases.",
+        "The route fails Taric's stated kit question: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Do not add another Spellblade item; Thornmail and Randuin are conditional purchases.",
+        "Full cost 14,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Iceborn if attack access is useful, otherwise matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Thornmail, Randuin's Omen, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bravado",
+          "slot": "Passive",
+          "source": "Characters/Taric/Spells/TaricPassiveAbility/TaricPassive",
+          "formula": "After using an Ability, Taric's next 2 Attacks within [5] seconds gain 100% Attack Speed, deal an additional [(characterLevelInterpolation(25 → 93; raw flags preserved)) × (1) + (0.15) × Stat(1)[statFormula=2]] magic damage, and reduce his basic Ability Cooldowns by [(1 + (1 + (runtimeCooldownMultiplier) × (-1)))] second."
+        },
+        {
+          "ability": "Bastion",
+          "slot": "W",
+          "source": "Characters/Taric/Spells/TaricWAbility/TaricW",
+          "formula": "Passive: Taric gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and forms a tether between him and the ally bound by this Ability. As long as they are near each other, the ally gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and Taric casts all his Abilities from both himself and his linked ally.\n\nActive: Taric binds to an ally champion, granting a [7 / 8 / 9 / 10 / 11]% max Health Shield for [2.5] seconds."
+        },
+        {
+          "ability": "Cosmic Radiance",
+          "slot": "R",
+          "source": "Characters/Taric/Spells/TaricRAbility/TaricR",
+          "formula": "Taric calls down protection from the heavens. After [2.5] seconds, nearby ally champions become invulnerable for [2.5] seconds."
+        },
+        {
+          "ability": "Starlight's Touch",
+          "slot": "Q",
+          "source": "Characters/Taric/Spells/TaricQAbility/TaricQ",
+          "formula": "Passive: Gain a stack (max [1 / 2 / 3 / 4 / 5]) every [15] seconds and when hitting a Bravado Attack.\n\nActive: Consume all stacks to restore [25 + (0.15) × AP + (0.01) × Stat(12)] Health per stack to nearby ally champions ([(25 + (0.15) × AP + (0.01) × Stat(12)) × (1 / 2 / 3 / 4 / 5)] at [1 / 2 / 3 / 4 / 5] stacks)."
+        },
+        {
+          "ability": "Dazzle",
+          "slot": "E",
+          "source": "Characters/Taric/Spells/TaricEAbility/TaricE",
+          "formula": "Taric projects a beam of starlight, bursting after [1] second to deal [90 / 130 / 170 / 210 / 250 + (0.5) × AP + (0.5) × Stat(1)[statFormula=2]] magic damage and Stun enemies for [1.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "taric-four-4",
+      "champion": "Taric",
+      "name": "Experiment: Health/AP attack hybrid",
+      "goal": "Experiment for Taric: test a different playstyle, with lower confidence",
+      "hypothesis": "An armored support fighter who alternates spells with two fast Bravado attacks to recycle healing and control. A linked ally extends spell origins, while R demands predicting damage several seconds ahead. Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability. Health plus AP and repeated on-hits test a hybrid attack route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3084,
+        2510,
+        4633,
+        3115,
+        6665,
+        3111
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Taric: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
+        "Start with the early core (Health/defense as needed, then Dusk and Dawn as the isolated test) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health plus AP and repeated on-hits test a hybrid attack route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Heals nearby allied champions based on charges stored. Bravado-empowered attacks grant a charge of Starlight's Touch. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
+        "The route fails Taric's stated kit question: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Health/defense as needed, then Dusk and Dawn as the isolated test. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Riftmaker, Nashor's Tooth, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bravado",
+          "slot": "Passive",
+          "source": "Characters/Taric/Spells/TaricPassiveAbility/TaricPassive",
+          "formula": "After using an Ability, Taric's next 2 Attacks within [5] seconds gain 100% Attack Speed, deal an additional [(characterLevelInterpolation(25 → 93; raw flags preserved)) × (1) + (0.15) × Stat(1)[statFormula=2]] magic damage, and reduce his basic Ability Cooldowns by [(1 + (1 + (runtimeCooldownMultiplier) × (-1)))] second."
+        },
+        {
+          "ability": "Bastion",
+          "slot": "W",
+          "source": "Characters/Taric/Spells/TaricWAbility/TaricW",
+          "formula": "Passive: Taric gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and forms a tether between him and the ally bound by this Ability. As long as they are near each other, the ally gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and Taric casts all his Abilities from both himself and his linked ally.\n\nActive: Taric binds to an ally champion, granting a [7 / 8 / 9 / 10 / 11]% max Health Shield for [2.5] seconds."
+        },
+        {
+          "ability": "Cosmic Radiance",
+          "slot": "R",
+          "source": "Characters/Taric/Spells/TaricRAbility/TaricR",
+          "formula": "Taric calls down protection from the heavens. After [2.5] seconds, nearby ally champions become invulnerable for [2.5] seconds."
+        },
+        {
+          "ability": "Starlight's Touch",
+          "slot": "Q",
+          "source": "Characters/Taric/Spells/TaricQAbility/TaricQ",
+          "formula": "Passive: Gain a stack (max [1 / 2 / 3 / 4 / 5]) every [15] seconds and when hitting a Bravado Attack.\n\nActive: Consume all stacks to restore [25 + (0.15) × AP + (0.01) × Stat(12)] Health per stack to nearby ally champions ([(25 + (0.15) × AP + (0.01) × Stat(12)) × (1 / 2 / 3 / 4 / 5)] at [1 / 2 / 3 / 4 / 5] stacks)."
+        },
+        {
+          "ability": "Dazzle",
+          "slot": "E",
+          "source": "Characters/Taric/Spells/TaricEAbility/TaricE",
+          "formula": "Taric projects a beam of starlight, bursting after [1] second to deal [90 / 130 / 170 / 210 / 250 + (0.5) × AP + (0.5) × Stat(1)[statFormula=2]] magic damage and Stun enemies for [1.5] seconds."
+        }
+      ]
+    }
+  ]
+}

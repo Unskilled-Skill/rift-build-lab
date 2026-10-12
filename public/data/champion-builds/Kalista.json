@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "kalista-four-1",
+      "champion": "Kalista",
+      "name": "Reference: Repeated on-hit",
+      "goal": "Reference for Kalista: establish a repeatable reference",
+      "hypothesis": "A mobile attack-stacking marksman who builds Rend spears while hopping and coordinates with an Oathsworn ally. Resetting Rend on a kill permits repeated pressure. Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kalista: Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Throw a fast moving spear that passes through enemies it kills. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Kalista's stated kit question: Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Fate's Call",
+          "slot": "R",
+          "source": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx",
+          "formula": "Kalista puts her Oathsworn into Stasis and draws them to herself for up to 4 seconds. The Oathsworn can click to launch themselves, stopping at the first champion hit and Knocking Back all nearby enemies. If the Oathsworn hits a champion, they are placed at their maximum attack range from it."
+        },
+        {
+          "ability": "Martial Poise",
+          "slot": "Passive",
+          "source": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff",
+          "formula": "{{Spell_KalistaP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Sentinel",
+          "slot": "W",
+          "source": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+          "formula": "Passive: When Kalista and her Oathsworn both Attack the same target, she deals [(0.1 / 0.12 / 0.14 / 0.16 / 0.18) × 100]% max Health magic damage. This effect has a [10] second Cooldown per target and a cap of [100 / 125 / 150 / 175 / 200] to non-champions.\n\nActive: Kalista sends a ghost to patrol an area for three laps. Champions spotted are revealed for 4 seconds. This ability has 2 charges ([90 / 80 / 70 / 60 / 50] second refresh)."
+        },
+        {
+          "ability": "Pierce",
+          "slot": "Q",
+          "source": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+          "formula": "Kalista hurls a spear, dealing [10 / 75 / 140 / 205 / 270 + (1.05) × AD] physical damage to the first target hit. If this kills the target, the spear continues onward, carrying any {{Spell_KalistaExpungeWrapper_Name}} stacks to the next target hit.\n\nKalista can dash after using this Ability using {{Spell_KalistaPassiveBuff_Name}}."
+        },
+        {
+          "ability": "Rend",
+          "slot": "E",
+          "source": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+          "formula": "Passive: Kalista's spears linger in their target for 4 seconds, stacking any number of times.\n\nActive: Kalista rips the spears from nearby enemies, dealing [5 / 15 / 25 / 35 / 45 + (0.7) × AD + (0.65) × AP] plus [7 / 14 / 21 / 28 / 35 + (0.2 / 0.275 / 0.35 / 0.425 / 0.5) × AD + (0.5) × AP] physical damage per spear beyond the first. Slows enemies hit by [0.1 / 0.18 / 0.26 / 0.34 / 0.42 + (0.0005) × AP] for [2] seconds.\n\nIf this Ability kills at least one target, its Cooldown is refreshed and it refunds [10 / 15 / 20 / 25 / 30] Mana."
+        }
+      ]
+    },
+    {
+      "id": "kalista-four-2",
+      "champion": "Kalista",
+      "name": "Damage interaction: Multi-target carry",
+      "goal": "Damage interaction for Kalista: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A mobile attack-stacking marksman who builds Rend spears while hopping and coordinates with an Oathsworn ally. Resetting Rend on a kill permits repeated pressure. Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter. Runaan asks whether real multi-target attacks improve teamfight output.",
+      "itemIds": [
+        3032,
+        3085,
+        3031,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kalista: Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter.",
+        "Start with the early core (Yun Tal, then Runaan) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Runaan asks whether real multi-target attacks improve teamfight output. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Throw a fast moving spear that passes through enemies it kills. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
+        "The route fails Kalista's stated kit question: Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Yun Tal, then Runaan. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Fate's Call",
+          "slot": "R",
+          "source": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx",
+          "formula": "Kalista puts her Oathsworn into Stasis and draws them to herself for up to 4 seconds. The Oathsworn can click to launch themselves, stopping at the first champion hit and Knocking Back all nearby enemies. If the Oathsworn hits a champion, they are placed at their maximum attack range from it."
+        },
+        {
+          "ability": "Martial Poise",
+          "slot": "Passive",
+          "source": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff",
+          "formula": "{{Spell_KalistaP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Sentinel",
+          "slot": "W",
+          "source": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+          "formula": "Passive: When Kalista and her Oathsworn both Attack the same target, she deals [(0.1 / 0.12 / 0.14 / 0.16 / 0.18) × 100]% max Health magic damage. This effect has a [10] second Cooldown per target and a cap of [100 / 125 / 150 / 175 / 200] to non-champions.\n\nActive: Kalista sends a ghost to patrol an area for three laps. Champions spotted are revealed for 4 seconds. This ability has 2 charges ([90 / 80 / 70 / 60 / 50] second refresh)."
+        },
+        {
+          "ability": "Pierce",
+          "slot": "Q",
+          "source": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+          "formula": "Kalista hurls a spear, dealing [10 / 75 / 140 / 205 / 270 + (1.05) × AD] physical damage to the first target hit. If this kills the target, the spear continues onward, carrying any {{Spell_KalistaExpungeWrapper_Name}} stacks to the next target hit.\n\nKalista can dash after using this Ability using {{Spell_KalistaPassiveBuff_Name}}."
+        },
+        {
+          "ability": "Rend",
+          "slot": "E",
+          "source": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+          "formula": "Passive: Kalista's spears linger in their target for 4 seconds, stacking any number of times.\n\nActive: Kalista rips the spears from nearby enemies, dealing [5 / 15 / 25 / 35 / 45 + (0.7) × AD + (0.65) × AP] plus [7 / 14 / 21 / 28 / 35 + (0.2 / 0.275 / 0.35 / 0.425 / 0.5) × AD + (0.5) × AP] physical damage per spear beyond the first. Slows enemies hit by [0.1 / 0.18 / 0.26 / 0.34 / 0.42 + (0.0005) × AP] for [2] seconds.\n\nIf this Ability kills at least one target, its Cooldown is refreshed and it refunds [10 / 15 / 20 / 25 / 30] Mana."
+        }
+      ]
+    },
+    {
+      "id": "kalista-four-3",
+      "champion": "Kalista",
+      "name": "Situational adaptation: Critical duel",
+      "goal": "Situational adaptation for Kalista: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A mobile attack-stacking marksman who builds Rend spears while hopping and coordinates with an Oathsworn ally. Resetting Rend on a kill permits repeated pressure. Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter. Crit attacks and a conditional shield test repeated duel windows.",
+      "itemIds": [
+        6672,
+        6675,
+        3031,
+        6673,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kalista: Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter.",
+        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Throw a fast moving spear that passes through enemies it kills. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "The route fails Kalista's stated kit question: Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Fate's Call",
+          "slot": "R",
+          "source": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx",
+          "formula": "Kalista puts her Oathsworn into Stasis and draws them to herself for up to 4 seconds. The Oathsworn can click to launch themselves, stopping at the first champion hit and Knocking Back all nearby enemies. If the Oathsworn hits a champion, they are placed at their maximum attack range from it."
+        },
+        {
+          "ability": "Martial Poise",
+          "slot": "Passive",
+          "source": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff",
+          "formula": "{{Spell_KalistaP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Sentinel",
+          "slot": "W",
+          "source": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+          "formula": "Passive: When Kalista and her Oathsworn both Attack the same target, she deals [(0.1 / 0.12 / 0.14 / 0.16 / 0.18) × 100]% max Health magic damage. This effect has a [10] second Cooldown per target and a cap of [100 / 125 / 150 / 175 / 200] to non-champions.\n\nActive: Kalista sends a ghost to patrol an area for three laps. Champions spotted are revealed for 4 seconds. This ability has 2 charges ([90 / 80 / 70 / 60 / 50] second refresh)."
+        },
+        {
+          "ability": "Pierce",
+          "slot": "Q",
+          "source": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+          "formula": "Kalista hurls a spear, dealing [10 / 75 / 140 / 205 / 270 + (1.05) × AD] physical damage to the first target hit. If this kills the target, the spear continues onward, carrying any {{Spell_KalistaExpungeWrapper_Name}} stacks to the next target hit.\n\nKalista can dash after using this Ability using {{Spell_KalistaPassiveBuff_Name}}."
+        },
+        {
+          "ability": "Rend",
+          "slot": "E",
+          "source": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+          "formula": "Passive: Kalista's spears linger in their target for 4 seconds, stacking any number of times.\n\nActive: Kalista rips the spears from nearby enemies, dealing [5 / 15 / 25 / 35 / 45 + (0.7) × AD + (0.65) × AP] plus [7 / 14 / 21 / 28 / 35 + (0.2 / 0.275 / 0.35 / 0.425 / 0.5) × AD + (0.5) × AP] physical damage per spear beyond the first. Slows enemies hit by [0.1 / 0.18 / 0.26 / 0.34 / 0.42 + (0.0005) × AP] for [2] seconds.\n\nIf this Ability kills at least one target, its Cooldown is refreshed and it refunds [10 / 15 / 20 / 25 / 30] Mana."
+        }
+      ]
+    },
+    {
+      "id": "kalista-four-4",
+      "champion": "Kalista",
+      "name": "Experiment: Attack-led side lane",
+      "goal": "Experiment for Kalista: test a different playstyle, with lower confidence",
+      "hypothesis": "A mobile attack-stacking marksman who builds Rend spears while hopping and coordinates with an Oathsworn ally. Resetting Rend on a kill permits repeated pressure. Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3153,
+        3078,
+        3181,
+        3053,
+        6333,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kalista: Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter.",
+        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Throw a fast moving spear that passes through enemies it kills. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "The route fails Kalista's stated kit question: Fix Rend spear count and hopping/attack effectiveness. Multi-target bolts may help but must be tested; Oathsworn coordination and actual reset kills matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Fate's Call",
+          "slot": "R",
+          "source": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx",
+          "formula": "Kalista puts her Oathsworn into Stasis and draws them to herself for up to 4 seconds. The Oathsworn can click to launch themselves, stopping at the first champion hit and Knocking Back all nearby enemies. If the Oathsworn hits a champion, they are placed at their maximum attack range from it."
+        },
+        {
+          "ability": "Martial Poise",
+          "slot": "Passive",
+          "source": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff",
+          "formula": "{{Spell_KalistaP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Sentinel",
+          "slot": "W",
+          "source": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+          "formula": "Passive: When Kalista and her Oathsworn both Attack the same target, she deals [(0.1 / 0.12 / 0.14 / 0.16 / 0.18) × 100]% max Health magic damage. This effect has a [10] second Cooldown per target and a cap of [100 / 125 / 150 / 175 / 200] to non-champions.\n\nActive: Kalista sends a ghost to patrol an area for three laps. Champions spotted are revealed for 4 seconds. This ability has 2 charges ([90 / 80 / 70 / 60 / 50] second refresh)."
+        },
+        {
+          "ability": "Pierce",
+          "slot": "Q",
+          "source": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+          "formula": "Kalista hurls a spear, dealing [10 / 75 / 140 / 205 / 270 + (1.05) × AD] physical damage to the first target hit. If this kills the target, the spear continues onward, carrying any {{Spell_KalistaExpungeWrapper_Name}} stacks to the next target hit.\n\nKalista can dash after using this Ability using {{Spell_KalistaPassiveBuff_Name}}."
+        },
+        {
+          "ability": "Rend",
+          "slot": "E",
+          "source": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+          "formula": "Passive: Kalista's spears linger in their target for 4 seconds, stacking any number of times.\n\nActive: Kalista rips the spears from nearby enemies, dealing [5 / 15 / 25 / 35 / 45 + (0.7) × AD + (0.65) × AP] plus [7 / 14 / 21 / 28 / 35 + (0.2 / 0.275 / 0.35 / 0.425 / 0.5) × AD + (0.5) × AP] physical damage per spear beyond the first. Slows enemies hit by [0.1 / 0.18 / 0.26 / 0.34 / 0.42 + (0.0005) × AP] for [2] seconds.\n\nIf this Ability kills at least one target, its Cooldown is refreshed and it refunds [10 / 15 / 20 / 25 / 30] Mana."
+        }
+      ]
+    }
+  ]
+}

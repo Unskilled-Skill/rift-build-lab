@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "garen-four-1",
+      "champion": "Garen",
+      "name": "Reference: Contact fighter",
+      "goal": "Reference for Garen: establish a repeatable reference",
+      "hypothesis": "A durable melee finisher who clears slows, silences a target and spins in contact before using missing-health execution. Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "itemIds": [
+        6631,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Garen: Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match.",
+        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Garen gains a burst of Move Speed, breaking free of all slows affecting him. His next attack strikes a vital area of his foe, dealing bonus damage and silencing them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "The route fails Garen's stated kit question: Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "None",
+      "kitEvidence": [
+        {
+          "ability": "Perseverance",
+          "slot": "Passive",
+          "source": "Characters/Garen/Spells/GarenPassiveAbility/GarenPassive",
+          "formula": "Garen regenerates [(characterLevelBreakpoints(start=1.5, perLevel=0.2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 0.800000011920929, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 0.4000000059604645, \"__type\": \"Breakpoint\"}])) × (0.01)] max Health every 5 seconds if he has not been damaged or hit with enemy Abilities in the last [8] seconds."
+        },
+        {
+          "ability": "Courage",
+          "slot": "W",
+          "source": "Characters/Garen/Spells/GarenWAbility/GarenW",
+          "formula": "Passive: Garen has [(0.2) × BuffStacks({9e10ce18})] bonus Armor and [(0.2) × BuffStacks({9e10ce18})] bonus Magic Resist. Killing units permanently grants [0.2] resists, up to a max of [30].\n\nActive: Garen steels his courage for [4] seconds, reducing incoming damage by [(0.25 / 0.29 / 0.33 / 0.37 / 0.41) × 100]%. He also gains [65 / 85 / 105 / 125 / 145 + (0.18) × Stat(12)[statFormula=2]] Shield and [60]% Tenacity for [0.75] seconds."
+        },
+        {
+          "ability": "Decisive Strike",
+          "slot": "Q",
+          "source": "Characters/Garen/Spells/GarenQAbility/GarenQ",
+          "formula": "Garen removes all Slowing effects on him and gains [35]% Move Speed for [1.4 / 1.95 / 2.5 / 3.05 / 3.6] second(s).\n\nHis next Attack Silences for [1.5] seconds and does [30 / 60 / 90 / 120 / 150 + (1.5) × AD] physical damage."
+        },
+        {
+          "ability": "Judgment",
+          "slot": "E",
+          "source": "Characters/Garen/Spells/GarenEAbility/GarenE",
+          "formula": "Garen rapidly spins his sword for [3] seconds, dealing [4 / 7 / 10 / 13 / 16 + (0.4 / 0.43 / 0.46 / 0.49 / 0.52) × AD] physical damage @f1@ times over the duration. The nearest enemy takes [25]% increased damage. Champions hit by [6] strikes lose [25]% Armor for [6] seconds.\n\nRecast: Garen ends this Ability early."
+        },
+        {
+          "ability": "Demacian Justice",
+          "slot": "R",
+          "source": "Characters/Garen/Spells/GarenRAbility/GarenR",
+          "formula": "Garen calls upon the might of Demacia to slay his enemy, dealing [125 / 200 / 275] plus [(0.25 / 0.3 / 0.35) × 100]% missing Health true damage."
+        }
+      ]
+    },
+    {
+      "id": "garen-four-2",
+      "champion": "Garen",
+      "name": "Damage interaction: Critical duel",
+      "goal": "Damage interaction for Garen: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A durable melee finisher who clears slows, silences a target and spins in contact before using missing-health execution. Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match. Crit attacks and a conditional shield test repeated duel windows.",
+      "itemIds": [
+        6672,
+        6675,
+        3031,
+        6673,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Garen: Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match.",
+        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Garen gains a burst of Move Speed, breaking free of all slows affecting him. His next attack strikes a vital area of his foe, dealing bonus damage and silencing them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "The route fails Garen's stated kit question: Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "None",
+      "kitEvidence": [
+        {
+          "ability": "Perseverance",
+          "slot": "Passive",
+          "source": "Characters/Garen/Spells/GarenPassiveAbility/GarenPassive",
+          "formula": "Garen regenerates [(characterLevelBreakpoints(start=1.5, perLevel=0.2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 0.800000011920929, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 0.4000000059604645, \"__type\": \"Breakpoint\"}])) × (0.01)] max Health every 5 seconds if he has not been damaged or hit with enemy Abilities in the last [8] seconds."
+        },
+        {
+          "ability": "Courage",
+          "slot": "W",
+          "source": "Characters/Garen/Spells/GarenWAbility/GarenW",
+          "formula": "Passive: Garen has [(0.2) × BuffStacks({9e10ce18})] bonus Armor and [(0.2) × BuffStacks({9e10ce18})] bonus Magic Resist. Killing units permanently grants [0.2] resists, up to a max of [30].\n\nActive: Garen steels his courage for [4] seconds, reducing incoming damage by [(0.25 / 0.29 / 0.33 / 0.37 / 0.41) × 100]%. He also gains [65 / 85 / 105 / 125 / 145 + (0.18) × Stat(12)[statFormula=2]] Shield and [60]% Tenacity for [0.75] seconds."
+        },
+        {
+          "ability": "Decisive Strike",
+          "slot": "Q",
+          "source": "Characters/Garen/Spells/GarenQAbility/GarenQ",
+          "formula": "Garen removes all Slowing effects on him and gains [35]% Move Speed for [1.4 / 1.95 / 2.5 / 3.05 / 3.6] second(s).\n\nHis next Attack Silences for [1.5] seconds and does [30 / 60 / 90 / 120 / 150 + (1.5) × AD] physical damage."
+        },
+        {
+          "ability": "Judgment",
+          "slot": "E",
+          "source": "Characters/Garen/Spells/GarenEAbility/GarenE",
+          "formula": "Garen rapidly spins his sword for [3] seconds, dealing [4 / 7 / 10 / 13 / 16 + (0.4 / 0.43 / 0.46 / 0.49 / 0.52) × AD] physical damage @f1@ times over the duration. The nearest enemy takes [25]% increased damage. Champions hit by [6] strikes lose [25]% Armor for [6] seconds.\n\nRecast: Garen ends this Ability early."
+        },
+        {
+          "ability": "Demacian Justice",
+          "slot": "R",
+          "source": "Characters/Garen/Spells/GarenRAbility/GarenR",
+          "formula": "Garen calls upon the might of Demacia to slay his enemy, dealing [125 / 200 / 275] plus [(0.25 / 0.3 / 0.35) × 100]% missing Health true damage."
+        }
+      ]
+    },
+    {
+      "id": "garen-four-3",
+      "champion": "Garen",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Garen: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A durable melee finisher who clears slows, silences a target and spins in contact before using missing-health execution. Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Garen: Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Garen gains a burst of Move Speed, breaking free of all slows affecting him. His next attack strikes a vital area of his foe, dealing bonus damage and silencing them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Garen's stated kit question: Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "None",
+      "kitEvidence": [
+        {
+          "ability": "Perseverance",
+          "slot": "Passive",
+          "source": "Characters/Garen/Spells/GarenPassiveAbility/GarenPassive",
+          "formula": "Garen regenerates [(characterLevelBreakpoints(start=1.5, perLevel=0.2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 0.800000011920929, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 0.4000000059604645, \"__type\": \"Breakpoint\"}])) × (0.01)] max Health every 5 seconds if he has not been damaged or hit with enemy Abilities in the last [8] seconds."
+        },
+        {
+          "ability": "Courage",
+          "slot": "W",
+          "source": "Characters/Garen/Spells/GarenWAbility/GarenW",
+          "formula": "Passive: Garen has [(0.2) × BuffStacks({9e10ce18})] bonus Armor and [(0.2) × BuffStacks({9e10ce18})] bonus Magic Resist. Killing units permanently grants [0.2] resists, up to a max of [30].\n\nActive: Garen steels his courage for [4] seconds, reducing incoming damage by [(0.25 / 0.29 / 0.33 / 0.37 / 0.41) × 100]%. He also gains [65 / 85 / 105 / 125 / 145 + (0.18) × Stat(12)[statFormula=2]] Shield and [60]% Tenacity for [0.75] seconds."
+        },
+        {
+          "ability": "Decisive Strike",
+          "slot": "Q",
+          "source": "Characters/Garen/Spells/GarenQAbility/GarenQ",
+          "formula": "Garen removes all Slowing effects on him and gains [35]% Move Speed for [1.4 / 1.95 / 2.5 / 3.05 / 3.6] second(s).\n\nHis next Attack Silences for [1.5] seconds and does [30 / 60 / 90 / 120 / 150 + (1.5) × AD] physical damage."
+        },
+        {
+          "ability": "Judgment",
+          "slot": "E",
+          "source": "Characters/Garen/Spells/GarenEAbility/GarenE",
+          "formula": "Garen rapidly spins his sword for [3] seconds, dealing [4 / 7 / 10 / 13 / 16 + (0.4 / 0.43 / 0.46 / 0.49 / 0.52) × AD] physical damage @f1@ times over the duration. The nearest enemy takes [25]% increased damage. Champions hit by [6] strikes lose [25]% Armor for [6] seconds.\n\nRecast: Garen ends this Ability early."
+        },
+        {
+          "ability": "Demacian Justice",
+          "slot": "R",
+          "source": "Characters/Garen/Spells/GarenRAbility/GarenR",
+          "formula": "Garen calls upon the might of Demacia to slay his enemy, dealing [125 / 200 / 275] plus [(0.25 / 0.3 / 0.35) × 100]% missing Health true damage."
+        }
+      ]
+    },
+    {
+      "id": "garen-four-4",
+      "champion": "Garen",
+      "name": "Experiment: Health to attack damage",
+      "goal": "Experiment for Garen: test a different playstyle, with lower confidence",
+      "hypothesis": "A durable melee finisher who clears slows, silences a target and spins in contact before using missing-health execution. Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match. Bloodmail converts bonus health to AD while Titanic asks for actual attacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3084,
+        2501,
+        3748,
+        3053,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Garen: Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match.",
+        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Garen gains a burst of Move Speed, breaking free of all slows affecting him. His next attack strikes a vital area of his foe, dealing bonus damage and silencing them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "The route fails Garen's stated kit question: Measure spin ticks, Q contact and R execution separately. Confirm how item attack speed/crit affect the current spin; target access and silence timing must match.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "None",
+      "kitEvidence": [
+        {
+          "ability": "Perseverance",
+          "slot": "Passive",
+          "source": "Characters/Garen/Spells/GarenPassiveAbility/GarenPassive",
+          "formula": "Garen regenerates [(characterLevelBreakpoints(start=1.5, perLevel=0.2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 0.800000011920929, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 0.4000000059604645, \"__type\": \"Breakpoint\"}])) × (0.01)] max Health every 5 seconds if he has not been damaged or hit with enemy Abilities in the last [8] seconds."
+        },
+        {
+          "ability": "Courage",
+          "slot": "W",
+          "source": "Characters/Garen/Spells/GarenWAbility/GarenW",
+          "formula": "Passive: Garen has [(0.2) × BuffStacks({9e10ce18})] bonus Armor and [(0.2) × BuffStacks({9e10ce18})] bonus Magic Resist. Killing units permanently grants [0.2] resists, up to a max of [30].\n\nActive: Garen steels his courage for [4] seconds, reducing incoming damage by [(0.25 / 0.29 / 0.33 / 0.37 / 0.41) × 100]%. He also gains [65 / 85 / 105 / 125 / 145 + (0.18) × Stat(12)[statFormula=2]] Shield and [60]% Tenacity for [0.75] seconds."
+        },
+        {
+          "ability": "Decisive Strike",
+          "slot": "Q",
+          "source": "Characters/Garen/Spells/GarenQAbility/GarenQ",
+          "formula": "Garen removes all Slowing effects on him and gains [35]% Move Speed for [1.4 / 1.95 / 2.5 / 3.05 / 3.6] second(s).\n\nHis next Attack Silences for [1.5] seconds and does [30 / 60 / 90 / 120 / 150 + (1.5) × AD] physical damage."
+        },
+        {
+          "ability": "Judgment",
+          "slot": "E",
+          "source": "Characters/Garen/Spells/GarenEAbility/GarenE",
+          "formula": "Garen rapidly spins his sword for [3] seconds, dealing [4 / 7 / 10 / 13 / 16 + (0.4 / 0.43 / 0.46 / 0.49 / 0.52) × AD] physical damage @f1@ times over the duration. The nearest enemy takes [25]% increased damage. Champions hit by [6] strikes lose [25]% Armor for [6] seconds.\n\nRecast: Garen ends this Ability early."
+        },
+        {
+          "ability": "Demacian Justice",
+          "slot": "R",
+          "source": "Characters/Garen/Spells/GarenRAbility/GarenR",
+          "formula": "Garen calls upon the might of Demacia to slay his enemy, dealing [125 / 200 / 275] plus [(0.25 / 0.3 / 0.35) × 100]% missing Health true damage."
+        }
+      ]
+    }
+  ]
+}

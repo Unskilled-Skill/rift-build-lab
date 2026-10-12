@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "velkoz-four-1",
+      "champion": "Velkoz",
+      "name": "Reference: Range and poke",
+      "goal": "Reference for Vel'Koz: establish a repeatable reference",
+      "hypothesis": "A geometric artillery mage who combines spell hits to trigger true damage, then channels a beam from a protected angle. Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time. Range-compatible spell hits test poke AP/penetration before a commitment.",
+      "itemIds": [
+        6655,
+        4628,
+        3089,
+        3135,
+        3102,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Vel'Koz: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
+        "Start with the early core (Luden, then Horizon) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Range-compatible spell hits test poke AP/penetration before a commitment. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Vel'Koz shoots a bolt of plasma that splits in two on reactivation or upon hitting an enemy. The bolt slows and damages on hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Comet can miss and distance matters; no automatic full-range damage bonus.",
+        "The route fails Vel'Koz's stated kit question: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Comet can miss and distance matters; no automatic full-range damage bonus.",
+        "Full cost 16,050 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Luden, then Horizon. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Banshee's Veil are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Plasma Fission",
+          "slot": "Q",
+          "source": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+          "formula": "Vel'Koz shoots a plasma bolt that deals [80 / 120 / 160 / 200 / 240 + (0.9) × AP] magic damage and Slows by [70]% decaying over [1 / 1.4 / 1.8 / 2.2 / 2.6] second(s). At the end of its range, on hitting a target, or on Recasting, the bolt splits and fires two new bolts at a 90 degree angle.\n\nKilling a unit with this restores [20 / 22.5 / 25 / 27.5 / 30] Mana."
+        },
+        {
+          "ability": "Tectonic Disruption",
+          "slot": "E",
+          "source": "Characters/Velkoz/Spells/VelkozEAbility/VelkozE",
+          "formula": "Vel'Koz disrupts a nearby area, causing it to explode, Knocking Up for [0.75] seconds and dealing [70 / 100 / 130 / 160 / 190 + (0.3) × AP] magic damage. Enemies close to Vel'Koz will be Knocked Back instead of Knocked Up."
+        },
+        {
+          "ability": "Void Rift",
+          "slot": "W",
+          "source": "Characters/Velkoz/Spells/VelkozWAbility/VelkozW",
+          "formula": "Vel'Koz opens a rift to the void, dealing [30 / 50 / 70 / 90 / 110 + (0.2) × AP] magic damage. The rift then erupts, dealing [45 / 75 / 105 / 135 / 165 + (0.25) × AP] magic damage.\n\nThis Ability has 2 charges (@AmmoRechargeTime@ second refresh)."
+        },
+        {
+          "ability": "Life Form Disintegration Ray",
+          "slot": "R",
+          "source": "Characters/Velkoz/Spells/VelkozRAbility/VelkozR",
+          "formula": "Vel'Koz channels a ray of energy that follows the cursor, dealing a total of [450 / 700 / 925 + (1.25) × AP] magic damage over 2.5 seconds and Slowing by [20 / 20 / 20]%. Deals true damage instead to enemies recently damaged by {{Spell_VelkozPassive_Name}}.\n\nEnemies gain stacks of Deconstruction periodically while in the beam."
+        },
+        {
+          "ability": "Organic Deconstruction",
+          "slot": "Passive",
+          "source": "Characters/Velkoz/Spells/VelkozPassiveAbility/VelkozPassive",
+          "formula": "Vel'Koz's Abilities apply a stack of Deconstruction for [7] seconds. Enemies with 3 stacks consume them and take [(0.6) × AP + characterLevelInterpolation(35 → 180; raw flags preserved)] true damage.\n\nVel'Koz's Attacks refresh the duration of Deconstruction, but won't add new stacks."
+        }
+      ]
+    },
+    {
+      "id": "velkoz-four-2",
+      "champion": "Velkoz",
+      "name": "Damage interaction: Mana burst",
+      "goal": "Damage interaction for Vel'Koz: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A geometric artillery mage who combines spell hits to trigger true damage, then channels a beam from a protected angle. Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Vel'Koz: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
+        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Vel'Koz shoots a bolt of plasma that splits in two on reactivation or upon hitting an enemy. The bolt slows and damages on hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "The route fails Vel'Koz's stated kit question: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Plasma Fission",
+          "slot": "Q",
+          "source": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+          "formula": "Vel'Koz shoots a plasma bolt that deals [80 / 120 / 160 / 200 / 240 + (0.9) × AP] magic damage and Slows by [70]% decaying over [1 / 1.4 / 1.8 / 2.2 / 2.6] second(s). At the end of its range, on hitting a target, or on Recasting, the bolt splits and fires two new bolts at a 90 degree angle.\n\nKilling a unit with this restores [20 / 22.5 / 25 / 27.5 / 30] Mana."
+        },
+        {
+          "ability": "Tectonic Disruption",
+          "slot": "E",
+          "source": "Characters/Velkoz/Spells/VelkozEAbility/VelkozE",
+          "formula": "Vel'Koz disrupts a nearby area, causing it to explode, Knocking Up for [0.75] seconds and dealing [70 / 100 / 130 / 160 / 190 + (0.3) × AP] magic damage. Enemies close to Vel'Koz will be Knocked Back instead of Knocked Up."
+        },
+        {
+          "ability": "Void Rift",
+          "slot": "W",
+          "source": "Characters/Velkoz/Spells/VelkozWAbility/VelkozW",
+          "formula": "Vel'Koz opens a rift to the void, dealing [30 / 50 / 70 / 90 / 110 + (0.2) × AP] magic damage. The rift then erupts, dealing [45 / 75 / 105 / 135 / 165 + (0.25) × AP] magic damage.\n\nThis Ability has 2 charges (@AmmoRechargeTime@ second refresh)."
+        },
+        {
+          "ability": "Life Form Disintegration Ray",
+          "slot": "R",
+          "source": "Characters/Velkoz/Spells/VelkozRAbility/VelkozR",
+          "formula": "Vel'Koz channels a ray of energy that follows the cursor, dealing a total of [450 / 700 / 925 + (1.25) × AP] magic damage over 2.5 seconds and Slowing by [20 / 20 / 20]%. Deals true damage instead to enemies recently damaged by {{Spell_VelkozPassive_Name}}.\n\nEnemies gain stacks of Deconstruction periodically while in the beam."
+        },
+        {
+          "ability": "Organic Deconstruction",
+          "slot": "Passive",
+          "source": "Characters/Velkoz/Spells/VelkozPassiveAbility/VelkozPassive",
+          "formula": "Vel'Koz's Abilities apply a stack of Deconstruction for [7] seconds. Enemies with 3 stacks consume them and take [(0.6) × AP + characterLevelInterpolation(35 → 180; raw flags preserved)] true damage.\n\nVel'Koz's Attacks refresh the duration of Deconstruction, but won't add new stacks."
+        }
+      ]
+    },
+    {
+      "id": "velkoz-four-3",
+      "champion": "Velkoz",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Vel'Koz: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A geometric artillery mage who combines spell hits to trigger true damage, then channels a beam from a protected angle. Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Vel'Koz: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Vel'Koz shoots a bolt of plasma that splits in two on reactivation or upon hitting an enemy. The bolt slows and damages on hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Vel'Koz's stated kit question: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Plasma Fission",
+          "slot": "Q",
+          "source": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+          "formula": "Vel'Koz shoots a plasma bolt that deals [80 / 120 / 160 / 200 / 240 + (0.9) × AP] magic damage and Slows by [70]% decaying over [1 / 1.4 / 1.8 / 2.2 / 2.6] second(s). At the end of its range, on hitting a target, or on Recasting, the bolt splits and fires two new bolts at a 90 degree angle.\n\nKilling a unit with this restores [20 / 22.5 / 25 / 27.5 / 30] Mana."
+        },
+        {
+          "ability": "Tectonic Disruption",
+          "slot": "E",
+          "source": "Characters/Velkoz/Spells/VelkozEAbility/VelkozE",
+          "formula": "Vel'Koz disrupts a nearby area, causing it to explode, Knocking Up for [0.75] seconds and dealing [70 / 100 / 130 / 160 / 190 + (0.3) × AP] magic damage. Enemies close to Vel'Koz will be Knocked Back instead of Knocked Up."
+        },
+        {
+          "ability": "Void Rift",
+          "slot": "W",
+          "source": "Characters/Velkoz/Spells/VelkozWAbility/VelkozW",
+          "formula": "Vel'Koz opens a rift to the void, dealing [30 / 50 / 70 / 90 / 110 + (0.2) × AP] magic damage. The rift then erupts, dealing [45 / 75 / 105 / 135 / 165 + (0.25) × AP] magic damage.\n\nThis Ability has 2 charges (@AmmoRechargeTime@ second refresh)."
+        },
+        {
+          "ability": "Life Form Disintegration Ray",
+          "slot": "R",
+          "source": "Characters/Velkoz/Spells/VelkozRAbility/VelkozR",
+          "formula": "Vel'Koz channels a ray of energy that follows the cursor, dealing a total of [450 / 700 / 925 + (1.25) × AP] magic damage over 2.5 seconds and Slowing by [20 / 20 / 20]%. Deals true damage instead to enemies recently damaged by {{Spell_VelkozPassive_Name}}.\n\nEnemies gain stacks of Deconstruction periodically while in the beam."
+        },
+        {
+          "ability": "Organic Deconstruction",
+          "slot": "Passive",
+          "source": "Characters/Velkoz/Spells/VelkozPassiveAbility/VelkozPassive",
+          "formula": "Vel'Koz's Abilities apply a stack of Deconstruction for [7] seconds. Enemies with 3 stacks consume them and take [(0.6) × AP + characterLevelInterpolation(35 → 180; raw flags preserved)] true damage.\n\nVel'Koz's Attacks refresh the duration of Deconstruction, but won't add new stacks."
+        }
+      ]
+    },
+    {
+      "id": "velkoz-four-4",
+      "champion": "Velkoz",
+      "name": "Experiment: Mana burn zones",
+      "goal": "Experiment for Vel'Koz: test a different playstyle, with lower confidence",
+      "hypothesis": "A geometric artillery mage who combines spell hits to trigger true damage, then channels a beam from a protected angle. Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time. Mana and repeated ability damage may maintain burns and MR-reduction stacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        2503,
+        6653,
+        3116,
+        8010,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Vel'Koz: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
+        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Vel'Koz shoots a bolt of plasma that splits in two on reactivation or upon hitting an enemy. The bolt slows and damages on hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "The route fails Vel'Koz's stated kit question: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Plasma Fission",
+          "slot": "Q",
+          "source": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+          "formula": "Vel'Koz shoots a plasma bolt that deals [80 / 120 / 160 / 200 / 240 + (0.9) × AP] magic damage and Slows by [70]% decaying over [1 / 1.4 / 1.8 / 2.2 / 2.6] second(s). At the end of its range, on hitting a target, or on Recasting, the bolt splits and fires two new bolts at a 90 degree angle.\n\nKilling a unit with this restores [20 / 22.5 / 25 / 27.5 / 30] Mana."
+        },
+        {
+          "ability": "Tectonic Disruption",
+          "slot": "E",
+          "source": "Characters/Velkoz/Spells/VelkozEAbility/VelkozE",
+          "formula": "Vel'Koz disrupts a nearby area, causing it to explode, Knocking Up for [0.75] seconds and dealing [70 / 100 / 130 / 160 / 190 + (0.3) × AP] magic damage. Enemies close to Vel'Koz will be Knocked Back instead of Knocked Up."
+        },
+        {
+          "ability": "Void Rift",
+          "slot": "W",
+          "source": "Characters/Velkoz/Spells/VelkozWAbility/VelkozW",
+          "formula": "Vel'Koz opens a rift to the void, dealing [30 / 50 / 70 / 90 / 110 + (0.2) × AP] magic damage. The rift then erupts, dealing [45 / 75 / 105 / 135 / 165 + (0.25) × AP] magic damage.\n\nThis Ability has 2 charges (@AmmoRechargeTime@ second refresh)."
+        },
+        {
+          "ability": "Life Form Disintegration Ray",
+          "slot": "R",
+          "source": "Characters/Velkoz/Spells/VelkozRAbility/VelkozR",
+          "formula": "Vel'Koz channels a ray of energy that follows the cursor, dealing a total of [450 / 700 / 925 + (1.25) × AP] magic damage over 2.5 seconds and Slowing by [20 / 20 / 20]%. Deals true damage instead to enemies recently damaged by {{Spell_VelkozPassive_Name}}.\n\nEnemies gain stacks of Deconstruction periodically while in the beam."
+        },
+        {
+          "ability": "Organic Deconstruction",
+          "slot": "Passive",
+          "source": "Characters/Velkoz/Spells/VelkozPassiveAbility/VelkozPassive",
+          "formula": "Vel'Koz's Abilities apply a stack of Deconstruction for [7] seconds. Enemies with 3 stacks consume them and take [(0.6) × AP + characterLevelInterpolation(35 → 180; raw flags preserved)] true damage.\n\nVel'Koz's Attacks refresh the duration of Deconstruction, but won't add new stacks."
+        }
+      ]
+    }
+  ]
+}

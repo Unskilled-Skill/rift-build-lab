@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "zoe-four-1",
+      "champion": "Zoe",
+      "name": "Reference: Range and poke",
+      "goal": "Reference for Zoe: establish a repeatable reference",
+      "hypothesis": "A ranged pick mage who uses terrain-extended sleep and long-travel Q for burst, then returns from a brief portal. Spell shards offer opportunistic movement and damage rather than a guaranteed loadout. Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape. Range-compatible spell hits test poke AP/penetration before a commitment.",
+      "itemIds": [
+        6655,
+        4628,
+        3089,
+        3135,
+        3102,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zoe: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
+        "Start with the early core (Luden, then Horizon) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Range-compatible spell hits test poke AP/penetration before a commitment. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Zoe fires a missile that she can redirect in flight. Deals more damage the longer it flies in a straight line. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Comet can miss and distance matters; no automatic full-range damage bonus.",
+        "The route fails Zoe's stated kit question: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Comet can miss and distance matters; no automatic full-range damage bonus.",
+        "Full cost 16,050 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Luden, then Horizon. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Banshee's Veil are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Sleepy Trouble Bubble",
+          "slot": "E",
+          "source": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+          "formula": "Zoe dropkicks a bubble that deals [70 / 110 / 150 / 190 / 230 + (0.45) × AP] magic damage, lingering as a trap if it hits nothing. The bubble's range is extended when flying over terrain.\n\nIf either the bubble or trap hits an enemy champion she refreshes [(0.16 / 0.195 / 0.23 / 0.265 / 0.3) × 100]% of her cooldown.\n\nAfter a delay, the victim falls Asleep and have their Magic Resist reduced by [30]% for 2 seconds. Attacks and Ability hits wake them up but deal double damage, up to [70 / 110 / 150 / 190 / 230 + (0.45) × AP] true damage."
+        },
+        {
+          "ability": "Spell Thief",
+          "slot": "W",
+          "source": "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+          "formula": "Passive: Enemies drop spell shards when casting a Summoner Spell or using an Active Item. Specific minions also drop a spell shard when Zoe or a nearby ally kills them. Zoe can pick up this shard to cast that ability once.\n\nPassive: When Zoe casts this Ability or any Summoner Spell, she gains [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Move Speed for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and tosses 3 missiles at the target she Attacked most recently. These missiles deal [15 / 25 / 35 / 45 / 55 + (0.1) × AP] magic damage each.\n\nActive: Cast the Ability from a spell shard Zoe has picked up."
+        },
+        {
+          "ability": "Paddle Star!",
+          "slot": "Q",
+          "source": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+          "formula": "Zoe fires a star that deals increasing damage the further it travels to the first enemy hit and surrounding enemies -- between [50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] to [(50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP) × (2.5)] magic damage.\n\nZoe can Recast this Ability to redirect the missile to a new position near Zoe."
+        },
+        {
+          "ability": "More Sparkles!",
+          "slot": "Passive",
+          "source": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+          "formula": "After using an Ability, Zoe's next Attack deals an additional [characterLevelBreakpoints(start=16, perLevel=4, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 8.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage."
+        },
+        {
+          "ability": "Portal Jump",
+          "slot": "R",
+          "source": "Characters/Zoe/Spells/ZoeRAbility/ZoeR",
+          "formula": "Zoe teleports to a nearby position for 1 second. Afterwards, she teleports back. Zoe can use Abilities and Attack, but can't move during this time."
+        }
+      ]
+    },
+    {
+      "id": "zoe-four-2",
+      "champion": "Zoe",
+      "name": "Damage interaction: Mana burst",
+      "goal": "Damage interaction for Zoe: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A ranged pick mage who uses terrain-extended sleep and long-travel Q for burst, then returns from a brief portal. Spell shards offer opportunistic movement and damage rather than a guaranteed loadout. Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zoe: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
+        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Zoe fires a missile that she can redirect in flight. Deals more damage the longer it flies in a straight line. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "The route fails Zoe's stated kit question: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Sleepy Trouble Bubble",
+          "slot": "E",
+          "source": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+          "formula": "Zoe dropkicks a bubble that deals [70 / 110 / 150 / 190 / 230 + (0.45) × AP] magic damage, lingering as a trap if it hits nothing. The bubble's range is extended when flying over terrain.\n\nIf either the bubble or trap hits an enemy champion she refreshes [(0.16 / 0.195 / 0.23 / 0.265 / 0.3) × 100]% of her cooldown.\n\nAfter a delay, the victim falls Asleep and have their Magic Resist reduced by [30]% for 2 seconds. Attacks and Ability hits wake them up but deal double damage, up to [70 / 110 / 150 / 190 / 230 + (0.45) × AP] true damage."
+        },
+        {
+          "ability": "Spell Thief",
+          "slot": "W",
+          "source": "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+          "formula": "Passive: Enemies drop spell shards when casting a Summoner Spell or using an Active Item. Specific minions also drop a spell shard when Zoe or a nearby ally kills them. Zoe can pick up this shard to cast that ability once.\n\nPassive: When Zoe casts this Ability or any Summoner Spell, she gains [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Move Speed for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and tosses 3 missiles at the target she Attacked most recently. These missiles deal [15 / 25 / 35 / 45 / 55 + (0.1) × AP] magic damage each.\n\nActive: Cast the Ability from a spell shard Zoe has picked up."
+        },
+        {
+          "ability": "Paddle Star!",
+          "slot": "Q",
+          "source": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+          "formula": "Zoe fires a star that deals increasing damage the further it travels to the first enemy hit and surrounding enemies -- between [50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] to [(50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP) × (2.5)] magic damage.\n\nZoe can Recast this Ability to redirect the missile to a new position near Zoe."
+        },
+        {
+          "ability": "More Sparkles!",
+          "slot": "Passive",
+          "source": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+          "formula": "After using an Ability, Zoe's next Attack deals an additional [characterLevelBreakpoints(start=16, perLevel=4, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 8.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage."
+        },
+        {
+          "ability": "Portal Jump",
+          "slot": "R",
+          "source": "Characters/Zoe/Spells/ZoeRAbility/ZoeR",
+          "formula": "Zoe teleports to a nearby position for 1 second. Afterwards, she teleports back. Zoe can use Abilities and Attack, but can't move during this time."
+        }
+      ]
+    },
+    {
+      "id": "zoe-four-3",
+      "champion": "Zoe",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Zoe: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A ranged pick mage who uses terrain-extended sleep and long-travel Q for burst, then returns from a brief portal. Spell shards offer opportunistic movement and damage rather than a guaranteed loadout. Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zoe: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Zoe fires a missile that she can redirect in flight. Deals more damage the longer it flies in a straight line. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Zoe's stated kit question: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Sleepy Trouble Bubble",
+          "slot": "E",
+          "source": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+          "formula": "Zoe dropkicks a bubble that deals [70 / 110 / 150 / 190 / 230 + (0.45) × AP] magic damage, lingering as a trap if it hits nothing. The bubble's range is extended when flying over terrain.\n\nIf either the bubble or trap hits an enemy champion she refreshes [(0.16 / 0.195 / 0.23 / 0.265 / 0.3) × 100]% of her cooldown.\n\nAfter a delay, the victim falls Asleep and have their Magic Resist reduced by [30]% for 2 seconds. Attacks and Ability hits wake them up but deal double damage, up to [70 / 110 / 150 / 190 / 230 + (0.45) × AP] true damage."
+        },
+        {
+          "ability": "Spell Thief",
+          "slot": "W",
+          "source": "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+          "formula": "Passive: Enemies drop spell shards when casting a Summoner Spell or using an Active Item. Specific minions also drop a spell shard when Zoe or a nearby ally kills them. Zoe can pick up this shard to cast that ability once.\n\nPassive: When Zoe casts this Ability or any Summoner Spell, she gains [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Move Speed for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and tosses 3 missiles at the target she Attacked most recently. These missiles deal [15 / 25 / 35 / 45 / 55 + (0.1) × AP] magic damage each.\n\nActive: Cast the Ability from a spell shard Zoe has picked up."
+        },
+        {
+          "ability": "Paddle Star!",
+          "slot": "Q",
+          "source": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+          "formula": "Zoe fires a star that deals increasing damage the further it travels to the first enemy hit and surrounding enemies -- between [50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] to [(50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP) × (2.5)] magic damage.\n\nZoe can Recast this Ability to redirect the missile to a new position near Zoe."
+        },
+        {
+          "ability": "More Sparkles!",
+          "slot": "Passive",
+          "source": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+          "formula": "After using an Ability, Zoe's next Attack deals an additional [characterLevelBreakpoints(start=16, perLevel=4, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 8.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage."
+        },
+        {
+          "ability": "Portal Jump",
+          "slot": "R",
+          "source": "Characters/Zoe/Spells/ZoeRAbility/ZoeR",
+          "formula": "Zoe teleports to a nearby position for 1 second. Afterwards, she teleports back. Zoe can use Abilities and Attack, but can't move during this time."
+        }
+      ]
+    },
+    {
+      "id": "zoe-four-4",
+      "champion": "Zoe",
+      "name": "Experiment: Spell-and-attack",
+      "goal": "Experiment for Zoe: test a different playstyle, with lower confidence",
+      "hypothesis": "A ranged pick mage who uses terrain-extended sleep and long-travel Q for burst, then returns from a brief portal. Spell shards offer opportunistic movement and damage rather than a guaranteed loadout. Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3100,
+        3115,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zoe: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
+        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Zoe fires a missile that she can redirect in flight. Deals more damage the longer it flies in a straight line. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "The route fails Zoe's stated kit question: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Sleepy Trouble Bubble",
+          "slot": "E",
+          "source": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+          "formula": "Zoe dropkicks a bubble that deals [70 / 110 / 150 / 190 / 230 + (0.45) × AP] magic damage, lingering as a trap if it hits nothing. The bubble's range is extended when flying over terrain.\n\nIf either the bubble or trap hits an enemy champion she refreshes [(0.16 / 0.195 / 0.23 / 0.265 / 0.3) × 100]% of her cooldown.\n\nAfter a delay, the victim falls Asleep and have their Magic Resist reduced by [30]% for 2 seconds. Attacks and Ability hits wake them up but deal double damage, up to [70 / 110 / 150 / 190 / 230 + (0.45) × AP] true damage."
+        },
+        {
+          "ability": "Spell Thief",
+          "slot": "W",
+          "source": "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+          "formula": "Passive: Enemies drop spell shards when casting a Summoner Spell or using an Active Item. Specific minions also drop a spell shard when Zoe or a nearby ally kills them. Zoe can pick up this shard to cast that ability once.\n\nPassive: When Zoe casts this Ability or any Summoner Spell, she gains [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Move Speed for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and tosses 3 missiles at the target she Attacked most recently. These missiles deal [15 / 25 / 35 / 45 / 55 + (0.1) × AP] magic damage each.\n\nActive: Cast the Ability from a spell shard Zoe has picked up."
+        },
+        {
+          "ability": "Paddle Star!",
+          "slot": "Q",
+          "source": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+          "formula": "Zoe fires a star that deals increasing damage the further it travels to the first enemy hit and surrounding enemies -- between [50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] to [(50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP) × (2.5)] magic damage.\n\nZoe can Recast this Ability to redirect the missile to a new position near Zoe."
+        },
+        {
+          "ability": "More Sparkles!",
+          "slot": "Passive",
+          "source": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+          "formula": "After using an Ability, Zoe's next Attack deals an additional [characterLevelBreakpoints(start=16, perLevel=4, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 8.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage."
+        },
+        {
+          "ability": "Portal Jump",
+          "slot": "R",
+          "source": "Characters/Zoe/Spells/ZoeRAbility/ZoeR",
+          "formula": "Zoe teleports to a nearby position for 1 second. Afterwards, she teleports back. Zoe can use Abilities and Attack, but can't move during this time."
+        }
+      ]
+    }
+  ]
+}

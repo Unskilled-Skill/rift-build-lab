@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "ahri-four-1",
+      "champion": "Ahri",
+      "name": "Reference: Mana burst",
+      "goal": "Reference for Ahri: establish a repeatable reference",
+      "hypothesis": "A mobile pick mage who uses Charm to create brief damage windows, then repositions to chase takedowns or escape. Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ahri: Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo.",
+        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Ahri sends out and pulls back her orb, dealing magic damage on the way out and true damage on the way back. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "The route fails Ahri's stated kit question: Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Essence Theft",
+          "slot": "Passive",
+          "source": "Characters/Ahri/Spells/AhriPassiveAbility/AhriPassive",
+          "formula": "Killing minions or monsters grants Ahri an Essence Fragment. After obtaining [9] Fragments, Ahri consumes them to restore [characterLevelInterpolation(35 → 95; raw flags preserved) + (0.2) × AP] Health.\n\nWhen Ahri scores a takedown against an enemy champion within [3] seconds of damaging them, she feasts upon their Essence, restoring [characterLevelInterpolation(75 → 165; raw flags preserved) + (0.3) × AP] Health."
+        },
+        {
+          "ability": "Fox-Fire",
+          "slot": "W",
+          "source": "Characters/Ahri/Spells/AhriWAbility/AhriW",
+          "formula": "Ahri releases 3 fox-fires that seek nearby enemies and deal [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage, reduced to [(40 / 60 / 80 / 100 / 120 + (0.4) × AP) × (0.4)] damage beyond the first. She also gains [40]% Move Speed decaying over [2] seconds."
+        },
+        {
+          "ability": "Spirit Rush",
+          "slot": "R",
+          "source": "Characters/Ahri/Spells/AhriRAbility/AhriR",
+          "formula": "Ahri nimbly dashes, firing [3] essence bolts at nearby enemies, prioritizing champions. These bolts deal [75 / 125 / 175 + (0.35) × AP] magic damage each. Spirit Rush can be Recast up to 2 more times within [15] seconds.\n\nConsuming a champion's Essence with Essence Theft during this period extends the recast window by up to [10] seconds and grants an additional recast of Spirit Rush (up to [3] stored)."
+        },
+        {
+          "ability": "Orb of Deception",
+          "slot": "Q",
+          "source": "Characters/Ahri/Spells/AhriQAbility/AhriQ",
+          "formula": "Ahri throws then pulls back her orb, dealing [35 / 60 / 85 / 110 / 135 + (0.5) × AP] magic damage on the way out and [35 / 60 / 85 / 110 / 135 + (0.5) × AP] true damage on the way back."
+        },
+        {
+          "ability": "Charm",
+          "slot": "E",
+          "source": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "formula": "Ahri blows a kiss that Charms the first enemy hit for [1.2 / 1.35 / 1.5 / 1.65 / 1.8] seconds and deals [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "ahri-four-2",
+      "champion": "Ahri",
+      "name": "Damage interaction: Ultimate window",
+      "goal": "Damage interaction for Ahri: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A mobile pick mage who uses Charm to create brief damage windows, then repositions to chase takedowns or escape. Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo. Mana and ultimate-oriented item effects test repeated impactful R windows.",
+      "itemIds": [
+        3118,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ahri: Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo.",
+        "Start with the early core (Malignance only if the R interaction is confirmed, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Mana and ultimate-oriented item effects test repeated impactful R windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Ahri sends out and pulls back her orb, dealing magic damage on the way out and true damage on the way back. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
+        "The route fails Ahri's stated kit question: Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
+        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Malignance only if the R interaction is confirmed, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Essence Theft",
+          "slot": "Passive",
+          "source": "Characters/Ahri/Spells/AhriPassiveAbility/AhriPassive",
+          "formula": "Killing minions or monsters grants Ahri an Essence Fragment. After obtaining [9] Fragments, Ahri consumes them to restore [characterLevelInterpolation(35 → 95; raw flags preserved) + (0.2) × AP] Health.\n\nWhen Ahri scores a takedown against an enemy champion within [3] seconds of damaging them, she feasts upon their Essence, restoring [characterLevelInterpolation(75 → 165; raw flags preserved) + (0.3) × AP] Health."
+        },
+        {
+          "ability": "Fox-Fire",
+          "slot": "W",
+          "source": "Characters/Ahri/Spells/AhriWAbility/AhriW",
+          "formula": "Ahri releases 3 fox-fires that seek nearby enemies and deal [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage, reduced to [(40 / 60 / 80 / 100 / 120 + (0.4) × AP) × (0.4)] damage beyond the first. She also gains [40]% Move Speed decaying over [2] seconds."
+        },
+        {
+          "ability": "Spirit Rush",
+          "slot": "R",
+          "source": "Characters/Ahri/Spells/AhriRAbility/AhriR",
+          "formula": "Ahri nimbly dashes, firing [3] essence bolts at nearby enemies, prioritizing champions. These bolts deal [75 / 125 / 175 + (0.35) × AP] magic damage each. Spirit Rush can be Recast up to 2 more times within [15] seconds.\n\nConsuming a champion's Essence with Essence Theft during this period extends the recast window by up to [10] seconds and grants an additional recast of Spirit Rush (up to [3] stored)."
+        },
+        {
+          "ability": "Orb of Deception",
+          "slot": "Q",
+          "source": "Characters/Ahri/Spells/AhriQAbility/AhriQ",
+          "formula": "Ahri throws then pulls back her orb, dealing [35 / 60 / 85 / 110 / 135 + (0.5) × AP] magic damage on the way out and [35 / 60 / 85 / 110 / 135 + (0.5) × AP] true damage on the way back."
+        },
+        {
+          "ability": "Charm",
+          "slot": "E",
+          "source": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "formula": "Ahri blows a kiss that Charms the first enemy hit for [1.2 / 1.35 / 1.5 / 1.65 / 1.8] seconds and deals [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "ahri-four-3",
+      "champion": "Ahri",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Ahri: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A mobile pick mage who uses Charm to create brief damage windows, then repositions to chase takedowns or escape. Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ahri: Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Ahri sends out and pulls back her orb, dealing magic damage on the way out and true damage on the way back. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Ahri's stated kit question: Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Essence Theft",
+          "slot": "Passive",
+          "source": "Characters/Ahri/Spells/AhriPassiveAbility/AhriPassive",
+          "formula": "Killing minions or monsters grants Ahri an Essence Fragment. After obtaining [9] Fragments, Ahri consumes them to restore [characterLevelInterpolation(35 → 95; raw flags preserved) + (0.2) × AP] Health.\n\nWhen Ahri scores a takedown against an enemy champion within [3] seconds of damaging them, she feasts upon their Essence, restoring [characterLevelInterpolation(75 → 165; raw flags preserved) + (0.3) × AP] Health."
+        },
+        {
+          "ability": "Fox-Fire",
+          "slot": "W",
+          "source": "Characters/Ahri/Spells/AhriWAbility/AhriW",
+          "formula": "Ahri releases 3 fox-fires that seek nearby enemies and deal [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage, reduced to [(40 / 60 / 80 / 100 / 120 + (0.4) × AP) × (0.4)] damage beyond the first. She also gains [40]% Move Speed decaying over [2] seconds."
+        },
+        {
+          "ability": "Spirit Rush",
+          "slot": "R",
+          "source": "Characters/Ahri/Spells/AhriRAbility/AhriR",
+          "formula": "Ahri nimbly dashes, firing [3] essence bolts at nearby enemies, prioritizing champions. These bolts deal [75 / 125 / 175 + (0.35) × AP] magic damage each. Spirit Rush can be Recast up to 2 more times within [15] seconds.\n\nConsuming a champion's Essence with Essence Theft during this period extends the recast window by up to [10] seconds and grants an additional recast of Spirit Rush (up to [3] stored)."
+        },
+        {
+          "ability": "Orb of Deception",
+          "slot": "Q",
+          "source": "Characters/Ahri/Spells/AhriQAbility/AhriQ",
+          "formula": "Ahri throws then pulls back her orb, dealing [35 / 60 / 85 / 110 / 135 + (0.5) × AP] magic damage on the way out and [35 / 60 / 85 / 110 / 135 + (0.5) × AP] true damage on the way back."
+        },
+        {
+          "ability": "Charm",
+          "slot": "E",
+          "source": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "formula": "Ahri blows a kiss that Charms the first enemy hit for [1.2 / 1.35 / 1.5 / 1.65 / 1.8] seconds and deals [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "ahri-four-4",
+      "champion": "Ahri",
+      "name": "Experiment: Spell-and-attack",
+      "goal": "Experiment for Ahri: test a different playstyle, with lower confidence",
+      "hypothesis": "A mobile pick mage who uses Charm to create brief damage windows, then repositions to chase takedowns or escape. Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3100,
+        3115,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ahri: Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo.",
+        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Ahri sends out and pulls back her orb, dealing magic damage on the way out and true damage on the way back. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "The route fails Ahri's stated kit question: Does a Charm-led spell sequence or additional real attacks between dashes win the pick? Separate R access/reset value from a stationary combo.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Essence Theft",
+          "slot": "Passive",
+          "source": "Characters/Ahri/Spells/AhriPassiveAbility/AhriPassive",
+          "formula": "Killing minions or monsters grants Ahri an Essence Fragment. After obtaining [9] Fragments, Ahri consumes them to restore [characterLevelInterpolation(35 → 95; raw flags preserved) + (0.2) × AP] Health.\n\nWhen Ahri scores a takedown against an enemy champion within [3] seconds of damaging them, she feasts upon their Essence, restoring [characterLevelInterpolation(75 → 165; raw flags preserved) + (0.3) × AP] Health."
+        },
+        {
+          "ability": "Fox-Fire",
+          "slot": "W",
+          "source": "Characters/Ahri/Spells/AhriWAbility/AhriW",
+          "formula": "Ahri releases 3 fox-fires that seek nearby enemies and deal [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage, reduced to [(40 / 60 / 80 / 100 / 120 + (0.4) × AP) × (0.4)] damage beyond the first. She also gains [40]% Move Speed decaying over [2] seconds."
+        },
+        {
+          "ability": "Spirit Rush",
+          "slot": "R",
+          "source": "Characters/Ahri/Spells/AhriRAbility/AhriR",
+          "formula": "Ahri nimbly dashes, firing [3] essence bolts at nearby enemies, prioritizing champions. These bolts deal [75 / 125 / 175 + (0.35) × AP] magic damage each. Spirit Rush can be Recast up to 2 more times within [15] seconds.\n\nConsuming a champion's Essence with Essence Theft during this period extends the recast window by up to [10] seconds and grants an additional recast of Spirit Rush (up to [3] stored)."
+        },
+        {
+          "ability": "Orb of Deception",
+          "slot": "Q",
+          "source": "Characters/Ahri/Spells/AhriQAbility/AhriQ",
+          "formula": "Ahri throws then pulls back her orb, dealing [35 / 60 / 85 / 110 / 135 + (0.5) × AP] magic damage on the way out and [35 / 60 / 85 / 110 / 135 + (0.5) × AP] true damage on the way back."
+        },
+        {
+          "ability": "Charm",
+          "slot": "E",
+          "source": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "formula": "Ahri blows a kiss that Charms the first enemy hit for [1.2 / 1.35 / 1.5 / 1.65 / 1.8] seconds and deals [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        }
+      ]
+    }
+  ]
+}

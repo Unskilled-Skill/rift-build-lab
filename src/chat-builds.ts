@@ -34,3 +34,8 @@ export function parseChatBuilds(text:string,data:Catalog):ChatBuild[]{
   toTestSave(b,data);return b;
  });
 }
+export function parseChampionBuilds(text:string,data:Catalog,champion:string):ChatBuild[]{
+ const builds=parseChatBuilds(text,data);
+ if(builds.length!==4||builds.some(b=>b.champion!==champion))throw new Error('Expected four builds for the selected champion.');
+ return builds;
+}

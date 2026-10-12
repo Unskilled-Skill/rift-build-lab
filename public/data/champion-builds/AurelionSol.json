@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "aurelionsol-four-1",
+      "champion": "AurelionSol",
+      "name": "Reference: Mana burn zones",
+      "goal": "Reference for Aurelion Sol: establish a repeatable reference",
+      "hypothesis": "A scaling zone mage who collects Stardust through sustained beam contact and enemies inside Singularity, then follows retreating fights with flight. Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route. Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "itemIds": [
+        2503,
+        6653,
+        3116,
+        8010,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Aurelion Sol: Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route.",
+        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Aurelion Sol channels his dragon breath for a few seconds, damaging the first enemy hit and splashing reduced damage onto nearby enemies. Each second the breath is channeled directly at an enemy will deal bonus damage, which is improved by the amount of Stardust that's been collected. This ability collects Stardust if the target is a champion. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "The route fails Aurelion Sol's stated kit question: Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Breath of Light",
+          "slot": "Q",
+          "source": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+          "formula": "Aurelion Sol breathes starfire for up to [3.25 / 3.25 / 3.25 / 3.25 / 9999] seconds, dealing [45 / 60 / 75 / 90 / 105 + (0.55) × AP] magic damage per second to the first enemy hit and [50]% of the damage to surrounding enemies.\n\nEach full second of breath on the same enemy deals a burst of [60 / 70 / 80 / 90 / 100 + (0.3) × AP] magic damage plus [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage and absorbs [2] Stardust if they are a champion."
+        },
+        {
+          "ability": "Falling Star / The Skies Descend",
+          "slot": "R",
+          "source": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+          "formula": "Aurelion Sol plucks a star from the heavens and crashes it into the earth, dealing [150 / 250 / 350 + (0.75) × AP] magic damage, Stunning enemies [1] second, and absorbing [5] Stardust for each champion hit.\n\nGathering [75] Stardust transforms the next {{Spell_AurelionSolR1_Name}} into {{Spell_AurelionSolR2_Name}}.\n\n{{Spell_AurelionSolR2_Name}}: Aurelion Sol drags a constellation's worth of fury down from the cosmos, dealing [(150 / 250 / 350 + (0.75) × AP) × (1.25)] magic damage in a larger area, Knocking Up enemies hit for [1] second, and unleashing a massive shockwave that deals [(150 / 250 / 350 + (0.75) × AP) × (0.9)] magic damage to champions and Epic Monsters and Slows all enemies hit by [50]% for 1 second."
+        },
+        {
+          "ability": "Singularity",
+          "slot": "E",
+          "source": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+          "formula": "Aurelion Sol summons a black hole, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage per second and Dragging enemies towards the center for [5] seconds. Enemies in the center below [5 + (0.026) × BuffStacks({c9372c6b})]% max Health die instantly.\n\nThe black hole absorbs Stardust when enemies die within it and each second an enemy champion is inside."
+        },
+        {
+          "ability": "Cosmic Creator",
+          "slot": "Passive",
+          "source": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+          "formula": "Aurelion Sol's damaging Abilities break down enemies into Stardust, which improves his Abilities.{{Spell_AurelionSolQ_Name}}: Bursts deal an additional [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage{{Spell_AurelionSolW_Name}}: @f2.1@% increased distance.{{Spell_AurelionSolE_Name}}: @f3.1@% increased area and [(0.026) × BuffStacks({c9372c6b})] bonus execute threshold.{{Spell_AurelionSolR1_Name}} and {{Spell_AurelionSolR2_Name}}: @f4.1@% increased area.\nAurelion Sol has acquired Stardust: @f1@"
+        },
+        {
+          "ability": "Astral Flight",
+          "slot": "W",
+          "source": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+          "formula": "Aurelion Sol flies in a direction. While flying, {{Spell_AurelionSolQ_Name}} has no Cooldown, no max channel duration, and its flat damage is increased by [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 100]%.\n\nTakedowns on champions within [3] seconds of damaging them refunds [90]% of this Ability's Cooldown.\n\nRecast: End flight early."
+        }
+      ]
+    },
+    {
+      "id": "aurelionsol-four-2",
+      "champion": "AurelionSol",
+      "name": "Damage interaction: Mana scaling",
+      "goal": "Damage interaction for Aurelion Sol: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A scaling zone mage who collects Stardust through sustained beam contact and enemies inside Singularity, then follows retreating fights with flight. Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route. Finite Rod stacks and a transformed mana item test later AP/mana-supported sequences.",
+      "itemIds": [
+        6657,
+        3040,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Aurelion Sol: Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route.",
+        "Start with the early core (Rod early if the timer fits, then Archangel) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Finite Rod stacks and a transformed mana item test later AP/mana-supported sequences. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Aurelion Sol channels his dragon breath for a few seconds, damaging the first enemy hit and splashing reduced damage onto nearby enemies. Each second the breath is channeled directly at an enemy will deal bonus damage, which is improved by the amount of Stardust that's been collected. This ability collects Stardust if the target is a champion. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Two delayed spikes can lose the game before full build; mana-to-AP values must be observed.",
+        "The route fails Aurelion Sol's stated kit question: Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Two delayed spikes can lose the game before full build; mana-to-AP values must be observed.",
+        "Full cost 16,350 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Rod early if the timer fits, then Archangel. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Breath of Light",
+          "slot": "Q",
+          "source": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+          "formula": "Aurelion Sol breathes starfire for up to [3.25 / 3.25 / 3.25 / 3.25 / 9999] seconds, dealing [45 / 60 / 75 / 90 / 105 + (0.55) × AP] magic damage per second to the first enemy hit and [50]% of the damage to surrounding enemies.\n\nEach full second of breath on the same enemy deals a burst of [60 / 70 / 80 / 90 / 100 + (0.3) × AP] magic damage plus [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage and absorbs [2] Stardust if they are a champion."
+        },
+        {
+          "ability": "Falling Star / The Skies Descend",
+          "slot": "R",
+          "source": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+          "formula": "Aurelion Sol plucks a star from the heavens and crashes it into the earth, dealing [150 / 250 / 350 + (0.75) × AP] magic damage, Stunning enemies [1] second, and absorbing [5] Stardust for each champion hit.\n\nGathering [75] Stardust transforms the next {{Spell_AurelionSolR1_Name}} into {{Spell_AurelionSolR2_Name}}.\n\n{{Spell_AurelionSolR2_Name}}: Aurelion Sol drags a constellation's worth of fury down from the cosmos, dealing [(150 / 250 / 350 + (0.75) × AP) × (1.25)] magic damage in a larger area, Knocking Up enemies hit for [1] second, and unleashing a massive shockwave that deals [(150 / 250 / 350 + (0.75) × AP) × (0.9)] magic damage to champions and Epic Monsters and Slows all enemies hit by [50]% for 1 second."
+        },
+        {
+          "ability": "Singularity",
+          "slot": "E",
+          "source": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+          "formula": "Aurelion Sol summons a black hole, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage per second and Dragging enemies towards the center for [5] seconds. Enemies in the center below [5 + (0.026) × BuffStacks({c9372c6b})]% max Health die instantly.\n\nThe black hole absorbs Stardust when enemies die within it and each second an enemy champion is inside."
+        },
+        {
+          "ability": "Cosmic Creator",
+          "slot": "Passive",
+          "source": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+          "formula": "Aurelion Sol's damaging Abilities break down enemies into Stardust, which improves his Abilities.{{Spell_AurelionSolQ_Name}}: Bursts deal an additional [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage{{Spell_AurelionSolW_Name}}: @f2.1@% increased distance.{{Spell_AurelionSolE_Name}}: @f3.1@% increased area and [(0.026) × BuffStacks({c9372c6b})] bonus execute threshold.{{Spell_AurelionSolR1_Name}} and {{Spell_AurelionSolR2_Name}}: @f4.1@% increased area.\nAurelion Sol has acquired Stardust: @f1@"
+        },
+        {
+          "ability": "Astral Flight",
+          "slot": "W",
+          "source": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+          "formula": "Aurelion Sol flies in a direction. While flying, {{Spell_AurelionSolQ_Name}} has no Cooldown, no max channel duration, and its flat damage is increased by [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 100]%.\n\nTakedowns on champions within [3] seconds of damaging them refunds [90]% of this Ability's Cooldown.\n\nRecast: End flight early."
+        }
+      ]
+    },
+    {
+      "id": "aurelionsol-four-3",
+      "champion": "AurelionSol",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Aurelion Sol: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A scaling zone mage who collects Stardust through sustained beam contact and enemies inside Singularity, then follows retreating fights with flight. Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Aurelion Sol: Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Aurelion Sol channels his dragon breath for a few seconds, damaging the first enemy hit and splashing reduced damage onto nearby enemies. Each second the breath is channeled directly at an enemy will deal bonus damage, which is improved by the amount of Stardust that's been collected. This ability collects Stardust if the target is a champion. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Aurelion Sol's stated kit question: Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Breath of Light",
+          "slot": "Q",
+          "source": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+          "formula": "Aurelion Sol breathes starfire for up to [3.25 / 3.25 / 3.25 / 3.25 / 9999] seconds, dealing [45 / 60 / 75 / 90 / 105 + (0.55) × AP] magic damage per second to the first enemy hit and [50]% of the damage to surrounding enemies.\n\nEach full second of breath on the same enemy deals a burst of [60 / 70 / 80 / 90 / 100 + (0.3) × AP] magic damage plus [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage and absorbs [2] Stardust if they are a champion."
+        },
+        {
+          "ability": "Falling Star / The Skies Descend",
+          "slot": "R",
+          "source": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+          "formula": "Aurelion Sol plucks a star from the heavens and crashes it into the earth, dealing [150 / 250 / 350 + (0.75) × AP] magic damage, Stunning enemies [1] second, and absorbing [5] Stardust for each champion hit.\n\nGathering [75] Stardust transforms the next {{Spell_AurelionSolR1_Name}} into {{Spell_AurelionSolR2_Name}}.\n\n{{Spell_AurelionSolR2_Name}}: Aurelion Sol drags a constellation's worth of fury down from the cosmos, dealing [(150 / 250 / 350 + (0.75) × AP) × (1.25)] magic damage in a larger area, Knocking Up enemies hit for [1] second, and unleashing a massive shockwave that deals [(150 / 250 / 350 + (0.75) × AP) × (0.9)] magic damage to champions and Epic Monsters and Slows all enemies hit by [50]% for 1 second."
+        },
+        {
+          "ability": "Singularity",
+          "slot": "E",
+          "source": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+          "formula": "Aurelion Sol summons a black hole, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage per second and Dragging enemies towards the center for [5] seconds. Enemies in the center below [5 + (0.026) × BuffStacks({c9372c6b})]% max Health die instantly.\n\nThe black hole absorbs Stardust when enemies die within it and each second an enemy champion is inside."
+        },
+        {
+          "ability": "Cosmic Creator",
+          "slot": "Passive",
+          "source": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+          "formula": "Aurelion Sol's damaging Abilities break down enemies into Stardust, which improves his Abilities.{{Spell_AurelionSolQ_Name}}: Bursts deal an additional [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage{{Spell_AurelionSolW_Name}}: @f2.1@% increased distance.{{Spell_AurelionSolE_Name}}: @f3.1@% increased area and [(0.026) × BuffStacks({c9372c6b})] bonus execute threshold.{{Spell_AurelionSolR1_Name}} and {{Spell_AurelionSolR2_Name}}: @f4.1@% increased area.\nAurelion Sol has acquired Stardust: @f1@"
+        },
+        {
+          "ability": "Astral Flight",
+          "slot": "W",
+          "source": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+          "formula": "Aurelion Sol flies in a direction. While flying, {{Spell_AurelionSolQ_Name}} has no Cooldown, no max channel duration, and its flat damage is increased by [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 100]%.\n\nTakedowns on champions within [3] seconds of damaging them refunds [90]% of this Ability's Cooldown.\n\nRecast: End flight early."
+        }
+      ]
+    },
+    {
+      "id": "aurelionsol-four-4",
+      "champion": "AurelionSol",
+      "name": "Experiment: AP health frontline",
+      "goal": "Experiment for Aurelion Sol: test a different playstyle, with lower confidence",
+      "hypothesis": "A scaling zone mage who collects Stardust through sustained beam contact and enemies inside Singularity, then follows retreating fights with flight. Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route. Health/AP may sustain close spell pressure and debuff targets for allied magic damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        4633,
+        6653,
+        3116,
+        8010,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Aurelion Sol: Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route.",
+        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Aurelion Sol channels his dragon breath for a few seconds, damaging the first enemy hit and splashing reduced damage onto nearby enemies. Each second the breath is channeled directly at an enemy will deal bonus damage, which is improved by the amount of Stardust that's been collected. This ability collects Stardust if the target is a champion. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "The route fails Aurelion Sol's stated kit question: Fix finite Stardust and measure beam hold time, Singularity occupancy and safe flight access. Do not invent arbitrary stack totals to prove an item route.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Breath of Light",
+          "slot": "Q",
+          "source": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+          "formula": "Aurelion Sol breathes starfire for up to [3.25 / 3.25 / 3.25 / 3.25 / 9999] seconds, dealing [45 / 60 / 75 / 90 / 105 + (0.55) × AP] magic damage per second to the first enemy hit and [50]% of the damage to surrounding enemies.\n\nEach full second of breath on the same enemy deals a burst of [60 / 70 / 80 / 90 / 100 + (0.3) × AP] magic damage plus [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage and absorbs [2] Stardust if they are a champion."
+        },
+        {
+          "ability": "Falling Star / The Skies Descend",
+          "slot": "R",
+          "source": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+          "formula": "Aurelion Sol plucks a star from the heavens and crashes it into the earth, dealing [150 / 250 / 350 + (0.75) × AP] magic damage, Stunning enemies [1] second, and absorbing [5] Stardust for each champion hit.\n\nGathering [75] Stardust transforms the next {{Spell_AurelionSolR1_Name}} into {{Spell_AurelionSolR2_Name}}.\n\n{{Spell_AurelionSolR2_Name}}: Aurelion Sol drags a constellation's worth of fury down from the cosmos, dealing [(150 / 250 / 350 + (0.75) × AP) × (1.25)] magic damage in a larger area, Knocking Up enemies hit for [1] second, and unleashing a massive shockwave that deals [(150 / 250 / 350 + (0.75) × AP) × (0.9)] magic damage to champions and Epic Monsters and Slows all enemies hit by [50]% for 1 second."
+        },
+        {
+          "ability": "Singularity",
+          "slot": "E",
+          "source": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+          "formula": "Aurelion Sol summons a black hole, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage per second and Dragging enemies towards the center for [5] seconds. Enemies in the center below [5 + (0.026) × BuffStacks({c9372c6b})]% max Health die instantly.\n\nThe black hole absorbs Stardust when enemies die within it and each second an enemy champion is inside."
+        },
+        {
+          "ability": "Cosmic Creator",
+          "slot": "Passive",
+          "source": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+          "formula": "Aurelion Sol's damaging Abilities break down enemies into Stardust, which improves his Abilities.{{Spell_AurelionSolQ_Name}}: Bursts deal an additional [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage{{Spell_AurelionSolW_Name}}: @f2.1@% increased distance.{{Spell_AurelionSolE_Name}}: @f3.1@% increased area and [(0.026) × BuffStacks({c9372c6b})] bonus execute threshold.{{Spell_AurelionSolR1_Name}} and {{Spell_AurelionSolR2_Name}}: @f4.1@% increased area.\nAurelion Sol has acquired Stardust: @f1@"
+        },
+        {
+          "ability": "Astral Flight",
+          "slot": "W",
+          "source": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+          "formula": "Aurelion Sol flies in a direction. While flying, {{Spell_AurelionSolQ_Name}} has no Cooldown, no max channel duration, and its flat damage is increased by [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 100]%.\n\nTakedowns on champions within [3] seconds of damaging them refunds [90]% of this Ability's Cooldown.\n\nRecast: End flight early."
+        }
+      ]
+    }
+  ]
+}

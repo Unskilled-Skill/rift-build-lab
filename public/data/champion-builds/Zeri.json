@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "zeri-four-1",
+      "champion": "Zeri",
+      "name": "Reference: Multi-target carry",
+      "goal": "Reference for Zeri: establish a repeatable reference",
+      "hypothesis": "A mobile ranged attack carry whose Q is treated as an attack and whose ordinary attack is treated as an ability. Wall travel and sustained R hits create an escalating movement window. Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly. Runaan asks whether real multi-target attacks improve teamfight output.",
+      "itemIds": [
+        3032,
+        3085,
+        3031,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zeri: Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly.",
+        "Start with the early core (Yun Tal, then Runaan) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Runaan asks whether real multi-target attacks improve teamfight output. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Burst Fire shoots a burst of 7 rounds that deal attack damage to the first enemy hit. This Ability is treated as an Attack. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
+        "The route fails Zeri's stated kit question: Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Yun Tal, then Runaan. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Living Battery",
+          "slot": "Passive",
+          "source": "Characters/Zeri/Spells/ZeriPassiveAbility/ZeriPassive",
+          "formula": "Zeri's Attacks are treated as Abilities instead of Attacks and can be charged up by moving and casting {{Spell_ZeriQ_Name}}. Uncharged Attacks consume a small amount of charge, deal @Spell.ZeriQ:MinDamage@ magic damage and execute enemies below @Spell.ZeriQ:PassiveExecuteThreshold@ Health. A fully charged Attack deals @Spell.ZeriQ:PassiveMaxDamage@ + @Spell.ZeriQ:PassiveMaxChargePercentHealth@ max Health magic damage and consumes all charge."
+        },
+        {
+          "ability": "Burst Fire",
+          "slot": "Q",
+          "source": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+          "formula": "Zeri fires a burst of [7] rounds that deals [22 / 26 / 30 / 34 / 38 + (1.02 / 1.04 / 1.06 / 1.08 / 1.1) × AD] physical damage to the first enemy hit. This Ability is treated as an Attack."
+        },
+        {
+          "ability": "Ultrashock Laser",
+          "slot": "W",
+          "source": "Characters/Zeri/Spells/ZeriWAbility/ZeriW",
+          "formula": "Zeri fires an electric pulse that deals [30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP] physical damage and Slows the first enemy hit by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nIf the pulse hits terrain, it expands into a laser that applies the effects in an area and Critically Strikes champions and monsters for [(30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP) × ((1 + (0.5) × (((1) × Stat(9) + -1))))] physical damage."
+        },
+        {
+          "ability": "Lightning Crash",
+          "slot": "R",
+          "source": "Characters/Zeri/Spells/ZeriRAbility/ZeriR",
+          "formula": "Zeri discharges a nova of electricity, dealing [150 / 250 / 350 + (1.1) × AP + (0.6) × AD[statFormula=2]] magic damage to nearby enemies. If she hits an enemy champion, Zeri gains [30]% Attack Speed and [15]% Move Speed for [5] seconds. Hitting an enemy champion with an Attack or Ability extends this ability's duration and adds a stack of Overcharge for [2.5] seconds. Critical strikes add 2 additional stacks. Each stack grants [1.5]% Move Speed.\n\nDuring this time, {{Spell_ZeriQ_Name}} becomes a faster triple shot that chains [(0.4) × AD] physical damage to nearby enemies."
+        },
+        {
+          "ability": "Spark Surge",
+          "slot": "E",
+          "source": "Characters/Zeri/Spells/ZeriEAbility/ZeriE",
+          "formula": "Zeri dashes a short distance and vaults over any terrain she touches, greatly extending the dash range. For the next [5] seconds, her shots of {{Spell_ZeriQ_Name}} pierce dealing [(0.8 / 0.85 / 0.9 / 0.95 / 1) × 100]% damage to enemies after the first and an additional [(22 / 24 / 26 / 28 / 30 + (0.2) × AP) × ((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1))))] magic damage On-Hit to the first target struck. \n\nHitting an enemy with an Attack reduces this Ability's cooldown by [0.5] seconds. Critical strikes reduce the cooldown by [1.5] seconds instead."
+        }
+      ]
+    },
+    {
+      "id": "zeri-four-2",
+      "champion": "Zeri",
+      "name": "Damage interaction: Critical carry",
+      "goal": "Damage interaction for Zeri: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A mobile ranged attack carry whose Q is treated as an attack and whose ordinary attack is treated as an ability. Wall travel and sustained R hits create an escalating movement window. Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly. Attack cadence, crit and penetration support repeatable carry damage.",
+      "itemIds": [
+        6672,
+        3031,
+        3046,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zeri: Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly.",
+        "Start with the early core (Kraken, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Attack cadence, crit and penetration support repeatable carry damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Burst Fire shoots a burst of 7 rounds that deal attack damage to the first enemy hit. This Ability is treated as an Attack. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "The route fails Zeri's stated kit question: Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Phantom Dancer, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Living Battery",
+          "slot": "Passive",
+          "source": "Characters/Zeri/Spells/ZeriPassiveAbility/ZeriPassive",
+          "formula": "Zeri's Attacks are treated as Abilities instead of Attacks and can be charged up by moving and casting {{Spell_ZeriQ_Name}}. Uncharged Attacks consume a small amount of charge, deal @Spell.ZeriQ:MinDamage@ magic damage and execute enemies below @Spell.ZeriQ:PassiveExecuteThreshold@ Health. A fully charged Attack deals @Spell.ZeriQ:PassiveMaxDamage@ + @Spell.ZeriQ:PassiveMaxChargePercentHealth@ max Health magic damage and consumes all charge."
+        },
+        {
+          "ability": "Burst Fire",
+          "slot": "Q",
+          "source": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+          "formula": "Zeri fires a burst of [7] rounds that deals [22 / 26 / 30 / 34 / 38 + (1.02 / 1.04 / 1.06 / 1.08 / 1.1) × AD] physical damage to the first enemy hit. This Ability is treated as an Attack."
+        },
+        {
+          "ability": "Ultrashock Laser",
+          "slot": "W",
+          "source": "Characters/Zeri/Spells/ZeriWAbility/ZeriW",
+          "formula": "Zeri fires an electric pulse that deals [30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP] physical damage and Slows the first enemy hit by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nIf the pulse hits terrain, it expands into a laser that applies the effects in an area and Critically Strikes champions and monsters for [(30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP) × ((1 + (0.5) × (((1) × Stat(9) + -1))))] physical damage."
+        },
+        {
+          "ability": "Lightning Crash",
+          "slot": "R",
+          "source": "Characters/Zeri/Spells/ZeriRAbility/ZeriR",
+          "formula": "Zeri discharges a nova of electricity, dealing [150 / 250 / 350 + (1.1) × AP + (0.6) × AD[statFormula=2]] magic damage to nearby enemies. If she hits an enemy champion, Zeri gains [30]% Attack Speed and [15]% Move Speed for [5] seconds. Hitting an enemy champion with an Attack or Ability extends this ability's duration and adds a stack of Overcharge for [2.5] seconds. Critical strikes add 2 additional stacks. Each stack grants [1.5]% Move Speed.\n\nDuring this time, {{Spell_ZeriQ_Name}} becomes a faster triple shot that chains [(0.4) × AD] physical damage to nearby enemies."
+        },
+        {
+          "ability": "Spark Surge",
+          "slot": "E",
+          "source": "Characters/Zeri/Spells/ZeriEAbility/ZeriE",
+          "formula": "Zeri dashes a short distance and vaults over any terrain she touches, greatly extending the dash range. For the next [5] seconds, her shots of {{Spell_ZeriQ_Name}} pierce dealing [(0.8 / 0.85 / 0.9 / 0.95 / 1) × 100]% damage to enemies after the first and an additional [(22 / 24 / 26 / 28 / 30 + (0.2) × AP) × ((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1))))] magic damage On-Hit to the first target struck. \n\nHitting an enemy with an Attack reduces this Ability's cooldown by [0.5] seconds. Critical strikes reduce the cooldown by [1.5] seconds instead."
+        }
+      ]
+    },
+    {
+      "id": "zeri-four-3",
+      "champion": "Zeri",
+      "name": "Situational adaptation: Critical duel",
+      "goal": "Situational adaptation for Zeri: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A mobile ranged attack carry whose Q is treated as an attack and whose ordinary attack is treated as an ability. Wall travel and sustained R hits create an escalating movement window. Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly. Crit attacks and a conditional shield test repeated duel windows.",
+      "itemIds": [
+        6672,
+        6675,
+        3031,
+        6673,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zeri: Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly.",
+        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Burst Fire shoots a burst of 7 rounds that deal attack damage to the first enemy hit. This Ability is treated as an Attack. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "The route fails Zeri's stated kit question: Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Living Battery",
+          "slot": "Passive",
+          "source": "Characters/Zeri/Spells/ZeriPassiveAbility/ZeriPassive",
+          "formula": "Zeri's Attacks are treated as Abilities instead of Attacks and can be charged up by moving and casting {{Spell_ZeriQ_Name}}. Uncharged Attacks consume a small amount of charge, deal @Spell.ZeriQ:MinDamage@ magic damage and execute enemies below @Spell.ZeriQ:PassiveExecuteThreshold@ Health. A fully charged Attack deals @Spell.ZeriQ:PassiveMaxDamage@ + @Spell.ZeriQ:PassiveMaxChargePercentHealth@ max Health magic damage and consumes all charge."
+        },
+        {
+          "ability": "Burst Fire",
+          "slot": "Q",
+          "source": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+          "formula": "Zeri fires a burst of [7] rounds that deals [22 / 26 / 30 / 34 / 38 + (1.02 / 1.04 / 1.06 / 1.08 / 1.1) × AD] physical damage to the first enemy hit. This Ability is treated as an Attack."
+        },
+        {
+          "ability": "Ultrashock Laser",
+          "slot": "W",
+          "source": "Characters/Zeri/Spells/ZeriWAbility/ZeriW",
+          "formula": "Zeri fires an electric pulse that deals [30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP] physical damage and Slows the first enemy hit by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nIf the pulse hits terrain, it expands into a laser that applies the effects in an area and Critically Strikes champions and monsters for [(30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP) × ((1 + (0.5) × (((1) × Stat(9) + -1))))] physical damage."
+        },
+        {
+          "ability": "Lightning Crash",
+          "slot": "R",
+          "source": "Characters/Zeri/Spells/ZeriRAbility/ZeriR",
+          "formula": "Zeri discharges a nova of electricity, dealing [150 / 250 / 350 + (1.1) × AP + (0.6) × AD[statFormula=2]] magic damage to nearby enemies. If she hits an enemy champion, Zeri gains [30]% Attack Speed and [15]% Move Speed for [5] seconds. Hitting an enemy champion with an Attack or Ability extends this ability's duration and adds a stack of Overcharge for [2.5] seconds. Critical strikes add 2 additional stacks. Each stack grants [1.5]% Move Speed.\n\nDuring this time, {{Spell_ZeriQ_Name}} becomes a faster triple shot that chains [(0.4) × AD] physical damage to nearby enemies."
+        },
+        {
+          "ability": "Spark Surge",
+          "slot": "E",
+          "source": "Characters/Zeri/Spells/ZeriEAbility/ZeriE",
+          "formula": "Zeri dashes a short distance and vaults over any terrain she touches, greatly extending the dash range. For the next [5] seconds, her shots of {{Spell_ZeriQ_Name}} pierce dealing [(0.8 / 0.85 / 0.9 / 0.95 / 1) × 100]% damage to enemies after the first and an additional [(22 / 24 / 26 / 28 / 30 + (0.2) × AP) × ((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1))))] magic damage On-Hit to the first target struck. \n\nHitting an enemy with an Attack reduces this Ability's cooldown by [0.5] seconds. Critical strikes reduce the cooldown by [1.5] seconds instead."
+        }
+      ]
+    },
+    {
+      "id": "zeri-four-4",
+      "champion": "Zeri",
+      "name": "Experiment: Repeated on-hit",
+      "goal": "Experiment for Zeri: test a different playstyle, with lower confidence",
+      "hypothesis": "A mobile ranged attack carry whose Q is treated as an attack and whose ordinary attack is treated as an ability. Wall travel and sustained R hits create an escalating movement window. Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Zeri: Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Burst Fire shoots a burst of 7 rounds that deal attack damage to the first enemy hit. This Ability is treated as an Attack. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Zeri's stated kit question: Current Q is attack-like while ordinary attacks are ability-like. Verify on-hit and crit interactions on each separately, and record wall travel/R ramp rather than granting both constantly.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Living Battery",
+          "slot": "Passive",
+          "source": "Characters/Zeri/Spells/ZeriPassiveAbility/ZeriPassive",
+          "formula": "Zeri's Attacks are treated as Abilities instead of Attacks and can be charged up by moving and casting {{Spell_ZeriQ_Name}}. Uncharged Attacks consume a small amount of charge, deal @Spell.ZeriQ:MinDamage@ magic damage and execute enemies below @Spell.ZeriQ:PassiveExecuteThreshold@ Health. A fully charged Attack deals @Spell.ZeriQ:PassiveMaxDamage@ + @Spell.ZeriQ:PassiveMaxChargePercentHealth@ max Health magic damage and consumes all charge."
+        },
+        {
+          "ability": "Burst Fire",
+          "slot": "Q",
+          "source": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+          "formula": "Zeri fires a burst of [7] rounds that deals [22 / 26 / 30 / 34 / 38 + (1.02 / 1.04 / 1.06 / 1.08 / 1.1) × AD] physical damage to the first enemy hit. This Ability is treated as an Attack."
+        },
+        {
+          "ability": "Ultrashock Laser",
+          "slot": "W",
+          "source": "Characters/Zeri/Spells/ZeriWAbility/ZeriW",
+          "formula": "Zeri fires an electric pulse that deals [30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP] physical damage and Slows the first enemy hit by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nIf the pulse hits terrain, it expands into a laser that applies the effects in an area and Critically Strikes champions and monsters for [(30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP) × ((1 + (0.5) × (((1) × Stat(9) + -1))))] physical damage."
+        },
+        {
+          "ability": "Lightning Crash",
+          "slot": "R",
+          "source": "Characters/Zeri/Spells/ZeriRAbility/ZeriR",
+          "formula": "Zeri discharges a nova of electricity, dealing [150 / 250 / 350 + (1.1) × AP + (0.6) × AD[statFormula=2]] magic damage to nearby enemies. If she hits an enemy champion, Zeri gains [30]% Attack Speed and [15]% Move Speed for [5] seconds. Hitting an enemy champion with an Attack or Ability extends this ability's duration and adds a stack of Overcharge for [2.5] seconds. Critical strikes add 2 additional stacks. Each stack grants [1.5]% Move Speed.\n\nDuring this time, {{Spell_ZeriQ_Name}} becomes a faster triple shot that chains [(0.4) × AD] physical damage to nearby enemies."
+        },
+        {
+          "ability": "Spark Surge",
+          "slot": "E",
+          "source": "Characters/Zeri/Spells/ZeriEAbility/ZeriE",
+          "formula": "Zeri dashes a short distance and vaults over any terrain she touches, greatly extending the dash range. For the next [5] seconds, her shots of {{Spell_ZeriQ_Name}} pierce dealing [(0.8 / 0.85 / 0.9 / 0.95 / 1) × 100]% damage to enemies after the first and an additional [(22 / 24 / 26 / 28 / 30 + (0.2) × AP) × ((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1))))] magic damage On-Hit to the first target struck. \n\nHitting an enemy with an Attack reduces this Ability's cooldown by [0.5] seconds. Critical strikes reduce the cooldown by [1.5] seconds instead."
+        }
+      ]
+    }
+  ]
+}

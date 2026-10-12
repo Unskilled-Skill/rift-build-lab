@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "karma-four-1",
+      "champion": "Karma",
+      "name": "Reference: Tempo and pursuit",
+      "goal": "Reference for Karma: establish a repeatable reference",
+      "hypothesis": "A flexible poke and protection mage who chooses between empowered damage, tether healing and multi-ally shields. Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously. Movement tools and compatible control marks test coordinated pursuit or escape.",
+      "itemIds": [
+        3869,
+        2065,
+        4005,
+        3107,
+        3222,
+        3009
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Karma: Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously.",
+        "Start with the early core (Support quest, Shurelya or Mandate according to the kit) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Movement tools and compatible control marks test coordinated pursuit or escape. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Karma sends forth a ball of spirit energy that explodes and deals damage upon hitting an enemy unit.\n\nMantra Bonus: In addition to the explosion, Mantra increases the destructive power of her Inner Flame, creating a cataclysm which deals damage after a short delay. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
+        "The route fails Karma's stated kit question: Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
+        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Support quest, Shurelya or Mandate according to the kit. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Imperial Mandate, Redemption, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Inspire",
+          "slot": "E",
+          "source": "Characters/Karma/Spells/KarmaSolKimShieldAbility/KarmaSolKimShield",
+          "formula": "{{Spell_KarmaE_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Inner Flame",
+          "slot": "Q",
+          "source": "Characters/Karma/Spells/KarmaQAbility/KarmaQ",
+          "formula": "{{Spell_KarmaQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
+        },
+        {
+          "ability": "Focused Resolve",
+          "slot": "W",
+          "source": "Characters/Karma/Spells/KarmaSpiritBindAbility/KarmaSpiritBind",
+          "formula": "{{Spell_KarmaW_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Gathering Fire",
+          "slot": "Passive",
+          "source": "Characters/Karma/Spells/KarmaPassiveAbility/KarmaPassive",
+          "formula": "Karma begins the game with a point in {{Spell_KarmaMantra_Name}}.\n\nShe reduces the Cooldown of {{Spell_KarmaMantra_Name}} by [4] seconds when she damages a champion with an Ability."
+        },
+        {
+          "ability": "Mantra",
+          "slot": "R",
+          "source": "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra",
+          "formula": "Karma empowers her next Ability used within 8 seconds.\n{{Spell_KarmaQ_Name}}: Deals an additional [40 / 100 / 160 / 220 + (0.3) × AP] magic damage and leaves behind a circle of flame, Slowing enemies and dealing an additional [40 / 130 / 220 / 310 + (0.5) × AP] magic damage.{{Spell_KarmaSpiritBind_Name}}: Karma will restore [(17 + (0.01) × AP) × (0.01)] missing Health at the beginning and end of the tether, and Root for [0.5 / 0.75 / 1 / 1.25]s longer.{{Spell_KarmaSolKimShield_Name}}: Karma shields her target for [45 / 85 / 125 / 165 + (0.45) × AP] more Shield, and also shields allies near her target, granting them [(45 / 85 / 125 / 165 + (0.45) × AP) × (1)] Shield and [15]% Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "karma-four-2",
+      "champion": "Karma",
+      "name": "Damage interaction: Control and burn support",
+      "goal": "Damage interaction for Karma: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A flexible poke and protection mage who chooses between empowered damage, tether healing and multi-ally shields. Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously. Cheap income plus ability damage and compatible slows test offensive setup for allies.",
+      "itemIds": [
+        3869,
+        6653,
+        3116,
+        4005,
+        8010,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Karma: Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously.",
+        "Start with the early core (Support quest; Liandry/Rylai as an isolated offensive core) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Cheap income plus ability damage and compatible slows test offensive setup for allies. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Karma sends forth a ball of spirit energy that explodes and deals damage upon hitting an enemy unit.\n\nMantra Bonus: In addition to the explosion, Mantra increases the destructive power of her Inner Flame, creating a cataclysm which deals damage after a short delay. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana and defense may be weak; burns do not automatically make every control effect stack.",
+        "The route fails Karma's stated kit question: Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Mana and defense may be weak; burns do not automatically make every control effect stack.",
+        "Full cost 12,400 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Support quest; Liandry/Rylai as an isolated offensive core. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Rylai's Crystal Scepter, Imperial Mandate, Bloodletter's Curse are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Inspire",
+          "slot": "E",
+          "source": "Characters/Karma/Spells/KarmaSolKimShieldAbility/KarmaSolKimShield",
+          "formula": "{{Spell_KarmaE_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Inner Flame",
+          "slot": "Q",
+          "source": "Characters/Karma/Spells/KarmaQAbility/KarmaQ",
+          "formula": "{{Spell_KarmaQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
+        },
+        {
+          "ability": "Focused Resolve",
+          "slot": "W",
+          "source": "Characters/Karma/Spells/KarmaSpiritBindAbility/KarmaSpiritBind",
+          "formula": "{{Spell_KarmaW_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Gathering Fire",
+          "slot": "Passive",
+          "source": "Characters/Karma/Spells/KarmaPassiveAbility/KarmaPassive",
+          "formula": "Karma begins the game with a point in {{Spell_KarmaMantra_Name}}.\n\nShe reduces the Cooldown of {{Spell_KarmaMantra_Name}} by [4] seconds when she damages a champion with an Ability."
+        },
+        {
+          "ability": "Mantra",
+          "slot": "R",
+          "source": "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra",
+          "formula": "Karma empowers her next Ability used within 8 seconds.\n{{Spell_KarmaQ_Name}}: Deals an additional [40 / 100 / 160 / 220 + (0.3) × AP] magic damage and leaves behind a circle of flame, Slowing enemies and dealing an additional [40 / 130 / 220 / 310 + (0.5) × AP] magic damage.{{Spell_KarmaSpiritBind_Name}}: Karma will restore [(17 + (0.01) × AP) × (0.01)] missing Health at the beginning and end of the tether, and Root for [0.5 / 0.75 / 1 / 1.25]s longer.{{Spell_KarmaSolKimShield_Name}}: Karma shields her target for [45 / 85 / 125 / 165 + (0.45) × AP] more Shield, and also shields allies near her target, granting them [(45 / 85 / 125 / 165 + (0.45) × AP) × (1)] Shield and [15]% Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "karma-four-3",
+      "champion": "Karma",
+      "name": "Situational adaptation: Protection specialist",
+      "goal": "Situational adaptation for Karma: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A flexible poke and protection mage who chooses between empowered damage, tether healing and multi-ally shields. Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously. Healing/shield power and timed actives test preserving an allied carry.",
+      "itemIds": [
+        3869,
+        6617,
+        3107,
+        3222,
+        6621,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Karma: Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously.",
+        "Start with the early core (Support quest, Moonstone only with useful eligible heals/shields, then the needed active) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Healing/shield power and timed actives test preserving an allied carry. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Karma sends forth a ball of spirit energy that explodes and deals damage upon hitting an enemy unit.\n\nMantra Bonus: In addition to the explosion, Mantra increases the destructive power of her Inner Flame, creating a cataclysm which deals damage after a short delay. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
+        "The route fails Karma's stated kit question: Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
+        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Support quest, Moonstone only with useful eligible heals/shields, then the needed active. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Redemption, Mikael's Blessing, Dawncore are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Inspire",
+          "slot": "E",
+          "source": "Characters/Karma/Spells/KarmaSolKimShieldAbility/KarmaSolKimShield",
+          "formula": "{{Spell_KarmaE_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Inner Flame",
+          "slot": "Q",
+          "source": "Characters/Karma/Spells/KarmaQAbility/KarmaQ",
+          "formula": "{{Spell_KarmaQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
+        },
+        {
+          "ability": "Focused Resolve",
+          "slot": "W",
+          "source": "Characters/Karma/Spells/KarmaSpiritBindAbility/KarmaSpiritBind",
+          "formula": "{{Spell_KarmaW_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Gathering Fire",
+          "slot": "Passive",
+          "source": "Characters/Karma/Spells/KarmaPassiveAbility/KarmaPassive",
+          "formula": "Karma begins the game with a point in {{Spell_KarmaMantra_Name}}.\n\nShe reduces the Cooldown of {{Spell_KarmaMantra_Name}} by [4] seconds when she damages a champion with an Ability."
+        },
+        {
+          "ability": "Mantra",
+          "slot": "R",
+          "source": "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra",
+          "formula": "Karma empowers her next Ability used within 8 seconds.\n{{Spell_KarmaQ_Name}}: Deals an additional [40 / 100 / 160 / 220 + (0.3) × AP] magic damage and leaves behind a circle of flame, Slowing enemies and dealing an additional [40 / 130 / 220 / 310 + (0.5) × AP] magic damage.{{Spell_KarmaSpiritBind_Name}}: Karma will restore [(17 + (0.01) × AP) × (0.01)] missing Health at the beginning and end of the tether, and Root for [0.5 / 0.75 / 1 / 1.25]s longer.{{Spell_KarmaSolKimShield_Name}}: Karma shields her target for [45 / 85 / 125 / 165 + (0.45) × AP] more Shield, and also shields allies near her target, granting them [(45 / 85 / 125 / 165 + (0.45) × AP) × (1)] Shield and [15]% Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "karma-four-4",
+      "champion": "Karma",
+      "name": "Experiment: Magic tank experiment",
+      "goal": "Experiment for Karma: test a different playstyle, with lower confidence",
+      "hypothesis": "A flexible poke and protection mage who chooses between empowered damage, tether healing and multi-ally shields. Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously. Health-supported AP and close magic amplification trade defense for damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3084,
+        4633,
+        6653,
+        8020,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Karma: Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously.",
+        "Start with the early core (Safe health/defense core, then Riftmaker or Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health-supported AP and close magic amplification trade defense for damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Karma sends forth a ball of spirit energy that explodes and deals damage upon hitting an enemy unit.\n\nMantra Bonus: In addition to the explosion, Mantra increases the destructive power of her Inner Flame, creating a cataclysm which deals damage after a short delay. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
+        "The route fails Karma's stated kit question: Separate Mantra Q poke, W recovery and E team shields. An AP-health route must justify tether uptime and protection loss rather than granting every Mantra option simultaneously.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
+        "Full cost 16,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Safe health/defense core, then Riftmaker or Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Liandry's Torment, Abyssal Mask, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Inspire",
+          "slot": "E",
+          "source": "Characters/Karma/Spells/KarmaSolKimShieldAbility/KarmaSolKimShield",
+          "formula": "{{Spell_KarmaE_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Inner Flame",
+          "slot": "Q",
+          "source": "Characters/Karma/Spells/KarmaQAbility/KarmaQ",
+          "formula": "{{Spell_KarmaQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
+        },
+        {
+          "ability": "Focused Resolve",
+          "slot": "W",
+          "source": "Characters/Karma/Spells/KarmaSpiritBindAbility/KarmaSpiritBind",
+          "formula": "{{Spell_KarmaW_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Gathering Fire",
+          "slot": "Passive",
+          "source": "Characters/Karma/Spells/KarmaPassiveAbility/KarmaPassive",
+          "formula": "Karma begins the game with a point in {{Spell_KarmaMantra_Name}}.\n\nShe reduces the Cooldown of {{Spell_KarmaMantra_Name}} by [4] seconds when she damages a champion with an Ability."
+        },
+        {
+          "ability": "Mantra",
+          "slot": "R",
+          "source": "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra",
+          "formula": "Karma empowers her next Ability used within 8 seconds.\n{{Spell_KarmaQ_Name}}: Deals an additional [40 / 100 / 160 / 220 + (0.3) × AP] magic damage and leaves behind a circle of flame, Slowing enemies and dealing an additional [40 / 130 / 220 / 310 + (0.5) × AP] magic damage.{{Spell_KarmaSpiritBind_Name}}: Karma will restore [(17 + (0.01) × AP) × (0.01)] missing Health at the beginning and end of the tether, and Root for [0.5 / 0.75 / 1 / 1.25]s longer.{{Spell_KarmaSolKimShield_Name}}: Karma shields her target for [45 / 85 / 125 / 165 + (0.45) × AP] more Shield, and also shields allies near her target, granting them [(45 / 85 / 125 / 165 + (0.45) × AP) × (1)] Shield and [15]% Move Speed."
+        }
+      ]
+    }
+  ]
+}

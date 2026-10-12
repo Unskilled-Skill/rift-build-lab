@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "yunara-four-1",
+      "champion": "Yunara",
+      "name": "Reference: Multi-target carry",
+      "goal": "Reference for Yunara: establish a repeatable reference",
+      "hypothesis": "A ranged attack carry who accumulates access to an empowered attack window and uses transformation for upgraded mobility and spell options. Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form. Runaan asks whether real multi-target attacks improve teamfight output.",
+      "itemIds": [
+        3032,
+        3085,
+        3031,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yunara: Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form.",
+        "Start with the early core (Yun Tal, then Runaan) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Runaan asks whether real multi-target attacks improve teamfight output. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Yunara gains Attack Speed, bonus damage On-Hit, and her Attacks spread to nearby enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
+        "The route fails Yunara's stated kit question: Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Yun Tal, then Runaan. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Cultivation of Spirit",
+          "slot": "Q",
+          "source": "Characters/Yunara/Spells/YunaraQAbility/YunaraQ",
+          "formula": "Passive: Yunara deal [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit and attacking grants [1] Unleash ([2] Unleash for champions).\n\nActive: Yunara consumes [8] Unleash and for [5] seconds gains [0.2 / 0.3 / 0.4 / 0.5 / 0.6] Attack Speed and deals an additional [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit. During this time, her Attacks spread to nearby enemies dealing them [(0.3) × AD] physical damage.\n\nTranscendent State: This Ability is instantly activated for @Spell.YunaraR:Buff_Duration@ seconds."
+        },
+        {
+          "ability": "Vow of the First Lands",
+          "slot": "Passive",
+          "source": "Characters/Yunara/Spells/YunaraPassiveAbility/YunaraPassive",
+          "formula": "Yunara's Critical Strikes deal an additional [0.1 + (0.001) × AP] magic damage."
+        },
+        {
+          "ability": "Kanmei's Steps | Untouchable Shadow",
+          "slot": "E",
+          "source": "Characters/Yunara/Spells/YunaraEAbility/YunaraE",
+          "formula": "Yunara gains [0.3 / 0.35 / 0.4 / 0.45 / 0.5] Move Speed, increased to [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × (1.5)] Move Speed when moving toward an enemy champion, for [1.5] seconds.\n\nTranscendent State - {{Spell_YunaraE2_Name}}: Yunara dashes in a direction."
+        },
+        {
+          "ability": "Arc of Judgment | Arc of Ruin",
+          "slot": "W",
+          "source": "Characters/Yunara/Spells/YunaraWAbility/YunaraW",
+          "formula": "Yunara lets rip a prayer bead that deals [55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP] magic damage and Slows by [0.99] decaying over [1.5] seconds. It deals an additional [(55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP) × (0.6)] magic damage per second.\n\nTranscendent State - {{Spell_YunaraW2_Name}}: Yunara fires a laser that deals @Spell.YunaraR:Calc_RW_Damage@ magic damage and Slows by @Spell.YunaraR:Calc_RW_Slow_Amount@ decaying over @Spell.YunaraR:RW_Slow_Duration@ second."
+        },
+        {
+          "ability": "Transcend One's Self",
+          "slot": "R",
+          "source": "Characters/Yunara/Spells/YunaraRAbility/YunaraR",
+          "formula": "Yunara enters a Transcendent State for [15] seconds upgrading her basic Abilities for the duration."
+        }
+      ]
+    },
+    {
+      "id": "yunara-four-2",
+      "champion": "Yunara",
+      "name": "Damage interaction: Repeated on-hit",
+      "goal": "Damage interaction for Yunara: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A ranged attack carry who accumulates access to an empowered attack window and uses transformation for upgraded mobility and spell options. Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yunara: Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Yunara gains Attack Speed, bonus damage On-Hit, and her Attacks spread to nearby enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Yunara's stated kit question: Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Cultivation of Spirit",
+          "slot": "Q",
+          "source": "Characters/Yunara/Spells/YunaraQAbility/YunaraQ",
+          "formula": "Passive: Yunara deal [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit and attacking grants [1] Unleash ([2] Unleash for champions).\n\nActive: Yunara consumes [8] Unleash and for [5] seconds gains [0.2 / 0.3 / 0.4 / 0.5 / 0.6] Attack Speed and deals an additional [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit. During this time, her Attacks spread to nearby enemies dealing them [(0.3) × AD] physical damage.\n\nTranscendent State: This Ability is instantly activated for @Spell.YunaraR:Buff_Duration@ seconds."
+        },
+        {
+          "ability": "Vow of the First Lands",
+          "slot": "Passive",
+          "source": "Characters/Yunara/Spells/YunaraPassiveAbility/YunaraPassive",
+          "formula": "Yunara's Critical Strikes deal an additional [0.1 + (0.001) × AP] magic damage."
+        },
+        {
+          "ability": "Kanmei's Steps | Untouchable Shadow",
+          "slot": "E",
+          "source": "Characters/Yunara/Spells/YunaraEAbility/YunaraE",
+          "formula": "Yunara gains [0.3 / 0.35 / 0.4 / 0.45 / 0.5] Move Speed, increased to [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × (1.5)] Move Speed when moving toward an enemy champion, for [1.5] seconds.\n\nTranscendent State - {{Spell_YunaraE2_Name}}: Yunara dashes in a direction."
+        },
+        {
+          "ability": "Arc of Judgment | Arc of Ruin",
+          "slot": "W",
+          "source": "Characters/Yunara/Spells/YunaraWAbility/YunaraW",
+          "formula": "Yunara lets rip a prayer bead that deals [55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP] magic damage and Slows by [0.99] decaying over [1.5] seconds. It deals an additional [(55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP) × (0.6)] magic damage per second.\n\nTranscendent State - {{Spell_YunaraW2_Name}}: Yunara fires a laser that deals @Spell.YunaraR:Calc_RW_Damage@ magic damage and Slows by @Spell.YunaraR:Calc_RW_Slow_Amount@ decaying over @Spell.YunaraR:RW_Slow_Duration@ second."
+        },
+        {
+          "ability": "Transcend One's Self",
+          "slot": "R",
+          "source": "Characters/Yunara/Spells/YunaraRAbility/YunaraR",
+          "formula": "Yunara enters a Transcendent State for [15] seconds upgrading her basic Abilities for the duration."
+        }
+      ]
+    },
+    {
+      "id": "yunara-four-3",
+      "champion": "Yunara",
+      "name": "Situational adaptation: Critical duel",
+      "goal": "Situational adaptation for Yunara: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A ranged attack carry who accumulates access to an empowered attack window and uses transformation for upgraded mobility and spell options. Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form. Crit attacks and a conditional shield test repeated duel windows.",
+      "itemIds": [
+        6672,
+        6675,
+        3031,
+        6673,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yunara: Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form.",
+        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Yunara gains Attack Speed, bonus damage On-Hit, and her Attacks spread to nearby enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "The route fails Yunara's stated kit question: Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Cultivation of Spirit",
+          "slot": "Q",
+          "source": "Characters/Yunara/Spells/YunaraQAbility/YunaraQ",
+          "formula": "Passive: Yunara deal [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit and attacking grants [1] Unleash ([2] Unleash for champions).\n\nActive: Yunara consumes [8] Unleash and for [5] seconds gains [0.2 / 0.3 / 0.4 / 0.5 / 0.6] Attack Speed and deals an additional [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit. During this time, her Attacks spread to nearby enemies dealing them [(0.3) × AD] physical damage.\n\nTranscendent State: This Ability is instantly activated for @Spell.YunaraR:Buff_Duration@ seconds."
+        },
+        {
+          "ability": "Vow of the First Lands",
+          "slot": "Passive",
+          "source": "Characters/Yunara/Spells/YunaraPassiveAbility/YunaraPassive",
+          "formula": "Yunara's Critical Strikes deal an additional [0.1 + (0.001) × AP] magic damage."
+        },
+        {
+          "ability": "Kanmei's Steps | Untouchable Shadow",
+          "slot": "E",
+          "source": "Characters/Yunara/Spells/YunaraEAbility/YunaraE",
+          "formula": "Yunara gains [0.3 / 0.35 / 0.4 / 0.45 / 0.5] Move Speed, increased to [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × (1.5)] Move Speed when moving toward an enemy champion, for [1.5] seconds.\n\nTranscendent State - {{Spell_YunaraE2_Name}}: Yunara dashes in a direction."
+        },
+        {
+          "ability": "Arc of Judgment | Arc of Ruin",
+          "slot": "W",
+          "source": "Characters/Yunara/Spells/YunaraWAbility/YunaraW",
+          "formula": "Yunara lets rip a prayer bead that deals [55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP] magic damage and Slows by [0.99] decaying over [1.5] seconds. It deals an additional [(55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP) × (0.6)] magic damage per second.\n\nTranscendent State - {{Spell_YunaraW2_Name}}: Yunara fires a laser that deals @Spell.YunaraR:Calc_RW_Damage@ magic damage and Slows by @Spell.YunaraR:Calc_RW_Slow_Amount@ decaying over @Spell.YunaraR:RW_Slow_Duration@ second."
+        },
+        {
+          "ability": "Transcend One's Self",
+          "slot": "R",
+          "source": "Characters/Yunara/Spells/YunaraRAbility/YunaraR",
+          "formula": "Yunara enters a Transcendent State for [15] seconds upgrading her basic Abilities for the duration."
+        }
+      ]
+    },
+    {
+      "id": "yunara-four-4",
+      "champion": "Yunara",
+      "name": "Experiment: AP attack experiment",
+      "goal": "Experiment for Yunara: test a different playstyle, with lower confidence",
+      "hypothesis": "A ranged attack carry who accumulates access to an empowered attack window and uses transformation for upgraded mobility and spell options. Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3115,
+        3124,
+        3089,
+        3135,
+        3157,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yunara: Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form.",
+        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Yunara gains Attack Speed, bonus damage On-Hit, and her Attacks spread to nearby enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "The route fails Yunara's stated kit question: Fix empowered attack readiness and transformation state. Compare actual multi-target attack output and mobility windows; do not keep upgraded spells active outside the form.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Cultivation of Spirit",
+          "slot": "Q",
+          "source": "Characters/Yunara/Spells/YunaraQAbility/YunaraQ",
+          "formula": "Passive: Yunara deal [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit and attacking grants [1] Unleash ([2] Unleash for champions).\n\nActive: Yunara consumes [8] Unleash and for [5] seconds gains [0.2 / 0.3 / 0.4 / 0.5 / 0.6] Attack Speed and deals an additional [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit. During this time, her Attacks spread to nearby enemies dealing them [(0.3) × AD] physical damage.\n\nTranscendent State: This Ability is instantly activated for @Spell.YunaraR:Buff_Duration@ seconds."
+        },
+        {
+          "ability": "Vow of the First Lands",
+          "slot": "Passive",
+          "source": "Characters/Yunara/Spells/YunaraPassiveAbility/YunaraPassive",
+          "formula": "Yunara's Critical Strikes deal an additional [0.1 + (0.001) × AP] magic damage."
+        },
+        {
+          "ability": "Kanmei's Steps | Untouchable Shadow",
+          "slot": "E",
+          "source": "Characters/Yunara/Spells/YunaraEAbility/YunaraE",
+          "formula": "Yunara gains [0.3 / 0.35 / 0.4 / 0.45 / 0.5] Move Speed, increased to [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × (1.5)] Move Speed when moving toward an enemy champion, for [1.5] seconds.\n\nTranscendent State - {{Spell_YunaraE2_Name}}: Yunara dashes in a direction."
+        },
+        {
+          "ability": "Arc of Judgment | Arc of Ruin",
+          "slot": "W",
+          "source": "Characters/Yunara/Spells/YunaraWAbility/YunaraW",
+          "formula": "Yunara lets rip a prayer bead that deals [55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP] magic damage and Slows by [0.99] decaying over [1.5] seconds. It deals an additional [(55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP) × (0.6)] magic damage per second.\n\nTranscendent State - {{Spell_YunaraW2_Name}}: Yunara fires a laser that deals @Spell.YunaraR:Calc_RW_Damage@ magic damage and Slows by @Spell.YunaraR:Calc_RW_Slow_Amount@ decaying over @Spell.YunaraR:RW_Slow_Duration@ second."
+        },
+        {
+          "ability": "Transcend One's Self",
+          "slot": "R",
+          "source": "Characters/Yunara/Spells/YunaraRAbility/YunaraR",
+          "formula": "Yunara enters a Transcendent State for [15] seconds upgrading her basic Abilities for the duration."
+        }
+      ]
+    }
+  ]
+}

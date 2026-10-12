@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "kaisa-four-1",
+      "champion": "Kaisa",
+      "name": "Reference: Repeated on-hit",
+      "goal": "Reference for Kai'Sa: establish a repeatable reference",
+      "hypothesis": "A hybrid skirmisher who stacks Plasma through attacks and allied control, evolves abilities through stats and uses R to enter chosen fights. Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kai'Sa: Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Kai'Sa shoots a swarm of missiles that seek out nearby targets.\n\nLiving Weapon: Icathian Rain is upgraded to shoot more missiles. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Kai'Sa's stated kit question: Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Icathian Rain",
+          "slot": "Q",
+          "source": "Characters/Kaisa/Spells/KaisaQAbility/KaisaQ",
+          "formula": "Kai'Sa launches [6] missiles that split among nearby enemies, each dealing [40 / 55 / 70 / 85 / 100 + (0.55) × AD[statFormula=2] + (0.2) × AP] physical damage, up to a maximum of [UNRESOLVED(GameCalculationConditional; see calculationRaw)]. Additional missile hits on champions or monsters deal [25]% damage.\n\nEvolved: Kai'Sa instead fires [12] missiles.\nCurrent: @f11.1@/[100] Bonus Attack Damage"
+        },
+        {
+          "ability": "Supercharge",
+          "slot": "E",
+          "source": "Characters/Kaisa/Spells/KaisaEAbility/KaisaE",
+          "formula": "Kai'Sa supercharges her void energy, gaining [(clamp(((1) × Stat(4)[statFormula=2] + 1), 1, 2)) × (0.55 / 0.6 / 0.65 / 0.7 / 0.75)] Move Speed and becoming Ghosted while charging, then gaining [(0.4 / 0.5 / 0.6 / 0.7 / 0.8) × 100]% Attack Speed for [4] seconds.\n\nAttacks reduce this Ability's Cooldown by [0.5] seconds.\n\nEvolved: Kai'Sa also becomes Invisible for [0.5] seconds.\nCurrent: @f10.1@%/[100]% Bonus Attack Speed"
+        },
+        {
+          "ability": "Second Skin",
+          "slot": "Passive",
+          "source": "Characters/Kaisa/Spells/KaisaPassiveAbility/KaisaPassive",
+          "formula": "Kai'Sa's Attacks stack Plasma for [4] seconds and deal an additional [(characterLevelInterpolation(4 → 30; raw flags preserved) + (0.12) × AP) × (1)] plus [(characterLevelInterpolation(1 → 8; raw flags preserved) + (0.03) × AP) × (1)] per stack magic damage. Attacking an enemy with [4] stacks consumes the Plasma, dealing [0.15 + (0.0006) × AP] missing Health magic damage. Nearby allies apply [1] stack to champions they Immobilize.\n\nKai'Sa's suit evolves her basic Abilities based on her stats.\nIcathian Rain: @f1.1@/@spell.KaisaQ:Effect6Amount@ Bonus Attack Damage\nVoid Seeker: @f2.1@/@spell.KaisaW:Effect2Amount@ Ability Power\nSupercharge: @f3.1@%/@spell.KaisaE:Effect6Amount@% Bonus Attack Speed"
+        },
+        {
+          "ability": "Void Seeker",
+          "slot": "W",
+          "source": "Characters/Kaisa/Spells/KaisaWAbility/KaisaW",
+          "formula": "Kai'Sa fires a void blast that deals [30 / 55 / 80 / 105 / 130 + (1.3) × AD + (0.45) × AP] magic damage, applies [2] stacks of Plasma, and grants True Sight of the first enemy hit for @spell.KaisaPassive:PDuration@ seconds.\n\nEvolved: Kai'Sa instead applies [3] stacks of Plasma and hitting a champion reduces the Cooldown by [75]%.\nCurrent: @f2.1@/[100] Ability Power"
+        },
+        {
+          "ability": "Killer Instinct",
+          "slot": "R",
+          "source": "Characters/Kaisa/Spells/KaisaRAbility/KaisaR",
+          "formula": "Kai'Sa warps near an enemy champion affected by Plasma and gains [100 / 150 / 200 + (0.9 / 1.35 / 1.8) × AD + (1.2) × AP] Shield for [2] seconds."
+        }
+      ]
+    },
+    {
+      "id": "kaisa-four-2",
+      "champion": "Kaisa",
+      "name": "Damage interaction: AP attack experiment",
+      "goal": "Damage interaction for Kai'Sa: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A hybrid skirmisher who stacks Plasma through attacks and allied control, evolves abilities through stats and uses R to enter chosen fights. Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded. AP-supported attacks and Nashor may create a second damage route.",
+      "itemIds": [
+        3115,
+        3124,
+        3089,
+        3135,
+        3157,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kai'Sa: Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded.",
+        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Kai'Sa shoots a swarm of missiles that seek out nearby targets.\n\nLiving Weapon: Icathian Rain is upgraded to shoot more missiles. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "The route fails Kai'Sa's stated kit question: Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Icathian Rain",
+          "slot": "Q",
+          "source": "Characters/Kaisa/Spells/KaisaQAbility/KaisaQ",
+          "formula": "Kai'Sa launches [6] missiles that split among nearby enemies, each dealing [40 / 55 / 70 / 85 / 100 + (0.55) × AD[statFormula=2] + (0.2) × AP] physical damage, up to a maximum of [UNRESOLVED(GameCalculationConditional; see calculationRaw)]. Additional missile hits on champions or monsters deal [25]% damage.\n\nEvolved: Kai'Sa instead fires [12] missiles.\nCurrent: @f11.1@/[100] Bonus Attack Damage"
+        },
+        {
+          "ability": "Supercharge",
+          "slot": "E",
+          "source": "Characters/Kaisa/Spells/KaisaEAbility/KaisaE",
+          "formula": "Kai'Sa supercharges her void energy, gaining [(clamp(((1) × Stat(4)[statFormula=2] + 1), 1, 2)) × (0.55 / 0.6 / 0.65 / 0.7 / 0.75)] Move Speed and becoming Ghosted while charging, then gaining [(0.4 / 0.5 / 0.6 / 0.7 / 0.8) × 100]% Attack Speed for [4] seconds.\n\nAttacks reduce this Ability's Cooldown by [0.5] seconds.\n\nEvolved: Kai'Sa also becomes Invisible for [0.5] seconds.\nCurrent: @f10.1@%/[100]% Bonus Attack Speed"
+        },
+        {
+          "ability": "Second Skin",
+          "slot": "Passive",
+          "source": "Characters/Kaisa/Spells/KaisaPassiveAbility/KaisaPassive",
+          "formula": "Kai'Sa's Attacks stack Plasma for [4] seconds and deal an additional [(characterLevelInterpolation(4 → 30; raw flags preserved) + (0.12) × AP) × (1)] plus [(characterLevelInterpolation(1 → 8; raw flags preserved) + (0.03) × AP) × (1)] per stack magic damage. Attacking an enemy with [4] stacks consumes the Plasma, dealing [0.15 + (0.0006) × AP] missing Health magic damage. Nearby allies apply [1] stack to champions they Immobilize.\n\nKai'Sa's suit evolves her basic Abilities based on her stats.\nIcathian Rain: @f1.1@/@spell.KaisaQ:Effect6Amount@ Bonus Attack Damage\nVoid Seeker: @f2.1@/@spell.KaisaW:Effect2Amount@ Ability Power\nSupercharge: @f3.1@%/@spell.KaisaE:Effect6Amount@% Bonus Attack Speed"
+        },
+        {
+          "ability": "Void Seeker",
+          "slot": "W",
+          "source": "Characters/Kaisa/Spells/KaisaWAbility/KaisaW",
+          "formula": "Kai'Sa fires a void blast that deals [30 / 55 / 80 / 105 / 130 + (1.3) × AD + (0.45) × AP] magic damage, applies [2] stacks of Plasma, and grants True Sight of the first enemy hit for @spell.KaisaPassive:PDuration@ seconds.\n\nEvolved: Kai'Sa instead applies [3] stacks of Plasma and hitting a champion reduces the Cooldown by [75]%.\nCurrent: @f2.1@/[100] Ability Power"
+        },
+        {
+          "ability": "Killer Instinct",
+          "slot": "R",
+          "source": "Characters/Kaisa/Spells/KaisaRAbility/KaisaR",
+          "formula": "Kai'Sa warps near an enemy champion affected by Plasma and gains [100 / 150 / 200 + (0.9 / 1.35 / 1.8) × AD + (1.2) × AP] Shield for [2] seconds."
+        }
+      ]
+    },
+    {
+      "id": "kaisa-four-3",
+      "champion": "Kaisa",
+      "name": "Situational adaptation: Critical duel",
+      "goal": "Situational adaptation for Kai'Sa: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A hybrid skirmisher who stacks Plasma through attacks and allied control, evolves abilities through stats and uses R to enter chosen fights. Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded. Crit attacks and a conditional shield test repeated duel windows.",
+      "itemIds": [
+        6672,
+        6675,
+        3031,
+        6673,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kai'Sa: Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded.",
+        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Kai'Sa shoots a swarm of missiles that seek out nearby targets.\n\nLiving Weapon: Icathian Rain is upgraded to shoot more missiles. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "The route fails Kai'Sa's stated kit question: Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Icathian Rain",
+          "slot": "Q",
+          "source": "Characters/Kaisa/Spells/KaisaQAbility/KaisaQ",
+          "formula": "Kai'Sa launches [6] missiles that split among nearby enemies, each dealing [40 / 55 / 70 / 85 / 100 + (0.55) × AD[statFormula=2] + (0.2) × AP] physical damage, up to a maximum of [UNRESOLVED(GameCalculationConditional; see calculationRaw)]. Additional missile hits on champions or monsters deal [25]% damage.\n\nEvolved: Kai'Sa instead fires [12] missiles.\nCurrent: @f11.1@/[100] Bonus Attack Damage"
+        },
+        {
+          "ability": "Supercharge",
+          "slot": "E",
+          "source": "Characters/Kaisa/Spells/KaisaEAbility/KaisaE",
+          "formula": "Kai'Sa supercharges her void energy, gaining [(clamp(((1) × Stat(4)[statFormula=2] + 1), 1, 2)) × (0.55 / 0.6 / 0.65 / 0.7 / 0.75)] Move Speed and becoming Ghosted while charging, then gaining [(0.4 / 0.5 / 0.6 / 0.7 / 0.8) × 100]% Attack Speed for [4] seconds.\n\nAttacks reduce this Ability's Cooldown by [0.5] seconds.\n\nEvolved: Kai'Sa also becomes Invisible for [0.5] seconds.\nCurrent: @f10.1@%/[100]% Bonus Attack Speed"
+        },
+        {
+          "ability": "Second Skin",
+          "slot": "Passive",
+          "source": "Characters/Kaisa/Spells/KaisaPassiveAbility/KaisaPassive",
+          "formula": "Kai'Sa's Attacks stack Plasma for [4] seconds and deal an additional [(characterLevelInterpolation(4 → 30; raw flags preserved) + (0.12) × AP) × (1)] plus [(characterLevelInterpolation(1 → 8; raw flags preserved) + (0.03) × AP) × (1)] per stack magic damage. Attacking an enemy with [4] stacks consumes the Plasma, dealing [0.15 + (0.0006) × AP] missing Health magic damage. Nearby allies apply [1] stack to champions they Immobilize.\n\nKai'Sa's suit evolves her basic Abilities based on her stats.\nIcathian Rain: @f1.1@/@spell.KaisaQ:Effect6Amount@ Bonus Attack Damage\nVoid Seeker: @f2.1@/@spell.KaisaW:Effect2Amount@ Ability Power\nSupercharge: @f3.1@%/@spell.KaisaE:Effect6Amount@% Bonus Attack Speed"
+        },
+        {
+          "ability": "Void Seeker",
+          "slot": "W",
+          "source": "Characters/Kaisa/Spells/KaisaWAbility/KaisaW",
+          "formula": "Kai'Sa fires a void blast that deals [30 / 55 / 80 / 105 / 130 + (1.3) × AD + (0.45) × AP] magic damage, applies [2] stacks of Plasma, and grants True Sight of the first enemy hit for @spell.KaisaPassive:PDuration@ seconds.\n\nEvolved: Kai'Sa instead applies [3] stacks of Plasma and hitting a champion reduces the Cooldown by [75]%.\nCurrent: @f2.1@/[100] Ability Power"
+        },
+        {
+          "ability": "Killer Instinct",
+          "slot": "R",
+          "source": "Characters/Kaisa/Spells/KaisaRAbility/KaisaR",
+          "formula": "Kai'Sa warps near an enemy champion affected by Plasma and gains [100 / 150 / 200 + (0.9 / 1.35 / 1.8) × AD + (1.2) × AP] Shield for [2] seconds."
+        }
+      ]
+    },
+    {
+      "id": "kaisa-four-4",
+      "champion": "Kaisa",
+      "name": "Experiment: Mana burst",
+      "goal": "Experiment for Kai'Sa: test a different playstyle, with lower confidence",
+      "hypothesis": "A hybrid skirmisher who stacks Plasma through attacks and allied control, evolves abilities through stats and uses R to enter chosen fights. Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kai'Sa: Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded.",
+        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Kai'Sa shoots a swarm of missiles that seek out nearby targets.\n\nLiving Weapon: Icathian Rain is upgraded to shoot more missiles. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "The route fails Kai'Sa's stated kit question: Record Q/W/E evolution thresholds and Plasma detonation. Compare attack access versus W poke; AP and AD routes must meet their intended evolution rather than assume all are upgraded.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Icathian Rain",
+          "slot": "Q",
+          "source": "Characters/Kaisa/Spells/KaisaQAbility/KaisaQ",
+          "formula": "Kai'Sa launches [6] missiles that split among nearby enemies, each dealing [40 / 55 / 70 / 85 / 100 + (0.55) × AD[statFormula=2] + (0.2) × AP] physical damage, up to a maximum of [UNRESOLVED(GameCalculationConditional; see calculationRaw)]. Additional missile hits on champions or monsters deal [25]% damage.\n\nEvolved: Kai'Sa instead fires [12] missiles.\nCurrent: @f11.1@/[100] Bonus Attack Damage"
+        },
+        {
+          "ability": "Supercharge",
+          "slot": "E",
+          "source": "Characters/Kaisa/Spells/KaisaEAbility/KaisaE",
+          "formula": "Kai'Sa supercharges her void energy, gaining [(clamp(((1) × Stat(4)[statFormula=2] + 1), 1, 2)) × (0.55 / 0.6 / 0.65 / 0.7 / 0.75)] Move Speed and becoming Ghosted while charging, then gaining [(0.4 / 0.5 / 0.6 / 0.7 / 0.8) × 100]% Attack Speed for [4] seconds.\n\nAttacks reduce this Ability's Cooldown by [0.5] seconds.\n\nEvolved: Kai'Sa also becomes Invisible for [0.5] seconds.\nCurrent: @f10.1@%/[100]% Bonus Attack Speed"
+        },
+        {
+          "ability": "Second Skin",
+          "slot": "Passive",
+          "source": "Characters/Kaisa/Spells/KaisaPassiveAbility/KaisaPassive",
+          "formula": "Kai'Sa's Attacks stack Plasma for [4] seconds and deal an additional [(characterLevelInterpolation(4 → 30; raw flags preserved) + (0.12) × AP) × (1)] plus [(characterLevelInterpolation(1 → 8; raw flags preserved) + (0.03) × AP) × (1)] per stack magic damage. Attacking an enemy with [4] stacks consumes the Plasma, dealing [0.15 + (0.0006) × AP] missing Health magic damage. Nearby allies apply [1] stack to champions they Immobilize.\n\nKai'Sa's suit evolves her basic Abilities based on her stats.\nIcathian Rain: @f1.1@/@spell.KaisaQ:Effect6Amount@ Bonus Attack Damage\nVoid Seeker: @f2.1@/@spell.KaisaW:Effect2Amount@ Ability Power\nSupercharge: @f3.1@%/@spell.KaisaE:Effect6Amount@% Bonus Attack Speed"
+        },
+        {
+          "ability": "Void Seeker",
+          "slot": "W",
+          "source": "Characters/Kaisa/Spells/KaisaWAbility/KaisaW",
+          "formula": "Kai'Sa fires a void blast that deals [30 / 55 / 80 / 105 / 130 + (1.3) × AD + (0.45) × AP] magic damage, applies [2] stacks of Plasma, and grants True Sight of the first enemy hit for @spell.KaisaPassive:PDuration@ seconds.\n\nEvolved: Kai'Sa instead applies [3] stacks of Plasma and hitting a champion reduces the Cooldown by [75]%.\nCurrent: @f2.1@/[100] Ability Power"
+        },
+        {
+          "ability": "Killer Instinct",
+          "slot": "R",
+          "source": "Characters/Kaisa/Spells/KaisaRAbility/KaisaR",
+          "formula": "Kai'Sa warps near an enemy champion affected by Plasma and gains [100 / 150 / 200 + (0.9 / 1.35 / 1.8) × AD + (1.2) × AP] Shield for [2] seconds."
+        }
+      ]
+    }
+  ]
+}

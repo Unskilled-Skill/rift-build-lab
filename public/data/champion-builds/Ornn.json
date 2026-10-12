@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "ornn-four-1",
+      "champion": "Ornn",
+      "name": "Reference: Mixed tank",
+      "goal": "Reference for Ornn: establish a repeatable reference",
+      "hypothesis": "A scaling frontline initiator who creates terrain, knocks enemies into it and consumes Brittle through attacks or immobilization. Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified. Health, armor/MR and close-range effects test reliable frontline contact.",
+      "itemIds": [
+        3084,
+        3068,
+        2502,
+        3065,
+        6665,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ornn: Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified.",
+        "Start with the early core (Matchup defense or Heartsteel only if stacking is safe) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health, armor/MR and close-range effects test reliable frontline contact. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Ornn slams the ground, sending out a fissure dealing damage and slowing enemies hit. After a small delay, a magma pillar forms at the end location. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Heartsteel stacks must be finite; percent-health damage and kiting punish excessive health.",
+        "The route fails Ornn's stated kit question: Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Heartsteel stacks must be finite; percent-health damage and kiting punish excessive health.",
+        "Full cost 15,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Matchup defense or Heartsteel only if stacking is safe. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Unending Despair, Spirit Visage, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bellows Breath",
+          "slot": "W",
+          "source": "Characters/Ornn/Spells/OrnnWAbility/OrnnW",
+          "formula": "Ornn stomps forward Unstoppably while breathing fire, dealing [12 / 13 / 14 / 15 / 16]% max Health magic damage over [0.75] seconds. Enemies hit by the final bout of flame become Brittle for [3] seconds.\n\nImmobilizing effects on Brittle targets have their duration increased by 30% and deal an additional [characterLevelInterpolation(0.09 → 0.17; raw flags preserved)] max Health magic damage. Ornn's Attacks against Brittle targets Knock them Back, dealing the additional damage."
+        },
+        {
+          "ability": "Call of the Forge God",
+          "slot": "R",
+          "source": "Characters/Ornn/Spells/OrnnRAbility/OrnnR",
+          "formula": "Ornn summons a massive lava elemental, which stampedes towards him, dealing [125 / 175 / 225 + (0.2) × AP] magic damage, applying Brittle to, and Slowing enemies hit by [40 / 50 / 60]% for [3] seconds.\n\nOrnn can Recast to dash with a headbutt. If he dashes into the elemental, he redirects and empowers it, causing it to Knock Up the first champion for [1] second and subsequent champions for [(1) × (0.5)] seconds. The elemental also deals [125 / 175 / 225 + (0.2) × AP] magic damage and reapplies Brittle."
+        },
+        {
+          "ability": "Living Forge",
+          "slot": "Passive",
+          "source": "Characters/Ornn/Spells/OrnnPAbility/OrnnP",
+          "formula": "{{Spell_OrnnP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Volcanic Rupture",
+          "slot": "Q",
+          "source": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ",
+          "formula": "Ornn slams the ground, creating a fissure dealing [20 / 45 / 70 / 95 / 120 + (1.1) × AD] physical damage and Slowing by [40]% for [2] seconds. A pillar of rock forms at the fissure's end for [4] seconds."
+        },
+        {
+          "ability": "Searing Charge",
+          "slot": "E",
+          "source": "Characters/Ornn/Spells/OrnnEAbility/OrnnE",
+          "formula": "Ornn charges, dealing [80 / 125 / 170 / 215 / 260 + (0.4) × Stat(1)[statFormula=2] + (0.4) × Stat(6)[statFormula=2]] physical damage. If Ornn rams into terrain, he creates a shockwave that Knocks Up enemies for [1.25] seconds and applies the same damage to those not hit by the charge.\n\nOrnn's charge destroys magma pillars and terrain created by enemies."
+        }
+      ]
+    },
+    {
+      "id": "ornn-four-2",
+      "champion": "Ornn",
+      "name": "Damage interaction: Armor and control",
+      "goal": "Damage interaction for Ornn: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A scaling frontline initiator who creates terrain, knocks enemies into it and consumes Brittle through attacks or immobilization. Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified. Armor and a real Spellblade attack may preserve close fighting windows.",
+      "itemIds": [
+        6662,
+        2502,
+        3075,
+        3143,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ornn: Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified.",
+        "Start with the early core (Iceborn if attack access is useful, otherwise matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and a real Spellblade attack may preserve close fighting windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Ornn slams the ground, sending out a fissure dealing damage and slowing enemies hit. After a small delay, a magma pillar forms at the end location. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Do not add another Spellblade item; Thornmail and Randuin are conditional purchases.",
+        "The route fails Ornn's stated kit question: Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Do not add another Spellblade item; Thornmail and Randuin are conditional purchases.",
+        "Full cost 14,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Iceborn if attack access is useful, otherwise matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Thornmail, Randuin's Omen, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bellows Breath",
+          "slot": "W",
+          "source": "Characters/Ornn/Spells/OrnnWAbility/OrnnW",
+          "formula": "Ornn stomps forward Unstoppably while breathing fire, dealing [12 / 13 / 14 / 15 / 16]% max Health magic damage over [0.75] seconds. Enemies hit by the final bout of flame become Brittle for [3] seconds.\n\nImmobilizing effects on Brittle targets have their duration increased by 30% and deal an additional [characterLevelInterpolation(0.09 → 0.17; raw flags preserved)] max Health magic damage. Ornn's Attacks against Brittle targets Knock them Back, dealing the additional damage."
+        },
+        {
+          "ability": "Call of the Forge God",
+          "slot": "R",
+          "source": "Characters/Ornn/Spells/OrnnRAbility/OrnnR",
+          "formula": "Ornn summons a massive lava elemental, which stampedes towards him, dealing [125 / 175 / 225 + (0.2) × AP] magic damage, applying Brittle to, and Slowing enemies hit by [40 / 50 / 60]% for [3] seconds.\n\nOrnn can Recast to dash with a headbutt. If he dashes into the elemental, he redirects and empowers it, causing it to Knock Up the first champion for [1] second and subsequent champions for [(1) × (0.5)] seconds. The elemental also deals [125 / 175 / 225 + (0.2) × AP] magic damage and reapplies Brittle."
+        },
+        {
+          "ability": "Living Forge",
+          "slot": "Passive",
+          "source": "Characters/Ornn/Spells/OrnnPAbility/OrnnP",
+          "formula": "{{Spell_OrnnP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Volcanic Rupture",
+          "slot": "Q",
+          "source": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ",
+          "formula": "Ornn slams the ground, creating a fissure dealing [20 / 45 / 70 / 95 / 120 + (1.1) × AD] physical damage and Slowing by [40]% for [2] seconds. A pillar of rock forms at the fissure's end for [4] seconds."
+        },
+        {
+          "ability": "Searing Charge",
+          "slot": "E",
+          "source": "Characters/Ornn/Spells/OrnnEAbility/OrnnE",
+          "formula": "Ornn charges, dealing [80 / 125 / 170 / 215 / 260 + (0.4) × Stat(1)[statFormula=2] + (0.4) × Stat(6)[statFormula=2]] physical damage. If Ornn rams into terrain, he creates a shockwave that Knocks Up enemies for [1.25] seconds and applies the same damage to those not hit by the charge.\n\nOrnn's charge destroys magma pillars and terrain created by enemies."
+        }
+      ]
+    },
+    {
+      "id": "ornn-four-3",
+      "champion": "Ornn",
+      "name": "Situational adaptation: Magic matchup",
+      "goal": "Situational adaptation for Ornn: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A scaling frontline initiator who creates terrain, knocks enemies into it and consumes Brittle through attacks or immobilization. Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified. MR and nearby magic amplification test durable contact against magic pressure.",
+      "itemIds": [
+        3084,
+        6664,
+        8020,
+        3065,
+        6665,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ornn: Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified.",
+        "Start with the early core (Hollow Radiance or other MR first when justified) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: MR and nearby magic amplification test durable contact against magic pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Ornn slams the ground, sending out a fissure dealing damage and slowing enemies hit. After a small delay, a magma pillar forms at the end location. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
+        "The route fails Ornn's stated kit question: Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
+        "Full cost 15,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Hollow Radiance or other MR first when justified. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Abyssal Mask, Spirit Visage, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bellows Breath",
+          "slot": "W",
+          "source": "Characters/Ornn/Spells/OrnnWAbility/OrnnW",
+          "formula": "Ornn stomps forward Unstoppably while breathing fire, dealing [12 / 13 / 14 / 15 / 16]% max Health magic damage over [0.75] seconds. Enemies hit by the final bout of flame become Brittle for [3] seconds.\n\nImmobilizing effects on Brittle targets have their duration increased by 30% and deal an additional [characterLevelInterpolation(0.09 → 0.17; raw flags preserved)] max Health magic damage. Ornn's Attacks against Brittle targets Knock them Back, dealing the additional damage."
+        },
+        {
+          "ability": "Call of the Forge God",
+          "slot": "R",
+          "source": "Characters/Ornn/Spells/OrnnRAbility/OrnnR",
+          "formula": "Ornn summons a massive lava elemental, which stampedes towards him, dealing [125 / 175 / 225 + (0.2) × AP] magic damage, applying Brittle to, and Slowing enemies hit by [40 / 50 / 60]% for [3] seconds.\n\nOrnn can Recast to dash with a headbutt. If he dashes into the elemental, he redirects and empowers it, causing it to Knock Up the first champion for [1] second and subsequent champions for [(1) × (0.5)] seconds. The elemental also deals [125 / 175 / 225 + (0.2) × AP] magic damage and reapplies Brittle."
+        },
+        {
+          "ability": "Living Forge",
+          "slot": "Passive",
+          "source": "Characters/Ornn/Spells/OrnnPAbility/OrnnP",
+          "formula": "{{Spell_OrnnP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Volcanic Rupture",
+          "slot": "Q",
+          "source": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ",
+          "formula": "Ornn slams the ground, creating a fissure dealing [20 / 45 / 70 / 95 / 120 + (1.1) × AD] physical damage and Slowing by [40]% for [2] seconds. A pillar of rock forms at the fissure's end for [4] seconds."
+        },
+        {
+          "ability": "Searing Charge",
+          "slot": "E",
+          "source": "Characters/Ornn/Spells/OrnnEAbility/OrnnE",
+          "formula": "Ornn charges, dealing [80 / 125 / 170 / 215 / 260 + (0.4) × Stat(1)[statFormula=2] + (0.4) × Stat(6)[statFormula=2]] physical damage. If Ornn rams into terrain, he creates a shockwave that Knocks Up enemies for [1.25] seconds and applies the same damage to those not hit by the charge.\n\nOrnn's charge destroys magma pillars and terrain created by enemies."
+        }
+      ]
+    },
+    {
+      "id": "ornn-four-4",
+      "champion": "Ornn",
+      "name": "Experiment: Magic tank experiment",
+      "goal": "Experiment for Ornn: test a different playstyle, with lower confidence",
+      "hypothesis": "A scaling frontline initiator who creates terrain, knocks enemies into it and consumes Brittle through attacks or immobilization. Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified. Health-supported AP and close magic amplification trade defense for damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3084,
+        4633,
+        6653,
+        8020,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ornn: Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified.",
+        "Start with the early core (Safe health/defense core, then Riftmaker or Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health-supported AP and close magic amplification trade defense for damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Ornn slams the ground, sending out a fissure dealing damage and slowing enemies hit. After a small delay, a magma pillar forms at the end location. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
+        "The route fails Ornn's stated kit question: Measure Brittle consumption and forge upgrade states separately. Full build does not imply every chosen item is upgraded; AP experiments need the current compatible ratios verified.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
+        "Full cost 16,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Safe health/defense core, then Riftmaker or Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Liandry's Torment, Abyssal Mask, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bellows Breath",
+          "slot": "W",
+          "source": "Characters/Ornn/Spells/OrnnWAbility/OrnnW",
+          "formula": "Ornn stomps forward Unstoppably while breathing fire, dealing [12 / 13 / 14 / 15 / 16]% max Health magic damage over [0.75] seconds. Enemies hit by the final bout of flame become Brittle for [3] seconds.\n\nImmobilizing effects on Brittle targets have their duration increased by 30% and deal an additional [characterLevelInterpolation(0.09 → 0.17; raw flags preserved)] max Health magic damage. Ornn's Attacks against Brittle targets Knock them Back, dealing the additional damage."
+        },
+        {
+          "ability": "Call of the Forge God",
+          "slot": "R",
+          "source": "Characters/Ornn/Spells/OrnnRAbility/OrnnR",
+          "formula": "Ornn summons a massive lava elemental, which stampedes towards him, dealing [125 / 175 / 225 + (0.2) × AP] magic damage, applying Brittle to, and Slowing enemies hit by [40 / 50 / 60]% for [3] seconds.\n\nOrnn can Recast to dash with a headbutt. If he dashes into the elemental, he redirects and empowers it, causing it to Knock Up the first champion for [1] second and subsequent champions for [(1) × (0.5)] seconds. The elemental also deals [125 / 175 / 225 + (0.2) × AP] magic damage and reapplies Brittle."
+        },
+        {
+          "ability": "Living Forge",
+          "slot": "Passive",
+          "source": "Characters/Ornn/Spells/OrnnPAbility/OrnnP",
+          "formula": "{{Spell_OrnnP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Volcanic Rupture",
+          "slot": "Q",
+          "source": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ",
+          "formula": "Ornn slams the ground, creating a fissure dealing [20 / 45 / 70 / 95 / 120 + (1.1) × AD] physical damage and Slowing by [40]% for [2] seconds. A pillar of rock forms at the fissure's end for [4] seconds."
+        },
+        {
+          "ability": "Searing Charge",
+          "slot": "E",
+          "source": "Characters/Ornn/Spells/OrnnEAbility/OrnnE",
+          "formula": "Ornn charges, dealing [80 / 125 / 170 / 215 / 260 + (0.4) × Stat(1)[statFormula=2] + (0.4) × Stat(6)[statFormula=2]] physical damage. If Ornn rams into terrain, he creates a shockwave that Knocks Up enemies for [1.25] seconds and applies the same damage to those not hit by the charge.\n\nOrnn's charge destroys magma pillars and terrain created by enemies."
+        }
+      ]
+    }
+  ]
+}

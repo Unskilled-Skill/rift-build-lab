@@ -1,0 +1,448 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "heimerdinger-four-1",
+      "champion": "Heimerdinger",
+      "name": "Reference: Mana burn zones",
+      "goal": "Reference for Heimerdinger: establish a repeatable reference",
+      "hypothesis": "A setup mage who defends a turret position and accelerates turret beams by landing rockets or grenade. Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking. Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "itemIds": [
+        2503,
+        6653,
+        3116,
+        8010,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Heimerdinger: Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking.",
+        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Heimerdinger lays down a rapid-fire cannon turret equipped with a secondary pass-through beam attack (turrets deal half damage to towers). Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "The route fails Heimerdinger's stated kit question: Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hextech Micro-Rockets",
+          "slot": "W",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerWAbility/HeimerdingerW",
+          "formula": "Heimerdinger unleashes a barrage of [5] rockets that deal [50 / 75 / 100 / 125 / 150 + (0.55) × AP] magic damage to the first enemy hit. Additional rocket hits deal reduced damage.\n\nMax Damage: [90 / 135 / 180 / 225 / 270 + (1.03) × AP] magic damage.\n\nNearby Turrets gain 20% charge per rocket that hits a champion."
+        },
+        {
+          "ability": "UPGRADE!!!",
+          "slot": "R",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerRAbility/HeimerdingerR",
+          "formula": "Heimerdinger upgrades his next non-ultimate Ability.\n\nH-28Q Apex Turret: Place an upgraded Turret for 8 seconds that doesn't count towards Heimerdinger's max turrets, deals [80 / 100 / 120 + (0.35) × AP] magic damage per shot and [100 / 140 / 180 + (0.7) × AP] magic damage per charged shot. Its attacks deal damage in an area, Slow by 25% for 2 seconds, and it is immune to crowd control.\n\nHextech Rocket Swarm: Fires 4 waves of rockets that each deal [135 / 180 / 225 + (0.45) × AP] magic damage. Champions and jungle monsters hit by additional rockets take reduced damage, and minions take increased damage. Max Damage: [503 / 697.5 / 892 + (1.83) × AP] magic damage. \n\nCH-3X Lightning Grenade: Throws a bouncing grenade that discharges three times, dealing [100 / 200 / 300 + (0.6) × AP] magic damage. The Stun and Slow areas are larger.\n\nRecast: Cancel this Ability."
+        },
+        {
+          "ability": "CH-2 Electron Storm Grenade",
+          "slot": "E",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerEAbility/HeimerdingerE",
+          "formula": "Heimerdinger hurls a grenade that deals [60 / 100 / 140 / 180 / 220 + (0.6) × AP] magic damage in an area and Slows by @SlowPercent.0*100@% for [2] seconds. Enemies in the center are also Stunned for [1.5] seconds.\n\nHitting a champion fully charges nearby Turrets."
+        },
+        {
+          "ability": "H-28 G Evolution Turret",
+          "slot": "Q",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerQAbility/HeimerdingerQ",
+          "formula": "Heimerdinger constructs a Turret that attacks nearby enemies. Heimerdinger can have [3 / 3 / 3 / 3 / 3] turrets active at once. Turrets slowly build up charge. At max charge, they fire a stronger attack.\n\nIf Heimerdinger gets too far away, his Turrets will deactivate after 8 seconds.\n\nThis Ability has [3 / 3 / 3 / 3 / 3] charges."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassive",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassiveSpeed",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        }
+      ]
+    },
+    {
+      "id": "heimerdinger-four-2",
+      "champion": "Heimerdinger",
+      "name": "Damage interaction: Mana burst",
+      "goal": "Damage interaction for Heimerdinger: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A setup mage who defends a turret position and accelerates turret beams by landing rockets or grenade. Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Heimerdinger: Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking.",
+        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Heimerdinger lays down a rapid-fire cannon turret equipped with a secondary pass-through beam attack (turrets deal half damage to towers). Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "The route fails Heimerdinger's stated kit question: Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hextech Micro-Rockets",
+          "slot": "W",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerWAbility/HeimerdingerW",
+          "formula": "Heimerdinger unleashes a barrage of [5] rockets that deal [50 / 75 / 100 / 125 / 150 + (0.55) × AP] magic damage to the first enemy hit. Additional rocket hits deal reduced damage.\n\nMax Damage: [90 / 135 / 180 / 225 / 270 + (1.03) × AP] magic damage.\n\nNearby Turrets gain 20% charge per rocket that hits a champion."
+        },
+        {
+          "ability": "UPGRADE!!!",
+          "slot": "R",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerRAbility/HeimerdingerR",
+          "formula": "Heimerdinger upgrades his next non-ultimate Ability.\n\nH-28Q Apex Turret: Place an upgraded Turret for 8 seconds that doesn't count towards Heimerdinger's max turrets, deals [80 / 100 / 120 + (0.35) × AP] magic damage per shot and [100 / 140 / 180 + (0.7) × AP] magic damage per charged shot. Its attacks deal damage in an area, Slow by 25% for 2 seconds, and it is immune to crowd control.\n\nHextech Rocket Swarm: Fires 4 waves of rockets that each deal [135 / 180 / 225 + (0.45) × AP] magic damage. Champions and jungle monsters hit by additional rockets take reduced damage, and minions take increased damage. Max Damage: [503 / 697.5 / 892 + (1.83) × AP] magic damage. \n\nCH-3X Lightning Grenade: Throws a bouncing grenade that discharges three times, dealing [100 / 200 / 300 + (0.6) × AP] magic damage. The Stun and Slow areas are larger.\n\nRecast: Cancel this Ability."
+        },
+        {
+          "ability": "CH-2 Electron Storm Grenade",
+          "slot": "E",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerEAbility/HeimerdingerE",
+          "formula": "Heimerdinger hurls a grenade that deals [60 / 100 / 140 / 180 / 220 + (0.6) × AP] magic damage in an area and Slows by @SlowPercent.0*100@% for [2] seconds. Enemies in the center are also Stunned for [1.5] seconds.\n\nHitting a champion fully charges nearby Turrets."
+        },
+        {
+          "ability": "H-28 G Evolution Turret",
+          "slot": "Q",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerQAbility/HeimerdingerQ",
+          "formula": "Heimerdinger constructs a Turret that attacks nearby enemies. Heimerdinger can have [3 / 3 / 3 / 3 / 3] turrets active at once. Turrets slowly build up charge. At max charge, they fire a stronger attack.\n\nIf Heimerdinger gets too far away, his Turrets will deactivate after 8 seconds.\n\nThis Ability has [3 / 3 / 3 / 3 / 3] charges."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassive",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassiveSpeed",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        }
+      ]
+    },
+    {
+      "id": "heimerdinger-four-3",
+      "champion": "Heimerdinger",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Heimerdinger: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A setup mage who defends a turret position and accelerates turret beams by landing rockets or grenade. Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Heimerdinger: Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Heimerdinger lays down a rapid-fire cannon turret equipped with a secondary pass-through beam attack (turrets deal half damage to towers). Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Heimerdinger's stated kit question: Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hextech Micro-Rockets",
+          "slot": "W",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerWAbility/HeimerdingerW",
+          "formula": "Heimerdinger unleashes a barrage of [5] rockets that deal [50 / 75 / 100 / 125 / 150 + (0.55) × AP] magic damage to the first enemy hit. Additional rocket hits deal reduced damage.\n\nMax Damage: [90 / 135 / 180 / 225 / 270 + (1.03) × AP] magic damage.\n\nNearby Turrets gain 20% charge per rocket that hits a champion."
+        },
+        {
+          "ability": "UPGRADE!!!",
+          "slot": "R",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerRAbility/HeimerdingerR",
+          "formula": "Heimerdinger upgrades his next non-ultimate Ability.\n\nH-28Q Apex Turret: Place an upgraded Turret for 8 seconds that doesn't count towards Heimerdinger's max turrets, deals [80 / 100 / 120 + (0.35) × AP] magic damage per shot and [100 / 140 / 180 + (0.7) × AP] magic damage per charged shot. Its attacks deal damage in an area, Slow by 25% for 2 seconds, and it is immune to crowd control.\n\nHextech Rocket Swarm: Fires 4 waves of rockets that each deal [135 / 180 / 225 + (0.45) × AP] magic damage. Champions and jungle monsters hit by additional rockets take reduced damage, and minions take increased damage. Max Damage: [503 / 697.5 / 892 + (1.83) × AP] magic damage. \n\nCH-3X Lightning Grenade: Throws a bouncing grenade that discharges three times, dealing [100 / 200 / 300 + (0.6) × AP] magic damage. The Stun and Slow areas are larger.\n\nRecast: Cancel this Ability."
+        },
+        {
+          "ability": "CH-2 Electron Storm Grenade",
+          "slot": "E",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerEAbility/HeimerdingerE",
+          "formula": "Heimerdinger hurls a grenade that deals [60 / 100 / 140 / 180 / 220 + (0.6) × AP] magic damage in an area and Slows by @SlowPercent.0*100@% for [2] seconds. Enemies in the center are also Stunned for [1.5] seconds.\n\nHitting a champion fully charges nearby Turrets."
+        },
+        {
+          "ability": "H-28 G Evolution Turret",
+          "slot": "Q",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerQAbility/HeimerdingerQ",
+          "formula": "Heimerdinger constructs a Turret that attacks nearby enemies. Heimerdinger can have [3 / 3 / 3 / 3 / 3] turrets active at once. Turrets slowly build up charge. At max charge, they fire a stronger attack.\n\nIf Heimerdinger gets too far away, his Turrets will deactivate after 8 seconds.\n\nThis Ability has [3 / 3 / 3 / 3 / 3] charges."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassive",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassiveSpeed",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        }
+      ]
+    },
+    {
+      "id": "heimerdinger-four-4",
+      "champion": "Heimerdinger",
+      "name": "Experiment: Range and poke",
+      "goal": "Experiment for Heimerdinger: test a different playstyle, with lower confidence",
+      "hypothesis": "A setup mage who defends a turret position and accelerates turret beams by landing rockets or grenade. Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking. Range-compatible spell hits test poke AP/penetration before a commitment. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6655,
+        4628,
+        3089,
+        3135,
+        3102,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Heimerdinger: Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking.",
+        "Start with the early core (Luden, then Horizon) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Range-compatible spell hits test poke AP/penetration before a commitment. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Heimerdinger lays down a rapid-fire cannon turret equipped with a secondary pass-through beam attack (turrets deal half damage to towers). Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Comet can miss and distance matters; no automatic full-range damage bonus.",
+        "The route fails Heimerdinger's stated kit question: Fix turret count, placement and ultimate choice. Rockets/grenade accelerating beams matter; do not attribute every turret projectile to every item proc without checking.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Comet can miss and distance matters; no automatic full-range damage bonus.",
+        "Full cost 16,050 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Luden, then Horizon. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Banshee's Veil are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hextech Micro-Rockets",
+          "slot": "W",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerWAbility/HeimerdingerW",
+          "formula": "Heimerdinger unleashes a barrage of [5] rockets that deal [50 / 75 / 100 / 125 / 150 + (0.55) × AP] magic damage to the first enemy hit. Additional rocket hits deal reduced damage.\n\nMax Damage: [90 / 135 / 180 / 225 / 270 + (1.03) × AP] magic damage.\n\nNearby Turrets gain 20% charge per rocket that hits a champion."
+        },
+        {
+          "ability": "UPGRADE!!!",
+          "slot": "R",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerRAbility/HeimerdingerR",
+          "formula": "Heimerdinger upgrades his next non-ultimate Ability.\n\nH-28Q Apex Turret: Place an upgraded Turret for 8 seconds that doesn't count towards Heimerdinger's max turrets, deals [80 / 100 / 120 + (0.35) × AP] magic damage per shot and [100 / 140 / 180 + (0.7) × AP] magic damage per charged shot. Its attacks deal damage in an area, Slow by 25% for 2 seconds, and it is immune to crowd control.\n\nHextech Rocket Swarm: Fires 4 waves of rockets that each deal [135 / 180 / 225 + (0.45) × AP] magic damage. Champions and jungle monsters hit by additional rockets take reduced damage, and minions take increased damage. Max Damage: [503 / 697.5 / 892 + (1.83) × AP] magic damage. \n\nCH-3X Lightning Grenade: Throws a bouncing grenade that discharges three times, dealing [100 / 200 / 300 + (0.6) × AP] magic damage. The Stun and Slow areas are larger.\n\nRecast: Cancel this Ability."
+        },
+        {
+          "ability": "CH-2 Electron Storm Grenade",
+          "slot": "E",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerEAbility/HeimerdingerE",
+          "formula": "Heimerdinger hurls a grenade that deals [60 / 100 / 140 / 180 / 220 + (0.6) × AP] magic damage in an area and Slows by @SlowPercent.0*100@% for [2] seconds. Enemies in the center are also Stunned for [1.5] seconds.\n\nHitting a champion fully charges nearby Turrets."
+        },
+        {
+          "ability": "H-28 G Evolution Turret",
+          "slot": "Q",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerQAbility/HeimerdingerQ",
+          "formula": "Heimerdinger constructs a Turret that attacks nearby enemies. Heimerdinger can have [3 / 3 / 3 / 3 / 3] turrets active at once. Turrets slowly build up charge. At max charge, they fire a stronger attack.\n\nIf Heimerdinger gets too far away, his Turrets will deactivate after 8 seconds.\n\nThis Ability has [3 / 3 / 3 / 3 / 3] charges."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassive",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassiveSpeed",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        }
+      ]
+    }
+  ]
+}

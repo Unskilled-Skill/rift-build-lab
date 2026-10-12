@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "quinn-four-1",
+      "champion": "Quinn",
+      "name": "Reference: Long-range finish",
+      "goal": "Reference for Quinn: establish a repeatable reference",
+      "hypothesis": "A roaming ranged duelist who consumes Harrier marks for movement and attack speed, using Vault to manage distance. Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS. Crit and a Rapid Firecannon attack window test safer pick damage.",
+      "itemIds": [
+        6676,
+        3031,
+        3094,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Quinn: Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS.",
+        "Start with the early core (Collector, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit and a Rapid Firecannon attack window test safer pick damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Quinn calls Valor to mark an enemy and hinder its vision before damaging all enemies in the immediate area. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "RFC does not extend every ability; its charged attack must actually be consumed.",
+        "The route fails Quinn's stated kit question: Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "RFC does not extend every ability; its charged attack must actually be consumed.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Collector, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rapid Firecannon, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Heightened Senses",
+          "slot": "W",
+          "source": "Characters/Quinn/Spells/QuinnWAbility/QuinnW",
+          "formula": "Passive: Attacking a Harrier target grants Quinn [(0.28 / 0.41 / 0.54 / 0.67 / 0.8) × 100]% Attack Speed and [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% Move Speed for [2] seconds.\n\nActive: Valor reveals a large area nearby for [2] seconds."
+        },
+        {
+          "ability": "Behind Enemy Lines",
+          "slot": "R",
+          "source": "Characters/Quinn/Spells/QuinnRAbility/QuinnR",
+          "formula": "Quinn calls to Valor, pairing up after channeling for 2 seconds gaining [(0.7 / 1 / 1.3) × 100]% Move Speed and allowing her to Recast this Ability. Attacking or using {{Spell_QuinnQ_Name}} or {{Spell_QuinnE_Name}} automatically Recasts this Ability.\n\nRecast: Quinn and Valor perform an aerial maneuver, dealing [60 / 90 / 120 + (0.35) × AD[statFormula=2]] physical damage, marking champions with Harrier, and ending this Ability."
+        },
+        {
+          "ability": "Harrier",
+          "slot": "Passive",
+          "source": "Characters/Quinn/Spells/QuinnPassiveAbility/QuinnPassive",
+          "formula": "Every @f1@ seconds, Valor marks a nearby enemy with Harrier, revealing it for [4] seconds and causing Quinn's next Attack %i:OnHit% On-Hit against them to deal [(characterLevelInterpolation(15 → 120; raw flags preserved) + (0.4) × AD[statFormula=2]) × (1)] bonus physical damage."
+        },
+        {
+          "ability": "Vault",
+          "slot": "E",
+          "source": "Characters/Quinn/Spells/QuinnEAbility/QuinnE",
+          "formula": "Quinn dashes to an enemy, dealing [40 / 65 / 90 / 115 / 140 + (0.2) × AD[statFormula=2]] physical damage and marking them with Harrier. Quinn then leaps backwards from the target, slightly Knocking them Back and Slowing them by [50]%, decaying over [1.5] seconds."
+        },
+        {
+          "ability": "Blinding Assault",
+          "slot": "Q",
+          "source": "Characters/Quinn/Spells/QuinnQAbility/QuinnQ",
+          "formula": "Quinn orders Valor to dive, making the first enemy hit with Harrier, reducing their vision radius for [1.75] seconds and dealing [65 / 100 / 135 / 170 / 205 + (0.8 / 0.85 / 0.9 / 0.95 / 1) × AD[statFormula=2] + (0.5) × AP] physical damage to all surrounding enemies.\n\nIf the first enemy struck is not a champion, it is Disarmed for [1.75] seconds."
+        }
+      ]
+    },
+    {
+      "id": "quinn-four-2",
+      "champion": "Quinn",
+      "name": "Damage interaction: Critical carry",
+      "goal": "Damage interaction for Quinn: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A roaming ranged duelist who consumes Harrier marks for movement and attack speed, using Vault to manage distance. Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS. Attack cadence, crit and penetration support repeatable carry damage.",
+      "itemIds": [
+        6672,
+        3031,
+        3046,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Quinn: Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS.",
+        "Start with the early core (Kraken, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Attack cadence, crit and penetration support repeatable carry damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Quinn calls Valor to mark an enemy and hinder its vision before damaging all enemies in the immediate area. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "The route fails Quinn's stated kit question: Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Phantom Dancer, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Heightened Senses",
+          "slot": "W",
+          "source": "Characters/Quinn/Spells/QuinnWAbility/QuinnW",
+          "formula": "Passive: Attacking a Harrier target grants Quinn [(0.28 / 0.41 / 0.54 / 0.67 / 0.8) × 100]% Attack Speed and [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% Move Speed for [2] seconds.\n\nActive: Valor reveals a large area nearby for [2] seconds."
+        },
+        {
+          "ability": "Behind Enemy Lines",
+          "slot": "R",
+          "source": "Characters/Quinn/Spells/QuinnRAbility/QuinnR",
+          "formula": "Quinn calls to Valor, pairing up after channeling for 2 seconds gaining [(0.7 / 1 / 1.3) × 100]% Move Speed and allowing her to Recast this Ability. Attacking or using {{Spell_QuinnQ_Name}} or {{Spell_QuinnE_Name}} automatically Recasts this Ability.\n\nRecast: Quinn and Valor perform an aerial maneuver, dealing [60 / 90 / 120 + (0.35) × AD[statFormula=2]] physical damage, marking champions with Harrier, and ending this Ability."
+        },
+        {
+          "ability": "Harrier",
+          "slot": "Passive",
+          "source": "Characters/Quinn/Spells/QuinnPassiveAbility/QuinnPassive",
+          "formula": "Every @f1@ seconds, Valor marks a nearby enemy with Harrier, revealing it for [4] seconds and causing Quinn's next Attack %i:OnHit% On-Hit against them to deal [(characterLevelInterpolation(15 → 120; raw flags preserved) + (0.4) × AD[statFormula=2]) × (1)] bonus physical damage."
+        },
+        {
+          "ability": "Vault",
+          "slot": "E",
+          "source": "Characters/Quinn/Spells/QuinnEAbility/QuinnE",
+          "formula": "Quinn dashes to an enemy, dealing [40 / 65 / 90 / 115 / 140 + (0.2) × AD[statFormula=2]] physical damage and marking them with Harrier. Quinn then leaps backwards from the target, slightly Knocking them Back and Slowing them by [50]%, decaying over [1.5] seconds."
+        },
+        {
+          "ability": "Blinding Assault",
+          "slot": "Q",
+          "source": "Characters/Quinn/Spells/QuinnQAbility/QuinnQ",
+          "formula": "Quinn orders Valor to dive, making the first enemy hit with Harrier, reducing their vision radius for [1.75] seconds and dealing [65 / 100 / 135 / 170 / 205 + (0.8 / 0.85 / 0.9 / 0.95 / 1) × AD[statFormula=2] + (0.5) × AP] physical damage to all surrounding enemies.\n\nIf the first enemy struck is not a champion, it is Disarmed for [1.75] seconds."
+        }
+      ]
+    },
+    {
+      "id": "quinn-four-3",
+      "champion": "Quinn",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Quinn: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A roaming ranged duelist who consumes Harrier marks for movement and attack speed, using Vault to manage distance. Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Quinn: Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Quinn calls Valor to mark an enemy and hinder its vision before damaging all enemies in the immediate area. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Quinn's stated kit question: Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Heightened Senses",
+          "slot": "W",
+          "source": "Characters/Quinn/Spells/QuinnWAbility/QuinnW",
+          "formula": "Passive: Attacking a Harrier target grants Quinn [(0.28 / 0.41 / 0.54 / 0.67 / 0.8) × 100]% Attack Speed and [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% Move Speed for [2] seconds.\n\nActive: Valor reveals a large area nearby for [2] seconds."
+        },
+        {
+          "ability": "Behind Enemy Lines",
+          "slot": "R",
+          "source": "Characters/Quinn/Spells/QuinnRAbility/QuinnR",
+          "formula": "Quinn calls to Valor, pairing up after channeling for 2 seconds gaining [(0.7 / 1 / 1.3) × 100]% Move Speed and allowing her to Recast this Ability. Attacking or using {{Spell_QuinnQ_Name}} or {{Spell_QuinnE_Name}} automatically Recasts this Ability.\n\nRecast: Quinn and Valor perform an aerial maneuver, dealing [60 / 90 / 120 + (0.35) × AD[statFormula=2]] physical damage, marking champions with Harrier, and ending this Ability."
+        },
+        {
+          "ability": "Harrier",
+          "slot": "Passive",
+          "source": "Characters/Quinn/Spells/QuinnPassiveAbility/QuinnPassive",
+          "formula": "Every @f1@ seconds, Valor marks a nearby enemy with Harrier, revealing it for [4] seconds and causing Quinn's next Attack %i:OnHit% On-Hit against them to deal [(characterLevelInterpolation(15 → 120; raw flags preserved) + (0.4) × AD[statFormula=2]) × (1)] bonus physical damage."
+        },
+        {
+          "ability": "Vault",
+          "slot": "E",
+          "source": "Characters/Quinn/Spells/QuinnEAbility/QuinnE",
+          "formula": "Quinn dashes to an enemy, dealing [40 / 65 / 90 / 115 / 140 + (0.2) × AD[statFormula=2]] physical damage and marking them with Harrier. Quinn then leaps backwards from the target, slightly Knocking them Back and Slowing them by [50]%, decaying over [1.5] seconds."
+        },
+        {
+          "ability": "Blinding Assault",
+          "slot": "Q",
+          "source": "Characters/Quinn/Spells/QuinnQAbility/QuinnQ",
+          "formula": "Quinn orders Valor to dive, making the first enemy hit with Harrier, reducing their vision radius for [1.75] seconds and dealing [65 / 100 / 135 / 170 / 205 + (0.8 / 0.85 / 0.9 / 0.95 / 1) × AD[statFormula=2] + (0.5) × AP] physical damage to all surrounding enemies.\n\nIf the first enemy struck is not a champion, it is Disarmed for [1.75] seconds."
+        }
+      ]
+    },
+    {
+      "id": "quinn-four-4",
+      "champion": "Quinn",
+      "name": "Experiment: Physical pick",
+      "goal": "Experiment for Quinn: test a different playstyle, with lower confidence",
+      "hypothesis": "A roaming ranged duelist who consumes Harrier marks for movement and attack speed, using Vault to manage distance. Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Quinn: Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Quinn calls Valor to mark an enemy and hinder its vision before damaging all enemies in the immediate area. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Quinn's stated kit question: Record Harrier mark consumption, Vault spacing and real roaming time. Burst/lethality may win a pick while failing against durable targets or losing carry DPS.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Heightened Senses",
+          "slot": "W",
+          "source": "Characters/Quinn/Spells/QuinnWAbility/QuinnW",
+          "formula": "Passive: Attacking a Harrier target grants Quinn [(0.28 / 0.41 / 0.54 / 0.67 / 0.8) × 100]% Attack Speed and [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% Move Speed for [2] seconds.\n\nActive: Valor reveals a large area nearby for [2] seconds."
+        },
+        {
+          "ability": "Behind Enemy Lines",
+          "slot": "R",
+          "source": "Characters/Quinn/Spells/QuinnRAbility/QuinnR",
+          "formula": "Quinn calls to Valor, pairing up after channeling for 2 seconds gaining [(0.7 / 1 / 1.3) × 100]% Move Speed and allowing her to Recast this Ability. Attacking or using {{Spell_QuinnQ_Name}} or {{Spell_QuinnE_Name}} automatically Recasts this Ability.\n\nRecast: Quinn and Valor perform an aerial maneuver, dealing [60 / 90 / 120 + (0.35) × AD[statFormula=2]] physical damage, marking champions with Harrier, and ending this Ability."
+        },
+        {
+          "ability": "Harrier",
+          "slot": "Passive",
+          "source": "Characters/Quinn/Spells/QuinnPassiveAbility/QuinnPassive",
+          "formula": "Every @f1@ seconds, Valor marks a nearby enemy with Harrier, revealing it for [4] seconds and causing Quinn's next Attack %i:OnHit% On-Hit against them to deal [(characterLevelInterpolation(15 → 120; raw flags preserved) + (0.4) × AD[statFormula=2]) × (1)] bonus physical damage."
+        },
+        {
+          "ability": "Vault",
+          "slot": "E",
+          "source": "Characters/Quinn/Spells/QuinnEAbility/QuinnE",
+          "formula": "Quinn dashes to an enemy, dealing [40 / 65 / 90 / 115 / 140 + (0.2) × AD[statFormula=2]] physical damage and marking them with Harrier. Quinn then leaps backwards from the target, slightly Knocking them Back and Slowing them by [50]%, decaying over [1.5] seconds."
+        },
+        {
+          "ability": "Blinding Assault",
+          "slot": "Q",
+          "source": "Characters/Quinn/Spells/QuinnQAbility/QuinnQ",
+          "formula": "Quinn orders Valor to dive, making the first enemy hit with Harrier, reducing their vision radius for [1.75] seconds and dealing [65 / 100 / 135 / 170 / 205 + (0.8 / 0.85 / 0.9 / 0.95 / 1) × AD[statFormula=2] + (0.5) × AP] physical damage to all surrounding enemies.\n\nIf the first enemy struck is not a champion, it is Disarmed for [1.75] seconds."
+        }
+      ]
+    }
+  ]
+}

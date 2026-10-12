@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "pyke-four-1",
+      "champion": "Pyke",
+      "name": "Reference: Physical pick",
+      "goal": "Reference for Pyke: establish a repeatable reference",
+      "hypothesis": "A roaming pick-and-execute assassin who hooks targets, crosses them with a returning stun and resets his ultimate on eligible deaths. The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite. Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Pyke: The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Pyke either stabs an enemy in front of him or pulls an enemy towards him. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Pyke's stated kit question: The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bone Skewer",
+          "slot": "Q",
+          "source": "Characters/Pyke/Spells/PykeQAbility/PykeQ",
+          "formula": "Tap: Pyke stabs, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit, preferring champions. They are then Slowed by [90]% for [1] second.\n\nHold: Pyke throws his harpoon, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit and Pulling them towards him. They are then Slowed by [90]% for [1] second.\n\nIf Pyke successfully hits an enemy champion or the channel does not complete successfully, [75]% of the Mana cost is refunded."
+        },
+        {
+          "ability": "Gift of the Drowned Ones",
+          "slot": "Passive",
+          "source": "Characters/Pyke/Spells/PykePassiveAbility/PykePassive",
+          "formula": "Pyke stores [0.09 + (0.002) × Stat(29)] of damage taken from champions, increased to [0.4 + (0.004) × Stat(29)] when there's more than one enemy nearby. Pyke can store up to [80 + (8) × AD[statFormula=2]] damage. While unseen by enemies, he rapidly regenerates this stored damage.\n\nAdditionally, Pyke converts all Maximum Health increases to Attack Damage instead at a rate of 14 Health to 1 Attack Damage."
+        },
+        {
+          "ability": "Death From Below",
+          "slot": "R",
+          "source": "Characters/Pyke/Spells/PykeRAbility/PykeR",
+          "formula": "Pyke strikes all enemy champions in an X, teleporting to and executing targets below [characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)] Health. Champions above the threshold and non-champions instead take physical damage equal to [50]% of that amount ([(characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)) × (0.5)]). \n\nWhen an enemy champion dies inside the X, Pyke can Recast this Ability for free within [20] seconds. If he executed that champion, the last assisting ally will also get kill gold. If he did not, he will still get kill gold as if he did."
+        },
+        {
+          "ability": "Phantom Undertow",
+          "slot": "E",
+          "source": "Characters/Pyke/Spells/PykeEAbility/PykeE",
+          "formula": "Pyke dashes, leaving a drowned phantom behind him that returns to him shortly. The phantom Stuns for [1.25 + (0.01) × Stat(29)] seconds and deals [100 / 150 / 200 / 250 / 300 + (1) × AD[statFormula=2]] physical damage to champions."
+        },
+        {
+          "ability": "Ghostwater Dive",
+          "slot": "W",
+          "source": "Characters/Pyke/Spells/PykeWAbility/PykeW",
+          "formula": "Pyke gains Camouflage and [45 + (2) × Stat(29)]% Move Speed decaying over [5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "pyke-four-2",
+      "champion": "Pyke",
+      "name": "Damage interaction: Physical spell burst",
+      "goal": "Damage interaction for Pyke: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A roaming pick-and-execute assassin who hooks targets, crosses them with a returning stun and resets his ultimate on eligible deaths. The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite. High AD and penetration test ability-first trades with a conditional anti-magic slot.",
+      "itemIds": [
+        6692,
+        6698,
+        6694,
+        3814,
+        3156,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Pyke: The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite.",
+        "Start with the early core (Eclipse, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: High AD and penetration test ability-first trades with a conditional anti-magic slot. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Pyke either stabs an enemy in front of him or pulls an enemy towards him. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
+        "The route fails Pyke's stated kit question: The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Eclipse, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Serylda's Grudge, Edge of Night, Maw of Malmortius are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bone Skewer",
+          "slot": "Q",
+          "source": "Characters/Pyke/Spells/PykeQAbility/PykeQ",
+          "formula": "Tap: Pyke stabs, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit, preferring champions. They are then Slowed by [90]% for [1] second.\n\nHold: Pyke throws his harpoon, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit and Pulling them towards him. They are then Slowed by [90]% for [1] second.\n\nIf Pyke successfully hits an enemy champion or the channel does not complete successfully, [75]% of the Mana cost is refunded."
+        },
+        {
+          "ability": "Gift of the Drowned Ones",
+          "slot": "Passive",
+          "source": "Characters/Pyke/Spells/PykePassiveAbility/PykePassive",
+          "formula": "Pyke stores [0.09 + (0.002) × Stat(29)] of damage taken from champions, increased to [0.4 + (0.004) × Stat(29)] when there's more than one enemy nearby. Pyke can store up to [80 + (8) × AD[statFormula=2]] damage. While unseen by enemies, he rapidly regenerates this stored damage.\n\nAdditionally, Pyke converts all Maximum Health increases to Attack Damage instead at a rate of 14 Health to 1 Attack Damage."
+        },
+        {
+          "ability": "Death From Below",
+          "slot": "R",
+          "source": "Characters/Pyke/Spells/PykeRAbility/PykeR",
+          "formula": "Pyke strikes all enemy champions in an X, teleporting to and executing targets below [characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)] Health. Champions above the threshold and non-champions instead take physical damage equal to [50]% of that amount ([(characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)) × (0.5)]). \n\nWhen an enemy champion dies inside the X, Pyke can Recast this Ability for free within [20] seconds. If he executed that champion, the last assisting ally will also get kill gold. If he did not, he will still get kill gold as if he did."
+        },
+        {
+          "ability": "Phantom Undertow",
+          "slot": "E",
+          "source": "Characters/Pyke/Spells/PykeEAbility/PykeE",
+          "formula": "Pyke dashes, leaving a drowned phantom behind him that returns to him shortly. The phantom Stuns for [1.25 + (0.01) × Stat(29)] seconds and deals [100 / 150 / 200 / 250 / 300 + (1) × AD[statFormula=2]] physical damage to champions."
+        },
+        {
+          "ability": "Ghostwater Dive",
+          "slot": "W",
+          "source": "Characters/Pyke/Spells/PykeWAbility/PykeW",
+          "formula": "Pyke gains Camouflage and [45 + (2) × Stat(29)]% Move Speed decaying over [5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "pyke-four-3",
+      "champion": "Pyke",
+      "name": "Situational adaptation: Engage and rescue",
+      "goal": "Situational adaptation for Pyke: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A roaming pick-and-execute assassin who hooks targets, crosses them with a returning stun and resets his ultimate on eligible deaths. The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite. A support quest and protective actives test allied survival after an engage.",
+      "itemIds": [
+        3869,
+        3190,
+        3109,
+        3050,
+        3222,
+        3111
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Pyke: The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite.",
+        "Start with the early core (Support quest, boots and Locket; choose later actives by threat) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A support quest and protective actives test allied survival after an engage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Pyke either stabs an enemy in front of him or pulls an enemy towards him. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
+        "The route fails Pyke's stated kit question: The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
+        "Full cost 10,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Support quest, boots and Locket; choose later actives by threat. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Knight's Vow, Zeke's Convergence, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bone Skewer",
+          "slot": "Q",
+          "source": "Characters/Pyke/Spells/PykeQAbility/PykeQ",
+          "formula": "Tap: Pyke stabs, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit, preferring champions. They are then Slowed by [90]% for [1] second.\n\nHold: Pyke throws his harpoon, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit and Pulling them towards him. They are then Slowed by [90]% for [1] second.\n\nIf Pyke successfully hits an enemy champion or the channel does not complete successfully, [75]% of the Mana cost is refunded."
+        },
+        {
+          "ability": "Gift of the Drowned Ones",
+          "slot": "Passive",
+          "source": "Characters/Pyke/Spells/PykePassiveAbility/PykePassive",
+          "formula": "Pyke stores [0.09 + (0.002) × Stat(29)] of damage taken from champions, increased to [0.4 + (0.004) × Stat(29)] when there's more than one enemy nearby. Pyke can store up to [80 + (8) × AD[statFormula=2]] damage. While unseen by enemies, he rapidly regenerates this stored damage.\n\nAdditionally, Pyke converts all Maximum Health increases to Attack Damage instead at a rate of 14 Health to 1 Attack Damage."
+        },
+        {
+          "ability": "Death From Below",
+          "slot": "R",
+          "source": "Characters/Pyke/Spells/PykeRAbility/PykeR",
+          "formula": "Pyke strikes all enemy champions in an X, teleporting to and executing targets below [characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)] Health. Champions above the threshold and non-champions instead take physical damage equal to [50]% of that amount ([(characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)) × (0.5)]). \n\nWhen an enemy champion dies inside the X, Pyke can Recast this Ability for free within [20] seconds. If he executed that champion, the last assisting ally will also get kill gold. If he did not, he will still get kill gold as if he did."
+        },
+        {
+          "ability": "Phantom Undertow",
+          "slot": "E",
+          "source": "Characters/Pyke/Spells/PykeEAbility/PykeE",
+          "formula": "Pyke dashes, leaving a drowned phantom behind him that returns to him shortly. The phantom Stuns for [1.25 + (0.01) × Stat(29)] seconds and deals [100 / 150 / 200 / 250 / 300 + (1) × AD[statFormula=2]] physical damage to champions."
+        },
+        {
+          "ability": "Ghostwater Dive",
+          "slot": "W",
+          "source": "Characters/Pyke/Spells/PykeWAbility/PykeW",
+          "formula": "Pyke gains Camouflage and [45 + (2) × Stat(29)]% Move Speed decaying over [5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "pyke-four-4",
+      "champion": "Pyke",
+      "name": "Experiment: Long-range finish",
+      "goal": "Experiment for Pyke: test a different playstyle, with lower confidence",
+      "hypothesis": "A roaming pick-and-execute assassin who hooks targets, crosses them with a returning stun and resets his ultimate on eligible deaths. The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite. Crit and a Rapid Firecannon attack window test safer pick damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6676,
+        3031,
+        3094,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Pyke: The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite.",
+        "Start with the early core (Collector, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit and a Rapid Firecannon attack window test safer pick damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Pyke either stabs an enemy in front of him or pulls an enemy towards him. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "RFC does not extend every ability; its charged attack must actually be consumed.",
+        "The route fails Pyke's stated kit question: The kit's bonus-health conversion means tank packages are an intentional weak/high-risk comparison, not ordinary extra HP. Keep R execute threshold and cash earned from kills finite.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "RFC does not extend every ability; its charged attack must actually be consumed.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Collector, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rapid Firecannon, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Bone Skewer",
+          "slot": "Q",
+          "source": "Characters/Pyke/Spells/PykeQAbility/PykeQ",
+          "formula": "Tap: Pyke stabs, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit, preferring champions. They are then Slowed by [90]% for [1] second.\n\nHold: Pyke throws his harpoon, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit and Pulling them towards him. They are then Slowed by [90]% for [1] second.\n\nIf Pyke successfully hits an enemy champion or the channel does not complete successfully, [75]% of the Mana cost is refunded."
+        },
+        {
+          "ability": "Gift of the Drowned Ones",
+          "slot": "Passive",
+          "source": "Characters/Pyke/Spells/PykePassiveAbility/PykePassive",
+          "formula": "Pyke stores [0.09 + (0.002) × Stat(29)] of damage taken from champions, increased to [0.4 + (0.004) × Stat(29)] when there's more than one enemy nearby. Pyke can store up to [80 + (8) × AD[statFormula=2]] damage. While unseen by enemies, he rapidly regenerates this stored damage.\n\nAdditionally, Pyke converts all Maximum Health increases to Attack Damage instead at a rate of 14 Health to 1 Attack Damage."
+        },
+        {
+          "ability": "Death From Below",
+          "slot": "R",
+          "source": "Characters/Pyke/Spells/PykeRAbility/PykeR",
+          "formula": "Pyke strikes all enemy champions in an X, teleporting to and executing targets below [characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)] Health. Champions above the threshold and non-champions instead take physical damage equal to [50]% of that amount ([(characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)) × (0.5)]). \n\nWhen an enemy champion dies inside the X, Pyke can Recast this Ability for free within [20] seconds. If he executed that champion, the last assisting ally will also get kill gold. If he did not, he will still get kill gold as if he did."
+        },
+        {
+          "ability": "Phantom Undertow",
+          "slot": "E",
+          "source": "Characters/Pyke/Spells/PykeEAbility/PykeE",
+          "formula": "Pyke dashes, leaving a drowned phantom behind him that returns to him shortly. The phantom Stuns for [1.25 + (0.01) × Stat(29)] seconds and deals [100 / 150 / 200 / 250 / 300 + (1) × AD[statFormula=2]] physical damage to champions."
+        },
+        {
+          "ability": "Ghostwater Dive",
+          "slot": "W",
+          "source": "Characters/Pyke/Spells/PykeWAbility/PykeW",
+          "formula": "Pyke gains Camouflage and [45 + (2) × Stat(29)]% Move Speed decaying over [5] seconds."
+        }
+      ]
+    }
+  ]
+}

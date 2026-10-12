@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "leesin-four-1",
+      "champion": "LeeSin",
+      "name": "Reference: Contact fighter",
+      "goal": "Reference for Lee Sin: establish a repeatable reference",
+      "hypothesis": "A mobile skirmisher who interleaves attacks for Energy and uses ally dashes and kicks to choose fight geometry. Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "itemIds": [
+        6631,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Lee Sin: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
+        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Sonic Wave: Lee Sin projects a discordant wave of sound to locate his enemies, dealing physical damage to the first enemy it encounters. If Sonic Wave hits, Lee Sin can cast Resonating Strike for the next 3 seconds.\nResonating Strike: Lee Sin dashes to the enemy hit by Sonic Wave, dealing physical damage based on the target's missing Health. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "The route fails Lee Sin's stated kit question: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Energy",
+      "kitEvidence": [
+        {
+          "ability": "Flurry",
+          "slot": "Passive",
+          "source": "Characters/LeeSin/Spells/LeeSinPassiveAbility/LeeSinPassive",
+          "formula": "Lee Sin's Abilities grant him [40]% Attack Speed for two Attacks. The first Attack restores [(characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])) × (2)] Energy and the second restores [characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])] Energy."
+        },
+        {
+          "ability": "Sonic Wave / Resonating Strike",
+          "slot": "Q",
+          "source": "Characters/LeeSin/Spells/LeeSinQOneAbility/LeeSinQOne",
+          "formula": "Lee Sin projects a discordant wave of sound, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage to the first enemy hit, granting True Sight of them, and allows Lee Sin to Recast for the next [3] seconds.\n\nRecast: Lee Sin dashes to the enemy hit by the sound wave, dealing between [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] to [(60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]) × (2)] physical damage scaling with the target's missing Health."
+        },
+        {
+          "ability": "Dragon's Rage",
+          "slot": "R",
+          "source": "Characters/LeeSin/Spells/LeeSinRAbility/LeeSinR",
+          "formula": "Lee Sin performs a powerful roundhouse kick Knocking Back an enemy champion and dealing [175 / 400 / 625 + (2) × AD[statFormula=2]] physical damage.\n\nEnemies the target collides with are briefly Knocked Up and take [175 / 400 / 625 + (2) × AD[statFormula=2]] plus [12 / 15 / 18]% of the kicked enemy's bonus Health as physical damage."
+        },
+        {
+          "ability": "Tempest / Cripple",
+          "slot": "E",
+          "source": "Characters/LeeSin/Spells/LeeSinEOneAbility/LeeSinEOne",
+          "formula": "Lee Sin smashes the ground, sending out a shockwave that deals [35 / 60 / 85 / 110 / 135 + (0.9) × AD] magic damage and reveals them for [4] seconds. If this hits an enemy, Lee Sin can Recast for the next [3] seconds.\n\nRecast: Lee Sin Slows nearby enemies struck by the shockwave by [35 / 45 / 55 / 65 / 75]% decaying over [4] seconds."
+        },
+        {
+          "ability": "Safeguard / Iron Will",
+          "slot": "W",
+          "source": "Characters/LeeSin/Spells/LeeSinWOneAbility/LeeSinWOne",
+          "formula": "Lee Sin dashes to an ally or ward. If the target is a champion, Lee Sin grants them and himself [60 / 105 / 150 / 195 / 240 + (0.8) × AP] Shield for [2] seconds. Lee Sin may Recast for the next [3] seconds.\n\nRecast: Lee Sin gains [10 / 14 / 18 / 22 / 26]% Omnivamp for [4] seconds."
+        }
+      ]
+    },
+    {
+      "id": "leesin-four-2",
+      "champion": "LeeSin",
+      "name": "Damage interaction: AD spell pressure",
+      "goal": "Damage interaction for Lee Sin: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A mobile skirmisher who interleaves attacks for Energy and uses ally dashes and kicks to choose fight geometry. Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost. AD, haste and Black Cleaver may reward repeated physical ability hits.",
+      "itemIds": [
+        6692,
+        3161,
+        3071,
+        6333,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Lee Sin: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
+        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Sonic Wave: Lee Sin projects a discordant wave of sound to locate his enemies, dealing physical damage to the first enemy it encounters. If Sonic Wave hits, Lee Sin can cast Resonating Strike for the next 3 seconds.\nResonating Strike: Lee Sin dashes to the enemy hit by Sonic Wave, dealing physical damage based on the target's missing Health. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
+        "The route fails Lee Sin's stated kit question: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Energy",
+      "kitEvidence": [
+        {
+          "ability": "Flurry",
+          "slot": "Passive",
+          "source": "Characters/LeeSin/Spells/LeeSinPassiveAbility/LeeSinPassive",
+          "formula": "Lee Sin's Abilities grant him [40]% Attack Speed for two Attacks. The first Attack restores [(characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])) × (2)] Energy and the second restores [characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])] Energy."
+        },
+        {
+          "ability": "Sonic Wave / Resonating Strike",
+          "slot": "Q",
+          "source": "Characters/LeeSin/Spells/LeeSinQOneAbility/LeeSinQOne",
+          "formula": "Lee Sin projects a discordant wave of sound, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage to the first enemy hit, granting True Sight of them, and allows Lee Sin to Recast for the next [3] seconds.\n\nRecast: Lee Sin dashes to the enemy hit by the sound wave, dealing between [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] to [(60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]) × (2)] physical damage scaling with the target's missing Health."
+        },
+        {
+          "ability": "Dragon's Rage",
+          "slot": "R",
+          "source": "Characters/LeeSin/Spells/LeeSinRAbility/LeeSinR",
+          "formula": "Lee Sin performs a powerful roundhouse kick Knocking Back an enemy champion and dealing [175 / 400 / 625 + (2) × AD[statFormula=2]] physical damage.\n\nEnemies the target collides with are briefly Knocked Up and take [175 / 400 / 625 + (2) × AD[statFormula=2]] plus [12 / 15 / 18]% of the kicked enemy's bonus Health as physical damage."
+        },
+        {
+          "ability": "Tempest / Cripple",
+          "slot": "E",
+          "source": "Characters/LeeSin/Spells/LeeSinEOneAbility/LeeSinEOne",
+          "formula": "Lee Sin smashes the ground, sending out a shockwave that deals [35 / 60 / 85 / 110 / 135 + (0.9) × AD] magic damage and reveals them for [4] seconds. If this hits an enemy, Lee Sin can Recast for the next [3] seconds.\n\nRecast: Lee Sin Slows nearby enemies struck by the shockwave by [35 / 45 / 55 / 65 / 75]% decaying over [4] seconds."
+        },
+        {
+          "ability": "Safeguard / Iron Will",
+          "slot": "W",
+          "source": "Characters/LeeSin/Spells/LeeSinWOneAbility/LeeSinWOne",
+          "formula": "Lee Sin dashes to an ally or ward. If the target is a champion, Lee Sin grants them and himself [60 / 105 / 150 / 195 / 240 + (0.8) × AP] Shield for [2] seconds. Lee Sin may Recast for the next [3] seconds.\n\nRecast: Lee Sin gains [10 / 14 / 18 / 22 / 26]% Omnivamp for [4] seconds."
+        }
+      ]
+    },
+    {
+      "id": "leesin-four-3",
+      "champion": "LeeSin",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Lee Sin: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A mobile skirmisher who interleaves attacks for Energy and uses ally dashes and kicks to choose fight geometry. Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Lee Sin: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Sonic Wave: Lee Sin projects a discordant wave of sound to locate his enemies, dealing physical damage to the first enemy it encounters. If Sonic Wave hits, Lee Sin can cast Resonating Strike for the next 3 seconds.\nResonating Strike: Lee Sin dashes to the enemy hit by Sonic Wave, dealing physical damage based on the target's missing Health. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Lee Sin's stated kit question: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Energy",
+      "kitEvidence": [
+        {
+          "ability": "Flurry",
+          "slot": "Passive",
+          "source": "Characters/LeeSin/Spells/LeeSinPassiveAbility/LeeSinPassive",
+          "formula": "Lee Sin's Abilities grant him [40]% Attack Speed for two Attacks. The first Attack restores [(characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])) × (2)] Energy and the second restores [characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])] Energy."
+        },
+        {
+          "ability": "Sonic Wave / Resonating Strike",
+          "slot": "Q",
+          "source": "Characters/LeeSin/Spells/LeeSinQOneAbility/LeeSinQOne",
+          "formula": "Lee Sin projects a discordant wave of sound, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage to the first enemy hit, granting True Sight of them, and allows Lee Sin to Recast for the next [3] seconds.\n\nRecast: Lee Sin dashes to the enemy hit by the sound wave, dealing between [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] to [(60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]) × (2)] physical damage scaling with the target's missing Health."
+        },
+        {
+          "ability": "Dragon's Rage",
+          "slot": "R",
+          "source": "Characters/LeeSin/Spells/LeeSinRAbility/LeeSinR",
+          "formula": "Lee Sin performs a powerful roundhouse kick Knocking Back an enemy champion and dealing [175 / 400 / 625 + (2) × AD[statFormula=2]] physical damage.\n\nEnemies the target collides with are briefly Knocked Up and take [175 / 400 / 625 + (2) × AD[statFormula=2]] plus [12 / 15 / 18]% of the kicked enemy's bonus Health as physical damage."
+        },
+        {
+          "ability": "Tempest / Cripple",
+          "slot": "E",
+          "source": "Characters/LeeSin/Spells/LeeSinEOneAbility/LeeSinEOne",
+          "formula": "Lee Sin smashes the ground, sending out a shockwave that deals [35 / 60 / 85 / 110 / 135 + (0.9) × AD] magic damage and reveals them for [4] seconds. If this hits an enemy, Lee Sin can Recast for the next [3] seconds.\n\nRecast: Lee Sin Slows nearby enemies struck by the shockwave by [35 / 45 / 55 / 65 / 75]% decaying over [4] seconds."
+        },
+        {
+          "ability": "Safeguard / Iron Will",
+          "slot": "W",
+          "source": "Characters/LeeSin/Spells/LeeSinWOneAbility/LeeSinWOne",
+          "formula": "Lee Sin dashes to an ally or ward. If the target is a champion, Lee Sin grants them and himself [60 / 105 / 150 / 195 / 240 + (0.8) × AP] Shield for [2] seconds. Lee Sin may Recast for the next [3] seconds.\n\nRecast: Lee Sin gains [10 / 14 / 18 / 22 / 26]% Omnivamp for [4] seconds."
+        }
+      ]
+    },
+    {
+      "id": "leesin-four-4",
+      "champion": "LeeSin",
+      "name": "Experiment: Physical pick",
+      "goal": "Experiment for Lee Sin: test a different playstyle, with lower confidence",
+      "hypothesis": "A mobile skirmisher who interleaves attacks for Energy and uses ally dashes and kicks to choose fight geometry. Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Lee Sin: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Sonic Wave: Lee Sin projects a discordant wave of sound to locate his enemies, dealing physical damage to the first enemy it encounters. If Sonic Wave hits, Lee Sin can cast Resonating Strike for the next 3 seconds.\nResonating Strike: Lee Sin dashes to the enemy hit by Sonic Wave, dealing physical damage based on the target's missing Health. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Lee Sin's stated kit question: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Energy",
+      "kitEvidence": [
+        {
+          "ability": "Flurry",
+          "slot": "Passive",
+          "source": "Characters/LeeSin/Spells/LeeSinPassiveAbility/LeeSinPassive",
+          "formula": "Lee Sin's Abilities grant him [40]% Attack Speed for two Attacks. The first Attack restores [(characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])) × (2)] Energy and the second restores [characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])] Energy."
+        },
+        {
+          "ability": "Sonic Wave / Resonating Strike",
+          "slot": "Q",
+          "source": "Characters/LeeSin/Spells/LeeSinQOneAbility/LeeSinQOne",
+          "formula": "Lee Sin projects a discordant wave of sound, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage to the first enemy hit, granting True Sight of them, and allows Lee Sin to Recast for the next [3] seconds.\n\nRecast: Lee Sin dashes to the enemy hit by the sound wave, dealing between [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] to [(60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]) × (2)] physical damage scaling with the target's missing Health."
+        },
+        {
+          "ability": "Dragon's Rage",
+          "slot": "R",
+          "source": "Characters/LeeSin/Spells/LeeSinRAbility/LeeSinR",
+          "formula": "Lee Sin performs a powerful roundhouse kick Knocking Back an enemy champion and dealing [175 / 400 / 625 + (2) × AD[statFormula=2]] physical damage.\n\nEnemies the target collides with are briefly Knocked Up and take [175 / 400 / 625 + (2) × AD[statFormula=2]] plus [12 / 15 / 18]% of the kicked enemy's bonus Health as physical damage."
+        },
+        {
+          "ability": "Tempest / Cripple",
+          "slot": "E",
+          "source": "Characters/LeeSin/Spells/LeeSinEOneAbility/LeeSinEOne",
+          "formula": "Lee Sin smashes the ground, sending out a shockwave that deals [35 / 60 / 85 / 110 / 135 + (0.9) × AD] magic damage and reveals them for [4] seconds. If this hits an enemy, Lee Sin can Recast for the next [3] seconds.\n\nRecast: Lee Sin Slows nearby enemies struck by the shockwave by [35 / 45 / 55 / 65 / 75]% decaying over [4] seconds."
+        },
+        {
+          "ability": "Safeguard / Iron Will",
+          "slot": "W",
+          "source": "Characters/LeeSin/Spells/LeeSinWOneAbility/LeeSinWOne",
+          "formula": "Lee Sin dashes to an ally or ward. If the target is a champion, Lee Sin grants them and himself [60 / 105 / 150 / 195 / 240 + (0.8) × AP] Shield for [2] seconds. Lee Sin may Recast for the next [3] seconds.\n\nRecast: Lee Sin gains [10 / 14 / 18 / 22 / 26]% Omnivamp for [4] seconds."
+        }
+      ]
+    }
+  ]
+}

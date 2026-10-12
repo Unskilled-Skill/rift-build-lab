@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "warwick-four-1",
+      "champion": "Warwick",
+      "name": "Reference: Attack-led side lane",
+      "goal": "Reference for Warwick: establish a repeatable reference",
+      "hypothesis": "A chase-and-recovery duelist who follows weakened targets, uses Q to stay attached through movement and converts close damage into healing. Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "itemIds": [
+        3153,
+        3078,
+        3181,
+        3053,
+        6333,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Warwick: Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit.",
+        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Warwick lunges forward and bites his target, dealing damage based on their maximum health and healing for damage dealt. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "The route fails Warwick's stated kit question: Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Primal Howl",
+          "slot": "E",
+          "source": "Characters/Warwick/Spells/WarwickEAbility/WarwickE",
+          "formula": "Warwick gains [35 / 40 / 45 / 50 / 55]% damage reduction for [2.75] seconds. After it ends, Warwick howls, Fearing nearby enemies for [1] second. Warwick can Recast to end the Ability early."
+        },
+        {
+          "ability": "Eternal Hunger",
+          "slot": "Passive",
+          "source": "Characters/Warwick/Spells/WarwickPAbility/WarwickP",
+          "formula": "Warwick's Attacks deal an additional [characterLevelInterpolation(6 → 55; raw flags preserved) + (0.15) × AD[statFormula=2] + (0.1) × AP] magic damage On-Hit.\n\nIf Warwick is below [50]% Health, he also heals for [100]% of the damage dealt by Eternal Hunger. If Warwick is below [25]% health, the healing is increased to [250]% of the damage dealt."
+        },
+        {
+          "ability": "Blood Hunt",
+          "slot": "W",
+          "source": "Characters/Warwick/Spells/WarwickWAbility/WarwickW",
+          "formula": "Passive: Warwick can sense champions below 50% Health, gaining [35 / 42.5 / 50 / 57.5 / 65]% Move Speed towards them. Spells and attacks against enemies below 50% Health grant [70 / 80 / 90 / 100 / 110]% Attack Speed. These effects are increased by 200% against enemies below 25% Health. \n\nActive: Warwick can briefly sense all enemies, and gains this Ability's passive effect against the closest champion for 8 seconds, regardless of Health. If no champions are found, this Ability's cooldown is reduced by 30%."
+        },
+        {
+          "ability": "Infinite Duress",
+          "slot": "R",
+          "source": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+          "formula": "Warwick leaps a huge distance that scales with his Move Speed, Suppressing the first champion he collides with while he channels for [1.5] seconds. He attacks that champion 3 times over the duration, dealing [175 / 350 / 525 + (1.67) × AD[statFormula=2]] magic damage. Warwick heals for 100% of all damage dealt during the channel."
+        },
+        {
+          "ability": "Jaws of the Beast",
+          "slot": "Q",
+          "source": "Characters/Warwick/Spells/WarwickQAbility/WarwickQ",
+          "formula": "Tap: Warwick lunges forward and bites, dealing [(1.2) × AD + (1) × AP] plus [6 / 7 / 8 / 9 / 10]% max Health magic damage and healing for [25 / 37.5 / 50 / 62.5 / 75]% of the damage dealt.\n\nHold: Warwick lunges and clamps his jaws on the target, leaping behind them. While clamped, Warwick follows all movement of the target. After releasing his hold, he does the same damage and healing."
+        }
+      ]
+    },
+    {
+      "id": "warwick-four-2",
+      "champion": "Warwick",
+      "name": "Damage interaction: Health/AP attack hybrid",
+      "goal": "Damage interaction for Warwick: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A chase-and-recovery duelist who follows weakened targets, uses Q to stay attached through movement and converts close damage into healing. Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit. Health plus AP and repeated on-hits test a hybrid attack route.",
+      "itemIds": [
+        3084,
+        2510,
+        4633,
+        3115,
+        6665,
+        3111
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Warwick: Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit.",
+        "Start with the early core (Health/defense as needed, then Dusk and Dawn as the isolated test) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health plus AP and repeated on-hits test a hybrid attack route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Warwick lunges forward and bites his target, dealing damage based on their maximum health and healing for damage dealt. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
+        "The route fails Warwick's stated kit question: Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Health/defense as needed, then Dusk and Dawn as the isolated test. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Riftmaker, Nashor's Tooth, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Primal Howl",
+          "slot": "E",
+          "source": "Characters/Warwick/Spells/WarwickEAbility/WarwickE",
+          "formula": "Warwick gains [35 / 40 / 45 / 50 / 55]% damage reduction for [2.75] seconds. After it ends, Warwick howls, Fearing nearby enemies for [1] second. Warwick can Recast to end the Ability early."
+        },
+        {
+          "ability": "Eternal Hunger",
+          "slot": "Passive",
+          "source": "Characters/Warwick/Spells/WarwickPAbility/WarwickP",
+          "formula": "Warwick's Attacks deal an additional [characterLevelInterpolation(6 → 55; raw flags preserved) + (0.15) × AD[statFormula=2] + (0.1) × AP] magic damage On-Hit.\n\nIf Warwick is below [50]% Health, he also heals for [100]% of the damage dealt by Eternal Hunger. If Warwick is below [25]% health, the healing is increased to [250]% of the damage dealt."
+        },
+        {
+          "ability": "Blood Hunt",
+          "slot": "W",
+          "source": "Characters/Warwick/Spells/WarwickWAbility/WarwickW",
+          "formula": "Passive: Warwick can sense champions below 50% Health, gaining [35 / 42.5 / 50 / 57.5 / 65]% Move Speed towards them. Spells and attacks against enemies below 50% Health grant [70 / 80 / 90 / 100 / 110]% Attack Speed. These effects are increased by 200% against enemies below 25% Health. \n\nActive: Warwick can briefly sense all enemies, and gains this Ability's passive effect against the closest champion for 8 seconds, regardless of Health. If no champions are found, this Ability's cooldown is reduced by 30%."
+        },
+        {
+          "ability": "Infinite Duress",
+          "slot": "R",
+          "source": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+          "formula": "Warwick leaps a huge distance that scales with his Move Speed, Suppressing the first champion he collides with while he channels for [1.5] seconds. He attacks that champion 3 times over the duration, dealing [175 / 350 / 525 + (1.67) × AD[statFormula=2]] magic damage. Warwick heals for 100% of all damage dealt during the channel."
+        },
+        {
+          "ability": "Jaws of the Beast",
+          "slot": "Q",
+          "source": "Characters/Warwick/Spells/WarwickQAbility/WarwickQ",
+          "formula": "Tap: Warwick lunges forward and bites, dealing [(1.2) × AD + (1) × AP] plus [6 / 7 / 8 / 9 / 10]% max Health magic damage and healing for [25 / 37.5 / 50 / 62.5 / 75]% of the damage dealt.\n\nHold: Warwick lunges and clamps his jaws on the target, leaping behind them. While clamped, Warwick follows all movement of the target. After releasing his hold, he does the same damage and healing."
+        }
+      ]
+    },
+    {
+      "id": "warwick-four-3",
+      "champion": "Warwick",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Warwick: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A chase-and-recovery duelist who follows weakened targets, uses Q to stay attached through movement and converts close damage into healing. Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Warwick: Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Warwick lunges forward and bites his target, dealing damage based on their maximum health and healing for damage dealt. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Warwick's stated kit question: Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Primal Howl",
+          "slot": "E",
+          "source": "Characters/Warwick/Spells/WarwickEAbility/WarwickE",
+          "formula": "Warwick gains [35 / 40 / 45 / 50 / 55]% damage reduction for [2.75] seconds. After it ends, Warwick howls, Fearing nearby enemies for [1] second. Warwick can Recast to end the Ability early."
+        },
+        {
+          "ability": "Eternal Hunger",
+          "slot": "Passive",
+          "source": "Characters/Warwick/Spells/WarwickPAbility/WarwickP",
+          "formula": "Warwick's Attacks deal an additional [characterLevelInterpolation(6 → 55; raw flags preserved) + (0.15) × AD[statFormula=2] + (0.1) × AP] magic damage On-Hit.\n\nIf Warwick is below [50]% Health, he also heals for [100]% of the damage dealt by Eternal Hunger. If Warwick is below [25]% health, the healing is increased to [250]% of the damage dealt."
+        },
+        {
+          "ability": "Blood Hunt",
+          "slot": "W",
+          "source": "Characters/Warwick/Spells/WarwickWAbility/WarwickW",
+          "formula": "Passive: Warwick can sense champions below 50% Health, gaining [35 / 42.5 / 50 / 57.5 / 65]% Move Speed towards them. Spells and attacks against enemies below 50% Health grant [70 / 80 / 90 / 100 / 110]% Attack Speed. These effects are increased by 200% against enemies below 25% Health. \n\nActive: Warwick can briefly sense all enemies, and gains this Ability's passive effect against the closest champion for 8 seconds, regardless of Health. If no champions are found, this Ability's cooldown is reduced by 30%."
+        },
+        {
+          "ability": "Infinite Duress",
+          "slot": "R",
+          "source": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+          "formula": "Warwick leaps a huge distance that scales with his Move Speed, Suppressing the first champion he collides with while he channels for [1.5] seconds. He attacks that champion 3 times over the duration, dealing [175 / 350 / 525 + (1.67) × AD[statFormula=2]] magic damage. Warwick heals for 100% of all damage dealt during the channel."
+        },
+        {
+          "ability": "Jaws of the Beast",
+          "slot": "Q",
+          "source": "Characters/Warwick/Spells/WarwickQAbility/WarwickQ",
+          "formula": "Tap: Warwick lunges forward and bites, dealing [(1.2) × AD + (1) × AP] plus [6 / 7 / 8 / 9 / 10]% max Health magic damage and healing for [25 / 37.5 / 50 / 62.5 / 75]% of the damage dealt.\n\nHold: Warwick lunges and clamps his jaws on the target, leaping behind them. While clamped, Warwick follows all movement of the target. After releasing his hold, he does the same damage and healing."
+        }
+      ]
+    },
+    {
+      "id": "warwick-four-4",
+      "champion": "Warwick",
+      "name": "Experiment: Repeated on-hit",
+      "goal": "Experiment for Warwick: test a different playstyle, with lower confidence",
+      "hypothesis": "A chase-and-recovery duelist who follows weakened targets, uses Q to stay attached through movement and converts close damage into healing. Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Warwick: Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Warwick lunges forward and bites his target, dealing damage based on their maximum health and healing for damage dealt. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Warwick's stated kit question: Fix low-health passive state and Q attachment timing. R's current on-hit effectiveness and Blood Hunt chase conditions must be tested, not assumed on every hit.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Primal Howl",
+          "slot": "E",
+          "source": "Characters/Warwick/Spells/WarwickEAbility/WarwickE",
+          "formula": "Warwick gains [35 / 40 / 45 / 50 / 55]% damage reduction for [2.75] seconds. After it ends, Warwick howls, Fearing nearby enemies for [1] second. Warwick can Recast to end the Ability early."
+        },
+        {
+          "ability": "Eternal Hunger",
+          "slot": "Passive",
+          "source": "Characters/Warwick/Spells/WarwickPAbility/WarwickP",
+          "formula": "Warwick's Attacks deal an additional [characterLevelInterpolation(6 → 55; raw flags preserved) + (0.15) × AD[statFormula=2] + (0.1) × AP] magic damage On-Hit.\n\nIf Warwick is below [50]% Health, he also heals for [100]% of the damage dealt by Eternal Hunger. If Warwick is below [25]% health, the healing is increased to [250]% of the damage dealt."
+        },
+        {
+          "ability": "Blood Hunt",
+          "slot": "W",
+          "source": "Characters/Warwick/Spells/WarwickWAbility/WarwickW",
+          "formula": "Passive: Warwick can sense champions below 50% Health, gaining [35 / 42.5 / 50 / 57.5 / 65]% Move Speed towards them. Spells and attacks against enemies below 50% Health grant [70 / 80 / 90 / 100 / 110]% Attack Speed. These effects are increased by 200% against enemies below 25% Health. \n\nActive: Warwick can briefly sense all enemies, and gains this Ability's passive effect against the closest champion for 8 seconds, regardless of Health. If no champions are found, this Ability's cooldown is reduced by 30%."
+        },
+        {
+          "ability": "Infinite Duress",
+          "slot": "R",
+          "source": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+          "formula": "Warwick leaps a huge distance that scales with his Move Speed, Suppressing the first champion he collides with while he channels for [1.5] seconds. He attacks that champion 3 times over the duration, dealing [175 / 350 / 525 + (1.67) × AD[statFormula=2]] magic damage. Warwick heals for 100% of all damage dealt during the channel."
+        },
+        {
+          "ability": "Jaws of the Beast",
+          "slot": "Q",
+          "source": "Characters/Warwick/Spells/WarwickQAbility/WarwickQ",
+          "formula": "Tap: Warwick lunges forward and bites, dealing [(1.2) × AD + (1) × AP] plus [6 / 7 / 8 / 9 / 10]% max Health magic damage and healing for [25 / 37.5 / 50 / 62.5 / 75]% of the damage dealt.\n\nHold: Warwick lunges and clamps his jaws on the target, leaping behind them. While clamped, Warwick follows all movement of the target. After releasing his hold, he does the same damage and healing."
+        }
+      ]
+    }
+  ]
+}

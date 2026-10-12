@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "fiora-four-1",
+      "champion": "Fiora",
+      "name": "Reference: Sustain and waves",
+      "goal": "Reference for Fiora: establish a repeatable reference",
+      "hypothesis": "A directional duelist who moves around exposed Vitals and saves Riposte for key retaliation, favoring isolated fights. Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access. Hydra wave control and conditional healing may extend repeated trades.",
+      "itemIds": [
+        3074,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Fiora: Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access.",
+        "Start with the early core (Ravenous Hydra, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Hydra wave control and conditional healing may extend repeated trades. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Fiora lunges in a direction and stabs a nearby enemy, dealing physical damage and applying on-hit effects. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Healing reduction, kiting and the cost of delaying penetration can defeat the idea.",
+        "The route fails Fiora's stated kit question: Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Healing reduction, kiting and the cost of delaying penetration can defeat the idea.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Ravenous Hydra, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Duelist's Dance",
+          "slot": "Passive",
+          "source": "Characters/Fiora/Spells/FioraPassiveAbility/FioraPassive",
+          "formula": "Fiora identifies Vitals on enemy champions. Hitting this Vital with an Attack or Ability deals an additional [0.03 + (0.0004) × AD[statFormula=2]] max Health true damage, grants Fiora @spell.FioraR:PercentMS*100@% Move Speed decaying over [2] seconds, and restores [characterLevelInterpolation(35 → 100; raw flags preserved)] Health.\n\nFiora reveals a new Vital after 15 seconds or after striking one."
+        },
+        {
+          "ability": "Lunge",
+          "slot": "Q",
+          "source": "Characters/Fiora/Spells/FioraQAbility/FioraQ",
+          "formula": "Fiora lunges in a direction and stabs the closest enemy, ward, or structure, dealing [70 / 80 / 90 / 100 / 110 + (0.9 / 0.95 / 1 / 1.05 / 1.1) × AD[statFormula=2]] physical damage. The strike will prioritize Vitals and enemies it will kill.\n\nIf Fiora strikes an enemy, this Ability's Cooldown is reduced by [50]%."
+        },
+        {
+          "ability": "Grand Challenge",
+          "slot": "R",
+          "source": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+          "formula": "Passive: {{Spell_FioraPassive_Name}} Move Speed bonus is increased to [(0.3 / 0.4 / 0.5) × 100]%.\n\nActive: Fiora reveals all four Vitals on a champion for a max of @spell.FioraPassive:RDamageTotal@ max Health true damage and gains {{Spell_FioraPassive_Name}}'s Move Speed bonus while near the target.\n\nIf Fiora strikes all four Vitals within [8] seconds or if the target dies after she has hit at least one, Fiora restores [80 / 105 / 130 + (0.7) × AD[statFormula=2]] Health per second to surrounding allied champions for [5] seconds."
+        },
+        {
+          "ability": "Riposte",
+          "slot": "W",
+          "source": "Characters/Fiora/Spells/FioraWAbility/FioraW",
+          "formula": "Fiora parries all incoming damage, disables, and negative effects for [0.75] seconds, then stabs. The stab deals [110 / 150 / 190 / 230 / 270 + (1) × AP] magic damage to the first champion hit and Slows Move Speed by [50]% and Attack Speed by [25]%  for [2] seconds. If Fiora parries an Immobilizing effect, the stabbed enemy is Stunned rather than Slowed."
+        },
+        {
+          "ability": "Bladework",
+          "slot": "E",
+          "source": "Characters/Fiora/Spells/FioraEAbility/FioraE",
+          "formula": "Fiora gains [(0.5 / 0.6 / 0.7 / 0.8 / 0.9) × 100]% Attack Speed for her next two Attacks. The first Attack Slows by [30]% for [1] second. The second Attack always critically strikes for [(1.6 / 1.7 / 1.8 / 1.9 / 2) × 100]% damage."
+        }
+      ]
+    },
+    {
+      "id": "fiora-four-2",
+      "champion": "Fiora",
+      "name": "Damage interaction: Attack-led side lane",
+      "goal": "Damage interaction for Fiora: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A directional duelist who moves around exposed Vitals and saves Riposte for key retaliation, favoring isolated fights. Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "itemIds": [
+        3153,
+        3078,
+        3181,
+        3053,
+        6333,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Fiora: Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access.",
+        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Fiora lunges in a direction and stabs a nearby enemy, dealing physical damage and applying on-hit effects. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "The route fails Fiora's stated kit question: Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Duelist's Dance",
+          "slot": "Passive",
+          "source": "Characters/Fiora/Spells/FioraPassiveAbility/FioraPassive",
+          "formula": "Fiora identifies Vitals on enemy champions. Hitting this Vital with an Attack or Ability deals an additional [0.03 + (0.0004) × AD[statFormula=2]] max Health true damage, grants Fiora @spell.FioraR:PercentMS*100@% Move Speed decaying over [2] seconds, and restores [characterLevelInterpolation(35 → 100; raw flags preserved)] Health.\n\nFiora reveals a new Vital after 15 seconds or after striking one."
+        },
+        {
+          "ability": "Lunge",
+          "slot": "Q",
+          "source": "Characters/Fiora/Spells/FioraQAbility/FioraQ",
+          "formula": "Fiora lunges in a direction and stabs the closest enemy, ward, or structure, dealing [70 / 80 / 90 / 100 / 110 + (0.9 / 0.95 / 1 / 1.05 / 1.1) × AD[statFormula=2]] physical damage. The strike will prioritize Vitals and enemies it will kill.\n\nIf Fiora strikes an enemy, this Ability's Cooldown is reduced by [50]%."
+        },
+        {
+          "ability": "Grand Challenge",
+          "slot": "R",
+          "source": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+          "formula": "Passive: {{Spell_FioraPassive_Name}} Move Speed bonus is increased to [(0.3 / 0.4 / 0.5) × 100]%.\n\nActive: Fiora reveals all four Vitals on a champion for a max of @spell.FioraPassive:RDamageTotal@ max Health true damage and gains {{Spell_FioraPassive_Name}}'s Move Speed bonus while near the target.\n\nIf Fiora strikes all four Vitals within [8] seconds or if the target dies after she has hit at least one, Fiora restores [80 / 105 / 130 + (0.7) × AD[statFormula=2]] Health per second to surrounding allied champions for [5] seconds."
+        },
+        {
+          "ability": "Riposte",
+          "slot": "W",
+          "source": "Characters/Fiora/Spells/FioraWAbility/FioraW",
+          "formula": "Fiora parries all incoming damage, disables, and negative effects for [0.75] seconds, then stabs. The stab deals [110 / 150 / 190 / 230 / 270 + (1) × AP] magic damage to the first champion hit and Slows Move Speed by [50]% and Attack Speed by [25]%  for [2] seconds. If Fiora parries an Immobilizing effect, the stabbed enemy is Stunned rather than Slowed."
+        },
+        {
+          "ability": "Bladework",
+          "slot": "E",
+          "source": "Characters/Fiora/Spells/FioraEAbility/FioraE",
+          "formula": "Fiora gains [(0.5 / 0.6 / 0.7 / 0.8 / 0.9) × 100]% Attack Speed for her next two Attacks. The first Attack Slows by [30]% for [1] second. The second Attack always critically strikes for [(1.6 / 1.7 / 1.8 / 1.9 / 2) × 100]% damage."
+        }
+      ]
+    },
+    {
+      "id": "fiora-four-3",
+      "champion": "Fiora",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Fiora: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A directional duelist who moves around exposed Vitals and saves Riposte for key retaliation, favoring isolated fights. Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Fiora: Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Fiora lunges in a direction and stabs a nearby enemy, dealing physical damage and applying on-hit effects. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Fiora's stated kit question: Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Duelist's Dance",
+          "slot": "Passive",
+          "source": "Characters/Fiora/Spells/FioraPassiveAbility/FioraPassive",
+          "formula": "Fiora identifies Vitals on enemy champions. Hitting this Vital with an Attack or Ability deals an additional [0.03 + (0.0004) × AD[statFormula=2]] max Health true damage, grants Fiora @spell.FioraR:PercentMS*100@% Move Speed decaying over [2] seconds, and restores [characterLevelInterpolation(35 → 100; raw flags preserved)] Health.\n\nFiora reveals a new Vital after 15 seconds or after striking one."
+        },
+        {
+          "ability": "Lunge",
+          "slot": "Q",
+          "source": "Characters/Fiora/Spells/FioraQAbility/FioraQ",
+          "formula": "Fiora lunges in a direction and stabs the closest enemy, ward, or structure, dealing [70 / 80 / 90 / 100 / 110 + (0.9 / 0.95 / 1 / 1.05 / 1.1) × AD[statFormula=2]] physical damage. The strike will prioritize Vitals and enemies it will kill.\n\nIf Fiora strikes an enemy, this Ability's Cooldown is reduced by [50]%."
+        },
+        {
+          "ability": "Grand Challenge",
+          "slot": "R",
+          "source": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+          "formula": "Passive: {{Spell_FioraPassive_Name}} Move Speed bonus is increased to [(0.3 / 0.4 / 0.5) × 100]%.\n\nActive: Fiora reveals all four Vitals on a champion for a max of @spell.FioraPassive:RDamageTotal@ max Health true damage and gains {{Spell_FioraPassive_Name}}'s Move Speed bonus while near the target.\n\nIf Fiora strikes all four Vitals within [8] seconds or if the target dies after she has hit at least one, Fiora restores [80 / 105 / 130 + (0.7) × AD[statFormula=2]] Health per second to surrounding allied champions for [5] seconds."
+        },
+        {
+          "ability": "Riposte",
+          "slot": "W",
+          "source": "Characters/Fiora/Spells/FioraWAbility/FioraW",
+          "formula": "Fiora parries all incoming damage, disables, and negative effects for [0.75] seconds, then stabs. The stab deals [110 / 150 / 190 / 230 / 270 + (1) × AP] magic damage to the first champion hit and Slows Move Speed by [50]% and Attack Speed by [25]%  for [2] seconds. If Fiora parries an Immobilizing effect, the stabbed enemy is Stunned rather than Slowed."
+        },
+        {
+          "ability": "Bladework",
+          "slot": "E",
+          "source": "Characters/Fiora/Spells/FioraEAbility/FioraE",
+          "formula": "Fiora gains [(0.5 / 0.6 / 0.7 / 0.8 / 0.9) × 100]% Attack Speed for her next two Attacks. The first Attack Slows by [30]% for [1] second. The second Attack always critically strikes for [(1.6 / 1.7 / 1.8 / 1.9 / 2) × 100]% damage."
+        }
+      ]
+    },
+    {
+      "id": "fiora-four-4",
+      "champion": "Fiora",
+      "name": "Experiment: AD spell pressure",
+      "goal": "Experiment for Fiora: test a different playstyle, with lower confidence",
+      "hypothesis": "A directional duelist who moves around exposed Vitals and saves Riposte for key retaliation, favoring isolated fights. Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access. AD, haste and Black Cleaver may reward repeated physical ability hits. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6692,
+        3161,
+        3071,
+        6333,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Fiora: Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access.",
+        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Fiora lunges in a direction and stabs a nearby enemy, dealing physical damage and applying on-hit effects. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
+        "The route fails Fiora's stated kit question: Fix vital access and target max HP; record Riposte timing. Crit/penetration do not automatically multiply vital true damage, and attack speed is wasted without directional access.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Duelist's Dance",
+          "slot": "Passive",
+          "source": "Characters/Fiora/Spells/FioraPassiveAbility/FioraPassive",
+          "formula": "Fiora identifies Vitals on enemy champions. Hitting this Vital with an Attack or Ability deals an additional [0.03 + (0.0004) × AD[statFormula=2]] max Health true damage, grants Fiora @spell.FioraR:PercentMS*100@% Move Speed decaying over [2] seconds, and restores [characterLevelInterpolation(35 → 100; raw flags preserved)] Health.\n\nFiora reveals a new Vital after 15 seconds or after striking one."
+        },
+        {
+          "ability": "Lunge",
+          "slot": "Q",
+          "source": "Characters/Fiora/Spells/FioraQAbility/FioraQ",
+          "formula": "Fiora lunges in a direction and stabs the closest enemy, ward, or structure, dealing [70 / 80 / 90 / 100 / 110 + (0.9 / 0.95 / 1 / 1.05 / 1.1) × AD[statFormula=2]] physical damage. The strike will prioritize Vitals and enemies it will kill.\n\nIf Fiora strikes an enemy, this Ability's Cooldown is reduced by [50]%."
+        },
+        {
+          "ability": "Grand Challenge",
+          "slot": "R",
+          "source": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+          "formula": "Passive: {{Spell_FioraPassive_Name}} Move Speed bonus is increased to [(0.3 / 0.4 / 0.5) × 100]%.\n\nActive: Fiora reveals all four Vitals on a champion for a max of @spell.FioraPassive:RDamageTotal@ max Health true damage and gains {{Spell_FioraPassive_Name}}'s Move Speed bonus while near the target.\n\nIf Fiora strikes all four Vitals within [8] seconds or if the target dies after she has hit at least one, Fiora restores [80 / 105 / 130 + (0.7) × AD[statFormula=2]] Health per second to surrounding allied champions for [5] seconds."
+        },
+        {
+          "ability": "Riposte",
+          "slot": "W",
+          "source": "Characters/Fiora/Spells/FioraWAbility/FioraW",
+          "formula": "Fiora parries all incoming damage, disables, and negative effects for [0.75] seconds, then stabs. The stab deals [110 / 150 / 190 / 230 / 270 + (1) × AP] magic damage to the first champion hit and Slows Move Speed by [50]% and Attack Speed by [25]%  for [2] seconds. If Fiora parries an Immobilizing effect, the stabbed enemy is Stunned rather than Slowed."
+        },
+        {
+          "ability": "Bladework",
+          "slot": "E",
+          "source": "Characters/Fiora/Spells/FioraEAbility/FioraE",
+          "formula": "Fiora gains [(0.5 / 0.6 / 0.7 / 0.8 / 0.9) × 100]% Attack Speed for her next two Attacks. The first Attack Slows by [30]% for [1] second. The second Attack always critically strikes for [(1.6 / 1.7 / 1.8 / 1.9 / 2) × 100]% damage."
+        }
+      ]
+    }
+  ]
+}

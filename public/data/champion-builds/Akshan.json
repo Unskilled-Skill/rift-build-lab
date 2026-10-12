@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "akshan-four-1",
+      "champion": "Akshan",
+      "name": "Reference: Critical carry",
+      "goal": "Reference for Akshan: establish a repeatable reference",
+      "hypothesis": "A mobile ranged skirmisher who combines repeat attacks and ability hits for three-hit damage, then seeks takedown swing resets. Cancelling the second shot offers a deliberate mobility tradeoff. Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed. Attack cadence, crit and penetration support repeatable carry damage.",
+      "itemIds": [
+        6672,
+        3031,
+        3046,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Akshan: Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed.",
+        "Start with the early core (Kraken, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Attack cadence, crit and penetration support repeatable carry damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Akshan throws a boomerang that deals damage going out and coming back, extending its range each time it hits an enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "The route fails Akshan's stated kit question: Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Phantom Dancer, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Dirty Fighting",
+          "slot": "Passive",
+          "source": "Characters/Akshan/Spells/AkshanPassiveAbility/AkshanPassive",
+          "formula": "After launching an Attack, Akshan will fire an additional shot for [(0.5) × AD] physical damage. He can cancel this shot to instead gain [(characterLevelInterpolation(20 → 75; raw flags preserved)) × ((1 + (1) × Stat(4)[statFormula=2]))] Move Speed decaying over [1] second.\n\nEvery three hits from Attacks or Abilities deals an additional [characterLevelBreakpoints(start=15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 25.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 70.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] magic damage. Against champions, Akshan also gains [characterLevelInterpolation(40 → 280; raw flags preserved) + (0.35) × AD[statFormula=2]] Shield for [2] seconds ([characterLevelBreakpoints(start=16, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}])] second Cooldown)."
+        },
+        {
+          "ability": "Avengerang",
+          "slot": "Q",
+          "source": "Characters/Akshan/Spells/AkshanQAbility/AkshanQ",
+          "formula": "Akshan throws a boomerang that deals [45 / 75 / 105 / 135 / 165 + (0.7) × AD[statFormula=2]] physical damage, extending the range each time an enemy is hit.\n\nChampion hits grant Akshan [0.2 + (0.0005) × AP] Move Speed decaying over [1] second."
+        },
+        {
+          "ability": "Going Rogue",
+          "slot": "W",
+          "source": "Characters/Akshan/Spells/AkshanWAbility/AkshanW",
+          "formula": "{{ Spell_AkshanW_Tooltip_[1] }}"
+        },
+        {
+          "ability": "Heroic Swing",
+          "slot": "E",
+          "source": "Characters/Akshan/Spells/AkshanEAbility/AkshanE",
+          "formula": "First Cast: Akshan fires a grappling hook, attaching to the first terrain hit.\n\nSecond Cast: Akshan swings around the terrain, repeatedly firing at the nearest enemy for [(8 / 16 / 24 / 32 / 40 + (0.25) × AD) × ((1 + (0.3) × Stat(4)[statFormula=2]))] physical damage per shot.\n\nThird Cast: Akshan dives off the rope, firing a final shot.\n\nColliding with an enemy Champion or terrain ends the swing early.\n\nChampion takedowns refresh this Ability's Cooldown."
+        },
+        {
+          "ability": "Comeuppance",
+          "slot": "R",
+          "source": "Characters/Akshan/Spells/AkshanRAbility/AkshanR",
+          "formula": "Akshan locks onto a champion and begins overcharging his gun for up to [2.5] seconds, storing up to [5 / 6 / 7] bullets.\n\nRecast: Akshan unleashes the stored bullets, each dealing at least [(25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage to the first enemy or structure hit, increased up to [((25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))) × (3)] physical damage based on missing Health."
+        }
+      ]
+    },
+    {
+      "id": "akshan-four-2",
+      "champion": "Akshan",
+      "name": "Damage interaction: Repeated on-hit",
+      "goal": "Damage interaction for Akshan: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A mobile ranged skirmisher who combines repeat attacks and ability hits for three-hit damage, then seeks takedown swing resets. Cancelling the second shot offers a deliberate mobility tradeoff. Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Akshan: Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Akshan throws a boomerang that deals damage going out and coming back, extending its range each time it hits an enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Akshan's stated kit question: Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Dirty Fighting",
+          "slot": "Passive",
+          "source": "Characters/Akshan/Spells/AkshanPassiveAbility/AkshanPassive",
+          "formula": "After launching an Attack, Akshan will fire an additional shot for [(0.5) × AD] physical damage. He can cancel this shot to instead gain [(characterLevelInterpolation(20 → 75; raw flags preserved)) × ((1 + (1) × Stat(4)[statFormula=2]))] Move Speed decaying over [1] second.\n\nEvery three hits from Attacks or Abilities deals an additional [characterLevelBreakpoints(start=15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 25.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 70.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] magic damage. Against champions, Akshan also gains [characterLevelInterpolation(40 → 280; raw flags preserved) + (0.35) × AD[statFormula=2]] Shield for [2] seconds ([characterLevelBreakpoints(start=16, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}])] second Cooldown)."
+        },
+        {
+          "ability": "Avengerang",
+          "slot": "Q",
+          "source": "Characters/Akshan/Spells/AkshanQAbility/AkshanQ",
+          "formula": "Akshan throws a boomerang that deals [45 / 75 / 105 / 135 / 165 + (0.7) × AD[statFormula=2]] physical damage, extending the range each time an enemy is hit.\n\nChampion hits grant Akshan [0.2 + (0.0005) × AP] Move Speed decaying over [1] second."
+        },
+        {
+          "ability": "Going Rogue",
+          "slot": "W",
+          "source": "Characters/Akshan/Spells/AkshanWAbility/AkshanW",
+          "formula": "{{ Spell_AkshanW_Tooltip_[1] }}"
+        },
+        {
+          "ability": "Heroic Swing",
+          "slot": "E",
+          "source": "Characters/Akshan/Spells/AkshanEAbility/AkshanE",
+          "formula": "First Cast: Akshan fires a grappling hook, attaching to the first terrain hit.\n\nSecond Cast: Akshan swings around the terrain, repeatedly firing at the nearest enemy for [(8 / 16 / 24 / 32 / 40 + (0.25) × AD) × ((1 + (0.3) × Stat(4)[statFormula=2]))] physical damage per shot.\n\nThird Cast: Akshan dives off the rope, firing a final shot.\n\nColliding with an enemy Champion or terrain ends the swing early.\n\nChampion takedowns refresh this Ability's Cooldown."
+        },
+        {
+          "ability": "Comeuppance",
+          "slot": "R",
+          "source": "Characters/Akshan/Spells/AkshanRAbility/AkshanR",
+          "formula": "Akshan locks onto a champion and begins overcharging his gun for up to [2.5] seconds, storing up to [5 / 6 / 7] bullets.\n\nRecast: Akshan unleashes the stored bullets, each dealing at least [(25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage to the first enemy or structure hit, increased up to [((25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))) × (3)] physical damage based on missing Health."
+        }
+      ]
+    },
+    {
+      "id": "akshan-four-3",
+      "champion": "Akshan",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Akshan: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A mobile ranged skirmisher who combines repeat attacks and ability hits for three-hit damage, then seeks takedown swing resets. Cancelling the second shot offers a deliberate mobility tradeoff. Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Akshan: Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Akshan throws a boomerang that deals damage going out and coming back, extending its range each time it hits an enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Akshan's stated kit question: Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Dirty Fighting",
+          "slot": "Passive",
+          "source": "Characters/Akshan/Spells/AkshanPassiveAbility/AkshanPassive",
+          "formula": "After launching an Attack, Akshan will fire an additional shot for [(0.5) × AD] physical damage. He can cancel this shot to instead gain [(characterLevelInterpolation(20 → 75; raw flags preserved)) × ((1 + (1) × Stat(4)[statFormula=2]))] Move Speed decaying over [1] second.\n\nEvery three hits from Attacks or Abilities deals an additional [characterLevelBreakpoints(start=15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 25.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 70.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] magic damage. Against champions, Akshan also gains [characterLevelInterpolation(40 → 280; raw flags preserved) + (0.35) × AD[statFormula=2]] Shield for [2] seconds ([characterLevelBreakpoints(start=16, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}])] second Cooldown)."
+        },
+        {
+          "ability": "Avengerang",
+          "slot": "Q",
+          "source": "Characters/Akshan/Spells/AkshanQAbility/AkshanQ",
+          "formula": "Akshan throws a boomerang that deals [45 / 75 / 105 / 135 / 165 + (0.7) × AD[statFormula=2]] physical damage, extending the range each time an enemy is hit.\n\nChampion hits grant Akshan [0.2 + (0.0005) × AP] Move Speed decaying over [1] second."
+        },
+        {
+          "ability": "Going Rogue",
+          "slot": "W",
+          "source": "Characters/Akshan/Spells/AkshanWAbility/AkshanW",
+          "formula": "{{ Spell_AkshanW_Tooltip_[1] }}"
+        },
+        {
+          "ability": "Heroic Swing",
+          "slot": "E",
+          "source": "Characters/Akshan/Spells/AkshanEAbility/AkshanE",
+          "formula": "First Cast: Akshan fires a grappling hook, attaching to the first terrain hit.\n\nSecond Cast: Akshan swings around the terrain, repeatedly firing at the nearest enemy for [(8 / 16 / 24 / 32 / 40 + (0.25) × AD) × ((1 + (0.3) × Stat(4)[statFormula=2]))] physical damage per shot.\n\nThird Cast: Akshan dives off the rope, firing a final shot.\n\nColliding with an enemy Champion or terrain ends the swing early.\n\nChampion takedowns refresh this Ability's Cooldown."
+        },
+        {
+          "ability": "Comeuppance",
+          "slot": "R",
+          "source": "Characters/Akshan/Spells/AkshanRAbility/AkshanR",
+          "formula": "Akshan locks onto a champion and begins overcharging his gun for up to [2.5] seconds, storing up to [5 / 6 / 7] bullets.\n\nRecast: Akshan unleashes the stored bullets, each dealing at least [(25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage to the first enemy or structure hit, increased up to [((25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))) × (3)] physical damage based on missing Health."
+        }
+      ]
+    },
+    {
+      "id": "akshan-four-4",
+      "champion": "Akshan",
+      "name": "Experiment: Crit opening experiment",
+      "goal": "Experiment for Akshan: test a different playstyle, with lower confidence",
+      "hypothesis": "A mobile ranged skirmisher who combines repeat attacks and ability hits for three-hit damage, then seeks takedown swing resets. Cancelling the second shot offers a deliberate mobility tradeoff. Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed. Crit, AD and an opening attack window test burst from compatible empowered attacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6676,
+        3031,
+        3508,
+        3036,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Akshan: Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed.",
+        "Start with the early core (Collector or Essence Reaver, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit, AD and an opening attack window test burst from compatible empowered attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Akshan throws a boomerang that deals damage going out and coming back, extending its range each time it hits an enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
+        "The route fails Akshan's stated kit question: Compare completing the second shot with cancelling it for movement; log three-hit passive procs and swing attacks landed, not just attack speed.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
+        "Full cost 17,150 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Collector or Essence Reaver, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Essence Reaver, Lord Dominik's Regards, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Dirty Fighting",
+          "slot": "Passive",
+          "source": "Characters/Akshan/Spells/AkshanPassiveAbility/AkshanPassive",
+          "formula": "After launching an Attack, Akshan will fire an additional shot for [(0.5) × AD] physical damage. He can cancel this shot to instead gain [(characterLevelInterpolation(20 → 75; raw flags preserved)) × ((1 + (1) × Stat(4)[statFormula=2]))] Move Speed decaying over [1] second.\n\nEvery three hits from Attacks or Abilities deals an additional [characterLevelBreakpoints(start=15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 25.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 70.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] magic damage. Against champions, Akshan also gains [characterLevelInterpolation(40 → 280; raw flags preserved) + (0.35) × AD[statFormula=2]] Shield for [2] seconds ([characterLevelBreakpoints(start=16, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -4.0, \"__type\": \"Breakpoint\"}])] second Cooldown)."
+        },
+        {
+          "ability": "Avengerang",
+          "slot": "Q",
+          "source": "Characters/Akshan/Spells/AkshanQAbility/AkshanQ",
+          "formula": "Akshan throws a boomerang that deals [45 / 75 / 105 / 135 / 165 + (0.7) × AD[statFormula=2]] physical damage, extending the range each time an enemy is hit.\n\nChampion hits grant Akshan [0.2 + (0.0005) × AP] Move Speed decaying over [1] second."
+        },
+        {
+          "ability": "Going Rogue",
+          "slot": "W",
+          "source": "Characters/Akshan/Spells/AkshanWAbility/AkshanW",
+          "formula": "{{ Spell_AkshanW_Tooltip_[1] }}"
+        },
+        {
+          "ability": "Heroic Swing",
+          "slot": "E",
+          "source": "Characters/Akshan/Spells/AkshanEAbility/AkshanE",
+          "formula": "First Cast: Akshan fires a grappling hook, attaching to the first terrain hit.\n\nSecond Cast: Akshan swings around the terrain, repeatedly firing at the nearest enemy for [(8 / 16 / 24 / 32 / 40 + (0.25) × AD) × ((1 + (0.3) × Stat(4)[statFormula=2]))] physical damage per shot.\n\nThird Cast: Akshan dives off the rope, firing a final shot.\n\nColliding with an enemy Champion or terrain ends the swing early.\n\nChampion takedowns refresh this Ability's Cooldown."
+        },
+        {
+          "ability": "Comeuppance",
+          "slot": "R",
+          "source": "Characters/Akshan/Spells/AkshanRAbility/AkshanR",
+          "formula": "Akshan locks onto a champion and begins overcharging his gun for up to [2.5] seconds, storing up to [5 / 6 / 7] bullets.\n\nRecast: Akshan unleashes the stored bullets, each dealing at least [(25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage to the first enemy or structure hit, increased up to [((25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))) × (3)] physical damage based on missing Health."
+        }
+      ]
+    }
+  ]
+}

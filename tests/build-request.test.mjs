@@ -1,5 +1,7 @@
 import {it,expect} from 'vitest';
-import {validateRequest} from '../server/build-request.mjs';
+import {validateRequest,resolveBuildInboxPath} from '../server/build-request.mjs';
 const catalog={champions:[{alias:'Sett'}],items:[{id:2501}]};
+it('resolves only known champion inbox paths for live preview updates',()=>{expect(resolveBuildInboxPath('/data/champion-builds/Sett.json',catalog)).toBe('public/data/champion-builds/Sett.json');expect(resolveBuildInboxPath('/data/champion-builds/unknown.json',catalog)).toBeNull();expect(resolveBuildInboxPath('/data/champion-builds/../../private.json',catalog)).toBeNull()});
+it('routes revisions to the selected champion collection',()=>{const r=validateRequest({champion:'Sett',goal:'Revise these four',scenario:{champion:'Sett'},items:[],collection:'four'},catalog);expect(r.outputPath).toBe('public/data/champion-builds/Sett.json');expect(r.instruction).toContain('four');expect(()=>validateRequest({champion:'Sett',goal:'W',scenario:{champion:'Sett'},items:[],collection:'../private'},catalog)).toThrow()});
 it('records an explicit champion goal and scenario for this chat',()=>{const r=validateRequest({champion:'Sett',goal:'  Max W without infinite stacks  ',scenario:{champion:'Sett',level:18},items:[2501]},catalog);expect(r.goal).toBe('Max W without infinite stacks');expect(r.patch).toBe('26.20');expect(r.items).toEqual([2501])});
 it('rejects paths as champion aliases and invalid goals or item references',()=>{for(const override of [{champion:'../../private'},{goal:''},{goal:'a'.repeat(4001)},{items:[999]},{scenario:{champion:'Cassiopeia'}}])expect(()=>validateRequest({champion:'Sett',goal:'W test',scenario:{champion:'Sett'},items:[],...override},catalog)).toThrow()});

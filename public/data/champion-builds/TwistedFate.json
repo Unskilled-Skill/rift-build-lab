@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "twistedfate-four-1",
+      "champion": "TwistedFate",
+      "name": "Reference: Spell-and-attack",
+      "goal": "Reference for Twisted Fate: establish a repeatable reference",
+      "hypothesis": "A ranged pick-and-roam mage who selects a card for control or mana, then uses map vision and teleport to create numbers advantages. His attack cadence also produces periodic Stacked Deck damage. Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "itemIds": [
+        3100,
+        3115,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Twisted Fate: Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter.",
+        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Twisted Fate throws three cards, dealing damage to each enemy unit they pass through. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "The route fails Twisted Fate's stated kit question: Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Pick a Card",
+          "slot": "W",
+          "source": "Characters/TwistedFate/Spells/PickACardAbility/PickACard",
+          "formula": "Twisted Fate begins shuffling his deck, allowing him to Recast to lock in one of three cards and enhance his next Attack.\nThe Blue Card deals [40 / 60 / 80 / 100 / 120 + (1) × AD + (1) × AP + ((0.575) × ((40 / 60 / 80 / 100 / 120 + (1) × AD + (1) × AP))) × Stat(8)] magic damage and restores [70 / 90 / 110 / 130 / 150] Mana.The Red Card deals [30 / 45 / 60 / 75 / 90 + (1) × AD + (0.7) × AP + ((0.35) × ((30 / 45 / 60 / 75 / 90 + (1) × AD + (0.7) × AP))) × Stat(8)] to nearby enemies and Slows by [30 / 35 / 40 / 45 / 50]% for 2.5 seconds.The Gold Card deals [15 / 22.5 / 30 / 37.5 / 45 + (1) × AD + (0.5) × AP + ((0.25) × ((15 / 22.5 / 30 / 37.5 / 45 + (1) × AD + (0.5) × AP))) × Stat(8)] and Stuns for [1 / 1.25 / 1.5 / 1.75 / 2] seconds."
+        },
+        {
+          "ability": "Wild Cards",
+          "slot": "Q",
+          "source": "Characters/TwistedFate/Spells/WildCardsAbility/WildCards",
+          "formula": "Twisted Fate throws three cards that deal [60 / 105 / 150 / 195 / 240 + (0.5) × AD[statFormula=2] + (0.85) × AP] magic damage each."
+        },
+        {
+          "ability": "Destiny",
+          "slot": "R",
+          "source": "Characters/TwistedFate/Spells/DestinyAbility/Destiny",
+          "formula": "Twisted Fate focuses on his cards, granting True Sight of all enemy champions on the map for [6 / 8 / 10] seconds and allowing him to Recast.\n\nRecast: Twisted Fate teleports up to [5500 / 5500 / 5500] units away."
+        },
+        {
+          "ability": "Stacked Deck",
+          "slot": "E",
+          "source": "Characters/TwistedFate/Spells/CardmasterStackAbility/CardmasterStack",
+          "formula": "Passive: Twisted Fate gains [15 / 25 / 35 / 45 / 55]% Attack Speed and every 4th Attack deals an additional [65 / 90 / 115 / 140 / 165 + (0.2) × AD[statFormula=2] + (0.4) × AP] magic damage."
+        },
+        {
+          "ability": "Loaded Dice",
+          "slot": "Passive",
+          "source": "Characters/TwistedFate/Spells/SecondSightAbility/SecondSight",
+          "formula": "{{ Spell_SecondSight_Tooltip_[1] }}"
+        }
+      ]
+    },
+    {
+      "id": "twistedfate-four-2",
+      "champion": "TwistedFate",
+      "name": "Damage interaction: Mana burst",
+      "goal": "Damage interaction for Twisted Fate: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A ranged pick-and-roam mage who selects a card for control or mana, then uses map vision and teleport to create numbers advantages. His attack cadence also produces periodic Stacked Deck damage. Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Twisted Fate: Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter.",
+        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Twisted Fate throws three cards, dealing damage to each enemy unit they pass through. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "The route fails Twisted Fate's stated kit question: Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Pick a Card",
+          "slot": "W",
+          "source": "Characters/TwistedFate/Spells/PickACardAbility/PickACard",
+          "formula": "Twisted Fate begins shuffling his deck, allowing him to Recast to lock in one of three cards and enhance his next Attack.\nThe Blue Card deals [40 / 60 / 80 / 100 / 120 + (1) × AD + (1) × AP + ((0.575) × ((40 / 60 / 80 / 100 / 120 + (1) × AD + (1) × AP))) × Stat(8)] magic damage and restores [70 / 90 / 110 / 130 / 150] Mana.The Red Card deals [30 / 45 / 60 / 75 / 90 + (1) × AD + (0.7) × AP + ((0.35) × ((30 / 45 / 60 / 75 / 90 + (1) × AD + (0.7) × AP))) × Stat(8)] to nearby enemies and Slows by [30 / 35 / 40 / 45 / 50]% for 2.5 seconds.The Gold Card deals [15 / 22.5 / 30 / 37.5 / 45 + (1) × AD + (0.5) × AP + ((0.25) × ((15 / 22.5 / 30 / 37.5 / 45 + (1) × AD + (0.5) × AP))) × Stat(8)] and Stuns for [1 / 1.25 / 1.5 / 1.75 / 2] seconds."
+        },
+        {
+          "ability": "Wild Cards",
+          "slot": "Q",
+          "source": "Characters/TwistedFate/Spells/WildCardsAbility/WildCards",
+          "formula": "Twisted Fate throws three cards that deal [60 / 105 / 150 / 195 / 240 + (0.5) × AD[statFormula=2] + (0.85) × AP] magic damage each."
+        },
+        {
+          "ability": "Destiny",
+          "slot": "R",
+          "source": "Characters/TwistedFate/Spells/DestinyAbility/Destiny",
+          "formula": "Twisted Fate focuses on his cards, granting True Sight of all enemy champions on the map for [6 / 8 / 10] seconds and allowing him to Recast.\n\nRecast: Twisted Fate teleports up to [5500 / 5500 / 5500] units away."
+        },
+        {
+          "ability": "Stacked Deck",
+          "slot": "E",
+          "source": "Characters/TwistedFate/Spells/CardmasterStackAbility/CardmasterStack",
+          "formula": "Passive: Twisted Fate gains [15 / 25 / 35 / 45 / 55]% Attack Speed and every 4th Attack deals an additional [65 / 90 / 115 / 140 / 165 + (0.2) × AD[statFormula=2] + (0.4) × AP] magic damage."
+        },
+        {
+          "ability": "Loaded Dice",
+          "slot": "Passive",
+          "source": "Characters/TwistedFate/Spells/SecondSightAbility/SecondSight",
+          "formula": "{{ Spell_SecondSight_Tooltip_[1] }}"
+        }
+      ]
+    },
+    {
+      "id": "twistedfate-four-3",
+      "champion": "TwistedFate",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Twisted Fate: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A ranged pick-and-roam mage who selects a card for control or mana, then uses map vision and teleport to create numbers advantages. His attack cadence also produces periodic Stacked Deck damage. Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Twisted Fate: Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Twisted Fate throws three cards, dealing damage to each enemy unit they pass through. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Twisted Fate's stated kit question: Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Pick a Card",
+          "slot": "W",
+          "source": "Characters/TwistedFate/Spells/PickACardAbility/PickACard",
+          "formula": "Twisted Fate begins shuffling his deck, allowing him to Recast to lock in one of three cards and enhance his next Attack.\nThe Blue Card deals [40 / 60 / 80 / 100 / 120 + (1) × AD + (1) × AP + ((0.575) × ((40 / 60 / 80 / 100 / 120 + (1) × AD + (1) × AP))) × Stat(8)] magic damage and restores [70 / 90 / 110 / 130 / 150] Mana.The Red Card deals [30 / 45 / 60 / 75 / 90 + (1) × AD + (0.7) × AP + ((0.35) × ((30 / 45 / 60 / 75 / 90 + (1) × AD + (0.7) × AP))) × Stat(8)] to nearby enemies and Slows by [30 / 35 / 40 / 45 / 50]% for 2.5 seconds.The Gold Card deals [15 / 22.5 / 30 / 37.5 / 45 + (1) × AD + (0.5) × AP + ((0.25) × ((15 / 22.5 / 30 / 37.5 / 45 + (1) × AD + (0.5) × AP))) × Stat(8)] and Stuns for [1 / 1.25 / 1.5 / 1.75 / 2] seconds."
+        },
+        {
+          "ability": "Wild Cards",
+          "slot": "Q",
+          "source": "Characters/TwistedFate/Spells/WildCardsAbility/WildCards",
+          "formula": "Twisted Fate throws three cards that deal [60 / 105 / 150 / 195 / 240 + (0.5) × AD[statFormula=2] + (0.85) × AP] magic damage each."
+        },
+        {
+          "ability": "Destiny",
+          "slot": "R",
+          "source": "Characters/TwistedFate/Spells/DestinyAbility/Destiny",
+          "formula": "Twisted Fate focuses on his cards, granting True Sight of all enemy champions on the map for [6 / 8 / 10] seconds and allowing him to Recast.\n\nRecast: Twisted Fate teleports up to [5500 / 5500 / 5500] units away."
+        },
+        {
+          "ability": "Stacked Deck",
+          "slot": "E",
+          "source": "Characters/TwistedFate/Spells/CardmasterStackAbility/CardmasterStack",
+          "formula": "Passive: Twisted Fate gains [15 / 25 / 35 / 45 / 55]% Attack Speed and every 4th Attack deals an additional [65 / 90 / 115 / 140 / 165 + (0.2) × AD[statFormula=2] + (0.4) × AP] magic damage."
+        },
+        {
+          "ability": "Loaded Dice",
+          "slot": "Passive",
+          "source": "Characters/TwistedFate/Spells/SecondSightAbility/SecondSight",
+          "formula": "{{ Spell_SecondSight_Tooltip_[1] }}"
+        }
+      ]
+    },
+    {
+      "id": "twistedfate-four-4",
+      "champion": "TwistedFate",
+      "name": "Experiment: Repeated on-hit",
+      "goal": "Experiment for Twisted Fate: test a different playstyle, with lower confidence",
+      "hypothesis": "A ranged pick-and-roam mage who selects a card for control or mana, then uses map vision and teleport to create numbers advantages. His attack cadence also produces periodic Stacked Deck damage. Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Twisted Fate: Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Twisted Fate throws three cards, dealing damage to each enemy unit they pass through. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Twisted Fate's stated kit question: Select the actual card and fix Stacked Deck cadence. Attack-speed builds trade spell burst for repeated real attacks; gold-card safety and roaming time matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Pick a Card",
+          "slot": "W",
+          "source": "Characters/TwistedFate/Spells/PickACardAbility/PickACard",
+          "formula": "Twisted Fate begins shuffling his deck, allowing him to Recast to lock in one of three cards and enhance his next Attack.\nThe Blue Card deals [40 / 60 / 80 / 100 / 120 + (1) × AD + (1) × AP + ((0.575) × ((40 / 60 / 80 / 100 / 120 + (1) × AD + (1) × AP))) × Stat(8)] magic damage and restores [70 / 90 / 110 / 130 / 150] Mana.The Red Card deals [30 / 45 / 60 / 75 / 90 + (1) × AD + (0.7) × AP + ((0.35) × ((30 / 45 / 60 / 75 / 90 + (1) × AD + (0.7) × AP))) × Stat(8)] to nearby enemies and Slows by [30 / 35 / 40 / 45 / 50]% for 2.5 seconds.The Gold Card deals [15 / 22.5 / 30 / 37.5 / 45 + (1) × AD + (0.5) × AP + ((0.25) × ((15 / 22.5 / 30 / 37.5 / 45 + (1) × AD + (0.5) × AP))) × Stat(8)] and Stuns for [1 / 1.25 / 1.5 / 1.75 / 2] seconds."
+        },
+        {
+          "ability": "Wild Cards",
+          "slot": "Q",
+          "source": "Characters/TwistedFate/Spells/WildCardsAbility/WildCards",
+          "formula": "Twisted Fate throws three cards that deal [60 / 105 / 150 / 195 / 240 + (0.5) × AD[statFormula=2] + (0.85) × AP] magic damage each."
+        },
+        {
+          "ability": "Destiny",
+          "slot": "R",
+          "source": "Characters/TwistedFate/Spells/DestinyAbility/Destiny",
+          "formula": "Twisted Fate focuses on his cards, granting True Sight of all enemy champions on the map for [6 / 8 / 10] seconds and allowing him to Recast.\n\nRecast: Twisted Fate teleports up to [5500 / 5500 / 5500] units away."
+        },
+        {
+          "ability": "Stacked Deck",
+          "slot": "E",
+          "source": "Characters/TwistedFate/Spells/CardmasterStackAbility/CardmasterStack",
+          "formula": "Passive: Twisted Fate gains [15 / 25 / 35 / 45 / 55]% Attack Speed and every 4th Attack deals an additional [65 / 90 / 115 / 140 / 165 + (0.2) × AD[statFormula=2] + (0.4) × AP] magic damage."
+        },
+        {
+          "ability": "Loaded Dice",
+          "slot": "Passive",
+          "source": "Characters/TwistedFate/Spells/SecondSightAbility/SecondSight",
+          "formula": "{{ Spell_SecondSight_Tooltip_[1] }}"
+        }
+      ]
+    }
+  ]
+}

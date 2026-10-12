@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "mordekaiser-four-1",
+      "champion": "Mordekaiser",
+      "name": "Reference: AP sustained duel",
+      "goal": "Reference for Mordekaiser: establish a repeatable reference",
+      "hypothesis": "A sustained melee magic fighter who activates an aura through contact and isolates a target for an extended duel. Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks. AP plus real attack cadence tests sustained contact and later penetration.",
+      "itemIds": [
+        4633,
+        3115,
+        3089,
+        3135,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Mordekaiser: Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks.",
+        "Start with the early core (Riftmaker, then Nashor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Shield. Do not treat mana regeneration as Shield recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: AP plus real attack cadence tests sustained contact and later penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Mordekaiser smashes the ground with his mace dealing damage to each enemy struck. Damage is increased when hitting a single enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
+        "The route fails Mordekaiser's stated kit question: Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
+        "Full cost 17,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Riftmaker, then Nashor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Shield. Do not treat mana regeneration as Shield recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Shield",
+      "kitEvidence": [
+        {
+          "ability": "Obliterate",
+          "slot": "Q",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ",
+          "formula": "Mordekaiser smashes the ground with Nightfall dealing [80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP] magic damage, increased to [(80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP) × (1.3 / 1.35 / 1.4 / 1.45 / 1.5)] if it hits only a single enemy."
+        },
+        {
+          "ability": "Indestructible",
+          "slot": "W",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserWAbility/MordekaiserW",
+          "formula": "Passive: Mordekaiser stores [45]% of the damage he deals and [7.5]% of the damage he takes.\n\nActive: Mordekaiser gains the stored damage as Shield. He may Recast this Ability to restore [(0.35 / 0.375 / 0.4 / 0.425 / 0.45) × 100]% of the remaining Shield as Health.\n\nMinimum Shield: [(0.05) × Stat(12)]\nMaximum Shield: [(0.3) × Stat(12)]"
+        },
+        {
+          "ability": "Death's Grasp",
+          "slot": "E",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserEAbility/MordekaiserE",
+          "formula": "Passive: Mordekaiser gains [(0.05 / 0.075 / 0.1 / 0.125 / 0.15) × 100]% Magic Penetration.\n\nActive: Pulls enemies in his direction, dealing [60 / 80 / 100 / 120 / 140 + (0.45) × AP] magic damage."
+        },
+        {
+          "ability": "Realm of Death",
+          "slot": "R",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserRAbility/MordekaiserR",
+          "formula": "Mordekaiser banishes a champion to the Death Realm with him for [7]s, stealing [10]% of their core stats for the duration.\n\nIf Mordekaiser kills that enemy in the Death Realm he consumes their soul, keeping the stats he stole until the target respawns."
+        },
+        {
+          "ability": "Darkness Rise",
+          "slot": "Passive",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive",
+          "formula": "Mordekaiser's Attacks deal an additional [(0.4) × AP] magic damage.\n\nMordekaiser cloaks himself in negative energy after hitting 3 basic Abilities or Attacks against champions or jungle monsters. This cloak deals [5 + (0.3) × AP] plus [characterLevelInterpolation(1 → 5; raw flags preserved)]% max Health magic damage per second and grants him [characterLevelBreakpoints(start=0.03, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}])] Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "mordekaiser-four-2",
+      "champion": "Mordekaiser",
+      "name": "Damage interaction: AP health frontline",
+      "goal": "Damage interaction for Mordekaiser: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A sustained melee magic fighter who activates an aura through contact and isolates a target for an extended duel. Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks. Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
+      "itemIds": [
+        4633,
+        6653,
+        3116,
+        8010,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Mordekaiser: Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks.",
+        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Shield. Do not treat mana regeneration as Shield recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Mordekaiser smashes the ground with his mace dealing damage to each enemy struck. Damage is increased when hitting a single enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "The route fails Mordekaiser's stated kit question: Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Shield. Do not treat mana regeneration as Shield recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Shield",
+      "kitEvidence": [
+        {
+          "ability": "Obliterate",
+          "slot": "Q",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ",
+          "formula": "Mordekaiser smashes the ground with Nightfall dealing [80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP] magic damage, increased to [(80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP) × (1.3 / 1.35 / 1.4 / 1.45 / 1.5)] if it hits only a single enemy."
+        },
+        {
+          "ability": "Indestructible",
+          "slot": "W",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserWAbility/MordekaiserW",
+          "formula": "Passive: Mordekaiser stores [45]% of the damage he deals and [7.5]% of the damage he takes.\n\nActive: Mordekaiser gains the stored damage as Shield. He may Recast this Ability to restore [(0.35 / 0.375 / 0.4 / 0.425 / 0.45) × 100]% of the remaining Shield as Health.\n\nMinimum Shield: [(0.05) × Stat(12)]\nMaximum Shield: [(0.3) × Stat(12)]"
+        },
+        {
+          "ability": "Death's Grasp",
+          "slot": "E",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserEAbility/MordekaiserE",
+          "formula": "Passive: Mordekaiser gains [(0.05 / 0.075 / 0.1 / 0.125 / 0.15) × 100]% Magic Penetration.\n\nActive: Pulls enemies in his direction, dealing [60 / 80 / 100 / 120 / 140 + (0.45) × AP] magic damage."
+        },
+        {
+          "ability": "Realm of Death",
+          "slot": "R",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserRAbility/MordekaiserR",
+          "formula": "Mordekaiser banishes a champion to the Death Realm with him for [7]s, stealing [10]% of their core stats for the duration.\n\nIf Mordekaiser kills that enemy in the Death Realm he consumes their soul, keeping the stats he stole until the target respawns."
+        },
+        {
+          "ability": "Darkness Rise",
+          "slot": "Passive",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive",
+          "formula": "Mordekaiser's Attacks deal an additional [(0.4) × AP] magic damage.\n\nMordekaiser cloaks himself in negative energy after hitting 3 basic Abilities or Attacks against champions or jungle monsters. This cloak deals [5 + (0.3) × AP] plus [characterLevelInterpolation(1 → 5; raw flags preserved)]% max Health magic damage per second and grants him [characterLevelBreakpoints(start=0.03, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}])] Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "mordekaiser-four-3",
+      "champion": "Mordekaiser",
+      "name": "Situational adaptation: Magic matchup",
+      "goal": "Situational adaptation for Mordekaiser: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A sustained melee magic fighter who activates an aura through contact and isolates a target for an extended duel. Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks. MR and nearby magic amplification test durable contact against magic pressure.",
+      "itemIds": [
+        3084,
+        6664,
+        8020,
+        3065,
+        6665,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Mordekaiser: Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks.",
+        "Start with the early core (Hollow Radiance or other MR first when justified) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Shield. Do not treat mana regeneration as Shield recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: MR and nearby magic amplification test durable contact against magic pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Mordekaiser smashes the ground with his mace dealing damage to each enemy struck. Damage is increased when hitting a single enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
+        "The route fails Mordekaiser's stated kit question: Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
+        "Full cost 15,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Hollow Radiance or other MR first when justified. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Abyssal Mask, Spirit Visage, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Shield. Do not treat mana regeneration as Shield recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Shield",
+      "kitEvidence": [
+        {
+          "ability": "Obliterate",
+          "slot": "Q",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ",
+          "formula": "Mordekaiser smashes the ground with Nightfall dealing [80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP] magic damage, increased to [(80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP) × (1.3 / 1.35 / 1.4 / 1.45 / 1.5)] if it hits only a single enemy."
+        },
+        {
+          "ability": "Indestructible",
+          "slot": "W",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserWAbility/MordekaiserW",
+          "formula": "Passive: Mordekaiser stores [45]% of the damage he deals and [7.5]% of the damage he takes.\n\nActive: Mordekaiser gains the stored damage as Shield. He may Recast this Ability to restore [(0.35 / 0.375 / 0.4 / 0.425 / 0.45) × 100]% of the remaining Shield as Health.\n\nMinimum Shield: [(0.05) × Stat(12)]\nMaximum Shield: [(0.3) × Stat(12)]"
+        },
+        {
+          "ability": "Death's Grasp",
+          "slot": "E",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserEAbility/MordekaiserE",
+          "formula": "Passive: Mordekaiser gains [(0.05 / 0.075 / 0.1 / 0.125 / 0.15) × 100]% Magic Penetration.\n\nActive: Pulls enemies in his direction, dealing [60 / 80 / 100 / 120 / 140 + (0.45) × AP] magic damage."
+        },
+        {
+          "ability": "Realm of Death",
+          "slot": "R",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserRAbility/MordekaiserR",
+          "formula": "Mordekaiser banishes a champion to the Death Realm with him for [7]s, stealing [10]% of their core stats for the duration.\n\nIf Mordekaiser kills that enemy in the Death Realm he consumes their soul, keeping the stats he stole until the target respawns."
+        },
+        {
+          "ability": "Darkness Rise",
+          "slot": "Passive",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive",
+          "formula": "Mordekaiser's Attacks deal an additional [(0.4) × AP] magic damage.\n\nMordekaiser cloaks himself in negative energy after hitting 3 basic Abilities or Attacks against champions or jungle monsters. This cloak deals [5 + (0.3) × AP] plus [characterLevelInterpolation(1 → 5; raw flags preserved)]% max Health magic damage per second and grants him [characterLevelBreakpoints(start=0.03, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}])] Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "mordekaiser-four-4",
+      "champion": "Mordekaiser",
+      "name": "Experiment: Health/AP attack hybrid",
+      "goal": "Experiment for Mordekaiser: test a different playstyle, with lower confidence",
+      "hypothesis": "A sustained melee magic fighter who activates an aura through contact and isolates a target for an extended duel. Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks. Health plus AP and repeated on-hits test a hybrid attack route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3084,
+        2510,
+        4633,
+        3115,
+        6665,
+        3111
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Mordekaiser: Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks.",
+        "Start with the early core (Health/defense as needed, then Dusk and Dawn as the isolated test) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Shield. Do not treat mana regeneration as Shield recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Health plus AP and repeated on-hits test a hybrid attack route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Mordekaiser smashes the ground with his mace dealing damage to each enemy struck. Damage is increased when hitting a single enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
+        "The route fails Mordekaiser's stated kit question: Keep passive activation, isolated Q and R duel state explicit. Shield-to-heal choices use the same stored resource; Dusk/on-hit value needs real attacks.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Health/defense as needed, then Dusk and Dawn as the isolated test. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Riftmaker, Nashor's Tooth, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Shield. Do not treat mana regeneration as Shield recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Shield",
+      "kitEvidence": [
+        {
+          "ability": "Obliterate",
+          "slot": "Q",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ",
+          "formula": "Mordekaiser smashes the ground with Nightfall dealing [80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP] magic damage, increased to [(80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP) × (1.3 / 1.35 / 1.4 / 1.45 / 1.5)] if it hits only a single enemy."
+        },
+        {
+          "ability": "Indestructible",
+          "slot": "W",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserWAbility/MordekaiserW",
+          "formula": "Passive: Mordekaiser stores [45]% of the damage he deals and [7.5]% of the damage he takes.\n\nActive: Mordekaiser gains the stored damage as Shield. He may Recast this Ability to restore [(0.35 / 0.375 / 0.4 / 0.425 / 0.45) × 100]% of the remaining Shield as Health.\n\nMinimum Shield: [(0.05) × Stat(12)]\nMaximum Shield: [(0.3) × Stat(12)]"
+        },
+        {
+          "ability": "Death's Grasp",
+          "slot": "E",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserEAbility/MordekaiserE",
+          "formula": "Passive: Mordekaiser gains [(0.05 / 0.075 / 0.1 / 0.125 / 0.15) × 100]% Magic Penetration.\n\nActive: Pulls enemies in his direction, dealing [60 / 80 / 100 / 120 / 140 + (0.45) × AP] magic damage."
+        },
+        {
+          "ability": "Realm of Death",
+          "slot": "R",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserRAbility/MordekaiserR",
+          "formula": "Mordekaiser banishes a champion to the Death Realm with him for [7]s, stealing [10]% of their core stats for the duration.\n\nIf Mordekaiser kills that enemy in the Death Realm he consumes their soul, keeping the stats he stole until the target respawns."
+        },
+        {
+          "ability": "Darkness Rise",
+          "slot": "Passive",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive",
+          "formula": "Mordekaiser's Attacks deal an additional [(0.4) × AP] magic damage.\n\nMordekaiser cloaks himself in negative energy after hitting 3 basic Abilities or Attacks against champions or jungle monsters. This cloak deals [5 + (0.3) × AP] plus [characterLevelInterpolation(1 → 5; raw flags preserved)]% max Health magic damage per second and grants him [characterLevelBreakpoints(start=0.03, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}])] Move Speed."
+        }
+      ]
+    }
+  ]
+}

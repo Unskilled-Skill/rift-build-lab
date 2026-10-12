@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "vex-four-1",
+      "champion": "Vex",
+      "name": "Reference: Mana burst",
+      "goal": "Reference for Vex: establish a repeatable reference",
+      "hypothesis": "An anti-mobility burst mage who holds periodic fear to interrupt engages, consumes dash-generated marks and follows kills through R resets. Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Vex: Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry.",
+        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Launch a damaging missile that accelerates mid-flight. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "The route fails Vex's stated kit question: Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Surge",
+          "slot": "R",
+          "source": "Characters/Vex/Spells/VexRAbility/VexR",
+          "formula": "Shadow excitedly surges forward, dealing @spell.VexR:RDamageCalc@ magic damage and marking the first enemy champion hit for 4 seconds.\n\nRecast: Dash to the marked champion, dealing @spell.VexR:RecastDamageCalc@ magic damage on arrival.\n\nIf the marked champion dies within @spell.VexR:TakedownWindow@ seconds of taking damage from this Ability, its Cooldown is temporarily reset."
+        },
+        {
+          "ability": "Doom 'n Gloom",
+          "slot": "Passive",
+          "source": "Characters/Vex/Spells/VexPAbility/VexP",
+          "formula": "Every [characterLevelBreakpoints(start=25, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}])] seconds Vex becomes afflicted with Doom, causing her next basic Ability to Knock Down and Fear enemies for [characterLevelBreakpoints(start=0.75, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds.\n\nWhenever a nearby enemy dashes or blinks, Vex marks them with Gloom for [6] seconds. Vex's next Attack against a Gloomed enemy deals an additional [characterLevelInterpolation(40 → 150; raw flags preserved) + (0.25) × AP] magic damage and reduces this Ability's Cooldown by [25]%."
+        },
+        {
+          "ability": "Personal Space",
+          "slot": "W",
+          "source": "Characters/Vex/Spells/VexWAbility/VexW",
+          "formula": "Vex gains [50 / 75 / 100 / 125 / 150 + (0.75) × AP] Shield for [2.5] seconds and emits a shockwave that deals [80 / 120 / 160 / 200 / 240 + (0.3) × AP] magic damage.\n\nConsumes Gloom on enemies hit."
+        },
+        {
+          "ability": "Looming Darkness",
+          "slot": "E",
+          "source": "Characters/Vex/Spells/VexEAbility/VexE",
+          "formula": "Vex commands Shadow to fly to a location, increasing in size as it travels. Upon arriving, it deals [50 / 70 / 90 / 110 / 130 + (0.4 / 0.45 / 0.5 / 0.55 / 0.6) × AP] magic damage and Slows by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nKilling an enemy with this ability reduces Doom'n Gloom's Cooldown by [10]%.\n\nApplies Gloom to enemies hit."
+        },
+        {
+          "ability": "Mistral Bolt",
+          "slot": "Q",
+          "source": "Characters/Vex/Spells/VexQAbility/VexQ",
+          "formula": "Vex launches a wave of mist that deals [70 / 115 / 160 / 205 / 250 + (0.7) × AP] magic damage. After a delay, the wave becomes smaller and faster.\n\nConsumes Gloom on enemies hit."
+        }
+      ]
+    },
+    {
+      "id": "vex-four-2",
+      "champion": "Vex",
+      "name": "Damage interaction: Ultimate window",
+      "goal": "Damage interaction for Vex: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "An anti-mobility burst mage who holds periodic fear to interrupt engages, consumes dash-generated marks and follows kills through R resets. Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry. Mana and ultimate-oriented item effects test repeated impactful R windows.",
+      "itemIds": [
+        3118,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Vex: Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry.",
+        "Start with the early core (Malignance only if the R interaction is confirmed, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Mana and ultimate-oriented item effects test repeated impactful R windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Launch a damaging missile that accelerates mid-flight. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
+        "The route fails Vex's stated kit question: Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
+        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Malignance only if the R interaction is confirmed, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Surge",
+          "slot": "R",
+          "source": "Characters/Vex/Spells/VexRAbility/VexR",
+          "formula": "Shadow excitedly surges forward, dealing @spell.VexR:RDamageCalc@ magic damage and marking the first enemy champion hit for 4 seconds.\n\nRecast: Dash to the marked champion, dealing @spell.VexR:RecastDamageCalc@ magic damage on arrival.\n\nIf the marked champion dies within @spell.VexR:TakedownWindow@ seconds of taking damage from this Ability, its Cooldown is temporarily reset."
+        },
+        {
+          "ability": "Doom 'n Gloom",
+          "slot": "Passive",
+          "source": "Characters/Vex/Spells/VexPAbility/VexP",
+          "formula": "Every [characterLevelBreakpoints(start=25, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}])] seconds Vex becomes afflicted with Doom, causing her next basic Ability to Knock Down and Fear enemies for [characterLevelBreakpoints(start=0.75, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds.\n\nWhenever a nearby enemy dashes or blinks, Vex marks them with Gloom for [6] seconds. Vex's next Attack against a Gloomed enemy deals an additional [characterLevelInterpolation(40 → 150; raw flags preserved) + (0.25) × AP] magic damage and reduces this Ability's Cooldown by [25]%."
+        },
+        {
+          "ability": "Personal Space",
+          "slot": "W",
+          "source": "Characters/Vex/Spells/VexWAbility/VexW",
+          "formula": "Vex gains [50 / 75 / 100 / 125 / 150 + (0.75) × AP] Shield for [2.5] seconds and emits a shockwave that deals [80 / 120 / 160 / 200 / 240 + (0.3) × AP] magic damage.\n\nConsumes Gloom on enemies hit."
+        },
+        {
+          "ability": "Looming Darkness",
+          "slot": "E",
+          "source": "Characters/Vex/Spells/VexEAbility/VexE",
+          "formula": "Vex commands Shadow to fly to a location, increasing in size as it travels. Upon arriving, it deals [50 / 70 / 90 / 110 / 130 + (0.4 / 0.45 / 0.5 / 0.55 / 0.6) × AP] magic damage and Slows by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nKilling an enemy with this ability reduces Doom'n Gloom's Cooldown by [10]%.\n\nApplies Gloom to enemies hit."
+        },
+        {
+          "ability": "Mistral Bolt",
+          "slot": "Q",
+          "source": "Characters/Vex/Spells/VexQAbility/VexQ",
+          "formula": "Vex launches a wave of mist that deals [70 / 115 / 160 / 205 / 250 + (0.7) × AP] magic damage. After a delay, the wave becomes smaller and faster.\n\nConsumes Gloom on enemies hit."
+        }
+      ]
+    },
+    {
+      "id": "vex-four-3",
+      "champion": "Vex",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Vex: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "An anti-mobility burst mage who holds periodic fear to interrupt engages, consumes dash-generated marks and follows kills through R resets. Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Vex: Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Launch a damaging missile that accelerates mid-flight. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Vex's stated kit question: Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Surge",
+          "slot": "R",
+          "source": "Characters/Vex/Spells/VexRAbility/VexR",
+          "formula": "Shadow excitedly surges forward, dealing @spell.VexR:RDamageCalc@ magic damage and marking the first enemy champion hit for 4 seconds.\n\nRecast: Dash to the marked champion, dealing @spell.VexR:RecastDamageCalc@ magic damage on arrival.\n\nIf the marked champion dies within @spell.VexR:TakedownWindow@ seconds of taking damage from this Ability, its Cooldown is temporarily reset."
+        },
+        {
+          "ability": "Doom 'n Gloom",
+          "slot": "Passive",
+          "source": "Characters/Vex/Spells/VexPAbility/VexP",
+          "formula": "Every [characterLevelBreakpoints(start=25, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}])] seconds Vex becomes afflicted with Doom, causing her next basic Ability to Knock Down and Fear enemies for [characterLevelBreakpoints(start=0.75, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds.\n\nWhenever a nearby enemy dashes or blinks, Vex marks them with Gloom for [6] seconds. Vex's next Attack against a Gloomed enemy deals an additional [characterLevelInterpolation(40 → 150; raw flags preserved) + (0.25) × AP] magic damage and reduces this Ability's Cooldown by [25]%."
+        },
+        {
+          "ability": "Personal Space",
+          "slot": "W",
+          "source": "Characters/Vex/Spells/VexWAbility/VexW",
+          "formula": "Vex gains [50 / 75 / 100 / 125 / 150 + (0.75) × AP] Shield for [2.5] seconds and emits a shockwave that deals [80 / 120 / 160 / 200 / 240 + (0.3) × AP] magic damage.\n\nConsumes Gloom on enemies hit."
+        },
+        {
+          "ability": "Looming Darkness",
+          "slot": "E",
+          "source": "Characters/Vex/Spells/VexEAbility/VexE",
+          "formula": "Vex commands Shadow to fly to a location, increasing in size as it travels. Upon arriving, it deals [50 / 70 / 90 / 110 / 130 + (0.4 / 0.45 / 0.5 / 0.55 / 0.6) × AP] magic damage and Slows by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nKilling an enemy with this ability reduces Doom'n Gloom's Cooldown by [10]%.\n\nApplies Gloom to enemies hit."
+        },
+        {
+          "ability": "Mistral Bolt",
+          "slot": "Q",
+          "source": "Characters/Vex/Spells/VexQAbility/VexQ",
+          "formula": "Vex launches a wave of mist that deals [70 / 115 / 160 / 205 / 250 + (0.7) × AP] magic damage. After a delay, the wave becomes smaller and faster.\n\nConsumes Gloom on enemies hit."
+        }
+      ]
+    },
+    {
+      "id": "vex-four-4",
+      "champion": "Vex",
+      "name": "Experiment: Mana burn zones",
+      "goal": "Experiment for Vex: test a different playstyle, with lower confidence",
+      "hypothesis": "An anti-mobility burst mage who holds periodic fear to interrupt engages, consumes dash-generated marks and follows kills through R resets. Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry. Mana and repeated ability damage may maintain burns and MR-reduction stacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        2503,
+        6653,
+        3116,
+        8010,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Vex: Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry.",
+        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Launch a damaging missile that accelerates mid-flight. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "The route fails Vex's stated kit question: Hold/consume fear deliberately and record dash-generated marks. R resets require actual takedowns; repeated burn cannot substitute for reaching and surviving the entry.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Surge",
+          "slot": "R",
+          "source": "Characters/Vex/Spells/VexRAbility/VexR",
+          "formula": "Shadow excitedly surges forward, dealing @spell.VexR:RDamageCalc@ magic damage and marking the first enemy champion hit for 4 seconds.\n\nRecast: Dash to the marked champion, dealing @spell.VexR:RecastDamageCalc@ magic damage on arrival.\n\nIf the marked champion dies within @spell.VexR:TakedownWindow@ seconds of taking damage from this Ability, its Cooldown is temporarily reset."
+        },
+        {
+          "ability": "Doom 'n Gloom",
+          "slot": "Passive",
+          "source": "Characters/Vex/Spells/VexPAbility/VexP",
+          "formula": "Every [characterLevelBreakpoints(start=25, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}])] seconds Vex becomes afflicted with Doom, causing her next basic Ability to Knock Down and Fear enemies for [characterLevelBreakpoints(start=0.75, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds.\n\nWhenever a nearby enemy dashes or blinks, Vex marks them with Gloom for [6] seconds. Vex's next Attack against a Gloomed enemy deals an additional [characterLevelInterpolation(40 → 150; raw flags preserved) + (0.25) × AP] magic damage and reduces this Ability's Cooldown by [25]%."
+        },
+        {
+          "ability": "Personal Space",
+          "slot": "W",
+          "source": "Characters/Vex/Spells/VexWAbility/VexW",
+          "formula": "Vex gains [50 / 75 / 100 / 125 / 150 + (0.75) × AP] Shield for [2.5] seconds and emits a shockwave that deals [80 / 120 / 160 / 200 / 240 + (0.3) × AP] magic damage.\n\nConsumes Gloom on enemies hit."
+        },
+        {
+          "ability": "Looming Darkness",
+          "slot": "E",
+          "source": "Characters/Vex/Spells/VexEAbility/VexE",
+          "formula": "Vex commands Shadow to fly to a location, increasing in size as it travels. Upon arriving, it deals [50 / 70 / 90 / 110 / 130 + (0.4 / 0.45 / 0.5 / 0.55 / 0.6) × AP] magic damage and Slows by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nKilling an enemy with this ability reduces Doom'n Gloom's Cooldown by [10]%.\n\nApplies Gloom to enemies hit."
+        },
+        {
+          "ability": "Mistral Bolt",
+          "slot": "Q",
+          "source": "Characters/Vex/Spells/VexQAbility/VexQ",
+          "formula": "Vex launches a wave of mist that deals [70 / 115 / 160 / 205 / 250 + (0.7) × AP] magic damage. After a delay, the wave becomes smaller and faster.\n\nConsumes Gloom on enemies hit."
+        }
+      ]
+    }
+  ]
+}

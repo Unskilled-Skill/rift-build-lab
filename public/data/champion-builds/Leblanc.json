@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "leblanc-four-1",
+      "champion": "Leblanc",
+      "name": "Reference: Mana burst",
+      "goal": "Reference for LeBlanc: establish a repeatable reference",
+      "hypothesis": "A mobile burst mage who links a marked spell sequence and returns through Distortion to limit retaliation. Chains reward maintaining a tether long enough for delayed control. Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for LeBlanc: Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window.",
+        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: LeBlanc projects a sigil, dealing damage and marking the target for 3.5 seconds. Damaging the marked target with an ability detonates the sigil, dealing additional damage. If either part kills the target, Leblanc refunds the Mana cost and part of this spell's remaining Cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "The route fails LeBlanc's stated kit question: Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Ethereal Chains",
+          "slot": "E",
+          "source": "Characters/Leblanc/Spells/LeblancEAbility/LeblancE",
+          "formula": "LeBlanc launches a chain that shackles the first enemy hit, dealing [50 / 70 / 90 / 110 / 130 + (0.4) × AP] magic damage and granting True Sight.\n\nIf they remain shackled for [1.5] seconds, LeBlanc Roots them for [1.5] seconds and deals an additional [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        },
+        {
+          "ability": "Sigil of Malice",
+          "slot": "Q",
+          "source": "Characters/Leblanc/Spells/LeblancQAbility/LeblancQ",
+          "formula": "LeBlanc projects a sigil to an enemy, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage and marking them for [3.5] seconds.\n\nDamaging the marked enemy with an Ability detonates the sigil, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage.\n\nIf either part kills the target, Leblanc refunds [100]% of the Mana cost and [30]% of this spell's remaining Cooldown.\n\nThe initial sigil deals an additional [characterLevelBreakpoints(start=10, perLevel=8, changes=[])] damage to minions."
+        },
+        {
+          "ability": "Mirror Image",
+          "slot": "Passive",
+          "source": "Characters/Leblanc/Spells/LeblancPAbility/LeblancP",
+          "formula": "When LeBlanc drops below 40% Health, she becomes Invisible for 1 second and creates a harmless clone for 8 seconds. LeBlanc can move the clone with the \"Alt\" key."
+        },
+        {
+          "ability": "Distortion",
+          "slot": "W",
+          "source": "Characters/Leblanc/Spells/LeblancWAbility/LeblancW",
+          "formula": "LeBlanc dashes then deals [75 / 115 / 155 / 195 / 235 + (0.9) × AP] magic damage to nearby enemies. For [4] seconds after dashing, LeBlanc can Recast.\n\nRecast: LeBlanc returns to her starting location."
+        },
+        {
+          "ability": "Mimic",
+          "slot": "R",
+          "source": "Characters/Leblanc/Spells/LeblancRAbility/LeblancR",
+          "formula": "LeBlanc mimics her most recent Ability, using it again. The mimicked Ability deals increased damage.\n\nMimicked Sigil of Malice deals [70 / 150 / 230 + (0.4) × AP] magic damage when applied, and [140 / 300 / 460 + (0.8) × AP] magic damage when consumed.\nMimicked Distortion deals [150 / 315 / 480 + (0.9) × AP] magic damage.\nMimicked Ethereal Chains deals [70 / 150 / 230 + (0.4) × AP] magic damage when shackled and [140 / 300 / 460 + (0.85) × AP] magic damage when Rooting."
+        }
+      ]
+    },
+    {
+      "id": "leblanc-four-2",
+      "champion": "Leblanc",
+      "name": "Damage interaction: Spell-and-attack",
+      "goal": "Damage interaction for LeBlanc: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A mobile burst mage who links a marked spell sequence and returns through Distortion to limit retaliation. Chains reward maintaining a tether long enough for delayed control. Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "itemIds": [
+        3100,
+        3115,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for LeBlanc: Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window.",
+        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: LeBlanc projects a sigil, dealing damage and marking the target for 3.5 seconds. Damaging the marked target with an ability detonates the sigil, dealing additional damage. If either part kills the target, Leblanc refunds the Mana cost and part of this spell's remaining Cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "The route fails LeBlanc's stated kit question: Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Ethereal Chains",
+          "slot": "E",
+          "source": "Characters/Leblanc/Spells/LeblancEAbility/LeblancE",
+          "formula": "LeBlanc launches a chain that shackles the first enemy hit, dealing [50 / 70 / 90 / 110 / 130 + (0.4) × AP] magic damage and granting True Sight.\n\nIf they remain shackled for [1.5] seconds, LeBlanc Roots them for [1.5] seconds and deals an additional [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        },
+        {
+          "ability": "Sigil of Malice",
+          "slot": "Q",
+          "source": "Characters/Leblanc/Spells/LeblancQAbility/LeblancQ",
+          "formula": "LeBlanc projects a sigil to an enemy, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage and marking them for [3.5] seconds.\n\nDamaging the marked enemy with an Ability detonates the sigil, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage.\n\nIf either part kills the target, Leblanc refunds [100]% of the Mana cost and [30]% of this spell's remaining Cooldown.\n\nThe initial sigil deals an additional [characterLevelBreakpoints(start=10, perLevel=8, changes=[])] damage to minions."
+        },
+        {
+          "ability": "Mirror Image",
+          "slot": "Passive",
+          "source": "Characters/Leblanc/Spells/LeblancPAbility/LeblancP",
+          "formula": "When LeBlanc drops below 40% Health, she becomes Invisible for 1 second and creates a harmless clone for 8 seconds. LeBlanc can move the clone with the \"Alt\" key."
+        },
+        {
+          "ability": "Distortion",
+          "slot": "W",
+          "source": "Characters/Leblanc/Spells/LeblancWAbility/LeblancW",
+          "formula": "LeBlanc dashes then deals [75 / 115 / 155 / 195 / 235 + (0.9) × AP] magic damage to nearby enemies. For [4] seconds after dashing, LeBlanc can Recast.\n\nRecast: LeBlanc returns to her starting location."
+        },
+        {
+          "ability": "Mimic",
+          "slot": "R",
+          "source": "Characters/Leblanc/Spells/LeblancRAbility/LeblancR",
+          "formula": "LeBlanc mimics her most recent Ability, using it again. The mimicked Ability deals increased damage.\n\nMimicked Sigil of Malice deals [70 / 150 / 230 + (0.4) × AP] magic damage when applied, and [140 / 300 / 460 + (0.8) × AP] magic damage when consumed.\nMimicked Distortion deals [150 / 315 / 480 + (0.9) × AP] magic damage.\nMimicked Ethereal Chains deals [70 / 150 / 230 + (0.4) × AP] magic damage when shackled and [140 / 300 / 460 + (0.85) × AP] magic damage when Rooting."
+        }
+      ]
+    },
+    {
+      "id": "leblanc-four-3",
+      "champion": "Leblanc",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for LeBlanc: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A mobile burst mage who links a marked spell sequence and returns through Distortion to limit retaliation. Chains reward maintaining a tether long enough for delayed control. Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for LeBlanc: Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: LeBlanc projects a sigil, dealing damage and marking the target for 3.5 seconds. Damaging the marked target with an ability detonates the sigil, dealing additional damage. If either part kills the target, Leblanc refunds the Mana cost and part of this spell's remaining Cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails LeBlanc's stated kit question: Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Ethereal Chains",
+          "slot": "E",
+          "source": "Characters/Leblanc/Spells/LeblancEAbility/LeblancE",
+          "formula": "LeBlanc launches a chain that shackles the first enemy hit, dealing [50 / 70 / 90 / 110 / 130 + (0.4) × AP] magic damage and granting True Sight.\n\nIf they remain shackled for [1.5] seconds, LeBlanc Roots them for [1.5] seconds and deals an additional [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        },
+        {
+          "ability": "Sigil of Malice",
+          "slot": "Q",
+          "source": "Characters/Leblanc/Spells/LeblancQAbility/LeblancQ",
+          "formula": "LeBlanc projects a sigil to an enemy, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage and marking them for [3.5] seconds.\n\nDamaging the marked enemy with an Ability detonates the sigil, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage.\n\nIf either part kills the target, Leblanc refunds [100]% of the Mana cost and [30]% of this spell's remaining Cooldown.\n\nThe initial sigil deals an additional [characterLevelBreakpoints(start=10, perLevel=8, changes=[])] damage to minions."
+        },
+        {
+          "ability": "Mirror Image",
+          "slot": "Passive",
+          "source": "Characters/Leblanc/Spells/LeblancPAbility/LeblancP",
+          "formula": "When LeBlanc drops below 40% Health, she becomes Invisible for 1 second and creates a harmless clone for 8 seconds. LeBlanc can move the clone with the \"Alt\" key."
+        },
+        {
+          "ability": "Distortion",
+          "slot": "W",
+          "source": "Characters/Leblanc/Spells/LeblancWAbility/LeblancW",
+          "formula": "LeBlanc dashes then deals [75 / 115 / 155 / 195 / 235 + (0.9) × AP] magic damage to nearby enemies. For [4] seconds after dashing, LeBlanc can Recast.\n\nRecast: LeBlanc returns to her starting location."
+        },
+        {
+          "ability": "Mimic",
+          "slot": "R",
+          "source": "Characters/Leblanc/Spells/LeblancRAbility/LeblancR",
+          "formula": "LeBlanc mimics her most recent Ability, using it again. The mimicked Ability deals increased damage.\n\nMimicked Sigil of Malice deals [70 / 150 / 230 + (0.4) × AP] magic damage when applied, and [140 / 300 / 460 + (0.8) × AP] magic damage when consumed.\nMimicked Distortion deals [150 / 315 / 480 + (0.9) × AP] magic damage.\nMimicked Ethereal Chains deals [70 / 150 / 230 + (0.4) × AP] magic damage when shackled and [140 / 300 / 460 + (0.85) × AP] magic damage when Rooting."
+        }
+      ]
+    },
+    {
+      "id": "leblanc-four-4",
+      "champion": "Leblanc",
+      "name": "Experiment: Range and poke",
+      "goal": "Experiment for LeBlanc: test a different playstyle, with lower confidence",
+      "hypothesis": "A mobile burst mage who links a marked spell sequence and returns through Distortion to limit retaliation. Chains reward maintaining a tether long enough for delayed control. Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window. Range-compatible spell hits test poke AP/penetration before a commitment. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6655,
+        4628,
+        3089,
+        3135,
+        3102,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for LeBlanc: Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window.",
+        "Start with the early core (Luden, then Horizon) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Range-compatible spell hits test poke AP/penetration before a commitment. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: LeBlanc projects a sigil, dealing damage and marking the target for 3.5 seconds. Damaging the marked target with an ability detonates the sigil, dealing additional damage. If either part kills the target, Leblanc refunds the Mana cost and part of this spell's remaining Cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Comet can miss and distance matters; no automatic full-range damage bonus.",
+        "The route fails LeBlanc's stated kit question: Compare mark detonation and return-safe spell burst with real attacks between casts. Chains must remain connected; returning through W can end the damage window.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Comet can miss and distance matters; no automatic full-range damage bonus.",
+        "Full cost 16,050 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Luden, then Horizon. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Banshee's Veil are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Ethereal Chains",
+          "slot": "E",
+          "source": "Characters/Leblanc/Spells/LeblancEAbility/LeblancE",
+          "formula": "LeBlanc launches a chain that shackles the first enemy hit, dealing [50 / 70 / 90 / 110 / 130 + (0.4) × AP] magic damage and granting True Sight.\n\nIf they remain shackled for [1.5] seconds, LeBlanc Roots them for [1.5] seconds and deals an additional [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        },
+        {
+          "ability": "Sigil of Malice",
+          "slot": "Q",
+          "source": "Characters/Leblanc/Spells/LeblancQAbility/LeblancQ",
+          "formula": "LeBlanc projects a sigil to an enemy, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage and marking them for [3.5] seconds.\n\nDamaging the marked enemy with an Ability detonates the sigil, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage.\n\nIf either part kills the target, Leblanc refunds [100]% of the Mana cost and [30]% of this spell's remaining Cooldown.\n\nThe initial sigil deals an additional [characterLevelBreakpoints(start=10, perLevel=8, changes=[])] damage to minions."
+        },
+        {
+          "ability": "Mirror Image",
+          "slot": "Passive",
+          "source": "Characters/Leblanc/Spells/LeblancPAbility/LeblancP",
+          "formula": "When LeBlanc drops below 40% Health, she becomes Invisible for 1 second and creates a harmless clone for 8 seconds. LeBlanc can move the clone with the \"Alt\" key."
+        },
+        {
+          "ability": "Distortion",
+          "slot": "W",
+          "source": "Characters/Leblanc/Spells/LeblancWAbility/LeblancW",
+          "formula": "LeBlanc dashes then deals [75 / 115 / 155 / 195 / 235 + (0.9) × AP] magic damage to nearby enemies. For [4] seconds after dashing, LeBlanc can Recast.\n\nRecast: LeBlanc returns to her starting location."
+        },
+        {
+          "ability": "Mimic",
+          "slot": "R",
+          "source": "Characters/Leblanc/Spells/LeblancRAbility/LeblancR",
+          "formula": "LeBlanc mimics her most recent Ability, using it again. The mimicked Ability deals increased damage.\n\nMimicked Sigil of Malice deals [70 / 150 / 230 + (0.4) × AP] magic damage when applied, and [140 / 300 / 460 + (0.8) × AP] magic damage when consumed.\nMimicked Distortion deals [150 / 315 / 480 + (0.9) × AP] magic damage.\nMimicked Ethereal Chains deals [70 / 150 / 230 + (0.4) × AP] magic damage when shackled and [140 / 300 / 460 + (0.85) × AP] magic damage when Rooting."
+        }
+      ]
+    }
+  ]
+}

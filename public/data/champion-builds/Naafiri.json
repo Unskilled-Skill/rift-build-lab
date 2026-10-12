@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "naafiri-four-1",
+      "champion": "Naafiri",
+      "name": "Reference: Physical pick",
+      "goal": "Reference for Naafiri: establish a repeatable reference",
+      "hypothesis": "A pack-assisted AD skirmisher who lands paired daggers, preserves packmates with repositioning, and pursues a takedown reset. Her current R is the pursuit dash, while W grants untargetability and pack reinforcement. Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage. Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Naafiri: Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Naafiri hurls up to two daggers, each inflicting bleed, or each inflicting bonus damage if the target is already bleeding.\n\nPackmates leap to attack the first champion or monster hit by this skill. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Naafiri's stated kit question: Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "We Are More",
+          "slot": "Passive",
+          "source": "Characters/Naafiri/Spells/NaafiriPAbility/NaafiriP",
+          "formula": "Naafiri creates a Packmate every [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}])] seconds that will Attack enemies that she targets for [characterLevelInterpolation(10 → 20; raw flags preserved) + (0.04) × AD[statFormula=2]] physical damage, increased to [(characterLevelInterpolation(10 → 20; raw flags preserved) + (0.04) × AD[statFormula=2]) × (1.3)] after she uses an Ability. \n\nHitting champions and large monsters with Abilities reduces this Ability's Cooldown by [4] seconds. Killing enemies reduces it by [1] seconds.\n\nMax Packmates: [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}])]"
+        },
+        {
+          "ability": "Darkin Daggers",
+          "slot": "Q",
+          "source": "Characters/Naafiri/Spells/NaafiriQAbility/NaafiriQ",
+          "formula": "Naafiri hurls Darkin-tainted blades, dealing @spell.NaafiriQ:TotalDamageFirstCast@ physical damage and inflicting a bleed, dealing @spell.NaafiriQ:TotalBleedDamage@ physical damage over @spell.NaafiriQ:BleedDuration@ seconds.\n\nNaafiri can Recast this Ability. If enemies hit are already bleeding from this Ability, it instead deals the remaining bleed damage plus between @spell.NaafiriQ:TotalMinDamageSecondCast@ and @spell.NaafiriQ:TotalMaxDamageSecondCast@ physical damage, based on their missing Health. If that target was a champion or large monster, Naafiri restores @spell.NaafiriQ:TotalHealSecondCast@ Health.\n\nPackmates will leap at the first champion or monster hit and attack them for @spell.NaafiriP:PackmateTauntDuration@ seconds."
+        },
+        {
+          "ability": "Hounds' Pursuit",
+          "slot": "R",
+          "source": "Characters/Naafiri/Spells/NaafiriWAbility/NaafiriW",
+          "formula": "Naafiri dashes at an enemy champion, dealing [125 / 200 / 275 + (1) × AD[statFormula=2]] physical damage and briefly Slowing them. Packmates become Untargetable and dash alongside Naafiri, dealing [(125 / 200 / 275 + (1) × AD[statFormula=2]) × (0.1)] physical damage per Packmate.\n\nIf Naafiri scores a Takedown within [7] seconds she reveals nearby enemies and can recast this Ability once. The second cast grants [100 / 150 / 200 + (1.5) × AD[statFormula=2]] Shield for [3] seconds."
+        },
+        {
+          "ability": "The Call of the Pack",
+          "slot": "W",
+          "source": "Characters/Naafiri/Spells/NaafiriRAbility/NaafiriR",
+          "formula": "Naafiri becomes Untargetable for [1] second and prepares to hunt, spawning [2] additional Packmates and gaining [(0.2) × AD] Attack Damage and [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Move Speed for [5] seconds.\n\nPackmates become Untargetable and are recalled to Naafiri."
+        },
+        {
+          "ability": "Eviscerate",
+          "slot": "E",
+          "source": "Characters/Naafiri/Spells/NaafiriEAbility/NaafiriE",
+          "formula": "Naafiri surges forward, dealing [15 / 25 / 35 / 45 / 55 + (0.4) × AD[statFormula=2]] physical damage, then explodes in a flurry of blades, dealing [60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2]] physical damage.\n\nPackmates become Untargetable and are recalled to Naafiri restoring 100% Health."
+        }
+      ]
+    },
+    {
+      "id": "naafiri-four-2",
+      "champion": "Naafiri",
+      "name": "Damage interaction: Physical spell burst",
+      "goal": "Damage interaction for Naafiri: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A pack-assisted AD skirmisher who lands paired daggers, preserves packmates with repositioning, and pursues a takedown reset. Her current R is the pursuit dash, while W grants untargetability and pack reinforcement. Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage. High AD and penetration test ability-first trades with a conditional anti-magic slot.",
+      "itemIds": [
+        6692,
+        6698,
+        6694,
+        3814,
+        3156,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Naafiri: Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage.",
+        "Start with the early core (Eclipse, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: High AD and penetration test ability-first trades with a conditional anti-magic slot. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Naafiri hurls up to two daggers, each inflicting bleed, or each inflicting bonus damage if the target is already bleeding.\n\nPackmates leap to attack the first champion or monster hit by this skill. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
+        "The route fails Naafiri's stated kit question: Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Eclipse, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Serylda's Grudge, Edge of Night, Maw of Malmortius are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "We Are More",
+          "slot": "Passive",
+          "source": "Characters/Naafiri/Spells/NaafiriPAbility/NaafiriP",
+          "formula": "Naafiri creates a Packmate every [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}])] seconds that will Attack enemies that she targets for [characterLevelInterpolation(10 → 20; raw flags preserved) + (0.04) × AD[statFormula=2]] physical damage, increased to [(characterLevelInterpolation(10 → 20; raw flags preserved) + (0.04) × AD[statFormula=2]) × (1.3)] after she uses an Ability. \n\nHitting champions and large monsters with Abilities reduces this Ability's Cooldown by [4] seconds. Killing enemies reduces it by [1] seconds.\n\nMax Packmates: [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}])]"
+        },
+        {
+          "ability": "Darkin Daggers",
+          "slot": "Q",
+          "source": "Characters/Naafiri/Spells/NaafiriQAbility/NaafiriQ",
+          "formula": "Naafiri hurls Darkin-tainted blades, dealing @spell.NaafiriQ:TotalDamageFirstCast@ physical damage and inflicting a bleed, dealing @spell.NaafiriQ:TotalBleedDamage@ physical damage over @spell.NaafiriQ:BleedDuration@ seconds.\n\nNaafiri can Recast this Ability. If enemies hit are already bleeding from this Ability, it instead deals the remaining bleed damage plus between @spell.NaafiriQ:TotalMinDamageSecondCast@ and @spell.NaafiriQ:TotalMaxDamageSecondCast@ physical damage, based on their missing Health. If that target was a champion or large monster, Naafiri restores @spell.NaafiriQ:TotalHealSecondCast@ Health.\n\nPackmates will leap at the first champion or monster hit and attack them for @spell.NaafiriP:PackmateTauntDuration@ seconds."
+        },
+        {
+          "ability": "Hounds' Pursuit",
+          "slot": "R",
+          "source": "Characters/Naafiri/Spells/NaafiriWAbility/NaafiriW",
+          "formula": "Naafiri dashes at an enemy champion, dealing [125 / 200 / 275 + (1) × AD[statFormula=2]] physical damage and briefly Slowing them. Packmates become Untargetable and dash alongside Naafiri, dealing [(125 / 200 / 275 + (1) × AD[statFormula=2]) × (0.1)] physical damage per Packmate.\n\nIf Naafiri scores a Takedown within [7] seconds she reveals nearby enemies and can recast this Ability once. The second cast grants [100 / 150 / 200 + (1.5) × AD[statFormula=2]] Shield for [3] seconds."
+        },
+        {
+          "ability": "The Call of the Pack",
+          "slot": "W",
+          "source": "Characters/Naafiri/Spells/NaafiriRAbility/NaafiriR",
+          "formula": "Naafiri becomes Untargetable for [1] second and prepares to hunt, spawning [2] additional Packmates and gaining [(0.2) × AD] Attack Damage and [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Move Speed for [5] seconds.\n\nPackmates become Untargetable and are recalled to Naafiri."
+        },
+        {
+          "ability": "Eviscerate",
+          "slot": "E",
+          "source": "Characters/Naafiri/Spells/NaafiriEAbility/NaafiriE",
+          "formula": "Naafiri surges forward, dealing [15 / 25 / 35 / 45 / 55 + (0.4) × AD[statFormula=2]] physical damage, then explodes in a flurry of blades, dealing [60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2]] physical damage.\n\nPackmates become Untargetable and are recalled to Naafiri restoring 100% Health."
+        }
+      ]
+    },
+    {
+      "id": "naafiri-four-3",
+      "champion": "Naafiri",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Naafiri: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A pack-assisted AD skirmisher who lands paired daggers, preserves packmates with repositioning, and pursues a takedown reset. Her current R is the pursuit dash, while W grants untargetability and pack reinforcement. Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Naafiri: Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Naafiri hurls up to two daggers, each inflicting bleed, or each inflicting bonus damage if the target is already bleeding.\n\nPackmates leap to attack the first champion or monster hit by this skill. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Naafiri's stated kit question: Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "We Are More",
+          "slot": "Passive",
+          "source": "Characters/Naafiri/Spells/NaafiriPAbility/NaafiriP",
+          "formula": "Naafiri creates a Packmate every [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}])] seconds that will Attack enemies that she targets for [characterLevelInterpolation(10 → 20; raw flags preserved) + (0.04) × AD[statFormula=2]] physical damage, increased to [(characterLevelInterpolation(10 → 20; raw flags preserved) + (0.04) × AD[statFormula=2]) × (1.3)] after she uses an Ability. \n\nHitting champions and large monsters with Abilities reduces this Ability's Cooldown by [4] seconds. Killing enemies reduces it by [1] seconds.\n\nMax Packmates: [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}])]"
+        },
+        {
+          "ability": "Darkin Daggers",
+          "slot": "Q",
+          "source": "Characters/Naafiri/Spells/NaafiriQAbility/NaafiriQ",
+          "formula": "Naafiri hurls Darkin-tainted blades, dealing @spell.NaafiriQ:TotalDamageFirstCast@ physical damage and inflicting a bleed, dealing @spell.NaafiriQ:TotalBleedDamage@ physical damage over @spell.NaafiriQ:BleedDuration@ seconds.\n\nNaafiri can Recast this Ability. If enemies hit are already bleeding from this Ability, it instead deals the remaining bleed damage plus between @spell.NaafiriQ:TotalMinDamageSecondCast@ and @spell.NaafiriQ:TotalMaxDamageSecondCast@ physical damage, based on their missing Health. If that target was a champion or large monster, Naafiri restores @spell.NaafiriQ:TotalHealSecondCast@ Health.\n\nPackmates will leap at the first champion or monster hit and attack them for @spell.NaafiriP:PackmateTauntDuration@ seconds."
+        },
+        {
+          "ability": "Hounds' Pursuit",
+          "slot": "R",
+          "source": "Characters/Naafiri/Spells/NaafiriWAbility/NaafiriW",
+          "formula": "Naafiri dashes at an enemy champion, dealing [125 / 200 / 275 + (1) × AD[statFormula=2]] physical damage and briefly Slowing them. Packmates become Untargetable and dash alongside Naafiri, dealing [(125 / 200 / 275 + (1) × AD[statFormula=2]) × (0.1)] physical damage per Packmate.\n\nIf Naafiri scores a Takedown within [7] seconds she reveals nearby enemies and can recast this Ability once. The second cast grants [100 / 150 / 200 + (1.5) × AD[statFormula=2]] Shield for [3] seconds."
+        },
+        {
+          "ability": "The Call of the Pack",
+          "slot": "W",
+          "source": "Characters/Naafiri/Spells/NaafiriRAbility/NaafiriR",
+          "formula": "Naafiri becomes Untargetable for [1] second and prepares to hunt, spawning [2] additional Packmates and gaining [(0.2) × AD] Attack Damage and [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Move Speed for [5] seconds.\n\nPackmates become Untargetable and are recalled to Naafiri."
+        },
+        {
+          "ability": "Eviscerate",
+          "slot": "E",
+          "source": "Characters/Naafiri/Spells/NaafiriEAbility/NaafiriE",
+          "formula": "Naafiri surges forward, dealing [15 / 25 / 35 / 45 / 55 + (0.4) × AD[statFormula=2]] physical damage, then explodes in a flurry of blades, dealing [60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2]] physical damage.\n\nPackmates become Untargetable and are recalled to Naafiri restoring 100% Health."
+        }
+      ]
+    },
+    {
+      "id": "naafiri-four-4",
+      "champion": "Naafiri",
+      "name": "Experiment: Contact fighter",
+      "goal": "Experiment for Naafiri: test a different playstyle, with lower confidence",
+      "hypothesis": "A pack-assisted AD skirmisher who lands paired daggers, preserves packmates with repositioning, and pursues a takedown reset. Her current R is the pursuit dash, while W grants untargetability and pack reinforcement. Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6631,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Naafiri: Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage.",
+        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Naafiri hurls up to two daggers, each inflicting bleed, or each inflicting bonus damage if the target is already bleeding.\n\nPackmates leap to attack the first champion or monster hit by this skill. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "The route fails Naafiri's stated kit question: Track packmate availability and actual leap/bleed sequence. Do not award every pet hit as a full independent item proc; health-heavy routes need repeated contact to repay lost pick damage.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "We Are More",
+          "slot": "Passive",
+          "source": "Characters/Naafiri/Spells/NaafiriPAbility/NaafiriP",
+          "formula": "Naafiri creates a Packmate every [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": -5.0, \"__type\": \"Breakpoint\"}])] seconds that will Attack enemies that she targets for [characterLevelInterpolation(10 → 20; raw flags preserved) + (0.04) × AD[statFormula=2]] physical damage, increased to [(characterLevelInterpolation(10 → 20; raw flags preserved) + (0.04) × AD[statFormula=2]) × (1.3)] after she uses an Ability. \n\nHitting champions and large monsters with Abilities reduces this Ability's Cooldown by [4] seconds. Killing enemies reduces it by [1] seconds.\n\nMax Packmates: [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}])]"
+        },
+        {
+          "ability": "Darkin Daggers",
+          "slot": "Q",
+          "source": "Characters/Naafiri/Spells/NaafiriQAbility/NaafiriQ",
+          "formula": "Naafiri hurls Darkin-tainted blades, dealing @spell.NaafiriQ:TotalDamageFirstCast@ physical damage and inflicting a bleed, dealing @spell.NaafiriQ:TotalBleedDamage@ physical damage over @spell.NaafiriQ:BleedDuration@ seconds.\n\nNaafiri can Recast this Ability. If enemies hit are already bleeding from this Ability, it instead deals the remaining bleed damage plus between @spell.NaafiriQ:TotalMinDamageSecondCast@ and @spell.NaafiriQ:TotalMaxDamageSecondCast@ physical damage, based on their missing Health. If that target was a champion or large monster, Naafiri restores @spell.NaafiriQ:TotalHealSecondCast@ Health.\n\nPackmates will leap at the first champion or monster hit and attack them for @spell.NaafiriP:PackmateTauntDuration@ seconds."
+        },
+        {
+          "ability": "Hounds' Pursuit",
+          "slot": "R",
+          "source": "Characters/Naafiri/Spells/NaafiriWAbility/NaafiriW",
+          "formula": "Naafiri dashes at an enemy champion, dealing [125 / 200 / 275 + (1) × AD[statFormula=2]] physical damage and briefly Slowing them. Packmates become Untargetable and dash alongside Naafiri, dealing [(125 / 200 / 275 + (1) × AD[statFormula=2]) × (0.1)] physical damage per Packmate.\n\nIf Naafiri scores a Takedown within [7] seconds she reveals nearby enemies and can recast this Ability once. The second cast grants [100 / 150 / 200 + (1.5) × AD[statFormula=2]] Shield for [3] seconds."
+        },
+        {
+          "ability": "The Call of the Pack",
+          "slot": "W",
+          "source": "Characters/Naafiri/Spells/NaafiriRAbility/NaafiriR",
+          "formula": "Naafiri becomes Untargetable for [1] second and prepares to hunt, spawning [2] additional Packmates and gaining [(0.2) × AD] Attack Damage and [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Move Speed for [5] seconds.\n\nPackmates become Untargetable and are recalled to Naafiri."
+        },
+        {
+          "ability": "Eviscerate",
+          "slot": "E",
+          "source": "Characters/Naafiri/Spells/NaafiriEAbility/NaafiriE",
+          "formula": "Naafiri surges forward, dealing [15 / 25 / 35 / 45 / 55 + (0.4) × AD[statFormula=2]] physical damage, then explodes in a flurry of blades, dealing [60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2]] physical damage.\n\nPackmates become Untargetable and are recalled to Naafiri restoring 100% Health."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,448 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "lillia-four-1",
+      "champion": "Lillia",
+      "name": "Reference: Health burn zones",
+      "goal": "Reference for Lillia: establish a repeatable reference",
+      "hypothesis": "A mobile sustained spell fighter who maintains Q movement stacks, clips enemies with its outer edge, and uses applied dust for sleep setups. She prefers repeated passes through a fight. Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter. Health/AP and repeated damage test longer contact without buying mana.",
+      "itemIds": [
+        6653,
+        4633,
+        3116,
+        8010,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Lillia: Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter.",
+        "Start with the early core (Liandry, then Riftmaker) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health/AP and repeated damage test longer contact without buying mana. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Passively, Lillia gains stacking Move Speed when hitting enemies with spells. She can activate this to deal magic damage to nearby enemies, dealing extra true damage on the edge. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Rylai does not stack additively with every existing slow; Riftmaker needs combat ramp.",
+        "The route fails Lillia's stated kit question: Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Rylai does not stack additively with every existing slow; Riftmaker needs combat ramp.",
+        "Full cost 15,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Liandry, then Riftmaker. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Lilting Lullaby",
+          "slot": "R",
+          "source": "Characters/Lillia/Spells/LilliaRAbility/LilliaR",
+          "formula": "Lillia causes all enemy champions with Dream Dust to become Drowsy for [1.5] seconds. Afterward, they fall Asleep for [2.5 / 2.75 / 3] seconds.\n\nWhen awakened by damage, they take an additional [100 / 150 / 200 + (0.4) × AP] magic damage."
+        },
+        {
+          "ability": "Swirlseed",
+          "slot": "E",
+          "source": "Characters/Lillia/Spells/LilliaEAbility/LilliaE",
+          "formula": "Lillia lobs a swirlseed overhead, dealing [60 / 85 / 110 / 135 / 160 + (0.5) × AP] magic damage where it lands and revealing and Slowing them by [40]% for [3] seconds. If no enemies are hit, the seed rolls until it hits an enemy or collides with terrain."
+        },
+        {
+          "ability": "Dream-Laden Bough",
+          "slot": "Passive",
+          "source": "Characters/Lillia/Spells/LilliaPAbility/LilliaPDoT",
+          "formula": "Lillia's Abilities apply Dream Dust, dealing @DotPercentTooltip@ max Health magic damage over [3] seconds. Lillia restores @MonsterHealTT@ Health over the duration against large jungle monsters, and restores @ChampionHealTT@ Health against champions."
+        },
+        {
+          "ability": "Dream-Laden Bough",
+          "slot": "Passive",
+          "source": "Characters/Lillia/Spells/LilliaPAbility/LilliaP",
+          "formula": "Lillia's Abilities apply Dream Dust, dealing [(5 + (0.0125) × AP) × (0.01)] max Health magic damage over [3] seconds. Lillia restores [(6.5 + (0.025) × AP) × (6)] Health over the duration against large jungle monsters, and restores [(characterLevelInterpolation(1 → 15; raw flags preserved) + (0.05) × AP) × (6)] Health against champions."
+        },
+        {
+          "ability": "Blooming Blows",
+          "slot": "Q",
+          "source": "Characters/Lillia/Spells/LilliaQAbility/LilliaQ",
+          "formula": "Passive: Lillia's Ability hits grant [0.03 / 0.04 / 0.05 / 0.06 / 0.07 + (0.0003) × AP] Move Speed for [6.5] seconds, stacking up to [4] times.\n\nActive: Lillia whirls her censer, dealing [35 / 45 / 55 / 65 / 75 + (0.35) × AP] magic damage, plus an additional [35 / 45 / 55 / 65 / 75 + (0.35) × AP] true damage at the outer edge."
+        },
+        {
+          "ability": "Watch Out! Eep!",
+          "slot": "W",
+          "source": "Characters/Lillia/Spells/LilliaWAbility/LilliaW",
+          "formula": "Lillia winds up a huge strike, dealing [80 / 100 / 120 / 140 / 160 + (0.35) × AP] magic damage. Enemies in the center take [(80 / 100 / 120 / 140 / 160 + (0.35) × AP) × (3)] damage instead."
+        }
+      ]
+    },
+    {
+      "id": "lillia-four-2",
+      "champion": "Lillia",
+      "name": "Damage interaction: AP health frontline",
+      "goal": "Damage interaction for Lillia: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A mobile sustained spell fighter who maintains Q movement stacks, clips enemies with its outer edge, and uses applied dust for sleep setups. She prefers repeated passes through a fight. Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter. Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
+      "itemIds": [
+        4633,
+        6653,
+        3116,
+        8010,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Lillia: Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter.",
+        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Passively, Lillia gains stacking Move Speed when hitting enemies with spells. She can activate this to deal magic damage to nearby enemies, dealing extra true damage on the edge. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "The route fails Lillia's stated kit question: Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Lilting Lullaby",
+          "slot": "R",
+          "source": "Characters/Lillia/Spells/LilliaRAbility/LilliaR",
+          "formula": "Lillia causes all enemy champions with Dream Dust to become Drowsy for [1.5] seconds. Afterward, they fall Asleep for [2.5 / 2.75 / 3] seconds.\n\nWhen awakened by damage, they take an additional [100 / 150 / 200 + (0.4) × AP] magic damage."
+        },
+        {
+          "ability": "Swirlseed",
+          "slot": "E",
+          "source": "Characters/Lillia/Spells/LilliaEAbility/LilliaE",
+          "formula": "Lillia lobs a swirlseed overhead, dealing [60 / 85 / 110 / 135 / 160 + (0.5) × AP] magic damage where it lands and revealing and Slowing them by [40]% for [3] seconds. If no enemies are hit, the seed rolls until it hits an enemy or collides with terrain."
+        },
+        {
+          "ability": "Dream-Laden Bough",
+          "slot": "Passive",
+          "source": "Characters/Lillia/Spells/LilliaPAbility/LilliaPDoT",
+          "formula": "Lillia's Abilities apply Dream Dust, dealing @DotPercentTooltip@ max Health magic damage over [3] seconds. Lillia restores @MonsterHealTT@ Health over the duration against large jungle monsters, and restores @ChampionHealTT@ Health against champions."
+        },
+        {
+          "ability": "Dream-Laden Bough",
+          "slot": "Passive",
+          "source": "Characters/Lillia/Spells/LilliaPAbility/LilliaP",
+          "formula": "Lillia's Abilities apply Dream Dust, dealing [(5 + (0.0125) × AP) × (0.01)] max Health magic damage over [3] seconds. Lillia restores [(6.5 + (0.025) × AP) × (6)] Health over the duration against large jungle monsters, and restores [(characterLevelInterpolation(1 → 15; raw flags preserved) + (0.05) × AP) × (6)] Health against champions."
+        },
+        {
+          "ability": "Blooming Blows",
+          "slot": "Q",
+          "source": "Characters/Lillia/Spells/LilliaQAbility/LilliaQ",
+          "formula": "Passive: Lillia's Ability hits grant [0.03 / 0.04 / 0.05 / 0.06 / 0.07 + (0.0003) × AP] Move Speed for [6.5] seconds, stacking up to [4] times.\n\nActive: Lillia whirls her censer, dealing [35 / 45 / 55 / 65 / 75 + (0.35) × AP] magic damage, plus an additional [35 / 45 / 55 / 65 / 75 + (0.35) × AP] true damage at the outer edge."
+        },
+        {
+          "ability": "Watch Out! Eep!",
+          "slot": "W",
+          "source": "Characters/Lillia/Spells/LilliaWAbility/LilliaW",
+          "formula": "Lillia winds up a huge strike, dealing [80 / 100 / 120 / 140 / 160 + (0.35) × AP] magic damage. Enemies in the center take [(80 / 100 / 120 / 140 / 160 + (0.35) × AP) × (3)] damage instead."
+        }
+      ]
+    },
+    {
+      "id": "lillia-four-3",
+      "champion": "Lillia",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Lillia: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A mobile sustained spell fighter who maintains Q movement stacks, clips enemies with its outer edge, and uses applied dust for sleep setups. She prefers repeated passes through a fight. Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Lillia: Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Passively, Lillia gains stacking Move Speed when hitting enemies with spells. She can activate this to deal magic damage to nearby enemies, dealing extra true damage on the edge. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Lillia's stated kit question: Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Lilting Lullaby",
+          "slot": "R",
+          "source": "Characters/Lillia/Spells/LilliaRAbility/LilliaR",
+          "formula": "Lillia causes all enemy champions with Dream Dust to become Drowsy for [1.5] seconds. Afterward, they fall Asleep for [2.5 / 2.75 / 3] seconds.\n\nWhen awakened by damage, they take an additional [100 / 150 / 200 + (0.4) × AP] magic damage."
+        },
+        {
+          "ability": "Swirlseed",
+          "slot": "E",
+          "source": "Characters/Lillia/Spells/LilliaEAbility/LilliaE",
+          "formula": "Lillia lobs a swirlseed overhead, dealing [60 / 85 / 110 / 135 / 160 + (0.5) × AP] magic damage where it lands and revealing and Slowing them by [40]% for [3] seconds. If no enemies are hit, the seed rolls until it hits an enemy or collides with terrain."
+        },
+        {
+          "ability": "Dream-Laden Bough",
+          "slot": "Passive",
+          "source": "Characters/Lillia/Spells/LilliaPAbility/LilliaPDoT",
+          "formula": "Lillia's Abilities apply Dream Dust, dealing @DotPercentTooltip@ max Health magic damage over [3] seconds. Lillia restores @MonsterHealTT@ Health over the duration against large jungle monsters, and restores @ChampionHealTT@ Health against champions."
+        },
+        {
+          "ability": "Dream-Laden Bough",
+          "slot": "Passive",
+          "source": "Characters/Lillia/Spells/LilliaPAbility/LilliaP",
+          "formula": "Lillia's Abilities apply Dream Dust, dealing [(5 + (0.0125) × AP) × (0.01)] max Health magic damage over [3] seconds. Lillia restores [(6.5 + (0.025) × AP) × (6)] Health over the duration against large jungle monsters, and restores [(characterLevelInterpolation(1 → 15; raw flags preserved) + (0.05) × AP) × (6)] Health against champions."
+        },
+        {
+          "ability": "Blooming Blows",
+          "slot": "Q",
+          "source": "Characters/Lillia/Spells/LilliaQAbility/LilliaQ",
+          "formula": "Passive: Lillia's Ability hits grant [0.03 / 0.04 / 0.05 / 0.06 / 0.07 + (0.0003) × AP] Move Speed for [6.5] seconds, stacking up to [4] times.\n\nActive: Lillia whirls her censer, dealing [35 / 45 / 55 / 65 / 75 + (0.35) × AP] magic damage, plus an additional [35 / 45 / 55 / 65 / 75 + (0.35) × AP] true damage at the outer edge."
+        },
+        {
+          "ability": "Watch Out! Eep!",
+          "slot": "W",
+          "source": "Characters/Lillia/Spells/LilliaWAbility/LilliaW",
+          "formula": "Lillia winds up a huge strike, dealing [80 / 100 / 120 / 140 / 160 + (0.35) × AP] magic damage. Enemies in the center take [(80 / 100 / 120 / 140 / 160 + (0.35) × AP) × (3)] damage instead."
+        }
+      ]
+    },
+    {
+      "id": "lillia-four-4",
+      "champion": "Lillia",
+      "name": "Experiment: Movement frontline",
+      "goal": "Experiment for Lillia: test a different playstyle, with lower confidence",
+      "hypothesis": "A mobile sustained spell fighter who maintains Q movement stacks, clips enemies with its outer edge, and uses applied dust for sleep setups. She prefers repeated passes through a fight. Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter. Movement and matchup resistances test reaching a useful control angle and resetting afterward. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3742,
+        4401,
+        3083,
+        6665,
+        2502,
+        3009
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Lillia: Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter.",
+        "Start with the early core (Matchup defense and boots; movement slots only if they improve contact) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Movement and matchup resistances test reaching a useful control angle and resetting afterward. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Passively, Lillia gains stacking Move Speed when hitting enemies with spells. She can activate this to deal magic damage to nearby enemies, dealing extra true damage on the edge. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Limited direct damage; Warmog thresholds and out-of-combat timing must be verified.",
+        "The route fails Lillia's stated kit question: Maintain Q movement stacks and outer-edge hits. Sleep setup requires applied dust; a movement/tank route must preserve enough mana and magic threat to matter.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Limited direct damage; Warmog thresholds and out-of-combat timing must be verified.",
+        "Full cost 15,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Matchup defense and boots; movement slots only if they improve contact. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Warmog's Armor, Jak'Sho, The Protean, Unending Despair are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Lilting Lullaby",
+          "slot": "R",
+          "source": "Characters/Lillia/Spells/LilliaRAbility/LilliaR",
+          "formula": "Lillia causes all enemy champions with Dream Dust to become Drowsy for [1.5] seconds. Afterward, they fall Asleep for [2.5 / 2.75 / 3] seconds.\n\nWhen awakened by damage, they take an additional [100 / 150 / 200 + (0.4) × AP] magic damage."
+        },
+        {
+          "ability": "Swirlseed",
+          "slot": "E",
+          "source": "Characters/Lillia/Spells/LilliaEAbility/LilliaE",
+          "formula": "Lillia lobs a swirlseed overhead, dealing [60 / 85 / 110 / 135 / 160 + (0.5) × AP] magic damage where it lands and revealing and Slowing them by [40]% for [3] seconds. If no enemies are hit, the seed rolls until it hits an enemy or collides with terrain."
+        },
+        {
+          "ability": "Dream-Laden Bough",
+          "slot": "Passive",
+          "source": "Characters/Lillia/Spells/LilliaPAbility/LilliaPDoT",
+          "formula": "Lillia's Abilities apply Dream Dust, dealing @DotPercentTooltip@ max Health magic damage over [3] seconds. Lillia restores @MonsterHealTT@ Health over the duration against large jungle monsters, and restores @ChampionHealTT@ Health against champions."
+        },
+        {
+          "ability": "Dream-Laden Bough",
+          "slot": "Passive",
+          "source": "Characters/Lillia/Spells/LilliaPAbility/LilliaP",
+          "formula": "Lillia's Abilities apply Dream Dust, dealing [(5 + (0.0125) × AP) × (0.01)] max Health magic damage over [3] seconds. Lillia restores [(6.5 + (0.025) × AP) × (6)] Health over the duration against large jungle monsters, and restores [(characterLevelInterpolation(1 → 15; raw flags preserved) + (0.05) × AP) × (6)] Health against champions."
+        },
+        {
+          "ability": "Blooming Blows",
+          "slot": "Q",
+          "source": "Characters/Lillia/Spells/LilliaQAbility/LilliaQ",
+          "formula": "Passive: Lillia's Ability hits grant [0.03 / 0.04 / 0.05 / 0.06 / 0.07 + (0.0003) × AP] Move Speed for [6.5] seconds, stacking up to [4] times.\n\nActive: Lillia whirls her censer, dealing [35 / 45 / 55 / 65 / 75 + (0.35) × AP] magic damage, plus an additional [35 / 45 / 55 / 65 / 75 + (0.35) × AP] true damage at the outer edge."
+        },
+        {
+          "ability": "Watch Out! Eep!",
+          "slot": "W",
+          "source": "Characters/Lillia/Spells/LilliaWAbility/LilliaW",
+          "formula": "Lillia winds up a huge strike, dealing [80 / 100 / 120 / 140 / 160 + (0.35) × AP] magic damage. Enemies in the center take [(80 / 100 / 120 / 140 / 160 + (0.35) × AP) × (3)] damage instead."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "sona-four-1",
+      "champion": "Sona",
+      "name": "Reference: Protection specialist",
+      "goal": "Reference for Sona: establish a repeatable reference",
+      "hypothesis": "A scaling aura enchanter who repeatedly supports nearby allies and chooses a Power Chord effect to damage, weaken or slow. Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord. Healing/shield power and timed actives test preserving an allied carry.",
+      "itemIds": [
+        3869,
+        6617,
+        3107,
+        3222,
+        6621,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Sona: Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord.",
+        "Start with the early core (Support quest, Moonstone only with useful eligible heals/shields, then the needed active) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Healing/shield power and timed actives test preserving an allied carry. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Sona plays the Hymn of Valor, sends out bolts of sound, dealing magic damage to two nearby enemies, prioritizing champions and monsters. Sona gains a temporary aura that grants allies tagged by the zone bonus damage on their next attack against enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
+        "The route fails Sona's stated kit question: Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
+        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Support quest, Moonstone only with useful eligible heals/shields, then the needed active. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Redemption, Mikael's Blessing, Dawncore are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Aria of Perseverance",
+          "slot": "W",
+          "source": "Characters/Sona/Spells/SonaWAbility/SonaW",
+          "formula": "Active: Sona restores [30 / 45 / 60 / 75 / 90 + (0.3) × AP] Health to herself and a nearby allied champion, prioritizing the most wounded. She then begins a new Melody.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions [25 / 45 / 65 / 85 / 105 + (0.25) × AP] Shield for [1.5] seconds.\n\nGain a stack of Accelerando whenever you heal another injured ally and every time you protect another ally from at least [25 / 45 / 65 / 85 / 105] damage with this shield.\n\nPower Chord - Diminuendo: Power Chord also reduces physical and magic damage dealt by the target by [0.25 + (0.0004) × AP] for [3] seconds."
+        },
+        {
+          "ability": "Song of Celerity",
+          "slot": "E",
+          "source": "Characters/Sona/Spells/SonaEAbility/SonaE",
+          "formula": "Active: She begins a new Melody and grants herself [0.2 + (0.0002) × AP] Move Speed for [3] seconds, extended to up to [7] seconds if she doesn't take damage. \n\nMelody: Sona gains an aura for [3] seconds that grants allied champions [0.1 / 0.12 / 0.14 / 0.16 / 0.18 + (0.0002) × AP] Move Speed for [3] seconds.\n\nPower Chord - Tempo: Power Chord also Slows the target by [0.5 + (0.0004) × AP] for [2] seconds."
+        },
+        {
+          "ability": "Hymn of Valor",
+          "slot": "Q",
+          "source": "Characters/Sona/Spells/SonaQAbility/SonaQ",
+          "formula": "Sona deals [50 / 85 / 120 / 155 / 190 + (0.4) × AP] magic damage to the nearest two enemies, prioritizing champions. She then begins a new Melody. Gain a stack of Accelerando for every champion you damage with this.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions an additional [10 / 15 / 20 / 25 / 30 + (0.1) × AP] magic damage %i:OnHit% on their next Attack within [5] seconds.\n\nPower Chord - Staccato: Power Chord bonus damage ([characterLevelBreakpoints(start=30, perLevel=15, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 22.5, \"__type\": \"Breakpoint\"}]) + (0.3) × AP] total magic damage)."
+        },
+        {
+          "ability": "Power Chord",
+          "slot": "Passive",
+          "source": "Characters/Sona/Spells/SonaPassiveAbility/SonaPassive",
+          "formula": "Accelerando: Sona gains Accelerando stacks from using her Basic Abilities well. She gains +%i:scaleAH% [0.5] Basic Ability Haste permanently per stack, up to %i:scaleAH% [60] Basic Ability Haste. When she reaches %i:scaleAH% [60] Basic Ability Haste, instead of gaining further stacks her current Ultimate Ability's cooldown is reduced by @Spell.SonaPassive:AccelerandoUltCDR@ seconds.\n\nPower Chord: After using [3] basic Abilities, Sona's next Attack deals an additional [characterLevelBreakpoints(start=20, perLevel=10, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage and may have an additional effect based on the song Sona last activated.\nHymn of Valor: The Attack deals @Spell.SonaQ:TotalStaccatoDamage@ magic damage instead.Aria of Perseverance: The target deals @Spell.SonaW:TotalDiminuendoWeakenPercent@ less damage for @Spell.SonaW:DiminuendoDuration@ seconds.Song of Celerity: The target is Slowed by @Spell.SonaE:TotalTempoMoveSpeedSlow@ for @Spell.SonaE:TempoDuration@ seconds."
+        },
+        {
+          "ability": "Crescendo",
+          "slot": "R",
+          "source": "Characters/Sona/Spells/SonaRAbility/SonaR",
+          "formula": "Sona strikes an irresistible chord, Stunning enemy for [1.5] seconds and dealing [150 / 250 / 350 + (0.5) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "sona-four-2",
+      "champion": "Sona",
+      "name": "Damage interaction: Attack-carry facilitator",
+      "goal": "Damage interaction for Sona: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A scaling aura enchanter who repeatedly supports nearby allies and chooses a Power Chord effect to damage, weaken or slow. Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord. Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
+      "itemIds": [
+        3869,
+        6620,
+        3504,
+        6616,
+        3107,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Sona: Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord.",
+        "Start with the early core (Support quest, Helia if it can be triggered, then an ally-appropriate buff item) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Eligible healing/shielding may deliver ally buffs and repeated supportive value. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Sona plays the Hymn of Valor, sends out bolts of sound, dealing magic damage to two nearby enemies, prioritizing champions and monsters. Sona gains a temporary aura that grants allies tagged by the zone bonus damage on their next attack against enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
+        "The route fails Sona's stated kit question: Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
+        "Full cost 10,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Support quest, Helia if it can be triggered, then an ally-appropriate buff item. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Ardent Censer, Staff of Flowing Water, Redemption are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Aria of Perseverance",
+          "slot": "W",
+          "source": "Characters/Sona/Spells/SonaWAbility/SonaW",
+          "formula": "Active: Sona restores [30 / 45 / 60 / 75 / 90 + (0.3) × AP] Health to herself and a nearby allied champion, prioritizing the most wounded. She then begins a new Melody.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions [25 / 45 / 65 / 85 / 105 + (0.25) × AP] Shield for [1.5] seconds.\n\nGain a stack of Accelerando whenever you heal another injured ally and every time you protect another ally from at least [25 / 45 / 65 / 85 / 105] damage with this shield.\n\nPower Chord - Diminuendo: Power Chord also reduces physical and magic damage dealt by the target by [0.25 + (0.0004) × AP] for [3] seconds."
+        },
+        {
+          "ability": "Song of Celerity",
+          "slot": "E",
+          "source": "Characters/Sona/Spells/SonaEAbility/SonaE",
+          "formula": "Active: She begins a new Melody and grants herself [0.2 + (0.0002) × AP] Move Speed for [3] seconds, extended to up to [7] seconds if she doesn't take damage. \n\nMelody: Sona gains an aura for [3] seconds that grants allied champions [0.1 / 0.12 / 0.14 / 0.16 / 0.18 + (0.0002) × AP] Move Speed for [3] seconds.\n\nPower Chord - Tempo: Power Chord also Slows the target by [0.5 + (0.0004) × AP] for [2] seconds."
+        },
+        {
+          "ability": "Hymn of Valor",
+          "slot": "Q",
+          "source": "Characters/Sona/Spells/SonaQAbility/SonaQ",
+          "formula": "Sona deals [50 / 85 / 120 / 155 / 190 + (0.4) × AP] magic damage to the nearest two enemies, prioritizing champions. She then begins a new Melody. Gain a stack of Accelerando for every champion you damage with this.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions an additional [10 / 15 / 20 / 25 / 30 + (0.1) × AP] magic damage %i:OnHit% on their next Attack within [5] seconds.\n\nPower Chord - Staccato: Power Chord bonus damage ([characterLevelBreakpoints(start=30, perLevel=15, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 22.5, \"__type\": \"Breakpoint\"}]) + (0.3) × AP] total magic damage)."
+        },
+        {
+          "ability": "Power Chord",
+          "slot": "Passive",
+          "source": "Characters/Sona/Spells/SonaPassiveAbility/SonaPassive",
+          "formula": "Accelerando: Sona gains Accelerando stacks from using her Basic Abilities well. She gains +%i:scaleAH% [0.5] Basic Ability Haste permanently per stack, up to %i:scaleAH% [60] Basic Ability Haste. When she reaches %i:scaleAH% [60] Basic Ability Haste, instead of gaining further stacks her current Ultimate Ability's cooldown is reduced by @Spell.SonaPassive:AccelerandoUltCDR@ seconds.\n\nPower Chord: After using [3] basic Abilities, Sona's next Attack deals an additional [characterLevelBreakpoints(start=20, perLevel=10, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage and may have an additional effect based on the song Sona last activated.\nHymn of Valor: The Attack deals @Spell.SonaQ:TotalStaccatoDamage@ magic damage instead.Aria of Perseverance: The target deals @Spell.SonaW:TotalDiminuendoWeakenPercent@ less damage for @Spell.SonaW:DiminuendoDuration@ seconds.Song of Celerity: The target is Slowed by @Spell.SonaE:TotalTempoMoveSpeedSlow@ for @Spell.SonaE:TempoDuration@ seconds."
+        },
+        {
+          "ability": "Crescendo",
+          "slot": "R",
+          "source": "Characters/Sona/Spells/SonaRAbility/SonaR",
+          "formula": "Sona strikes an irresistible chord, Stunning enemy for [1.5] seconds and dealing [150 / 250 / 350 + (0.5) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "sona-four-3",
+      "champion": "Sona",
+      "name": "Situational adaptation: Tempo and pursuit",
+      "goal": "Situational adaptation for Sona: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A scaling aura enchanter who repeatedly supports nearby allies and chooses a Power Chord effect to damage, weaken or slow. Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord. Movement tools and compatible control marks test coordinated pursuit or escape.",
+      "itemIds": [
+        3869,
+        2065,
+        4005,
+        3107,
+        3222,
+        3009
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5007,
+        5001,
+        5001
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Sona: Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord.",
+        "Start with the early core (Support quest, Shurelya or Mandate according to the kit) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Movement tools and compatible control marks test coordinated pursuit or escape. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Sona plays the Hymn of Valor, sends out bolts of sound, dealing magic damage to two nearby enemies, prioritizing champions and monsters. Sona gains a temporary aura that grants allies tagged by the zone bonus damage on their next attack against enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
+        "The route fails Sona's stated kit question: Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+      ],
+      "tradeoffs": [
+        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
+        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Support quest, Shurelya or Mandate according to the kit. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
+        "Imperial Mandate, Redemption, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Aria of Perseverance",
+          "slot": "W",
+          "source": "Characters/Sona/Spells/SonaWAbility/SonaW",
+          "formula": "Active: Sona restores [30 / 45 / 60 / 75 / 90 + (0.3) × AP] Health to herself and a nearby allied champion, prioritizing the most wounded. She then begins a new Melody.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions [25 / 45 / 65 / 85 / 105 + (0.25) × AP] Shield for [1.5] seconds.\n\nGain a stack of Accelerando whenever you heal another injured ally and every time you protect another ally from at least [25 / 45 / 65 / 85 / 105] damage with this shield.\n\nPower Chord - Diminuendo: Power Chord also reduces physical and magic damage dealt by the target by [0.25 + (0.0004) × AP] for [3] seconds."
+        },
+        {
+          "ability": "Song of Celerity",
+          "slot": "E",
+          "source": "Characters/Sona/Spells/SonaEAbility/SonaE",
+          "formula": "Active: She begins a new Melody and grants herself [0.2 + (0.0002) × AP] Move Speed for [3] seconds, extended to up to [7] seconds if she doesn't take damage. \n\nMelody: Sona gains an aura for [3] seconds that grants allied champions [0.1 / 0.12 / 0.14 / 0.16 / 0.18 + (0.0002) × AP] Move Speed for [3] seconds.\n\nPower Chord - Tempo: Power Chord also Slows the target by [0.5 + (0.0004) × AP] for [2] seconds."
+        },
+        {
+          "ability": "Hymn of Valor",
+          "slot": "Q",
+          "source": "Characters/Sona/Spells/SonaQAbility/SonaQ",
+          "formula": "Sona deals [50 / 85 / 120 / 155 / 190 + (0.4) × AP] magic damage to the nearest two enemies, prioritizing champions. She then begins a new Melody. Gain a stack of Accelerando for every champion you damage with this.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions an additional [10 / 15 / 20 / 25 / 30 + (0.1) × AP] magic damage %i:OnHit% on their next Attack within [5] seconds.\n\nPower Chord - Staccato: Power Chord bonus damage ([characterLevelBreakpoints(start=30, perLevel=15, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 22.5, \"__type\": \"Breakpoint\"}]) + (0.3) × AP] total magic damage)."
+        },
+        {
+          "ability": "Power Chord",
+          "slot": "Passive",
+          "source": "Characters/Sona/Spells/SonaPassiveAbility/SonaPassive",
+          "formula": "Accelerando: Sona gains Accelerando stacks from using her Basic Abilities well. She gains +%i:scaleAH% [0.5] Basic Ability Haste permanently per stack, up to %i:scaleAH% [60] Basic Ability Haste. When she reaches %i:scaleAH% [60] Basic Ability Haste, instead of gaining further stacks her current Ultimate Ability's cooldown is reduced by @Spell.SonaPassive:AccelerandoUltCDR@ seconds.\n\nPower Chord: After using [3] basic Abilities, Sona's next Attack deals an additional [characterLevelBreakpoints(start=20, perLevel=10, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage and may have an additional effect based on the song Sona last activated.\nHymn of Valor: The Attack deals @Spell.SonaQ:TotalStaccatoDamage@ magic damage instead.Aria of Perseverance: The target deals @Spell.SonaW:TotalDiminuendoWeakenPercent@ less damage for @Spell.SonaW:DiminuendoDuration@ seconds.Song of Celerity: The target is Slowed by @Spell.SonaE:TotalTempoMoveSpeedSlow@ for @Spell.SonaE:TempoDuration@ seconds."
+        },
+        {
+          "ability": "Crescendo",
+          "slot": "R",
+          "source": "Characters/Sona/Spells/SonaRAbility/SonaR",
+          "formula": "Sona strikes an irresistible chord, Stunning enemy for [1.5] seconds and dealing [150 / 250 / 350 + (0.5) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "sona-four-4",
+      "champion": "Sona",
+      "name": "Experiment: Spell-and-attack",
+      "goal": "Experiment for Sona: test a different playstyle, with lower confidence",
+      "hypothesis": "A scaling aura enchanter who repeatedly supports nearby allies and chooses a Power Chord effect to damage, weaken or slow. Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3100,
+        3115,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Sona: Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord.",
+        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Sona plays the Hymn of Valor, sends out bolts of sound, dealing magic damage to two nearby enemies, prioritizing champions and monsters. Sona gains a temporary aura that grants allies tagged by the zone bonus damage on their next attack against enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "The route fails Sona's stated kit question: Record aura recipients, Accelerando and selected Power Chord. Offensive real attacks must repay lost ally uptime; damage-reduction/slow chords cannot also be treated as the damage chord.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Aria of Perseverance",
+          "slot": "W",
+          "source": "Characters/Sona/Spells/SonaWAbility/SonaW",
+          "formula": "Active: Sona restores [30 / 45 / 60 / 75 / 90 + (0.3) × AP] Health to herself and a nearby allied champion, prioritizing the most wounded. She then begins a new Melody.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions [25 / 45 / 65 / 85 / 105 + (0.25) × AP] Shield for [1.5] seconds.\n\nGain a stack of Accelerando whenever you heal another injured ally and every time you protect another ally from at least [25 / 45 / 65 / 85 / 105] damage with this shield.\n\nPower Chord - Diminuendo: Power Chord also reduces physical and magic damage dealt by the target by [0.25 + (0.0004) × AP] for [3] seconds."
+        },
+        {
+          "ability": "Song of Celerity",
+          "slot": "E",
+          "source": "Characters/Sona/Spells/SonaEAbility/SonaE",
+          "formula": "Active: She begins a new Melody and grants herself [0.2 + (0.0002) × AP] Move Speed for [3] seconds, extended to up to [7] seconds if she doesn't take damage. \n\nMelody: Sona gains an aura for [3] seconds that grants allied champions [0.1 / 0.12 / 0.14 / 0.16 / 0.18 + (0.0002) × AP] Move Speed for [3] seconds.\n\nPower Chord - Tempo: Power Chord also Slows the target by [0.5 + (0.0004) × AP] for [2] seconds."
+        },
+        {
+          "ability": "Hymn of Valor",
+          "slot": "Q",
+          "source": "Characters/Sona/Spells/SonaQAbility/SonaQ",
+          "formula": "Sona deals [50 / 85 / 120 / 155 / 190 + (0.4) × AP] magic damage to the nearest two enemies, prioritizing champions. She then begins a new Melody. Gain a stack of Accelerando for every champion you damage with this.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions an additional [10 / 15 / 20 / 25 / 30 + (0.1) × AP] magic damage %i:OnHit% on their next Attack within [5] seconds.\n\nPower Chord - Staccato: Power Chord bonus damage ([characterLevelBreakpoints(start=30, perLevel=15, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 22.5, \"__type\": \"Breakpoint\"}]) + (0.3) × AP] total magic damage)."
+        },
+        {
+          "ability": "Power Chord",
+          "slot": "Passive",
+          "source": "Characters/Sona/Spells/SonaPassiveAbility/SonaPassive",
+          "formula": "Accelerando: Sona gains Accelerando stacks from using her Basic Abilities well. She gains +%i:scaleAH% [0.5] Basic Ability Haste permanently per stack, up to %i:scaleAH% [60] Basic Ability Haste. When she reaches %i:scaleAH% [60] Basic Ability Haste, instead of gaining further stacks her current Ultimate Ability's cooldown is reduced by @Spell.SonaPassive:AccelerandoUltCDR@ seconds.\n\nPower Chord: After using [3] basic Abilities, Sona's next Attack deals an additional [characterLevelBreakpoints(start=20, perLevel=10, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage and may have an additional effect based on the song Sona last activated.\nHymn of Valor: The Attack deals @Spell.SonaQ:TotalStaccatoDamage@ magic damage instead.Aria of Perseverance: The target deals @Spell.SonaW:TotalDiminuendoWeakenPercent@ less damage for @Spell.SonaW:DiminuendoDuration@ seconds.Song of Celerity: The target is Slowed by @Spell.SonaE:TotalTempoMoveSpeedSlow@ for @Spell.SonaE:TempoDuration@ seconds."
+        },
+        {
+          "ability": "Crescendo",
+          "slot": "R",
+          "source": "Characters/Sona/Spells/SonaRAbility/SonaR",
+          "formula": "Sona strikes an irresistible chord, Stunning enemy for [1.5] seconds and dealing [150 / 250 / 350 + (0.5) × AP] magic damage."
+        }
+      ]
+    }
+  ]
+}

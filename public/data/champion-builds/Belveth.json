@@ -1,0 +1,400 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "belveth-four-1",
+      "champion": "Belveth",
+      "name": "Reference: Repeated on-hit",
+      "goal": "Reference for Bel'Veth: establish a repeatable reference",
+      "hypothesis": "An attack-speed scaling melee carry who changes dash direction to stay in contact and cashes takedowns into true form. E creates a defensive finishing window rather than unrestricted movement. Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Bel'Veth: Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: no conventional mana. Do not treat mana regeneration as resource recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Bel'Veth dashes in a chosen direction and damages all enemies she passes through. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Bel'Veth's stated kit question: Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: no conventional mana. Do not treat mana regeneration as resource recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "",
+      "kitEvidence": [
+        {
+          "ability": "Void Surge",
+          "slot": "Q",
+          "source": "Characters/Belveth/Spells/BelvethQAbility/BelvethQ",
+          "formula": "Bel'Veth dashes, dealing [12 / 14 / 16 / 18 / 20 + (1.05) × AD] physical damage to enemies she passes through.\n\nEach direction has an unique Cooldown of @f1@ seconds that scales down based on her Attack Speed."
+        },
+        {
+          "ability": "Endless Banquet",
+          "slot": "R",
+          "source": "Characters/Belveth/Spells/BelvethRAbility/BelvethR",
+          "formula": "Passive: Attacks deal an additional [2 / 4 / 6 + (0.03) × AD[statFormula=2]] true damage, stacking infinitely. Takedowns against champions and epic monsters leave behind a piece of Void Coral.\n\nActive: Bel'Veth consumes a Void Coral, gaining [1] Lavender stack and activating her true form. Void Coral from void epic monsters causes minions that die nearby to become Void Remora. While casting, Bel'Veth Slows nearby enemies before exploding, dealing [150 / 200 / 250 + (1.5) × AP] + [20]% missing-Health true damage.\n\nIn her true form, Bel'Veth gains [100 / 250 / 400 + (1.5) × AD[statFormula=2] + (1.5) × AP] max Health, [25 / 75 / 125] Attack range, [(0.06 / 0.13 / 0.2) × 100]% Total Attack Speed, and Void Surge can pass through walls.\n\nTrue form lasts [45] seconds, increased to [90] seconds at [40] Lavender stacks. At [80] Lavender stacks, true form lasts until death."
+        },
+        {
+          "ability": "Above and Below",
+          "slot": "W",
+          "source": "Characters/Belveth/Spells/BelvethWAbility/BelvethW",
+          "formula": "Bel'Veth slams her tail, dealing [80 / 140 / 200 / 260 / 320 + (1.5) × AP[statFormula=2]] magic damage, Knocking Up foes for [0.6 / 0.7 / 0.8 / 0.9 / 1] seconds, and Slowing them by [30]% for [2] seconds. If a champion is hit, this refreshes the Cooldown of Void Surge in that direction."
+        },
+        {
+          "ability": "Royal Maelstrom",
+          "slot": "E",
+          "source": "Characters/Belveth/Spells/BelvethEAbility/BelvethE",
+          "formula": "Bel'Veth channels and slashes around herself, gaining [(0.2 / 0.3 / 0.4 / 0.5 / 0.6) × 100]% Damage Reduction, [0.2 / 0.25 / 0.3 / 0.35 / 0.4] Life Steal, and Attacking @f2.0@ times over [1.5] seconds with the number of Attacks increasing based on her Attack Speed. Each Attack strikes the lowest-health enemy, dealing [10 / 12 / 14 / 16 / 18 + (0.12) × AD] to [(10 / 12 / 14 / 16 / 18 + (0.12) × AD) × (2)] physical damage based on the target's missing Health.\n\nUsing another Ability or Recasting ends this Ability early."
+        }
+      ]
+    },
+    {
+      "id": "belveth-four-2",
+      "champion": "Belveth",
+      "name": "Damage interaction: Attack-led side lane",
+      "goal": "Damage interaction for Bel'Veth: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "An attack-speed scaling melee carry who changes dash direction to stay in contact and cashes takedowns into true form. E creates a defensive finishing window rather than unrestricted movement. Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "itemIds": [
+        3153,
+        3078,
+        3181,
+        3053,
+        6333,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Bel'Veth: Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS.",
+        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: no conventional mana. Do not treat mana regeneration as resource recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Bel'Veth dashes in a chosen direction and damages all enemies she passes through. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "The route fails Bel'Veth's stated kit question: Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: no conventional mana. Do not treat mana regeneration as resource recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "",
+      "kitEvidence": [
+        {
+          "ability": "Void Surge",
+          "slot": "Q",
+          "source": "Characters/Belveth/Spells/BelvethQAbility/BelvethQ",
+          "formula": "Bel'Veth dashes, dealing [12 / 14 / 16 / 18 / 20 + (1.05) × AD] physical damage to enemies she passes through.\n\nEach direction has an unique Cooldown of @f1@ seconds that scales down based on her Attack Speed."
+        },
+        {
+          "ability": "Endless Banquet",
+          "slot": "R",
+          "source": "Characters/Belveth/Spells/BelvethRAbility/BelvethR",
+          "formula": "Passive: Attacks deal an additional [2 / 4 / 6 + (0.03) × AD[statFormula=2]] true damage, stacking infinitely. Takedowns against champions and epic monsters leave behind a piece of Void Coral.\n\nActive: Bel'Veth consumes a Void Coral, gaining [1] Lavender stack and activating her true form. Void Coral from void epic monsters causes minions that die nearby to become Void Remora. While casting, Bel'Veth Slows nearby enemies before exploding, dealing [150 / 200 / 250 + (1.5) × AP] + [20]% missing-Health true damage.\n\nIn her true form, Bel'Veth gains [100 / 250 / 400 + (1.5) × AD[statFormula=2] + (1.5) × AP] max Health, [25 / 75 / 125] Attack range, [(0.06 / 0.13 / 0.2) × 100]% Total Attack Speed, and Void Surge can pass through walls.\n\nTrue form lasts [45] seconds, increased to [90] seconds at [40] Lavender stacks. At [80] Lavender stacks, true form lasts until death."
+        },
+        {
+          "ability": "Above and Below",
+          "slot": "W",
+          "source": "Characters/Belveth/Spells/BelvethWAbility/BelvethW",
+          "formula": "Bel'Veth slams her tail, dealing [80 / 140 / 200 / 260 / 320 + (1.5) × AP[statFormula=2]] magic damage, Knocking Up foes for [0.6 / 0.7 / 0.8 / 0.9 / 1] seconds, and Slowing them by [30]% for [2] seconds. If a champion is hit, this refreshes the Cooldown of Void Surge in that direction."
+        },
+        {
+          "ability": "Royal Maelstrom",
+          "slot": "E",
+          "source": "Characters/Belveth/Spells/BelvethEAbility/BelvethE",
+          "formula": "Bel'Veth channels and slashes around herself, gaining [(0.2 / 0.3 / 0.4 / 0.5 / 0.6) × 100]% Damage Reduction, [0.2 / 0.25 / 0.3 / 0.35 / 0.4] Life Steal, and Attacking @f2.0@ times over [1.5] seconds with the number of Attacks increasing based on her Attack Speed. Each Attack strikes the lowest-health enemy, dealing [10 / 12 / 14 / 16 / 18 + (0.12) × AD] to [(10 / 12 / 14 / 16 / 18 + (0.12) × AD) × (2)] physical damage based on the target's missing Health.\n\nUsing another Ability or Recasting ends this Ability early."
+        }
+      ]
+    },
+    {
+      "id": "belveth-four-3",
+      "champion": "Belveth",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Bel'Veth: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "An attack-speed scaling melee carry who changes dash direction to stay in contact and cashes takedowns into true form. E creates a defensive finishing window rather than unrestricted movement. Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Bel'Veth: Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: no conventional mana. Do not treat mana regeneration as resource recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Bel'Veth dashes in a chosen direction and damages all enemies she passes through. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Bel'Veth's stated kit question: Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: no conventional mana. Do not treat mana regeneration as resource recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "",
+      "kitEvidence": [
+        {
+          "ability": "Void Surge",
+          "slot": "Q",
+          "source": "Characters/Belveth/Spells/BelvethQAbility/BelvethQ",
+          "formula": "Bel'Veth dashes, dealing [12 / 14 / 16 / 18 / 20 + (1.05) × AD] physical damage to enemies she passes through.\n\nEach direction has an unique Cooldown of @f1@ seconds that scales down based on her Attack Speed."
+        },
+        {
+          "ability": "Endless Banquet",
+          "slot": "R",
+          "source": "Characters/Belveth/Spells/BelvethRAbility/BelvethR",
+          "formula": "Passive: Attacks deal an additional [2 / 4 / 6 + (0.03) × AD[statFormula=2]] true damage, stacking infinitely. Takedowns against champions and epic monsters leave behind a piece of Void Coral.\n\nActive: Bel'Veth consumes a Void Coral, gaining [1] Lavender stack and activating her true form. Void Coral from void epic monsters causes minions that die nearby to become Void Remora. While casting, Bel'Veth Slows nearby enemies before exploding, dealing [150 / 200 / 250 + (1.5) × AP] + [20]% missing-Health true damage.\n\nIn her true form, Bel'Veth gains [100 / 250 / 400 + (1.5) × AD[statFormula=2] + (1.5) × AP] max Health, [25 / 75 / 125] Attack range, [(0.06 / 0.13 / 0.2) × 100]% Total Attack Speed, and Void Surge can pass through walls.\n\nTrue form lasts [45] seconds, increased to [90] seconds at [40] Lavender stacks. At [80] Lavender stacks, true form lasts until death."
+        },
+        {
+          "ability": "Above and Below",
+          "slot": "W",
+          "source": "Characters/Belveth/Spells/BelvethWAbility/BelvethW",
+          "formula": "Bel'Veth slams her tail, dealing [80 / 140 / 200 / 260 / 320 + (1.5) × AP[statFormula=2]] magic damage, Knocking Up foes for [0.6 / 0.7 / 0.8 / 0.9 / 1] seconds, and Slowing them by [30]% for [2] seconds. If a champion is hit, this refreshes the Cooldown of Void Surge in that direction."
+        },
+        {
+          "ability": "Royal Maelstrom",
+          "slot": "E",
+          "source": "Characters/Belveth/Spells/BelvethEAbility/BelvethE",
+          "formula": "Bel'Veth channels and slashes around herself, gaining [(0.2 / 0.3 / 0.4 / 0.5 / 0.6) × 100]% Damage Reduction, [0.2 / 0.25 / 0.3 / 0.35 / 0.4] Life Steal, and Attacking @f2.0@ times over [1.5] seconds with the number of Attacks increasing based on her Attack Speed. Each Attack strikes the lowest-health enemy, dealing [10 / 12 / 14 / 16 / 18 + (0.12) × AD] to [(10 / 12 / 14 / 16 / 18 + (0.12) × AD) × (2)] physical damage based on the target's missing Health.\n\nUsing another Ability or Recasting ends this Ability early."
+        }
+      ]
+    },
+    {
+      "id": "belveth-four-4",
+      "champion": "Belveth",
+      "name": "Experiment: Health to attack damage",
+      "goal": "Experiment for Bel'Veth: test a different playstyle, with lower confidence",
+      "hypothesis": "An attack-speed scaling melee carry who changes dash direction to stay in contact and cashes takedowns into true form. E creates a defensive finishing window rather than unrestricted movement. Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS. Bloodmail converts bonus health to AD while Titanic asks for actual attacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3084,
+        2501,
+        3748,
+        3053,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Bel'Veth: Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS.",
+        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: no conventional mana. Do not treat mana regeneration as resource recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Bel'Veth dashes in a chosen direction and damages all enemies she passes through. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "The route fails Bel'Veth's stated kit question: Fix passive attack-speed stacks and true-form state. Track four-direction dash access and E attacks separately; defensive E is not unrestricted moving DPS.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: no conventional mana. Do not treat mana regeneration as resource recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "",
+      "kitEvidence": [
+        {
+          "ability": "Void Surge",
+          "slot": "Q",
+          "source": "Characters/Belveth/Spells/BelvethQAbility/BelvethQ",
+          "formula": "Bel'Veth dashes, dealing [12 / 14 / 16 / 18 / 20 + (1.05) × AD] physical damage to enemies she passes through.\n\nEach direction has an unique Cooldown of @f1@ seconds that scales down based on her Attack Speed."
+        },
+        {
+          "ability": "Endless Banquet",
+          "slot": "R",
+          "source": "Characters/Belveth/Spells/BelvethRAbility/BelvethR",
+          "formula": "Passive: Attacks deal an additional [2 / 4 / 6 + (0.03) × AD[statFormula=2]] true damage, stacking infinitely. Takedowns against champions and epic monsters leave behind a piece of Void Coral.\n\nActive: Bel'Veth consumes a Void Coral, gaining [1] Lavender stack and activating her true form. Void Coral from void epic monsters causes minions that die nearby to become Void Remora. While casting, Bel'Veth Slows nearby enemies before exploding, dealing [150 / 200 / 250 + (1.5) × AP] + [20]% missing-Health true damage.\n\nIn her true form, Bel'Veth gains [100 / 250 / 400 + (1.5) × AD[statFormula=2] + (1.5) × AP] max Health, [25 / 75 / 125] Attack range, [(0.06 / 0.13 / 0.2) × 100]% Total Attack Speed, and Void Surge can pass through walls.\n\nTrue form lasts [45] seconds, increased to [90] seconds at [40] Lavender stacks. At [80] Lavender stacks, true form lasts until death."
+        },
+        {
+          "ability": "Above and Below",
+          "slot": "W",
+          "source": "Characters/Belveth/Spells/BelvethWAbility/BelvethW",
+          "formula": "Bel'Veth slams her tail, dealing [80 / 140 / 200 / 260 / 320 + (1.5) × AP[statFormula=2]] magic damage, Knocking Up foes for [0.6 / 0.7 / 0.8 / 0.9 / 1] seconds, and Slowing them by [30]% for [2] seconds. If a champion is hit, this refreshes the Cooldown of Void Surge in that direction."
+        },
+        {
+          "ability": "Royal Maelstrom",
+          "slot": "E",
+          "source": "Characters/Belveth/Spells/BelvethEAbility/BelvethE",
+          "formula": "Bel'Veth channels and slashes around herself, gaining [(0.2 / 0.3 / 0.4 / 0.5 / 0.6) × 100]% Damage Reduction, [0.2 / 0.25 / 0.3 / 0.35 / 0.4] Life Steal, and Attacking @f2.0@ times over [1.5] seconds with the number of Attacks increasing based on her Attack Speed. Each Attack strikes the lowest-health enemy, dealing [10 / 12 / 14 / 16 / 18 + (0.12) × AD] to [(10 / 12 / 14 / 16 / 18 + (0.12) × AD) × (2)] physical damage based on the target's missing Health.\n\nUsing another Ability or Recasting ends this Ability early."
+        }
+      ]
+    }
+  ]
+}

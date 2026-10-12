@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "talon-four-1",
+      "champion": "Talon",
+      "name": "Reference: Physical pick",
+      "goal": "Reference for Talon: establish a repeatable reference",
+      "hypothesis": "A roaming physical assassin who crosses terrain, stacks ability wounds and uses an attack to trigger the bleed. Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill. Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Talon: Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Talon stabs the target unit. If they are within melee range, this attack deals critical damage. If they are outside melee range, Talon will leap at his target before stabbing them. Talon refunds some health and cooldown if this ability kills the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Talon's stated kit question: Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Assault",
+          "slot": "R",
+          "source": "Characters/Talon/Spells/TalonRAbility/TalonR",
+          "formula": "Talon disperses a ring of blades that deal [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage, gains [(0.4 / 0.55 / 0.7) × 100]% Move Speed, and becomes Invisible for [2.5] seconds. When the Invisibility ends, the blades return to Talon, dealing [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage again.\n\nIf Talon cancels the Invisibility with an Attack or with {{Spell_TalonQ_Name}}, the blades return to the target instead."
+        },
+        {
+          "ability": "Assassin's Path",
+          "slot": "E",
+          "source": "Characters/Talon/Spells/TalonEAbility/TalonE",
+          "formula": "Talon vaults over the nearest terrain or structure. Talon cannot dash over the same terrain more than once every [160 / 135 / 110 / 85 / 60] seconds."
+        },
+        {
+          "ability": "Blade's End",
+          "slot": "Passive",
+          "source": "Characters/Talon/Spells/TalonPassiveAbility/TalonPassive",
+          "formula": "Talon's Abilities apply a stack to champions and large jungle monsters they damage for [6] seconds (max 3 stacks).\n\nWhen Talon Attacks a target with 3 stacks, he deals an additional [characterLevelInterpolation(80 → 280; raw flags preserved) + (2.1) × AD[statFormula=2]] physical damage over [2] seconds."
+        },
+        {
+          "ability": "Rake",
+          "slot": "W",
+          "source": "Characters/Talon/Spells/TalonWAbility/TalonW",
+          "formula": "Talon tosses a volley of blades, dealing [50 / 60 / 70 / 80 / 90 + (0.4) × AD[statFormula=2]] physical damage. The blades then return to him, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and Slowing by [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% for [1] second."
+        },
+        {
+          "ability": "Noxian Diplomacy",
+          "slot": "Q",
+          "source": "Characters/Talon/Spells/TalonQAbility/TalonQ",
+          "formula": "Talon leaps to a target and deals [65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]] physical damage. If used in melee range, this Ability instead critically strikes for [(65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]) × ((1.5 + (1) × Stat(9)[statFormula=2]))] physical damage.\n\nIf this Ability kills the target, Talon restores [characterLevelInterpolation(9 → 55; raw flags preserved)] Health and refunds [50]% of its Cooldown."
+        }
+      ]
+    },
+    {
+      "id": "talon-four-2",
+      "champion": "Talon",
+      "name": "Damage interaction: Physical spell burst",
+      "goal": "Damage interaction for Talon: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A roaming physical assassin who crosses terrain, stacks ability wounds and uses an attack to trigger the bleed. Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill. High AD and penetration test ability-first trades with a conditional anti-magic slot.",
+      "itemIds": [
+        6692,
+        6698,
+        6694,
+        3814,
+        3156,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Talon: Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill.",
+        "Start with the early core (Eclipse, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: High AD and penetration test ability-first trades with a conditional anti-magic slot. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Talon stabs the target unit. If they are within melee range, this attack deals critical damage. If they are outside melee range, Talon will leap at his target before stabbing them. Talon refunds some health and cooldown if this ability kills the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
+        "The route fails Talon's stated kit question: Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Eclipse, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Serylda's Grudge, Edge of Night, Maw of Malmortius are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Assault",
+          "slot": "R",
+          "source": "Characters/Talon/Spells/TalonRAbility/TalonR",
+          "formula": "Talon disperses a ring of blades that deal [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage, gains [(0.4 / 0.55 / 0.7) × 100]% Move Speed, and becomes Invisible for [2.5] seconds. When the Invisibility ends, the blades return to Talon, dealing [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage again.\n\nIf Talon cancels the Invisibility with an Attack or with {{Spell_TalonQ_Name}}, the blades return to the target instead."
+        },
+        {
+          "ability": "Assassin's Path",
+          "slot": "E",
+          "source": "Characters/Talon/Spells/TalonEAbility/TalonE",
+          "formula": "Talon vaults over the nearest terrain or structure. Talon cannot dash over the same terrain more than once every [160 / 135 / 110 / 85 / 60] seconds."
+        },
+        {
+          "ability": "Blade's End",
+          "slot": "Passive",
+          "source": "Characters/Talon/Spells/TalonPassiveAbility/TalonPassive",
+          "formula": "Talon's Abilities apply a stack to champions and large jungle monsters they damage for [6] seconds (max 3 stacks).\n\nWhen Talon Attacks a target with 3 stacks, he deals an additional [characterLevelInterpolation(80 → 280; raw flags preserved) + (2.1) × AD[statFormula=2]] physical damage over [2] seconds."
+        },
+        {
+          "ability": "Rake",
+          "slot": "W",
+          "source": "Characters/Talon/Spells/TalonWAbility/TalonW",
+          "formula": "Talon tosses a volley of blades, dealing [50 / 60 / 70 / 80 / 90 + (0.4) × AD[statFormula=2]] physical damage. The blades then return to him, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and Slowing by [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% for [1] second."
+        },
+        {
+          "ability": "Noxian Diplomacy",
+          "slot": "Q",
+          "source": "Characters/Talon/Spells/TalonQAbility/TalonQ",
+          "formula": "Talon leaps to a target and deals [65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]] physical damage. If used in melee range, this Ability instead critically strikes for [(65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]) × ((1.5 + (1) × Stat(9)[statFormula=2]))] physical damage.\n\nIf this Ability kills the target, Talon restores [characterLevelInterpolation(9 → 55; raw flags preserved)] Health and refunds [50]% of its Cooldown."
+        }
+      ]
+    },
+    {
+      "id": "talon-four-3",
+      "champion": "Talon",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Talon: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A roaming physical assassin who crosses terrain, stacks ability wounds and uses an attack to trigger the bleed. Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Talon: Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Talon stabs the target unit. If they are within melee range, this attack deals critical damage. If they are outside melee range, Talon will leap at his target before stabbing them. Talon refunds some health and cooldown if this ability kills the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Talon's stated kit question: Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Assault",
+          "slot": "R",
+          "source": "Characters/Talon/Spells/TalonRAbility/TalonR",
+          "formula": "Talon disperses a ring of blades that deal [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage, gains [(0.4 / 0.55 / 0.7) × 100]% Move Speed, and becomes Invisible for [2.5] seconds. When the Invisibility ends, the blades return to Talon, dealing [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage again.\n\nIf Talon cancels the Invisibility with an Attack or with {{Spell_TalonQ_Name}}, the blades return to the target instead."
+        },
+        {
+          "ability": "Assassin's Path",
+          "slot": "E",
+          "source": "Characters/Talon/Spells/TalonEAbility/TalonE",
+          "formula": "Talon vaults over the nearest terrain or structure. Talon cannot dash over the same terrain more than once every [160 / 135 / 110 / 85 / 60] seconds."
+        },
+        {
+          "ability": "Blade's End",
+          "slot": "Passive",
+          "source": "Characters/Talon/Spells/TalonPassiveAbility/TalonPassive",
+          "formula": "Talon's Abilities apply a stack to champions and large jungle monsters they damage for [6] seconds (max 3 stacks).\n\nWhen Talon Attacks a target with 3 stacks, he deals an additional [characterLevelInterpolation(80 → 280; raw flags preserved) + (2.1) × AD[statFormula=2]] physical damage over [2] seconds."
+        },
+        {
+          "ability": "Rake",
+          "slot": "W",
+          "source": "Characters/Talon/Spells/TalonWAbility/TalonW",
+          "formula": "Talon tosses a volley of blades, dealing [50 / 60 / 70 / 80 / 90 + (0.4) × AD[statFormula=2]] physical damage. The blades then return to him, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and Slowing by [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% for [1] second."
+        },
+        {
+          "ability": "Noxian Diplomacy",
+          "slot": "Q",
+          "source": "Characters/Talon/Spells/TalonQAbility/TalonQ",
+          "formula": "Talon leaps to a target and deals [65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]] physical damage. If used in melee range, this Ability instead critically strikes for [(65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]) × ((1.5 + (1) × Stat(9)[statFormula=2]))] physical damage.\n\nIf this Ability kills the target, Talon restores [characterLevelInterpolation(9 → 55; raw flags preserved)] Health and refunds [50]% of its Cooldown."
+        }
+      ]
+    },
+    {
+      "id": "talon-four-4",
+      "champion": "Talon",
+      "name": "Experiment: Contact fighter",
+      "goal": "Experiment for Talon: test a different playstyle, with lower confidence",
+      "hypothesis": "A roaming physical assassin who crosses terrain, stacks ability wounds and uses an attack to trigger the bleed. Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        6631,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Talon: Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill.",
+        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Talon stabs the target unit. If they are within melee range, this attack deals critical damage. If they are outside melee range, Talon will leap at his target before stabbing them. Talon refunds some health and cooldown if this ability kills the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "The route fails Talon's stated kit question: Trigger three ability wounds with a real attack and record wall-route access. Sustained bruiser spending must justify repeated contact rather than assume every roam yields a kill.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Assault",
+          "slot": "R",
+          "source": "Characters/Talon/Spells/TalonRAbility/TalonR",
+          "formula": "Talon disperses a ring of blades that deal [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage, gains [(0.4 / 0.55 / 0.7) × 100]% Move Speed, and becomes Invisible for [2.5] seconds. When the Invisibility ends, the blades return to Talon, dealing [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage again.\n\nIf Talon cancels the Invisibility with an Attack or with {{Spell_TalonQ_Name}}, the blades return to the target instead."
+        },
+        {
+          "ability": "Assassin's Path",
+          "slot": "E",
+          "source": "Characters/Talon/Spells/TalonEAbility/TalonE",
+          "formula": "Talon vaults over the nearest terrain or structure. Talon cannot dash over the same terrain more than once every [160 / 135 / 110 / 85 / 60] seconds."
+        },
+        {
+          "ability": "Blade's End",
+          "slot": "Passive",
+          "source": "Characters/Talon/Spells/TalonPassiveAbility/TalonPassive",
+          "formula": "Talon's Abilities apply a stack to champions and large jungle monsters they damage for [6] seconds (max 3 stacks).\n\nWhen Talon Attacks a target with 3 stacks, he deals an additional [characterLevelInterpolation(80 → 280; raw flags preserved) + (2.1) × AD[statFormula=2]] physical damage over [2] seconds."
+        },
+        {
+          "ability": "Rake",
+          "slot": "W",
+          "source": "Characters/Talon/Spells/TalonWAbility/TalonW",
+          "formula": "Talon tosses a volley of blades, dealing [50 / 60 / 70 / 80 / 90 + (0.4) × AD[statFormula=2]] physical damage. The blades then return to him, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and Slowing by [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% for [1] second."
+        },
+        {
+          "ability": "Noxian Diplomacy",
+          "slot": "Q",
+          "source": "Characters/Talon/Spells/TalonQAbility/TalonQ",
+          "formula": "Talon leaps to a target and deals [65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]] physical damage. If used in melee range, this Ability instead critically strikes for [(65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]) × ((1.5 + (1) × Stat(9)[statFormula=2]))] physical damage.\n\nIf this Ability kills the target, Talon restores [characterLevelInterpolation(9 → 55; raw flags preserved)] Health and refunds [50]% of its Cooldown."
+        }
+      ]
+    }
+  ]
+}

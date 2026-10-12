@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "gnar-four-1",
+      "champion": "Gnar",
+      "name": "Reference: Contact fighter",
+      "goal": "Reference for Gnar: establish a repeatable reference",
+      "hypothesis": "A form-timed fighter who kites through Mini Gnar's three-hit pattern before converting rage into Mega Gnar disruption. Build value changes with the form and timing of the fight. Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "itemIds": [
+        6631,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Gnar: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
+        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Gnar throws a boomerang that damages and slows enemies it hits before returning to him. If he catches the boomerang its cooldown is reduced.\n\nMega Gnar instead throws a boulder that stops on the first unit hit, damaging and slowing everything nearby. It can then be picked up to reduce the cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "The route fails Gnar's stated kit question: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Rage",
+      "kitEvidence": [
+        {
+          "ability": "Hyper / Wallop",
+          "slot": "W",
+          "source": "Characters/Gnar/Spells/GnarWAbility/GnarW",
+          "formula": "Mini Gnar Passive: Every third Attack or Ability on the same enemy deals an additional @spell.GnarW:MiniTotalDamage@ plus @spell.GnarW:MiniPercentHPDamage*100@% max Health magic damage and grants @spell.GnarR:RHyperMovementSpeedPercent@% Move Speed decaying over @spell.GnarW:MiniHasteDuration@ seconds."
+        },
+        {
+          "ability": "GNAR!",
+          "slot": "R",
+          "source": "Characters/Gnar/Spells/GnarRAbility/GnarR",
+          "formula": "Mini Gnar Passive: Increase Hyper's Move Speed.\n\nMega Gnar: Gnar tosses nearby enemies, dealing [200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]] physical damage, Knocking Back, and Slowing them by [45]% for [1.25 / 1.5 / 1.75] seconds. Enemies that hit a wall instead take [(200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]) × ((150) × (0.01))] physical damage and are Stunned."
+        },
+        {
+          "ability": "Boomerang Throw / Boulder Toss",
+          "slot": "Q",
+          "source": "Characters/Gnar/Spells/GnarQAbility/GnarQ",
+          "formula": "Mini Gnar: Gnar throws a boomerang that deals @spell.GnarQ:MiniTotalDamage@ physical damage and Slows by @spell.GnarQ:SlowAmount*100@% for @spell.GnarQ:SlowDuration@ seconds. The boomerang returns after hitting an enemy, dealing reduced damage to subsequent targets. Each enemy can only be hit once. Catching the boomerang reduces its Cooldown by @spell.GnarQ:MiniCDRefund*100@%."
+        },
+        {
+          "ability": "Rage Gene",
+          "slot": "Passive",
+          "source": "Characters/Gnar/Spells/GnarPassiveAbility/GnarPassive",
+          "formula": "Gnar generates Rage by dealing and receiving damage. At max Rage his next Ability transforms him into Mega Gnar for 15 seconds.\n\nMini Gnar: Gain [characterLevelBreakpoints(start=0, perLevel=1, changes=[{\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 2.0, \"__type\": \"Breakpoint\"}])] Move Speed, [characterLevelInterpolation(0.055 → 0.99; raw flags preserved)] Attack Speed, and [characterLevelInterpolation(0 → 100; raw flags preserved)] Attack Range.\n\nMega Gnar: Gain [UNRESOLVED({ee18a47b}; see calculationRaw)] max Health, [characterLevelInterpolation(3.5 → 54.5; raw flags preserved)] Armor, [characterLevelInterpolation(3.5 → 63; raw flags preserved)] Magic Resist, and [characterLevelInterpolation(6 → 48.5; raw flags preserved)] Attack Damage."
+        },
+        {
+          "ability": "Hop / Crunch",
+          "slot": "E",
+          "source": "Characters/Gnar/Spells/GnarEAbility/GnarE",
+          "formula": "Mini Gnar: Gnar leaps, gaining @spell.GnarE:MinibAS*100@% Attack Speed for @spell.GnarE:MiniASDuration@ seconds. If Gnar lands on a unit he will bounce off it, traveling further. Bouncing off an enemy deals @spell.GnarE:MiniTotalDamage@ physical damage and briefly Slows by @spell.GnarE:MoveSpeedMod*-100@%."
+        }
+      ]
+    },
+    {
+      "id": "gnar-four-2",
+      "champion": "Gnar",
+      "name": "Damage interaction: Repeated on-hit",
+      "goal": "Damage interaction for Gnar: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A form-timed fighter who kites through Mini Gnar's three-hit pattern before converting rage into Mega Gnar disruption. Build value changes with the form and timing of the fight. Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Gnar: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Gnar throws a boomerang that damages and slows enemies it hits before returning to him. If he catches the boomerang its cooldown is reduced.\n\nMega Gnar instead throws a boulder that stops on the first unit hit, damaging and slowing everything nearby. It can then be picked up to reduce the cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Gnar's stated kit question: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Rage",
+      "kitEvidence": [
+        {
+          "ability": "Hyper / Wallop",
+          "slot": "W",
+          "source": "Characters/Gnar/Spells/GnarWAbility/GnarW",
+          "formula": "Mini Gnar Passive: Every third Attack or Ability on the same enemy deals an additional @spell.GnarW:MiniTotalDamage@ plus @spell.GnarW:MiniPercentHPDamage*100@% max Health magic damage and grants @spell.GnarR:RHyperMovementSpeedPercent@% Move Speed decaying over @spell.GnarW:MiniHasteDuration@ seconds."
+        },
+        {
+          "ability": "GNAR!",
+          "slot": "R",
+          "source": "Characters/Gnar/Spells/GnarRAbility/GnarR",
+          "formula": "Mini Gnar Passive: Increase Hyper's Move Speed.\n\nMega Gnar: Gnar tosses nearby enemies, dealing [200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]] physical damage, Knocking Back, and Slowing them by [45]% for [1.25 / 1.5 / 1.75] seconds. Enemies that hit a wall instead take [(200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]) × ((150) × (0.01))] physical damage and are Stunned."
+        },
+        {
+          "ability": "Boomerang Throw / Boulder Toss",
+          "slot": "Q",
+          "source": "Characters/Gnar/Spells/GnarQAbility/GnarQ",
+          "formula": "Mini Gnar: Gnar throws a boomerang that deals @spell.GnarQ:MiniTotalDamage@ physical damage and Slows by @spell.GnarQ:SlowAmount*100@% for @spell.GnarQ:SlowDuration@ seconds. The boomerang returns after hitting an enemy, dealing reduced damage to subsequent targets. Each enemy can only be hit once. Catching the boomerang reduces its Cooldown by @spell.GnarQ:MiniCDRefund*100@%."
+        },
+        {
+          "ability": "Rage Gene",
+          "slot": "Passive",
+          "source": "Characters/Gnar/Spells/GnarPassiveAbility/GnarPassive",
+          "formula": "Gnar generates Rage by dealing and receiving damage. At max Rage his next Ability transforms him into Mega Gnar for 15 seconds.\n\nMini Gnar: Gain [characterLevelBreakpoints(start=0, perLevel=1, changes=[{\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 2.0, \"__type\": \"Breakpoint\"}])] Move Speed, [characterLevelInterpolation(0.055 → 0.99; raw flags preserved)] Attack Speed, and [characterLevelInterpolation(0 → 100; raw flags preserved)] Attack Range.\n\nMega Gnar: Gain [UNRESOLVED({ee18a47b}; see calculationRaw)] max Health, [characterLevelInterpolation(3.5 → 54.5; raw flags preserved)] Armor, [characterLevelInterpolation(3.5 → 63; raw flags preserved)] Magic Resist, and [characterLevelInterpolation(6 → 48.5; raw flags preserved)] Attack Damage."
+        },
+        {
+          "ability": "Hop / Crunch",
+          "slot": "E",
+          "source": "Characters/Gnar/Spells/GnarEAbility/GnarE",
+          "formula": "Mini Gnar: Gnar leaps, gaining @spell.GnarE:MinibAS*100@% Attack Speed for @spell.GnarE:MiniASDuration@ seconds. If Gnar lands on a unit he will bounce off it, traveling further. Bouncing off an enemy deals @spell.GnarE:MiniTotalDamage@ physical damage and briefly Slows by @spell.GnarE:MoveSpeedMod*-100@%."
+        }
+      ]
+    },
+    {
+      "id": "gnar-four-3",
+      "champion": "Gnar",
+      "name": "Situational adaptation: Magic matchup",
+      "goal": "Situational adaptation for Gnar: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A form-timed fighter who kites through Mini Gnar's three-hit pattern before converting rage into Mega Gnar disruption. Build value changes with the form and timing of the fight. Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately. MR and nearby magic amplification test durable contact against magic pressure.",
+      "itemIds": [
+        3084,
+        6664,
+        8020,
+        3065,
+        6665,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Gnar: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
+        "Start with the early core (Hollow Radiance or other MR first when justified) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: MR and nearby magic amplification test durable contact against magic pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Gnar throws a boomerang that damages and slows enemies it hits before returning to him. If he catches the boomerang its cooldown is reduced.\n\nMega Gnar instead throws a boulder that stops on the first unit hit, damaging and slowing everything nearby. It can then be picked up to reduce the cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
+        "The route fails Gnar's stated kit question: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
+        "Full cost 15,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Hollow Radiance or other MR first when justified. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Abyssal Mask, Spirit Visage, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Rage",
+      "kitEvidence": [
+        {
+          "ability": "Hyper / Wallop",
+          "slot": "W",
+          "source": "Characters/Gnar/Spells/GnarWAbility/GnarW",
+          "formula": "Mini Gnar Passive: Every third Attack or Ability on the same enemy deals an additional @spell.GnarW:MiniTotalDamage@ plus @spell.GnarW:MiniPercentHPDamage*100@% max Health magic damage and grants @spell.GnarR:RHyperMovementSpeedPercent@% Move Speed decaying over @spell.GnarW:MiniHasteDuration@ seconds."
+        },
+        {
+          "ability": "GNAR!",
+          "slot": "R",
+          "source": "Characters/Gnar/Spells/GnarRAbility/GnarR",
+          "formula": "Mini Gnar Passive: Increase Hyper's Move Speed.\n\nMega Gnar: Gnar tosses nearby enemies, dealing [200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]] physical damage, Knocking Back, and Slowing them by [45]% for [1.25 / 1.5 / 1.75] seconds. Enemies that hit a wall instead take [(200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]) × ((150) × (0.01))] physical damage and are Stunned."
+        },
+        {
+          "ability": "Boomerang Throw / Boulder Toss",
+          "slot": "Q",
+          "source": "Characters/Gnar/Spells/GnarQAbility/GnarQ",
+          "formula": "Mini Gnar: Gnar throws a boomerang that deals @spell.GnarQ:MiniTotalDamage@ physical damage and Slows by @spell.GnarQ:SlowAmount*100@% for @spell.GnarQ:SlowDuration@ seconds. The boomerang returns after hitting an enemy, dealing reduced damage to subsequent targets. Each enemy can only be hit once. Catching the boomerang reduces its Cooldown by @spell.GnarQ:MiniCDRefund*100@%."
+        },
+        {
+          "ability": "Rage Gene",
+          "slot": "Passive",
+          "source": "Characters/Gnar/Spells/GnarPassiveAbility/GnarPassive",
+          "formula": "Gnar generates Rage by dealing and receiving damage. At max Rage his next Ability transforms him into Mega Gnar for 15 seconds.\n\nMini Gnar: Gain [characterLevelBreakpoints(start=0, perLevel=1, changes=[{\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 2.0, \"__type\": \"Breakpoint\"}])] Move Speed, [characterLevelInterpolation(0.055 → 0.99; raw flags preserved)] Attack Speed, and [characterLevelInterpolation(0 → 100; raw flags preserved)] Attack Range.\n\nMega Gnar: Gain [UNRESOLVED({ee18a47b}; see calculationRaw)] max Health, [characterLevelInterpolation(3.5 → 54.5; raw flags preserved)] Armor, [characterLevelInterpolation(3.5 → 63; raw flags preserved)] Magic Resist, and [characterLevelInterpolation(6 → 48.5; raw flags preserved)] Attack Damage."
+        },
+        {
+          "ability": "Hop / Crunch",
+          "slot": "E",
+          "source": "Characters/Gnar/Spells/GnarEAbility/GnarE",
+          "formula": "Mini Gnar: Gnar leaps, gaining @spell.GnarE:MinibAS*100@% Attack Speed for @spell.GnarE:MiniASDuration@ seconds. If Gnar lands on a unit he will bounce off it, traveling further. Bouncing off an enemy deals @spell.GnarE:MiniTotalDamage@ physical damage and briefly Slows by @spell.GnarE:MoveSpeedMod*-100@%."
+        }
+      ]
+    },
+    {
+      "id": "gnar-four-4",
+      "champion": "Gnar",
+      "name": "Experiment: Health to attack damage",
+      "goal": "Experiment for Gnar: test a different playstyle, with lower confidence",
+      "hypothesis": "A form-timed fighter who kites through Mini Gnar's three-hit pattern before converting rage into Mega Gnar disruption. Build value changes with the form and timing of the fight. Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately. Bloodmail converts bonus health to AD while Titanic asks for actual attacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3084,
+        2501,
+        3748,
+        3053,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Gnar: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
+        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Gnar throws a boomerang that damages and slows enemies it hits before returning to him. If he catches the boomerang its cooldown is reduced.\n\nMega Gnar instead throws a boulder that stops on the first unit hit, damaging and slowing everything nearby. It can then be picked up to reduce the cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "The route fails Gnar's stated kit question: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Rage",
+      "kitEvidence": [
+        {
+          "ability": "Hyper / Wallop",
+          "slot": "W",
+          "source": "Characters/Gnar/Spells/GnarWAbility/GnarW",
+          "formula": "Mini Gnar Passive: Every third Attack or Ability on the same enemy deals an additional @spell.GnarW:MiniTotalDamage@ plus @spell.GnarW:MiniPercentHPDamage*100@% max Health magic damage and grants @spell.GnarR:RHyperMovementSpeedPercent@% Move Speed decaying over @spell.GnarW:MiniHasteDuration@ seconds."
+        },
+        {
+          "ability": "GNAR!",
+          "slot": "R",
+          "source": "Characters/Gnar/Spells/GnarRAbility/GnarR",
+          "formula": "Mini Gnar Passive: Increase Hyper's Move Speed.\n\nMega Gnar: Gnar tosses nearby enemies, dealing [200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]] physical damage, Knocking Back, and Slowing them by [45]% for [1.25 / 1.5 / 1.75] seconds. Enemies that hit a wall instead take [(200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]) × ((150) × (0.01))] physical damage and are Stunned."
+        },
+        {
+          "ability": "Boomerang Throw / Boulder Toss",
+          "slot": "Q",
+          "source": "Characters/Gnar/Spells/GnarQAbility/GnarQ",
+          "formula": "Mini Gnar: Gnar throws a boomerang that deals @spell.GnarQ:MiniTotalDamage@ physical damage and Slows by @spell.GnarQ:SlowAmount*100@% for @spell.GnarQ:SlowDuration@ seconds. The boomerang returns after hitting an enemy, dealing reduced damage to subsequent targets. Each enemy can only be hit once. Catching the boomerang reduces its Cooldown by @spell.GnarQ:MiniCDRefund*100@%."
+        },
+        {
+          "ability": "Rage Gene",
+          "slot": "Passive",
+          "source": "Characters/Gnar/Spells/GnarPassiveAbility/GnarPassive",
+          "formula": "Gnar generates Rage by dealing and receiving damage. At max Rage his next Ability transforms him into Mega Gnar for 15 seconds.\n\nMini Gnar: Gain [characterLevelBreakpoints(start=0, perLevel=1, changes=[{\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 2.0, \"__type\": \"Breakpoint\"}])] Move Speed, [characterLevelInterpolation(0.055 → 0.99; raw flags preserved)] Attack Speed, and [characterLevelInterpolation(0 → 100; raw flags preserved)] Attack Range.\n\nMega Gnar: Gain [UNRESOLVED({ee18a47b}; see calculationRaw)] max Health, [characterLevelInterpolation(3.5 → 54.5; raw flags preserved)] Armor, [characterLevelInterpolation(3.5 → 63; raw flags preserved)] Magic Resist, and [characterLevelInterpolation(6 → 48.5; raw flags preserved)] Attack Damage."
+        },
+        {
+          "ability": "Hop / Crunch",
+          "slot": "E",
+          "source": "Characters/Gnar/Spells/GnarEAbility/GnarE",
+          "formula": "Mini Gnar: Gnar leaps, gaining @spell.GnarE:MinibAS*100@% Attack Speed for @spell.GnarE:MiniASDuration@ seconds. If Gnar lands on a unit he will bounce off it, traveling further. Bouncing off an enemy deals @spell.GnarE:MiniTotalDamage@ physical damage and briefly Slows by @spell.GnarE:MoveSpeedMod*-100@%."
+        }
+      ]
+    }
+  ]
+}

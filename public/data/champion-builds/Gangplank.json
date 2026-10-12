@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "gangplank-four-1",
+      "champion": "Gangplank",
+      "name": "Reference: Crit spell weave",
+      "goal": "Reference for Gangplank: establish a repeatable reference",
+      "hypothesis": "A setup-heavy fighter who threatens chained keg zones, uses a global bombardment to influence fights and cleanses retaliation. Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules. Crit and attacks between compatible spells test cooldown recycling and mana-supported trading.",
+      "itemIds": [
+        3508,
+        3031,
+        6675,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Gangplank: Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules.",
+        "Start with the early core (Essence Reaver, then crit according to the interaction) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit and attacks between compatible spells test cooldown recycling and mana-supported trading. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Shoots target, plundering Gold for each enemy unit killed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Navori requires real attacks and compatible cooldowns; do not grant its benefit to every cast.",
+        "The route fails Gangplank's stated kit question: Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Navori requires real attacks and compatible cooldowns; do not grant its benefit to every cast.",
+        "Full cost 17,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Essence Reaver, then crit according to the interaction. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Navori Flickerblade, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Cannon Barrage",
+          "slot": "R",
+          "source": "Characters/Gangplank/Spells/GangplankRAbility/GangplankR",
+          "formula": "Gangplank signals his ship to fire [12] waves of cannonballs anywhere on the map over [8] seconds. Each wave Slows by [30]% for [0.5] seconds and deals [40 / 70 / 100 + (0.1) × AP] magic damage. Maximum damage: [(40 / 70 / 100 + (0.1) × AP) × (12)]\n\nThis Ability can be upgraded in the shop via {{Spell_GangplankQWrapper_Name}}.\n\nFire at Will: Fires 6 additional waves of cannonballs.\nDeath's Daughter: Fires a Mega-Cannonball that deals [120 / 210 / 300 + (0.3) × AP] true damage and Slows by [75]% for [1] second.\nRaise Morale: Allies inside Cannon Barrage gain [40]% Move Speed for [2] seconds."
+        },
+        {
+          "ability": "Parrrley",
+          "slot": "Q",
+          "source": "Characters/Gangplank/Spells/GangplankQWrapperAbility/GangplankQWrapper",
+          "formula": "{{Spell_GangplankQWrapper_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Powder Keg",
+          "slot": "E",
+          "source": "Characters/Gangplank/Spells/GangplankEAbility/GangplankE",
+          "formula": "Gangplank places a powder keg that can be attacked by Gangplank and enemy champions for [25] seconds. When an enemy destroys it, the keg is defused. When Gangplank destroys it, it explodes, Slowing by [40 / 50 / 60 / 70 / 80]% for [2] seconds and dealing the Attack's damage, ignoring [40]% Armor. Champions take an additional [75 / 95 / 115 / 135 / 155] physical damage.\n\nKeg health decays every [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}])] seconds. Keg explosions detonate other kegs with overlapping blast zones, but don't deal damage to the same target more than once. Keg explosions triggered by {{Spell_GangplankQWrapper_Name}} will grant the bonus gold for targets killed."
+        },
+        {
+          "ability": "Remove Scurvy",
+          "slot": "W",
+          "source": "Characters/Gangplank/Spells/GangplankWAbility/GangplankW",
+          "formula": "Gangplank consumes a large amount of citrus fruit, removing all Disabling effects and restoring [45 / 70 / 95 / 120 / 145 + (0.9) × AP] plus [13]% missing Health."
+        },
+        {
+          "ability": "Trial by Fire",
+          "slot": "Passive",
+          "source": "Characters/Gangplank/Spells/GangplankPassiveAbility/GangplankPassive",
+          "formula": "Gangplank's melee Attacks ignite the target, dealing an additional [characterLevelInterpolation(50 → 250; raw flags preserved) + (1) × AD[statFormula=2]] true damage over [2.5] seconds and granting Gangplank [characterLevelInterpolation(0.15 → 0.3; raw flags preserved)] Move Speed for [2] seconds.\n\nDestroying a Powder Keg refreshes this Cooldown and grants Gangplank the same Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "gangplank-four-2",
+      "champion": "Gangplank",
+      "name": "Damage interaction: Crit opening experiment",
+      "goal": "Damage interaction for Gangplank: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A setup-heavy fighter who threatens chained keg zones, uses a global bombardment to influence fights and cleanses retaliation. Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules. Crit, AD and an opening attack window test burst from compatible empowered attacks.",
+      "itemIds": [
+        6676,
+        3031,
+        3508,
+        3036,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Gangplank: Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules.",
+        "Start with the early core (Collector or Essence Reaver, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit, AD and an opening attack window test burst from compatible empowered attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Shoots target, plundering Gold for each enemy unit killed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
+        "The route fails Gangplank's stated kit question: Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
+        "Full cost 17,150 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Collector or Essence Reaver, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Essence Reaver, Lord Dominik's Regards, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Cannon Barrage",
+          "slot": "R",
+          "source": "Characters/Gangplank/Spells/GangplankRAbility/GangplankR",
+          "formula": "Gangplank signals his ship to fire [12] waves of cannonballs anywhere on the map over [8] seconds. Each wave Slows by [30]% for [0.5] seconds and deals [40 / 70 / 100 + (0.1) × AP] magic damage. Maximum damage: [(40 / 70 / 100 + (0.1) × AP) × (12)]\n\nThis Ability can be upgraded in the shop via {{Spell_GangplankQWrapper_Name}}.\n\nFire at Will: Fires 6 additional waves of cannonballs.\nDeath's Daughter: Fires a Mega-Cannonball that deals [120 / 210 / 300 + (0.3) × AP] true damage and Slows by [75]% for [1] second.\nRaise Morale: Allies inside Cannon Barrage gain [40]% Move Speed for [2] seconds."
+        },
+        {
+          "ability": "Parrrley",
+          "slot": "Q",
+          "source": "Characters/Gangplank/Spells/GangplankQWrapperAbility/GangplankQWrapper",
+          "formula": "{{Spell_GangplankQWrapper_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Powder Keg",
+          "slot": "E",
+          "source": "Characters/Gangplank/Spells/GangplankEAbility/GangplankE",
+          "formula": "Gangplank places a powder keg that can be attacked by Gangplank and enemy champions for [25] seconds. When an enemy destroys it, the keg is defused. When Gangplank destroys it, it explodes, Slowing by [40 / 50 / 60 / 70 / 80]% for [2] seconds and dealing the Attack's damage, ignoring [40]% Armor. Champions take an additional [75 / 95 / 115 / 135 / 155] physical damage.\n\nKeg health decays every [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}])] seconds. Keg explosions detonate other kegs with overlapping blast zones, but don't deal damage to the same target more than once. Keg explosions triggered by {{Spell_GangplankQWrapper_Name}} will grant the bonus gold for targets killed."
+        },
+        {
+          "ability": "Remove Scurvy",
+          "slot": "W",
+          "source": "Characters/Gangplank/Spells/GangplankWAbility/GangplankW",
+          "formula": "Gangplank consumes a large amount of citrus fruit, removing all Disabling effects and restoring [45 / 70 / 95 / 120 / 145 + (0.9) × AP] plus [13]% missing Health."
+        },
+        {
+          "ability": "Trial by Fire",
+          "slot": "Passive",
+          "source": "Characters/Gangplank/Spells/GangplankPassiveAbility/GangplankPassive",
+          "formula": "Gangplank's melee Attacks ignite the target, dealing an additional [characterLevelInterpolation(50 → 250; raw flags preserved) + (1) × AD[statFormula=2]] true damage over [2.5] seconds and granting Gangplank [characterLevelInterpolation(0.15 → 0.3; raw flags preserved)] Move Speed for [2] seconds.\n\nDestroying a Powder Keg refreshes this Cooldown and grants Gangplank the same Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "gangplank-four-3",
+      "champion": "Gangplank",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Gangplank: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A setup-heavy fighter who threatens chained keg zones, uses a global bombardment to influence fights and cleanses retaliation. Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Gangplank: Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Shoots target, plundering Gold for each enemy unit killed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Gangplank's stated kit question: Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Cannon Barrage",
+          "slot": "R",
+          "source": "Characters/Gangplank/Spells/GangplankRAbility/GangplankR",
+          "formula": "Gangplank signals his ship to fire [12] waves of cannonballs anywhere on the map over [8] seconds. Each wave Slows by [30]% for [0.5] seconds and deals [40 / 70 / 100 + (0.1) × AP] magic damage. Maximum damage: [(40 / 70 / 100 + (0.1) × AP) × (12)]\n\nThis Ability can be upgraded in the shop via {{Spell_GangplankQWrapper_Name}}.\n\nFire at Will: Fires 6 additional waves of cannonballs.\nDeath's Daughter: Fires a Mega-Cannonball that deals [120 / 210 / 300 + (0.3) × AP] true damage and Slows by [75]% for [1] second.\nRaise Morale: Allies inside Cannon Barrage gain [40]% Move Speed for [2] seconds."
+        },
+        {
+          "ability": "Parrrley",
+          "slot": "Q",
+          "source": "Characters/Gangplank/Spells/GangplankQWrapperAbility/GangplankQWrapper",
+          "formula": "{{Spell_GangplankQWrapper_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Powder Keg",
+          "slot": "E",
+          "source": "Characters/Gangplank/Spells/GangplankEAbility/GangplankE",
+          "formula": "Gangplank places a powder keg that can be attacked by Gangplank and enemy champions for [25] seconds. When an enemy destroys it, the keg is defused. When Gangplank destroys it, it explodes, Slowing by [40 / 50 / 60 / 70 / 80]% for [2] seconds and dealing the Attack's damage, ignoring [40]% Armor. Champions take an additional [75 / 95 / 115 / 135 / 155] physical damage.\n\nKeg health decays every [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}])] seconds. Keg explosions detonate other kegs with overlapping blast zones, but don't deal damage to the same target more than once. Keg explosions triggered by {{Spell_GangplankQWrapper_Name}} will grant the bonus gold for targets killed."
+        },
+        {
+          "ability": "Remove Scurvy",
+          "slot": "W",
+          "source": "Characters/Gangplank/Spells/GangplankWAbility/GangplankW",
+          "formula": "Gangplank consumes a large amount of citrus fruit, removing all Disabling effects and restoring [45 / 70 / 95 / 120 / 145 + (0.9) × AP] plus [13]% missing Health."
+        },
+        {
+          "ability": "Trial by Fire",
+          "slot": "Passive",
+          "source": "Characters/Gangplank/Spells/GangplankPassiveAbility/GangplankPassive",
+          "formula": "Gangplank's melee Attacks ignite the target, dealing an additional [characterLevelInterpolation(50 → 250; raw flags preserved) + (1) × AD[statFormula=2]] true damage over [2.5] seconds and granting Gangplank [characterLevelInterpolation(0.15 → 0.3; raw flags preserved)] Move Speed for [2] seconds.\n\nDestroying a Powder Keg refreshes this Cooldown and grants Gangplank the same Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "gangplank-four-4",
+      "champion": "Gangplank",
+      "name": "Experiment: Physical pick",
+      "goal": "Experiment for Gangplank: test a different playstyle, with lower confidence",
+      "hypothesis": "A setup-heavy fighter who threatens chained keg zones, uses a global bombardment to influence fights and cleanses retaliation. Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Gangplank: Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Shoots target, plundering Gold for each enemy unit killed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Gangplank's stated kit question: Test real keg chains, target armor and crit outcomes. Do not assume every barrel crits; passive fire, Q and barrels have different damage/trigger rules.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Cannon Barrage",
+          "slot": "R",
+          "source": "Characters/Gangplank/Spells/GangplankRAbility/GangplankR",
+          "formula": "Gangplank signals his ship to fire [12] waves of cannonballs anywhere on the map over [8] seconds. Each wave Slows by [30]% for [0.5] seconds and deals [40 / 70 / 100 + (0.1) × AP] magic damage. Maximum damage: [(40 / 70 / 100 + (0.1) × AP) × (12)]\n\nThis Ability can be upgraded in the shop via {{Spell_GangplankQWrapper_Name}}.\n\nFire at Will: Fires 6 additional waves of cannonballs.\nDeath's Daughter: Fires a Mega-Cannonball that deals [120 / 210 / 300 + (0.3) × AP] true damage and Slows by [75]% for [1] second.\nRaise Morale: Allies inside Cannon Barrage gain [40]% Move Speed for [2] seconds."
+        },
+        {
+          "ability": "Parrrley",
+          "slot": "Q",
+          "source": "Characters/Gangplank/Spells/GangplankQWrapperAbility/GangplankQWrapper",
+          "formula": "{{Spell_GangplankQWrapper_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Powder Keg",
+          "slot": "E",
+          "source": "Characters/Gangplank/Spells/GangplankEAbility/GangplankE",
+          "formula": "Gangplank places a powder keg that can be attacked by Gangplank and enemy champions for [25] seconds. When an enemy destroys it, the keg is defused. When Gangplank destroys it, it explodes, Slowing by [40 / 50 / 60 / 70 / 80]% for [2] seconds and dealing the Attack's damage, ignoring [40]% Armor. Champions take an additional [75 / 95 / 115 / 135 / 155] physical damage.\n\nKeg health decays every [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}])] seconds. Keg explosions detonate other kegs with overlapping blast zones, but don't deal damage to the same target more than once. Keg explosions triggered by {{Spell_GangplankQWrapper_Name}} will grant the bonus gold for targets killed."
+        },
+        {
+          "ability": "Remove Scurvy",
+          "slot": "W",
+          "source": "Characters/Gangplank/Spells/GangplankWAbility/GangplankW",
+          "formula": "Gangplank consumes a large amount of citrus fruit, removing all Disabling effects and restoring [45 / 70 / 95 / 120 / 145 + (0.9) × AP] plus [13]% missing Health."
+        },
+        {
+          "ability": "Trial by Fire",
+          "slot": "Passive",
+          "source": "Characters/Gangplank/Spells/GangplankPassiveAbility/GangplankPassive",
+          "formula": "Gangplank's melee Attacks ignite the target, dealing an additional [characterLevelInterpolation(50 → 250; raw flags preserved) + (1) × AD[statFormula=2]] true damage over [2.5] seconds and granting Gangplank [characterLevelInterpolation(0.15 → 0.3; raw flags preserved)] Move Speed for [2] seconds.\n\nDestroying a Powder Keg refreshes this Cooldown and grants Gangplank the same Move Speed."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "graves-four-1",
+      "champion": "Graves",
+      "name": "Reference: Long-range finish",
+      "goal": "Reference for Graves: establish a repeatable reference",
+      "hypothesis": "A short-range physical skirmisher who uses terrain for Q detonation, reload-aware attacks and repeated dashes to maintain defenses. Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker. Crit and a Rapid Firecannon attack window test safer pick damage.",
+      "itemIds": [
+        6676,
+        3031,
+        3094,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Graves: Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker.",
+        "Start with the early core (Collector, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Crit and a Rapid Firecannon attack window test safer pick damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Graves fires an explosive shell that detonates after 1 second, or after colliding with terrain. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "RFC does not extend every ability; its charged attack must actually be consumed.",
+        "The route fails Graves's stated kit question: Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "RFC does not extend every ability; its charged attack must actually be consumed.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Collector, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rapid Firecannon, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Collateral Damage",
+          "slot": "R",
+          "source": "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot",
+          "formula": "Graves fires an explosive cartridge, blasting himself backwards. The cartridge deals [275 / 425 / 575 + (1.5) × AD[statFormula=2]] physical damage to the first enemy hit. After hitting an enemy champion or reaching the end of its range, the cartridge explodes outward, dealing [200 / 320 / 440 + (1.2) × AD[statFormula=2]] physical damage."
+        },
+        {
+          "ability": "End of the Line",
+          "slot": "Q",
+          "source": "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+          "formula": "Graves fires a powder round dealing [50 / 75 / 100 / 125 / 150 + (0.55) × AD[statFormula=2]] physical damage. After 1 second or after colliding with terrain, it detonates, dealing [80 / 125 / 170 / 215 / 260 + (0.45 / 0.6 / 0.75 / 0.9 / 1.05) × AD[statFormula=2]] physical damage along the travel path again and to enemies near the blast."
+        },
+        {
+          "ability": "Smoke Screen",
+          "slot": "W",
+          "source": "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+          "formula": "Graves creates a cloud of black smoke for 4 seconds, Slowing enemies inside by [50]% and blocking their vision outside the area. The initial impact deals [60 / 110 / 160 / 210 / 260 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "New Destiny",
+          "slot": "Passive",
+          "source": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+          "formula": "Graves' Attacks have unique properties:\nIt can only fire two Shells before he must reload. Attack Speed reduces reload time slightly, but reduces time between shots dramatically.Each Attack fires 4 bullets. The first bullet on a target deals [(characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD] physical damage, and subsequent bullets deal [((characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD) × (0.333)] each. Instead of normal Critical effects, Critical strikes fire 6 bullets and deal [(0.5) × ((-1 + (1) × Stat(9)))] more damage. Structures take [25]% reduced damage.Bullets stop on the first unit hit. Non-champions struck by multiple bullets are Knocked Back."
+        },
+        {
+          "ability": "Quickdraw",
+          "slot": "E",
+          "source": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+          "formula": "Graves dashes and reloads one Shell into his shotgun. He also gains a stack for [4] seconds (max [8] stacks) or two stacks if he dashes towards an enemy champion. Stacks grant him [7 / 10 / 13 / 16 / 19] Armor and [(7 / 10 / 13 / 16 / 19) × (0.5)] Magic Resist. Stacks are refreshed when damaging a non-minion.\n\nEach bullet hit from Graves' Attacks reduces this Ability's Cooldown by [0.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "graves-four-2",
+      "champion": "Graves",
+      "name": "Damage interaction: Physical pick",
+      "goal": "Damage interaction for Graves: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A short-range physical skirmisher who uses terrain for Q detonation, reload-aware attacks and repeated dashes to maintain defenses. Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker. Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Graves: Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Graves fires an explosive shell that detonates after 1 second, or after colliding with terrain. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Graves's stated kit question: Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Collateral Damage",
+          "slot": "R",
+          "source": "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot",
+          "formula": "Graves fires an explosive cartridge, blasting himself backwards. The cartridge deals [275 / 425 / 575 + (1.5) × AD[statFormula=2]] physical damage to the first enemy hit. After hitting an enemy champion or reaching the end of its range, the cartridge explodes outward, dealing [200 / 320 / 440 + (1.2) × AD[statFormula=2]] physical damage."
+        },
+        {
+          "ability": "End of the Line",
+          "slot": "Q",
+          "source": "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+          "formula": "Graves fires a powder round dealing [50 / 75 / 100 / 125 / 150 + (0.55) × AD[statFormula=2]] physical damage. After 1 second or after colliding with terrain, it detonates, dealing [80 / 125 / 170 / 215 / 260 + (0.45 / 0.6 / 0.75 / 0.9 / 1.05) × AD[statFormula=2]] physical damage along the travel path again and to enemies near the blast."
+        },
+        {
+          "ability": "Smoke Screen",
+          "slot": "W",
+          "source": "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+          "formula": "Graves creates a cloud of black smoke for 4 seconds, Slowing enemies inside by [50]% and blocking their vision outside the area. The initial impact deals [60 / 110 / 160 / 210 / 260 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "New Destiny",
+          "slot": "Passive",
+          "source": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+          "formula": "Graves' Attacks have unique properties:\nIt can only fire two Shells before he must reload. Attack Speed reduces reload time slightly, but reduces time between shots dramatically.Each Attack fires 4 bullets. The first bullet on a target deals [(characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD] physical damage, and subsequent bullets deal [((characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD) × (0.333)] each. Instead of normal Critical effects, Critical strikes fire 6 bullets and deal [(0.5) × ((-1 + (1) × Stat(9)))] more damage. Structures take [25]% reduced damage.Bullets stop on the first unit hit. Non-champions struck by multiple bullets are Knocked Back."
+        },
+        {
+          "ability": "Quickdraw",
+          "slot": "E",
+          "source": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+          "formula": "Graves dashes and reloads one Shell into his shotgun. He also gains a stack for [4] seconds (max [8] stacks) or two stacks if he dashes towards an enemy champion. Stacks grant him [7 / 10 / 13 / 16 / 19] Armor and [(7 / 10 / 13 / 16 / 19) × (0.5)] Magic Resist. Stacks are refreshed when damaging a non-minion.\n\nEach bullet hit from Graves' Attacks reduces this Ability's Cooldown by [0.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "graves-four-3",
+      "champion": "Graves",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Graves: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A short-range physical skirmisher who uses terrain for Q detonation, reload-aware attacks and repeated dashes to maintain defenses. Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Graves: Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Graves fires an explosive shell that detonates after 1 second, or after colliding with terrain. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Graves's stated kit question: Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Collateral Damage",
+          "slot": "R",
+          "source": "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot",
+          "formula": "Graves fires an explosive cartridge, blasting himself backwards. The cartridge deals [275 / 425 / 575 + (1.5) × AD[statFormula=2]] physical damage to the first enemy hit. After hitting an enemy champion or reaching the end of its range, the cartridge explodes outward, dealing [200 / 320 / 440 + (1.2) × AD[statFormula=2]] physical damage."
+        },
+        {
+          "ability": "End of the Line",
+          "slot": "Q",
+          "source": "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+          "formula": "Graves fires a powder round dealing [50 / 75 / 100 / 125 / 150 + (0.55) × AD[statFormula=2]] physical damage. After 1 second or after colliding with terrain, it detonates, dealing [80 / 125 / 170 / 215 / 260 + (0.45 / 0.6 / 0.75 / 0.9 / 1.05) × AD[statFormula=2]] physical damage along the travel path again and to enemies near the blast."
+        },
+        {
+          "ability": "Smoke Screen",
+          "slot": "W",
+          "source": "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+          "formula": "Graves creates a cloud of black smoke for 4 seconds, Slowing enemies inside by [50]% and blocking their vision outside the area. The initial impact deals [60 / 110 / 160 / 210 / 260 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "New Destiny",
+          "slot": "Passive",
+          "source": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+          "formula": "Graves' Attacks have unique properties:\nIt can only fire two Shells before he must reload. Attack Speed reduces reload time slightly, but reduces time between shots dramatically.Each Attack fires 4 bullets. The first bullet on a target deals [(characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD] physical damage, and subsequent bullets deal [((characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD) × (0.333)] each. Instead of normal Critical effects, Critical strikes fire 6 bullets and deal [(0.5) × ((-1 + (1) × Stat(9)))] more damage. Structures take [25]% reduced damage.Bullets stop on the first unit hit. Non-champions struck by multiple bullets are Knocked Back."
+        },
+        {
+          "ability": "Quickdraw",
+          "slot": "E",
+          "source": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+          "formula": "Graves dashes and reloads one Shell into his shotgun. He also gains a stack for [4] seconds (max [8] stacks) or two stacks if he dashes towards an enemy champion. Stacks grant him [7 / 10 / 13 / 16 / 19] Armor and [(7 / 10 / 13 / 16 / 19) × (0.5)] Magic Resist. Stacks are refreshed when damaging a non-minion.\n\nEach bullet hit from Graves' Attacks reduces this Ability's Cooldown by [0.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "graves-four-4",
+      "champion": "Graves",
+      "name": "Experiment: Sustain and waves",
+      "goal": "Experiment for Graves: test a different playstyle, with lower confidence",
+      "hypothesis": "A short-range physical skirmisher who uses terrain for Q detonation, reload-aware attacks and repeated dashes to maintain defenses. Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker. Hydra wave control and conditional healing may extend repeated trades. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3074,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Graves: Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker.",
+        "Start with the early core (Ravenous Hydra, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Hydra wave control and conditional healing may extend repeated trades. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Graves fires an explosive shell that detonates after 1 second, or after colliding with terrain. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Healing reduction, kiting and the cost of delaying penetration can defeat the idea.",
+        "The route fails Graves's stated kit question: Record pellet hits, reloads, terrain Q return and grit stacks. Attack-speed or crit purchases cannot be evaluated as if this were an unrestricted ordinary ranged attacker.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Healing reduction, kiting and the cost of delaying penetration can defeat the idea.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Ravenous Hydra, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Collateral Damage",
+          "slot": "R",
+          "source": "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot",
+          "formula": "Graves fires an explosive cartridge, blasting himself backwards. The cartridge deals [275 / 425 / 575 + (1.5) × AD[statFormula=2]] physical damage to the first enemy hit. After hitting an enemy champion or reaching the end of its range, the cartridge explodes outward, dealing [200 / 320 / 440 + (1.2) × AD[statFormula=2]] physical damage."
+        },
+        {
+          "ability": "End of the Line",
+          "slot": "Q",
+          "source": "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+          "formula": "Graves fires a powder round dealing [50 / 75 / 100 / 125 / 150 + (0.55) × AD[statFormula=2]] physical damage. After 1 second or after colliding with terrain, it detonates, dealing [80 / 125 / 170 / 215 / 260 + (0.45 / 0.6 / 0.75 / 0.9 / 1.05) × AD[statFormula=2]] physical damage along the travel path again and to enemies near the blast."
+        },
+        {
+          "ability": "Smoke Screen",
+          "slot": "W",
+          "source": "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+          "formula": "Graves creates a cloud of black smoke for 4 seconds, Slowing enemies inside by [50]% and blocking their vision outside the area. The initial impact deals [60 / 110 / 160 / 210 / 260 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "New Destiny",
+          "slot": "Passive",
+          "source": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+          "formula": "Graves' Attacks have unique properties:\nIt can only fire two Shells before he must reload. Attack Speed reduces reload time slightly, but reduces time between shots dramatically.Each Attack fires 4 bullets. The first bullet on a target deals [(characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD] physical damage, and subsequent bullets deal [((characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD) × (0.333)] each. Instead of normal Critical effects, Critical strikes fire 6 bullets and deal [(0.5) × ((-1 + (1) × Stat(9)))] more damage. Structures take [25]% reduced damage.Bullets stop on the first unit hit. Non-champions struck by multiple bullets are Knocked Back."
+        },
+        {
+          "ability": "Quickdraw",
+          "slot": "E",
+          "source": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+          "formula": "Graves dashes and reloads one Shell into his shotgun. He also gains a stack for [4] seconds (max [8] stacks) or two stacks if he dashes towards an enemy champion. Stacks grant him [7 / 10 / 13 / 16 / 19] Armor and [(7 / 10 / 13 / 16 / 19) × (0.5)] Magic Resist. Stacks are refreshed when damaging a non-minion.\n\nEach bullet hit from Graves' Attacks reduces this Ability's Cooldown by [0.5] seconds."
+        }
+      ]
+    }
+  ]
+}

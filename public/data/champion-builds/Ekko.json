@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "ekko-four-1",
+      "champion": "Ekko",
+      "name": "Reference: AP dive",
+      "goal": "Reference for Ekko: establish a repeatable reference",
+      "hypothesis": "A hit-and-run skirmisher who triggers three-hit damage, threatens a delayed stun zone and retreats or re-enters through his time echo. Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage. AP, penetration and Rocketbelt access test a short committed damage window.",
+      "itemIds": [
+        3152,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ekko: Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage.",
+        "Start with the early core (Rocketbelt, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP, penetration and Rocketbelt access test a short committed damage window. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Ekko throws a temporal grenade that expands into a time-distortion field upon hitting an enemy champion, slowing and damaging anyone caught inside. After a delay, the grenade rewinds back to Ekko, dealing damage on its return. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "The active cannot replace every mobility tool; minimal sustained durability.",
+        "The route fails Ekko's stated kit question: Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "The active cannot replace every mobility tool; minimal sustained durability.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Rocketbelt, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Z-Drive Resonance",
+          "slot": "Passive",
+          "source": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+          "formula": "Every third Attack or damaging Ability on the same target deals an additional [(characterLevelBreakpoints(start=30, perLevel=10, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AP) × (1)] magic damage. If the target is a champion, Ekko gains [characterLevelBreakpoints(start=0.5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed for [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}])] seconds. This effect can't trigger on the same enemy more than once every [4] seconds."
+        },
+        {
+          "ability": "Chronobreak",
+          "slot": "R",
+          "source": "Characters/Ekko/Spells/EkkoRAbility/EkkoR",
+          "formula": "Ekko turns back time, entering Stasis while teleporting to where he was 4 seconds ago and dealing [200 / 350 / 500 + (1.75) × AP] magic damage to nearby enemies. In addition, Ekko restores [100 / 150 / 200 + (0.6) × AP] Health, increased by [3]% for each 1% Health he lost in last 4 seconds."
+        },
+        {
+          "ability": "Parallel Convergence",
+          "slot": "W",
+          "source": "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+          "formula": "Passive: Ekko's Attacks against enemies below [30]% Health deal [(3 + (0.03) × AP) × (0.01)] missing Health magic damage.\n\nActive: Ekko launches a chronosphere lasting [1.5] seconds after a delay that Slows enemies inside by [40]%. If Ekko enters the sphere, he detonates it, Stunning for [2.25] seconds and gaining [100 / 120 / 140 / 160 / 180 + (1.5) × AP] Shield."
+        },
+        {
+          "ability": "Timewinder",
+          "slot": "Q",
+          "source": "Characters/Ekko/Spells/EkkoQAbility/EkkoQ",
+          "formula": "Ekko throws a device dealing [80 / 95 / 110 / 125 / 140 + (0.3) × AP] magic damage. On hitting a champion or reaching the end of its range, it expands into a field that Slows enemies inside by [(-0.4 / -0.45 / -0.5 / -0.55 / -0.6) × -100]%. After it expands, Ekko recalls it, dealing [40 / 65 / 90 / 115 / 140 + (0.7) × AP] magic damage."
+        },
+        {
+          "ability": "Phase Dive",
+          "slot": "E",
+          "source": "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+          "formula": "Ekko dashes and empowers his next Attack to have bonus range, teleport him to his target, and deal an additional [50 / 75 / 100 / 125 / 150 + (0.4) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "ekko-four-2",
+      "champion": "Ekko",
+      "name": "Damage interaction: Spell-and-attack",
+      "goal": "Damage interaction for Ekko: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A hit-and-run skirmisher who triggers three-hit damage, threatens a delayed stun zone and retreats or re-enters through his time echo. Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "itemIds": [
+        3100,
+        3115,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ekko: Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage.",
+        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Ekko throws a temporal grenade that expands into a time-distortion field upon hitting an enemy champion, slowing and damaging anyone caught inside. After a delay, the grenade rewinds back to Ekko, dealing damage on its return. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "The route fails Ekko's stated kit question: Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Z-Drive Resonance",
+          "slot": "Passive",
+          "source": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+          "formula": "Every third Attack or damaging Ability on the same target deals an additional [(characterLevelBreakpoints(start=30, perLevel=10, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AP) × (1)] magic damage. If the target is a champion, Ekko gains [characterLevelBreakpoints(start=0.5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed for [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}])] seconds. This effect can't trigger on the same enemy more than once every [4] seconds."
+        },
+        {
+          "ability": "Chronobreak",
+          "slot": "R",
+          "source": "Characters/Ekko/Spells/EkkoRAbility/EkkoR",
+          "formula": "Ekko turns back time, entering Stasis while teleporting to where he was 4 seconds ago and dealing [200 / 350 / 500 + (1.75) × AP] magic damage to nearby enemies. In addition, Ekko restores [100 / 150 / 200 + (0.6) × AP] Health, increased by [3]% for each 1% Health he lost in last 4 seconds."
+        },
+        {
+          "ability": "Parallel Convergence",
+          "slot": "W",
+          "source": "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+          "formula": "Passive: Ekko's Attacks against enemies below [30]% Health deal [(3 + (0.03) × AP) × (0.01)] missing Health magic damage.\n\nActive: Ekko launches a chronosphere lasting [1.5] seconds after a delay that Slows enemies inside by [40]%. If Ekko enters the sphere, he detonates it, Stunning for [2.25] seconds and gaining [100 / 120 / 140 / 160 / 180 + (1.5) × AP] Shield."
+        },
+        {
+          "ability": "Timewinder",
+          "slot": "Q",
+          "source": "Characters/Ekko/Spells/EkkoQAbility/EkkoQ",
+          "formula": "Ekko throws a device dealing [80 / 95 / 110 / 125 / 140 + (0.3) × AP] magic damage. On hitting a champion or reaching the end of its range, it expands into a field that Slows enemies inside by [(-0.4 / -0.45 / -0.5 / -0.55 / -0.6) × -100]%. After it expands, Ekko recalls it, dealing [40 / 65 / 90 / 115 / 140 + (0.7) × AP] magic damage."
+        },
+        {
+          "ability": "Phase Dive",
+          "slot": "E",
+          "source": "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+          "formula": "Ekko dashes and empowers his next Attack to have bonus range, teleport him to his target, and deal an additional [50 / 75 / 100 / 125 / 150 + (0.4) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "ekko-four-3",
+      "champion": "Ekko",
+      "name": "Situational adaptation: Survive the engage",
+      "goal": "Situational adaptation for Ekko: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A hit-and-run skirmisher who triggers three-hit damage, threatens a delayed stun zone and retreats or re-enters through his time echo. Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage. A transformed mana shield, stasis and a spell shield may preserve repeat casts.",
+      "itemIds": [
+        3040,
+        3157,
+        3102,
+        3116,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ekko: Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage.",
+        "Start with the early core (Archangel, then the defense matching the opponent) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: A transformed mana shield, stasis and a spell shield may preserve repeat casts. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Ekko throws a temporal grenade that expands into a time-distortion field upon hitting an enemy champion, slowing and damaging anyone caught inside. After a delay, the grenade rewinds back to Ekko, dealing damage on its return. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "The route fails Ekko's stated kit question: Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Defensive redundancy can sacrifice too much damage; this is conditional on real threats.",
+        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Archangel, then the defense matching the opponent. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Banshee's Veil, Rylai's Crystal Scepter, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Z-Drive Resonance",
+          "slot": "Passive",
+          "source": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+          "formula": "Every third Attack or damaging Ability on the same target deals an additional [(characterLevelBreakpoints(start=30, perLevel=10, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AP) × (1)] magic damage. If the target is a champion, Ekko gains [characterLevelBreakpoints(start=0.5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed for [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}])] seconds. This effect can't trigger on the same enemy more than once every [4] seconds."
+        },
+        {
+          "ability": "Chronobreak",
+          "slot": "R",
+          "source": "Characters/Ekko/Spells/EkkoRAbility/EkkoR",
+          "formula": "Ekko turns back time, entering Stasis while teleporting to where he was 4 seconds ago and dealing [200 / 350 / 500 + (1.75) × AP] magic damage to nearby enemies. In addition, Ekko restores [100 / 150 / 200 + (0.6) × AP] Health, increased by [3]% for each 1% Health he lost in last 4 seconds."
+        },
+        {
+          "ability": "Parallel Convergence",
+          "slot": "W",
+          "source": "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+          "formula": "Passive: Ekko's Attacks against enemies below [30]% Health deal [(3 + (0.03) × AP) × (0.01)] missing Health magic damage.\n\nActive: Ekko launches a chronosphere lasting [1.5] seconds after a delay that Slows enemies inside by [40]%. If Ekko enters the sphere, he detonates it, Stunning for [2.25] seconds and gaining [100 / 120 / 140 / 160 / 180 + (1.5) × AP] Shield."
+        },
+        {
+          "ability": "Timewinder",
+          "slot": "Q",
+          "source": "Characters/Ekko/Spells/EkkoQAbility/EkkoQ",
+          "formula": "Ekko throws a device dealing [80 / 95 / 110 / 125 / 140 + (0.3) × AP] magic damage. On hitting a champion or reaching the end of its range, it expands into a field that Slows enemies inside by [(-0.4 / -0.45 / -0.5 / -0.55 / -0.6) × -100]%. After it expands, Ekko recalls it, dealing [40 / 65 / 90 / 115 / 140 + (0.7) × AP] magic damage."
+        },
+        {
+          "ability": "Phase Dive",
+          "slot": "E",
+          "source": "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+          "formula": "Ekko dashes and empowers his next Attack to have bonus range, teleport him to his target, and deal an additional [50 / 75 / 100 / 125 / 150 + (0.4) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "ekko-four-4",
+      "champion": "Ekko",
+      "name": "Experiment: AP sustained duel",
+      "goal": "Experiment for Ekko: test a different playstyle, with lower confidence",
+      "hypothesis": "A hit-and-run skirmisher who triggers three-hit damage, threatens a delayed stun zone and retreats or re-enters through his time echo. Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage. AP plus real attack cadence tests sustained contact and later penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        4633,
+        3115,
+        3089,
+        3135,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Ekko: Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage.",
+        "Start with the early core (Riftmaker, then Nashor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP plus real attack cadence tests sustained contact and later penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Ekko throws a temporal grenade that expands into a time-distortion field upon hitting an enemy champion, slowing and damaging anyone caught inside. After a delay, the grenade rewinds back to Ekko, dealing damage on its return. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
+        "The route fails Ekko's stated kit question: Does three-hit burst and a real E attack favor Spellblade over sustained attacks? Record delayed W stuns and the actual R echo position rather than assuming guaranteed reset damage.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
+        "Full cost 17,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Riftmaker, then Nashor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Z-Drive Resonance",
+          "slot": "Passive",
+          "source": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+          "formula": "Every third Attack or damaging Ability on the same target deals an additional [(characterLevelBreakpoints(start=30, perLevel=10, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AP) × (1)] magic damage. If the target is a champion, Ekko gains [characterLevelBreakpoints(start=0.5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed for [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}])] seconds. This effect can't trigger on the same enemy more than once every [4] seconds."
+        },
+        {
+          "ability": "Chronobreak",
+          "slot": "R",
+          "source": "Characters/Ekko/Spells/EkkoRAbility/EkkoR",
+          "formula": "Ekko turns back time, entering Stasis while teleporting to where he was 4 seconds ago and dealing [200 / 350 / 500 + (1.75) × AP] magic damage to nearby enemies. In addition, Ekko restores [100 / 150 / 200 + (0.6) × AP] Health, increased by [3]% for each 1% Health he lost in last 4 seconds."
+        },
+        {
+          "ability": "Parallel Convergence",
+          "slot": "W",
+          "source": "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+          "formula": "Passive: Ekko's Attacks against enemies below [30]% Health deal [(3 + (0.03) × AP) × (0.01)] missing Health magic damage.\n\nActive: Ekko launches a chronosphere lasting [1.5] seconds after a delay that Slows enemies inside by [40]%. If Ekko enters the sphere, he detonates it, Stunning for [2.25] seconds and gaining [100 / 120 / 140 / 160 / 180 + (1.5) × AP] Shield."
+        },
+        {
+          "ability": "Timewinder",
+          "slot": "Q",
+          "source": "Characters/Ekko/Spells/EkkoQAbility/EkkoQ",
+          "formula": "Ekko throws a device dealing [80 / 95 / 110 / 125 / 140 + (0.3) × AP] magic damage. On hitting a champion or reaching the end of its range, it expands into a field that Slows enemies inside by [(-0.4 / -0.45 / -0.5 / -0.55 / -0.6) × -100]%. After it expands, Ekko recalls it, dealing [40 / 65 / 90 / 115 / 140 + (0.7) × AP] magic damage."
+        },
+        {
+          "ability": "Phase Dive",
+          "slot": "E",
+          "source": "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+          "formula": "Ekko dashes and empowers his next Attack to have bonus range, teleport him to his target, and deal an additional [50 / 75 / 100 / 125 / 150 + (0.4) × AP] magic damage."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "shaco-four-1",
+      "champion": "Shaco",
+      "name": "Reference: Physical pick",
+      "goal": "Reference for Shaco: establish a repeatable reference",
+      "hypothesis": "A deceptive skirmisher who attacks from behind, seeds fear traps and uses a clone to force poor target selection. Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value. Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Shaco: Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Shaco becomes Invisible and teleports to target location.\n\nHis first attack while Invisible is empowered, dealing bonus damage and critically striking if he attacks from behind. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Shaco's stated kit question: Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hallucinate",
+          "slot": "R",
+          "source": "Characters/Shaco/Spells/HallucinateFullAbility/HallucinateFull",
+          "formula": "Shaco briefly disappears, then reappears with a clone that lasts [18] seconds and detonates when it dies, dealing [150 / 225 / 300 + (0.7) × AP] magic damage and spawning three mini Jack in the Boxes that trigger immediately. The clone deals [60]% of Shaco's damage and receives [50]% increased damage.\n\nMini Jack in the Boxes deal [10 / 20 / 30 + (0.1) × AP] magic damage, or [25 / 50 / 75 + (0.15) × AP] magic damage if firing at only one enemy, and Fear for [1] second."
+        },
+        {
+          "ability": "Backstab",
+          "slot": "Passive",
+          "source": "Characters/Shaco/Spells/ShacoPassiveAbility/ShacoPassive",
+          "formula": "When striking enemies that are facing away from him:Shaco's Attacks deal an additional [characterLevelInterpolation(20 → 35; raw flags preserved) + (0.2) × AD[statFormula=2]] physical damage that can critically strike.{{Spell_TwoShivPoison_Name}} deals an additional [characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP] magic damage, increased to [(characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP) × (1.5)] magic damage if the target is below 30% Health."
+        },
+        {
+          "ability": "Jack In The Box",
+          "slot": "W",
+          "source": "Characters/Shaco/Spells/JackInTheBoxAbility/JackInTheBox",
+          "formula": "Shaco creates a trap that stealths itself after [2] seconds and lasts for [40 + (0.1) × AP] seconds. It activates when an enemy comes near or when revealed, Fearing nearby enemy Champions for [0.5 / 0.75 / 1 / 1.25 / 1.5] seconds, or [2] seconds for minions and jungle monsters.\n\nOnce activated, the trap fires at all nearby enemies for 5 seconds, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage, or [25 / 40 / 55 / 70 / 85 + (0.18) × AP] damage if focused on a single target.\n\nJack in the Box's attacks deal an additional [20 / 35 / 50 / 65 / 80] damage to monsters."
+        },
+        {
+          "ability": "Deceive",
+          "slot": "Q",
+          "source": "Characters/Shaco/Spells/DeceiveAbility/Deceive",
+          "formula": "Shaco teleports and becomes Invisible for [2.5 / 2.75 / 3 / 3.25 / 3.5] seconds. Using {{Spell_JackInTheBox_Name}} or {{Spell_HallucinateFull_Name}} does not break Invisibility.\n\nShaco's next Attack while Invisible deals an additional [25 / 35 / 45 / 55 / 65 + (0.6) × AD[statFormula=2]] physical damage. If striking from behind, this Attack critically strikes for [(1 + (0.6) × (((1) × Stat(9) + -1)))] damage."
+        },
+        {
+          "ability": "Two-Shiv Poison",
+          "slot": "E",
+          "source": "Characters/Shaco/Spells/TwoShivPoisonAbility/TwoShivPoison",
+          "formula": "Passive: While this Ability is off Cooldown, Shaco's Attacks Slow the target by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [2] seconds.\n\nActive: Shaco throws a shiv, dealing [70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP] magic damage and Slowing by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [3] seconds. If the target has less than [30]% Health, the shiv deals [(70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP) × (1.5)] damage instead."
+        }
+      ]
+    },
+    {
+      "id": "shaco-four-2",
+      "champion": "Shaco",
+      "name": "Damage interaction: Mana burn zones",
+      "goal": "Damage interaction for Shaco: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A deceptive skirmisher who attacks from behind, seeds fear traps and uses a clone to force poor target selection. Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value. Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "itemIds": [
+        2503,
+        6653,
+        3116,
+        8010,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Shaco: Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value.",
+        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Shaco becomes Invisible and teleports to target location.\n\nHis first attack while Invisible is empowered, dealing bonus damage and critically striking if he attacks from behind. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "The route fails Shaco's stated kit question: Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
+        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hallucinate",
+          "slot": "R",
+          "source": "Characters/Shaco/Spells/HallucinateFullAbility/HallucinateFull",
+          "formula": "Shaco briefly disappears, then reappears with a clone that lasts [18] seconds and detonates when it dies, dealing [150 / 225 / 300 + (0.7) × AP] magic damage and spawning three mini Jack in the Boxes that trigger immediately. The clone deals [60]% of Shaco's damage and receives [50]% increased damage.\n\nMini Jack in the Boxes deal [10 / 20 / 30 + (0.1) × AP] magic damage, or [25 / 50 / 75 + (0.15) × AP] magic damage if firing at only one enemy, and Fear for [1] second."
+        },
+        {
+          "ability": "Backstab",
+          "slot": "Passive",
+          "source": "Characters/Shaco/Spells/ShacoPassiveAbility/ShacoPassive",
+          "formula": "When striking enemies that are facing away from him:Shaco's Attacks deal an additional [characterLevelInterpolation(20 → 35; raw flags preserved) + (0.2) × AD[statFormula=2]] physical damage that can critically strike.{{Spell_TwoShivPoison_Name}} deals an additional [characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP] magic damage, increased to [(characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP) × (1.5)] magic damage if the target is below 30% Health."
+        },
+        {
+          "ability": "Jack In The Box",
+          "slot": "W",
+          "source": "Characters/Shaco/Spells/JackInTheBoxAbility/JackInTheBox",
+          "formula": "Shaco creates a trap that stealths itself after [2] seconds and lasts for [40 + (0.1) × AP] seconds. It activates when an enemy comes near or when revealed, Fearing nearby enemy Champions for [0.5 / 0.75 / 1 / 1.25 / 1.5] seconds, or [2] seconds for minions and jungle monsters.\n\nOnce activated, the trap fires at all nearby enemies for 5 seconds, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage, or [25 / 40 / 55 / 70 / 85 + (0.18) × AP] damage if focused on a single target.\n\nJack in the Box's attacks deal an additional [20 / 35 / 50 / 65 / 80] damage to monsters."
+        },
+        {
+          "ability": "Deceive",
+          "slot": "Q",
+          "source": "Characters/Shaco/Spells/DeceiveAbility/Deceive",
+          "formula": "Shaco teleports and becomes Invisible for [2.5 / 2.75 / 3 / 3.25 / 3.5] seconds. Using {{Spell_JackInTheBox_Name}} or {{Spell_HallucinateFull_Name}} does not break Invisibility.\n\nShaco's next Attack while Invisible deals an additional [25 / 35 / 45 / 55 / 65 + (0.6) × AD[statFormula=2]] physical damage. If striking from behind, this Attack critically strikes for [(1 + (0.6) × (((1) × Stat(9) + -1)))] damage."
+        },
+        {
+          "ability": "Two-Shiv Poison",
+          "slot": "E",
+          "source": "Characters/Shaco/Spells/TwoShivPoisonAbility/TwoShivPoison",
+          "formula": "Passive: While this Ability is off Cooldown, Shaco's Attacks Slow the target by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [2] seconds.\n\nActive: Shaco throws a shiv, dealing [70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP] magic damage and Slowing by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [3] seconds. If the target has less than [30]% Health, the shiv deals [(70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP) × (1.5)] damage instead."
+        }
+      ]
+    },
+    {
+      "id": "shaco-four-3",
+      "champion": "Shaco",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Shaco: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A deceptive skirmisher who attacks from behind, seeds fear traps and uses a clone to force poor target selection. Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Shaco: Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Shaco becomes Invisible and teleports to target location.\n\nHis first attack while Invisible is empowered, dealing bonus damage and critically striking if he attacks from behind. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Shaco's stated kit question: Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hallucinate",
+          "slot": "R",
+          "source": "Characters/Shaco/Spells/HallucinateFullAbility/HallucinateFull",
+          "formula": "Shaco briefly disappears, then reappears with a clone that lasts [18] seconds and detonates when it dies, dealing [150 / 225 / 300 + (0.7) × AP] magic damage and spawning three mini Jack in the Boxes that trigger immediately. The clone deals [60]% of Shaco's damage and receives [50]% increased damage.\n\nMini Jack in the Boxes deal [10 / 20 / 30 + (0.1) × AP] magic damage, or [25 / 50 / 75 + (0.15) × AP] magic damage if firing at only one enemy, and Fear for [1] second."
+        },
+        {
+          "ability": "Backstab",
+          "slot": "Passive",
+          "source": "Characters/Shaco/Spells/ShacoPassiveAbility/ShacoPassive",
+          "formula": "When striking enemies that are facing away from him:Shaco's Attacks deal an additional [characterLevelInterpolation(20 → 35; raw flags preserved) + (0.2) × AD[statFormula=2]] physical damage that can critically strike.{{Spell_TwoShivPoison_Name}} deals an additional [characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP] magic damage, increased to [(characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP) × (1.5)] magic damage if the target is below 30% Health."
+        },
+        {
+          "ability": "Jack In The Box",
+          "slot": "W",
+          "source": "Characters/Shaco/Spells/JackInTheBoxAbility/JackInTheBox",
+          "formula": "Shaco creates a trap that stealths itself after [2] seconds and lasts for [40 + (0.1) × AP] seconds. It activates when an enemy comes near or when revealed, Fearing nearby enemy Champions for [0.5 / 0.75 / 1 / 1.25 / 1.5] seconds, or [2] seconds for minions and jungle monsters.\n\nOnce activated, the trap fires at all nearby enemies for 5 seconds, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage, or [25 / 40 / 55 / 70 / 85 + (0.18) × AP] damage if focused on a single target.\n\nJack in the Box's attacks deal an additional [20 / 35 / 50 / 65 / 80] damage to monsters."
+        },
+        {
+          "ability": "Deceive",
+          "slot": "Q",
+          "source": "Characters/Shaco/Spells/DeceiveAbility/Deceive",
+          "formula": "Shaco teleports and becomes Invisible for [2.5 / 2.75 / 3 / 3.25 / 3.5] seconds. Using {{Spell_JackInTheBox_Name}} or {{Spell_HallucinateFull_Name}} does not break Invisibility.\n\nShaco's next Attack while Invisible deals an additional [25 / 35 / 45 / 55 / 65 + (0.6) × AD[statFormula=2]] physical damage. If striking from behind, this Attack critically strikes for [(1 + (0.6) × (((1) × Stat(9) + -1)))] damage."
+        },
+        {
+          "ability": "Two-Shiv Poison",
+          "slot": "E",
+          "source": "Characters/Shaco/Spells/TwoShivPoisonAbility/TwoShivPoison",
+          "formula": "Passive: While this Ability is off Cooldown, Shaco's Attacks Slow the target by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [2] seconds.\n\nActive: Shaco throws a shiv, dealing [70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP] magic damage and Slowing by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [3] seconds. If the target has less than [30]% Health, the shiv deals [(70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP) × (1.5)] damage instead."
+        }
+      ]
+    },
+    {
+      "id": "shaco-four-4",
+      "champion": "Shaco",
+      "name": "Experiment: Repeated on-hit",
+      "goal": "Experiment for Shaco: test a different playstyle, with lower confidence",
+      "hypothesis": "A deceptive skirmisher who attacks from behind, seeds fear traps and uses a clone to force poor target selection. Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Shaco: Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value.",
+        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Shaco becomes Invisible and teleports to target location.\n\nHis first attack while Invisible is empowered, dealing bonus damage and critically striking if he attacks from behind. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "The route fails Shaco's stated kit question: Separate AD rear attacks from AP box/clone trap pressure. Clone/item interactions must be tested; do not grant every item or passive to both bodies at full value.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
+        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Hallucinate",
+          "slot": "R",
+          "source": "Characters/Shaco/Spells/HallucinateFullAbility/HallucinateFull",
+          "formula": "Shaco briefly disappears, then reappears with a clone that lasts [18] seconds and detonates when it dies, dealing [150 / 225 / 300 + (0.7) × AP] magic damage and spawning three mini Jack in the Boxes that trigger immediately. The clone deals [60]% of Shaco's damage and receives [50]% increased damage.\n\nMini Jack in the Boxes deal [10 / 20 / 30 + (0.1) × AP] magic damage, or [25 / 50 / 75 + (0.15) × AP] magic damage if firing at only one enemy, and Fear for [1] second."
+        },
+        {
+          "ability": "Backstab",
+          "slot": "Passive",
+          "source": "Characters/Shaco/Spells/ShacoPassiveAbility/ShacoPassive",
+          "formula": "When striking enemies that are facing away from him:Shaco's Attacks deal an additional [characterLevelInterpolation(20 → 35; raw flags preserved) + (0.2) × AD[statFormula=2]] physical damage that can critically strike.{{Spell_TwoShivPoison_Name}} deals an additional [characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP] magic damage, increased to [(characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP) × (1.5)] magic damage if the target is below 30% Health."
+        },
+        {
+          "ability": "Jack In The Box",
+          "slot": "W",
+          "source": "Characters/Shaco/Spells/JackInTheBoxAbility/JackInTheBox",
+          "formula": "Shaco creates a trap that stealths itself after [2] seconds and lasts for [40 + (0.1) × AP] seconds. It activates when an enemy comes near or when revealed, Fearing nearby enemy Champions for [0.5 / 0.75 / 1 / 1.25 / 1.5] seconds, or [2] seconds for minions and jungle monsters.\n\nOnce activated, the trap fires at all nearby enemies for 5 seconds, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage, or [25 / 40 / 55 / 70 / 85 + (0.18) × AP] damage if focused on a single target.\n\nJack in the Box's attacks deal an additional [20 / 35 / 50 / 65 / 80] damage to monsters."
+        },
+        {
+          "ability": "Deceive",
+          "slot": "Q",
+          "source": "Characters/Shaco/Spells/DeceiveAbility/Deceive",
+          "formula": "Shaco teleports and becomes Invisible for [2.5 / 2.75 / 3 / 3.25 / 3.5] seconds. Using {{Spell_JackInTheBox_Name}} or {{Spell_HallucinateFull_Name}} does not break Invisibility.\n\nShaco's next Attack while Invisible deals an additional [25 / 35 / 45 / 55 / 65 + (0.6) × AD[statFormula=2]] physical damage. If striking from behind, this Attack critically strikes for [(1 + (0.6) × (((1) × Stat(9) + -1)))] damage."
+        },
+        {
+          "ability": "Two-Shiv Poison",
+          "slot": "E",
+          "source": "Characters/Shaco/Spells/TwoShivPoisonAbility/TwoShivPoison",
+          "formula": "Passive: While this Ability is off Cooldown, Shaco's Attacks Slow the target by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [2] seconds.\n\nActive: Shaco throws a shiv, dealing [70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP] magic damage and Slowing by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [3] seconds. If the target has less than [30]% Health, the shiv deals [(70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP) × (1.5)] damage instead."
+        }
+      ]
+    }
+  ]
+}

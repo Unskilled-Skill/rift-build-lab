@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "malphite-four-1",
+      "champion": "Malphite",
+      "name": "Reference: Armor and control",
+      "goal": "Reference for Malphite: establish a repeatable reference",
+      "hypothesis": "An armor-oriented engage tank who disrupts attack carries and uses Q movement theft to remain close. A successful R creates a short window for spells and empowered W attacks. Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements. Armor and a real Spellblade attack may preserve close fighting windows.",
+      "itemIds": [
+        6662,
+        2502,
+        3075,
+        3143,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Malphite: Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements.",
+        "Start with the early core (Iceborn if attack access is useful, otherwise matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and a real Spellblade attack may preserve close fighting windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Malphite sends a shard of the earth through the ground at his foe, dealing damage upon impact and stealing Move Speed for 3 seconds. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Do not add another Spellblade item; Thornmail and Randuin are conditional purchases.",
+        "The route fails Malphite's stated kit question: Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Do not add another Spellblade item; Thornmail and Randuin are conditional purchases.",
+        "Full cost 14,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Iceborn if attack access is useful, otherwise matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Thornmail, Randuin's Omen, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Granite Shield",
+          "slot": "Passive",
+          "source": "Characters/Malphite/Spells/MalphiteShieldAbility/MalphiteShield",
+          "formula": "Malphite grants himself [(0.1) × Stat(12)] Shield after not taking damage for [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] seconds."
+        },
+        {
+          "ability": "Thunderclap",
+          "slot": "W",
+          "source": "Characters/Malphite/Spells/ObduracyAbility/Obduracy",
+          "formula": "Passive: Malphite gains [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 100]% Armor (%i:scaleArmor%@f1@). This effect is increased to [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 300]% (%i:scaleArmor%@f2@) while Granite Shield is active.\n\nActive: Malphite's next Attack deals an additional [30 / 40 / 50 / 60 / 70 + (0.2) × AP + (0.15) × Stat(1)] physical damage and creates an aftershock which deals [15 / 25 / 35 / 45 / 55 + (0.3) × AP + (0.15) × Stat(1)] physical damage %i:OnHit% On-Hit in their direction. His Attacks continue to create aftershocks %i:OnHit% On-Hit for the next [5] seconds."
+        },
+        {
+          "ability": "Unstoppable Force",
+          "slot": "R",
+          "source": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+          "formula": "Malphite charges with the force of a landslide, dashing Unstoppably. At the end of the dash, Malphite Knocks Up for [1.5] seconds and deals [200 / 300 / 400 + (0.9) × AP] magic damage."
+        },
+        {
+          "ability": "Seismic Shard",
+          "slot": "Q",
+          "source": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+          "formula": "Malphite launches a shard of earth at an enemy, dealing [70 / 120 / 170 / 220 / 270 + (0.6) × AP] magic damage and Slowing them by [20 / 25 / 30 / 35 / 40]% for [3] seconds. Malphite also steals the amount Slowed, gaining it as Move Speed for [3] seconds."
+        },
+        {
+          "ability": "Ground Slam",
+          "slot": "E",
+          "source": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+          "formula": "Malphite slams the ground, dealing [60 / 95 / 130 / 165 / 200 + (0.4) × Stat(1) + (0.6) × AP] magic damage and reducing Attack Speed by [30 / 35 / 40 / 45 / 50]% for [3] seconds."
+        }
+      ]
+    },
+    {
+      "id": "malphite-four-2",
+      "champion": "Malphite",
+      "name": "Damage interaction: AP dive",
+      "goal": "Damage interaction for Malphite: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "An armor-oriented engage tank who disrupts attack carries and uses Q movement theft to remain close. A successful R creates a short window for spells and empowered W attacks. Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements. AP, penetration and Rocketbelt access test a short committed damage window.",
+      "itemIds": [
+        3152,
+        4645,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Malphite: Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements.",
+        "Start with the early core (Rocketbelt, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP, penetration and Rocketbelt access test a short committed damage window. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Malphite sends a shard of the earth through the ground at his foe, dealing damage upon impact and stealing Move Speed for 3 seconds. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "The active cannot replace every mobility tool; minimal sustained durability.",
+        "The route fails Malphite's stated kit question: Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "The active cannot replace every mobility tool; minimal sustained durability.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Rocketbelt, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Granite Shield",
+          "slot": "Passive",
+          "source": "Characters/Malphite/Spells/MalphiteShieldAbility/MalphiteShield",
+          "formula": "Malphite grants himself [(0.1) × Stat(12)] Shield after not taking damage for [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] seconds."
+        },
+        {
+          "ability": "Thunderclap",
+          "slot": "W",
+          "source": "Characters/Malphite/Spells/ObduracyAbility/Obduracy",
+          "formula": "Passive: Malphite gains [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 100]% Armor (%i:scaleArmor%@f1@). This effect is increased to [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 300]% (%i:scaleArmor%@f2@) while Granite Shield is active.\n\nActive: Malphite's next Attack deals an additional [30 / 40 / 50 / 60 / 70 + (0.2) × AP + (0.15) × Stat(1)] physical damage and creates an aftershock which deals [15 / 25 / 35 / 45 / 55 + (0.3) × AP + (0.15) × Stat(1)] physical damage %i:OnHit% On-Hit in their direction. His Attacks continue to create aftershocks %i:OnHit% On-Hit for the next [5] seconds."
+        },
+        {
+          "ability": "Unstoppable Force",
+          "slot": "R",
+          "source": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+          "formula": "Malphite charges with the force of a landslide, dashing Unstoppably. At the end of the dash, Malphite Knocks Up for [1.5] seconds and deals [200 / 300 / 400 + (0.9) × AP] magic damage."
+        },
+        {
+          "ability": "Seismic Shard",
+          "slot": "Q",
+          "source": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+          "formula": "Malphite launches a shard of earth at an enemy, dealing [70 / 120 / 170 / 220 / 270 + (0.6) × AP] magic damage and Slowing them by [20 / 25 / 30 / 35 / 40]% for [3] seconds. Malphite also steals the amount Slowed, gaining it as Move Speed for [3] seconds."
+        },
+        {
+          "ability": "Ground Slam",
+          "slot": "E",
+          "source": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+          "formula": "Malphite slams the ground, dealing [60 / 95 / 130 / 165 / 200 + (0.4) × Stat(1) + (0.6) × AP] magic damage and reducing Attack Speed by [30 / 35 / 40 / 45 / 50]% for [3] seconds."
+        }
+      ]
+    },
+    {
+      "id": "malphite-four-3",
+      "champion": "Malphite",
+      "name": "Situational adaptation: Magic matchup",
+      "goal": "Situational adaptation for Malphite: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "An armor-oriented engage tank who disrupts attack carries and uses Q movement theft to remain close. A successful R creates a short window for spells and empowered W attacks. Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements. MR and nearby magic amplification test durable contact against magic pressure.",
+      "itemIds": [
+        3084,
+        6664,
+        8020,
+        3065,
+        6665,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Malphite: Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements.",
+        "Start with the early core (Hollow Radiance or other MR first when justified) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: MR and nearby magic amplification test durable contact against magic pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Malphite sends a shard of the earth through the ground at his foe, dealing damage upon impact and stealing Move Speed for 3 seconds. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
+        "The route fails Malphite's stated kit question: Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
+        "Full cost 15,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Hollow Radiance or other MR first when justified. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Abyssal Mask, Spirit Visage, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Granite Shield",
+          "slot": "Passive",
+          "source": "Characters/Malphite/Spells/MalphiteShieldAbility/MalphiteShield",
+          "formula": "Malphite grants himself [(0.1) × Stat(12)] Shield after not taking damage for [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] seconds."
+        },
+        {
+          "ability": "Thunderclap",
+          "slot": "W",
+          "source": "Characters/Malphite/Spells/ObduracyAbility/Obduracy",
+          "formula": "Passive: Malphite gains [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 100]% Armor (%i:scaleArmor%@f1@). This effect is increased to [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 300]% (%i:scaleArmor%@f2@) while Granite Shield is active.\n\nActive: Malphite's next Attack deals an additional [30 / 40 / 50 / 60 / 70 + (0.2) × AP + (0.15) × Stat(1)] physical damage and creates an aftershock which deals [15 / 25 / 35 / 45 / 55 + (0.3) × AP + (0.15) × Stat(1)] physical damage %i:OnHit% On-Hit in their direction. His Attacks continue to create aftershocks %i:OnHit% On-Hit for the next [5] seconds."
+        },
+        {
+          "ability": "Unstoppable Force",
+          "slot": "R",
+          "source": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+          "formula": "Malphite charges with the force of a landslide, dashing Unstoppably. At the end of the dash, Malphite Knocks Up for [1.5] seconds and deals [200 / 300 / 400 + (0.9) × AP] magic damage."
+        },
+        {
+          "ability": "Seismic Shard",
+          "slot": "Q",
+          "source": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+          "formula": "Malphite launches a shard of earth at an enemy, dealing [70 / 120 / 170 / 220 / 270 + (0.6) × AP] magic damage and Slowing them by [20 / 25 / 30 / 35 / 40]% for [3] seconds. Malphite also steals the amount Slowed, gaining it as Move Speed for [3] seconds."
+        },
+        {
+          "ability": "Ground Slam",
+          "slot": "E",
+          "source": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+          "formula": "Malphite slams the ground, dealing [60 / 95 / 130 / 165 / 200 + (0.4) × Stat(1) + (0.6) × AP] magic damage and reducing Attack Speed by [30 / 35 / 40 / 45 / 50]% for [3] seconds."
+        }
+      ]
+    },
+    {
+      "id": "malphite-four-4",
+      "champion": "Malphite",
+      "name": "Experiment: AP sustained duel",
+      "goal": "Experiment for Malphite: test a different playstyle, with lower confidence",
+      "hypothesis": "An armor-oriented engage tank who disrupts attack carries and uses Q movement theft to remain close. A successful R creates a short window for spells and empowered W attacks. Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements. AP plus real attack cadence tests sustained contact and later penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        4633,
+        3115,
+        3089,
+        3135,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Malphite: Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements.",
+        "Start with the early core (Riftmaker, then Nashor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP plus real attack cadence tests sustained contact and later penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Malphite sends a shard of the earth through the ground at his foe, dealing damage upon impact and stealing Move Speed for 3 seconds. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
+        "The route fails Malphite's stated kit question: Compare armor-backed tank contact and AP R opening. Do not assume the AP engage lands on multiple targets; real W attacks and E armor scaling require separate measurements.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
+        "Full cost 17,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Riftmaker, then Nashor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Granite Shield",
+          "slot": "Passive",
+          "source": "Characters/Malphite/Spells/MalphiteShieldAbility/MalphiteShield",
+          "formula": "Malphite grants himself [(0.1) × Stat(12)] Shield after not taking damage for [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] seconds."
+        },
+        {
+          "ability": "Thunderclap",
+          "slot": "W",
+          "source": "Characters/Malphite/Spells/ObduracyAbility/Obduracy",
+          "formula": "Passive: Malphite gains [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 100]% Armor (%i:scaleArmor%@f1@). This effect is increased to [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 300]% (%i:scaleArmor%@f2@) while Granite Shield is active.\n\nActive: Malphite's next Attack deals an additional [30 / 40 / 50 / 60 / 70 + (0.2) × AP + (0.15) × Stat(1)] physical damage and creates an aftershock which deals [15 / 25 / 35 / 45 / 55 + (0.3) × AP + (0.15) × Stat(1)] physical damage %i:OnHit% On-Hit in their direction. His Attacks continue to create aftershocks %i:OnHit% On-Hit for the next [5] seconds."
+        },
+        {
+          "ability": "Unstoppable Force",
+          "slot": "R",
+          "source": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+          "formula": "Malphite charges with the force of a landslide, dashing Unstoppably. At the end of the dash, Malphite Knocks Up for [1.5] seconds and deals [200 / 300 / 400 + (0.9) × AP] magic damage."
+        },
+        {
+          "ability": "Seismic Shard",
+          "slot": "Q",
+          "source": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+          "formula": "Malphite launches a shard of earth at an enemy, dealing [70 / 120 / 170 / 220 / 270 + (0.6) × AP] magic damage and Slowing them by [20 / 25 / 30 / 35 / 40]% for [3] seconds. Malphite also steals the amount Slowed, gaining it as Move Speed for [3] seconds."
+        },
+        {
+          "ability": "Ground Slam",
+          "slot": "E",
+          "source": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+          "formula": "Malphite slams the ground, dealing [60 / 95 / 130 / 165 / 200 + (0.4) × Stat(1) + (0.6) × AP] magic damage and reducing Attack Speed by [30 / 35 / 40 / 45 / 50]% for [3] seconds."
+        }
+      ]
+    }
+  ]
+}

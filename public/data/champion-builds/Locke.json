@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "locke-four-1",
+      "champion": "Locke",
+      "name": "Reference: Dusk and Dawn",
+      "goal": "Reference for Locke: establish a repeatable reference",
+      "hypothesis": "An attack-weaving magical skirmisher who consumes nail marks, uses a teleport-attack sequence to reach targets and chains takedowns through pursuit resets. Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails. Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern.",
+      "itemIds": [
+        2510,
+        4633,
+        3115,
+        3089,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Locke: Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails.",
+        "Start with the early core (Dusk and Dawn, then Riftmaker) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Locke readies a set of Soul Nails to throw, dealing damage to and marking enemies hit. Locke can consume the marks to deal bonus damage with his attacks. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
+        "The route fails Locke's stated kit question: Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
+        "Full cost 17,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Dusk and Dawn, then Riftmaker. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Nashor's Tooth, Rabadon's Deathcap, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Ashen Pursuit",
+          "slot": "E",
+          "source": "Characters/Locke/Spells/LockeEAbility/LockeE",
+          "formula": "Locke teleports to a location, dealing [40 / 50 / 60 / 70 / 80 + (0.4) × AP] magic damage to nearby enemies on arrival. \n\nOn his next Attack, he dashes to his target, dealing [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage to all enemies in his path. Each hit consumes Soul Nails.\n\nIf Locke scores a takedown, the Cooldown of this Ability is reset."
+        },
+        {
+          "ability": "Purgatory",
+          "slot": "R",
+          "source": "Characters/Locke/Spells/LockeRAbility/LockeR",
+          "formula": "Locke throws a binding artifact to a location, dealing [150 / 225 / 300 + (0.6) × AP] magic damage and Slowing enemies in the area by [99]%, decaying over [2] seconds. The artifact marks enemies hit for [5] seconds, sealing away marked enemy champions brought below [0.1 / 0.11 / 0.12 + (0.005) × BuffStacks({b5c3348f})], and resetting the duration of the mark on other affected champions.\n\nAfter the duration ends, if at least one champion was sealed, the artifact lands on the ground. Locke can pick up the artifact to permanently increase its execution threshold by [0.5]%, and refund [20]% of his total Cooldown, for each champion sealed."
+        },
+        {
+          "ability": "Soul Ignition",
+          "slot": "W",
+          "source": "Characters/Locke/Spells/LockeWAbility/LockeW",
+          "formula": "Locke ignites his own soul, gaining [characterLevelInterpolation(0.4 → 0.7; raw flags preserved)] Attack Speed and [0.4 + (0.0002) × AP] Move Speed that decays over [1 + 1] seconds.\n\nFor [6] seconds, he suffers [2]% current Health true damage per second but Heals back the last [40 / 60 / 80 / 100 / 120 + (1) × AP] damage taken, and an additional [characterLevelInterpolation(40 → 200; raw flags preserved) + (0.2) × AP] Health based on missing Health and time passed, up to a maximum of [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.6) × AP] Health remaining.\n\nCan be Recast to end early."
+        },
+        {
+          "ability": "Ritual Nails",
+          "slot": "Q",
+          "source": "Characters/Locke/Spells/LockeQAbility/LockeQ",
+          "formula": "Locke readies a set of Soul Nails to throw, dealing [40 / 48 / 56 / 64 / 72 + (0.2) × AP] magic damage and marking enemies hit. Nails apply a [25]/[25]/[60]% Slow for [1]/[1]/[2] seconds, stacking with the amount of nails hit.\n\nAttacking the enemy consumes the Soul Nails, dealing [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × AP + 18 / 26 / 34 / 42 / 50] magic damage per stack, increased by [20]% and [40]% for two and three nails respectively."
+        },
+        {
+          "ability": "Silver Stake",
+          "slot": "Passive",
+          "source": "Characters/Locke/Spells/LockePassiveAbility/LockePassive",
+          "formula": "Locke's Attacks deal an additional [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.1) × AP] magic damage on-hit, increased up to [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.2) × AP] magic damage based on the target's missing Health."
+        }
+      ]
+    },
+    {
+      "id": "locke-four-2",
+      "champion": "Locke",
+      "name": "Damage interaction: Spell-and-attack",
+      "goal": "Damage interaction for Locke: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "An attack-weaving magical skirmisher who consumes nail marks, uses a teleport-attack sequence to reach targets and chains takedowns through pursuit resets. Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "itemIds": [
+        3100,
+        3115,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Locke: Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails.",
+        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Locke readies a set of Soul Nails to throw, dealing damage to and marking enemies hit. Locke can consume the marks to deal bonus damage with his attacks. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "The route fails Locke's stated kit question: Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
+        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Ashen Pursuit",
+          "slot": "E",
+          "source": "Characters/Locke/Spells/LockeEAbility/LockeE",
+          "formula": "Locke teleports to a location, dealing [40 / 50 / 60 / 70 / 80 + (0.4) × AP] magic damage to nearby enemies on arrival. \n\nOn his next Attack, he dashes to his target, dealing [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage to all enemies in his path. Each hit consumes Soul Nails.\n\nIf Locke scores a takedown, the Cooldown of this Ability is reset."
+        },
+        {
+          "ability": "Purgatory",
+          "slot": "R",
+          "source": "Characters/Locke/Spells/LockeRAbility/LockeR",
+          "formula": "Locke throws a binding artifact to a location, dealing [150 / 225 / 300 + (0.6) × AP] magic damage and Slowing enemies in the area by [99]%, decaying over [2] seconds. The artifact marks enemies hit for [5] seconds, sealing away marked enemy champions brought below [0.1 / 0.11 / 0.12 + (0.005) × BuffStacks({b5c3348f})], and resetting the duration of the mark on other affected champions.\n\nAfter the duration ends, if at least one champion was sealed, the artifact lands on the ground. Locke can pick up the artifact to permanently increase its execution threshold by [0.5]%, and refund [20]% of his total Cooldown, for each champion sealed."
+        },
+        {
+          "ability": "Soul Ignition",
+          "slot": "W",
+          "source": "Characters/Locke/Spells/LockeWAbility/LockeW",
+          "formula": "Locke ignites his own soul, gaining [characterLevelInterpolation(0.4 → 0.7; raw flags preserved)] Attack Speed and [0.4 + (0.0002) × AP] Move Speed that decays over [1 + 1] seconds.\n\nFor [6] seconds, he suffers [2]% current Health true damage per second but Heals back the last [40 / 60 / 80 / 100 / 120 + (1) × AP] damage taken, and an additional [characterLevelInterpolation(40 → 200; raw flags preserved) + (0.2) × AP] Health based on missing Health and time passed, up to a maximum of [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.6) × AP] Health remaining.\n\nCan be Recast to end early."
+        },
+        {
+          "ability": "Ritual Nails",
+          "slot": "Q",
+          "source": "Characters/Locke/Spells/LockeQAbility/LockeQ",
+          "formula": "Locke readies a set of Soul Nails to throw, dealing [40 / 48 / 56 / 64 / 72 + (0.2) × AP] magic damage and marking enemies hit. Nails apply a [25]/[25]/[60]% Slow for [1]/[1]/[2] seconds, stacking with the amount of nails hit.\n\nAttacking the enemy consumes the Soul Nails, dealing [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × AP + 18 / 26 / 34 / 42 / 50] magic damage per stack, increased by [20]% and [40]% for two and three nails respectively."
+        },
+        {
+          "ability": "Silver Stake",
+          "slot": "Passive",
+          "source": "Characters/Locke/Spells/LockePassiveAbility/LockePassive",
+          "formula": "Locke's Attacks deal an additional [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.1) × AP] magic damage on-hit, increased up to [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.2) × AP] magic damage based on the target's missing Health."
+        }
+      ]
+    },
+    {
+      "id": "locke-four-3",
+      "champion": "Locke",
+      "name": "Situational adaptation: AP health frontline",
+      "goal": "Situational adaptation for Locke: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "An attack-weaving magical skirmisher who consumes nail marks, uses a teleport-attack sequence to reach targets and chains takedowns through pursuit resets. Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails. Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
+      "itemIds": [
+        4633,
+        6653,
+        3116,
+        8010,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Locke: Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails.",
+        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Locke readies a set of Soul Nails to throw, dealing damage to and marking enemies hit. Locke can consume the marks to deal bonus damage with his attacks. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "The route fails Locke's stated kit question: Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
+        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Ashen Pursuit",
+          "slot": "E",
+          "source": "Characters/Locke/Spells/LockeEAbility/LockeE",
+          "formula": "Locke teleports to a location, dealing [40 / 50 / 60 / 70 / 80 + (0.4) × AP] magic damage to nearby enemies on arrival. \n\nOn his next Attack, he dashes to his target, dealing [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage to all enemies in his path. Each hit consumes Soul Nails.\n\nIf Locke scores a takedown, the Cooldown of this Ability is reset."
+        },
+        {
+          "ability": "Purgatory",
+          "slot": "R",
+          "source": "Characters/Locke/Spells/LockeRAbility/LockeR",
+          "formula": "Locke throws a binding artifact to a location, dealing [150 / 225 / 300 + (0.6) × AP] magic damage and Slowing enemies in the area by [99]%, decaying over [2] seconds. The artifact marks enemies hit for [5] seconds, sealing away marked enemy champions brought below [0.1 / 0.11 / 0.12 + (0.005) × BuffStacks({b5c3348f})], and resetting the duration of the mark on other affected champions.\n\nAfter the duration ends, if at least one champion was sealed, the artifact lands on the ground. Locke can pick up the artifact to permanently increase its execution threshold by [0.5]%, and refund [20]% of his total Cooldown, for each champion sealed."
+        },
+        {
+          "ability": "Soul Ignition",
+          "slot": "W",
+          "source": "Characters/Locke/Spells/LockeWAbility/LockeW",
+          "formula": "Locke ignites his own soul, gaining [characterLevelInterpolation(0.4 → 0.7; raw flags preserved)] Attack Speed and [0.4 + (0.0002) × AP] Move Speed that decays over [1 + 1] seconds.\n\nFor [6] seconds, he suffers [2]% current Health true damage per second but Heals back the last [40 / 60 / 80 / 100 / 120 + (1) × AP] damage taken, and an additional [characterLevelInterpolation(40 → 200; raw flags preserved) + (0.2) × AP] Health based on missing Health and time passed, up to a maximum of [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.6) × AP] Health remaining.\n\nCan be Recast to end early."
+        },
+        {
+          "ability": "Ritual Nails",
+          "slot": "Q",
+          "source": "Characters/Locke/Spells/LockeQAbility/LockeQ",
+          "formula": "Locke readies a set of Soul Nails to throw, dealing [40 / 48 / 56 / 64 / 72 + (0.2) × AP] magic damage and marking enemies hit. Nails apply a [25]/[25]/[60]% Slow for [1]/[1]/[2] seconds, stacking with the amount of nails hit.\n\nAttacking the enemy consumes the Soul Nails, dealing [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × AP + 18 / 26 / 34 / 42 / 50] magic damage per stack, increased by [20]% and [40]% for two and three nails respectively."
+        },
+        {
+          "ability": "Silver Stake",
+          "slot": "Passive",
+          "source": "Characters/Locke/Spells/LockePassiveAbility/LockePassive",
+          "formula": "Locke's Attacks deal an additional [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.1) × AP] magic damage on-hit, increased up to [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.2) × AP] magic damage based on the target's missing Health."
+        }
+      ]
+    },
+    {
+      "id": "locke-four-4",
+      "champion": "Locke",
+      "name": "Experiment: AP attack experiment",
+      "goal": "Experiment for Locke: test a different playstyle, with lower confidence",
+      "hypothesis": "An attack-weaving magical skirmisher who consumes nail marks, uses a teleport-attack sequence to reach targets and chains takedowns through pursuit resets. Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3115,
+        3124,
+        3089,
+        3135,
+        3157,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Locke: Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails.",
+        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Locke readies a set of Soul Nails to throw, dealing damage to and marking enemies hit. Locke can consume the marks to deal bonus damage with his attacks. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "The route fails Locke's stated kit question: Read the current Soul Nail consumption and E attack-dash rules. Test W self-health cost/healing and finite R execute stacks; repeated on-hits do not automatically repeat nails.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
+        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Ashen Pursuit",
+          "slot": "E",
+          "source": "Characters/Locke/Spells/LockeEAbility/LockeE",
+          "formula": "Locke teleports to a location, dealing [40 / 50 / 60 / 70 / 80 + (0.4) × AP] magic damage to nearby enemies on arrival. \n\nOn his next Attack, he dashes to his target, dealing [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage to all enemies in his path. Each hit consumes Soul Nails.\n\nIf Locke scores a takedown, the Cooldown of this Ability is reset."
+        },
+        {
+          "ability": "Purgatory",
+          "slot": "R",
+          "source": "Characters/Locke/Spells/LockeRAbility/LockeR",
+          "formula": "Locke throws a binding artifact to a location, dealing [150 / 225 / 300 + (0.6) × AP] magic damage and Slowing enemies in the area by [99]%, decaying over [2] seconds. The artifact marks enemies hit for [5] seconds, sealing away marked enemy champions brought below [0.1 / 0.11 / 0.12 + (0.005) × BuffStacks({b5c3348f})], and resetting the duration of the mark on other affected champions.\n\nAfter the duration ends, if at least one champion was sealed, the artifact lands on the ground. Locke can pick up the artifact to permanently increase its execution threshold by [0.5]%, and refund [20]% of his total Cooldown, for each champion sealed."
+        },
+        {
+          "ability": "Soul Ignition",
+          "slot": "W",
+          "source": "Characters/Locke/Spells/LockeWAbility/LockeW",
+          "formula": "Locke ignites his own soul, gaining [characterLevelInterpolation(0.4 → 0.7; raw flags preserved)] Attack Speed and [0.4 + (0.0002) × AP] Move Speed that decays over [1 + 1] seconds.\n\nFor [6] seconds, he suffers [2]% current Health true damage per second but Heals back the last [40 / 60 / 80 / 100 / 120 + (1) × AP] damage taken, and an additional [characterLevelInterpolation(40 → 200; raw flags preserved) + (0.2) × AP] Health based on missing Health and time passed, up to a maximum of [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.6) × AP] Health remaining.\n\nCan be Recast to end early."
+        },
+        {
+          "ability": "Ritual Nails",
+          "slot": "Q",
+          "source": "Characters/Locke/Spells/LockeQAbility/LockeQ",
+          "formula": "Locke readies a set of Soul Nails to throw, dealing [40 / 48 / 56 / 64 / 72 + (0.2) × AP] magic damage and marking enemies hit. Nails apply a [25]/[25]/[60]% Slow for [1]/[1]/[2] seconds, stacking with the amount of nails hit.\n\nAttacking the enemy consumes the Soul Nails, dealing [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × AP + 18 / 26 / 34 / 42 / 50] magic damage per stack, increased by [20]% and [40]% for two and three nails respectively."
+        },
+        {
+          "ability": "Silver Stake",
+          "slot": "Passive",
+          "source": "Characters/Locke/Spells/LockePassiveAbility/LockePassive",
+          "formula": "Locke's Attacks deal an additional [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.1) × AP] magic damage on-hit, increased up to [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.2) × AP] magic damage based on the target's missing Health."
+        }
+      ]
+    }
+  ]
+}

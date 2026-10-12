@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "yorick-four-1",
+      "champion": "Yorick",
+      "name": "Reference: Contact fighter",
+      "goal": "Reference for Yorick: establish a repeatable reference",
+      "hypothesis": "A summon-led side-lane fighter who prepares graves, marks a target for his walkers and traps escape routes. Maiden coordination and his own empowered attack create sustained pressure. Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "itemIds": [
+        6631,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yorick: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
+        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Yorick deals bonus damage on his next attack and heals himself. If the target is a champion or large monster or if the target dies, a grave will be dug. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "The route fails Yorick's stated kit question: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Last Rites",
+          "slot": "Q",
+          "source": "Characters/Yorick/Spells/YorickQAbility/YorickQ",
+          "formula": "Yorick's next Attack deals an additional [30 / 50 / 70 / 90 / 110 + (0.5) × AD] physical damage and restores [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}])] plus [6 / 7 / 8 / 9 / 10]% of his missing Health, reduced by [50]% against non-Champions. If this Attack hits a Champion or large Monster or kills the target, it leaves a grave.\n\nWhen there are 3 or more graves nearby and this Ability has already been used, Yorick can Recast to raise Mist Walkers from all nearby graves."
+        },
+        {
+          "ability": "Eulogy of the Isles",
+          "slot": "R",
+          "source": "Characters/Yorick/Spells/YorickRAbility/YorickR",
+          "formula": "Yorick summons the Maiden of the Mist with [characterLevelBreakpoints(start=1050, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 100.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 200.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 250.0, \"__type\": \"Breakpoint\"}]) + (0.6) × Stat(12)[statFormula=2]] Health and [50 / 75 / 100 + (0.3) × AD[statFormula=2]] Magic Attack Damage plus [2 / 3 / 4] Mist Walkers. The Maiden automatically raises Mist Walkers from nearby enemy deaths and marks enemy Champions with her attacks. When Yorick damages the Maiden's target, he deals [2 / 2.5 / 3]% max Health magic damage.\n\nAfter 10 seconds, Yorick can Recast this Ability to free the Maiden, sending her down the nearest lane."
+        },
+        {
+          "ability": "Dark Procession",
+          "slot": "W",
+          "source": "Characters/Yorick/Spells/YorickWAbility/YorickW",
+          "formula": "Yorick summons a wall of spirits blocking enemies' path, but not allies'. The wall has [2 / 2 / 3 / 3 / 4] Health and disappears after [4] seconds."
+        },
+        {
+          "ability": "Mourning Mist",
+          "slot": "E",
+          "source": "Characters/Yorick/Spells/YorickEAbility/YorickE",
+          "formula": "Yorick throws a globule of Black Mist that deals [(6 / 6.5 / 7 / 7.5 / 8 + (0.03) × AP) × (0.01)] max Health magic damage, Slows by [0.3] for [1.5] seconds and marks champions and monsters for [4] seconds. Marked enemies continuously Awaken nearby graves (but not exceeding the maximum of @Spell.YorickPassive:YorickPassiveGhoulMax@) and suffer [(0.13 / 0.16 / 0.19 / 0.22 / 0.25) × 100]% reduced Armor.\n\nYorick and his summoned units gain [(0.18 / 0.21 / 0.24 / 0.27 / 0.3) × 100]% Move Speed toward the mark. Mist Walkers will leap once at marked enemies that get away from them."
+        },
+        {
+          "ability": "Shepherd of Souls",
+          "slot": "Passive",
+          "source": "Characters/Yorick/Spells/YorickPassiveAbility/YorickPassive",
+          "formula": "Yorick raises a grave for every [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 3, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] enemies that die near him. Champions and large monsters always leave a grave.\n\nThese graves can be used to Awaken Mist Walkers with [characterLevelInterpolation(100 → 300; raw flags preserved) + (0.15) × Stat(12)[statFormula=2]] Health and [characterLevelInterpolation(15 → 100; raw flags preserved) + (0.2) × AD[statFormula=2]] Attack Damage, up to [4] in an area."
+        }
+      ]
+    },
+    {
+      "id": "yorick-four-2",
+      "champion": "Yorick",
+      "name": "Damage interaction: Health to attack damage",
+      "goal": "Damage interaction for Yorick: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A summon-led side-lane fighter who prepares graves, marks a target for his walkers and traps escape routes. Maiden coordination and his own empowered attack create sustained pressure. Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect. Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "itemIds": [
+        3084,
+        2501,
+        3748,
+        3053,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yorick: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
+        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Yorick deals bonus damage on his next attack and heals himself. If the target is a champion or large monster or if the target dies, a grave will be dug. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "The route fails Yorick's stated kit question: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Last Rites",
+          "slot": "Q",
+          "source": "Characters/Yorick/Spells/YorickQAbility/YorickQ",
+          "formula": "Yorick's next Attack deals an additional [30 / 50 / 70 / 90 / 110 + (0.5) × AD] physical damage and restores [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}])] plus [6 / 7 / 8 / 9 / 10]% of his missing Health, reduced by [50]% against non-Champions. If this Attack hits a Champion or large Monster or kills the target, it leaves a grave.\n\nWhen there are 3 or more graves nearby and this Ability has already been used, Yorick can Recast to raise Mist Walkers from all nearby graves."
+        },
+        {
+          "ability": "Eulogy of the Isles",
+          "slot": "R",
+          "source": "Characters/Yorick/Spells/YorickRAbility/YorickR",
+          "formula": "Yorick summons the Maiden of the Mist with [characterLevelBreakpoints(start=1050, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 100.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 200.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 250.0, \"__type\": \"Breakpoint\"}]) + (0.6) × Stat(12)[statFormula=2]] Health and [50 / 75 / 100 + (0.3) × AD[statFormula=2]] Magic Attack Damage plus [2 / 3 / 4] Mist Walkers. The Maiden automatically raises Mist Walkers from nearby enemy deaths and marks enemy Champions with her attacks. When Yorick damages the Maiden's target, he deals [2 / 2.5 / 3]% max Health magic damage.\n\nAfter 10 seconds, Yorick can Recast this Ability to free the Maiden, sending her down the nearest lane."
+        },
+        {
+          "ability": "Dark Procession",
+          "slot": "W",
+          "source": "Characters/Yorick/Spells/YorickWAbility/YorickW",
+          "formula": "Yorick summons a wall of spirits blocking enemies' path, but not allies'. The wall has [2 / 2 / 3 / 3 / 4] Health and disappears after [4] seconds."
+        },
+        {
+          "ability": "Mourning Mist",
+          "slot": "E",
+          "source": "Characters/Yorick/Spells/YorickEAbility/YorickE",
+          "formula": "Yorick throws a globule of Black Mist that deals [(6 / 6.5 / 7 / 7.5 / 8 + (0.03) × AP) × (0.01)] max Health magic damage, Slows by [0.3] for [1.5] seconds and marks champions and monsters for [4] seconds. Marked enemies continuously Awaken nearby graves (but not exceeding the maximum of @Spell.YorickPassive:YorickPassiveGhoulMax@) and suffer [(0.13 / 0.16 / 0.19 / 0.22 / 0.25) × 100]% reduced Armor.\n\nYorick and his summoned units gain [(0.18 / 0.21 / 0.24 / 0.27 / 0.3) × 100]% Move Speed toward the mark. Mist Walkers will leap once at marked enemies that get away from them."
+        },
+        {
+          "ability": "Shepherd of Souls",
+          "slot": "Passive",
+          "source": "Characters/Yorick/Spells/YorickPassiveAbility/YorickPassive",
+          "formula": "Yorick raises a grave for every [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 3, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] enemies that die near him. Champions and large monsters always leave a grave.\n\nThese graves can be used to Awaken Mist Walkers with [characterLevelInterpolation(100 → 300; raw flags preserved) + (0.15) × Stat(12)[statFormula=2]] Health and [characterLevelInterpolation(15 → 100; raw flags preserved) + (0.2) × AD[statFormula=2]] Attack Damage, up to [4] in an area."
+        }
+      ]
+    },
+    {
+      "id": "yorick-four-3",
+      "champion": "Yorick",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Yorick: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A summon-led side-lane fighter who prepares graves, marks a target for his walkers and traps escape routes. Maiden coordination and his own empowered attack create sustained pressure. Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yorick: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Yorick deals bonus damage on his next attack and heals himself. If the target is a champion or large monster or if the target dies, a grave will be dug. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Yorick's stated kit question: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Last Rites",
+          "slot": "Q",
+          "source": "Characters/Yorick/Spells/YorickQAbility/YorickQ",
+          "formula": "Yorick's next Attack deals an additional [30 / 50 / 70 / 90 / 110 + (0.5) × AD] physical damage and restores [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}])] plus [6 / 7 / 8 / 9 / 10]% of his missing Health, reduced by [50]% against non-Champions. If this Attack hits a Champion or large Monster or kills the target, it leaves a grave.\n\nWhen there are 3 or more graves nearby and this Ability has already been used, Yorick can Recast to raise Mist Walkers from all nearby graves."
+        },
+        {
+          "ability": "Eulogy of the Isles",
+          "slot": "R",
+          "source": "Characters/Yorick/Spells/YorickRAbility/YorickR",
+          "formula": "Yorick summons the Maiden of the Mist with [characterLevelBreakpoints(start=1050, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 100.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 200.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 250.0, \"__type\": \"Breakpoint\"}]) + (0.6) × Stat(12)[statFormula=2]] Health and [50 / 75 / 100 + (0.3) × AD[statFormula=2]] Magic Attack Damage plus [2 / 3 / 4] Mist Walkers. The Maiden automatically raises Mist Walkers from nearby enemy deaths and marks enemy Champions with her attacks. When Yorick damages the Maiden's target, he deals [2 / 2.5 / 3]% max Health magic damage.\n\nAfter 10 seconds, Yorick can Recast this Ability to free the Maiden, sending her down the nearest lane."
+        },
+        {
+          "ability": "Dark Procession",
+          "slot": "W",
+          "source": "Characters/Yorick/Spells/YorickWAbility/YorickW",
+          "formula": "Yorick summons a wall of spirits blocking enemies' path, but not allies'. The wall has [2 / 2 / 3 / 3 / 4] Health and disappears after [4] seconds."
+        },
+        {
+          "ability": "Mourning Mist",
+          "slot": "E",
+          "source": "Characters/Yorick/Spells/YorickEAbility/YorickE",
+          "formula": "Yorick throws a globule of Black Mist that deals [(6 / 6.5 / 7 / 7.5 / 8 + (0.03) × AP) × (0.01)] max Health magic damage, Slows by [0.3] for [1.5] seconds and marks champions and monsters for [4] seconds. Marked enemies continuously Awaken nearby graves (but not exceeding the maximum of @Spell.YorickPassive:YorickPassiveGhoulMax@) and suffer [(0.13 / 0.16 / 0.19 / 0.22 / 0.25) × 100]% reduced Armor.\n\nYorick and his summoned units gain [(0.18 / 0.21 / 0.24 / 0.27 / 0.3) × 100]% Move Speed toward the mark. Mist Walkers will leap once at marked enemies that get away from them."
+        },
+        {
+          "ability": "Shepherd of Souls",
+          "slot": "Passive",
+          "source": "Characters/Yorick/Spells/YorickPassiveAbility/YorickPassive",
+          "formula": "Yorick raises a grave for every [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 3, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] enemies that die near him. Champions and large monsters always leave a grave.\n\nThese graves can be used to Awaken Mist Walkers with [characterLevelInterpolation(100 → 300; raw flags preserved) + (0.15) × Stat(12)[statFormula=2]] Health and [characterLevelInterpolation(15 → 100; raw flags preserved) + (0.2) × AD[statFormula=2]] Attack Damage, up to [4] in an area."
+        }
+      ]
+    },
+    {
+      "id": "yorick-four-4",
+      "champion": "Yorick",
+      "name": "Experiment: Physical pick",
+      "goal": "Experiment for Yorick: test a different playstyle, with lower confidence",
+      "hypothesis": "A summon-led side-lane fighter who prepares graves, marks a target for his walkers and traps escape routes. Maiden coordination and his own empowered attack create sustained pressure. Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3142,
+        6698,
+        3814,
+        6694,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Yorick: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
+        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
+        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Yorick deals bonus damage on his next attack and heals himself. If the target is a champion or large monster or if the target dies, a grave will be dug. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "The route fails Yorick's stated kit question: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
+        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Record available/max mana and any transformed mana-item state."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Mana",
+      "kitEvidence": [
+        {
+          "ability": "Last Rites",
+          "slot": "Q",
+          "source": "Characters/Yorick/Spells/YorickQAbility/YorickQ",
+          "formula": "Yorick's next Attack deals an additional [30 / 50 / 70 / 90 / 110 + (0.5) × AD] physical damage and restores [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}])] plus [6 / 7 / 8 / 9 / 10]% of his missing Health, reduced by [50]% against non-Champions. If this Attack hits a Champion or large Monster or kills the target, it leaves a grave.\n\nWhen there are 3 or more graves nearby and this Ability has already been used, Yorick can Recast to raise Mist Walkers from all nearby graves."
+        },
+        {
+          "ability": "Eulogy of the Isles",
+          "slot": "R",
+          "source": "Characters/Yorick/Spells/YorickRAbility/YorickR",
+          "formula": "Yorick summons the Maiden of the Mist with [characterLevelBreakpoints(start=1050, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 100.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 200.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 250.0, \"__type\": \"Breakpoint\"}]) + (0.6) × Stat(12)[statFormula=2]] Health and [50 / 75 / 100 + (0.3) × AD[statFormula=2]] Magic Attack Damage plus [2 / 3 / 4] Mist Walkers. The Maiden automatically raises Mist Walkers from nearby enemy deaths and marks enemy Champions with her attacks. When Yorick damages the Maiden's target, he deals [2 / 2.5 / 3]% max Health magic damage.\n\nAfter 10 seconds, Yorick can Recast this Ability to free the Maiden, sending her down the nearest lane."
+        },
+        {
+          "ability": "Dark Procession",
+          "slot": "W",
+          "source": "Characters/Yorick/Spells/YorickWAbility/YorickW",
+          "formula": "Yorick summons a wall of spirits blocking enemies' path, but not allies'. The wall has [2 / 2 / 3 / 3 / 4] Health and disappears after [4] seconds."
+        },
+        {
+          "ability": "Mourning Mist",
+          "slot": "E",
+          "source": "Characters/Yorick/Spells/YorickEAbility/YorickE",
+          "formula": "Yorick throws a globule of Black Mist that deals [(6 / 6.5 / 7 / 7.5 / 8 + (0.03) × AP) × (0.01)] max Health magic damage, Slows by [0.3] for [1.5] seconds and marks champions and monsters for [4] seconds. Marked enemies continuously Awaken nearby graves (but not exceeding the maximum of @Spell.YorickPassive:YorickPassiveGhoulMax@) and suffer [(0.13 / 0.16 / 0.19 / 0.22 / 0.25) × 100]% reduced Armor.\n\nYorick and his summoned units gain [(0.18 / 0.21 / 0.24 / 0.27 / 0.3) × 100]% Move Speed toward the mark. Mist Walkers will leap once at marked enemies that get away from them."
+        },
+        {
+          "ability": "Shepherd of Souls",
+          "slot": "Passive",
+          "source": "Characters/Yorick/Spells/YorickPassiveAbility/YorickPassive",
+          "formula": "Yorick raises a grave for every [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 3, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] enemies that die near him. Champions and large monsters always leave a grave.\n\nThese graves can be used to Awaken Mist Walkers with [characterLevelInterpolation(100 → 300; raw flags preserved) + (0.15) × Stat(12)[statFormula=2]] Health and [characterLevelInterpolation(15 → 100; raw flags preserved) + (0.2) × AD[statFormula=2]] Attack Damage, up to [4] in an area."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "tryndamere-four-1",
+      "champion": "Tryndamere",
+      "name": "Reference: Critical duel",
+      "goal": "Reference for Tryndamere: establish a repeatable reference",
+      "hypothesis": "A melee attack carry who builds Fury for crit chance, spins to maintain contact and uses temporary death immunity to extend a finishing window. Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends. Crit attacks and a conditional shield test repeated duel windows.",
+      "itemIds": [
+        6672,
+        6675,
+        3031,
+        6673,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Tryndamere: Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends.",
+        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Tryndamere thrives on the thrills of combat, increasing his Attack Damage as he is more and more wounded. He can cast Bloodlust to consume his Fury and heal himself. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "The route fails Tryndamere's stated kit question: Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
+        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Fury",
+      "kitEvidence": [
+        {
+          "ability": "Spinning Slash",
+          "slot": "E",
+          "source": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+          "formula": "Tryndamere spins through his enemies, dealing [80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2] + (0.8) × AP] physical damage and generating [2] Fury per enemy hit, increased to [5] Fury against enemy champions.\n\nThis Ability's Cooldown is reduced by [0.75] seconds when Tryndamere critically strikes, and reduced by [1.5] seconds when critically striking a champion."
+        },
+        {
+          "ability": "Battle Fury",
+          "slot": "Passive",
+          "source": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+          "formula": "Tryndamere's Attacks grant him 5 Fury or 10 Fury for a critical strike, and 10 Fury for killing a unit. After 8 seconds of being out of combat, Tryndamere loses 5 Fury every second.\n\nEach point of Fury grants [0.5]% Critical Strike Chance."
+        },
+        {
+          "ability": "Undying Rage",
+          "slot": "R",
+          "source": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+          "formula": "Tryndamere becomes completely immune to death for [5] seconds, refusing to be reduced below [30 / 50 / 70] Health, and instantly gains [50 / 75 / 100] Fury."
+        },
+        {
+          "ability": "Mocking Shout",
+          "slot": "W",
+          "source": "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW",
+          "formula": "Tryndamere hurls insults, reducing champions' Attack Damage by [(-20 / -35 / -50 / -65 / -80) × -1] for [4] seconds and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% while cowering from him for [3.25] seconds."
+        },
+        {
+          "ability": "Bloodlust",
+          "slot": "Q",
+          "source": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+          "formula": "Passive: Tryndamere thirsts for blood, gaining up to [20 / 35 / 50 / 65 / 80] Attack Damage based on his missing Health.\n\nActive: Tryndamere consumes his Fury, restoring [30 / 40 / 50 / 60 / 70 + (0.3) × AP] plus [0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP] Health per Fury (max: [30 / 40 / 50 / 60 / 70 + (0.3) × AP + (1 × AbilityResource(4, statFormula=default)) × ((0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP))])."
+        }
+      ]
+    },
+    {
+      "id": "tryndamere-four-2",
+      "champion": "Tryndamere",
+      "name": "Damage interaction: Critical carry",
+      "goal": "Damage interaction for Tryndamere: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A melee attack carry who builds Fury for crit chance, spins to maintain contact and uses temporary death immunity to extend a finishing window. Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends. Attack cadence, crit and penetration support repeatable carry damage.",
+      "itemIds": [
+        6672,
+        3031,
+        3046,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Tryndamere: Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends.",
+        "Start with the early core (Kraken, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Attack cadence, crit and penetration support repeatable carry damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Tryndamere thrives on the thrills of combat, increasing his Attack Damage as he is more and more wounded. He can cast Bloodlust to consume his Fury and heal himself. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "The route fails Tryndamere's stated kit question: Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
+        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Kraken, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Phantom Dancer, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Fury",
+      "kitEvidence": [
+        {
+          "ability": "Spinning Slash",
+          "slot": "E",
+          "source": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+          "formula": "Tryndamere spins through his enemies, dealing [80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2] + (0.8) × AP] physical damage and generating [2] Fury per enemy hit, increased to [5] Fury against enemy champions.\n\nThis Ability's Cooldown is reduced by [0.75] seconds when Tryndamere critically strikes, and reduced by [1.5] seconds when critically striking a champion."
+        },
+        {
+          "ability": "Battle Fury",
+          "slot": "Passive",
+          "source": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+          "formula": "Tryndamere's Attacks grant him 5 Fury or 10 Fury for a critical strike, and 10 Fury for killing a unit. After 8 seconds of being out of combat, Tryndamere loses 5 Fury every second.\n\nEach point of Fury grants [0.5]% Critical Strike Chance."
+        },
+        {
+          "ability": "Undying Rage",
+          "slot": "R",
+          "source": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+          "formula": "Tryndamere becomes completely immune to death for [5] seconds, refusing to be reduced below [30 / 50 / 70] Health, and instantly gains [50 / 75 / 100] Fury."
+        },
+        {
+          "ability": "Mocking Shout",
+          "slot": "W",
+          "source": "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW",
+          "formula": "Tryndamere hurls insults, reducing champions' Attack Damage by [(-20 / -35 / -50 / -65 / -80) × -1] for [4] seconds and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% while cowering from him for [3.25] seconds."
+        },
+        {
+          "ability": "Bloodlust",
+          "slot": "Q",
+          "source": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+          "formula": "Passive: Tryndamere thirsts for blood, gaining up to [20 / 35 / 50 / 65 / 80] Attack Damage based on his missing Health.\n\nActive: Tryndamere consumes his Fury, restoring [30 / 40 / 50 / 60 / 70 + (0.3) × AP] plus [0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP] Health per Fury (max: [30 / 40 / 50 / 60 / 70 + (0.3) × AP + (1 × AbilityResource(4, statFormula=default)) × ((0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP))])."
+        }
+      ]
+    },
+    {
+      "id": "tryndamere-four-3",
+      "champion": "Tryndamere",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Tryndamere: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A melee attack carry who builds Fury for crit chance, spins to maintain contact and uses temporary death immunity to extend a finishing window. Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Tryndamere: Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Tryndamere thrives on the thrills of combat, increasing his Attack Damage as he is more and more wounded. He can cast Bloodlust to consume his Fury and heal himself. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Tryndamere's stated kit question: Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Fury",
+      "kitEvidence": [
+        {
+          "ability": "Spinning Slash",
+          "slot": "E",
+          "source": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+          "formula": "Tryndamere spins through his enemies, dealing [80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2] + (0.8) × AP] physical damage and generating [2] Fury per enemy hit, increased to [5] Fury against enemy champions.\n\nThis Ability's Cooldown is reduced by [0.75] seconds when Tryndamere critically strikes, and reduced by [1.5] seconds when critically striking a champion."
+        },
+        {
+          "ability": "Battle Fury",
+          "slot": "Passive",
+          "source": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+          "formula": "Tryndamere's Attacks grant him 5 Fury or 10 Fury for a critical strike, and 10 Fury for killing a unit. After 8 seconds of being out of combat, Tryndamere loses 5 Fury every second.\n\nEach point of Fury grants [0.5]% Critical Strike Chance."
+        },
+        {
+          "ability": "Undying Rage",
+          "slot": "R",
+          "source": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+          "formula": "Tryndamere becomes completely immune to death for [5] seconds, refusing to be reduced below [30 / 50 / 70] Health, and instantly gains [50 / 75 / 100] Fury."
+        },
+        {
+          "ability": "Mocking Shout",
+          "slot": "W",
+          "source": "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW",
+          "formula": "Tryndamere hurls insults, reducing champions' Attack Damage by [(-20 / -35 / -50 / -65 / -80) × -1] for [4] seconds and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% while cowering from him for [3.25] seconds."
+        },
+        {
+          "ability": "Bloodlust",
+          "slot": "Q",
+          "source": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+          "formula": "Passive: Tryndamere thirsts for blood, gaining up to [20 / 35 / 50 / 65 / 80] Attack Damage based on his missing Health.\n\nActive: Tryndamere consumes his Fury, restoring [30 / 40 / 50 / 60 / 70 + (0.3) × AP] plus [0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP] Health per Fury (max: [30 / 40 / 50 / 60 / 70 + (0.3) × AP + (1 × AbilityResource(4, statFormula=default)) × ((0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP))])."
+        }
+      ]
+    },
+    {
+      "id": "tryndamere-four-4",
+      "champion": "Tryndamere",
+      "name": "Experiment: Sustain and waves",
+      "goal": "Experiment for Tryndamere: test a different playstyle, with lower confidence",
+      "hypothesis": "A melee attack carry who builds Fury for crit chance, spins to maintain contact and uses temporary death immunity to extend a finishing window. Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends. Hydra wave control and conditional healing may extend repeated trades. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3074,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5007,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Tryndamere: Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends.",
+        "Start with the early core (Ravenous Hydra, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Hydra wave control and conditional healing may extend repeated trades. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Tryndamere thrives on the thrills of combat, increasing his Attack Damage as he is more and more wounded. He can cast Bloodlust to consume his Fury and heal himself. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Healing reduction, kiting and the cost of delaying penetration can defeat the idea.",
+        "The route fails Tryndamere's stated kit question: Fix Fury crit chance and spin resets. R's death immunity has finite duration; healing and resistances must compare how many attacks land before it ends.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Healing reduction, kiting and the cost of delaying penetration can defeat the idea.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Ravenous Hydra, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Fury",
+      "kitEvidence": [
+        {
+          "ability": "Spinning Slash",
+          "slot": "E",
+          "source": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+          "formula": "Tryndamere spins through his enemies, dealing [80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2] + (0.8) × AP] physical damage and generating [2] Fury per enemy hit, increased to [5] Fury against enemy champions.\n\nThis Ability's Cooldown is reduced by [0.75] seconds when Tryndamere critically strikes, and reduced by [1.5] seconds when critically striking a champion."
+        },
+        {
+          "ability": "Battle Fury",
+          "slot": "Passive",
+          "source": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+          "formula": "Tryndamere's Attacks grant him 5 Fury or 10 Fury for a critical strike, and 10 Fury for killing a unit. After 8 seconds of being out of combat, Tryndamere loses 5 Fury every second.\n\nEach point of Fury grants [0.5]% Critical Strike Chance."
+        },
+        {
+          "ability": "Undying Rage",
+          "slot": "R",
+          "source": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+          "formula": "Tryndamere becomes completely immune to death for [5] seconds, refusing to be reduced below [30 / 50 / 70] Health, and instantly gains [50 / 75 / 100] Fury."
+        },
+        {
+          "ability": "Mocking Shout",
+          "slot": "W",
+          "source": "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW",
+          "formula": "Tryndamere hurls insults, reducing champions' Attack Damage by [(-20 / -35 / -50 / -65 / -80) × -1] for [4] seconds and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% while cowering from him for [3.25] seconds."
+        },
+        {
+          "ability": "Bloodlust",
+          "slot": "Q",
+          "source": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+          "formula": "Passive: Tryndamere thirsts for blood, gaining up to [20 / 35 / 50 / 65 / 80] Attack Damage based on his missing Health.\n\nActive: Tryndamere consumes his Fury, restoring [30 / 40 / 50 / 60 / 70 + (0.3) × AP] plus [0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP] Health per Fury (max: [30 / 40 / 50 / 60 / 70 + (0.3) × AP + (1 × AbilityResource(4, statFormula=default)) × ((0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP))])."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "builds": [
+    {
+      "id": "kled-four-1",
+      "champion": "Kled",
+      "name": "Reference: Contact fighter",
+      "goal": "Reference for Kled: establish a repeatable reference",
+      "hypothesis": "A committed melee scrapper who holds a tether, bursts four attacks and fights for a remount after losing Skaarl. Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "itemIds": [
+        6631,
+        6610,
+        3053,
+        6333,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kled: Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured.",
+        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Courage. Do not treat mana regeneration as Courage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Kled throws a bear trap that damages and hooks an enemy champion. If shackled for a short duration, the target takes additional physical damage and is yanked toward Kled.\n\nWhen dismounted, this ability is replaced by Pocket Pistol, a ranged gun blast that knocks back Kled and restores courage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "The route fails Kled's stated kit question: Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
+        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Courage. Do not treat mana regeneration as Courage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Reference",
+      "resourceType": "Courage",
+      "kitEvidence": [
+        {
+          "ability": "Jousting",
+          "slot": "E",
+          "source": "Characters/Kled/Spells/KledEAbility/KledE",
+          "formula": "Kled dashes, dealing [35 / 60 / 85 / 110 / 135 + (0.55) × AD[statFormula=2]] physical damage to enemies he passes through, pulling minions and small monsters towards him.\n\nIf this Ability hits an enemy champion or large jungle monster, Kled gains [50]% Move Speed for [1] second(s) and can Recast within [3] seconds to dash back through the same target."
+        },
+        {
+          "ability": "Bear Trap on a Rope",
+          "slot": "Q",
+          "source": "Characters/Kled/Spells/KledQAbility/KledQ",
+          "formula": "Mounted: Kled throws a bear trap that deals [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage and hooks onto the first enemy champion or large jungle monster hit.\n\nIf Kled stays near a hooked enemy for [1.75] seconds, he yanks out the trap, dealing [(30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]) × (2)] physical damage, Pulling them, and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [2.5] seconds."
+        },
+        {
+          "ability": "Chaaaaaaaarge!!!",
+          "slot": "R",
+          "source": "Characters/Kled/Spells/KledRAbility/KledR",
+          "formula": "Kled charges toward an area, leaving a trail that grants allies increasing Move Speed. While charging and for 2 seconds after Kled gains up to [200 / 300 / 400 + (3) × AD[statFormula=2]] Shield. Skaarl rams the first enemy champion encountered, dealing [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.01)] to [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.03)] max Health magic damage (based on distance travelled) and briefly Knocking Back."
+        },
+        {
+          "ability": "Skaarl, the Cowardly Lizard",
+          "slot": "Passive",
+          "source": "Characters/Kled/Spells/KledPassiveAbility/KledPassive",
+          "formula": "Mounted: Kled's mount Skaarl takes damage instead of Kled. When his Health depletes, Kled dismounts.\n\nDismounted: Kled replaces {{spell_KledQ_Name}}, gains [characterLevelBreakpoints(start=70, perLevel=5, changes=[])] Move Speed toward enemy champions, and he gains [4 + (0.01) × Stat(12)[statFormula=2]] bonus Armor and Magic Resist, increased by [30]% for each nearby enemy Champion, up to [(4 + (0.01) × Stat(12)[statFormula=2]) × (2.5)]. While dismounted, Kled's attacks deal [characterLevelBreakpoints(start=0.15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}])] reduced damage to Champions. \n\nKled gains [15] Courage by Attacking champions, [5] Courage by Attacking epic monsters and structures, and [5] Courage by killing minions. At max Courage Kled remounts with [characterLevelBreakpoints(start=0.4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] of Skaarl's Health, once every [30] seconds."
+        },
+        {
+          "ability": "Violent Tendencies",
+          "slot": "W",
+          "source": "Characters/Kled/Spells/KledWAbility/KledW",
+          "formula": "Passive: Kled's next Attack grants [150]% Attack Speed for four Attacks or [4] seconds.\n\nThe fourth hit deals an additional [20 / 30 / 40 / 50 / 60] plus [(4.5 / 5 / 5.5 / 6 / 6.5 + (0.02) × AD[statFormula=2] + (0.004) × Stat(12)[statFormula=2]) × (0.01)] max Health physical damage."
+        }
+      ]
+    },
+    {
+      "id": "kled-four-2",
+      "champion": "Kled",
+      "name": "Damage interaction: Attack-led side lane",
+      "goal": "Damage interaction for Kled: test the relevant damage interaction, not an unverified maximum",
+      "hypothesis": "A committed melee scrapper who holds a tether, bursts four attacks and fights for a remount after losing Skaarl. Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "itemIds": [
+        3153,
+        3078,
+        3181,
+        3053,
+        6333,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kled: Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured.",
+        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Courage. Do not treat mana regeneration as Courage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Kled throws a bear trap that damages and hooks an enemy champion. If shackled for a short duration, the target takes additional physical damage and is yanked toward Kled.\n\nWhen dismounted, this ability is replaced by Pocket Pistol, a ranged gun blast that knocks back Kled and restores courage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "The route fails Kled's stated kit question: Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
+        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "The reference is a research control, not a claim of the current highest-win-rate build."
+      ],
+      "buyOrder": [
+        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Courage. Do not treat mana regeneration as Courage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Damage interaction",
+      "resourceType": "Courage",
+      "kitEvidence": [
+        {
+          "ability": "Jousting",
+          "slot": "E",
+          "source": "Characters/Kled/Spells/KledEAbility/KledE",
+          "formula": "Kled dashes, dealing [35 / 60 / 85 / 110 / 135 + (0.55) × AD[statFormula=2]] physical damage to enemies he passes through, pulling minions and small monsters towards him.\n\nIf this Ability hits an enemy champion or large jungle monster, Kled gains [50]% Move Speed for [1] second(s) and can Recast within [3] seconds to dash back through the same target."
+        },
+        {
+          "ability": "Bear Trap on a Rope",
+          "slot": "Q",
+          "source": "Characters/Kled/Spells/KledQAbility/KledQ",
+          "formula": "Mounted: Kled throws a bear trap that deals [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage and hooks onto the first enemy champion or large jungle monster hit.\n\nIf Kled stays near a hooked enemy for [1.75] seconds, he yanks out the trap, dealing [(30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]) × (2)] physical damage, Pulling them, and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [2.5] seconds."
+        },
+        {
+          "ability": "Chaaaaaaaarge!!!",
+          "slot": "R",
+          "source": "Characters/Kled/Spells/KledRAbility/KledR",
+          "formula": "Kled charges toward an area, leaving a trail that grants allies increasing Move Speed. While charging and for 2 seconds after Kled gains up to [200 / 300 / 400 + (3) × AD[statFormula=2]] Shield. Skaarl rams the first enemy champion encountered, dealing [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.01)] to [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.03)] max Health magic damage (based on distance travelled) and briefly Knocking Back."
+        },
+        {
+          "ability": "Skaarl, the Cowardly Lizard",
+          "slot": "Passive",
+          "source": "Characters/Kled/Spells/KledPassiveAbility/KledPassive",
+          "formula": "Mounted: Kled's mount Skaarl takes damage instead of Kled. When his Health depletes, Kled dismounts.\n\nDismounted: Kled replaces {{spell_KledQ_Name}}, gains [characterLevelBreakpoints(start=70, perLevel=5, changes=[])] Move Speed toward enemy champions, and he gains [4 + (0.01) × Stat(12)[statFormula=2]] bonus Armor and Magic Resist, increased by [30]% for each nearby enemy Champion, up to [(4 + (0.01) × Stat(12)[statFormula=2]) × (2.5)]. While dismounted, Kled's attacks deal [characterLevelBreakpoints(start=0.15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}])] reduced damage to Champions. \n\nKled gains [15] Courage by Attacking champions, [5] Courage by Attacking epic monsters and structures, and [5] Courage by killing minions. At max Courage Kled remounts with [characterLevelBreakpoints(start=0.4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] of Skaarl's Health, once every [30] seconds."
+        },
+        {
+          "ability": "Violent Tendencies",
+          "slot": "W",
+          "source": "Characters/Kled/Spells/KledWAbility/KledW",
+          "formula": "Passive: Kled's next Attack grants [150]% Attack Speed for four Attacks or [4] seconds.\n\nThe fourth hit deals an additional [20 / 30 / 40 / 50 / 60] plus [(4.5 / 5 / 5.5 / 6 / 6.5 + (0.02) × AD[statFormula=2] + (0.004) × Stat(12)[statFormula=2]) × (0.01)] max Health physical damage."
+        }
+      ]
+    },
+    {
+      "id": "kled-four-3",
+      "champion": "Kled",
+      "name": "Situational adaptation: Physical matchup",
+      "goal": "Situational adaptation for Kled: adapt to the specified fight rather than assume one universal build",
+      "hypothesis": "A committed melee scrapper who holds a tether, bursts four attacks and fights for a remount after losing Skaarl. Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured. Armor and access may turn survival into additional attack/spell windows.",
+      "itemIds": [
+        6631,
+        3071,
+        3143,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kled: Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured.",
+        "Start with the early core (Stridebreaker, then matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Courage. Do not treat mana regeneration as Courage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Armor and access may turn survival into additional attack/spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
+        "Q evidence: Kled throws a bear trap that damages and hooks an enemy champion. If shackled for a short duration, the target takes additional physical damage and is yanked toward Kled.\n\nWhen dismounted, this ability is replaced by Pocket Pistol, a ranged gun blast that knocks back Kled and restores courage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "The route fails Kled's stated kit question: Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "Randuin is conditional on the enemy attack/crit profile; it costs an offensive slot.",
+        "Full cost 16,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+      ],
+      "buyOrder": [
+        "Stridebreaker, then matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Randuin's Omen, Spirit Visage, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Courage. Do not treat mana regeneration as Courage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Situational adaptation",
+      "resourceType": "Courage",
+      "kitEvidence": [
+        {
+          "ability": "Jousting",
+          "slot": "E",
+          "source": "Characters/Kled/Spells/KledEAbility/KledE",
+          "formula": "Kled dashes, dealing [35 / 60 / 85 / 110 / 135 + (0.55) × AD[statFormula=2]] physical damage to enemies he passes through, pulling minions and small monsters towards him.\n\nIf this Ability hits an enemy champion or large jungle monster, Kled gains [50]% Move Speed for [1] second(s) and can Recast within [3] seconds to dash back through the same target."
+        },
+        {
+          "ability": "Bear Trap on a Rope",
+          "slot": "Q",
+          "source": "Characters/Kled/Spells/KledQAbility/KledQ",
+          "formula": "Mounted: Kled throws a bear trap that deals [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage and hooks onto the first enemy champion or large jungle monster hit.\n\nIf Kled stays near a hooked enemy for [1.75] seconds, he yanks out the trap, dealing [(30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]) × (2)] physical damage, Pulling them, and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [2.5] seconds."
+        },
+        {
+          "ability": "Chaaaaaaaarge!!!",
+          "slot": "R",
+          "source": "Characters/Kled/Spells/KledRAbility/KledR",
+          "formula": "Kled charges toward an area, leaving a trail that grants allies increasing Move Speed. While charging and for 2 seconds after Kled gains up to [200 / 300 / 400 + (3) × AD[statFormula=2]] Shield. Skaarl rams the first enemy champion encountered, dealing [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.01)] to [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.03)] max Health magic damage (based on distance travelled) and briefly Knocking Back."
+        },
+        {
+          "ability": "Skaarl, the Cowardly Lizard",
+          "slot": "Passive",
+          "source": "Characters/Kled/Spells/KledPassiveAbility/KledPassive",
+          "formula": "Mounted: Kled's mount Skaarl takes damage instead of Kled. When his Health depletes, Kled dismounts.\n\nDismounted: Kled replaces {{spell_KledQ_Name}}, gains [characterLevelBreakpoints(start=70, perLevel=5, changes=[])] Move Speed toward enemy champions, and he gains [4 + (0.01) × Stat(12)[statFormula=2]] bonus Armor and Magic Resist, increased by [30]% for each nearby enemy Champion, up to [(4 + (0.01) × Stat(12)[statFormula=2]) × (2.5)]. While dismounted, Kled's attacks deal [characterLevelBreakpoints(start=0.15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}])] reduced damage to Champions. \n\nKled gains [15] Courage by Attacking champions, [5] Courage by Attacking epic monsters and structures, and [5] Courage by killing minions. At max Courage Kled remounts with [characterLevelBreakpoints(start=0.4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] of Skaarl's Health, once every [30] seconds."
+        },
+        {
+          "ability": "Violent Tendencies",
+          "slot": "W",
+          "source": "Characters/Kled/Spells/KledWAbility/KledW",
+          "formula": "Passive: Kled's next Attack grants [150]% Attack Speed for four Attacks or [4] seconds.\n\nThe fourth hit deals an additional [20 / 30 / 40 / 50 / 60] plus [(4.5 / 5 / 5.5 / 6 / 6.5 + (0.02) × AD[statFormula=2] + (0.004) × Stat(12)[statFormula=2]) × (0.01)] max Health physical damage."
+        }
+      ]
+    },
+    {
+      "id": "kled-four-4",
+      "champion": "Kled",
+      "name": "Experiment: Health to attack damage",
+      "goal": "Experiment for Kled: test a different playstyle, with lower confidence",
+      "hypothesis": "A committed melee scrapper who holds a tether, bursts four attacks and fights for a remount after losing Skaarl. Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured. Bloodmail converts bonus health to AD while Titanic asks for actual attacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
+      "itemIds": [
+        3084,
+        2501,
+        3748,
+        3053,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5005,
+        5008,
+        5001
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mode": "qe",
+        "duration": 10,
+        "mana": 1500,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Kit question for Kled: Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured.",
+        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
+        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Courage. Do not treat mana regeneration as Courage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
+        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
+        "Q evidence: Kled throws a bear trap that damages and hooks an enemy champion. If shackled for a short duration, the target takes additional physical damage and is yanked toward Kled.\n\nWhen dismounted, this ability is replaced by Pocket Pistol, a ranged gun blast that knocks back Kled and restores courage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+      ],
+      "failureConditions": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "The route fails Kled's stated kit question: Fix mounted/dismounted state and W readiness. Compare four-hit burst and remount timing; health attribution to Skaarl and damage before remount must be measured.",
+        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+      ],
+      "tradeoffs": [
+        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
+        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
+        "Experimental package: plausible mechanics are not proof of strength or novelty."
+      ],
+      "buyOrder": [
+        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
+        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
+        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
+        "Resource: Courage. Do not treat mana regeneration as Courage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+      ],
+      "coverageNotes": [
+        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
+        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
+        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+      ],
+      "author": "ChatGPT",
+      "category": "Experiment",
+      "resourceType": "Courage",
+      "kitEvidence": [
+        {
+          "ability": "Jousting",
+          "slot": "E",
+          "source": "Characters/Kled/Spells/KledEAbility/KledE",
+          "formula": "Kled dashes, dealing [35 / 60 / 85 / 110 / 135 + (0.55) × AD[statFormula=2]] physical damage to enemies he passes through, pulling minions and small monsters towards him.\n\nIf this Ability hits an enemy champion or large jungle monster, Kled gains [50]% Move Speed for [1] second(s) and can Recast within [3] seconds to dash back through the same target."
+        },
+        {
+          "ability": "Bear Trap on a Rope",
+          "slot": "Q",
+          "source": "Characters/Kled/Spells/KledQAbility/KledQ",
+          "formula": "Mounted: Kled throws a bear trap that deals [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage and hooks onto the first enemy champion or large jungle monster hit.\n\nIf Kled stays near a hooked enemy for [1.75] seconds, he yanks out the trap, dealing [(30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]) × (2)] physical damage, Pulling them, and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [2.5] seconds."
+        },
+        {
+          "ability": "Chaaaaaaaarge!!!",
+          "slot": "R",
+          "source": "Characters/Kled/Spells/KledRAbility/KledR",
+          "formula": "Kled charges toward an area, leaving a trail that grants allies increasing Move Speed. While charging and for 2 seconds after Kled gains up to [200 / 300 / 400 + (3) × AD[statFormula=2]] Shield. Skaarl rams the first enemy champion encountered, dealing [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.01)] to [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.03)] max Health magic damage (based on distance travelled) and briefly Knocking Back."
+        },
+        {
+          "ability": "Skaarl, the Cowardly Lizard",
+          "slot": "Passive",
+          "source": "Characters/Kled/Spells/KledPassiveAbility/KledPassive",
+          "formula": "Mounted: Kled's mount Skaarl takes damage instead of Kled. When his Health depletes, Kled dismounts.\n\nDismounted: Kled replaces {{spell_KledQ_Name}}, gains [characterLevelBreakpoints(start=70, perLevel=5, changes=[])] Move Speed toward enemy champions, and he gains [4 + (0.01) × Stat(12)[statFormula=2]] bonus Armor and Magic Resist, increased by [30]% for each nearby enemy Champion, up to [(4 + (0.01) × Stat(12)[statFormula=2]) × (2.5)]. While dismounted, Kled's attacks deal [characterLevelBreakpoints(start=0.15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}])] reduced damage to Champions. \n\nKled gains [15] Courage by Attacking champions, [5] Courage by Attacking epic monsters and structures, and [5] Courage by killing minions. At max Courage Kled remounts with [characterLevelBreakpoints(start=0.4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] of Skaarl's Health, once every [30] seconds."
+        },
+        {
+          "ability": "Violent Tendencies",
+          "slot": "W",
+          "source": "Characters/Kled/Spells/KledWAbility/KledW",
+          "formula": "Passive: Kled's next Attack grants [150]% Attack Speed for four Attacks or [4] seconds.\n\nThe fourth hit deals an additional [20 / 30 / 40 / 50 / 60] plus [(4.5 / 5 / 5.5 / 6 / 6.5 + (0.02) × AD[statFormula=2] + (0.004) × Stat(12)[statFormula=2]) × (0.01)] max Health physical damage."
+        }
+      ]
+    }
+  ]
+}

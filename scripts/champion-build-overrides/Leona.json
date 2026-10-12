@@ -1,0 +1,409 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "method": "Individually authored kit objectives, item interactions, falsifications and matched-condition tests.",
+  "builds": [
+    {
+      "id": "leona-kit-v2-1",
+      "champion": "Leona",
+      "name": "Reference: Allied Sunlight pick control",
+      "category": "Reference",
+      "goal": "Turn immobilizations into allied Sunlight damage",
+      "summary": "Turn immobilizations into allied Sunlight damage.",
+      "hypothesis": "Leona marks with abilities, but another allied champion must consume Sunlight. Q/E/R control creates that opportunity; W's defenses must be timed for retaliation. The support control measures allied follow-up, not fictional solo passive procs.",
+      "itemIds": [
+        3869,
+        2524,
+        3190,
+        3050,
+        3109,
+        3047
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8306,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Use a fixed allied attacker. Compare spaced marks with dumping all abilities before the ally attacks. Log consumed Sunlight marks, actual control time and ally survival.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "The ally cannot reach or consume marks; the engage exposes the carry or W expires before retaliation.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Support quest and boots, then affordable ally protection; do not assume solo-lane income.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Sunlight",
+          "slot": "Passive",
+          "source": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive",
+          "formula": "Leona's abilities mark enemies for [2.5] seconds. Other allied champions consume the mark when they damage the marked enemy, dealing an additional [characterLevelTable[25, 32, 39, 46, 53, 60, 67, 74, 81, 88, 95, 102, 109, 116, 123, 130, 137, 144, 151, 158, 165, 172, 179, 186, 193, 200, 207, 214, 221, 228, 235]] magic damage."
+        },
+        {
+          "ability": "Shield of Daybreak",
+          "slot": "Q",
+          "source": "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+          "formula": "Leona's next Attack Stuns for [1] seconds and deals an additional [10 / 35 / 60 / 85 / 110 + (0.3) × AP] magic damage."
+        },
+        {
+          "ability": "Zenith Blade",
+          "slot": "E",
+          "source": "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBlade",
+          "formula": "Leona thrusts with a sword of light, dealing [50 / 90 / 130 / 170 / 210 + (0.4) × AP] magic damage. The last champion struck will be Rooted for [0.5] seconds and Leona will dash to them."
+        },
+        {
+          "ability": "Solar Flare",
+          "slot": "R",
+          "source": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare",
+          "formula": "Leona calls down a radiant beam of solar energy dealing [150 / 225 / 300 + (0.8) × AP] magic damage and Slowing by [80]% for [1.75] seconds. Enemies in the center of the flare are Stunned instead of Slowed."
+        },
+        {
+          "ability": "Eclipse",
+          "slot": "W",
+          "source": "Characters/Leona/Spells/LeonaSolarBarrierAbility/LeonaSolarBarrier",
+          "formula": "Leona raises her shield, reducing incoming damage by [8 / 12 / 16 / 20 / 24] and gaining [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × Stat(1)[statFormula=2]] Armor and [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × Stat(6)[statFormula=2]] Magic Resist for [3] seconds. Afterwards, her shield detonates, dealing [55 / 85 / 115 / 145 / 175 + (0.4) × AP] magic damage to nearby enemies. If she hits at least one, she retains the Armor and Magic Resist bonuses for an additional [3] seconds."
+        }
+      ]
+    },
+    {
+      "id": "leona-kit-v2-2",
+      "champion": "Leona",
+      "name": "Damage interaction: Navori Daybreak stun loop",
+      "category": "Damage interaction",
+      "goal": "Create more landed Q stuns through real attack uptime",
+      "summary": "Create more landed Q stuns through real attack uptime.",
+      "hypothesis": "Q is an empowered attack with an attack reset and stun; Navori needs actual attacks to reduce remaining cooldowns. Trinity supplies a measured Spellblade packet, while W and defense keep Leona in reach. This is repeated control, not guaranteed permanent CC.",
+      "itemIds": [
+        3078,
+        6675,
+        3110,
+        3053,
+        3065,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Compare normal attack → Q reset → attacks with Q-only at the same haste. Record Q intervals and time the opponent can act over ten seconds; repeat with kiting, attack-speed reduction and real incoming damage.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "Attack uptime collapses, the target escapes between stuns, or offensive spending prevents another Q.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Farmed-role research: Trinity/boots checkpoint then Navori comparison; buy defense for contact rather than chasing unlimited haste.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Sunlight",
+          "slot": "Passive",
+          "source": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive",
+          "formula": "Leona's abilities mark enemies for [2.5] seconds. Other allied champions consume the mark when they damage the marked enemy, dealing an additional [characterLevelTable[25, 32, 39, 46, 53, 60, 67, 74, 81, 88, 95, 102, 109, 116, 123, 130, 137, 144, 151, 158, 165, 172, 179, 186, 193, 200, 207, 214, 221, 228, 235]] magic damage."
+        },
+        {
+          "ability": "Shield of Daybreak",
+          "slot": "Q",
+          "source": "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+          "formula": "Leona's next Attack Stuns for [1] seconds and deals an additional [10 / 35 / 60 / 85 / 110 + (0.3) × AP] magic damage."
+        },
+        {
+          "ability": "Zenith Blade",
+          "slot": "E",
+          "source": "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBlade",
+          "formula": "Leona thrusts with a sword of light, dealing [50 / 90 / 130 / 170 / 210 + (0.4) × AP] magic damage. The last champion struck will be Rooted for [0.5] seconds and Leona will dash to them."
+        },
+        {
+          "ability": "Solar Flare",
+          "slot": "R",
+          "source": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare",
+          "formula": "Leona calls down a radiant beam of solar energy dealing [150 / 225 / 300 + (0.8) × AP] magic damage and Slowing by [80]% for [1.75] seconds. Enemies in the center of the flare are Stunned instead of Slowed."
+        },
+        {
+          "ability": "Eclipse",
+          "slot": "W",
+          "source": "Characters/Leona/Spells/LeonaSolarBarrierAbility/LeonaSolarBarrier",
+          "formula": "Leona raises her shield, reducing incoming damage by [8 / 12 / 16 / 20 / 24] and gaining [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × Stat(1)[statFormula=2]] Armor and [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × Stat(6)[statFormula=2]] Magic Resist for [3] seconds. Afterwards, her shield detonates, dealing [55 / 85 / 115 / 145 / 175 + (0.4) × AP] magic damage to nearby enemies. If she hits at least one, she retains the Armor and Magic Resist bonuses for an additional [3] seconds."
+        }
+      ]
+    },
+    {
+      "id": "leona-kit-v2-3",
+      "champion": "Leona",
+      "name": "Situational adaptation: AP Solar Flare ambush",
+      "category": "Situational adaptation",
+      "goal": "Deliver a complete AP Q/W/E/R burst with a center R hit",
+      "summary": "Deliver a complete AP Q/W/E/R burst with a center R hit.",
+      "hypothesis": "Solar Flare's AP ratio plus the other AP spell ratios supports a burst experiment, but the center stun, E connection and delayed W explosion must all land. Dusk supplies a separate empowered-attack packet. Leona cannot consume her own Sunlight, so solo damage excludes it.",
+      "itemIds": [
+        3152,
+        2510,
+        3089,
+        3135,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8126,
+        8140,
+        8106,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Measure center-R versus edge-R, E misses and W explosion misses. Separate solo Q/W/E/R damage from a fixed ally's Sunlight procs; isolate Dusk and Rocketbelt packets.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "One missed component removes the payoff; Leona dies before W explodes or cannot leave afterward.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "AP access checkpoint with Rocketbelt or Dusk; keep boots and time Zhonya before/after casts, not as free offensive uptime.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Sunlight",
+          "slot": "Passive",
+          "source": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive",
+          "formula": "Leona's abilities mark enemies for [2.5] seconds. Other allied champions consume the mark when they damage the marked enemy, dealing an additional [characterLevelTable[25, 32, 39, 46, 53, 60, 67, 74, 81, 88, 95, 102, 109, 116, 123, 130, 137, 144, 151, 158, 165, 172, 179, 186, 193, 200, 207, 214, 221, 228, 235]] magic damage."
+        },
+        {
+          "ability": "Shield of Daybreak",
+          "slot": "Q",
+          "source": "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+          "formula": "Leona's next Attack Stuns for [1] seconds and deals an additional [10 / 35 / 60 / 85 / 110 + (0.3) × AP] magic damage."
+        },
+        {
+          "ability": "Zenith Blade",
+          "slot": "E",
+          "source": "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBlade",
+          "formula": "Leona thrusts with a sword of light, dealing [50 / 90 / 130 / 170 / 210 + (0.4) × AP] magic damage. The last champion struck will be Rooted for [0.5] seconds and Leona will dash to them."
+        },
+        {
+          "ability": "Solar Flare",
+          "slot": "R",
+          "source": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare",
+          "formula": "Leona calls down a radiant beam of solar energy dealing [150 / 225 / 300 + (0.8) × AP] magic damage and Slowing by [80]% for [1.75] seconds. Enemies in the center of the flare are Stunned instead of Slowed."
+        },
+        {
+          "ability": "Eclipse",
+          "slot": "W",
+          "source": "Characters/Leona/Spells/LeonaSolarBarrierAbility/LeonaSolarBarrier",
+          "formula": "Leona raises her shield, reducing incoming damage by [8 / 12 / 16 / 20 / 24] and gaining [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × Stat(1)[statFormula=2]] Armor and [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × Stat(6)[statFormula=2]] Magic Resist for [3] seconds. Afterwards, her shield detonates, dealing [55 / 85 / 115 / 145 / 175 + (0.4) × AP] magic damage to nearby enemies. If she hits at least one, she retains the Armor and Magic Resist bonuses for an additional [3] seconds."
+        }
+      ]
+    },
+    {
+      "id": "leona-kit-v2-4",
+      "champion": "Leona",
+      "name": "Experiment: Hybrid Daybreak brawler",
+      "category": "Experiment",
+      "goal": "Compare an attack-focused solo Leona with the Q-control loop",
+      "summary": "Compare an attack-focused solo Leona with the Q-control loop.",
+      "hypothesis": "Q's reset can deliver another real attack and item on-hit; W may buy a short melee window. AP strengthens Q/W/E/R and Nashor, while BotRK targets actual enemy health. Guinsoo/Dusk extra on-hits do not grant additional Q stuns or self-trigger Sunlight without evidence.",
+      "itemIds": [
+        3153,
+        3115,
+        2510,
+        3124,
+        3053,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Compare three seconds and ten seconds at matched gold against the Navori route. Count attacks, Q resets, actual proc packets and control time; test a moving enemy and include a separate ally trial for Sunlight.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "No solo passive damage exists to rescue weak attack trades; items do not duplicate stuns and the opponent kites the attack window.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Farmed-role low-confidence experiment: attack checkpoint, then verify Dusk/Guinsoo independently. Keep protection if it buys another real attack.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Sunlight",
+          "slot": "Passive",
+          "source": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive",
+          "formula": "Leona's abilities mark enemies for [2.5] seconds. Other allied champions consume the mark when they damage the marked enemy, dealing an additional [characterLevelTable[25, 32, 39, 46, 53, 60, 67, 74, 81, 88, 95, 102, 109, 116, 123, 130, 137, 144, 151, 158, 165, 172, 179, 186, 193, 200, 207, 214, 221, 228, 235]] magic damage."
+        },
+        {
+          "ability": "Shield of Daybreak",
+          "slot": "Q",
+          "source": "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+          "formula": "Leona's next Attack Stuns for [1] seconds and deals an additional [10 / 35 / 60 / 85 / 110 + (0.3) × AP] magic damage."
+        },
+        {
+          "ability": "Zenith Blade",
+          "slot": "E",
+          "source": "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBlade",
+          "formula": "Leona thrusts with a sword of light, dealing [50 / 90 / 130 / 170 / 210 + (0.4) × AP] magic damage. The last champion struck will be Rooted for [0.5] seconds and Leona will dash to them."
+        },
+        {
+          "ability": "Solar Flare",
+          "slot": "R",
+          "source": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare",
+          "formula": "Leona calls down a radiant beam of solar energy dealing [150 / 225 / 300 + (0.8) × AP] magic damage and Slowing by [80]% for [1.75] seconds. Enemies in the center of the flare are Stunned instead of Slowed."
+        },
+        {
+          "ability": "Eclipse",
+          "slot": "W",
+          "source": "Characters/Leona/Spells/LeonaSolarBarrierAbility/LeonaSolarBarrier",
+          "formula": "Leona raises her shield, reducing incoming damage by [8 / 12 / 16 / 20 / 24] and gaining [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × Stat(1)[statFormula=2]] Armor and [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × Stat(6)[statFormula=2]] Magic Resist for [3] seconds. Afterwards, her shield detonates, dealing [55 / 85 / 115 / 145 / 175 + (0.4) × AP] magic damage to nearby enemies. If she hits at least one, she retains the Armor and Magic Resist bonuses for an additional [3] seconds."
+        }
+      ]
+    }
+  ]
+}

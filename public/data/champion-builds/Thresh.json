@@ -3,19 +3,21 @@
   "patch": "26.20",
   "author": "ChatGPT",
   "authoredAt": "2026-10-12",
+  "method": "Individually authored kit objectives, item interactions, falsifications and matched-condition tests.",
   "builds": [
     {
-      "id": "thresh-four-1",
+      "id": "thresh-kit-v2-1",
       "champion": "Thresh",
-      "name": "Reference: Engage and rescue",
-      "goal": "Reference for Thresh: establish a repeatable reference",
-      "hypothesis": "A catch-and-peel controller who hooks enemies, adjusts spacing with Flay and offers allies a lantern escape while souls grow defenses and AP. Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus. A support quest and protective actives test allied survival after an engage.",
-      "summary": "A support quest and protective actives test allied survival after an engage.",
+      "name": "Reference: Lantern first, hook second",
+      "category": "Reference",
+      "goal": "Protect a lantern rescue after a catch",
+      "summary": "Protect a lantern rescue after a catch.",
+      "hypothesis": "Lantern shielding scales with collected souls; AP items do not create extra souls. Q/E access and nearby protective actives must repay the danger of standing where an ally can take the lantern.",
       "itemIds": [
         3869,
         3190,
         3109,
-        3050,
+        2524,
         3222,
         3111
       ],
@@ -24,58 +26,52 @@
         8463,
         8473,
         8451,
-        8345,
+        8306,
         8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
         "level": 16,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
+        "healthPercent": 100,
         "heartsteelHP": 0,
         "conquerorStacks": 0,
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Thresh: Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus.",
-        "Start with the early core (Support quest, boots and Locket; choose later actives by threat) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A support quest and protective actives test allied survival after an engage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Thresh binds an enemy in chains and pulls them toward him. Activating this ability a second time pulls Thresh to the enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Keep 80 souls fixed; compare lantern → hook versus hook recast → late lantern. Measure ally survival and whether the lantern remains reachable.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
       ],
       "failureConditions": [
-        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
-        "The route fails Thresh's stated kit question: Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "A Q recast drags Thresh out of rescue position; the ally dies before or after taking the lantern.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
-        "Full cost 10,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
       ],
       "buyOrder": [
-        "Support quest, boots and Locket; choose later actives by threat. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Knight's Vow, Zeke's Convergence, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Support quest, movement boots, then Locket or Knight's Vow; match protection to the ally.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
       ],
       "author": "ChatGPT",
-      "category": "Reference",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Death Sentence",
@@ -110,77 +106,72 @@
       ]
     },
     {
-      "id": "thresh-four-2",
+      "id": "thresh-kit-v2-2",
       "champion": "Thresh",
-      "name": "Damage interaction: Mobile bodyguard",
-      "goal": "Damage interaction for Thresh: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A catch-and-peel controller who hooks enemies, adjusts spacing with Flay and offers allies a lantern escape while souls grow defenses and AP. Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus. Movement, affordable protection and a later reset item test repeated rescue participation.",
-      "summary": "Movement, affordable protection and a later reset item test repeated rescue participation.",
+      "name": "Damage interaction: AD charged-Flay ambush",
+      "category": "Damage interaction",
+      "goal": "Maximize the first fully charged E-passive attack",
+      "summary": "Maximize the first fully charged E-passive attack.",
+      "hypothesis": "At rank 5 the stored Flay passive adds up to 210% total AD plus a soul term as MAGIC damage. High AD strengthens that packet; Void Staff addresses its MR mitigation. RFC tests attack access. Crit/Infinity Edge affect the normal physical attack, not automatically the Flay magic packet. Essence Reaver is another separately measured packet.",
       "itemIds": [
-        3869,
-        2524,
-        3190,
-        3109,
-        3083,
+        3072,
+        3508,
+        3031,
+        3094,
+        3135,
         3009
       ],
       "runePage": [
-        8465,
-        8463,
-        8444,
-        8453,
+        8369,
+        8321,
         8345,
-        8347
+        8347,
+        8233,
+        8236
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
+        "healthPercent": 100,
         "heartsteelHP": 0,
         "conquerorStacks": 0,
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Thresh: Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus.",
-        "Start with the early core (Support quest, movement/boots and Locket; Warmog only after its actual threshold) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Movement, affordable protection and a later reset item test repeated rescue participation. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Thresh binds an enemy in chains and pulls them toward him. Activating this ability a second time pulls Thresh to the enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Fix 80 souls and wait for full E charge. Compare the first hit with immediate second/third attacks; repeat at 50/150 MR and 50/150 armor. Replace RFC with Youmuu at matched gold to compare access with AD.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
       ],
       "failureConditions": [
-        "Warmog is a late threshold purchase, not in-combat regeneration or an assumed early spike.",
-        "The route fails Thresh's stated kit question: Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "The opponent prevents the opening attack, or repeated attacks are mistakenly credited with full charge. Crit never multiplies the Flay packet in the measurement.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Warmog is a late threshold purchase, not in-combat regeneration or an assumed early spike.",
-        "Full cost 11,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
       ],
       "buyOrder": [
-        "Support quest, movement/boots and Locket; Warmog only after its actual threshold. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Locket of the Iron Solari, Knight's Vow, Warmog's Armor are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Farming-role experiment: early AD/Spellblade checkpoint, then penetration for the actual target; keep boots. Compare Bloodthirster raw AD with a cheaper component stage.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Death Sentence",
@@ -215,77 +206,72 @@
       ]
     },
     {
-      "id": "thresh-four-3",
+      "id": "thresh-kit-v2-3",
       "champion": "Thresh",
-      "name": "Situational adaptation: Protection specialist",
-      "goal": "Situational adaptation for Thresh: adapt to the specified fight rather than assume one universal build",
-      "hypothesis": "A catch-and-peel controller who hooks enemies, adjusts spacing with Flay and offers allies a lantern escape while souls grow defenses and AP. Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus. Healing/shield power and timed actives test preserving an allied carry.",
-      "summary": "Healing/shield power and timed actives test preserving an allied carry.",
+      "name": "Situational adaptation: Armored soul collector",
+      "category": "Situational adaptation",
+      "goal": "Turn fixed soul armor into repeated rescue opportunities",
+      "summary": "Turn fixed soul armor into repeated rescue opportunities.",
+      "hypothesis": "Damnation gives armor and AP per earned soul, while W shielding uses the soul count directly. Frozen Heart targets attack pressure; mana enables repeated actions but is not an extra lantern ratio. This route asks whether staying alive creates a second useful W or E, rather than optimizing a damage screenshot.",
       "itemIds": [
         3869,
-        6617,
-        3107,
-        3222,
-        6621,
-        3158
+        3110,
+        3190,
+        3109,
+        2524,
+        3111
       ],
       "runePage": [
-        8465,
+        8439,
         8463,
-        8444,
-        8453,
-        8345,
+        8473,
+        8451,
+        8306,
         8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
+        "healthPercent": 100,
         "heartsteelHP": 0,
         "conquerorStacks": 0,
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Thresh: Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus.",
-        "Start with the early core (Support quest, Moonstone only with useful eligible heals/shields, then the needed active) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Healing/shield power and timed actives test preserving an allied carry. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. Choose the opponent profile this defensive route is intended to address, then repeat against the wrong damage type.",
-        "Q evidence: Thresh binds an enemy in chains and pulls them toward him. Activating this ability a second time pulls Thresh to the enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Test at 40 and 80 earned souls without changing items. Use a physical attack opponent then magic burst. Count completed rescues, second E casts, mana spent and time until death.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
       ],
       "failureConditions": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "The route fails Thresh's stated kit question: Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Magic burst bypasses the armor emphasis; more survival creates no extra useful rescue or control.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Counter-items are conditional. Change boots/defense for the real matchup, then record the modified setup."
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
       ],
       "buyOrder": [
-        "Support quest, Moonstone only with useful eligible heals/shields, then the needed active. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Redemption, Mikael's Blessing, Dawncore are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Support quest/boots first; Frozen Heart only for actual attack pressure; add ally protection at realistic support income.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
       ],
       "author": "ChatGPT",
-      "category": "Situational adaptation",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Death Sentence",
@@ -320,12 +306,13 @@
       ]
     },
     {
-      "id": "thresh-four-4",
+      "id": "thresh-kit-v2-4",
       "champion": "Thresh",
-      "name": "Experiment: AP attack experiment",
-      "goal": "Experiment for Thresh: test a different playstyle, with lower confidence",
-      "hypothesis": "A catch-and-peel controller who hooks enemies, adjusts spacing with Flay and offers allies a lantern escape while souls grow defenses and AP. Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Experiment: Soul-powered on-hit carry",
+      "category": "Experiment",
+      "goal": "Test repeated soul-based attacks against the charged-hit route",
+      "summary": "Test repeated soul-based attacks against the charged-hit route.",
+      "hypothesis": "The uncharged Flay passive retains its soul term even when the AD charge is empty. Nashor and attack speed may make repeat hits relevant; soul AP also supports spells. Guinsoo extra on-hits must be observed separately: do not assume another fully charged Flay, E cast or crit on each phantom hit.",
       "itemIds": [
         3115,
         3124,
@@ -335,62 +322,56 @@
         3006
       ],
       "runePage": [
-        8008,
+        8005,
         9111,
         9104,
         8014,
-        8429,
+        8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
+        "healthPercent": 100,
         "heartsteelHP": 0,
         "conquerorStacks": 0,
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Thresh: Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Thresh binds an enemy in chains and pulls them toward him. Activating this ability a second time pulls Thresh to the enemy. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Fix 80 souls; compare a fully charged first attack plus six seconds of attacks with the AD ambush. Repeat at zero souls. Isolate Guinsoo on-hit behavior before granting duplicated passive damage.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Thresh's stated kit question: Fix soul AP/armor and charged Flay attack state. An attack route must repay losing lantern saves and frontline durability; do not assume every attack gets the fully charged bonus.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "High soul count hides an unusable early build; attack access or lantern positioning is worse than the support control.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Farmed-role research only: Nashor checkpoint, then test Guinsoo. Buy MR penetration or survival according to the target.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Death Sentence",

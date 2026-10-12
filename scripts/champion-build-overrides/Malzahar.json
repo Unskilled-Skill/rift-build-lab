@@ -1,0 +1,409 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "method": "Individually authored kit objectives, item interactions, falsifications and matched-condition tests.",
+  "builds": [
+    {
+      "id": "malzahar-kit-v2-1",
+      "champion": "Malzahar",
+      "name": "Reference: Vision refresh burn control",
+      "category": "Reference",
+      "goal": "Keep E running while summons and spell zones earn damage",
+      "summary": "Keep E running while summons and spell zones earn damage.",
+      "hypothesis": "Q or R on an E-afflicted target refreshes Malefic Visions. Burning/slow items require actual eligible damage and contact; refreshing duration is not immediately dealing another full E. The control tracks elapsed damage and mana recovered from actual deaths.",
+      "itemIds": [
+        2503,
+        6653,
+        3116,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8210,
+        8236,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Apply E, then Q/R just before expiry versus immediately. Keep target health, mana and incoming damage fixed; record actual E duration, summon hits and channel completion.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "The target escapes the zones or summons die; the mana/refresh assumptions cannot be reproduced in a real fight.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Mana burn checkpoint, then slow or penetration according to access; keep boots.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Void Swarm",
+          "slot": "W",
+          "source": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "formula": "Passive: Malzahar's other Abilities give him a stack when cast (max [2]).\n\nActive: Malzahar summons a Voidling plus an additional Voidling per stack. Voidlings last [8 / 8 / 9 / 9 / 10] seconds and deal [12 / 14 / 16 / 18 / 20 + characterLevelInterpolation(5 → 64.5; raw flags preserved) + (0.4) × AD[statFormula=2] + (0.2) × AP] magic damage each hit."
+        },
+        {
+          "ability": "Call of the Void",
+          "slot": "Q",
+          "source": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "formula": "Malzahar opens two portals to the Void that fire projectiles inward, dealing [70 / 105 / 140 / 175 / 210 + (0.55) × AP] magic damage and Silencing for [1 / 1.25 / 1.5 / 1.75 / 2] second(s)."
+        },
+        {
+          "ability": "Void Shift",
+          "slot": "Passive",
+          "source": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+          "formula": "Malzahar gains [90]% damage reduction and immunity from Disabling and Immobilizing effects, lingering for [0.25] seconds after taking damage or blocking one of those effects. This effect has a [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}])] second Cooldown."
+        },
+        {
+          "ability": "Nether Grasp",
+          "slot": "R",
+          "source": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "formula": "Malzahar Suppresses an enemy champion and deals [125 / 200 / 275 + (0.8) × AP] magic damage over [2.5] seconds. A zone of negative energy is created around his target dealing [(2 / 3 / 4 + (0.005) × AP) × (0.05)] max Health magic damage over [5] seconds."
+        },
+        {
+          "ability": "Malefic Visions",
+          "slot": "E",
+          "source": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "formula": "Malzahar inflicts terrible visions, dealing [80 / 115 / 150 / 185 / 220 + (0.8) × AP] magic damage over [4] seconds. Applying Call of the Void or Nether Grasp to the victim during this time refreshes the visions.\n\nIf the victim dies, Malzahar gains [0.02 × AbilityResource(default, statFormula=default)] Mana and the visions spread to the nearest enemy.\n\nMalefic Visions executes minions below [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 12, \"__type\": \"Breakpoint\"}])] Health."
+        }
+      ]
+    },
+    {
+      "id": "malzahar-kit-v2-2",
+      "champion": "Malzahar",
+      "name": "Damage interaction: AD Voidling laboratory",
+      "category": "Damage interaction",
+      "goal": "Isolate W's bonus-AD scaling rather than building AD for the whole kit",
+      "summary": "Isolate W's bonus-AD scaling rather than building AD for the whole kit.",
+      "hypothesis": "Stored Voidling hit damage includes 40% bonus AD and 20% AP and deals MAGIC damage. Raw AD and earned Muramana AD are candidates for that pet packet; Void Staff/Rylai address magic mitigation/contact. Player crit, lifesteal, lethality and Muramana on-hit effects do not automatically transfer to summons. This deliberately sacrifices strong AP spell ratios and may fail.",
+      "itemIds": [
+        3072,
+        3042,
+        3142,
+        3135,
+        3116,
+        3009
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Pre-cast two eligible spells for the W summon count. Fix pet lifetime, target MR and three live Voidlings; compare pet-only damage and surviving hits at matched gold against AP. Then measure the full E/Q/R sequence to expose the cost of AD.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "Summons die or fail to reach the target; AD pet damage fails to repay the loss of AP spell damage. Player item procs do not transfer as hoped.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Low-confidence farmed-role experiment: compare raw-AD components with AP first. Do not finish six items unless pet survival and damage justify it; transformation must be earned.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Void Swarm",
+          "slot": "W",
+          "source": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "formula": "Passive: Malzahar's other Abilities give him a stack when cast (max [2]).\n\nActive: Malzahar summons a Voidling plus an additional Voidling per stack. Voidlings last [8 / 8 / 9 / 9 / 10] seconds and deal [12 / 14 / 16 / 18 / 20 + characterLevelInterpolation(5 → 64.5; raw flags preserved) + (0.4) × AD[statFormula=2] + (0.2) × AP] magic damage each hit."
+        },
+        {
+          "ability": "Call of the Void",
+          "slot": "Q",
+          "source": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "formula": "Malzahar opens two portals to the Void that fire projectiles inward, dealing [70 / 105 / 140 / 175 / 210 + (0.55) × AP] magic damage and Silencing for [1 / 1.25 / 1.5 / 1.75 / 2] second(s)."
+        },
+        {
+          "ability": "Void Shift",
+          "slot": "Passive",
+          "source": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+          "formula": "Malzahar gains [90]% damage reduction and immunity from Disabling and Immobilizing effects, lingering for [0.25] seconds after taking damage or blocking one of those effects. This effect has a [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}])] second Cooldown."
+        },
+        {
+          "ability": "Nether Grasp",
+          "slot": "R",
+          "source": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "formula": "Malzahar Suppresses an enemy champion and deals [125 / 200 / 275 + (0.8) × AP] magic damage over [2.5] seconds. A zone of negative energy is created around his target dealing [(2 / 3 / 4 + (0.005) × AP) × (0.05)] max Health magic damage over [5] seconds."
+        },
+        {
+          "ability": "Malefic Visions",
+          "slot": "E",
+          "source": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "formula": "Malzahar inflicts terrible visions, dealing [80 / 115 / 150 / 185 / 220 + (0.8) × AP] magic damage over [4] seconds. Applying Call of the Void or Nether Grasp to the victim during this time refreshes the visions.\n\nIf the victim dies, Malzahar gains [0.02 × AbilityResource(default, statFormula=default)] Mana and the visions spread to the nearest enemy.\n\nMalefic Visions executes minions below [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 12, \"__type\": \"Breakpoint\"}])] Health."
+        }
+      ]
+    },
+    {
+      "id": "malzahar-kit-v2-3",
+      "champion": "Malzahar",
+      "name": "Situational adaptation: Suppression that survives retaliation",
+      "category": "Situational adaptation",
+      "goal": "Complete an R channel against opponents who can interrupt it",
+      "summary": "Complete an R channel against opponents who can interrupt it.",
+      "hypothesis": "Void Shift can block a disabling effect, but enemies can remove it before R. Spell-shield/positioning choices test a completed suppression; stasis is a pre/post-channel tool, not something that lets Malzahar continue channeling while invulnerable.",
+      "itemIds": [
+        2503,
+        3116,
+        3157,
+        3102,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8210,
+        8236,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Compare intact passive/spell shield versus both removed, with a second enemy interrupting. Log full channel damage, escape tools and ally follow-up. Test Q silence timing before R.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "A second enemy interrupts or the target has an appropriate suppression escape; protection arrives too late to preserve the channel.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Mana/slow checkpoint and boots, then protection for the actual interrupt; only later add penetration.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Void Swarm",
+          "slot": "W",
+          "source": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "formula": "Passive: Malzahar's other Abilities give him a stack when cast (max [2]).\n\nActive: Malzahar summons a Voidling plus an additional Voidling per stack. Voidlings last [8 / 8 / 9 / 9 / 10] seconds and deal [12 / 14 / 16 / 18 / 20 + characterLevelInterpolation(5 → 64.5; raw flags preserved) + (0.4) × AD[statFormula=2] + (0.2) × AP] magic damage each hit."
+        },
+        {
+          "ability": "Call of the Void",
+          "slot": "Q",
+          "source": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "formula": "Malzahar opens two portals to the Void that fire projectiles inward, dealing [70 / 105 / 140 / 175 / 210 + (0.55) × AP] magic damage and Silencing for [1 / 1.25 / 1.5 / 1.75 / 2] second(s)."
+        },
+        {
+          "ability": "Void Shift",
+          "slot": "Passive",
+          "source": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+          "formula": "Malzahar gains [90]% damage reduction and immunity from Disabling and Immobilizing effects, lingering for [0.25] seconds after taking damage or blocking one of those effects. This effect has a [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}])] second Cooldown."
+        },
+        {
+          "ability": "Nether Grasp",
+          "slot": "R",
+          "source": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "formula": "Malzahar Suppresses an enemy champion and deals [125 / 200 / 275 + (0.8) × AP] magic damage over [2.5] seconds. A zone of negative energy is created around his target dealing [(2 / 3 / 4 + (0.005) × AP) × (0.05)] max Health magic damage over [5] seconds."
+        },
+        {
+          "ability": "Malefic Visions",
+          "slot": "E",
+          "source": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "formula": "Malzahar inflicts terrible visions, dealing [80 / 115 / 150 / 185 / 220 + (0.8) × AP] magic damage over [4] seconds. Applying Call of the Void or Nether Grasp to the victim during this time refreshes the visions.\n\nIf the victim dies, Malzahar gains [0.02 × AbilityResource(default, statFormula=default)] Mana and the visions spread to the nearest enemy.\n\nMalefic Visions executes minions below [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 12, \"__type\": \"Breakpoint\"}])] Health."
+        }
+      ]
+    },
+    {
+      "id": "malzahar-kit-v2-4",
+      "champion": "Malzahar",
+      "name": "Experiment: Haste-driven E handoff",
+      "category": "Experiment",
+      "goal": "Use repeated Q refreshes and movement to maintain useful E uptime",
+      "summary": "Use repeated Q refreshes and movement to maintain useful E uptime.",
+      "hypothesis": "Extra haste is useful when Q can refresh the E before expiration and movement keeps Malzahar within a safe casting angle. E transfers and mana returns require actual deaths; Morello targets real healing. This route optimizes delivered damage time, not the largest one-tick number.",
+      "itemIds": [
+        2503,
+        4629,
+        3116,
+        3165,
+        3135,
+        3158
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8210,
+        8236,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Compare matched-gold haste and AP routes on a moving target over ten seconds. Record Q hit rate, E refresh timing, transfers, mana and casts interrupted; repeat without kills so no free mana returns are assumed.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "Q misses, mana runs out or haste adds no new safe refresh; antiheal is bought into a target with no healing.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Mana item then movement/haste if it produces another refresh. Buy antiheal only for a real healing target.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Void Swarm",
+          "slot": "W",
+          "source": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "formula": "Passive: Malzahar's other Abilities give him a stack when cast (max [2]).\n\nActive: Malzahar summons a Voidling plus an additional Voidling per stack. Voidlings last [8 / 8 / 9 / 9 / 10] seconds and deal [12 / 14 / 16 / 18 / 20 + characterLevelInterpolation(5 → 64.5; raw flags preserved) + (0.4) × AD[statFormula=2] + (0.2) × AP] magic damage each hit."
+        },
+        {
+          "ability": "Call of the Void",
+          "slot": "Q",
+          "source": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "formula": "Malzahar opens two portals to the Void that fire projectiles inward, dealing [70 / 105 / 140 / 175 / 210 + (0.55) × AP] magic damage and Silencing for [1 / 1.25 / 1.5 / 1.75 / 2] second(s)."
+        },
+        {
+          "ability": "Void Shift",
+          "slot": "Passive",
+          "source": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+          "formula": "Malzahar gains [90]% damage reduction and immunity from Disabling and Immobilizing effects, lingering for [0.25] seconds after taking damage or blocking one of those effects. This effect has a [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}])] second Cooldown."
+        },
+        {
+          "ability": "Nether Grasp",
+          "slot": "R",
+          "source": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "formula": "Malzahar Suppresses an enemy champion and deals [125 / 200 / 275 + (0.8) × AP] magic damage over [2.5] seconds. A zone of negative energy is created around his target dealing [(2 / 3 / 4 + (0.005) × AP) × (0.05)] max Health magic damage over [5] seconds."
+        },
+        {
+          "ability": "Malefic Visions",
+          "slot": "E",
+          "source": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "formula": "Malzahar inflicts terrible visions, dealing [80 / 115 / 150 / 185 / 220 + (0.8) × AP] magic damage over [4] seconds. Applying Call of the Void or Nether Grasp to the victim during this time refreshes the visions.\n\nIf the victim dies, Malzahar gains [0.02 × AbilityResource(default, statFormula=default)] Mana and the visions spread to the nearest enemy.\n\nMalefic Visions executes minions below [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 12, \"__type\": \"Breakpoint\"}])] Health."
+        }
+      ]
+    }
+  ]
+}

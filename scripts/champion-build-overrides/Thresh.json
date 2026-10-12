@@ -1,0 +1,409 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-12",
+  "method": "Individually authored kit objectives, item interactions, falsifications and matched-condition tests.",
+  "builds": [
+    {
+      "id": "thresh-kit-v2-1",
+      "champion": "Thresh",
+      "name": "Reference: Lantern first, hook second",
+      "category": "Reference",
+      "goal": "Protect a lantern rescue after a catch",
+      "summary": "Protect a lantern rescue after a catch.",
+      "hypothesis": "Lantern shielding scales with collected souls; AP items do not create extra souls. Q/E access and nearby protective actives must repay the danger of standing where an ally can take the lantern.",
+      "itemIds": [
+        3869,
+        3190,
+        3109,
+        2524,
+        3222,
+        3111
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8306,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 16,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Keep 80 souls fixed; compare lantern → hook versus hook recast → late lantern. Measure ally survival and whether the lantern remains reachable.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "A Q recast drags Thresh out of rescue position; the ally dies before or after taking the lantern.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Support quest, movement boots, then Locket or Knight's Vow; match protection to the ally.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Death Sentence",
+          "slot": "Q",
+          "source": "Characters/Thresh/Spells/ThreshQAbility/ThreshQ",
+          "formula": "Thresh throws out his scythe, Stunning the first unit hit and Pulling them towards Thresh for [1.5] seconds. The scythe does [100 / 150 / 200 / 250 / 300 + (0.9) × AP] magic damage and also grants True Sight for the duration.\n\nThresh can Recast this Ability to pull himself to the enemy.\n\nIf this Ability hits, its Cooldown is reduced by [2] seconds."
+        },
+        {
+          "ability": "Dark Passage",
+          "slot": "W",
+          "source": "Characters/Thresh/Spells/ThreshWAbility/ThreshW",
+          "formula": "Thresh throws his lantern, allowing an ally to click on it to dash to Thresh.\n\nThe lantern also grants [50 / 70 / 90 / 110 / 130 + (2) × BuffStacks({5fbfbf13})] Shield for [4] seconds to Thresh and the first ally champion to come in contact with it."
+        },
+        {
+          "ability": "Flay",
+          "slot": "E",
+          "source": "Characters/Thresh/Spells/ThreshEAbility/ThreshE",
+          "formula": "Passive: Thresh's Attacks deal additional damage based on how long since he last Attacked. They deal between [(1.7) × BuffStacks({5fbfbf13})] and [(1.7) × BuffStacks({5fbfbf13}) + (0.9 / 1.2 / 1.5 / 1.8 / 2.1) × AD] magic damage.\n\nActive: Thresh whips his chains, Pulling or Pushing enemies in the direction of the swing. Enemies hit are also Slowed by [20 / 25 / 30 / 35 / 40]% for [1] second and take [65 / 110 / 155 / 200 / 245 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Damnation",
+          "slot": "Passive",
+          "source": "Characters/Thresh/Spells/ThreshPassiveSoulsAbility/ThreshPassiveSouls",
+          "formula": "Thresh collects the Souls of dead enemies by walking near them. Each Soul grants him [1] Armor and [1] Ability Power."
+        },
+        {
+          "ability": "The Box",
+          "slot": "R",
+          "source": "Characters/Thresh/Spells/ThreshRPentaAbility/ThreshRPenta",
+          "formula": "Thresh creates a prison of spectral walls, Slowing champions by [99]% for [2] seconds and dealing [250 / 400 / 550 + (1) × AP] magic damage. Walls break after one collision, and after one is broken, the rest deal no damage and Slow for half duration."
+        }
+      ]
+    },
+    {
+      "id": "thresh-kit-v2-2",
+      "champion": "Thresh",
+      "name": "Damage interaction: AD charged-Flay ambush",
+      "category": "Damage interaction",
+      "goal": "Maximize the first fully charged E-passive attack",
+      "summary": "Maximize the first fully charged E-passive attack.",
+      "hypothesis": "At rank 5 the stored Flay passive adds up to 210% total AD plus a soul term as MAGIC damage. High AD strengthens that packet; Void Staff addresses its MR mitigation. RFC tests attack access. Crit/Infinity Edge affect the normal physical attack, not automatically the Flay magic packet. Essence Reaver is another separately measured packet.",
+      "itemIds": [
+        3072,
+        3508,
+        3031,
+        3094,
+        3135,
+        3009
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Fix 80 souls and wait for full E charge. Compare the first hit with immediate second/third attacks; repeat at 50/150 MR and 50/150 armor. Replace RFC with Youmuu at matched gold to compare access with AD.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "The opponent prevents the opening attack, or repeated attacks are mistakenly credited with full charge. Crit never multiplies the Flay packet in the measurement.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Farming-role experiment: early AD/Spellblade checkpoint, then penetration for the actual target; keep boots. Compare Bloodthirster raw AD with a cheaper component stage.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Death Sentence",
+          "slot": "Q",
+          "source": "Characters/Thresh/Spells/ThreshQAbility/ThreshQ",
+          "formula": "Thresh throws out his scythe, Stunning the first unit hit and Pulling them towards Thresh for [1.5] seconds. The scythe does [100 / 150 / 200 / 250 / 300 + (0.9) × AP] magic damage and also grants True Sight for the duration.\n\nThresh can Recast this Ability to pull himself to the enemy.\n\nIf this Ability hits, its Cooldown is reduced by [2] seconds."
+        },
+        {
+          "ability": "Dark Passage",
+          "slot": "W",
+          "source": "Characters/Thresh/Spells/ThreshWAbility/ThreshW",
+          "formula": "Thresh throws his lantern, allowing an ally to click on it to dash to Thresh.\n\nThe lantern also grants [50 / 70 / 90 / 110 / 130 + (2) × BuffStacks({5fbfbf13})] Shield for [4] seconds to Thresh and the first ally champion to come in contact with it."
+        },
+        {
+          "ability": "Flay",
+          "slot": "E",
+          "source": "Characters/Thresh/Spells/ThreshEAbility/ThreshE",
+          "formula": "Passive: Thresh's Attacks deal additional damage based on how long since he last Attacked. They deal between [(1.7) × BuffStacks({5fbfbf13})] and [(1.7) × BuffStacks({5fbfbf13}) + (0.9 / 1.2 / 1.5 / 1.8 / 2.1) × AD] magic damage.\n\nActive: Thresh whips his chains, Pulling or Pushing enemies in the direction of the swing. Enemies hit are also Slowed by [20 / 25 / 30 / 35 / 40]% for [1] second and take [65 / 110 / 155 / 200 / 245 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Damnation",
+          "slot": "Passive",
+          "source": "Characters/Thresh/Spells/ThreshPassiveSoulsAbility/ThreshPassiveSouls",
+          "formula": "Thresh collects the Souls of dead enemies by walking near them. Each Soul grants him [1] Armor and [1] Ability Power."
+        },
+        {
+          "ability": "The Box",
+          "slot": "R",
+          "source": "Characters/Thresh/Spells/ThreshRPentaAbility/ThreshRPenta",
+          "formula": "Thresh creates a prison of spectral walls, Slowing champions by [99]% for [2] seconds and dealing [250 / 400 / 550 + (1) × AP] magic damage. Walls break after one collision, and after one is broken, the rest deal no damage and Slow for half duration."
+        }
+      ]
+    },
+    {
+      "id": "thresh-kit-v2-3",
+      "champion": "Thresh",
+      "name": "Situational adaptation: Armored soul collector",
+      "category": "Situational adaptation",
+      "goal": "Turn fixed soul armor into repeated rescue opportunities",
+      "summary": "Turn fixed soul armor into repeated rescue opportunities.",
+      "hypothesis": "Damnation gives armor and AP per earned soul, while W shielding uses the soul count directly. Frozen Heart targets attack pressure; mana enables repeated actions but is not an extra lantern ratio. This route asks whether staying alive creates a second useful W or E, rather than optimizing a damage screenshot.",
+      "itemIds": [
+        3869,
+        3110,
+        3190,
+        3109,
+        2524,
+        3111
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8306,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Test at 40 and 80 earned souls without changing items. Use a physical attack opponent then magic burst. Count completed rescues, second E casts, mana spent and time until death.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "Magic burst bypasses the armor emphasis; more survival creates no extra useful rescue or control.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Support quest/boots first; Frozen Heart only for actual attack pressure; add ally protection at realistic support income.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Death Sentence",
+          "slot": "Q",
+          "source": "Characters/Thresh/Spells/ThreshQAbility/ThreshQ",
+          "formula": "Thresh throws out his scythe, Stunning the first unit hit and Pulling them towards Thresh for [1.5] seconds. The scythe does [100 / 150 / 200 / 250 / 300 + (0.9) × AP] magic damage and also grants True Sight for the duration.\n\nThresh can Recast this Ability to pull himself to the enemy.\n\nIf this Ability hits, its Cooldown is reduced by [2] seconds."
+        },
+        {
+          "ability": "Dark Passage",
+          "slot": "W",
+          "source": "Characters/Thresh/Spells/ThreshWAbility/ThreshW",
+          "formula": "Thresh throws his lantern, allowing an ally to click on it to dash to Thresh.\n\nThe lantern also grants [50 / 70 / 90 / 110 / 130 + (2) × BuffStacks({5fbfbf13})] Shield for [4] seconds to Thresh and the first ally champion to come in contact with it."
+        },
+        {
+          "ability": "Flay",
+          "slot": "E",
+          "source": "Characters/Thresh/Spells/ThreshEAbility/ThreshE",
+          "formula": "Passive: Thresh's Attacks deal additional damage based on how long since he last Attacked. They deal between [(1.7) × BuffStacks({5fbfbf13})] and [(1.7) × BuffStacks({5fbfbf13}) + (0.9 / 1.2 / 1.5 / 1.8 / 2.1) × AD] magic damage.\n\nActive: Thresh whips his chains, Pulling or Pushing enemies in the direction of the swing. Enemies hit are also Slowed by [20 / 25 / 30 / 35 / 40]% for [1] second and take [65 / 110 / 155 / 200 / 245 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Damnation",
+          "slot": "Passive",
+          "source": "Characters/Thresh/Spells/ThreshPassiveSoulsAbility/ThreshPassiveSouls",
+          "formula": "Thresh collects the Souls of dead enemies by walking near them. Each Soul grants him [1] Armor and [1] Ability Power."
+        },
+        {
+          "ability": "The Box",
+          "slot": "R",
+          "source": "Characters/Thresh/Spells/ThreshRPentaAbility/ThreshRPenta",
+          "formula": "Thresh creates a prison of spectral walls, Slowing champions by [99]% for [2] seconds and dealing [250 / 400 / 550 + (1) × AP] magic damage. Walls break after one collision, and after one is broken, the rest deal no damage and Slow for half duration."
+        }
+      ]
+    },
+    {
+      "id": "thresh-kit-v2-4",
+      "champion": "Thresh",
+      "name": "Experiment: Soul-powered on-hit carry",
+      "category": "Experiment",
+      "goal": "Test repeated soul-based attacks against the charged-hit route",
+      "summary": "Test repeated soul-based attacks against the charged-hit route.",
+      "hypothesis": "The uncharged Flay passive retains its soul term even when the AD charge is empty. Nashor and attack speed may make repeat hits relevant; soul AP also supports spells. Guinsoo extra on-hits must be observed separately: do not assume another fully charged Flay, E cast or crit on each phantom hit.",
+      "itemIds": [
+        3115,
+        3124,
+        3089,
+        3135,
+        3157,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "healthPercent": 100,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Fix 80 souls; compare a fully charged first attack plus six seconds of attacks with the AD ambush. Repeat at zero souls. Isolate Guinsoo on-hit behavior before granting duplicated passive damage.",
+        "Use three repeatable trials at the same level, ranks, gold spent, target HP/armor/MR and incoming damage. Record the short trade and ten-second fight separately.",
+        "Keep finite champion/item/rune stacks explicit. First Strike must be ready and initiated by you; Gathering Storm uses a fixed recorded game time. Do not grant full ramp, transformed items or takedown bonuses for free.",
+        "Repeat with a moving opponent and real interruption. Compare the reference route at the same cost; log missed actions and survival as well as damage."
+      ],
+      "failureConditions": [
+        "High soul count hides an unusable early build; attack access or lantern positioning is worse than the support control.",
+        "Higher stationary-target damage is offset by lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "This objective is deliberately narrower than the entire champion kit; an ability ceiling is not proof of a strong overall build.",
+        "Farmed-role experiments require actual income and a viable early lane/clear. A support comparison keeps quest/vision responsibility.",
+        "Item/rune/pet/empowered-attack proc compatibility must be observed rather than inferred from a shared damage type."
+      ],
+      "buyOrder": [
+        "Farmed-role research only: Nashor checkpoint, then test Guinsoo. Buy MR penetration or survival according to the target.",
+        "Compare a two-item checkpoint before the late six-slot illustration. Preserve movement boots unless a measured late replacement improves delivered damage."
+      ],
+      "coverageNotes": [
+        "No numerical adapter exists for this champion. These individually authored hypotheses need manual game measurements; no global damage optimum or historical novelty is claimed.",
+        "Stored patch 26.20 source formulas are evidence, not a certified executable simulation. Resolve ambiguous tokens/stat formulas and current proc interactions before assigning numerical damage."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Death Sentence",
+          "slot": "Q",
+          "source": "Characters/Thresh/Spells/ThreshQAbility/ThreshQ",
+          "formula": "Thresh throws out his scythe, Stunning the first unit hit and Pulling them towards Thresh for [1.5] seconds. The scythe does [100 / 150 / 200 / 250 / 300 + (0.9) × AP] magic damage and also grants True Sight for the duration.\n\nThresh can Recast this Ability to pull himself to the enemy.\n\nIf this Ability hits, its Cooldown is reduced by [2] seconds."
+        },
+        {
+          "ability": "Dark Passage",
+          "slot": "W",
+          "source": "Characters/Thresh/Spells/ThreshWAbility/ThreshW",
+          "formula": "Thresh throws his lantern, allowing an ally to click on it to dash to Thresh.\n\nThe lantern also grants [50 / 70 / 90 / 110 / 130 + (2) × BuffStacks({5fbfbf13})] Shield for [4] seconds to Thresh and the first ally champion to come in contact with it."
+        },
+        {
+          "ability": "Flay",
+          "slot": "E",
+          "source": "Characters/Thresh/Spells/ThreshEAbility/ThreshE",
+          "formula": "Passive: Thresh's Attacks deal additional damage based on how long since he last Attacked. They deal between [(1.7) × BuffStacks({5fbfbf13})] and [(1.7) × BuffStacks({5fbfbf13}) + (0.9 / 1.2 / 1.5 / 1.8 / 2.1) × AD] magic damage.\n\nActive: Thresh whips his chains, Pulling or Pushing enemies in the direction of the swing. Enemies hit are also Slowed by [20 / 25 / 30 / 35 / 40]% for [1] second and take [65 / 110 / 155 / 200 / 245 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Damnation",
+          "slot": "Passive",
+          "source": "Characters/Thresh/Spells/ThreshPassiveSoulsAbility/ThreshPassiveSouls",
+          "formula": "Thresh collects the Souls of dead enemies by walking near them. Each Soul grants him [1] Armor and [1] Ability Power."
+        },
+        {
+          "ability": "The Box",
+          "slot": "R",
+          "source": "Characters/Thresh/Spells/ThreshRPentaAbility/ThreshRPenta",
+          "formula": "Thresh creates a prison of spectral walls, Slowing champions by [99]% for [2] seconds and dealing [250 / 400 / 550 + (1) × AP] magic damage. Walls break after one collision, and after one is broken, the rest deal no damage and Slow for half duration."
+        }
+      ]
+    }
+  ]
+}

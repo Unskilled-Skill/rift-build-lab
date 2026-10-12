@@ -1,0 +1,11 @@
+import {it,expect} from 'vitest';
+import catalog from '../public/data/catalog.json';
+import builds from '../public/data/champion-builds/TahmKench.json';
+import type {Catalog} from '../src/types';
+import {parseChatBuilds,toTestSave} from '../src/chat-builds';
+import {visibleSlotCount,parseTestDraft,isModifiedSetup,feedbackBrief} from '../src/workflow';
+const data=catalog as unknown as Catalog;
+it('keeps all equipped items visible when the slot cap is reduced',()=>{expect(visibleSlotCount(3,[1,2,3,4,5,6])).toBe(6);expect(visibleSlotCount(6,[1,2])).toBe(6)});
+it('preserves a complete draft and safely resets malformed storage',()=>{const draft={observations:'Moving target, W missed.',measured:'1234',outcome:'mixed'};expect(parseTestDraft(JSON.stringify(draft))).toEqual(draft);expect(parseTestDraft('{bad')).toEqual({observations:'',measured:'',outcome:'not-sure'});expect(parseTestDraft(JSON.stringify({...draft,outcome:'anything'})).outcome).toBe('not-sure')});
+it('marks changed conditions and shards as modified, not only items',()=>{const b=parseChatBuilds(JSON.stringify(builds),data)[0],s=toTestSave(b,data);expect(isModifiedSetup(b,data,s.scenario,s.items)).toBe(false);expect(isModifiedSetup(b,data,{...s.scenario,level:11},s.items)).toBe(true);expect(isModifiedSetup(b,data,{...s.scenario,shards:[5005,5008,5011]},s.items)).toBe(true)});
+it('includes build identity and exact measured setup in the revision brief',()=>{const b=parseChatBuilds(JSON.stringify(builds),data)[0],s=toTestSave(b,data);const record={buildId:b.id,champion:b.champion,name:b.name,date:'2026-10-12T16:00:00Z',outcome:'mixed',measuredDamage:1234,observations:'Lost contact after Q.',scenario:s.scenario,itemIds:s.items};const brief=feedbackBrief(record);expect(brief).toContain(b.id);expect(brief).toContain('1234');expect(brief).toContain('Lost contact');expect(brief).toContain(JSON.stringify(s.items))});

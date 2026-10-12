@@ -31,7 +31,7 @@ for(const champion of catalog.champions){
   const conditions=champion.alias==='Sett'?{level:18,rank:5,mode:'w',gritMode:'fraction',grit:50,center:true,heartsteelHP:0,conquerorStacks:0,bloodmailBonus:0}:{level:support?16:18,rank:5,eRank:5,mode:champion.alias==='Cassiopeia'?'sequence':'qe',duration:10,mana:1500,mr:50,targetHP:3000,heartsteelHP:0,conquerorStacks:0,combatSeconds:0};
   return {
    id:`${champion.alias.toLowerCase()}-four-${n+1}`,champion:champion.alias,name:`${prefix}: ${recipe.name}`,goal:`${prefix} for ${champion.name}: ${n===3?'test a different playstyle, with lower confidence':n===2?'adapt to the specified fight rather than assume one universal build':n===1?'test the relevant damage interaction, not an unverified maximum':'establish a repeatable reference'}`,
-   hypothesis:`${champion.profile?.intendedPlaystyle||kit.passive.description} ${question} ${recipe.angle} ${n===3?'This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.':''}`.trim(),
+   hypothesis:`${champion.profile?.intendedPlaystyle||kit.passive.description} ${question} ${recipe.angle} ${n===3?'This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.':''}`.trim(),summary:recipe.angle,
    itemIds:recipe.items,runePage:page,shards:[attack?5005:5007,support?5001:5008,5001],conditions,
    testPlan:[
     `Kit question for ${champion.name}: ${question}`,

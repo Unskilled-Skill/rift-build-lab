@@ -29,3 +29,9 @@ Open **Builds**, choose a champion, and expand **Request different builds from C
 Run the app with `npm run dev` for local requests and live inbox updates. Vite preview also serves the current workspace inbox; a static deployment shows its bundled snapshot and uses **Copy request** instead of saving a local request.
 
 Unofficial fan tool; League of Legends belongs to Riot Games.
+
+## Champion-specific authored routes
+
+Blitzcrank now has four independently authored objectives: hook/peel support control, AD/crit single-E ceiling, mana-shield repeated-E boxing, and an AP attack/lightning timing experiment. The AD route is a candidate to test, not a proven mathematical maximum. Its conditions distinguish E attack damage, critical strikes, Spellblade and rune packets.
+
+Full authored overrides live in `scripts/champion-build-overrides/{alias}.json`. `npm run champion-builds` preserves these rather than replacing them with generic recipes. Blitzcrank uses new build IDs so historical feedback on the earlier proposals is not assigned to the new routes. Other champions retain the previous first-pass packages and need the same individual kit-focused revision.

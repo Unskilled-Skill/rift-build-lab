@@ -33,3 +33,5 @@ describe('independent damage fixtures',()=>{
 });
 
 
+
+it('allows earned Muramana without allowing arbitrary hidden source items or both Tear forms',()=>{const muramana={...item(3042,[]),shopListedBySource:false};expect(legalBuild([muramana],10000,6,'Blitzcrank')).toBe(true);expect(legalBuild([muramana,item(3004,[])],10000,6,'Blitzcrank')).toBe(false);expect(legalBuild([{...item(999,[]),shopListedBySource:false}],10000,6,'Blitzcrank')).toBe(false);expect(legalBuild([{...muramana,maps:{'11':false}}],10000,6,'Blitzcrank')).toBe(false)});

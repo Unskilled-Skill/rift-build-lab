@@ -16,7 +16,10 @@ for(const champion of catalog.champions){
  const sourceRecords=kit.allSpellRecords.filter(s=>s.tooltipWithSymbolicValues&&(s.primarySlot||s.name===kit.passive.name));
  const evidence=sourceRecords.map(s=>({ability:s.name,slot:s.primarySlot||'Passive',source:s.path,formula:s.tooltipWithSymbolicValues}));
  const resource=resources[champion.alias];
- const builds=[reference,damage,situational,experiment].map((key,n)=>{
+ const overridePath=path.join('scripts/champion-build-overrides',champion.alias+'.json');
+ const override=fs.existsSync(overridePath)?JSON.parse(fs.readFileSync(overridePath,'utf8')):null;
+ if(override&&(override.version!==1||override.patch!==catalog.patch||!Array.isArray(override.builds)||override.builds.length!==4||override.builds.some(b=>b.champion!==champion.alias)))throw new Error(`${champion.alias}: invalid authored override.`);
+ const builds=override?.builds||[reference,damage,situational,experiment].map((key,n)=>{
   const recipe=recipes[key];if(!recipe)throw new Error(`${champion.alias}: missing package ${key}`);
   const items=recipe.items.map(item);
   const page=[...pages[recipe.page]];if(resource!=='Mana')for(let k=0;k<page.length;k++)if(page[k]===8226)page[k]=8275;
@@ -47,7 +50,7 @@ for(const champion of catalog.champions){
    author:'ChatGPT',category:prefix,resourceType:resource,kitEvidence:evidence
   };
  });
- fs.writeFileSync(path.join(out,champion.alias+'.json'),JSON.stringify({version:1,patch:catalog.patch,author:'ChatGPT',authoredAt:'2026-10-12',builds},null,2)+'\n');
+ fs.writeFileSync(path.join(out,champion.alias+'.json'),JSON.stringify({version:1,patch:catalog.patch,author:'ChatGPT',authoredAt:'2026-10-12',...(override?.method?{method:override.method}:{}),builds},null,2)+'\n');
  index.champions.push({alias:champion.alias,name:champion.name,count:4});
  console.log(`${index.champions.length}/${catalog.champions.length} ${champion.name}: four proposals`);
 }

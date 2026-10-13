@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Yuumi",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "best-friend-ap-attack-grant",
+      "name": "Best-friend AP attack grant",
+      "objective": "Explore AP spending for the ally on-hit grant while retaining an eligible heal/shield buff.",
+      "mechanic": "Best Friend Q grants five seconds of 0.05 AP on-hit damage, enhanced by the ally crit chance, and W grants 0.03 AP healing per ally hit. E supplies AP-scaled attack speed/shield; Ardent adds its own ally attack buff when E shields. Deathcap/Staff test AP investment versus ordinary support power, retaining the quest.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3869,
+        3504,
+        6616,
+        3089,
+        6621,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "Actual Best Friend with recorded attack rate and crit chance; land Q and shield before the attack window.",
+      "failure": "A non-Best-Friend attachment or missed Q removes the on-hit grant and expensive AP fails to pay.",
+      "test": "Count ally Q-granted on-hit and W healing packets over five seconds at fixed ally crit/attack rate.",
+      "rejectedAssumption": "Buying crit on Yuumi does not supply the ally crit chance used by Q.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "chapter-shield-relay",
+      "name": "Chapter shield relay",
+      "objective": "Stagger E during the five R waves to keep attack-speed and ally protection useful.",
+      "mechanic": "R launches five healing waves over 3.5 seconds and excess healing becomes shields; E can be cast during channel, adds shield/attack speed and restores missing-mana-scaled mana while attached. Moonstone can chain eligible ally heals/shields and Helia asks whether Q/R damage charges are consumed by these wave heals. Mikael can remove eligible control so the carrier moves the channel.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3869,
+        6617,
+        6620,
+        3222,
+        3107,
+        3158
+      ],
+      "pageKey": "guard",
+      "requiredState": "Attached to an ally, R aimed at actual allies/enemies and E timed against incoming damage.",
+      "failure": "Attaching mid-channel locks direction; healing full targets may create shields that expire unused.",
+      "test": "Log five wave heals/shields, Moonstone chains, Helia charge consumption and E mana restoration.",
+      "rejectedAssumption": "Mikael does not remove airborne or suppression, and each wave is not free stored Helia charges.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Owner Nashor inherited by friend",
+      "reason": "Yuumi Q grants its own described ally on-hit; attachment does not state that owner Nashor or Spellblade transfers.",
+      "evidenceSlots": [
+        "Q",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Best Friend R heal multiplier is unresolved. R/E buff refresh, excess-heal conversion and Helia/Moonstone inheritance need live checks; friendship is finite."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Feline Friendship",
+      "paths": [
+        "Characters/Yuumi/Spells/YuumiPAbility/YuumiP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Prowling Projectile",
+      "paths": [
+        "Characters/Yuumi/Spells/YuumiQAbility/YuumiQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "You and Me!",
+      "paths": [
+        "Characters/Yuumi/Spells/YuumiWAbility/YuumiW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Zoomies",
+      "paths": [
+        "Characters/Yuumi/Spells/YuumiEAbility/YuumiE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Final Chapter",
+      "paths": [
+        "Characters/Yuumi/Spells/YuumiRAbility/YuumiR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "yuumi-audit-best-friend-ap-attack-grant",
+      "champion": "Yuumi",
+      "name": "Best-friend AP attack grant",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore AP spending for the ally on-hit grant while retaining an eligible heal/shield buff.",
+      "goal": "Explore AP spending for the ally on-hit grant while retaining an eligible heal/shield buff.",
+      "hypothesis": "Best Friend Q grants five seconds of 0.05 AP on-hit damage, enhanced by the ally crit chance, and W grants 0.03 AP healing per ally hit. E supplies AP-scaled attack speed/shield; Ardent adds its own ally attack buff when E shields. Deathcap/Staff test AP investment versus ordinary support power, retaining the quest.",
+      "itemIds": [
+        3869,
+        3504,
+        6616,
+        3089,
+        6621,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Actual Best Friend with recorded attack rate and crit chance; land Q and shield before the attack window.",
+        "Count ally Q-granted on-hit and W healing packets over five seconds at fixed ally crit/attack rate.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A non-Best-Friend attachment or missed Q removes the on-hit grant and expensive AP fails to pay.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Buying crit on Yuumi does not supply the ally crit chance used by Q.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Ardent Censer, Staff of Flowing Water, Rabadon's Deathcap, Dawncore, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Prowling Projectile",
+          "slot": "Q",
+          "source": "Characters/Yuumi/Spells/YuumiQAbility/YuumiQ",
+          "formula": "Yuumi summons an errant missile that deals [60 / 95 / 130 / 165 / 200 / 235 + (0.2) × AP] magic damage to the first enemy and Slows the target for [20]%.\n\nIf cast while Attached, Yuumi can control the missile using her mouse for a short period before it accelerates in a straight line. The accelerated missile deals [80 / 135 / 190 / 245 / 300 / 355 + (0.3) × AP] magic damage and Slows the target for [50 / 53 / 56 / 59 / 62 / 65]% for [2] seconds, instead.\n\nBest Friend Bonus: Prowling Projectile's Slow will always be enhanced and hitting an enemy champion also grants them [(0.05) × AP + 10 / 12 / 14 / 16 / 18 / 20] magic damage On-Hit %i:OnHit% for [5] seconds.\n\nThe bonus On-Hit damage can be increased by [75]% based her ally's Critical Strike Chance."
+        },
+        {
+          "ability": "You and Me!",
+          "slot": "W",
+          "source": "Characters/Yuumi/Spells/YuumiWAbility/YuumiW",
+          "formula": "Passive: While on her Best Friend, Yuumi gains an additional [(0.04 / 0.05 / 0.06 / 0.07 / 0.08) × 100]% Heal & Shield Power and her ally also restores [3 / 4 / 5 / 6 / 7 + (0.03) × AP] health On-Hit %i:OnHit%.\n\nActive: Yuumi dashes to an ally champion and Attaches to them. While Yuumi is Attached, she follows her partner's movement and is Untargetable except from towers.\n\nImmobilizing effects on Yuumi place this Ability on a [5] second Cooldown."
+        },
+        {
+          "ability": "Feline Friendship",
+          "slot": "Passive",
+          "source": "Characters/Yuumi/Spells/YuumiPAbility/YuumiP",
+          "formula": "When Yuumi's Attacks and Abilities strike champions, she heals herself for [characterLevelInterpolation(20 → 110; raw flags preserved) + (0.3) × AP] health. If Yuumi Attaches to an ally within [4] seconds, they are healed as well. This effect has a [characterLevelBreakpoints(start=20, perLevel=-1, changes=[{\"mLevel\": 14, \"__type\": \"Breakpoint\"}])] second Cooldown.\n\nWhile Attached, Yuumi gains Friendship with her ally whenever they kill a champion or minion. The ally with the most Friendship becomes her Best Friend and grants Yuumi bonus effects to her Abilities while she is Attached to them. \n\nThe heal will automatically trigger if Yuumi is already Attached to an ally."
+        },
+        {
+          "ability": "Zoomies",
+          "slot": "E",
+          "source": "Characters/Yuumi/Spells/YuumiEAbility/YuumiE",
+          "formula": "Yuumi shields herself, blocking [65 / 90 / 115 / 140 / 165 + (0.4) × AP] damage and gains [25 / 27.5 / 30 / 32.5 / 35 + (0.08) × AP]% Attack Speed for [3] seconds. While the shield persists, the target also gains [20]% Move Speed.\n\nIf Yuumi is Attached, this Ability affects her ally instead and also restores [20 / 24 / 28 / 32 / 36] Mana to them, increased by up to [100]% based on the target's missing Mana."
+        }
+      ]
+    },
+    {
+      "id": "yuumi-audit-chapter-shield-relay",
+      "champion": "Yuumi",
+      "name": "Chapter shield relay",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Stagger E during the five R waves to keep attack-speed and ally protection useful.",
+      "goal": "Stagger E during the five R waves to keep attack-speed and ally protection useful.",
+      "hypothesis": "R launches five healing waves over 3.5 seconds and excess healing becomes shields; E can be cast during channel, adds shield/attack speed and restores missing-mana-scaled mana while attached. Moonstone can chain eligible ally heals/shields and Helia asks whether Q/R damage charges are consumed by these wave heals. Mikael can remove eligible control so the carrier moves the channel.",
+      "itemIds": [
+        3869,
+        6617,
+        6620,
+        3222,
+        3107,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Attached to an ally, R aimed at actual allies/enemies and E timed against incoming damage.",
+        "Log five wave heals/shields, Moonstone chains, Helia charge consumption and E mana restoration.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Attaching mid-channel locks direction; healing full targets may create shields that expire unused.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Mikael does not remove airborne or suppression, and each wave is not free stored Helia charges.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Moonstone Renewer, Echoes of Helia, Mikael's Blessing, Redemption, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Prowling Projectile",
+          "slot": "Q",
+          "source": "Characters/Yuumi/Spells/YuumiQAbility/YuumiQ",
+          "formula": "Yuumi summons an errant missile that deals [60 / 95 / 130 / 165 / 200 / 235 + (0.2) × AP] magic damage to the first enemy and Slows the target for [20]%.\n\nIf cast while Attached, Yuumi can control the missile using her mouse for a short period before it accelerates in a straight line. The accelerated missile deals [80 / 135 / 190 / 245 / 300 / 355 + (0.3) × AP] magic damage and Slows the target for [50 / 53 / 56 / 59 / 62 / 65]% for [2] seconds, instead.\n\nBest Friend Bonus: Prowling Projectile's Slow will always be enhanced and hitting an enemy champion also grants them [(0.05) × AP + 10 / 12 / 14 / 16 / 18 / 20] magic damage On-Hit %i:OnHit% for [5] seconds.\n\nThe bonus On-Hit damage can be increased by [75]% based her ally's Critical Strike Chance."
+        },
+        {
+          "ability": "You and Me!",
+          "slot": "W",
+          "source": "Characters/Yuumi/Spells/YuumiWAbility/YuumiW",
+          "formula": "Passive: While on her Best Friend, Yuumi gains an additional [(0.04 / 0.05 / 0.06 / 0.07 / 0.08) × 100]% Heal & Shield Power and her ally also restores [3 / 4 / 5 / 6 / 7 + (0.03) × AP] health On-Hit %i:OnHit%.\n\nActive: Yuumi dashes to an ally champion and Attaches to them. While Yuumi is Attached, she follows her partner's movement and is Untargetable except from towers.\n\nImmobilizing effects on Yuumi place this Ability on a [5] second Cooldown."
+        },
+        {
+          "ability": "Final Chapter",
+          "slot": "R",
+          "source": "Characters/Yuumi/Spells/YuumiRAbility/YuumiR",
+          "formula": "Yuumi channels for [3.5] seconds, launching [5] magical waves affecting both teams. If initially cast while Attached, Yuumi can steer the waves to follow her mouse.\n\nEnemies struck are dealt [75 / 125 / 175 + (0.25) × AP] magic damage and Slowed by [10]% for [1.25] seconds, increased by [10]% per wave hit.\n\nAlly champions are healed for [30 / 50 / 70 + (0.12) × AP] health per wave. Excess healing is converted to a Shield instead.\n\nBest Friend Bonus: For her Best Friend, the heal is increased to [(30 / 50 / 70 + (0.12) × AP) × (UNRESOLVED({f3cbe7b2}; see calculationRaw))] health.\n\nCasting You and Me! will locks the waves in the current direction.\nYuumi can move and cast Zoomies while channeling."
+        },
+        {
+          "ability": "Zoomies",
+          "slot": "E",
+          "source": "Characters/Yuumi/Spells/YuumiEAbility/YuumiE",
+          "formula": "Yuumi shields herself, blocking [65 / 90 / 115 / 140 / 165 + (0.4) × AP] damage and gains [25 / 27.5 / 30 / 32.5 / 35 + (0.08) × AP]% Attack Speed for [3] seconds. While the shield persists, the target also gains [20]% Move Speed.\n\nIf Yuumi is Attached, this Ability affects her ally instead and also restores [20 / 24 / 28 / 32 / 36] Mana to them, increased by up to [100]% based on the target's missing Mana."
+        }
+      ]
+    }
+  ]
+}

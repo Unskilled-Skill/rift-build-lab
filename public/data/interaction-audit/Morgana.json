@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Morgana",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "siphon-shadow-refresh",
+      "name": "Siphon Shadow Refresh",
+      "objective": "Record W tick healing events and actual cooldown changes.",
+      "mechanic": "W cooldown falls 5% each time P heals Morgana; P heals from ability damage on specific eligible units. W damage rises with missing health, so Shadowflame can enhance late magic ticks. Blackfire and Riftmaker test persistent damage/ramp while Rylai helps hold eligible champions in W.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W"
+      ],
+      "itemIds": [
+        2503,
+        4633,
+        3116,
+        4645,
+        3089,
+        3020
+      ],
+      "pageKey": "conq",
+      "requiredState": "Q holds an eligible champion in W with a finite combat/mana duration.",
+      "failure": "Ordinary small minions do not grant P healing and mobile enemies leave the zone.",
+      "test": "Record W tick healing events and actual cooldown changes; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Extra item damage is not automatically Morgana ability damage that heals P.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "shackle-shield-ally-charge",
+      "name": "Shackle Shield Ally Charge",
+      "objective": "Log R completion and Helia charges spent by allied E.",
+      "mechanic": "R has immediate and three-second delayed magic damage/stun plus movement during casting. E can shield another ally and consume Helia charges from Morgana's champion damage; Staff improves subsequent shields. Zhonya tests surviving the tether while Mandate uses Q or completed R stun.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3157,
+        6620,
+        6616,
+        4005,
+        3089,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "Keep R tether until completion and shield an ally after damage rather than only self.",
+      "failure": "Enemy breaks tether or magic shield breaks before protecting the ally.",
+      "test": "Log R completion and Helia charges spent by allied E; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Black Shield prevents control only while intact and is not an all-damage shield.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Ordinary lifesteal W",
+      "reason": "P has specific eligible target categories and ability-damage healing; ordinary attack lifesteal does not imply W healing.",
+      "evidenceSlots": [
+        "P",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "P eligibility, item damage ownership and R continuation during stasis require live checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Soul Siphon",
+      "paths": [
+        "Characters/Morgana/Spells/MorganaPassiveAbility/MorganaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Dark Binding",
+      "paths": [
+        "Characters/Morgana/Spells/MorganaQAbility/MorganaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Tormented Shadow",
+      "paths": [
+        "Characters/Morgana/Spells/MorganaWAbility/MorganaW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Black Shield",
+      "paths": [
+        "Characters/Morgana/Spells/MorganaEAbility/MorganaE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Soul Shackles",
+      "paths": [
+        "Characters/Morgana/Spells/MorganaRAbility/MorganaR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "morgana-audit-siphon-shadow-refresh",
+      "champion": "Morgana",
+      "name": "Siphon Shadow Refresh",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Record W tick healing events and actual cooldown changes.",
+      "goal": "Record W tick healing events and actual cooldown changes.",
+      "hypothesis": "W cooldown falls 5% each time P heals Morgana; P heals from ability damage on specific eligible units. W damage rises with missing health, so Shadowflame can enhance late magic ticks. Blackfire and Riftmaker test persistent damage/ramp while Rylai helps hold eligible champions in W.",
+      "itemIds": [
+        2503,
+        4633,
+        3116,
+        4645,
+        3089,
+        3020
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Q holds an eligible champion in W with a finite combat/mana duration.",
+        "Record W tick healing events and actual cooldown changes; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Ordinary small minions do not grant P healing and mobile enemies leave the zone.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Extra item damage is not automatically Morgana ability damage that heals P.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blackfire Torch, Riftmaker, Rylai's Crystal Scepter, Shadowflame, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Dark Binding",
+          "slot": "Q",
+          "source": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ",
+          "formula": "Morgana hurls a blast of starfire that Roots the first enemy hit for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and deals [80 / 135 / 190 / 245 / 300 + (0.9) × AP] magic damage."
+        },
+        {
+          "ability": "Tormented Shadow",
+          "slot": "W",
+          "source": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+          "formula": "Morgana ignites the ground for [5] seconds, dealing [18 / 31 / 44 / 57 / 70 + (0.2) × AP] magic damage per second, increased by up to [(18 / 31 / 44 / 57 / 70 + (0.2) × AP) × ((1 + 1))] based on the targets' missing Health.\n\nThis Ability's Cooldown is reduced by [5]% every time Morgana is healed by {{Spell_MorganaPassive_Name}}."
+        },
+        {
+          "ability": "Soul Siphon",
+          "slot": "Passive",
+          "source": "Characters/Morgana/Spells/MorganaPassiveAbility/MorganaPassive",
+          "formula": "Morgana Heals for [18]% of the damage dealt by her Abilities to champions, large minions, and medium and larger jungle monsters."
+        }
+      ]
+    },
+    {
+      "id": "morgana-audit-shackle-shield-ally-charge",
+      "champion": "Morgana",
+      "name": "Shackle Shield Ally Charge",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log R completion and Helia charges spent by allied E.",
+      "goal": "Log R completion and Helia charges spent by allied E.",
+      "hypothesis": "R has immediate and three-second delayed magic damage/stun plus movement during casting. E can shield another ally and consume Helia charges from Morgana's champion damage; Staff improves subsequent shields. Zhonya tests surviving the tether while Mandate uses Q or completed R stun.",
+      "itemIds": [
+        3157,
+        6620,
+        6616,
+        4005,
+        3089,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Keep R tether until completion and shield an ally after damage rather than only self.",
+        "Log R completion and Helia charges spent by allied E; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Enemy breaks tether or magic shield breaks before protecting the ally.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Black Shield prevents control only while intact and is not an all-damage shield.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Zhonya's Hourglass, Echoes of Helia, Staff of Flowing Water, Imperial Mandate, Rabadon's Deathcap, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Dark Binding",
+          "slot": "Q",
+          "source": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ",
+          "formula": "Morgana hurls a blast of starfire that Roots the first enemy hit for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and deals [80 / 135 / 190 / 245 / 300 + (0.9) × AP] magic damage."
+        },
+        {
+          "ability": "Soul Shackles",
+          "slot": "R",
+          "source": "Characters/Morgana/Spells/MorganaRAbility/MorganaR",
+          "formula": "Morgana chains herself to nearby enemy Champions, dealing [200 / 275 / 350 + (0.8) × AP] magic damage and Slowing them by [20]%. After [3] seconds, enemies unable to break the chains take an additional [200 / 275 / 350 + (0.8) × AP] magic damage and are Stunned for [1.5 / 1.75 / 2] seconds.\n\nWhile casting this Ability, Morgana gains [20 / 40 / 60]% Move Speed."
+        },
+        {
+          "ability": "Black Shield",
+          "slot": "E",
+          "source": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
+          "formula": "Morgana grants an ally champion [100 / 155 / 210 / 265 / 320 + (0.7) × AP] Magic Shield for [5] seconds. The shield prevents Disabling and Immobilizing effects until it breaks."
+        }
+      ]
+    }
+  ]
+}

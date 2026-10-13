@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "sivir-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "sivir-four-2",
+      "id": "sivir-audit-hunt-shield-refresh",
       "champion": "Sivir",
-      "name": "Damage interaction: Crit spell weave",
-      "goal": "Damage interaction for Sivir: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged teamfight attacker who clears through ricochets, blocks one spell and uses team speed to maintain contact. Compare ricochet waves/attacks with Q poke and spell-shield timing. Crit/lethality affect different parts of the kit; actual bounce eligibility must be confirmed. Crit and attacks between compatible spells test cooldown recycling and mana-supported trading.",
-      "summary": "Crit and attacks between compatible spells test cooldown recycling and mana-supported trading.",
+      "name": "Hunt shield refresh",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use champion attacks during R to reopen E defensively.",
+      "goal": "Use champion attacks during R to reopen E defensively.",
+      "hypothesis": "R attacks against champions subtract 0.5 seconds from basic cooldowns. Navori also reduces remaining basic cooldowns through attacks; W grants speed and E restores AD/AP-scaled health after blocking a spell. This route tests faster E access with crit supporting W's explicitly critical bounces.",
       "itemIds": [
-        3508,
-        3031,
         6675,
-        3036,
+        3031,
         3072,
+        3095,
+        3036,
         3006
       ],
       "runePage": [
-        8005,
+        8008,
         9111,
         9104,
         8014,
-        8444,
+        8429,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,54 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Sivir: Compare ricochet waves/attacks with Q poke and spell-shield timing. Crit/lethality affect different parts of the kit; actual bounce eligibility must be confirmed.",
-        "Start with the early core (Essence Reaver, then crit according to the interaction) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Crit and attacks between compatible spells test cooldown recycling and mana-supported trading. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sivir hurls her crossblade like a boomerang, dealing damage each way. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: R active, real champion attacks and an incoming blockable spell after E refresh.",
+        "Measure E cooldown after a fixed number of attacks with R and Navori independently enabled.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Navori requires real attacks and compatible cooldowns; do not grant its benefit to every cast.",
-        "The route fails Sivir's stated kit question: Compare ricochet waves/attacks with Q poke and spell-shield timing. Crit/lethality affect different parts of the kit; actual bounce eligibility must be confirmed.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Peel prevents attacks or the spell shield is mistimed, losing the heal.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Navori requires real attacks and compatible cooldowns; do not grant its benefit to every cast.",
-        "Full cost 17,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Ricochet's extra bounces are not automatically additional R cooldown-subtracting attacks.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Essence Reaver, then crit according to the interaction. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Navori Flickerblade, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Navori Flickerblade, Infinity Edge, Bloodthirster, Stormrazor, Lord Dominik's Regards, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Boomerang Blade",
-          "slot": "Q",
-          "source": "Characters/Sivir/Spells/SivirQAbility/SivirQ",
-          "formula": "Sivir hurls her crossblade like a boomerang, dealing [(60 / 85 / 110 / 135 / 160 + (0.7) × AD[statFormula=2] + (0.6) × AP) × ((1 + ((0.4) × Stat(8)) × (((1) × Stat(9) + -1))))] to all enemies it cuts through. Hitting non-champions reduces the damage to subsequent targets, down to a minimum of [40]%."
-        },
         {
           "ability": "On The Hunt",
           "slot": "R",
           "source": "Characters/Sivir/Spells/SivirRAbility/SivirR",
           "formula": "Sivir rallies her nearby allies, granting them [(0.2 / 0.25 / 0.3) × 100]% Move Speed for [8 / 10 / 12] seconds.\n\nSivir's attacks against champions while On The Hunt reduce the cooldown of her basic abilities by [0.5] seconds.\n\nTakedowns on recently damaged enemies refreshes the duration of the hunt."
-        },
-        {
-          "ability": "Fleet of Foot",
-          "slot": "Passive",
-          "source": "Characters/Sivir/Spells/SivirPassiveAbility/SivirPassive",
-          "formula": "Sivir's Attacks and Abilities grant her a burst of [characterLevelBreakpoints(start=55, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 18, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])] Decaying Move Speed for [1.5] seconds when they damage enemy champions."
         },
         {
           "ability": "Ricochet",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "sivir-four-4",
+      "id": "sivir-audit-boomerang-ap-guard",
       "champion": "Sivir",
-      "name": "Experiment: Physical pick",
-      "goal": "Experiment for Sivir: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged teamfight attacker who clears through ricochets, blocks one spell and uses team speed to maintain contact. Compare ricochet waves/attacks with Q poke and spell-shield timing. Crit/lethality affect different parts of the kit; actual bounce eligibility must be confirmed. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "name": "Boomerang AP guard",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP on the two-pass Q and blocked-spell recovery.",
+      "goal": "Test AP on the two-pass Q and blocked-spell recovery.",
+      "hypothesis": "Q includes 0.6 AP inside a crit-stat multiplier expression while E healing includes 0.5 AP. Gunblade and Cosmic supply mixed damage/access, Deathcap improves these AP terms and Navori adds crit plus attack-led Q/E recovery. Ordinary Q is still physical damage.",
       "itemIds": [
-        3142,
-        6698,
-        3814,
+        3146,
+        3089,
+        4629,
+        6675,
         6694,
-        3026,
         3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Sivir: Compare ricochet waves/attacks with Q poke and spell-shield timing. Crit/lethality affect different parts of the kit; actual bounce eligibility must be confirmed.",
-        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sivir hurls her crossblade like a boomerang, dealing damage each way. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Both Q passes intersect the target and actual attacks reduce cooldowns between casts.",
+        "Measure outbound/return Q and E heal at fixed AP/crit values, logging the raw multiplier separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "The route fails Sivir's stated kit question: Compare ricochet waves/attacks with Q poke and spell-shield timing. Crit/lethality affect different parts of the kit; actual bounce eligibility must be confirmed.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low sustained AD/crit attack damage or a missed return pass erases the AP tradeoff.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: An explicit crit-stat scaling term is not evidence that Q randomly crits like an attack.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Gunblade, Rabadon's Deathcap, Cosmic Drive, Navori Flickerblade, Serylda's Grudge, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Boomerang Blade",
@@ -409,12 +385,6 @@
           "slot": "Passive",
           "source": "Characters/Sivir/Spells/SivirPassiveAbility/SivirPassive",
           "formula": "Sivir's Attacks and Abilities grant her a burst of [characterLevelBreakpoints(start=55, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 18, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])] Decaying Move Speed for [1.5] seconds when they damage enemy champions."
-        },
-        {
-          "ability": "Ricochet",
-          "slot": "W",
-          "source": "Characters/Sivir/Spells/SivirWAbility/SivirW",
-          "formula": "For the next [4] seconds, Sivir gains [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% Attack Speed and her auto attacks are empowered to bounce to additional surrounding enemies dealing [(0.4 / 0.425 / 0.45 / 0.475 / 0.5) × AD] physical damage each bounce for up to [8] bounces.\n\nThese bounces critically strike if the attack generating them does."
         },
         {
           "ability": "Spell Shield",

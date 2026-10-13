@@ -1,0 +1,307 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "TahmKench",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "health-ap-taste-multiplication",
+      "name": "Health AP taste multiplication",
+      "objective": "Test health ap taste multiplication against conventional damage at equal gold.",
+      "mechanic": "An Acquired Taste contains an AP term multiplied by source Stat(12), suggesting health and AP interact in attack magic damage; Nashor supplies separate on-hit damage. W has 1.5 AP magic scaling and Q 1.0 AP, while Visage supports Q healing and Thick Skin recovery.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3084,
+        3115,
+        4633,
+        3089,
+        3065,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Earn modest Heartsteel health and connect three actual passive stacks.",
+      "failure": "Costly mixed items delay resistances; kiting blocks Devour access.",
+      "test": "Measure passive damage at crossed health/AP values and log source-stat uncertainty.",
+      "rejectedAssumption": "Do not translate Stat(12)[statFormula=2] directly into a verified total-health AP ratio.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "devour-shield-charge-escort",
+      "name": "Devour shield charge escort",
+      "objective": "Test devour shield charge escort against conventional damage at equal gold.",
+      "mechanic": "Ally Devour grants a large 1.0 AP shield on exit; Helia stores charges from Tahm's champion Q/attacks then tests spending them through the ally shield. Moonstone and Ardent reward protected teammates, while Visage helps Tahm survive the escort himself.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6620,
+        6617,
+        3504,
+        6621,
+        3065,
+        3111
+      ],
+      "pageKey": "guard",
+      "requiredState": "Choose ally R and successfully spit the ally into safety.",
+      "failure": "Low personal tank gold and R cooldown make the utility build fragile.",
+      "test": "Measure ally shield, Helia heal and Ardent uptime after Devour exit.",
+      "rejectedAssumption": "Self Thick Skin shields are not allied shield triggers and enemy Devour is a different mode.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Do not translate Stat(12)[statFormula=2] directly into a verified total-health AP ratio.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Current-patch proc ordering/effectiveness is untested; symbolic source stats and helper form/pet records are not runtime dispatch proof."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "An Acquired Taste",
+      "paths": [
+        "Characters/TahmKench/Spells/TahmKenchPassiveAbility/TahmKenchPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Tongue Lash",
+      "paths": [
+        "Characters/TahmKench/Spells/TahmKenchQAbility/TahmKenchQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Abyssal Dive",
+      "paths": [
+        "Characters/TahmKench/Spells/TahmKenchWAbility/TahmKenchW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Thick Skin",
+      "paths": [
+        "Characters/TahmKench/Spells/TahmKenchEAbility/TahmKenchE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Devour",
+      "paths": [
+        "Characters/TahmKench/Spells/TahmKenchRWrapperAbility/TahmKenchRWrapper"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "tahmkench-audit-health-ap-taste-multiplication",
+      "champion": "TahmKench",
+      "name": "Health AP taste multiplication",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health ap taste multiplication against conventional damage at equal gold.",
+      "goal": "Test health ap taste multiplication against conventional damage at equal gold.",
+      "hypothesis": "An Acquired Taste contains an AP term multiplied by source Stat(12), suggesting health and AP interact in attack magic damage; Nashor supplies separate on-hit damage. W has 1.5 AP magic scaling and Q 1.0 AP, while Visage supports Q healing and Thick Skin recovery.",
+      "itemIds": [
+        3084,
+        3115,
+        4633,
+        3089,
+        3065,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Earn modest Heartsteel health and connect three actual passive stacks.",
+        "Measure passive damage at crossed health/AP values and log source-stat uncertainty.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Costly mixed items delay resistances; kiting blocks Devour access.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Do not translate Stat(12)[statFormula=2] directly into a verified total-health AP ratio.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Heartsteel, Nashor's Tooth, Riftmaker, Rabadon's Deathcap, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Tongue Lash",
+          "slot": "Q",
+          "source": "Characters/TahmKench/Spells/TahmKenchQAbility/TahmKenchQ",
+          "formula": "Deals [75 / 120 / 165 / 210 / 255 + (1) × AP] magic damage to the first enemy hit and Slows them by [50]% for [2] seconds. \n\nOn champion hit, heals Tahm for [10 / 20 / 30 / 40 / 50] +[(0.05 / 0.055 / 0.06 / 0.065 / 0.07) × 100]% of his missing Health and applies a stack of {{ Spell_TahmKenchPassive_Name }} dealing @Spell.TahmKenchPassive:TotalDamage@ extra magic damage. If that champion already had 3 stacks of {{ Spell_TahmKenchPassive_Name }}, they will also be Stunned for [1.5] seconds, consuming the stacks.\n\nActivate Devour while your tongue is in midair to devour enemy champions who already have 3 stacks of {{ Spell_TahmKenchPassive_Name }} from a distance when you hit them."
+        },
+        {
+          "ability": "Abyssal Dive",
+          "slot": "W",
+          "source": "Characters/TahmKench/Spells/TahmKenchWAbility/TahmKenchW",
+          "formula": "Dive down and then re-appear at target location, dealing [100 / 135 / 170 / 205 / 240 + (1.5) × AP] magic damage and Knock Up all enemies in an area for [1] second. Hitting at least one enemy champion refunds [(0.4 / 0.425 / 0.45 / 0.475 / 0.5) × 100]% of the Cooldown and Mana cost. \n\nDevoured allies can be taken along for the ride (but can always hop out early)."
+        },
+        {
+          "ability": "An Acquired Taste",
+          "slot": "Passive",
+          "source": "Characters/TahmKench/Spells/TahmKenchPassiveAbility/TahmKenchPassive",
+          "formula": "Attacks deal [characterLevelBreakpoints(start=5, perLevel=5, changes=[{\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}]) + (0.04) × Stat(12)[statFormula=2] + (((0.0125) × Stat(12)[statFormula=2]) × (0.01)) × AP] bonus magic damage. Against champions, they add a stack of {{ Spell_TahmKenchPassive_Name }} for [5] seconds, up to [3] times.\n\nAt [3] stacks, Tongue Lash and Devour become empowered against that champion."
+        },
+        {
+          "ability": "Devour",
+          "slot": "R",
+          "source": "Characters/TahmKench/Spells/TahmKenchRWrapperAbility/TahmKenchRWrapper",
+          "formula": "Tahm Kench devours a champion for a few seconds. He can Recast to spit them out.\n\nEnemy Champions: Require 3 stacks of An Acquired Taste. Are devoured for up to [3] seconds and take [100 / 250 / 400] (+[0.15 + (0.0007) × AP] of their Max Health) magic damage. Tahm Kench is Slowed by [40]% and Grounded during this effect.\n\nAlly Champions: Are devoured for up to [3] seconds and are granted [650 / 800 / 950 + (1) × AP] Shield which decays gradually after being spit out. Allies can also choose to exit early. Tahm Kench is Grounded during this effect, but can cast {{Spell_TahmKenchW_Name}} and gains [60]% Move Speed for [3] seconds."
+        },
+        {
+          "ability": "Thick Skin",
+          "slot": "E",
+          "source": "Characters/TahmKench/Spells/TahmKenchEAbility/TahmKenchE",
+          "formula": "Passive: [(0.15 / 0.23 / 0.31 / 0.39 / 0.47) × 100]% of damage Tahm Kench takes is stored by his Thick Skin, increased to [(0.42 / 0.44 / 0.46 / 0.48 / 0.5) × 100]% if there are at least [2] nearby enemy champions. If Kench has not taken damage within [4] seconds, Thick Skin will rapidly be consumed to heal Tahm for [characterLevelInterpolation(0.6 → 1; raw flags preserved)] of its value.\n\nActive: Convert all your stored Thick Skin into a Shield, lasting [2.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "tahmkench-audit-devour-shield-charge-escort",
+      "champion": "TahmKench",
+      "name": "Devour shield charge escort",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test devour shield charge escort against conventional damage at equal gold.",
+      "goal": "Test devour shield charge escort against conventional damage at equal gold.",
+      "hypothesis": "Ally Devour grants a large 1.0 AP shield on exit; Helia stores charges from Tahm's champion Q/attacks then tests spending them through the ally shield. Moonstone and Ardent reward protected teammates, while Visage helps Tahm survive the escort himself.",
+      "itemIds": [
+        6620,
+        6617,
+        3504,
+        6621,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Choose ally R and successfully spit the ally into safety.",
+        "Measure ally shield, Helia heal and Ardent uptime after Devour exit.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low personal tank gold and R cooldown make the utility build fragile.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Self Thick Skin shields are not allied shield triggers and enemy Devour is a different mode.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Echoes of Helia, Moonstone Renewer, Ardent Censer, Dawncore, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Tongue Lash",
+          "slot": "Q",
+          "source": "Characters/TahmKench/Spells/TahmKenchQAbility/TahmKenchQ",
+          "formula": "Deals [75 / 120 / 165 / 210 / 255 + (1) × AP] magic damage to the first enemy hit and Slows them by [50]% for [2] seconds. \n\nOn champion hit, heals Tahm for [10 / 20 / 30 / 40 / 50] +[(0.05 / 0.055 / 0.06 / 0.065 / 0.07) × 100]% of his missing Health and applies a stack of {{ Spell_TahmKenchPassive_Name }} dealing @Spell.TahmKenchPassive:TotalDamage@ extra magic damage. If that champion already had 3 stacks of {{ Spell_TahmKenchPassive_Name }}, they will also be Stunned for [1.5] seconds, consuming the stacks.\n\nActivate Devour while your tongue is in midair to devour enemy champions who already have 3 stacks of {{ Spell_TahmKenchPassive_Name }} from a distance when you hit them."
+        },
+        {
+          "ability": "Devour",
+          "slot": "R",
+          "source": "Characters/TahmKench/Spells/TahmKenchRWrapperAbility/TahmKenchRWrapper",
+          "formula": "Tahm Kench devours a champion for a few seconds. He can Recast to spit them out.\n\nEnemy Champions: Require 3 stacks of An Acquired Taste. Are devoured for up to [3] seconds and take [100 / 250 / 400] (+[0.15 + (0.0007) × AP] of their Max Health) magic damage. Tahm Kench is Slowed by [40]% and Grounded during this effect.\n\nAlly Champions: Are devoured for up to [3] seconds and are granted [650 / 800 / 950 + (1) × AP] Shield which decays gradually after being spit out. Allies can also choose to exit early. Tahm Kench is Grounded during this effect, but can cast {{Spell_TahmKenchW_Name}} and gains [60]% Move Speed for [3] seconds."
+        },
+        {
+          "ability": "Thick Skin",
+          "slot": "E",
+          "source": "Characters/TahmKench/Spells/TahmKenchEAbility/TahmKenchE",
+          "formula": "Passive: [(0.15 / 0.23 / 0.31 / 0.39 / 0.47) × 100]% of damage Tahm Kench takes is stored by his Thick Skin, increased to [(0.42 / 0.44 / 0.46 / 0.48 / 0.5) × 100]% if there are at least [2] nearby enemy champions. If Kench has not taken damage within [4] seconds, Thick Skin will rapidly be consumed to heal Tahm for [characterLevelInterpolation(0.6 → 1; raw flags preserved)] of its value.\n\nActive: Convert all your stored Thick Skin into a Shield, lasting [2.5] seconds."
+        }
+      ]
+    }
+  ]
+}

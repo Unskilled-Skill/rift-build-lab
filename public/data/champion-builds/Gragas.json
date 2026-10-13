@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "gragas-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "gragas-four-2",
+      "id": "gragas-audit-drunken-spellblade-tank",
       "champion": "Gragas",
-      "name": "Damage interaction: Spell-and-attack",
-      "goal": "Damage interaction for Gragas: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A melee control mage who alternates defensive drinking and empowered attacks with dashes and precise displacement. Measure empowered W attacks after drinking, E access and R displacement. A bruiser route must compare survival and repeat casts rather than assume the burst combo always lands. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
-      "summary": "Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "name": "Drunken spellblade tank",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Trade one-shot burst for repeated protected empowered attacks.",
+      "goal": "Trade one-shot burst for repeated protected empowered attacks.",
+      "hypothesis": "Drunken Rage reduces damage with an AP term and empowers one attack with 0.7 AP plus 7% enemy max-health magic damage. Dusk and Dawn adds a separate attack proc, Riftmaker rewards continued combat, and Visage supports Happy Hour's 5.5% max-health heal. Body Slam's collision reduces its cooldown by 40%, helping create another W window.",
       "itemIds": [
-        3100,
-        3115,
-        3089,
-        3135,
-        3157,
-        3020
+        2510,
+        4633,
+        3065,
+        8020,
+        4629,
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Gragas: Measure empowered W attacks after drinking, E access and R displacement. A bruiser route must compare survival and repeat casts rather than assume the burst combo always lands.",
-        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Gragas rolls his cask to a location, which can be activated to explode or will explode on its own after 4 seconds. The potency of the explosion increases over time. Enemies struck by the blast have their Move Speed slowed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need E collisions, W timing before contact and Happy Hour availability.",
+        "Compare W-hit damage, passive healing and E availability across two exchanges at equal gold.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "The route fails Gragas's stated kit question: Measure empowered W attacks after drinking, E access and R displacement. A bruiser route must compare survival and repeat casts rather than assume the burst combo always lands.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Missing E loses the cooldown reduction; W's short protection can expire while chasing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: W's percent-health magic bonus does not multiply separate on-hit item damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Dusk and Dawn, Riftmaker, Spirit Visage, Abyssal Mask, Cosmic Drive, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Drunken Rage",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "gragas-four-4",
+      "id": "gragas-audit-fermented-barrel-displacement",
       "champion": "Gragas",
-      "name": "Experiment: AP health frontline",
-      "goal": "Experiment for Gragas: test a different playstyle, with lower confidence",
-      "hypothesis": "A melee control mage who alternates defensive drinking and empowered attacks with dashes and precise displacement. Measure empowered W attacks after drinking, E access and R displacement. A bruiser route must compare survival and repeat casts rather than assume the burst combo always lands. Health/AP may sustain close spell pressure and debuff targets for allied magic damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
+      "name": "Fermented barrel displacement",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use a held barrel and R placement to create a larger delayed hit.",
+      "goal": "Use a held barrel and R placement to create a larger delayed hit.",
+      "hypothesis": "Barrel Roll's 0.8 AP magic damage rises up to 1.5 times as it ages over four seconds. Explosive Cask's 0.8 AP knockback can displace a target toward the prepared barrel; Rocketbelt adjusts the casting angle, while Horizon reveals qualifying long-range ability hits. This is a placement-dependent damage hypothesis rather than an automatic combo.",
       "itemIds": [
-        4633,
-        6653,
-        3116,
-        8010,
-        3065,
-        3111
+        6655,
+        4628,
+        3152,
+        3089,
+        3135,
+        3020
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
-        8444,
-        8451
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Gragas: Measure empowered W attacks after drinking, E access and R displacement. A bruiser route must compare survival and repeat casts rather than assume the burst combo always lands.",
-        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Gragas rolls his cask to a location, which can be activated to explode or will explode on its own after 4 seconds. The potency of the explosion increases over time. Enemies struck by the blast have their Move Speed slowed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need an aged barrel, a displacement angle and safe range for setup.",
+        "Measure aged-Q damage and successful R-into-Q catches against a moving target, logging range for Horizon.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
-        "The route fails Gragas's stated kit question: Measure empowered W attacks after drinking, E access and R displacement. A bruiser route must compare survival and repeat casts rather than assume the burst combo always lands.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "A wrong R angle ejects the enemy away; detonating Q early sacrifices its multiplier.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
-        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Every Q detonation is not the full aged damage, and Horizon does not amplify all spells in this source.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Luden's Echo, Horizon Focus, Hextech Rocketbelt, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Drunken Rage",
@@ -415,12 +403,6 @@
           "slot": "R",
           "source": "Characters/Gragas/Spells/GragasRAbility/GragasR",
           "formula": "Gragas hurls his cask, dealing [200 / 300 / 400 + (0.8) × AP] magic damage and Knocking Away enemies from the impact zone."
-        },
-        {
-          "ability": "Happy Hour",
-          "slot": "Passive",
-          "source": "Characters/Gragas/Spells/GragasPassiveAbility/GragasPassive",
-          "formula": "When Gragas uses an Ability, Gragas takes a drink, restoring [(0.055) × Stat(12)] Health."
         }
       ]
     }

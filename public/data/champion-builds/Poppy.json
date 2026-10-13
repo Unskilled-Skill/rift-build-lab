@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "poppy-four-1",
@@ -110,18 +110,20 @@
       ]
     },
     {
-      "id": "poppy-four-2",
+      "id": "poppy-audit-buckler-return-trade",
       "champion": "Poppy",
-      "name": "Damage interaction: Health to attack damage",
-      "goal": "Damage interaction for Poppy: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "An anti-mobility warden who uses walls and dash denial to keep enemies in unfavorable positions. Compare wall-stun reliability and dash denial with physical burst. Shield pickup and passive attack cadence matter; R displacement can remove the target from damage range. Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Buckler return trade",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Combine a ranged buckler attack with a shield pickup before reentry.",
+      "goal": "Combine a ranged buckler attack with a shield pickup before reentry.",
+      "hypothesis": "The passive attack gains range and a recoverable health-scaled shield. Trinity rewards a preceding cast, Dead Man's discharges on an attack and Sundered Sky tests the first champion attack heal. Visage strengthens recovered shielding/healing; E wall collision can buy pickup time.",
       "itemIds": [
-        3084,
-        2501,
-        3748,
-        3053,
+        3078,
+        3742,
+        6610,
         3065,
+        3053,
         3047
       ],
       "runePage": [
@@ -133,17 +135,17 @@
         9104
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,54 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Poppy: Compare wall-stun reliability and dash denial with physical burst. Shield pickup and passive attack cadence matter; R displacement can remove the target from damage range.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Poppy swings her hammer, dealing damage and creating a zone that will slow enemies and explode after a delay. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Passive ready, spell cast before buckler and an accessible landing point.",
+        "Separate buckler attack, item packets and pickup shield while comparing pickup versus forfeiture.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails Poppy's stated kit question: Compare wall-stun reliability and dash denial with physical burst. Shield pickup and passive attack cadence matter; R displacement can remove the target from damage range.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "The opponent destroys the buckler or terrain access costs more health than the shield grants.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: A ranged buckler attack does not make every Poppy spell an on-hit carrier.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Trinity Force, Dead Man's Plate, Sundered Sky, Spirit Visage, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Keeper's Verdict",
-          "slot": "R",
-          "source": "Characters/Poppy/Spells/PoppyRAbility/PoppyR",
-          "formula": "Begin Casting: Poppy begins charging her hammer for up to [4] seconds, Slowing herself by [15]%.\n\nRelease: Poppy smashes the ground, creating a shockwave that deals [200 / 300 / 400 + (0.9) × AD[statFormula=2]] physical damage to the first champion hit and surrounding enemies, Knocks them Back towards their Nexus, and makes them Untargetable while they fly. The range and Knock Back distance increase with charge duration.\n\nAn uncharged swing deals [(200 / 300 / 400 + (0.9) × AD[statFormula=2]) × (0.5)] physical damage and Knocks Up for [1] seconds."
-        },
         {
           "ability": "Steadfast Presence",
           "slot": "W",
           "source": "Characters/Poppy/Spells/PoppyWAbility/PoppyW",
           "formula": "Passive: Poppy gains [(0.16) × Stat(1)] Armor and [(0.16) × Stat(6)] Magic Resist. This bonus is doubled if Poppy is below [40]% Health.\n\nActive: Poppy gains [40]% Move Speed and projects a field around her for [2] seconds that stops enemy dashes. Enemies who are stopped by the field are Grounded and Slowed by [25]% for [2] seconds and take [70 / 110 / 150 / 190 / 230 + (0.7) × AP] magic damage."
-        },
-        {
-          "ability": "Hammer Shock",
-          "slot": "Q",
-          "source": "Characters/Poppy/Spells/PoppyQAbility/PoppyQ",
-          "formula": "Poppy smashes the ground, dealing [30 / 55 / 80 / 105 / 130 + (0.75) × AD[statFormula=2]] plus [7 / 7.5 / 8 / 8.5 / 9]% max Health physical damage and making the ground unstable. \n\nThe unstable area Slows enemies by [0.2 / 0.23 / 0.26 / 0.29 / 0.32 + (8e-05) × Stat(12)[statFormula=2]] and erupts after [1] second, dealing [30 / 55 / 80 / 105 / 130 + (0.75) × AD[statFormula=2]] plus [7 / 7.5 / 8 / 8.5 / 9]% max Health physical damage again."
         },
         {
           "ability": "Iron Ambassador",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "poppy-four-4",
+      "id": "poppy-audit-dash-gate-magic",
       "champion": "Poppy",
-      "name": "Experiment: Physical pick",
-      "goal": "Experiment for Poppy: test a different playstyle, with lower confidence",
-      "hypothesis": "An anti-mobility warden who uses walls and dash denial to keep enemies in unfavorable positions. Compare wall-stun reliability and dash denial with physical burst. Shield pickup and passive attack cadence matter; R displacement can remove the target from damage range. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "name": "Dash gate magic",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Concentrate budget on punishing dash attempts through W.",
+      "goal": "Concentrate budget on punishing dash attempts through W.",
+      "hypothesis": "W's anti-dash hit has 0.7 AP, while E wall stun or tap R can keep a victim near Abyssal and Zeke. Cosmic reacts to W/passive magic damage; AP improves W without raising Q's percent-health physical term. The route depends on enemies choosing a dash inside W.",
       "itemIds": [
-        3142,
-        6698,
-        3814,
-        6694,
-        3026,
-        3158
+        4629,
+        8020,
+        3050,
+        3157,
+        3089,
+        3020
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Poppy: Compare wall-stun reliability and dash denial with physical burst. Shield pickup and passive attack cadence matter; R displacement can remove the target from damage range.",
-        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Poppy swings her hammer, dealing damage and creating a zone that will slow enemies and explode after a delay. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Enemy dash available, W field correctly timed and tap R used for local contact.",
+        "Compare dash-stop damage and aura contact with tap versus charged R against a scripted dash.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "The route fails Poppy's stated kit question: Compare wall-stun reliability and dash denial with physical burst. Shield pickup and passive attack cadence matter; R displacement can remove the target from damage range.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Enemies walk away or hold mobility; charged R removes them from the damage zone.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: More AP does not cause W to hit enemies who never dash.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Cosmic Drive, Abyssal Mask, Zeke's Convergence, Zhonya's Hourglass, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Keeper's Verdict",
@@ -403,12 +379,6 @@
           "slot": "W",
           "source": "Characters/Poppy/Spells/PoppyWAbility/PoppyW",
           "formula": "Passive: Poppy gains [(0.16) × Stat(1)] Armor and [(0.16) × Stat(6)] Magic Resist. This bonus is doubled if Poppy is below [40]% Health.\n\nActive: Poppy gains [40]% Move Speed and projects a field around her for [2] seconds that stops enemy dashes. Enemies who are stopped by the field are Grounded and Slowed by [25]% for [2] seconds and take [70 / 110 / 150 / 190 / 230 + (0.7) × AP] magic damage."
-        },
-        {
-          "ability": "Hammer Shock",
-          "slot": "Q",
-          "source": "Characters/Poppy/Spells/PoppyQAbility/PoppyQ",
-          "formula": "Poppy smashes the ground, dealing [30 / 55 / 80 / 105 / 130 + (0.75) × AD[statFormula=2]] plus [7 / 7.5 / 8 / 8.5 / 9]% max Health physical damage and making the ground unstable. \n\nThe unstable area Slows enemies by [0.2 / 0.23 / 0.26 / 0.29 / 0.32 + (8e-05) × Stat(12)[statFormula=2]] and erupts after [1] second, dealing [30 / 55 / 80 / 105 / 130 + (0.75) × AD[statFormula=2]] plus [7 / 7.5 / 8 / 8.5 / 9]% max Health physical damage again."
         },
         {
           "ability": "Iron Ambassador",

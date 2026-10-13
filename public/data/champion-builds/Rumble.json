@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "rumble-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "rumble-four-2",
+      "id": "rumble-audit-overheat-hand-off",
       "champion": "Rumble",
-      "name": "Damage interaction: AP dive",
-      "goal": "Damage interaction for Rumble: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A Heat-managed magic brawler who holds enemies in flames and deliberately chooses when to enter the spell-lockout attack window. Fix Heat and overheat state. The spell-lockout attack window differs from normal casting; AP/attack speed must be measured without keeping unavailable spells active. AP, penetration and Rocketbelt access test a short committed damage window.",
-      "summary": "AP, penetration and Rocketbelt access test a short committed damage window.",
+      "name": "Overheat hand-off",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Move from Danger Zone spell damage into the four-second attack phase.",
+      "goal": "Move from Danger Zone spell damage into the four-second attack phase.",
+      "hypothesis": "The passive record overheats at 150 Heat, silencing casts but adding attack speed, 0.25 AP attack damage and target-health magic damage. Nashor and Rageblade test the attack hand-off; W's AP/health shield and Cosmic movement support staying in range.",
       "itemIds": [
-        3152,
-        4645,
+        3115,
+        3124,
+        4633,
+        4629,
         3089,
-        3135,
-        3157,
-        3020
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rumble: Fix Heat and overheat state. The spell-lockout attack window differs from normal casting; AP/attack speed must be measured without keeping unavailable spells active.",
-        "Start with the early core (Rocketbelt, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Heat. Do not treat mana regeneration as Heat recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: AP, penetration and Rocketbelt access test a short committed damage window. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Rumble torches opponents in front of him, dealing magic damage in a cone for 3 seconds. While in Danger Zone this damage is increased. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Recorded Heat, Q already running and W applied before overheat silences casts.",
+        "Record Heat threshold and Q persistence, then passive/Nashor packets during four seconds with Rageblade ramp recorded.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "The route fails Rumble's stated kit question: Fix Heat and overheat state. The spell-lockout attack window differs from normal casting; AP/attack speed must be measured without keeping unavailable spells active.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Reaching overheat before defensive setup or being kited loses the brief attack phase.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: The passive summary's 100% wording does not override the detailed record's 150 Heat threshold.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Rocketbelt, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Heat. Do not treat mana regeneration as Heat recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Riftmaker, Cosmic Drive, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Heat",
       "kitEvidence": [
         {
           "ability": "Scrap Shield",
@@ -199,12 +193,6 @@
           "slot": "E",
           "source": "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
           "formula": "Rumble launches an electrified harpoon, dealing [55 / 80 / 105 / 130 / 155 + (0.5) × AP] magic damage, Slowing by [15 / 20 / 25 / 30 / 35]% for [2] seconds, and reducing the enemy's Magic Resist by [(0.1 / 0.12 / 0.14 / 0.16 / 0.18) × 100]% for [4] seconds.\n\nHitting an enemy who's already Slowed by this Ability increases the Slow to [30 / 40 / 50 / 60 / 70]% and reduces the enemy's Magic Resist by [(0.2 / 0.24 / 0.28 / 0.32 / 0.36) × 100]%\n\nDanger Zone: The harpoon deals [(55 / 80 / 105 / 130 / 155 + (0.5) × AP) × (1.5)] magic damage instead and the Slow and reduced Magic Resist are increased by 50%."
-        },
-        {
-          "ability": "The Equalizer",
-          "slot": "R",
-          "source": "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb",
-          "formula": "Rumble launches a line of rockets, creating a burning trail that lasts [4.5] seconds, Slowing by [35]% and dealing [120 / 200 / 280 + (0.35) × AP] magic damage per second.\n\nRumble can control the direction of the trail by clicking and dragging while casting this Ability."
         },
         {
           "ability": "Junkyard Titan",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "rumble-four-4",
+      "id": "rumble-audit-harpoon-shred-burn",
       "champion": "Rumble",
-      "name": "Experiment: AP sustained duel",
-      "goal": "Experiment for Rumble: test a different playstyle, with lower confidence",
-      "hypothesis": "A Heat-managed magic brawler who holds enemies in flames and deliberately chooses when to enter the spell-lockout attack window. Fix Heat and overheat state. The spell-lockout attack window differs from normal casting; AP/attack speed must be measured without keeping unavailable spells active. AP plus real attack cadence tests sustained contact and later penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP plus real attack cadence tests sustained contact and later penetration.",
+      "name": "Harpoon shred burn",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use two connected harpoons to increase the value of a retained burn zone.",
+      "goal": "Use two connected harpoons to increase the value of a retained burn zone.",
+      "hypothesis": "E's second hit against its own slow increases MR reduction, with Danger Zone amplifying that effect. Bloodletter tests additional magic resistance reduction from ability/passive damage while Liandry and R require sustained target contact. Cosmic assists aiming and following the Q cone.",
       "itemIds": [
-        4633,
-        3115,
+        8010,
+        6653,
+        4629,
         3089,
-        3135,
         3157,
-        3111
+        3020
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
-        8444,
-        8451
+        8229,
+        8275,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +351,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rumble: Fix Heat and overheat state. The spell-lockout attack window differs from normal casting; AP/attack speed must be measured without keeping unavailable spells active.",
-        "Start with the early core (Riftmaker, then Nashor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Heat. Do not treat mana regeneration as Heat recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: AP plus real attack cadence tests sustained contact and later penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Rumble torches opponents in front of him, dealing magic damage in a cone for 3 seconds. While in Danger Zone this damage is increased. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Both E hits connect during the slow, Danger Zone state recorded and target remains on R.",
+        "Measure MR and Q/R damage after zero, one and two E hits, separately recording Bloodletter stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
-        "The route fails Rumble's stated kit question: Fix Heat and overheat state. The spell-lockout attack window differs from normal casting; AP/attack speed must be measured without keeping unavailable spells active.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Missed second harpoon or early zone escape defeats both shred and sustained burn.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
-        "Full cost 17,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: MR reduction and percentage penetration cannot be added as a single simple percentage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Riftmaker, then Nashor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Heat. Do not treat mana regeneration as Heat recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Bloodletter's Curse, Liandry's Torment, Cosmic Drive, Rabadon's Deathcap, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Heat",
       "kitEvidence": [
-        {
-          "ability": "Scrap Shield",
-          "slot": "W",
-          "source": "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield",
-          "formula": "Rumble tosses up a barrier, gaining [25 / 55 / 85 / 115 / 145 + (0.3) × AP + (0.04) × Stat(12)] Shield for @ShieldDuration.1@ seconds and [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 100]% Move Speed for [1] second.\n\nDanger Zone: The barrier grants [(25 / 55 / 85 / 115 / 145 + (0.3) × AP + (0.04) × Stat(12)) × (1.5)] Shield and [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × (1.5)] Move Speed instead."
-        },
         {
           "ability": "Flamespitter",
           "slot": "Q",

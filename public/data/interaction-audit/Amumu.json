@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Amumu",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "attack-curse-duelist",
+      "name": "Attack curse duelist",
+      "objective": "Test attack curse duelist against the conventional damage pattern at equal gold.",
+      "mechanic": "Cursed Touch begins with Amumu's own attack, then Despair refreshes it; Nashor and Dusk and Dawn add magic attack packets alongside AP-scaled W. Abyssal Mask increases nearby enemy magic damage taken, making a melee attack phase worth testing after Bandage Toss.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        8020,
+        3065,
+        3111
+      ],
+      "pageKey": "pta",
+      "requiredState": "Stay near a cursed target and weave attacks between Q charges.",
+      "failure": "Low reach and uninterrupted incoming burst can prevent three attacks.",
+      "test": "Compare cursed magic packets and total duel damage over eight seconds.",
+      "rejectedAssumption": "The passive is not permission to apply item on-hits through every Despair tick.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "armor-fed-tantrum-battery",
+      "name": "Armor-fed tantrum battery",
+      "objective": "Test armor-fed tantrum battery against the conventional damage pattern at equal gold.",
+      "mechanic": "Tantrum's cooldown drops 0.75 seconds per incoming attack, while its physical damage reduction has resistance terms; Sunfire and Liandry add magic pressure during Despair. Aftershock follows Q or R immobilization and buys the first retaliation window.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3068,
+        3110,
+        8020,
+        6653,
+        3065,
+        3047
+      ],
+      "pageKey": "after",
+      "requiredState": "Face many modest physical attack packets instead of one burst.",
+      "failure": "Frozen Heart reduces attack frequency, trading some E refunds for safety.",
+      "test": "Count E casts against fast and slow attackers with and without Frozen Heart.",
+      "rejectedAssumption": "Do not treat E reduction as immunity or equate its source stat IDs with verified bonus resistances.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "The passive is not permission to apply item on-hits through every Despair tick.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Item and ability proc attribution requires a controlled current-patch test; symbolic statFormula and source flags are not runtime verification."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Cursed Touch",
+      "paths": [
+        "Characters/Amumu/Spells/AmumuPAbility/AmumuP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Bandage Toss",
+      "paths": [
+        "Characters/Amumu/Spells/BandageTossAbility/BandageToss"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Despair",
+      "paths": [
+        "Characters/Amumu/Spells/AuraofDespairAbility/AuraofDespair"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Tantrum",
+      "paths": [
+        "Characters/Amumu/Spells/TantrumAbility/Tantrum"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Curse of the Sad Mummy",
+      "paths": [
+        "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "amumu-audit-attack-curse-duelist",
+      "champion": "Amumu",
+      "name": "Attack curse duelist",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test attack curse duelist against the conventional damage pattern at equal gold.",
+      "goal": "Test attack curse duelist against the conventional damage pattern at equal gold.",
+      "hypothesis": "Cursed Touch begins with Amumu's own attack, then Despair refreshes it; Nashor and Dusk and Dawn add magic attack packets alongside AP-scaled W. Abyssal Mask increases nearby enemy magic damage taken, making a melee attack phase worth testing after Bandage Toss.",
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        8020,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Stay near a cursed target and weave attacks between Q charges.",
+        "Compare cursed magic packets and total duel damage over eight seconds.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low reach and uninterrupted incoming burst can prevent three attacks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The passive is not permission to apply item on-hits through every Despair tick.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Abyssal Mask, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Cursed Touch",
+          "slot": "Passive",
+          "source": "Characters/Amumu/Spells/AmumuPAbility/AmumuP",
+          "formula": "Amumu's Attacks Curse his enemies for [3] seconds, causing them to take an additional [10]% true damage from all magic damage they take."
+        },
+        {
+          "ability": "Despair",
+          "slot": "W",
+          "source": "Characters/Amumu/Spells/AuraofDespairAbility/AuraofDespair",
+          "formula": "Toggle: Amumu begins crying, dealing [10] plus [1 / 1.25 / 1.5 / 1.75 / 2 + (0.005) × AP]% max Health magic damage to nearby enemies every second and refreshing Curse."
+        },
+        {
+          "ability": "Tantrum",
+          "slot": "E",
+          "source": "Characters/Amumu/Spells/TantrumAbility/Tantrum",
+          "formula": "Passive: Amumu takes [5 / 7 / 9 / 11 / 13 + (0.03) × Stat(1)[statFormula=2] + (0.03) × Stat(6)[statFormula=2]] reduced physical damage. Additionally, when Amumu is hit by an Attack, this Ability's Cooldown is reduced by [0.75] seconds.\n\nActive: Amumu throws a tantrum, dealing [65 / 95 / 125 / 155 / 185 + (0.5) × AP] magic damage to nearby enemies."
+        },
+        {
+          "ability": "Bandage Toss",
+          "slot": "Q",
+          "source": "Characters/Amumu/Spells/BandageTossAbility/BandageToss",
+          "formula": "Amumu launches a bandage, pulling himself to the first enemy hit, Stunning them for [1] second, and dealing [70 / 95 / 120 / 145 / 170 + (0.85) × AP] magic damage.\n\nThis Ability has 2 charges."
+        }
+      ]
+    },
+    {
+      "id": "amumu-audit-armor-fed-tantrum-battery",
+      "champion": "Amumu",
+      "name": "Armor-fed tantrum battery",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test armor-fed tantrum battery against the conventional damage pattern at equal gold.",
+      "goal": "Test armor-fed tantrum battery against the conventional damage pattern at equal gold.",
+      "hypothesis": "Tantrum's cooldown drops 0.75 seconds per incoming attack, while its physical damage reduction has resistance terms; Sunfire and Liandry add magic pressure during Despair. Aftershock follows Q or R immobilization and buys the first retaliation window.",
+      "itemIds": [
+        3068,
+        3110,
+        8020,
+        6653,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Face many modest physical attack packets instead of one burst.",
+        "Count E casts against fast and slow attackers with and without Frozen Heart.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Frozen Heart reduces attack frequency, trading some E refunds for safety.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Do not treat E reduction as immunity or equate its source stat IDs with verified bonus resistances.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Sunfire Aegis, Frozen Heart, Abyssal Mask, Liandry's Torment, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Curse of the Sad Mummy",
+          "slot": "R",
+          "source": "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy",
+          "formula": "Amumu flares out his bandages, Stunning for [1.5] seconds, dealing [200 / 300 / 400 + (0.8) × AP] magic damage and applying Curse."
+        },
+        {
+          "ability": "Cursed Touch",
+          "slot": "Passive",
+          "source": "Characters/Amumu/Spells/AmumuPAbility/AmumuP",
+          "formula": "Amumu's Attacks Curse his enemies for [3] seconds, causing them to take an additional [10]% true damage from all magic damage they take."
+        },
+        {
+          "ability": "Despair",
+          "slot": "W",
+          "source": "Characters/Amumu/Spells/AuraofDespairAbility/AuraofDespair",
+          "formula": "Toggle: Amumu begins crying, dealing [10] plus [1 / 1.25 / 1.5 / 1.75 / 2 + (0.005) × AP]% max Health magic damage to nearby enemies every second and refreshing Curse."
+        },
+        {
+          "ability": "Tantrum",
+          "slot": "E",
+          "source": "Characters/Amumu/Spells/TantrumAbility/Tantrum",
+          "formula": "Passive: Amumu takes [5 / 7 / 9 / 11 / 13 + (0.03) × Stat(1)[statFormula=2] + (0.03) × Stat(6)[statFormula=2]] reduced physical damage. Additionally, when Amumu is hit by an Attack, this Ability's Cooldown is reduced by [0.75] seconds.\n\nActive: Amumu throws a tantrum, dealing [65 / 95 / 125 / 155 / 185 + (0.5) × AP] magic damage to nearby enemies."
+        },
+        {
+          "ability": "Bandage Toss",
+          "slot": "Q",
+          "source": "Characters/Amumu/Spells/BandageTossAbility/BandageToss",
+          "formula": "Amumu launches a bandage, pulling himself to the first enemy hit, Stunning them for [1] second, and dealing [70 / 95 / 120 / 145 / 170 + (0.85) × AP] magic damage.\n\nThis Ability has 2 charges."
+        }
+      ]
+    }
+  ]
+}

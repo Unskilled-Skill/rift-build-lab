@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Rell",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "stolen-resistance-attack-weave",
+      "name": "Stolen-resistance attack weave",
+      "objective": "Explore actual attacks while dismounted to use stolen defenses offensively.",
+      "mechanic": "Break the Mold steals armor/MR through attacks and abilities and attacks add 0.05 armor plus 0.05 MR magic damage. Dismounted W explicitly grants increased attack speed and defenses. Nashor and Dusk and Dawn test an attack component; Abyssal helps close magic damage and E or remount supplies access.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3869,
+        2510,
+        3115,
+        8020,
+        6665,
+        3111
+      ],
+      "pageKey": "pta",
+      "requiredState": "W dismounted state and finite stolen-resistance stacks are recorded; attacks can reach champions.",
+      "failure": "Delayed protective items and weak attack uptime can erase this offensive support gamble.",
+      "test": "Log stolen stats, passive damage and Dusk packets for identical dismounted attack counts.",
+      "rejectedAssumption": "Repeating on-hits need not repeat resistance-steal stacks; never grant unlimited theft.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "shield-break-full-tilt-burst",
+      "name": "Shield-break full-tilt burst",
+      "objective": "Use Q shield destruction before the AP-scaled max-health E explosion.",
+      "mechanic": "Q destroys shields and stuns, with 0.6 AP damage. E next attack or Q explodes for max-health magic damage with an AP coefficient; R supplies two seconds of AP-scaled magic contact. Bloodletter and Liandry test sustained follow-up while Mandate requires Q/W immobilization rather than mere E speed.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3869,
+        4005,
+        6653,
+        8010,
+        3157,
+        3020
+      ],
+      "pageKey": "after",
+      "requiredState": "Shielded durable target; arm E and hit Q before committing R/W.",
+      "failure": "Failing to land Q leaves the shield intact and the expensive AP package exposed.",
+      "test": "Compare Q shield removal, E explosion and R ticks at fixed target health and shields.",
+      "rejectedAssumption": "Shield destruction is not extra damage equal to the removed shield.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AD-scaled lance burst",
+      "reason": "Q and E have magic/AP effects; an ordinary AD spell-burst premise lacks their source ratios.",
+      "evidenceSlots": [
+        "Q",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "W values are cross-referenced; inspected W calculations give 0.11 health shielding and AP damage. Steal floors, target-specific stacks and repeated on-hits remain unverified."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Break the Mold",
+      "paths": [
+        "Characters/Rell/Spells/RellPAbility/RellP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Shattering Strike",
+      "paths": [
+        "Characters/Rell/Spells/RellQAbility/RellQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Ferromancy: Crash Down",
+      "paths": [
+        "Characters/Rell/Spells/RellW_DismountAbility/RellW_Dismount"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Full Tilt",
+      "paths": [
+        "Characters/Rell/Spells/RellEAbility/RellE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Magnet Storm",
+      "paths": [
+        "Characters/Rell/Spells/RellRAbility/RellR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "rell-audit-stolen-resistance-attack-weave",
+      "champion": "Rell",
+      "name": "Stolen-resistance attack weave",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore actual attacks while dismounted to use stolen defenses offensively.",
+      "goal": "Explore actual attacks while dismounted to use stolen defenses offensively.",
+      "hypothesis": "Break the Mold steals armor/MR through attacks and abilities and attacks add 0.05 armor plus 0.05 MR magic damage. Dismounted W explicitly grants increased attack speed and defenses. Nashor and Dusk and Dawn test an attack component; Abyssal helps close magic damage and E or remount supplies access.",
+      "itemIds": [
+        3869,
+        2510,
+        3115,
+        8020,
+        6665,
+        3111
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: W dismounted state and finite stolen-resistance stacks are recorded; attacks can reach champions.",
+        "Log stolen stats, passive damage and Dusk packets for identical dismounted attack counts.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Delayed protective items and weak attack uptime can erase this offensive support gamble.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Repeating on-hits need not repeat resistance-steal stacks; never grant unlimited theft.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Dusk and Dawn, Nashor's Tooth, Abyssal Mask, Jak'Sho, The Protean, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Break the Mold",
+          "slot": "Passive",
+          "source": "Characters/Rell/Spells/RellPAbility/RellP",
+          "formula": "Rell's Attacks and Abilities steal [3]% Armor and [3]% Magic Resist for [5] seconds. Max: [15]%. Basic attacks deal [(0.05) × Stat(1) + (0.05) × Stat(6)] magic damage on-hit."
+        },
+        {
+          "ability": "Ferromancy: Crash Down",
+          "slot": "W",
+          "source": "Characters/Rell/Spells/RellW_DismountAbility/RellW_Dismount",
+          "formula": "Passive - Mounted Alacrity: Rell gains @spell.RellW_Dismount:MountedMoveSpeed@ Move Speed while mounted.\n\nActive - {{Spell_RellW_Dismount_Name}}: Rell leaps off her mount, Knocking Up enemies and dealing @spell.RellW_Dismount:DismountDamage@ magic damage. Rell gains @spell.RellW_Dismount:Shield@ Shield, which lasts until she remounts.\n\nRell then enters her armored form, gaining @spell.RellW_Dismount:ResistanceIncrease*100@% increased Armor and Magic Resist, @spell.RellW_Dismount:DismountedASBoost*100@% Attack Speed and @spell.RellW_Dismount:DismountedRangeBoost@ Attack Range. In this armored form, she can use {{Spell_RellW_MountUp_Name2}}."
+        },
+        {
+          "ability": "Full Tilt",
+          "slot": "E",
+          "source": "Characters/Rell/Spells/RellEAbility/RellE",
+          "formula": "Rell and an ally charge, gaining [15]% Move Speed, increased to [30]% when facing enemy champions or each other for [3] seconds. Rell's next Attack or {{Spell_RellQ_Name}} explodes in an area for [0.05 / 0.055 / 0.06 / 0.065 / 0.07 + (0.0003) × AP] max Health magic damage."
+        }
+      ]
+    },
+    {
+      "id": "rell-audit-shield-break-full-tilt-burst",
+      "champion": "Rell",
+      "name": "Shield-break full-tilt burst",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use Q shield destruction before the AP-scaled max-health E explosion.",
+      "goal": "Use Q shield destruction before the AP-scaled max-health E explosion.",
+      "hypothesis": "Q destroys shields and stuns, with 0.6 AP damage. E next attack or Q explodes for max-health magic damage with an AP coefficient; R supplies two seconds of AP-scaled magic contact. Bloodletter and Liandry test sustained follow-up while Mandate requires Q/W immobilization rather than mere E speed.",
+      "itemIds": [
+        3869,
+        4005,
+        6653,
+        8010,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Shielded durable target; arm E and hit Q before committing R/W.",
+        "Compare Q shield removal, E explosion and R ticks at fixed target health and shields.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Failing to land Q leaves the shield intact and the expensive AP package exposed.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Shield destruction is not extra damage equal to the removed shield.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Imperial Mandate, Liandry's Torment, Bloodletter's Curse, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ferromancy: Crash Down",
+          "slot": "W",
+          "source": "Characters/Rell/Spells/RellW_DismountAbility/RellW_Dismount",
+          "formula": "Passive - Mounted Alacrity: Rell gains @spell.RellW_Dismount:MountedMoveSpeed@ Move Speed while mounted.\n\nActive - {{Spell_RellW_Dismount_Name}}: Rell leaps off her mount, Knocking Up enemies and dealing @spell.RellW_Dismount:DismountDamage@ magic damage. Rell gains @spell.RellW_Dismount:Shield@ Shield, which lasts until she remounts.\n\nRell then enters her armored form, gaining @spell.RellW_Dismount:ResistanceIncrease*100@% increased Armor and Magic Resist, @spell.RellW_Dismount:DismountedASBoost*100@% Attack Speed and @spell.RellW_Dismount:DismountedRangeBoost@ Attack Range. In this armored form, she can use {{Spell_RellW_MountUp_Name2}}."
+        },
+        {
+          "ability": "Full Tilt",
+          "slot": "E",
+          "source": "Characters/Rell/Spells/RellEAbility/RellE",
+          "formula": "Rell and an ally charge, gaining [15]% Move Speed, increased to [30]% when facing enemy champions or each other for [3] seconds. Rell's next Attack or {{Spell_RellQ_Name}} explodes in an area for [0.05 / 0.055 / 0.06 / 0.065 / 0.07 + (0.0003) × AP] max Health magic damage."
+        },
+        {
+          "ability": "Shattering Strike",
+          "slot": "Q",
+          "source": "Characters/Rell/Spells/RellQAbility/RellQ",
+          "formula": "Rell thrusts her lance, Stunning targets for [0.65] seconds, destroying all Shields, and dealing [60 / 100 / 140 / 180 / 220 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Magnet Storm",
+          "slot": "R",
+          "source": "Characters/Rell/Spells/RellRAbility/RellR",
+          "formula": "Rell explodes in a magnetic fury, violently Pulling nearby enemies towards herself. Then Rell constantly Drags nearby enemies towards herself and deals [(75 / 125 / 175 + (0.55) × AP) × (2)] magic damage over the next [2] seconds."
+        }
+      ]
+    }
+  ]
+}

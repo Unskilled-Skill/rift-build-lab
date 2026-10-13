@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "rengar-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "rengar-four-2",
+      "id": "rengar-audit-double-roar-ap-retreat",
       "champion": "Rengar",
-      "name": "Damage interaction: Crit opening experiment",
-      "goal": "Damage interaction for Rengar: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "An ambush fighter who leaps from brush or camouflage, builds Ferocity and chooses empowered damage, healing-cleanse or root. Fix Ferocity and brush/ultimate entry, then choose empowered Q/W/E. Do not claim empowered heal/cleanse and damage from the same four-stack resource at once. Crit, AD and an opening attack window test burst from compatible empowered attacks.",
-      "summary": "Crit, AD and an opening attack window test burst from compatible empowered attacks.",
+      "name": "Double-roar AP retreat",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test normal and empowered W damage with recovery after taking a finite burst.",
+      "goal": "Test normal and empowered W damage with recovery after taking a finite burst.",
+      "hypothesis": "W has 0.8 AP magic damage and restores half of damage received in the last 1.5 seconds; empowered W adds a cleanse. AP and magic penetration target those roars while Visage improves received healing. Passive ferocity and E control must enable the actual empowered W, trading away empowered Q damage.",
       "itemIds": [
-        6676,
-        3031,
-        3508,
-        3036,
-        3026,
-        3006
+        3152,
+        4633,
+        3135,
+        3157,
+        3065,
+        3020
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
-        8444,
-        8451
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rengar: Fix Ferocity and brush/ultimate entry, then choose empowered Q/W/E. Do not claim empowered heal/cleanse and damage from the same four-stack resource at once.",
-        "Start with the early core (Collector or Essence Reaver, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Ferocity. Do not treat mana regeneration as Ferocity recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Crit, AD and an opening attack window test burst from compatible empowered attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Rengar's next Attack brutally stabs his target for bonus damage.\n\nFerocity effect: deals increased damage and grants Attack Speed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Record initial ferocity, burst taken and both W timings within the recovery window.",
+        "Measure W packets and heal amounts with controlled incoming burst and finite ferocity.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
-        "The route fails Rengar's stated kit question: Fix Ferocity and brush/ultimate entry, then choose empowered Q/W/E. Do not claim empowered heal/cleanse and damage from the same four-stack resource at once.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "No recent incoming damage means little W recovery; AP reduces the AD leap threat.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
-        "Full cost 17,150 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Empowered W cleanse does not justify inventing additional healing beyond the recorded W behavior.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Collector or Essence Reaver, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Essence Reaver, Lord Dominik's Regards, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Ferocity. Do not treat mana regeneration as Ferocity recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Hextech Rocketbelt, Riftmaker, Void Staff, Zhonya's Hourglass, Spirit Visage, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Ferocity",
       "kitEvidence": [
         {
           "ability": "Battle Roar",
@@ -189,22 +183,10 @@
           "formula": "Rengar roars, dealing [50 / 80 / 110 / 140 / 170 + (0.8) × AP] magic damage to nearby enemies and restoring [50]% of the damage taken in the last [1.5] seconds as Health.\n\nMax Ferocity: Deals [characterLevelTable[0, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340] + (0.8) × AP] magic damage and additionally cleanses Rengar of crowd control."
         },
         {
-          "ability": "Savagery",
-          "slot": "Q",
-          "source": "Characters/Rengar/Spells/RengarQAbility/RengarQ",
-          "formula": "Rengar's next 2 Attacks gain [40]% Attack Speed. The first Attack deals [20 / 55 / 90 / 125 / 160 + (1) × AD + (0.05) × AD] physical damage.\n\nMax Ferocity: The first Attack deals [characterLevelBreakpoints(start=35, perLevel=15, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (1) × AD + (0.2) × AD] physical damage and grants Rengar [(characterLevelBreakpoints(start=50, perLevel=3, changes=[])) × (0.01)] Attack Speed for [5] seconds."
-        },
-        {
           "ability": "Bola Strike",
           "slot": "E",
           "source": "Characters/Rengar/Spells/RengarEAbility/RengarE",
           "formula": "Rengar throws a bola, dealing [55 / 100 / 145 / 190 / 235 + (0.8) × AD[statFormula=2]] physical damage to the first enemy hit, revealing and Slowing them by [30 / 45 / 60 / 75 / 90]% for [1.75] seconds.\n\nMax Ferocity: Deals [characterLevelBreakpoints(start=50, perLevel=15, changes=[]) + (0.8) × AD[statFormula=2]] physical damage and Roots for [1.75] seconds."
-        },
-        {
-          "ability": "Thrill of the Hunt",
-          "slot": "R",
-          "source": "Characters/Rengar/Spells/RengarRAbility/RengarR",
-          "formula": "Passive: Rengar will also leap Attack when Camouflaged.\n\nActive: Rengar gains [40 / 50 / 60]% Move Speed and True Sight in a small area around the nearest enemy champion for [12 / 16 / 20] seconds.\n\nAfter [2] seconds, Rengar becomes Camouflaged and can leap without being in Brush. Leaping to the nearest champion deals an additional [(1) × AD] physical damage, shreds [15 / 20 / 25] Armor for [4] seconds, and ends this Ability."
         },
         {
           "ability": "Unseen Predator",
@@ -320,18 +302,20 @@
       ]
     },
     {
-      "id": "rengar-four-4",
+      "id": "rengar-audit-ferocity-recovery-chase",
       "champion": "Rengar",
-      "name": "Experiment: Contact fighter",
-      "goal": "Experiment for Rengar: test a different playstyle, with lower confidence",
-      "hypothesis": "An ambush fighter who leaps from brush or camouflage, builds Ferocity and chooses empowered damage, healing-cleanse or root. Fix Ferocity and brush/ultimate entry, then choose empowered Q/W/E. Do not claim empowered heal/cleanse and damage from the same four-stack resource at once. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "name": "Ferocity recovery chase",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use empowered-cast speed to keep healing attack trades within reach.",
+      "goal": "Use empowered-cast speed to keep healing attack trades within reach.",
+      "hypothesis": "Passive grants brief speed after an empowered ability; Q gives the next two attacks attack speed. Sundered Sky and Ravenous support real attacks while Visage improves W and item healing. Trinity adds one Spellblade packet; normal/empowered E can constrain an escape before choosing healing W or damage Q.",
       "itemIds": [
-        6631,
+        3078,
         6610,
-        3053,
-        6333,
+        3074,
         3065,
+        3053,
         3047
       ],
       "runePage": [
@@ -345,15 +329,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rengar: Fix Ferocity and brush/ultimate entry, then choose empowered Q/W/E. Do not claim empowered heal/cleanse and damage from the same four-stack resource at once.",
-        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Ferocity. Do not treat mana regeneration as Ferocity recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Rengar's next Attack brutally stabs his target for bonus damage.\n\nFerocity effect: deals increased damage and grants Attack Speed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Brush/leap access and a finite four-ferocity cycle permit more than the opening hit.",
+        "Compare damage and health retained over two ferocity cycles, tracking which empowered spell was chosen.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
-        "The route fails Rengar's stated kit question: Fix Ferocity and brush/ultimate entry, then choose empowered Q/W/E. Do not claim empowered heal/cleanse and damage from the same four-stack resource at once.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "No brush, healing reduction or forced disengage leaves an inferior burst sequence.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Q first-attack scaling is not proof every Q bonus inherits ordinary critical multipliers.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Ferocity. Do not treat mana regeneration as Ferocity recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Trinity Force, Sundered Sky, Ravenous Hydra, Spirit Visage, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Ferocity",
       "kitEvidence": [
         {
           "ability": "Battle Roar",
@@ -409,12 +385,6 @@
           "slot": "E",
           "source": "Characters/Rengar/Spells/RengarEAbility/RengarE",
           "formula": "Rengar throws a bola, dealing [55 / 100 / 145 / 190 / 235 + (0.8) × AD[statFormula=2]] physical damage to the first enemy hit, revealing and Slowing them by [30 / 45 / 60 / 75 / 90]% for [1.75] seconds.\n\nMax Ferocity: Deals [characterLevelBreakpoints(start=50, perLevel=15, changes=[]) + (0.8) × AD[statFormula=2]] physical damage and Roots for [1.75] seconds."
-        },
-        {
-          "ability": "Thrill of the Hunt",
-          "slot": "R",
-          "source": "Characters/Rengar/Spells/RengarRAbility/RengarR",
-          "formula": "Passive: Rengar will also leap Attack when Camouflaged.\n\nActive: Rengar gains [40 / 50 / 60]% Move Speed and True Sight in a small area around the nearest enemy champion for [12 / 16 / 20] seconds.\n\nAfter [2] seconds, Rengar becomes Camouflaged and can leap without being in Brush. Leaping to the nearest champion deals an additional [(1) × AD] physical damage, shreds [15 / 20 / 25] Armor for [4] seconds, and ends this Ability."
         },
         {
           "ability": "Unseen Predator",

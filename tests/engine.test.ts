@@ -35,3 +35,7 @@ describe('independent damage fixtures',()=>{
 
 
 it('allows earned Muramana without allowing arbitrary hidden source items or both Tear forms',()=>{const muramana={...item(3042,[]),shopListedBySource:false};expect(legalBuild([muramana],10000,6,'Blitzcrank')).toBe(true);expect(legalBuild([muramana,item(3004,[])],10000,6,'Blitzcrank')).toBe(false);expect(legalBuild([{...item(999,[]),shopListedBySource:false}],10000,6,'Blitzcrank')).toBe(false);expect(legalBuild([{...muramana,maps:{'11':false}}],10000,6,'Blitzcrank')).toBe(false)});
+
+it('rejects competing armor-penetration and Spellblade purchases',()=>{expect(legalBuild([item(3071,[]),item(6694,[])],10000,6,'Ashe')).toBe(false);expect(legalBuild([item(3302,[]),item(3135,[])],10000,6,'Kaisa')).toBe(false);expect(legalBuild([item(3508,[]),item(3078,[])],10000,6,'Blitzcrank')).toBe(false)});
+
+it('rejects two competing Tiamat upgrades',()=>{expect(legalBuild([item(3748,[]),item(6631,[])],10000,6,'RekSai')).toBe(false)});

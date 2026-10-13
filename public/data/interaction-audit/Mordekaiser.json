@@ -1,0 +1,319 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Mordekaiser",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "nashor-realm-execution",
+      "name": "Nashor realm execution",
+      "objective": "Spend the seven-second isolated duel on repeated AP attacks.",
+      "mechanic": "Darkness Rise adds 0.4 AP magic damage to attacks and activates its aura after three qualifying attacks/basic abilities. Nashor and Dusk and Dawn add attack payloads, Terminus needs real attacks for mixed penetration and Riftmaker rewards the sustained Realm of Death. Q's isolation multiplier gives a spell payoff while R restricts the duel to one opponent.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R",
+        "W"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3302,
+        3089,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Need target access inside R, sufficient attack time and W shield management.",
+      "failure": "A slippery opponent can waste most of the seven seconds; low defenses make the exit dangerous.",
+      "test": "Compare attacks, passive activation and Q damage in seven-second duels versus a target with an escape.",
+      "rejectedAssumption": "Death Realm isolation does not remove enemy mobility or automatically fully stack Terminus.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "bloodmail-magic-mace-hybrid",
+      "name": "Bloodmail magic mace hybrid",
+      "objective": "Test Q's documented AD scaling without treating its damage as physical.",
+      "mechanic": "Obliterate has a 1.2 AD statFormula=2 term plus 0.7 AP and deals magic damage, amplified on a single target. Bloodmail's health-to-AD and Riftmaker's health-to-AP create a dual health conversion; Shojin increases qualifying spell/passive damage and Abyssal improves close magic output. Visage supports W's shield and optional remaining-shield healing.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "P",
+        "R",
+        "E"
+      ],
+      "itemIds": [
+        2501,
+        3161,
+        4633,
+        3065,
+        8020,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Need isolated Q hits, stored W damage and enough contact to ramp sustained effects.",
+      "failure": "AD does little for E/passive AP ratios; missing Q undermines the conversion payoff.",
+      "test": "Compare Q damage per gold and W absorption across bought-health levels, tracking physical attacks separately.",
+      "rejectedAssumption": "Lethality does not improve an AD-scaled magic Obliterate, and W recast spends the remaining shield.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Mana sustain itemization",
+      "reason": "Mordekaiser has no mana; Tear and mana pools cannot fuel his abilities.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q raw AD statFormula and W storage caps need live damage checks; Death Realm temporary stolen stats are not permanent stacking."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Darkness Rise",
+      "paths": [
+        "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Obliterate",
+      "paths": [
+        "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Indestructible",
+      "paths": [
+        "Characters/Mordekaiser/Spells/MordekaiserWAbility/MordekaiserW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Death's Grasp",
+      "paths": [
+        "Characters/Mordekaiser/Spells/MordekaiserEAbility/MordekaiserE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Realm of Death",
+      "paths": [
+        "Characters/Mordekaiser/Spells/MordekaiserRAbility/MordekaiserR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "mordekaiser-audit-nashor-realm-execution",
+      "champion": "Mordekaiser",
+      "name": "Nashor realm execution",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Spend the seven-second isolated duel on repeated AP attacks.",
+      "goal": "Spend the seven-second isolated duel on repeated AP attacks.",
+      "hypothesis": "Darkness Rise adds 0.4 AP magic damage to attacks and activates its aura after three qualifying attacks/basic abilities. Nashor and Dusk and Dawn add attack payloads, Terminus needs real attacks for mixed penetration and Riftmaker rewards the sustained Realm of Death. Q's isolation multiplier gives a spell payoff while R restricts the duel to one opponent.",
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3302,
+        3089,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need target access inside R, sufficient attack time and W shield management.",
+        "Compare attacks, passive activation and Q damage in seven-second duels versus a target with an escape.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A slippery opponent can waste most of the seven seconds; low defenses make the exit dangerous.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Death Realm isolation does not remove enemy mobility or automatically fully stack Terminus.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Terminus, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Obliterate",
+          "slot": "Q",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ",
+          "formula": "Mordekaiser smashes the ground with Nightfall dealing [80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP] magic damage, increased to [(80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP) × (1.3 / 1.35 / 1.4 / 1.45 / 1.5)] if it hits only a single enemy."
+        },
+        {
+          "ability": "Indestructible",
+          "slot": "W",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserWAbility/MordekaiserW",
+          "formula": "Passive: Mordekaiser stores [45]% of the damage he deals and [7.5]% of the damage he takes.\n\nActive: Mordekaiser gains the stored damage as Shield. He may Recast this Ability to restore [(0.35 / 0.375 / 0.4 / 0.425 / 0.45) × 100]% of the remaining Shield as Health.\n\nMinimum Shield: [(0.05) × Stat(12)]\nMaximum Shield: [(0.3) × Stat(12)]"
+        },
+        {
+          "ability": "Death's Grasp",
+          "slot": "E",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserEAbility/MordekaiserE",
+          "formula": "Passive: Mordekaiser gains [(0.05 / 0.075 / 0.1 / 0.125 / 0.15) × 100]% Magic Penetration.\n\nActive: Pulls enemies in his direction, dealing [60 / 80 / 100 / 120 / 140 + (0.45) × AP] magic damage."
+        },
+        {
+          "ability": "Realm of Death",
+          "slot": "R",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserRAbility/MordekaiserR",
+          "formula": "Mordekaiser banishes a champion to the Death Realm with him for [7]s, stealing [10]% of their core stats for the duration.\n\nIf Mordekaiser kills that enemy in the Death Realm he consumes their soul, keeping the stats he stole until the target respawns."
+        },
+        {
+          "ability": "Darkness Rise",
+          "slot": "Passive",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive",
+          "formula": "Mordekaiser's Attacks deal an additional [(0.4) × AP] magic damage.\n\nMordekaiser cloaks himself in negative energy after hitting 3 basic Abilities or Attacks against champions or jungle monsters. This cloak deals [5 + (0.3) × AP] plus [characterLevelInterpolation(1 → 5; raw flags preserved)]% max Health magic damage per second and grants him [characterLevelBreakpoints(start=0.03, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}])] Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "mordekaiser-audit-bloodmail-magic-mace-hybrid",
+      "champion": "Mordekaiser",
+      "name": "Bloodmail magic mace hybrid",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test Q's documented AD scaling without treating its damage as physical.",
+      "goal": "Test Q's documented AD scaling without treating its damage as physical.",
+      "hypothesis": "Obliterate has a 1.2 AD statFormula=2 term plus 0.7 AP and deals magic damage, amplified on a single target. Bloodmail's health-to-AD and Riftmaker's health-to-AP create a dual health conversion; Shojin increases qualifying spell/passive damage and Abyssal improves close magic output. Visage supports W's shield and optional remaining-shield healing.",
+      "itemIds": [
+        2501,
+        3161,
+        4633,
+        3065,
+        8020,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need isolated Q hits, stored W damage and enough contact to ramp sustained effects.",
+        "Compare Q damage per gold and W absorption across bought-health levels, tracking physical attacks separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "AD does little for E/passive AP ratios; missing Q undermines the conversion payoff.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Lethality does not improve an AD-scaled magic Obliterate, and W recast spends the remaining shield.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Spear of Shojin, Riftmaker, Spirit Visage, Abyssal Mask, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Obliterate",
+          "slot": "Q",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ",
+          "formula": "Mordekaiser smashes the ground with Nightfall dealing [80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP] magic damage, increased to [(80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP) × (1.3 / 1.35 / 1.4 / 1.45 / 1.5)] if it hits only a single enemy."
+        },
+        {
+          "ability": "Indestructible",
+          "slot": "W",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserWAbility/MordekaiserW",
+          "formula": "Passive: Mordekaiser stores [45]% of the damage he deals and [7.5]% of the damage he takes.\n\nActive: Mordekaiser gains the stored damage as Shield. He may Recast this Ability to restore [(0.35 / 0.375 / 0.4 / 0.425 / 0.45) × 100]% of the remaining Shield as Health.\n\nMinimum Shield: [(0.05) × Stat(12)]\nMaximum Shield: [(0.3) × Stat(12)]"
+        },
+        {
+          "ability": "Death's Grasp",
+          "slot": "E",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserEAbility/MordekaiserE",
+          "formula": "Passive: Mordekaiser gains [(0.05 / 0.075 / 0.1 / 0.125 / 0.15) × 100]% Magic Penetration.\n\nActive: Pulls enemies in his direction, dealing [60 / 80 / 100 / 120 / 140 + (0.45) × AP] magic damage."
+        },
+        {
+          "ability": "Realm of Death",
+          "slot": "R",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserRAbility/MordekaiserR",
+          "formula": "Mordekaiser banishes a champion to the Death Realm with him for [7]s, stealing [10]% of their core stats for the duration.\n\nIf Mordekaiser kills that enemy in the Death Realm he consumes their soul, keeping the stats he stole until the target respawns."
+        },
+        {
+          "ability": "Darkness Rise",
+          "slot": "Passive",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive",
+          "formula": "Mordekaiser's Attacks deal an additional [(0.4) × AP] magic damage.\n\nMordekaiser cloaks himself in negative energy after hitting 3 basic Abilities or Attacks against champions or jungle monsters. This cloak deals [5 + (0.3) × AP] plus [characterLevelInterpolation(1 → 5; raw flags preserved)]% max Health magic damage per second and grants him [characterLevelBreakpoints(start=0.03, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}])] Move Speed."
+        }
+      ]
+    }
+  ]
+}

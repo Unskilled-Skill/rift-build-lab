@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "veigar-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "veigar-four-2",
+      "id": "veigar-audit-stack-fed-attack-mage",
       "champion": "Veigar",
-      "name": "Damage interaction: Mana scaling",
-      "goal": "Damage interaction for Veigar: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A scaling burst mage who earns AP through spell hits and takedowns while using a cage to restrict movement. The cage creates a landing window for delayed W and a missing-health finisher. Fix earned AP and target missing health for R. Defensive builds may leverage existing AP but cage landing still determines output; no infinite stacks to justify tankiness. Finite Rod stacks and a transformed mana item test later AP/mana-supported sequences.",
-      "summary": "Finite Rod stacks and a transformed mana item test later AP/mana-supported sequences.",
+      "name": "Stack-fed attack mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test stack-fed attack mage against conventional damage at equal gold.",
+      "goal": "Test stack-fed attack mage against conventional damage at equal gold.",
+      "hypothesis": "Phenomenal Evil grants AP from actual spell hits and takedowns; Nashor and Lich Bane turn earned AP into independent attack magic damage during Event Horizon control. Terminus serves mixed ordinary attacks without claiming the cage itself deals damage or grants stacks.",
       "itemIds": [
-        6657,
-        3040,
+        3115,
+        3100,
         3089,
-        3135,
-        3157,
-        3020
+        3302,
+        3102,
+        3006
       ],
       "runePage": [
-        8010,
+        8005,
         9111,
-        9105,
-        8299,
+        9104,
+        8014,
         8444,
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Veigar: Fix earned AP and target missing health for R. Defensive builds may leverage existing AP but cage landing still determines output; no infinite stacks to justify tankiness.",
-        "Start with the early core (Rod early if the timer fits, then Archangel) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Finite Rod stacks and a transformed mana item test later AP/mana-supported sequences. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Veigar unleashes a bolt of dark energy that deals magic damage to the first two enemies hit. Units killed by this bolt grant Veigar some ability power permanently. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Record realistic AP stacks and trap an enemy who cannot immediately escape.",
+        "Compare three cage-window attacks with Q/W burst at equal earned stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Two delayed spikes can lose the game before full build; mana-to-AP values must be observed.",
-        "The route fails Veigar's stated kit question: Fix earned AP and target missing health for R. Defensive builds may leverage existing AP but cage landing still determines output; no infinite stacks to justify tankiness.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Tiny attack range and cage cooldown make the mage vulnerable.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Two delayed spikes can lose the game before full build; mana-to-AP values must be observed.",
-        "Full cost 16,350 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Attacks and item procs do not automatically grant passive AP stacks, which require ability hits.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Rod early if the timer fits, then Archangel. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Terminus, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Baleful Strike",
@@ -205,12 +199,6 @@
           "slot": "W",
           "source": "Characters/Veigar/Spells/VeigarDarkMatterAbility/VeigarDarkMatter",
           "formula": "Veigar summons dark matter from the sky, dealing [85 / 140 / 195 / 250 / 305 + (0.7 / 0.8 / 0.9 / 1 / 1.1) × AP] magic damage.\n\nEvery @Spell.VeigarPassive:PStacksPerDarkMatterCDR@ stacks of Phenomenal Evil reduce this Ability's Cooldown by @Spell.VeigarPassive:DarkMatterCDRIncrement*100@%."
-        },
-        {
-          "ability": "Primordial Burst",
-          "slot": "R",
-          "source": "Characters/Veigar/Spells/VeigarRAbility/VeigarR",
-          "formula": "Veigar blasts an enemy champion with primal magic to deal between [175 / 250 / 325 + (0.65 / 0.7 / 0.75) × AP] and [(175 / 250 / 325 + (0.65 / 0.7 / 0.75) × AP) × (2)] magic damage, increasing with the target's missing Health. Damage is maximized against enemies below 33% Health."
         }
       ]
     },
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "veigar-four-4",
+      "id": "veigar-audit-cage-resistance-battle-mage",
       "champion": "Veigar",
-      "name": "Experiment: Mana burn zones",
-      "goal": "Experiment for Veigar: test a different playstyle, with lower confidence",
-      "hypothesis": "A scaling burst mage who earns AP through spell hits and takedowns while using a cage to restrict movement. The cage creates a landing window for delayed W and a missing-health finisher. Fix earned AP and target missing health for R. Defensive builds may leverage existing AP but cage landing still determines output; no infinite stacks to justify tankiness. Mana and repeated ability damage may maintain burns and MR-reduction stacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "name": "Cage resistance battle mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test cage resistance battle mage against conventional damage at equal gold.",
+      "goal": "Test cage resistance battle mage against conventional damage at equal gold.",
+      "hypothesis": "Dark Matter's cooldown decreases at passive-stack milestones; earned Seraph and Frozen Heart provide mana and defense while Riftmaker tests repeated Q/W pressure. Abyssal rewards fighting within its range, but a recorded AP stack budget must still sustain damage despite defensive slots.",
       "itemIds": [
-        2503,
-        6653,
-        3116,
-        8010,
-        3157,
-        3020
+        3040,
+        3110,
+        8020,
+        4633,
+        3135,
+        3111
       ],
       "runePage": [
-        8992,
-        8226,
-        8210,
-        8236,
-        8126,
-        8106
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Veigar: Fix earned AP and target missing health for R. Defensive builds may leverage existing AP but cage landing still determines output; no infinite stacks to justify tankiness.",
-        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Veigar unleashes a bolt of dark energy that deals magic damage to the first two enemies hit. Units killed by this bolt grant Veigar some ability power permanently. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Reach a real W milestone and use cage edges to hold nearby enemies.",
+        "Measure W cast count and survival at fixed AP stacks against melee pressure.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "The route fails Veigar's stated kit question: Fix earned AP and target missing health for R. Defensive builds may leverage existing AP but cage landing still determines output; no infinite stacks to justify tankiness.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "The cage interior is not an immediate stun and short range invites burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: No assumed infinite AP and no damage proc from Event Horizon's non-damaging stun alone.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Seraph's Embrace, Frozen Heart, Abyssal Mask, Riftmaker, Void Staff, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Baleful Strike",

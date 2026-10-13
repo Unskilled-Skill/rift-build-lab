@@ -1,0 +1,294 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Khazix",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "unseen-return-strike",
+      "name": "Unseen Return Strike",
+      "objective": "Count P packets after each verified unseen interval.",
+      "mechanic": "P refreshes when unseen and adds AD-scaled magic damage plus slow to the next champion attack. R primary description grants invisibility and explicitly triggers P; Trinity/Sundered Sky support one real return attack, Stridebreaker assists leaving vision and re-entering. No resolved R duration is assumed.",
+      "evidenceSlots": [
+        "P",
+        "R"
+      ],
+      "itemIds": [
+        3078,
+        6610,
+        6631,
+        6692,
+        6333,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Record actual R evolution/casts and whether enemy vision truly loses Khazix.",
+      "failure": "Detection or kiting denies P refresh and access.",
+      "test": "Count P packets after each verified unseen interval; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Every R cast is not automatically a fresh attack or a ready Spellblade proc.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "isolated-claw-repeat",
+      "name": "Isolated Claw Repeat",
+      "objective": "Compare Q count while isolated versus beside an ally.",
+      "mechanic": "Q primary description grants increased physical damage against Isolated targets and evolved-Q cooldown refund. Shojin and AD support repeated physical casts; Eclipse tests two separate hit windows and Cleaver supports repeated physical damage. R escape preserves isolation rather than assuming it persists.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3161,
+        6692,
+        3071,
+        3053,
+        6333,
+        3158
+      ],
+      "pageKey": "conq",
+      "requiredState": "Choose Q evolution and keep target separated from allies; confirm live cooldown refund.",
+      "failure": "An ally/minion joining invalidates isolation or unresolved coefficients change damage.",
+      "test": "Compare Q count while isolated versus beside an ally; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Isolation and evolved Q are conditional, not free permanent multipliers.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Magic penetration all spells",
+      "reason": "Primary Q/W/E descriptions explicitly identify physical damage; P is a separate magic attack bonus.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "All primary resolved tooltips select unresolved conditional templates. Q/W/E/R mechanics use primary descriptions only; evolution coefficients, ranges and timers cannot be numerically ranked from these records.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison.",
+    "Unresolved conditional/runtime tooltip tokens prevent a complete numerical model; retained helpers do not establish live behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Unseen Threat",
+      "paths": [
+        "Characters/Khazix/Spells/KhazixPassiveAbility/KhazixPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Taste Their Fear",
+      "paths": [
+        "Characters/Khazix/Spells/KhazixQAbility/KhazixQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Void Spike",
+      "paths": [
+        "Characters/Khazix/Spells/KhazixWAbility/KhazixW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Leap",
+      "paths": [
+        "Characters/Khazix/Spells/KhazixEAbility/KhazixE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Void Assault",
+      "paths": [
+        "Characters/Khazix/Spells/KhazixRAbility/KhazixR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "khazix-audit-unseen-return-strike",
+      "champion": "Khazix",
+      "name": "Unseen Return Strike",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count P packets after each verified unseen interval.",
+      "goal": "Count P packets after each verified unseen interval.",
+      "hypothesis": "P refreshes when unseen and adds AD-scaled magic damage plus slow to the next champion attack. R primary description grants invisibility and explicitly triggers P; Trinity/Sundered Sky support one real return attack, Stridebreaker assists leaving vision and re-entering. No resolved R duration is assumed.",
+      "itemIds": [
+        3078,
+        6610,
+        6631,
+        6692,
+        6333,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record actual R evolution/casts and whether enemy vision truly loses Khazix.",
+        "Count P packets after each verified unseen interval; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Detection or kiting denies P refresh and access.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Every R cast is not automatically a fresh attack or a ready Spellblade proc.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Sundered Sky, Stridebreaker, Eclipse, Death's Dance, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Void Assault",
+          "slot": "R",
+          "source": "Characters/Khazix/Spells/KhazixRAbility/KhazixR",
+          "formula": "{{Spell_KhazixR_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}\n\n{{Spell_KhazixR_Tooltip_P}}"
+        },
+        {
+          "ability": "Unseen Threat",
+          "slot": "Passive",
+          "source": "Characters/Khazix/Spells/KhazixPassiveAbility/KhazixPassive",
+          "formula": "When Kha'Zix is not visible to the enemy team, his next Attack against a champion deals an additional [characterLevelTable[15, 22, 29, 36, 43, 50, 57, 64, 71, 78, 85, 92, 99, 106, 113, 120, 127, 134, 141, 148, 155, 162, 169, 176, 183, 190, 197, 204, 211, 218, 225] + (0.5) × AD[statFormula=2]] magic damage and Slows by [25]% for [2] seconds.\n\nEnemies with no nearby allies become Isolated."
+        }
+      ]
+    },
+    {
+      "id": "khazix-audit-isolated-claw-repeat",
+      "champion": "Khazix",
+      "name": "Isolated Claw Repeat",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare Q count while isolated versus beside an ally.",
+      "goal": "Compare Q count while isolated versus beside an ally.",
+      "hypothesis": "Q primary description grants increased physical damage against Isolated targets and evolved-Q cooldown refund. Shojin and AD support repeated physical casts; Eclipse tests two separate hit windows and Cleaver supports repeated physical damage. R escape preserves isolation rather than assuming it persists.",
+      "itemIds": [
+        3161,
+        6692,
+        3071,
+        3053,
+        6333,
+        3158
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Choose Q evolution and keep target separated from allies; confirm live cooldown refund.",
+        "Compare Q count while isolated versus beside an ally; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "An ally/minion joining invalidates isolation or unresolved coefficients change damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Isolation and evolved Q are conditional, not free permanent multipliers.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Spear of Shojin, Eclipse, Black Cleaver, Sterak's Gage, Death's Dance, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Taste Their Fear",
+          "slot": "Q",
+          "source": "Characters/Khazix/Spells/KhazixQAbility/KhazixQ",
+          "formula": "{{Spell_KhazixQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
+        },
+        {
+          "ability": "Void Assault",
+          "slot": "R",
+          "source": "Characters/Khazix/Spells/KhazixRAbility/KhazixR",
+          "formula": "{{Spell_KhazixR_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}\n\n{{Spell_KhazixR_Tooltip_P}}"
+        },
+        {
+          "ability": "Leap",
+          "slot": "E",
+          "source": "Characters/Khazix/Spells/KhazixEAbility/KhazixE",
+          "formula": "{{Spell_KhazixE_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
+        },
+        {
+          "ability": "Unseen Threat",
+          "slot": "Passive",
+          "source": "Characters/Khazix/Spells/KhazixPassiveAbility/KhazixPassive",
+          "formula": "When Kha'Zix is not visible to the enemy team, his next Attack against a champion deals an additional [characterLevelTable[15, 22, 29, 36, 43, 50, 57, 64, 71, 78, 85, 92, 99, 106, 113, 120, 127, 134, 141, 148, 155, 162, 169, 176, 183, 190, 197, 204, 211, 218, 225] + (0.5) × AD[statFormula=2]] magic damage and Slows by [25]% for [2] seconds.\n\nEnemies with no nearby allies become Isolated."
+        }
+      ]
+    }
+  ]
+}

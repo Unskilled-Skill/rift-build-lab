@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Malzahar",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "ad-ratio-voidling-hybrid",
+      "name": "AD-ratio voidling hybrid",
+      "objective": "Explore Void Swarm's AD expression while preserving magic penetration.",
+      "mechanic": "Voidlings deal magic per hit with 0.4 AD statFormula=2 and 0.2 AP, unlike physical owner attacks. Gunblade/Muramana supply mixed stats and mana; Rylai may keep enemies in pet range while Riftmaker supports sustained magic combat. E or Q sets up two stored W stacks for three Voidlings, then R can hold one target while pets attack.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R",
+        "Q"
+      ],
+      "itemIds": [
+        3146,
+        3042,
+        4633,
+        3116,
+        3089,
+        3020
+      ],
+      "pageKey": "conq",
+      "requiredState": "Need charged Tear, two pre-W spell stacks and living Voidlings during the channel.",
+      "failure": "Area damage instantly kills pets; sacrificing AP weakens E/R and the first tick cannot rebuild them.",
+      "test": "Compare surviving pet hits and damage with AD versus AP increments, logging owner spell procs separately.",
+      "rejectedAssumption": "AD-scaled pet magic damage does not justify lethality or automatic Muramana/Nashor inheritance.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "vision-spread-resistance-denial",
+      "name": "Vision-spread resistance denial",
+      "objective": "Use refreshed visions to carry repeated spell pressure between deaths.",
+      "mechanic": "Malefic Visions lasts four seconds and Q or R refreshes it; a victim death spreads it and restores a resource-based mana amount. Blackfire and Liandry add magic burn, Bloodletter rewards qualifying magic ticks and Rylai limits walking away. Cryptbloom provides a separate earned takedown heal, rather than assuming every minion spread makes a champion chain.",
+      "evidenceSlots": [
+        "E",
+        "Q",
+        "R",
+        "W",
+        "P"
+      ],
+      "itemIds": [
+        2503,
+        8010,
+        6653,
+        3116,
+        3137,
+        3158
+      ],
+      "pageKey": "df",
+      "requiredState": "Need mana, refresh hits before expiry and an enemy close enough to receive the spread.",
+      "failure": "Vision transfer may pick a minion; interrupting R or clearing Voidlings cuts total pressure.",
+      "test": "Measure refresh duration, shred stacks and mana returned for minion versus champion deaths.",
+      "rejectedAssumption": "E executes low-health minions; it does not give an equivalent automatic champion execute.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Crit Void Swarm",
+      "reason": "The pet damage expression has AP/AD magic terms and no crit coefficient.",
+      "evidenceSlots": [
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Voidling item eligibility and R percent-health expression have ambiguous extraction; do not treat its symbolic 0.05 multiplier as a verified total."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Void Shift",
+      "paths": [
+        "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Call of the Void",
+      "paths": [
+        "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Void Swarm",
+      "paths": [
+        "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Malefic Visions",
+      "paths": [
+        "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Nether Grasp",
+      "paths": [
+        "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "malzahar-audit-ad-ratio-voidling-hybrid",
+      "champion": "Malzahar",
+      "name": "AD-ratio voidling hybrid",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore Void Swarm's AD expression while preserving magic penetration.",
+      "goal": "Explore Void Swarm's AD expression while preserving magic penetration.",
+      "hypothesis": "Voidlings deal magic per hit with 0.4 AD statFormula=2 and 0.2 AP, unlike physical owner attacks. Gunblade/Muramana supply mixed stats and mana; Rylai may keep enemies in pet range while Riftmaker supports sustained magic combat. E or Q sets up two stored W stacks for three Voidlings, then R can hold one target while pets attack.",
+      "itemIds": [
+        3146,
+        3042,
+        4633,
+        3116,
+        3089,
+        3020
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need charged Tear, two pre-W spell stacks and living Voidlings during the channel.",
+        "Compare surviving pet hits and damage with AD versus AP increments, logging owner spell procs separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Area damage instantly kills pets; sacrificing AP weakens E/R and the first tick cannot rebuild them.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: AD-scaled pet magic damage does not justify lethality or automatic Muramana/Nashor inheritance.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Gunblade, Muramana, Riftmaker, Rylai's Crystal Scepter, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Void Swarm",
+          "slot": "W",
+          "source": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "formula": "Passive: Malzahar's other Abilities give him a stack when cast (max [2]).\n\nActive: Malzahar summons a Voidling plus an additional Voidling per stack. Voidlings last [8 / 8 / 9 / 9 / 10] seconds and deal [12 / 14 / 16 / 18 / 20 + characterLevelInterpolation(5 → 64.5; raw flags preserved) + (0.4) × AD[statFormula=2] + (0.2) × AP] magic damage each hit."
+        },
+        {
+          "ability": "Call of the Void",
+          "slot": "Q",
+          "source": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "formula": "Malzahar opens two portals to the Void that fire projectiles inward, dealing [70 / 105 / 140 / 175 / 210 + (0.55) × AP] magic damage and Silencing for [1 / 1.25 / 1.5 / 1.75 / 2] second(s)."
+        },
+        {
+          "ability": "Nether Grasp",
+          "slot": "R",
+          "source": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "formula": "Malzahar Suppresses an enemy champion and deals [125 / 200 / 275 + (0.8) × AP] magic damage over [2.5] seconds. A zone of negative energy is created around his target dealing [(2 / 3 / 4 + (0.005) × AP) × (0.05)] max Health magic damage over [5] seconds."
+        },
+        {
+          "ability": "Malefic Visions",
+          "slot": "E",
+          "source": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "formula": "Malzahar inflicts terrible visions, dealing [80 / 115 / 150 / 185 / 220 + (0.8) × AP] magic damage over [4] seconds. Applying Call of the Void or Nether Grasp to the victim during this time refreshes the visions.\n\nIf the victim dies, Malzahar gains [0.02 × AbilityResource(default, statFormula=default)] Mana and the visions spread to the nearest enemy.\n\nMalefic Visions executes minions below [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 12, \"__type\": \"Breakpoint\"}])] Health."
+        }
+      ]
+    },
+    {
+      "id": "malzahar-audit-vision-spread-resistance-denial",
+      "champion": "Malzahar",
+      "name": "Vision-spread resistance denial",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use refreshed visions to carry repeated spell pressure between deaths.",
+      "goal": "Use refreshed visions to carry repeated spell pressure between deaths.",
+      "hypothesis": "Malefic Visions lasts four seconds and Q or R refreshes it; a victim death spreads it and restores a resource-based mana amount. Blackfire and Liandry add magic burn, Bloodletter rewards qualifying magic ticks and Rylai limits walking away. Cryptbloom provides a separate earned takedown heal, rather than assuming every minion spread makes a champion chain.",
+      "itemIds": [
+        2503,
+        8010,
+        6653,
+        3116,
+        3137,
+        3158
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need mana, refresh hits before expiry and an enemy close enough to receive the spread.",
+        "Measure refresh duration, shred stacks and mana returned for minion versus champion deaths.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Vision transfer may pick a minion; interrupting R or clearing Voidlings cuts total pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: E executes low-health minions; it does not give an equivalent automatic champion execute.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blackfire Torch, Bloodletter's Curse, Liandry's Torment, Rylai's Crystal Scepter, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Void Swarm",
+          "slot": "W",
+          "source": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "formula": "Passive: Malzahar's other Abilities give him a stack when cast (max [2]).\n\nActive: Malzahar summons a Voidling plus an additional Voidling per stack. Voidlings last [8 / 8 / 9 / 9 / 10] seconds and deal [12 / 14 / 16 / 18 / 20 + characterLevelInterpolation(5 → 64.5; raw flags preserved) + (0.4) × AD[statFormula=2] + (0.2) × AP] magic damage each hit."
+        },
+        {
+          "ability": "Call of the Void",
+          "slot": "Q",
+          "source": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "formula": "Malzahar opens two portals to the Void that fire projectiles inward, dealing [70 / 105 / 140 / 175 / 210 + (0.55) × AP] magic damage and Silencing for [1 / 1.25 / 1.5 / 1.75 / 2] second(s)."
+        },
+        {
+          "ability": "Void Shift",
+          "slot": "Passive",
+          "source": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+          "formula": "Malzahar gains [90]% damage reduction and immunity from Disabling and Immobilizing effects, lingering for [0.25] seconds after taking damage or blocking one of those effects. This effect has a [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -6.0, \"__type\": \"Breakpoint\"}])] second Cooldown."
+        },
+        {
+          "ability": "Nether Grasp",
+          "slot": "R",
+          "source": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "formula": "Malzahar Suppresses an enemy champion and deals [125 / 200 / 275 + (0.8) × AP] magic damage over [2.5] seconds. A zone of negative energy is created around his target dealing [(2 / 3 / 4 + (0.005) × AP) × (0.05)] max Health magic damage over [5] seconds."
+        },
+        {
+          "ability": "Malefic Visions",
+          "slot": "E",
+          "source": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "formula": "Malzahar inflicts terrible visions, dealing [80 / 115 / 150 / 185 / 220 + (0.8) × AP] magic damage over [4] seconds. Applying Call of the Void or Nether Grasp to the victim during this time refreshes the visions.\n\nIf the victim dies, Malzahar gains [0.02 × AbilityResource(default, statFormula=default)] Mana and the visions spread to the nearest enemy.\n\nMalefic Visions executes minions below [characterLevelBreakpoints(start=10, perLevel=2, changes=[{\"mLevel\": 12, \"__type\": \"Breakpoint\"}])] Health."
+        }
+      ]
+    }
+  ]
+}

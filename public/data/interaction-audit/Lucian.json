@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Lucian",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "ardent-hybrid-shots",
+      "name": "Ardent hybrid shots",
+      "objective": "Test ardent hybrid shots against conventional damage at equal gold.",
+      "mechanic": "Ardent Blaze has 0.9 AP magic damage and The Culling has 0.15 AP per physical bullet; Nashor plus Dusk and Dawn tests attacks after spell casts, while Gunblade retains AD. Lightslinger also reduces dash cooldown, though its second-shot item behavior must be measured.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        3146,
+        3089,
+        3302,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Land W and weave actual attacks before a safe Culling channel.",
+      "failure": "AP weakens Q and missing crit lowers R's bullet-count source expression.",
+      "test": "Record W, each attack packet and completed R separately.",
+      "rejectedAssumption": "AP does not turn Culling into magic, and two shots are not assumed to double every on-hit.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "lightslinger-spell-endurance",
+      "name": "Lightslinger spell endurance",
+      "objective": "Test lightslinger spell endurance against conventional damage at equal gold.",
+      "mechanic": "Lightslinger champion hits cut Relentless Pursuit cooldown twice as strongly as other targets; Essence Reaver supports the repeated physical Spellblade and mana rhythm. Shojin helps Q/E while Cleaver supplies physical shred and Eclipse protects separate-hit trades.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3508,
+        3161,
+        3071,
+        6692,
+        6333,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Alternate abilities and double shots against champions.",
+      "failure": "Attacks interrupted by peel lose E refunds and the whole tempo.",
+      "test": "Count dashes and mana remaining during three complete spell-shot cycles.",
+      "rejectedAssumption": "No claim that each passive shot consumes a separate Spellblade activation.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "AP does not turn Culling into magic, and two shots are not assumed to double every on-hit.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Controlled current-patch proc testing remains necessary; source helper/statFormula expressions are evidence, not confirmed runtime behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Lightslinger",
+      "paths": [
+        "Characters/Lucian/Spells/LucianPassiveAbility/LucianPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Piercing Light",
+      "paths": [
+        "Characters/Lucian/Spells/LucianQAbility/LucianQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Ardent Blaze",
+      "paths": [
+        "Characters/Lucian/Spells/LucianWAbility/LucianW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Relentless Pursuit",
+      "paths": [
+        "Characters/Lucian/Spells/LucianEAbility/LucianE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "The Culling",
+      "paths": [
+        "Characters/Lucian/Spells/LucianRAbility/LucianR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "lucian-audit-ardent-hybrid-shots",
+      "champion": "Lucian",
+      "name": "Ardent hybrid shots",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test ardent hybrid shots against conventional damage at equal gold.",
+      "goal": "Test ardent hybrid shots against conventional damage at equal gold.",
+      "hypothesis": "Ardent Blaze has 0.9 AP magic damage and The Culling has 0.15 AP per physical bullet; Nashor plus Dusk and Dawn tests attacks after spell casts, while Gunblade retains AD. Lightslinger also reduces dash cooldown, though its second-shot item behavior must be measured.",
+      "itemIds": [
+        3115,
+        2510,
+        3146,
+        3089,
+        3302,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Land W and weave actual attacks before a safe Culling channel.",
+        "Record W, each attack packet and completed R separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "AP weakens Q and missing crit lowers R's bullet-count source expression.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: AP does not turn Culling into magic, and two shots are not assumed to double every on-hit.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Hextech Gunblade, Rabadon's Deathcap, Terminus, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "The Culling",
+          "slot": "R",
+          "source": "Characters/Lucian/Spells/LucianRAbility/LucianR",
+          "formula": "Lucian rapidly fires [((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1)))) × (22)] shots in a direction for [3] seconds or until he Recasts. Each shot deals [15 / 30 / 45 + (0.25) × AD + (0.15) × AP] physical damage to the first enemy hit.\n\nWhile firing, Lucian may use Relentless Pursuit.\n\nTotal Damage: [(((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1)))) × (22)) × ((15 / 30 / 45 + (0.25) × AD + (0.15) × AP))] physical damage"
+        },
+        {
+          "ability": "Ardent Blaze",
+          "slot": "W",
+          "source": "Characters/Lucian/Spells/LucianWAbility/LucianW",
+          "formula": "Lucian fires a shot that explodes at the end of its range or on the first enemy hit, dealing [75 / 110 / 145 / 180 / 215 + (0.9) × AP] magic damage, briefly revealing enemies and marking them for 6 seconds.\n\nWhen Lucian or an ally damages a marked enemy, Lucian gains [60 / 65 / 70 / 75 / 80] Move Speed for 1 second. Allies triggering this effect will also grant Lucian Vigilance."
+        },
+        {
+          "ability": "Lightslinger",
+          "slot": "Passive",
+          "source": "Characters/Lucian/Spells/LucianPassiveAbility/LucianPassive",
+          "formula": "After using an Ability, Lucian's next Attack within [3.5] seconds will fire two shots. The second shot deals [(characterLevelBreakpoints(start=0.5, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])) × AD] physical damage to the target, increased to [(1) × AD] against minions.\n\nVigilance: When Lucian is directly healed or shielded by an ally, or when a nearby enemy Champion is Immobilized, his pistols become Overcharged with energy, causing his next [2] basic attacks to deal an additional [5 + (0.15) × AD] magic damage."
+        },
+        {
+          "ability": "Relentless Pursuit",
+          "slot": "E",
+          "source": "Characters/Lucian/Spells/LucianEAbility/LucianE",
+          "formula": "Lucian dashes.\n\nCooldown is reduced by [1] second whenever Lucian hits an enemy with Lightslinger ([2] seconds for champions)."
+        }
+      ]
+    },
+    {
+      "id": "lucian-audit-lightslinger-spell-endurance",
+      "champion": "Lucian",
+      "name": "Lightslinger spell endurance",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test lightslinger spell endurance against conventional damage at equal gold.",
+      "goal": "Test lightslinger spell endurance against conventional damage at equal gold.",
+      "hypothesis": "Lightslinger champion hits cut Relentless Pursuit cooldown twice as strongly as other targets; Essence Reaver supports the repeated physical Spellblade and mana rhythm. Shojin helps Q/E while Cleaver supplies physical shred and Eclipse protects separate-hit trades.",
+      "itemIds": [
+        3508,
+        3161,
+        3071,
+        6692,
+        6333,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Alternate abilities and double shots against champions.",
+        "Count dashes and mana remaining during three complete spell-shot cycles.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Attacks interrupted by peel lose E refunds and the whole tempo.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: No claim that each passive shot consumes a separate Spellblade activation.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Essence Reaver, Spear of Shojin, Black Cleaver, Eclipse, Death's Dance, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "The Culling",
+          "slot": "R",
+          "source": "Characters/Lucian/Spells/LucianRAbility/LucianR",
+          "formula": "Lucian rapidly fires [((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1)))) × (22)] shots in a direction for [3] seconds or until he Recasts. Each shot deals [15 / 30 / 45 + (0.25) × AD + (0.15) × AP] physical damage to the first enemy hit.\n\nWhile firing, Lucian may use Relentless Pursuit.\n\nTotal Damage: [(((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1)))) × (22)) × ((15 / 30 / 45 + (0.25) × AD + (0.15) × AP))] physical damage"
+        },
+        {
+          "ability": "Lightslinger",
+          "slot": "Passive",
+          "source": "Characters/Lucian/Spells/LucianPassiveAbility/LucianPassive",
+          "formula": "After using an Ability, Lucian's next Attack within [3.5] seconds will fire two shots. The second shot deals [(characterLevelBreakpoints(start=0.5, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])) × AD] physical damage to the target, increased to [(1) × AD] against minions.\n\nVigilance: When Lucian is directly healed or shielded by an ally, or when a nearby enemy Champion is Immobilized, his pistols become Overcharged with energy, causing his next [2] basic attacks to deal an additional [5 + (0.15) × AD] magic damage."
+        },
+        {
+          "ability": "Piercing Light",
+          "slot": "Q",
+          "source": "Characters/Lucian/Spells/LucianQAbility/LucianQ",
+          "formula": "Lucian shoots a bolt of piercing light, dealing [90 / 130 / 170 / 210 / 250 + (1) × AD[statFormula=2]] physical damage."
+        },
+        {
+          "ability": "Relentless Pursuit",
+          "slot": "E",
+          "source": "Characters/Lucian/Spells/LucianEAbility/LucianE",
+          "formula": "Lucian dashes.\n\nCooldown is reduced by [1] second whenever Lucian hits an enemy with Lightslinger ([2] seconds for champions)."
+        }
+      ]
+    }
+  ]
+}

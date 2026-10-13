@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Ezreal",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "flux-shift-refund",
+      "name": "Flux Shift Refund",
+      "objective": "Measure net mana spent and W/E hit reliability.",
+      "mechanic": "W detonated by an ability refunds that ability's cost plus 60 mana; E prioritizes W marked targets and has 0.75 AP. Luden/AP penetration supports the W/E magic sequence while Cosmic helps leave. Q remains physical even with its AP ratio.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        6655,
+        4629,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "electro",
+      "requiredState": "W sticks to the intended champion and E chooses it without exposing Ezreal.",
+      "failure": "W miss changes E targeting and removes the refund; AP loses attack damage.",
+      "test": "Measure net mana spent and W/E hit reliability; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "W attachment alone does not deal the detonation damage.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "mystic-haste-survival",
+      "name": "Mystic Haste Survival",
+      "objective": "Count E reavailability across a fixed number of Q hits.",
+      "mechanic": "Each Q hit reduces ability cooldowns by 1.5 seconds. Shojin and haste support repeated landing opportunities; Trinity adds cast-attack value and Muramana supplies earned mana/AD. Frozen Heart survival buys more Q attempts while Serylda supports physical Q damage.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        3161,
+        3078,
+        3042,
+        3110,
+        6694,
+        3158
+      ],
+      "pageKey": "conq",
+      "requiredState": "Have an unobstructed Q lane and a completed Tear transformation. Record the earned Muramana transformation and finite max mana.",
+      "failure": "Front-unit interception or missed Q removes the proposed cooldown acceleration.",
+      "test": "Count E reavailability across a fixed number of Q hits; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "The extracted Q tooltip does not itself prove Spellblade/on-hit transmission through Q; log it.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Magic penetration for Q",
+      "reason": "Q explicitly deals physical damage despite AP scaling.",
+      "evidenceSlots": [
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "P attack-speed-per-stack is unresolved; Q item-hit inheritance needs live verification rather than memory.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Rising Spell Force",
+      "paths": [
+        "Characters/Ezreal/Spells/EzrealPassiveAbility/EzrealPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Mystic Shot",
+      "paths": [
+        "Characters/Ezreal/Spells/EzrealQAbility/EzrealQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Essence Flux",
+      "paths": [
+        "Characters/Ezreal/Spells/EzrealWAbility/EzrealW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Arcane Shift",
+      "paths": [
+        "Characters/Ezreal/Spells/EzrealEAbility/EzrealE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Trueshot Barrage",
+      "paths": [
+        "Characters/Ezreal/Spells/EzrealRAbility/EzrealR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "ezreal-audit-flux-shift-refund",
+      "champion": "Ezreal",
+      "name": "Flux Shift Refund",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure net mana spent and W/E hit reliability.",
+      "goal": "Measure net mana spent and W/E hit reliability.",
+      "hypothesis": "W detonated by an ability refunds that ability's cost plus 60 mana; E prioritizes W marked targets and has 0.75 AP. Luden/AP penetration supports the W/E magic sequence while Cosmic helps leave. Q remains physical even with its AP ratio.",
+      "itemIds": [
+        6655,
+        4629,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: W sticks to the intended champion and E chooses it without exposing Ezreal.",
+        "Measure net mana spent and W/E hit reliability; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "W miss changes E targeting and removes the refund; AP loses attack damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W attachment alone does not deal the detonation damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Luden's Echo, Cosmic Drive, Shadowflame, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Arcane Shift",
+          "slot": "E",
+          "source": "Characters/Ezreal/Spells/EzrealEAbility/EzrealE",
+          "formula": "Ezreal teleports then fires a bolt at the nearest enemy, dealing [80 / 130 / 180 / 230 / 280 + (0.6) × AD[statFormula=2] + (0.75) × AP] magic damage. The bolt prioritizes enemies affected by Essence Flux."
+        },
+        {
+          "ability": "Mystic Shot",
+          "slot": "Q",
+          "source": "Characters/Ezreal/Spells/EzrealQAbility/EzrealQ",
+          "formula": "Ezreal fires a bolt of energy, dealing [20 / 45 / 70 / 95 / 120 + (1.3) × AD + (0.4) × AP] physical damage to the first enemy hit and reducing his Ability Cooldowns by [1.5] seconds."
+        },
+        {
+          "ability": "Essence Flux",
+          "slot": "W",
+          "source": "Characters/Ezreal/Spells/EzrealWAbility/EzrealW",
+          "formula": "Ezreal fires a magical orb that sticks to the first champion, structure, or epic jungle monster hit for [4] seconds. If Ezreal hits that target with an Attack or Ability, it detonates, dealing [80 / 135 / 190 / 245 / 300 + (1) × AD[statFormula=2] + (0.9) × AP] magic damage. Detonating with an Ability refunds the Mana cost of that Ability plus [60] Mana."
+        }
+      ]
+    },
+    {
+      "id": "ezreal-audit-mystic-haste-survival",
+      "champion": "Ezreal",
+      "name": "Mystic Haste Survival",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count E reavailability across a fixed number of Q hits.",
+      "goal": "Count E reavailability across a fixed number of Q hits.",
+      "hypothesis": "Each Q hit reduces ability cooldowns by 1.5 seconds. Shojin and haste support repeated landing opportunities; Trinity adds cast-attack value and Muramana supplies earned mana/AD. Frozen Heart survival buys more Q attempts while Serylda supports physical Q damage.",
+      "itemIds": [
+        3161,
+        3078,
+        3042,
+        3110,
+        6694,
+        3158
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Have an unobstructed Q lane and a completed Tear transformation. Record the earned Muramana transformation and finite max mana.",
+        "Count E reavailability across a fixed number of Q hits; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Front-unit interception or missed Q removes the proposed cooldown acceleration.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The extracted Q tooltip does not itself prove Spellblade/on-hit transmission through Q; log it.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Spear of Shojin, Trinity Force, Muramana, Frozen Heart, Serylda's Grudge, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Arcane Shift",
+          "slot": "E",
+          "source": "Characters/Ezreal/Spells/EzrealEAbility/EzrealE",
+          "formula": "Ezreal teleports then fires a bolt at the nearest enemy, dealing [80 / 130 / 180 / 230 / 280 + (0.6) × AD[statFormula=2] + (0.75) × AP] magic damage. The bolt prioritizes enemies affected by Essence Flux."
+        },
+        {
+          "ability": "Mystic Shot",
+          "slot": "Q",
+          "source": "Characters/Ezreal/Spells/EzrealQAbility/EzrealQ",
+          "formula": "Ezreal fires a bolt of energy, dealing [20 / 45 / 70 / 95 / 120 + (1.3) × AD + (0.4) × AP] physical damage to the first enemy hit and reducing his Ability Cooldowns by [1.5] seconds."
+        },
+        {
+          "ability": "Rising Spell Force",
+          "slot": "Passive",
+          "source": "Characters/Ezreal/Spells/EzrealPassiveAbility/EzrealPassive",
+          "formula": "Ezreal's Ability hits grant him @AttackSpeedPerStack.0*100@% Attack Speed for [6] seconds, stacking up to [5] times."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,284 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Garen",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "nearest-spin-shred",
+      "name": "Nearest Spin Shred",
+      "objective": "Compare early and post-six-strike E packets with a nearby decoy unit.",
+      "mechanic": "E increases damage to the nearest enemy and shreds armor after six strikes. Stridebreaker access and Cleaver physical shred may help the later spins; Shojin tests ability/passive amplification and AD investment without assuming every E strike is an attack on-hit.",
+      "evidenceSlots": [
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        6631,
+        3071,
+        3161,
+        3053,
+        6333,
+        3006
+      ],
+      "pageKey": "conq",
+      "requiredState": "Stay the nearest unit to the intended target and land at least six E strikes.",
+      "failure": "A nearer minion redirects bonus damage or the target exits before shred.",
+      "test": "Compare early and post-six-strike E packets with a nearby decoy unit; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Nashor/Rageblade on-hits are not automatically applied per spin.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "perseverance-reset-duel",
+      "name": "Perseverance Reset Duel",
+      "objective": "Measure second-entry health and Q trade after a controlled eight-second reset.",
+      "mechanic": "P heals a percentage of max health after eight seconds without qualifying damage. Q removes slows and gives movement for disengage; earned Heartsteel health and W's health shield support a second entry. Trinity rewards Q's actual attack and Randuin helps control the exit/return.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W"
+      ],
+      "itemIds": [
+        3084,
+        3078,
+        3143,
+        3053,
+        6333,
+        3111
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Record earned health, W unit stacks and an eight-second safe break.",
+      "failure": "DoT/chip resets recovery or disengage surrenders the objective.",
+      "test": "Measure second-entry health and Q trade after a controlled eight-second reset; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "In-combat waiting does not enable Perseverance.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Magic penetration execute",
+      "reason": "R is true missing-health damage; magic penetration cannot amplify it.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "E strike count is a runtime token and its AS/crit behavior is not resolved here; no numerical spin-count claim is made.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison.",
+    "Unresolved conditional/runtime tooltip tokens prevent a complete numerical model; retained helpers do not establish live behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Perseverance",
+      "paths": [
+        "Characters/Garen/Spells/GarenPassiveAbility/GarenPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Decisive Strike",
+      "paths": [
+        "Characters/Garen/Spells/GarenQAbility/GarenQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Courage",
+      "paths": [
+        "Characters/Garen/Spells/GarenWAbility/GarenW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Judgment",
+      "paths": [
+        "Characters/Garen/Spells/GarenEAbility/GarenE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Demacian Justice",
+      "paths": [
+        "Characters/Garen/Spells/GarenRAbility/GarenR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "garen-audit-nearest-spin-shred",
+      "champion": "Garen",
+      "name": "Nearest Spin Shred",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare early and post-six-strike E packets with a nearby decoy unit.",
+      "goal": "Compare early and post-six-strike E packets with a nearby decoy unit.",
+      "hypothesis": "E increases damage to the nearest enemy and shreds armor after six strikes. Stridebreaker access and Cleaver physical shred may help the later spins; Shojin tests ability/passive amplification and AD investment without assuming every E strike is an attack on-hit.",
+      "itemIds": [
+        6631,
+        3071,
+        3161,
+        3053,
+        6333,
+        3006
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Stay the nearest unit to the intended target and land at least six E strikes.",
+        "Compare early and post-six-strike E packets with a nearby decoy unit; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A nearer minion redirects bonus damage or the target exits before shred.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Nashor/Rageblade on-hits are not automatically applied per spin.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Stridebreaker, Black Cleaver, Spear of Shojin, Sterak's Gage, Death's Dance, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Decisive Strike",
+          "slot": "Q",
+          "source": "Characters/Garen/Spells/GarenQAbility/GarenQ",
+          "formula": "Garen removes all Slowing effects on him and gains [35]% Move Speed for [1.4 / 1.95 / 2.5 / 3.05 / 3.6] second(s).\n\nHis next Attack Silences for [1.5] seconds and does [30 / 60 / 90 / 120 / 150 + (1.5) × AD] physical damage."
+        },
+        {
+          "ability": "Judgment",
+          "slot": "E",
+          "source": "Characters/Garen/Spells/GarenEAbility/GarenE",
+          "formula": "Garen rapidly spins his sword for [3] seconds, dealing [4 / 7 / 10 / 13 / 16 + (0.4 / 0.43 / 0.46 / 0.49 / 0.52) × AD] physical damage @f1@ times over the duration. The nearest enemy takes [25]% increased damage. Champions hit by [6] strikes lose [25]% Armor for [6] seconds.\n\nRecast: Garen ends this Ability early."
+        }
+      ]
+    },
+    {
+      "id": "garen-audit-perseverance-reset-duel",
+      "champion": "Garen",
+      "name": "Perseverance Reset Duel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure second-entry health and Q trade after a controlled eight-second reset.",
+      "goal": "Measure second-entry health and Q trade after a controlled eight-second reset.",
+      "hypothesis": "P heals a percentage of max health after eight seconds without qualifying damage. Q removes slows and gives movement for disengage; earned Heartsteel health and W's health shield support a second entry. Trinity rewards Q's actual attack and Randuin helps control the exit/return.",
+      "itemIds": [
+        3084,
+        3078,
+        3143,
+        3053,
+        6333,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record earned health, W unit stacks and an eight-second safe break.",
+        "Measure second-entry health and Q trade after a controlled eight-second reset; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "DoT/chip resets recovery or disengage surrenders the objective.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: In-combat waiting does not enable Perseverance.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Heartsteel, Trinity Force, Randuin's Omen, Sterak's Gage, Death's Dance, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Perseverance",
+          "slot": "Passive",
+          "source": "Characters/Garen/Spells/GarenPassiveAbility/GarenPassive",
+          "formula": "Garen regenerates [(characterLevelBreakpoints(start=1.5, perLevel=0.2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 0.800000011920929, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 0.4000000059604645, \"__type\": \"Breakpoint\"}])) × (0.01)] max Health every 5 seconds if he has not been damaged or hit with enemy Abilities in the last [8] seconds."
+        },
+        {
+          "ability": "Courage",
+          "slot": "W",
+          "source": "Characters/Garen/Spells/GarenWAbility/GarenW",
+          "formula": "Passive: Garen has [(0.2) × BuffStacks({9e10ce18})] bonus Armor and [(0.2) × BuffStacks({9e10ce18})] bonus Magic Resist. Killing units permanently grants [0.2] resists, up to a max of [30].\n\nActive: Garen steels his courage for [4] seconds, reducing incoming damage by [(0.25 / 0.29 / 0.33 / 0.37 / 0.41) × 100]%. He also gains [65 / 85 / 105 / 125 / 145 + (0.18) × Stat(12)[statFormula=2]] Shield and [60]% Tenacity for [0.75] seconds."
+        },
+        {
+          "ability": "Decisive Strike",
+          "slot": "Q",
+          "source": "Characters/Garen/Spells/GarenQAbility/GarenQ",
+          "formula": "Garen removes all Slowing effects on him and gains [35]% Move Speed for [1.4 / 1.95 / 2.5 / 3.05 / 3.6] second(s).\n\nHis next Attack Silences for [1.5] seconds and does [30 / 60 / 90 / 120 / 150 + (1.5) × AD] physical damage."
+        }
+      ]
+    }
+  ]
+}

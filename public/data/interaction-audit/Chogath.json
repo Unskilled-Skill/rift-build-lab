@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Chogath",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "finite-spike-volley",
+      "name": "Finite Spike Volley",
+      "objective": "Log E charges and spike packets with and without Dusk ready.",
+      "mechanic": "E empowers the next three attacks with AP/Feast-stack max-health magic damage. Q knockup creates access and Hail of Blades/Nashor can deliver the charges. Dusk and Dawn tests repeated on-hits, without assuming it duplicates E charges.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3089,
+        3135,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Set finite Feast stacks and maintain melee reach through three attacks.",
+      "failure": "Kiting prevents delivery or attack speed is wasted after charges.",
+      "test": "Log E charges and spike packets with and without Dusk ready; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "On-hit repetition does not automatically duplicate E charges.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "low-health-feast",
+      "name": "Low Health Feast",
+      "objective": "Measure Feast above and below 40% target health.",
+      "mechanic": "Feast has AP and symbolic health scaling on true damage. Shadowflame explicitly enhances true damage below 40%; earned Heartsteel health and Riftmaker health-to-AP may enlarge R. Q/W magic damage lower the enemy before the finisher.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        3084,
+        4633,
+        4645,
+        3089,
+        3157,
+        3111
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Record earned Feast/Heartsteel stacks and enemy threshold.",
+      "failure": "Health investment delays AP or getting attacks is unsafe.",
+      "test": "Measure Feast above and below 40% target health; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Magic penetration cannot amplify Feast true damage.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Infinite monster stacks",
+      "reason": "R caps minion/non-epic monster Feast at six.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Feast health statFormula basis and E repeat inheritance remain unverified.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Carnivore",
+      "paths": [
+        "Characters/Chogath/Spells/CarnivoreAbility/Carnivore"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Rupture",
+      "paths": [
+        "Characters/Chogath/Spells/RuptureAbility/Rupture"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Feral Scream",
+      "paths": [
+        "Characters/Chogath/Spells/FeralScreamAbility/FeralScream"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Vorpal Spikes",
+      "paths": [
+        "Characters/Chogath/Spells/VorpalSpikesAbility/VorpalSpikes"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Feast",
+      "paths": [
+        "Characters/Chogath/Spells/FeastAbility/Feast"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "chogath-audit-finite-spike-volley",
+      "champion": "Chogath",
+      "name": "Finite Spike Volley",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log E charges and spike packets with and without Dusk ready.",
+      "goal": "Log E charges and spike packets with and without Dusk ready.",
+      "hypothesis": "E empowers the next three attacks with AP/Feast-stack max-health magic damage. Q knockup creates access and Hail of Blades/Nashor can deliver the charges. Dusk and Dawn tests repeated on-hits, without assuming it duplicates E charges.",
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3089,
+        3135,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Set finite Feast stacks and maintain melee reach through three attacks.",
+        "Log E charges and spike packets with and without Dusk ready; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Kiting prevents delivery or attack speed is wasted after charges.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: On-hit repetition does not automatically duplicate E charges.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Feast",
+          "slot": "R",
+          "source": "Characters/Chogath/Spells/FeastAbility/Feast",
+          "formula": "Cho'Gath ravenously feeds on an enemy, dealing [300 / 475 / 650 + (0.5) × AP + (0.1) × Stat(12)[statFormula=2]] true damage to champions or [1200 + (0.5) × AP + (0.1) × Stat(12)[statFormula=2]] to minions or jungle monsters. If this kills the target, Cho'Gath gains a stack, which causes him to grow in size and gain [80 / 120 / 160] max Health. Only [6] stacks can be gained from minions and non-epic jungle monsters."
+        },
+        {
+          "ability": "Vorpal Spikes",
+          "slot": "E",
+          "source": "Characters/Chogath/Spells/VorpalSpikesAbility/VorpalSpikes",
+          "formula": "Cho'Gath's next 3 Attacks launch spikes that deal [30 / 50 / 70 / 90 / 110 + (0.3) × AP] plus [(2.5 / 2.85 / 3.2 / 3.55 / 3.9 + (0.5) × BuffStacks({8682fc00})) × (0.01)] of the target's max Health magic damage and Slow by [30 / 35 / 40 / 45 / 50]%, decaying over [1.5] seconds."
+        },
+        {
+          "ability": "Rupture",
+          "slot": "Q",
+          "source": "Characters/Chogath/Spells/RuptureAbility/Rupture",
+          "formula": "Cho'Gath ruptures the ground, Knocking Up enemies for [1] second, dealing [80 / 135 / 190 / 245 / 300 + (1) × AP] magic damage, and Slowing them by [60]% for [1.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "chogath-audit-low-health-feast",
+      "champion": "Chogath",
+      "name": "Low Health Feast",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure Feast above and below 40% target health.",
+      "goal": "Measure Feast above and below 40% target health.",
+      "hypothesis": "Feast has AP and symbolic health scaling on true damage. Shadowflame explicitly enhances true damage below 40%; earned Heartsteel health and Riftmaker health-to-AP may enlarge R. Q/W magic damage lower the enemy before the finisher.",
+      "itemIds": [
+        3084,
+        4633,
+        4645,
+        3089,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record earned Feast/Heartsteel stacks and enemy threshold.",
+        "Measure Feast above and below 40% target health; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Health investment delays AP or getting attacks is unsafe.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Magic penetration cannot amplify Feast true damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Heartsteel, Riftmaker, Shadowflame, Rabadon's Deathcap, Zhonya's Hourglass, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Feast",
+          "slot": "R",
+          "source": "Characters/Chogath/Spells/FeastAbility/Feast",
+          "formula": "Cho'Gath ravenously feeds on an enemy, dealing [300 / 475 / 650 + (0.5) × AP + (0.1) × Stat(12)[statFormula=2]] true damage to champions or [1200 + (0.5) × AP + (0.1) × Stat(12)[statFormula=2]] to minions or jungle monsters. If this kills the target, Cho'Gath gains a stack, which causes him to grow in size and gain [80 / 120 / 160] max Health. Only [6] stacks can be gained from minions and non-epic jungle monsters."
+        },
+        {
+          "ability": "Feral Scream",
+          "slot": "W",
+          "source": "Characters/Chogath/Spells/FeralScreamAbility/FeralScream",
+          "formula": "Cho'Gath roars, Silencing enemies for [1.6 / 1.7 / 1.8 / 1.9 / 2] seconds and dealing [80 / 130 / 180 / 230 / 280 + (0.7) × AP] magic damage."
+        },
+        {
+          "ability": "Rupture",
+          "slot": "Q",
+          "source": "Characters/Chogath/Spells/RuptureAbility/Rupture",
+          "formula": "Cho'Gath ruptures the ground, Knocking Up enemies for [1] second, dealing [80 / 135 / 190 / 245 / 300 + (1) × AP] magic damage, and Slowing them by [60]% for [1.5] seconds."
+        }
+      ]
+    }
+  ]
+}

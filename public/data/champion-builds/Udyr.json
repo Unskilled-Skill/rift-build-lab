@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "udyr-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "udyr-four-2",
+      "id": "udyr-audit-mantle-hit-echo",
       "champion": "Udyr",
-      "name": "Damage interaction: Health burn zones",
-      "goal": "Damage interaction for Udyr: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A stance-based melee fighter who alternates two empowered attacks with movement, shielding or storm damage and chooses where to spend Awaken. Choose physical Q or storm R stance route explicitly. Awaken is a shared finite resource; do not combine both empowered stance windows or assume a conventional R rank schedule. Health/AP and repeated damage test longer contact without buying mana.",
-      "summary": "Health/AP and repeated damage test longer contact without buying mana.",
+      "name": "Mantle hit echo",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore whether repeated item on-hits improve Mantle recovery without inventing extra stance attacks.",
+      "goal": "Explore whether repeated item on-hits improve Mantle recovery without inventing extra stance attacks.",
+      "hypothesis": "W next two attacks heal with AP/health and gain lifesteal; awakened W doubles those healing attacks and supplies a larger AP/health/AD shield. Dusk and Dawn repeats on-hit effects, while Nashor adds a known attack packet. Visage improves self recovery, and each actual post-stance attack refunds 5% of Awaken cooldown.",
       "itemIds": [
-        6653,
+        2510,
+        3115,
         4633,
-        3116,
-        8010,
-        3157,
-        3020
+        3065,
+        6665,
+        3111
       ],
       "runePage": [
-        8992,
-        8226,
-        8210,
-        8236,
-        8126,
-        8106
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,55 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Udyr: Choose physical Q or storm R stance route explicitly. Awaken is a shared finite resource; do not combine both empowered stance windows or assume a conventional R rank schedule.",
-        "Start with the early core (Liandry, then Riftmaker) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP and repeated damage test longer contact without buying mana. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Udyr gains attack speed and his next two attacks deal bonus physical damage. Recast: Gain even more attack speed, and the next two attacks call lightning to strike the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Record awakened versus normal W, finite health and exactly two post-stance attacks.",
+        "Count W heal packets, Dusk repetition and Awaken refund for exactly two attacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Rylai does not stack additively with every existing slow; Riftmaker needs combat ramp.",
-        "The route fails Udyr's stated kit question: Choose physical Q or storm R stance route explicitly. Awaken is a shared finite resource; do not combine both empowered stance windows or assume a conventional R rank schedule.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "W heal may not be repeated by the item; melee access and low offense can lose the fight.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Rylai does not stack additively with every existing slow; Riftmaker needs combat ramp.",
-        "Full cost 15,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: A repeated on-hit packet is not another attack and cannot automatically double Awaken refund.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Liandry, then Riftmaker. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Dusk and Dawn, Nashor's Tooth, Riftmaker, Spirit Visage, Jak'Sho, The Protean, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Blazing Stampede",
-          "slot": "E",
-          "source": "Characters/Udyr/Spells/UdyrEAbility/UdyrE",
-          "formula": "Stampede Stance: Udyr gains [0.25 / 0.31 / 0.37 / 0.43 / 0.49 / 0.55 + (0.0005) × AD[statFormula=2]] Move Speed, decaying over [4] seconds. Additionally, Udyr's Attacks dash him to the target and Stun for [0.75] seconds ([6 / 5.6 / 5.2 / 4.8 / 4.4 / 4] second Cooldown per target).\n\nAwaken: Grants immunity to Immobilizing and Disabling effects and an additional [characterLevelInterpolation(0.3 → 0.4; raw flags preserved) + (0.001) × AD[statFormula=2]] Move Speed for [1.5] seconds."
-        },
-        {
-          "ability": "Wingborne Storm",
-          "slot": "R",
-          "source": "Characters/Udyr/Spells/UdyrRAbility/UdyrR",
-          "formula": "Storm Stance: Udyr surrounds himself in a glacial storm for [4] seconds, dealing [20 / 36 / 52 / 68 / 84 / 100 + (0.35) × AP] magic damage per second to nearby enemies and Slowing them by [(0.15 / 0.18 / 0.21 / 0.24 / 0.27 / 0.3) × 100]%. Additionally, Udyr's next two Attacks in this stance deal [characterLevelInterpolation(10 → 40; raw flags preserved) + (0.35) × AP] magic damage to enemies in the storm.\n\nAwaken: Unleash the storm, causing it to follow Udyr's last Attacked enemy, deal an additional [characterLevelInterpolation(0.08 → 0.14; raw flags preserved) + (0.00035) × AP] max Health magic damage over the duration, and Slow by an additional [0.05]."
-        },
-        {
-          "ability": "Wilding Claw",
-          "slot": "Q",
-          "source": "Characters/Udyr/Spells/UdyrQAbility/UdyrQ",
-          "formula": "Claw Stance: Udyr gains [(0.2 / 0.32 / 0.44 / 0.56 / 0.68 / 0.8) × 100]% Attack Speed and his Attacks deal [6 / 12 / 18 / 24 / 30 / 36 + (0.2) × AD[statFormula=2] + (0.01 / 0.012 / 0.014 / 0.016 / 0.018 / 0.02) × Stat(12)[statFormula=2]] physical damage {{ Item_Keyword_OnHit }} for [4] seconds. Additionally, Udyr's next two Attacks in this stance deal a bonus [0.03 / 0.04 / 0.05 / 0.06 / 0.07 / 0.08 + (0.00035) × AD[statFormula=2]] max Health physical damage and gain [50] range.\n\nAwaken: Increase bonus Attack Speed to [0.2 / 0.32 / 0.44 / 0.56 / 0.68 / 0.8 + UNRESOLVED({ee18a47b}; see calculationRaw)] and max Health damage to [0.03 / 0.04 / 0.05 / 0.06 / 0.07 / 0.08 + characterLevelInterpolation(0.02 → 0.04; raw flags preserved) + (0.0005) × AD[statFormula=2] + (1e-05) × Stat(12)[statFormula=2]]. Additionally, Udyr's next two Attacks call lightning six times, dealing a total of [(((6e-05) × AP + UNRESOLVED({ee18a47b}; see calculationRaw))) × ((1 + ((6 + -1)) × (1)))] max Health magic damage to isolated targets (strikes bounce to other nearby targets when possible)."
-        },
         {
           "ability": "Iron Mantle",
           "slot": "W",
@@ -320,40 +296,42 @@
       ]
     },
     {
-      "id": "udyr-four-4",
+      "id": "udyr-audit-isolated-claw-storm-hybrid",
       "champion": "Udyr",
-      "name": "Experiment: Attack-led side lane",
-      "goal": "Experiment for Udyr: test a different playstyle, with lower confidence",
-      "hypothesis": "A stance-based melee fighter who alternates two empowered attacks with movement, shielding or storm damage and chooses where to spend Awaken. Choose physical Q or storm R stance route explicitly. Awaken is a shared finite resource; do not combine both empowered stance windows or assume a conventional R rank schedule. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Isolated claw storm hybrid",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use AP/AD hybrid attacks while isolating the awakened Q lightning target.",
+      "goal": "Use AP/AD hybrid attacks while isolating the awakened Q lightning target.",
+      "hypothesis": "Q ordinary stance supports AD/flagged health physical on-hits, while awakened lightning retains an AP max-health ratio and bounces if other targets exist. R supplies AP magic pulses and an awakened following storm; Rageblade/Terminus support actual attacks with mixed damage and finite ramp. Choose one Awaken rather than grant both for free.",
       "itemIds": [
-        3153,
-        3078,
-        3181,
-        3053,
-        6333,
-        3047
+        3115,
+        3124,
+        3302,
+        4633,
+        3157,
+        3006
       ],
       "runePage": [
-        8005,
+        8008,
         9111,
         9104,
         8014,
-        8444,
+        8429,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +339,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Udyr: Choose physical Q or storm R stance route explicitly. Awaken is a shared finite resource; do not combine both empowered stance windows or assume a conventional R rank schedule.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Udyr gains attack speed and his next two attacks deal bonus physical damage. Recast: Gain even more attack speed, and the next two attacks call lightning to strike the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Isolated target, finite Rageblade/Terminus stacks and recorded chosen Awaken/cooldown.",
+        "Compare isolated and multi-target Q lightning distribution, then separately test awakened R.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Udyr's stated kit question: Choose physical Q or storm R stance route explicitly. Awaken is a shared finite resource; do not combine both empowered stance windows or assume a conventional R rank schedule.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Nearby units disperse lightning or defense sacrificed for attack items prevents two attacks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Unresolved awakened Q helper is not a known zero or a safely inferred full numerical coefficient.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Terminus, Riftmaker, Zhonya's Hourglass, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Blazing Stampede",
@@ -409,12 +379,6 @@
           "slot": "Q",
           "source": "Characters/Udyr/Spells/UdyrQAbility/UdyrQ",
           "formula": "Claw Stance: Udyr gains [(0.2 / 0.32 / 0.44 / 0.56 / 0.68 / 0.8) × 100]% Attack Speed and his Attacks deal [6 / 12 / 18 / 24 / 30 / 36 + (0.2) × AD[statFormula=2] + (0.01 / 0.012 / 0.014 / 0.016 / 0.018 / 0.02) × Stat(12)[statFormula=2]] physical damage {{ Item_Keyword_OnHit }} for [4] seconds. Additionally, Udyr's next two Attacks in this stance deal a bonus [0.03 / 0.04 / 0.05 / 0.06 / 0.07 / 0.08 + (0.00035) × AD[statFormula=2]] max Health physical damage and gain [50] range.\n\nAwaken: Increase bonus Attack Speed to [0.2 / 0.32 / 0.44 / 0.56 / 0.68 / 0.8 + UNRESOLVED({ee18a47b}; see calculationRaw)] and max Health damage to [0.03 / 0.04 / 0.05 / 0.06 / 0.07 / 0.08 + characterLevelInterpolation(0.02 → 0.04; raw flags preserved) + (0.0005) × AD[statFormula=2] + (1e-05) × Stat(12)[statFormula=2]]. Additionally, Udyr's next two Attacks call lightning six times, dealing a total of [(((6e-05) × AP + UNRESOLVED({ee18a47b}; see calculationRaw))) × ((1 + ((6 + -1)) × (1)))] max Health magic damage to isolated targets (strikes bounce to other nearby targets when possible)."
-        },
-        {
-          "ability": "Iron Mantle",
-          "slot": "W",
-          "source": "Characters/Udyr/Spells/UdyrWAbility/UdyrW",
-          "formula": "Mantle Stance: Udyr gains [45 / 65 / 85 / 105 / 125 / 145 + (0.02 / 0.023 / 0.026 / 0.029 / 0.032 / 0.035) × Stat(12) + (0.4) × AP + (0.5) × AD[statFormula=2]] Shield for [4] seconds. Additionally, Udyr's next two Attacks gain [(0.15 / 0.16 / 0.17 / 0.18 / 0.19 / 0.2) × 100]% Life Steal and restore [(0.012) × Stat(12) + (0.08) × AP] Health.\n\nAwaken: Gain [characterLevelInterpolation(20 → 150; raw flags preserved) + 45 / 65 / 85 / 105 / 125 / 145 + (0.65) × AP + (0.08) × Stat(12) + (1) × AD[statFormula=2]] Shield, restore [(characterLevelInterpolation(20 → 150; raw flags preserved) + 45 / 65 / 85 / 105 / 125 / 145 + (0.65) × AP + (0.08) × Stat(12) + (1) × AD[statFormula=2]) × (0.5)] Health over [4] seconds, and Udyr's next two Attacks instead have [(0.15 / 0.16 / 0.17 / 0.18 / 0.19 / 0.2) × 200]% Life Steal and restore [((0.012) × Stat(12) + (0.08) × AP) × (2)] Health."
         },
         {
           "ability": "Bridge Between",

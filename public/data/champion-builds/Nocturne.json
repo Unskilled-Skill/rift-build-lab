@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "nocturne-four-1",
@@ -110,19 +110,21 @@
       ]
     },
     {
-      "id": "nocturne-four-2",
+      "id": "nocturne-audit-fear-ap-drain",
       "champion": "Nocturne",
-      "name": "Damage interaction: AD spell pressure",
-      "goal": "Damage interaction for Nocturne: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A dive attacker who selects an isolated target, stays on a damage trail and blocks a spell long enough to finish a fear tether. Record passive cleave cadence, fear tether and shielded spell. A burst R pick must repay the survival lost when landing in several opponents. AD, haste and Black Cleaver may reward repeated physical ability hits.",
-      "summary": "AD, haste and Black Cleaver may reward repeated physical ability hits.",
+      "name": "Fear AP drain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP payoff on the tether and repeated passive heals.",
+      "goal": "Test AP payoff on the tether and repeated passive heals.",
+      "hypothesis": "E deals 1 AP magic damage over two seconds and passive healing includes 0.3 AP per target. W's successful block doubles its attack speed bonus, potentially accelerating passive cooldown reduction through actual attacks. Nashor, Riftmaker and Cosmic test this sustained contact route.",
       "itemIds": [
-        6692,
-        3161,
-        3071,
-        6333,
-        3053,
-        3047
+        3115,
+        4633,
+        4629,
+        3089,
+        3065,
+        3006
       ],
       "runePage": [
         8010,
@@ -133,17 +135,17 @@
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Nocturne: Record passive cleave cadence, fear tether and shielded spell. A burst R pick must repay the survival lost when landing in several opponents.",
-        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Nocturne throws a shadow blade that deals damage, leaves a Dusk Trail, and causes champions to leave a Dusk Trail. While on the trail, Nocturne can move through units and has increased Move Speed and Attack Damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Unbroken E tether, a timed blocked spell and recorded passive cooldown.",
+        "Log E damage and passive heal per target, then attacks required to reset passive with W blocked versus unblocked.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "The route fails Nocturne's stated kit question: Record passive cleave cadence, fear tether and shielded spell. A burst R pick must repay the survival lost when landing in several opponents.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Losing Q/R physical threat may prevent reaching a target or surviving the first trade.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: The passive's unresolved base heal cannot be treated as a known level formula.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Riftmaker, Cosmic Drive, Rabadon's Deathcap, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Umbra Blades",
@@ -193,18 +187,6 @@
           "slot": "W",
           "source": "Characters/Nocturne/Spells/NocturneShroudofDarknessAbility/NocturneShroudofDarkness",
           "formula": "Passive: Nocturne gains [30 / 35 / 40 / 45 / 50]% Attack Speed.\n\nActive: Nocturne creates a shadow barrier for 1.5 seconds that blocks the next enemy Ability. If an Ability is blocked, this Ability's passive effect is increased to [(30 / 35 / 40 / 45 / 50) × 2]% Attack Speed for [5] seconds."
-        },
-        {
-          "ability": "Duskbringer",
-          "slot": "Q",
-          "source": "Characters/Nocturne/Spells/NocturneDuskbringerAbility/NocturneDuskbringer",
-          "formula": "Nocturne throws a shadow blade, dealing [65 / 105 / 145 / 185 / 225 + (0.85) × AD[statFormula=2]] physical damage and leaving a dusk trail for [5] seconds. Enemy champions hit also leave a trail. \n\nWhile on the trail, Nocturne is Ghosted and gains [20 / 25 / 30 / 35 / 40]% Move Speed and [15 / 25 / 35 / 45 / 55] Attack Damage."
-        },
-        {
-          "ability": "Paranoia",
-          "slot": "R",
-          "source": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
-          "formula": "Nocturne darkens the map, reducing the sight radius of all enemy champions and removing their vision of allies for [6] seconds. Nocturne can Recast this Ability during the duration to launch himself at an enemy champion dealing [150 / 275 / 400 + (1.2) × AD[statFormula=2]] physical damage."
         },
         {
           "ability": "Unspeakable Horror",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "nocturne-four-4",
+      "id": "nocturne-audit-darkness-opening-volley",
       "champion": "Nocturne",
-      "name": "Experiment: Physical pick",
-      "goal": "Experiment for Nocturne: test a different playstyle, with lower confidence",
-      "hypothesis": "A dive attacker who selects an isolated target, stays on a damage trail and blocks a spell long enough to finish a fear tether. Record passive cleave cadence, fear tether and shielded spell. A burst R pick must repay the survival lost when landing in several opponents. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "name": "Darkness opening volley",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use R to begin a finite burst of fast attacks while maintaining the fear tether.",
+      "goal": "Use R to begin a finite burst of fast attacks while maintaining the fear tether.",
+      "hypothesis": "Paranoia supplies target access, then Fiendhunter grants three enhanced basic attacks after ultimate use. Q's trail supplies AD and speed; Stridebreaker's slow can keep E attached. BotRK supports these real attacks and Cleaver supports physical damage after ramp.",
       "itemIds": [
-        3142,
-        6698,
+        2512,
+        3153,
+        6631,
+        3071,
         3814,
-        6694,
-        3026,
-        3158
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
+        9923,
+        8126,
         8140,
         8106,
-        8233,
-        8237
+        8210,
+        8236
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,49 +345,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Nocturne: Record passive cleave cadence, fear tether and shielded spell. A burst R pick must repay the survival lost when landing in several opponents.",
-        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Nocturne throws a shadow blade that deals damage, leaves a Dusk Trail, and causes champions to leave a Dusk Trail. While on the trail, Nocturne can move through units and has increased Move Speed and Attack Damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: R recast reaches the target while the eight-second item window remains; Q trail connects.",
+        "Record item-window start on initial R versus recast and attacks delivered before fear.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "The route fails Nocturne's stated kit question: Record passive cleave cadence, fear tether and shielded spell. A burst R pick must repay the survival lost when landing in several opponents.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Spell shields, peel or broken tether prevent the follow-up attacks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Darkness itself does not guarantee an uncontested landing or refresh the item volley.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Fiendhunter Bolts, Blade of The Ruined King, Stridebreaker, Black Cleaver, Edge of Night, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Umbra Blades",
-          "slot": "Passive",
-          "source": "Characters/Nocturne/Spells/NocturnePAbility/NocturneP",
-          "formula": "Every [12] seconds, Nocturne's next Attack strikes all nearby enemies for [(1.2) × AD] physical damage and restores [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.3) × AP] Health per target hit.\n\nNocturne's Attacks reduce this Ability's Cooldown by [1] second, increased to [3] against champions and jungle monsters."
-        },
-        {
-          "ability": "Shroud of Darkness",
-          "slot": "W",
-          "source": "Characters/Nocturne/Spells/NocturneShroudofDarknessAbility/NocturneShroudofDarkness",
-          "formula": "Passive: Nocturne gains [30 / 35 / 40 / 45 / 50]% Attack Speed.\n\nActive: Nocturne creates a shadow barrier for 1.5 seconds that blocks the next enemy Ability. If an Ability is blocked, this Ability's passive effect is increased to [(30 / 35 / 40 / 45 / 50) × 2]% Attack Speed for [5] seconds."
-        },
         {
           "ability": "Duskbringer",
           "slot": "Q",

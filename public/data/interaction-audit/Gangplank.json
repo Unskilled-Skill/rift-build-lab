@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Gangplank",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "global-barrage-mage",
+      "name": "Global barrage mage",
+      "objective": "Make global area denial the main AP payoff.",
+      "mechanic": "Cannon Barrage fires 12 magic waves with 0.1 AP each over eight seconds, with earned Fire at Will adding six waves. Malignance and Liandry reward continued ultimate contact; Deathcap increases wave damage and Remove Scurvy's 0.9 AP heal. Barrel slow can help local enemies remain inside R, but barrel damage itself remains attack-derived physical.",
+      "evidenceSlots": [
+        "R",
+        "W",
+        "E",
+        "Q"
+      ],
+      "itemIds": [
+        3118,
+        6653,
+        3089,
+        4645,
+        3135,
+        3020
+      ],
+      "pageKey": "df",
+      "requiredState": "Need a real choke, earned upgrades and R available for the objective fight.",
+      "failure": "Targets leave the area or local physical damage becomes too weak to defend.",
+      "test": "Compare damage for two-, four- and eight-second R exposure, keeping upgrades identical.",
+      "rejectedAssumption": "The maximum twelve-wave total assumes continuous contact; global range does not guarantee it.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "trial-by-fire-endurance",
+      "name": "Trial-by-Fire endurance",
+      "objective": "Use barrel destruction for repeated melee true-damage burns.",
+      "mechanic": "Trial by Fire's burn has an AD statFormula expression, and destroying a Powder Keg refreshes the passive and grants speed. Trinity supports a post-ability attack while Bloodmail links health to AD; Visage helps Scurvy's 13% missing-health component and Sundered Sky rewards contact. This route tests repeated melee resets rather than one crit-barrel detonation.",
+      "evidenceSlots": [
+        "P",
+        "E",
+        "W",
+        "Q"
+      ],
+      "itemIds": [
+        3078,
+        2501,
+        6610,
+        3065,
+        3053,
+        3111
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Need safe barrel ownership and time to land melee burns between explosions.",
+      "failure": "Opponents defuse barrels or punish melee entry; weaker ranged bursts let them disengage.",
+      "test": "Count passive burns, barrel resets and healing over a controlled eight-second melee skirmish.",
+      "rejectedAssumption": "Destroying connected barrels cannot be assumed to deal multiple explosion hits to one target.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AP powder keg multiplication",
+      "reason": "Kegs inherit the triggering attack's damage; their tooltip does not add a standalone AP ratio.",
+      "evidenceSlots": [
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Parrrley wrapper is unresolved; Spellblade propagation and passive refresh ordering require live testing before precise totals."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Trial by Fire",
+      "paths": [
+        "Characters/Gangplank/Spells/GangplankPassiveAbility/GangplankPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Parrrley",
+      "paths": [
+        "Characters/Gangplank/Spells/GangplankQWrapperAbility/GangplankQWrapper"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Remove Scurvy",
+      "paths": [
+        "Characters/Gangplank/Spells/GangplankWAbility/GangplankW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Powder Keg",
+      "paths": [
+        "Characters/Gangplank/Spells/GangplankEAbility/GangplankE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Cannon Barrage",
+      "paths": [
+        "Characters/Gangplank/Spells/GangplankRAbility/GangplankR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "gangplank-audit-global-barrage-mage",
+      "champion": "Gangplank",
+      "name": "Global barrage mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Make global area denial the main AP payoff.",
+      "goal": "Make global area denial the main AP payoff.",
+      "hypothesis": "Cannon Barrage fires 12 magic waves with 0.1 AP each over eight seconds, with earned Fire at Will adding six waves. Malignance and Liandry reward continued ultimate contact; Deathcap increases wave damage and Remove Scurvy's 0.9 AP heal. Barrel slow can help local enemies remain inside R, but barrel damage itself remains attack-derived physical.",
+      "itemIds": [
+        3118,
+        6653,
+        3089,
+        4645,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need a real choke, earned upgrades and R available for the objective fight.",
+        "Compare damage for two-, four- and eight-second R exposure, keeping upgrades identical.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Targets leave the area or local physical damage becomes too weak to defend.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The maximum twelve-wave total assumes continuous contact; global range does not guarantee it.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Malignance, Liandry's Torment, Rabadon's Deathcap, Shadowflame, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Cannon Barrage",
+          "slot": "R",
+          "source": "Characters/Gangplank/Spells/GangplankRAbility/GangplankR",
+          "formula": "Gangplank signals his ship to fire [12] waves of cannonballs anywhere on the map over [8] seconds. Each wave Slows by [30]% for [0.5] seconds and deals [40 / 70 / 100 + (0.1) × AP] magic damage. Maximum damage: [(40 / 70 / 100 + (0.1) × AP) × (12)]\n\nThis Ability can be upgraded in the shop via {{Spell_GangplankQWrapper_Name}}.\n\nFire at Will: Fires 6 additional waves of cannonballs.\nDeath's Daughter: Fires a Mega-Cannonball that deals [120 / 210 / 300 + (0.3) × AP] true damage and Slows by [75]% for [1] second.\nRaise Morale: Allies inside Cannon Barrage gain [40]% Move Speed for [2] seconds."
+        },
+        {
+          "ability": "Parrrley",
+          "slot": "Q",
+          "source": "Characters/Gangplank/Spells/GangplankQWrapperAbility/GangplankQWrapper",
+          "formula": "{{Spell_GangplankQWrapper_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Powder Keg",
+          "slot": "E",
+          "source": "Characters/Gangplank/Spells/GangplankEAbility/GangplankE",
+          "formula": "Gangplank places a powder keg that can be attacked by Gangplank and enemy champions for [25] seconds. When an enemy destroys it, the keg is defused. When Gangplank destroys it, it explodes, Slowing by [40 / 50 / 60 / 70 / 80]% for [2] seconds and dealing the Attack's damage, ignoring [40]% Armor. Champions take an additional [75 / 95 / 115 / 135 / 155] physical damage.\n\nKeg health decays every [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}])] seconds. Keg explosions detonate other kegs with overlapping blast zones, but don't deal damage to the same target more than once. Keg explosions triggered by {{Spell_GangplankQWrapper_Name}} will grant the bonus gold for targets killed."
+        },
+        {
+          "ability": "Remove Scurvy",
+          "slot": "W",
+          "source": "Characters/Gangplank/Spells/GangplankWAbility/GangplankW",
+          "formula": "Gangplank consumes a large amount of citrus fruit, removing all Disabling effects and restoring [45 / 70 / 95 / 120 / 145 + (0.9) × AP] plus [13]% missing Health."
+        }
+      ]
+    },
+    {
+      "id": "gangplank-audit-trial-by-fire-endurance",
+      "champion": "Gangplank",
+      "name": "Trial-by-Fire endurance",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use barrel destruction for repeated melee true-damage burns.",
+      "goal": "Use barrel destruction for repeated melee true-damage burns.",
+      "hypothesis": "Trial by Fire's burn has an AD statFormula expression, and destroying a Powder Keg refreshes the passive and grants speed. Trinity supports a post-ability attack while Bloodmail links health to AD; Visage helps Scurvy's 13% missing-health component and Sundered Sky rewards contact. This route tests repeated melee resets rather than one crit-barrel detonation.",
+      "itemIds": [
+        3078,
+        2501,
+        6610,
+        3065,
+        3053,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need safe barrel ownership and time to land melee burns between explosions.",
+        "Count passive burns, barrel resets and healing over a controlled eight-second melee skirmish.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Opponents defuse barrels or punish melee entry; weaker ranged bursts let them disengage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Destroying connected barrels cannot be assumed to deal multiple explosion hits to one target.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Overlord's Bloodmail, Sundered Sky, Spirit Visage, Sterak's Gage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Parrrley",
+          "slot": "Q",
+          "source": "Characters/Gangplank/Spells/GangplankQWrapperAbility/GangplankQWrapper",
+          "formula": "{{Spell_GangplankQWrapper_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Powder Keg",
+          "slot": "E",
+          "source": "Characters/Gangplank/Spells/GangplankEAbility/GangplankE",
+          "formula": "Gangplank places a powder keg that can be attacked by Gangplank and enemy champions for [25] seconds. When an enemy destroys it, the keg is defused. When Gangplank destroys it, it explodes, Slowing by [40 / 50 / 60 / 70 / 80]% for [2] seconds and dealing the Attack's damage, ignoring [40]% Armor. Champions take an additional [75 / 95 / 115 / 135 / 155] physical damage.\n\nKeg health decays every [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}])] seconds. Keg explosions detonate other kegs with overlapping blast zones, but don't deal damage to the same target more than once. Keg explosions triggered by {{Spell_GangplankQWrapper_Name}} will grant the bonus gold for targets killed."
+        },
+        {
+          "ability": "Remove Scurvy",
+          "slot": "W",
+          "source": "Characters/Gangplank/Spells/GangplankWAbility/GangplankW",
+          "formula": "Gangplank consumes a large amount of citrus fruit, removing all Disabling effects and restoring [45 / 70 / 95 / 120 / 145 + (0.9) × AP] plus [13]% missing Health."
+        },
+        {
+          "ability": "Trial by Fire",
+          "slot": "Passive",
+          "source": "Characters/Gangplank/Spells/GangplankPassiveAbility/GangplankPassive",
+          "formula": "Gangplank's melee Attacks ignite the target, dealing an additional [characterLevelInterpolation(50 → 250; raw flags preserved) + (1) × AD[statFormula=2]] true damage over [2.5] seconds and granting Gangplank [characterLevelInterpolation(0.15 → 0.3; raw flags preserved)] Move Speed for [2] seconds.\n\nDestroying a Powder Keg refreshes this Cooldown and grants Gangplank the same Move Speed."
+        }
+      ]
+    }
+  ]
+}

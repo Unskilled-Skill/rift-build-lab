@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "nami-four-1",
@@ -110,19 +110,21 @@
       ]
     },
     {
-      "id": "nami-four-2",
+      "id": "nami-audit-bounce-growth",
       "champion": "Nami",
-      "name": "Damage interaction: Tempo and pursuit",
-      "goal": "Damage interaction for Nami: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A hybrid healer and control enchanter who uses bounce positioning and attack or spell buffs to help allies trade and catch. Record E empowerment delivery and W bounce order. Offensive AP must compare ally damage/healing lost, with eligible item procs measured rather than granted on every bounce. Movement tools and compatible control marks test coordinated pursuit or escape.",
-      "summary": "Movement tools and compatible control marks test coordinated pursuit or escape.",
+      "name": "Bounce growth",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP changing which W bounce carries most value.",
+      "goal": "Test AP changing which W bounce carries most value.",
+      "hypothesis": "W modifies each bounce by -20 plus 0.15 AP percent, so sufficient AP reverses attenuation. Deathcap and Staff raise both heal and damage ratios; Helia asks for an enemy hit before an allied heal. Cosmic speed supports safe bounce geometry.",
       "itemIds": [
-        3869,
-        2065,
-        4005,
-        3107,
-        3222,
-        3009
+        6620,
+        6616,
+        3089,
+        4629,
+        3137,
+        3158
       ],
       "runePage": [
         8214,
@@ -133,17 +135,17 @@
         8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,60 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Nami: Record E empowerment delivery and W bounce order. Offensive AP must compare ally damage/healing lost, with eligible item procs measured rather than granted on every bounce.",
-        "Start with the early core (Support quest, Shurelya or Mandate according to the kit) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Movement tools and compatible control marks test coordinated pursuit or escape. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sends a bubble to a target area, dealing damage and stunning all enemies on impact. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Three distinct champions within bounce reach, with an injured ally and recorded AP.",
+        "Log every bounce heal/damage below and above the AP attenuation crossover, with Staff inactive and active.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
-        "The route fails Nami's stated kit question: Record E empowerment delivery and W bounce order. Offensive AP must compare ally damage/healing lost, with eligible item procs measured rather than granted on every bounce.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Broken bounce chains or farmed AP costs can lose more allied protection than they gain.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
-        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: W cannot bounce repeatedly through the same champion.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Shurelya or Mandate according to the kit. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Imperial Mandate, Redemption, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Rabadon's Deathcap, Cosmic Drive, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Ebb and Flow",
           "slot": "W",
           "source": "Characters/Nami/Spells/NamiWAbility/NamiW",
           "formula": "Nami unleashes a stream of water that bounces between allied and enemy champions. Each champion can only be hit once, and it hits up to [3] targets.Restores [55 / 80 / 105 / 130 / 155 + (0.4) × AP] Health to allies and will bounce to a nearby enemy champion. Deals [60 / 95 / 130 / 165 / 200 + (0.5) × AP] magic damage to enemies and will bounce to a nearby allied champion.\nThe damage and healing value is modified by [(-20 + (0.15) × AP) × (0.01)] each bounce."
-        },
-        {
-          "ability": "Aqua Prison",
-          "slot": "Q",
-          "source": "Characters/Nami/Spells/NamiQAbility/NamiQ",
-          "formula": "Nami hurls a bubble, Stunning for [1.5] seconds and dealing [90 / 145 / 200 / 255 / 310 + (0.5) × AP] magic damage."
-        },
-        {
-          "ability": "Tidecaller's Blessing",
-          "slot": "E",
-          "source": "Characters/Nami/Spells/NamiEAbility/NamiE",
-          "formula": "Nami empowers an allied champion's next [3] Attacks and Abilities for [6] seconds, causing them to Slow their targets by [(15 / 20 / 25 / 30 / 35 + (0.05) × AP) × (0.01)] for [1]s and deal an additional [20 / 35 / 50 / 65 / 80 + (0.2) × AP] magic damage."
-        },
-        {
-          "ability": "Tidal Wave",
-          "slot": "R",
-          "source": "Characters/Nami/Spells/NamiRAbility/NamiR",
-          "formula": "Nami summons a tidal wave, Knocking Up for 0.5 seconds, Slowing by [70]%, and dealing [150 / 250 / 350 + (0.6) × AP] magic damage. The duration of the Slow increases based on distance the wave traveled, up to [4] seconds.\n\nAllies hit by the wave gain double the effect of Surging Tides."
         },
         {
           "ability": "Surging Tides",
@@ -320,40 +296,42 @@
       ]
     },
     {
-      "id": "nami-four-4",
+      "id": "nami-audit-self-blessing-volley",
       "champion": "Nami",
-      "name": "Experiment: AP support gamble",
-      "goal": "Experiment for Nami: test a different playstyle, with lower confidence",
-      "hypothesis": "A hybrid healer and control enchanter who uses bounce positioning and attack or spell buffs to help allies trade and catch. Record E empowerment delivery and W bounce order. Offensive AP must compare ally damage/healing lost, with eligible item procs measured rather than granted on every bounce. A quest slot retained alongside AP tests whether personal spell damage repays reduced utility. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "A quest slot retained alongside AP tests whether personal spell damage repays reduced utility.",
+      "name": "Self-blessing volley",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Spend E's finite charges through Nami's own attacks.",
+      "goal": "Spend E's finite charges through Nami's own attacks.",
+      "hypothesis": "E grants three damaging attacks or abilities over six seconds. Self-casting permits direct observation of charge damage, while Nashor and Dusk add attack effects; W healing an ally can enable Censer's attack buff. AP also improves the passive movement burst.",
       "itemIds": [
-        3869,
-        6655,
+        3115,
+        2510,
+        3504,
         3089,
-        3135,
-        3157,
-        3020
+        3137,
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
+        9923,
+        8126,
         8140,
         8106,
-        8233,
-        8237
+        8210,
+        8236
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5005,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +339,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Nami: Record E empowerment delivery and W bounce order. Offensive AP must compare ally damage/healing lost, with eligible item procs measured rather than granted on every bounce.",
-        "Start with the early core (Support quest, affordable AP/mana core before expensive scaling) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A quest slot retained alongside AP tests whether personal spell damage repays reduced utility. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sends a bubble to a target area, dealing damage and stunning all enemies on impact. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Self E, allied W heal and three safe attacks inside six seconds.",
+        "Count E charges and separate E, Nashor and Dusk packets in three attacks with and without allied healing.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "The route fails Nami's stated kit question: Record E empowerment delivery and W bounce order. Offensive AP must compare ally damage/healing lost, with eligible item procs measured rather than granted on every bounce.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Short range or consuming charges on incidental spells prevents the intended volley.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "Full cost 14,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Dusk repeating on-hits is not evidence that it duplicates E charge consumption or damage.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, affordable AP/mana core before expensive scaling. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Ardent Censer, Rabadon's Deathcap, Cryptbloom, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Ebb and Flow",
@@ -399,22 +369,10 @@
           "formula": "Nami unleashes a stream of water that bounces between allied and enemy champions. Each champion can only be hit once, and it hits up to [3] targets.Restores [55 / 80 / 105 / 130 / 155 + (0.4) × AP] Health to allies and will bounce to a nearby enemy champion. Deals [60 / 95 / 130 / 165 / 200 + (0.5) × AP] magic damage to enemies and will bounce to a nearby allied champion.\nThe damage and healing value is modified by [(-20 + (0.15) × AP) × (0.01)] each bounce."
         },
         {
-          "ability": "Aqua Prison",
-          "slot": "Q",
-          "source": "Characters/Nami/Spells/NamiQAbility/NamiQ",
-          "formula": "Nami hurls a bubble, Stunning for [1.5] seconds and dealing [90 / 145 / 200 / 255 / 310 + (0.5) × AP] magic damage."
-        },
-        {
           "ability": "Tidecaller's Blessing",
           "slot": "E",
           "source": "Characters/Nami/Spells/NamiEAbility/NamiE",
           "formula": "Nami empowers an allied champion's next [3] Attacks and Abilities for [6] seconds, causing them to Slow their targets by [(15 / 20 / 25 / 30 / 35 + (0.05) × AP) × (0.01)] for [1]s and deal an additional [20 / 35 / 50 / 65 / 80 + (0.2) × AP] magic damage."
-        },
-        {
-          "ability": "Tidal Wave",
-          "slot": "R",
-          "source": "Characters/Nami/Spells/NamiRAbility/NamiR",
-          "formula": "Nami summons a tidal wave, Knocking Up for 0.5 seconds, Slowing by [70]%, and dealing [150 / 250 / 350 + (0.6) × AP] magic damage. The duration of the Slow increases based on distance the wave traveled, up to [4] seconds.\n\nAllies hit by the wave gain double the effect of Surging Tides."
         },
         {
           "ability": "Surging Tides",

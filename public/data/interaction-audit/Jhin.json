@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Jhin",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "lotus-magic-trap",
+      "name": "Lotus Magic Trap",
+      "objective": "Measure E hit rate under allied mark plus W.",
+      "mechanic": "E has 1 AP plus 1.2 AD magic damage and detonates after two seconds. W can root a target damaged by an ally to hold the trap; Rylai tests post-explosion retention, Shadowflame supports low-health magic damage and AP also contributes to Q physical damage.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        6655,
+        3116,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "comet",
+      "requiredState": "Enemy triggers E and W root condition is met before it detonates.",
+      "failure": "Opponent escapes before two seconds or AP severely lowers conventional shooting damage.",
+      "test": "Measure E hit rate under allied mark plus W; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "E scaling with AD does not turn its damage physical.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "crit-speed-reposition",
+      "name": "Crit Speed Reposition",
+      "objective": "Measure movement after crit and fourth-shot access with the same firing timeline.",
+      "mechanic": "P has a fixed firing rate, converts bonus attack-speed stat into AD, and gives crit movement scaling with that stat. Attack-speed crit items can test per-shot movement and fourth-shot access rather than firing faster; Q kills before later bounces can prepare missing-health fourth-shot damage.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W"
+      ],
+      "itemIds": [
+        3094,
+        3087,
+        3031,
+        6676,
+        3036,
+        3006
+      ],
+      "pageKey": "first",
+      "requiredState": "Record four-shot ammo state and land crits before moving to the next angle.",
+      "failure": "Reload downtime and inaccessible targets erase per-shot gains.",
+      "test": "Measure movement after crit and fourth-shot access with the same firing timeline; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Bonus attack speed does not increase Jhin's fixed attack cadence.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Normal attack-speed DPS model",
+      "reason": "P explicitly fixes attack rate and converts attack-speed investment into other bonuses.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Stat(4)/Stat(8) conversion basis and E ammo refresh formula are symbolic; fourth R shot has its own crit rule.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Whisper",
+      "paths": [
+        "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Dancing Grenade",
+      "paths": [
+        "Characters/Jhin/Spells/JhinQAbility/JhinQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Deadly Flourish",
+      "paths": [
+        "Characters/Jhin/Spells/JhinWAbility/JhinW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Captive Audience",
+      "paths": [
+        "Characters/Jhin/Spells/JhinEAbility/JhinE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Curtain Call",
+      "paths": [
+        "Characters/Jhin/Spells/JhinRAbility/JhinR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "jhin-audit-lotus-magic-trap",
+      "champion": "Jhin",
+      "name": "Lotus Magic Trap",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure E hit rate under allied mark plus W.",
+      "goal": "Measure E hit rate under allied mark plus W.",
+      "hypothesis": "E has 1 AP plus 1.2 AD magic damage and detonates after two seconds. W can root a target damaged by an ally to hold the trap; Rylai tests post-explosion retention, Shadowflame supports low-health magic damage and AP also contributes to Q physical damage.",
+      "itemIds": [
+        6655,
+        3116,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Enemy triggers E and W root condition is met before it detonates.",
+        "Measure E hit rate under allied mark plus W; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Opponent escapes before two seconds or AP severely lowers conventional shooting damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: E scaling with AD does not turn its damage physical.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Luden's Echo, Rylai's Crystal Scepter, Shadowflame, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Captive Audience",
+          "slot": "E",
+          "source": "Characters/Jhin/Spells/JhinEAbility/JhinE",
+          "formula": "Passive: Champions Jhin kills will create and detonate a Lotus Trap at their location.\n\nActive: Jhin places an invisible Lotus Trap for [3] minutes that creates a zone that Slows by [35]% when stepped on by an enemy. After [2] seconds, the trap detonates, dealing [20 / 80 / 140 / 200 / 260 + (1.2) × AD + (1) × AP] magic damage.\n\nThis ability has 2 charges ([(24 / 21.5 / 19 / 16.5 / 14 + ((1) × Stat(10)) × (24 / 21.5 / 19 / 16.5 / 14))] second refresh)."
+        },
+        {
+          "ability": "Deadly Flourish",
+          "slot": "W",
+          "source": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+          "formula": "Jhin fires a long range shot dealing [70 / 105 / 140 / 175 / 210 + (0.5) × AD] physical damage to the first champion hit and other enemies along the way.\n\nIf this skill strikes a champion that has been damaged by an allied champion within the last [4] seconds, it will Root them for [1.25 / 1.5 / 1.75 / 2 / 2.25] seconds and grant Jhin Whisper's Move Speed."
+        },
+        {
+          "ability": "Dancing Grenade",
+          "slot": "Q",
+          "source": "Characters/Jhin/Spells/JhinQAbility/JhinQ",
+          "formula": "Jhin launches a cartridge that deals [44 / 69 / 94 / 119 / 144 + (0.44 / 0.515 / 0.59 / 0.665 / 0.74) × AD + (0.6) × AP] physical damage before bouncing to a nearby enemy that has not been hit yet.\n\nThe cartridge can hit a maximum of [(1 + 3)] times. Enemies that die shortly after being hit increase the damage of subsequent hits by [35]%."
+        }
+      ]
+    },
+    {
+      "id": "jhin-audit-crit-speed-reposition",
+      "champion": "Jhin",
+      "name": "Crit Speed Reposition",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure movement after crit and fourth-shot access with the same firing timeline.",
+      "goal": "Measure movement after crit and fourth-shot access with the same firing timeline.",
+      "hypothesis": "P has a fixed firing rate, converts bonus attack-speed stat into AD, and gives crit movement scaling with that stat. Attack-speed crit items can test per-shot movement and fourth-shot access rather than firing faster; Q kills before later bounces can prepare missing-health fourth-shot damage.",
+      "itemIds": [
+        3094,
+        3087,
+        3031,
+        6676,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record four-shot ammo state and land crits before moving to the next angle.",
+        "Measure movement after crit and fourth-shot access with the same firing timeline; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Reload downtime and inaccessible targets erase per-shot gains.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Bonus attack speed does not increase Jhin's fixed attack cadence.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Rapid Firecannon, Statikk Shiv, Infinity Edge, The Collector, Lord Dominik's Regards, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Whisper",
+          "slot": "Passive",
+          "source": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+          "formula": "Jhin's hand cannon has a fixed Attack Speed and can be fired [4] times before needing to be reloaded. The [4]th shot always critically strikes, and deals an additional [characterLevelBreakpoints(start=0.15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] missing health physical damage.\n\nIn addition:Jhin gains [characterLevelBreakpoints(start=0.04, perLevel=0.01, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 0.019999999552965164, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 0.03999999910593033, \"__type\": \"Breakpoint\"}]) + (0.35) × Stat(8) + (0.3) × Stat(4)[statFormula=2]] bonus Attack DamageJhin's critical strikes deal [25]% less damage but grant him [0.14 + (0.44) × Stat(4)[statFormula=2]] Move Speed for [2] seconds."
+        },
+        {
+          "ability": "Deadly Flourish",
+          "slot": "W",
+          "source": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+          "formula": "Jhin fires a long range shot dealing [70 / 105 / 140 / 175 / 210 + (0.5) × AD] physical damage to the first champion hit and other enemies along the way.\n\nIf this skill strikes a champion that has been damaged by an allied champion within the last [4] seconds, it will Root them for [1.25 / 1.5 / 1.75 / 2 / 2.25] seconds and grant Jhin Whisper's Move Speed."
+        },
+        {
+          "ability": "Dancing Grenade",
+          "slot": "Q",
+          "source": "Characters/Jhin/Spells/JhinQAbility/JhinQ",
+          "formula": "Jhin launches a cartridge that deals [44 / 69 / 94 / 119 / 144 + (0.44 / 0.515 / 0.59 / 0.665 / 0.74) × AD + (0.6) × AP] physical damage before bouncing to a nearby enemy that has not been hit yet.\n\nThe cartridge can hit a maximum of [(1 + 3)] times. Enemies that die shortly after being hit increase the damage of subsequent hits by [35]%."
+        }
+      ]
+    }
+  ]
+}

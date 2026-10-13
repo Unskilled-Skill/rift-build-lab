@@ -1,0 +1,283 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Neeko",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "third-hit-control",
+      "name": "Third-hit control",
+      "objective": "Use W's third attack as the payoff of a controlled attack window.",
+      "mechanic": "W's every-third-attack magic packet has 0.6 AP and grants speed. Nashor plus Rageblade tests attack cadence; Terminus supports mixed ordinary attack and W damage after ramp. E's empowered root can provide the time to deliver the third attack.",
+      "evidenceSlots": [
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        3124,
+        3302,
+        3089,
+        3157,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Recorded W counter and enough contact to ramp Rageblade and Terminus.",
+      "failure": "A target switch or disengage removes the third-hit payoff and defensive ramp.",
+      "test": "Count actual attacks between W packets with Rageblade off and fully stacked, then repeat after target switching.",
+      "rejectedAssumption": "Phantom hits are not automatically extra W attack-counter increments.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "hidden-ult-aura",
+      "name": "Hidden ultimate aura",
+      "objective": "Convert a disguised approach into a brief contact damage window.",
+      "mechanic": "Disguise hides part of R preparation but breaks 0.5 seconds after cast. R's knockup and stun can hold targets near Zeke's ultimate-triggered storm; Rocketbelt helps approach and Abyssal increases nearby magic damage. Zhonya offers survival after the committed entrance.",
+      "evidenceSlots": [
+        "P",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3152,
+        3050,
+        8020,
+        3089,
+        3157,
+        3020
+      ],
+      "pageKey": "after",
+      "requiredState": "A credible disguise, R ready and enemies inside the landing radius.",
+      "failure": "Early crowd control breaks disguise or displacement leaves the aura without targets.",
+      "test": "Measure R hit count, storm contact seconds and survival for visible versus disguised approach.",
+      "rejectedAssumption": "The W clone mirrors casts without proving it deals their damage or carries items.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Borrow ally damage kit",
+      "reason": "Inherent Glamour describes disguise properties, not access to the ally's abilities or items.",
+      "evidenceSlots": [
+        "P",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "W counter interaction with repeated on-hits and Zeke timing during R preparation require observation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Inherent Glamour",
+      "paths": [
+        "Characters/Neeko/Spells/NeekoPassiveAbility/NeekoPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Blooming Burst",
+      "paths": [
+        "Characters/Neeko/Spells/NeekoQAbility/NeekoQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Shapesplitter",
+      "paths": [
+        "Characters/Neeko/Spells/NeekoWAbility/NeekoW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Tangle-Barbs",
+      "paths": [
+        "Characters/Neeko/Spells/NeekoEAbility/NeekoE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Pop Blossom",
+      "paths": [
+        "Characters/Neeko/Spells/NeekoRAbility/NeekoR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "neeko-audit-third-hit-control",
+      "champion": "Neeko",
+      "name": "Third-hit control",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use W's third attack as the payoff of a controlled attack window.",
+      "goal": "Use W's third attack as the payoff of a controlled attack window.",
+      "hypothesis": "W's every-third-attack magic packet has 0.6 AP and grants speed. Nashor plus Rageblade tests attack cadence; Terminus supports mixed ordinary attack and W damage after ramp. E's empowered root can provide the time to deliver the third attack.",
+      "itemIds": [
+        3115,
+        3124,
+        3302,
+        3089,
+        3157,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Recorded W counter and enough contact to ramp Rageblade and Terminus.",
+        "Count actual attacks between W packets with Rageblade off and fully stacked, then repeat after target switching.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A target switch or disengage removes the third-hit payoff and defensive ramp.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Phantom hits are not automatically extra W attack-counter increments.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Terminus, Rabadon's Deathcap, Zhonya's Hourglass, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Shapesplitter",
+          "slot": "W",
+          "source": "Characters/Neeko/Spells/NeekoWAbility/NeekoW",
+          "formula": "Passive: Every 3rd Attack deals an additional [30 / 65 / 100 / 135 / 170 + (0.6) × AP] bonus magic damage and increases Neeko's Move Speed by [10 / 17.5 / 25 / 32.5 / 40]% for [1] second.\n\nActive: Neeko becomes invisible for [0.5 / 0.5 / 0.5 / 0.5 / 0.5] seconds and projects a clone that lasts [3] seconds. Neeko and the clone gain [20 / 25 / 30 / 35 / 40]% Move Speed for [3] seconds. \n\nThe clone can be controlled using the Move Pet Click hotkey or by Recasting this Ability.\nThe clone mirrors her spellcasts, emotes, and recall."
+        },
+        {
+          "ability": "Tangle-Barbs",
+          "slot": "E",
+          "source": "Characters/Neeko/Spells/NeekoEAbility/NeekoE",
+          "formula": "Neeko slings a tangle that deals [80 / 115 / 150 / 185 / 220 + (0.65) × AP] magic damage and Roots for [0.7 / 0.9 / 1.1 / 1.3 / 1.5] seconds.\n\nThe tangle becomes empowered after hitting an enemy, growing larger, moving faster, and Rooting for [2 / 2.25 / 2.5 / 2.75 / 3] seconds."
+        }
+      ]
+    },
+    {
+      "id": "neeko-audit-hidden-ult-aura",
+      "champion": "Neeko",
+      "name": "Hidden ultimate aura",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert a disguised approach into a brief contact damage window.",
+      "goal": "Convert a disguised approach into a brief contact damage window.",
+      "hypothesis": "Disguise hides part of R preparation but breaks 0.5 seconds after cast. R's knockup and stun can hold targets near Zeke's ultimate-triggered storm; Rocketbelt helps approach and Abyssal increases nearby magic damage. Zhonya offers survival after the committed entrance.",
+      "itemIds": [
+        3152,
+        3050,
+        8020,
+        3089,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: A credible disguise, R ready and enemies inside the landing radius.",
+        "Measure R hit count, storm contact seconds and survival for visible versus disguised approach.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Early crowd control breaks disguise or displacement leaves the aura without targets.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The W clone mirrors casts without proving it deals their damage or carries items.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Rocketbelt, Zeke's Convergence, Abyssal Mask, Rabadon's Deathcap, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Pop Blossom",
+          "slot": "R",
+          "source": "Characters/Neeko/Spells/NeekoRAbility/NeekoR",
+          "formula": "After a delay Neeko leaps into the air, Knocking Up all nearby enemies for [0.6 / 0.6 / 0.6] seconds. She then crashes down, dealing [150 / 350 / 550 + (1.2) × AP] magic damage to all nearby enemies and Stunning them for [0.75 / 0.75 / 0.75] seconds.\n\nThis Ability can be prepared in secret if Neeko is disguised. [0.5] seconds after casting this ability Neeko breaks her disguise."
+        },
+        {
+          "ability": "Inherent Glamour",
+          "slot": "Passive",
+          "source": "Characters/Neeko/Spells/NeekoPassiveAbility/NeekoPassive",
+          "formula": "Neeko can disguise herself as other units on the map. At any time she can disguise as an allied champion, or Neeko can stand next to any allied or neutral unit to store their Sho'ma and be able to transform into it. Your disguise will break upon receiving immobilizing crowd control, casting a damaging spell, damaging enemy towers as a non-champion, or your disguise taking damage equal to its healthbar. \n\nNeeko gains many of the properties of the units she turns into, negative and positive."
+        },
+        {
+          "ability": "Tangle-Barbs",
+          "slot": "E",
+          "source": "Characters/Neeko/Spells/NeekoEAbility/NeekoE",
+          "formula": "Neeko slings a tangle that deals [80 / 115 / 150 / 185 / 220 + (0.65) × AP] magic damage and Roots for [0.7 / 0.9 / 1.1 / 1.3 / 1.5] seconds.\n\nThe tangle becomes empowered after hitting an enemy, growing larger, moving faster, and Rooting for [2 / 2.25 / 2.5 / 2.75 / 3] seconds."
+        }
+      ]
+    }
+  ]
+}

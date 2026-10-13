@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Pyke",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "unseen-recovery-strike",
+      "name": "Unseen recovery strike",
+      "objective": "Use the required unseen recovery interval to ready an Umbral attack on re-entry.",
+      "mechanic": "Passive regenerates stored champion damage while unseen; W grants camouflage and lethality-scaled decaying speed. Umbral now adds a true-damage attack after being unseen, while Edge of Night protects re-entry. Q pull and E return stun can secure one attack before leaving again.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3869,
+        3179,
+        3814,
+        6692,
+        3142,
+        3158
+      ],
+      "pageKey": "hob",
+      "requiredState": "Take finite champion damage, leave vision, recover, then land one readied attack.",
+      "failure": "Persistent vision prevents recovery/readiness and turns the attack plan into a fragile dive.",
+      "test": "Record unseen duration, gray-health recovery and the first attack packet on return.",
+      "rejectedAssumption": "Camouflage does not guarantee being unseen near revealing enemies.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "health-conversion-caster",
+      "name": "Health-conversion caster",
+      "objective": "Test whether health-bearing AD items improve the execute threshold through passive conversion.",
+      "mechanic": "Pyke converts maximum-health gains at fourteen health per AD. Shojin and Black Cleaver supply health plus AD; Shojin basic haste supports Q/E. R threshold explicitly includes AD[statFormula=2] and Stat(29), while E stun and W speed scale with Stat(29). Compare the conversion against lost lethality.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3161,
+        3071,
+        3814,
+        6696,
+        3026,
+        3158
+      ],
+      "pageKey": "electro",
+      "requiredState": "Use observed post-conversion AD and lethality, not a fictitious increased health pool.",
+      "failure": "Less lethality may shorten E control and weaken threshold/access despite higher AD.",
+      "test": "Record actual health, AD, W speed, E stun and R threshold before/after each health purchase.",
+      "rejectedAssumption": "Health purchases do not give Pyke ordinary tank maximum health.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Heartsteel tank health",
+      "reason": "Passive explicitly converts all maximum-health increases into AD, undermining a normal bonus-health tank premise.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Stat(29) appears in lethality-oriented formulas but retained identifiers are not silently remapped. Cleaver affects physical pre-execute damage, not execute threshold; support income remains limiting."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Gift of the Drowned Ones",
+      "paths": [
+        "Characters/Pyke/Spells/PykePassiveAbility/PykePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Bone Skewer",
+      "paths": [
+        "Characters/Pyke/Spells/PykeQAbility/PykeQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Ghostwater Dive",
+      "paths": [
+        "Characters/Pyke/Spells/PykeWAbility/PykeW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Phantom Undertow",
+      "paths": [
+        "Characters/Pyke/Spells/PykeEAbility/PykeE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Death From Below",
+      "paths": [
+        "Characters/Pyke/Spells/PykeRAbility/PykeR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "pyke-audit-unseen-recovery-strike",
+      "champion": "Pyke",
+      "name": "Unseen recovery strike",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use the required unseen recovery interval to ready an Umbral attack on re-entry.",
+      "goal": "Use the required unseen recovery interval to ready an Umbral attack on re-entry.",
+      "hypothesis": "Passive regenerates stored champion damage while unseen; W grants camouflage and lethality-scaled decaying speed. Umbral now adds a true-damage attack after being unseen, while Edge of Night protects re-entry. Q pull and E return stun can secure one attack before leaving again.",
+      "itemIds": [
+        3869,
+        3179,
+        3814,
+        6692,
+        3142,
+        3158
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Take finite champion damage, leave vision, recover, then land one readied attack.",
+        "Record unseen duration, gray-health recovery and the first attack packet on return.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Persistent vision prevents recovery/readiness and turns the attack plan into a fragile dive.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Camouflage does not guarantee being unseen near revealing enemies.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Umbral Glaive, Edge of Night, Eclipse, Youmuu's Ghostblade, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bone Skewer",
+          "slot": "Q",
+          "source": "Characters/Pyke/Spells/PykeQAbility/PykeQ",
+          "formula": "Tap: Pyke stabs, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit, preferring champions. They are then Slowed by [90]% for [1] second.\n\nHold: Pyke throws his harpoon, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit and Pulling them towards him. They are then Slowed by [90]% for [1] second.\n\nIf Pyke successfully hits an enemy champion or the channel does not complete successfully, [75]% of the Mana cost is refunded."
+        },
+        {
+          "ability": "Gift of the Drowned Ones",
+          "slot": "Passive",
+          "source": "Characters/Pyke/Spells/PykePassiveAbility/PykePassive",
+          "formula": "Pyke stores [0.09 + (0.002) × Stat(29)] of damage taken from champions, increased to [0.4 + (0.004) × Stat(29)] when there's more than one enemy nearby. Pyke can store up to [80 + (8) × AD[statFormula=2]] damage. While unseen by enemies, he rapidly regenerates this stored damage.\n\nAdditionally, Pyke converts all Maximum Health increases to Attack Damage instead at a rate of 14 Health to 1 Attack Damage."
+        },
+        {
+          "ability": "Phantom Undertow",
+          "slot": "E",
+          "source": "Characters/Pyke/Spells/PykeEAbility/PykeE",
+          "formula": "Pyke dashes, leaving a drowned phantom behind him that returns to him shortly. The phantom Stuns for [1.25 + (0.01) × Stat(29)] seconds and deals [100 / 150 / 200 / 250 / 300 + (1) × AD[statFormula=2]] physical damage to champions."
+        },
+        {
+          "ability": "Ghostwater Dive",
+          "slot": "W",
+          "source": "Characters/Pyke/Spells/PykeWAbility/PykeW",
+          "formula": "Pyke gains Camouflage and [45 + (2) × Stat(29)]% Move Speed decaying over [5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "pyke-audit-health-conversion-caster",
+      "champion": "Pyke",
+      "name": "Health-conversion caster",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether health-bearing AD items improve the execute threshold through passive conversion.",
+      "goal": "Test whether health-bearing AD items improve the execute threshold through passive conversion.",
+      "hypothesis": "Pyke converts maximum-health gains at fourteen health per AD. Shojin and Black Cleaver supply health plus AD; Shojin basic haste supports Q/E. R threshold explicitly includes AD[statFormula=2] and Stat(29), while E stun and W speed scale with Stat(29). Compare the conversion against lost lethality.",
+      "itemIds": [
+        3161,
+        3071,
+        3814,
+        6696,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Use observed post-conversion AD and lethality, not a fictitious increased health pool.",
+        "Record actual health, AD, W speed, E stun and R threshold before/after each health purchase.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Less lethality may shorten E control and weaken threshold/access despite higher AD.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Health purchases do not give Pyke ordinary tank maximum health.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Spear of Shojin, Black Cleaver, Edge of Night, Axiom Arc, Guardian Angel, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bone Skewer",
+          "slot": "Q",
+          "source": "Characters/Pyke/Spells/PykeQAbility/PykeQ",
+          "formula": "Tap: Pyke stabs, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit, preferring champions. They are then Slowed by [90]% for [1] second.\n\nHold: Pyke throws his harpoon, dealing [100 / 150 / 200 / 250 / 300 + (0.75) × AD[statFormula=2]] physical damage to the first enemy hit and Pulling them towards him. They are then Slowed by [90]% for [1] second.\n\nIf Pyke successfully hits an enemy champion or the channel does not complete successfully, [75]% of the Mana cost is refunded."
+        },
+        {
+          "ability": "Gift of the Drowned Ones",
+          "slot": "Passive",
+          "source": "Characters/Pyke/Spells/PykePassiveAbility/PykePassive",
+          "formula": "Pyke stores [0.09 + (0.002) × Stat(29)] of damage taken from champions, increased to [0.4 + (0.004) × Stat(29)] when there's more than one enemy nearby. Pyke can store up to [80 + (8) × AD[statFormula=2]] damage. While unseen by enemies, he rapidly regenerates this stored damage.\n\nAdditionally, Pyke converts all Maximum Health increases to Attack Damage instead at a rate of 14 Health to 1 Attack Damage."
+        },
+        {
+          "ability": "Death From Below",
+          "slot": "R",
+          "source": "Characters/Pyke/Spells/PykeRAbility/PykeR",
+          "formula": "Pyke strikes all enemy champions in an X, teleporting to and executing targets below [characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)] Health. Champions above the threshold and non-champions instead take physical damage equal to [50]% of that amount ([(characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)) × (0.5)]). \n\nWhen an enemy champion dies inside the X, Pyke can Recast this Ability for free within [20] seconds. If he executed that champion, the last assisting ally will also get kill gold. If he did not, he will still get kill gold as if he did."
+        },
+        {
+          "ability": "Phantom Undertow",
+          "slot": "E",
+          "source": "Characters/Pyke/Spells/PykeEAbility/PykeE",
+          "formula": "Pyke dashes, leaving a drowned phantom behind him that returns to him shortly. The phantom Stuns for [1.25 + (0.01) × Stat(29)] seconds and deals [100 / 150 / 200 / 250 / 300 + (1) × AD[statFormula=2]] physical damage to champions."
+        },
+        {
+          "ability": "Ghostwater Dive",
+          "slot": "W",
+          "source": "Characters/Pyke/Spells/PykeWAbility/PykeW",
+          "formula": "Pyke gains Camouflage and [45 + (2) × Stat(29)]% Move Speed decaying over [5] seconds."
+        }
+      ]
+    }
+  ]
+}

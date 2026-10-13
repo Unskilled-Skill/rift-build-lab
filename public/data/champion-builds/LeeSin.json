@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "leesin-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "leesin-four-2",
+      "id": "leesin-audit-safeguard-ap-escort",
       "champion": "LeeSin",
-      "name": "Damage interaction: AD spell pressure",
-      "goal": "Damage interaction for Lee Sin: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A mobile skirmisher who interleaves attacks for Energy and uses ally dashes and kicks to choose fight geometry. Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost. AD, haste and Black Cleaver may reward repeated physical ability hits.",
-      "summary": "AD, haste and Black Cleaver may reward repeated physical ability hits.",
+      "name": "Safeguard AP escort",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test the 0.8 AP ally shield while retaining peel access.",
+      "goal": "Test the 0.8 AP ally shield while retaining peel access.",
+      "hypothesis": "Safeguard shields both Lee Sin and a champion ally for two seconds with 0.8 AP scaling; ward casts do not grant the documented champion shield. Helia converts actual damage into allied healing through the shield and Staff/Ardent buff both after protection. Flurry supplies two energy-restoring attacks between casts; E slow and R knockback defend the shield recipient.",
       "itemIds": [
-        6692,
-        3161,
-        3071,
-        6333,
-        3053,
-        3047
+        6620,
+        6616,
+        3504,
+        3065,
+        3190,
+        3158
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
+        8465,
+        8463,
         8444,
-        8451
+        8453,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Lee Sin: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
-        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sonic Wave: Lee Sin projects a discordant wave of sound to locate his enemies, dealing physical damage to the first enemy it encounters. If Sonic Wave hits, Lee Sin can cast Resonating Strike for the next 3 seconds.\nResonating Strike: Lee Sin dashes to the enemy hit by Sonic Wave, dealing physical damage based on the target's missing Health. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need a champion dash target, enough energy and safe attacks to restore it.",
+        "Measure allied shield and Helia heal with champion casts versus ward casts, then record energy after weaving.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "The route fails Lee Sin's stated kit question: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low AD undermines damage threats; a ward escape does not deliver the promised allied shield.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Mana regen on support items is a wasted stat, not energy regeneration; no mana pool item is included.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Ardent Censer, Spirit Visage, Locket of the Iron Solari, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Energy",
       "kitEvidence": [
         {
           "ability": "Flurry",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "leesin-four-4",
+      "id": "leesin-audit-kick-through-health-bruiser",
       "champion": "LeeSin",
-      "name": "Experiment: Physical pick",
-      "goal": "Experiment for Lee Sin: test a different playstyle, with lower confidence",
-      "hypothesis": "A mobile skirmisher who interleaves attacks for Energy and uses ally dashes and kicks to choose fight geometry. Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "name": "Kick-through health bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use a high-health frontliner as a physical projectile.",
+      "goal": "Use a high-health frontliner as a physical projectile.",
+      "hypothesis": "Dragon's Rage has 2 AD statFormula=2 physical damage; collision victims additionally take 12-18% of the kicked target's bonus health. Bloodmail/Shojin improve AD-linked spell pressure, Cleaver supports physical damage, and Sundered Sky rewards the Flurry weave. Iron Will's four-second omnivamp helps only when actual damage lands after the kick rather than during a failed displacement.",
       "itemIds": [
-        3142,
-        6698,
-        3814,
-        6694,
-        3026,
-        3158
+        2501,
+        3161,
+        6610,
+        3071,
+        3053,
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Lee Sin: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
-        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sonic Wave: Lee Sin projects a discordant wave of sound to locate his enemies, dealing physical damage to the first enemy it encounters. If Sonic Wave hits, Lee Sin can cast Resonating Strike for the next 3 seconds.\nResonating Strike: Lee Sin dashes to the enemy hit by Sonic Wave, dealing physical damage based on the target's missing Health. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need an aligned enemy frontliner and carry behind it, with Q mark for access.",
+        "Compare primary versus collision damage against targets with different bonus health and identical armor.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "The route fails Lee Sin's stated kit question: Interleave attacks for energy and passive cadence. Record ally/ward access and kick geometry; lethality burst must justify the survival and utility lost.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "A bad angle saves the opponent; the target can reposition before Lee commits.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: The collision health bonus comes from the kicked enemy, not Lee Sin's purchased health.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Overlord's Bloodmail, Spear of Shojin, Sundered Sky, Black Cleaver, Sterak's Gage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Energy",
       "kitEvidence": [
         {
           "ability": "Flurry",

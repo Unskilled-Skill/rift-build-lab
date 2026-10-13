@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Vex",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "gloom-attack-reach",
+      "name": "Gloom attack reach",
+      "objective": "Test a charged extended attack as the safe consumer of E-applied Gloom.",
+      "mechanic": "E applies Gloom; an attack consumes it for 0.25 AP magic damage and reduces Doom cooldown by 25%. RFC extends one energized attack, while Lich Bane supplies a separate attack packet after E. Nashor asks whether continued attacks are productive; W shield gives an escape buffer and Q provides an alternative Gloom consumer.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3094,
+        3100,
+        3115,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "hob",
+      "requiredState": "E connects, RFC is charged and one attack occurs before Q/W consumes the same Gloom.",
+      "failure": "Crit/attack speed spending weakens spells and pursuit can expose Vex after the charged hit.",
+      "test": "Log attack range, Gloom damage and Doom timer after one E-attack versus E-Q.",
+      "rejectedAssumption": "Repeated on-hits or three Hail attacks do not consume one Gloom mark three times.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "fear-fed-dive-recovery",
+      "name": "Fear-fed dive recovery",
+      "objective": "Turn first-contact fear into an ally vulnerability window before seeking an R reset.",
+      "mechanic": "Doom empowers the next basic spell with fear; R itself is a marked dive with a conditional takedown reset. Mandate marks on the basic-spell fear, while Cryptbloom can heal around a damaged target death and Cosmic grants speed on magic contact. W AP shield and Zhonya protect the first arrival as the team finishes the mark.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4005,
+        3137,
+        4629,
+        3157,
+        3089,
+        3111
+      ],
+      "pageKey": "electro",
+      "requiredState": "Doom ready; R mark hits, arrive with W fear and allies can follow within the mark window.",
+      "failure": "No first takedown means neither reset nor death heal; defensive slots can lose the burst race.",
+      "test": "Time R arrival, W fear/Mandate, allied finish and Cryptbloom heal with Doom ready versus unavailable.",
+      "rejectedAssumption": "R takedown reset requires its own mark window; any unrelated later kill is insufficient.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Haste directly resets Doom",
+      "reason": "Passive documents timed recharge and 25% reduction on Gloom consumption; basic haste does not establish direct passive recharge scaling.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "R damage and takedown-window tooltips remain cross-referenced. RFC delivery, Gloom timer and Mandate interaction require live checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Doom 'n Gloom",
+      "paths": [
+        "Characters/Vex/Spells/VexPAbility/VexP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Mistral Bolt",
+      "paths": [
+        "Characters/Vex/Spells/VexQAbility/VexQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Personal Space",
+      "paths": [
+        "Characters/Vex/Spells/VexWAbility/VexW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Looming Darkness",
+      "paths": [
+        "Characters/Vex/Spells/VexEAbility/VexE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Shadow Surge",
+      "paths": [
+        "Characters/Vex/Spells/VexRAbility/VexR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "vex-audit-gloom-attack-reach",
+      "champion": "Vex",
+      "name": "Gloom attack reach",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test a charged extended attack as the safe consumer of E-applied Gloom.",
+      "goal": "Test a charged extended attack as the safe consumer of E-applied Gloom.",
+      "hypothesis": "E applies Gloom; an attack consumes it for 0.25 AP magic damage and reduces Doom cooldown by 25%. RFC extends one energized attack, while Lich Bane supplies a separate attack packet after E. Nashor asks whether continued attacks are productive; W shield gives an escape buffer and Q provides an alternative Gloom consumer.",
+      "itemIds": [
+        3094,
+        3100,
+        3115,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: E connects, RFC is charged and one attack occurs before Q/W consumes the same Gloom.",
+        "Log attack range, Gloom damage and Doom timer after one E-attack versus E-Q.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Crit/attack speed spending weakens spells and pursuit can expose Vex after the charged hit.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Repeated on-hits or three Hail attacks do not consume one Gloom mark three times.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Rapid Firecannon, Lich Bane, Nashor's Tooth, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Doom 'n Gloom",
+          "slot": "Passive",
+          "source": "Characters/Vex/Spells/VexPAbility/VexP",
+          "formula": "Every [characterLevelBreakpoints(start=25, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}])] seconds Vex becomes afflicted with Doom, causing her next basic Ability to Knock Down and Fear enemies for [characterLevelBreakpoints(start=0.75, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds.\n\nWhenever a nearby enemy dashes or blinks, Vex marks them with Gloom for [6] seconds. Vex's next Attack against a Gloomed enemy deals an additional [characterLevelInterpolation(40 → 150; raw flags preserved) + (0.25) × AP] magic damage and reduces this Ability's Cooldown by [25]%."
+        },
+        {
+          "ability": "Personal Space",
+          "slot": "W",
+          "source": "Characters/Vex/Spells/VexWAbility/VexW",
+          "formula": "Vex gains [50 / 75 / 100 / 125 / 150 + (0.75) × AP] Shield for [2.5] seconds and emits a shockwave that deals [80 / 120 / 160 / 200 / 240 + (0.3) × AP] magic damage.\n\nConsumes Gloom on enemies hit."
+        },
+        {
+          "ability": "Looming Darkness",
+          "slot": "E",
+          "source": "Characters/Vex/Spells/VexEAbility/VexE",
+          "formula": "Vex commands Shadow to fly to a location, increasing in size as it travels. Upon arriving, it deals [50 / 70 / 90 / 110 / 130 + (0.4 / 0.45 / 0.5 / 0.55 / 0.6) × AP] magic damage and Slows by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nKilling an enemy with this ability reduces Doom'n Gloom's Cooldown by [10]%.\n\nApplies Gloom to enemies hit."
+        },
+        {
+          "ability": "Mistral Bolt",
+          "slot": "Q",
+          "source": "Characters/Vex/Spells/VexQAbility/VexQ",
+          "formula": "Vex launches a wave of mist that deals [70 / 115 / 160 / 205 / 250 + (0.7) × AP] magic damage. After a delay, the wave becomes smaller and faster.\n\nConsumes Gloom on enemies hit."
+        }
+      ]
+    },
+    {
+      "id": "vex-audit-fear-fed-dive-recovery",
+      "champion": "Vex",
+      "name": "Fear-fed dive recovery",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Turn first-contact fear into an ally vulnerability window before seeking an R reset.",
+      "goal": "Turn first-contact fear into an ally vulnerability window before seeking an R reset.",
+      "hypothesis": "Doom empowers the next basic spell with fear; R itself is a marked dive with a conditional takedown reset. Mandate marks on the basic-spell fear, while Cryptbloom can heal around a damaged target death and Cosmic grants speed on magic contact. W AP shield and Zhonya protect the first arrival as the team finishes the mark.",
+      "itemIds": [
+        4005,
+        3137,
+        4629,
+        3157,
+        3089,
+        3111
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Doom ready; R mark hits, arrive with W fear and allies can follow within the mark window.",
+        "Time R arrival, W fear/Mandate, allied finish and Cryptbloom heal with Doom ready versus unavailable.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "No first takedown means neither reset nor death heal; defensive slots can lose the burst race.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: R takedown reset requires its own mark window; any unrelated later kill is insufficient.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Imperial Mandate, Cryptbloom, Cosmic Drive, Zhonya's Hourglass, Rabadon's Deathcap, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Surge",
+          "slot": "R",
+          "source": "Characters/Vex/Spells/VexRAbility/VexR",
+          "formula": "Shadow excitedly surges forward, dealing @spell.VexR:RDamageCalc@ magic damage and marking the first enemy champion hit for 4 seconds.\n\nRecast: Dash to the marked champion, dealing @spell.VexR:RecastDamageCalc@ magic damage on arrival.\n\nIf the marked champion dies within @spell.VexR:TakedownWindow@ seconds of taking damage from this Ability, its Cooldown is temporarily reset."
+        },
+        {
+          "ability": "Doom 'n Gloom",
+          "slot": "Passive",
+          "source": "Characters/Vex/Spells/VexPAbility/VexP",
+          "formula": "Every [characterLevelBreakpoints(start=25, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}])] seconds Vex becomes afflicted with Doom, causing her next basic Ability to Knock Down and Fear enemies for [characterLevelBreakpoints(start=0.75, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds.\n\nWhenever a nearby enemy dashes or blinks, Vex marks them with Gloom for [6] seconds. Vex's next Attack against a Gloomed enemy deals an additional [characterLevelInterpolation(40 → 150; raw flags preserved) + (0.25) × AP] magic damage and reduces this Ability's Cooldown by [25]%."
+        },
+        {
+          "ability": "Personal Space",
+          "slot": "W",
+          "source": "Characters/Vex/Spells/VexWAbility/VexW",
+          "formula": "Vex gains [50 / 75 / 100 / 125 / 150 + (0.75) × AP] Shield for [2.5] seconds and emits a shockwave that deals [80 / 120 / 160 / 200 / 240 + (0.3) × AP] magic damage.\n\nConsumes Gloom on enemies hit."
+        },
+        {
+          "ability": "Looming Darkness",
+          "slot": "E",
+          "source": "Characters/Vex/Spells/VexEAbility/VexE",
+          "formula": "Vex commands Shadow to fly to a location, increasing in size as it travels. Upon arriving, it deals [50 / 70 / 90 / 110 / 130 + (0.4 / 0.45 / 0.5 / 0.55 / 0.6) × AP] magic damage and Slows by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nKilling an enemy with this ability reduces Doom'n Gloom's Cooldown by [10]%.\n\nApplies Gloom to enemies hit."
+        }
+      ]
+    }
+  ]
+}

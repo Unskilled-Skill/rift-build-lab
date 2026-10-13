@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "zaahen-four-1",
@@ -110,19 +110,21 @@
       ]
     },
     {
-      "id": "zaahen-four-2",
+      "id": "zaahen-audit-determination-health-drain",
       "champion": "Zaahen",
-      "name": "Damage interaction: AD spell pressure",
-      "goal": "Damage interaction for Zaahen: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A sustained melee fighter who builds Determination through repeated champion hits and uses healing/control to reach its empowered state. Edge placement on E and timing R's damage reduction improve his fighting window. Record Determination ramp, Q recast, E edge and R cast damage reduction. The empowered state and max-health healing must actually occur before crediting sustained value. AD, haste and Black Cleaver may reward repeated physical ability hits.",
-      "summary": "AD, haste and Black Cleaver may reward repeated physical ability hits.",
+      "name": "Determination health drain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test determination health drain against conventional damage at equal gold.",
+      "goal": "Test determination health drain against conventional damage at equal gold.",
+      "hypothesis": "The Darkin Glaive heals 5-9% max health on its first attack; Bloodmail adds AD from purchased health and Visage supports that heal plus Grim Deliverance's damage-based healing. Repeated W/E/Q contacts build twelve Determination stacks before the conditional revive, but exact passive AD values are unresolved.",
       "itemIds": [
-        6692,
+        2501,
         3161,
+        6610,
         3071,
-        6333,
-        3053,
-        3047
+        3065,
+        3111
       ],
       "runePage": [
         8010,
@@ -133,17 +135,17 @@
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Zaahen: Record Determination ramp, Q recast, E edge and R cast damage reduction. The empowered state and max-health healing must actually occur before crediting sustained value.",
-        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Zaahen slashes twice on his next attack, dealing bonus damage and healing himself. Zaahen can recast this ability to have his next attack deal bonus damage and knock up his target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Reach twelve real stacks before lethal damage with revive available.",
+        "Measure Q healing and time to twelve stacks against a mobile target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "The route fails Zaahen's stated kit question: Record Determination ramp, Q recast, E edge and R cast damage reduction. The empowered state and max-health healing must actually occur before crediting sustained value.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Burst before full stacks or healing reduction removes the safety net.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Revive is not always active and its unresolved health fraction cannot be invented.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Overlord's Bloodmail, Spear of Shojin, Sundered Sky, Black Cleaver, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Cultivation of War",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "zaahen-four-4",
+      "id": "zaahen-audit-glaive-attack-weave",
       "champion": "Zaahen",
-      "name": "Experiment: Health to attack damage",
-      "goal": "Experiment for Zaahen: test a different playstyle, with lower confidence",
-      "hypothesis": "A sustained melee fighter who builds Determination through repeated champion hits and uses healing/control to reach its empowered state. Edge placement on E and timing R's damage reduction improve his fighting window. Record Determination ramp, Q recast, E edge and R cast damage reduction. The empowered state and max-health healing must actually occur before crediting sustained value. Bloodmail converts bonus health to AD while Titanic asks for actual attacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Glaive attack weave",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test glaive attack weave against conventional damage at equal gold.",
+      "goal": "Test glaive attack weave against conventional damage at equal gold.",
+      "hypothesis": "The Darkin Glaive's first empowered attack slashes twice and its recast knocks up; Trinity adds one physical Spellblade while Blade and Terminus test personal attack pressure. Hexplate supports attacks after R, with edge E providing a mixed physical and max-health magic packet.",
       "itemIds": [
-        3084,
-        2501,
-        3748,
+        3078,
+        3153,
+        3302,
+        3073,
         3053,
-        3065,
-        3047
+        3006
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8005,
         9111,
-        9104
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Zaahen: Record Determination ramp, Q recast, E edge and R cast damage reduction. The empowered state and max-health healing must actually occur before crediting sustained value.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Zaahen slashes twice on his next attack, dealing bonus damage and healing himself. Zaahen can recast this ability to have his next attack deal bonus damage and knock up his target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Land Q attacks between E spacing and use R before the attack-speed window.",
+        "Compare Q attack packets and stack gain with item effects logged separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails Zaahen's stated kit question: Record Determination ramp, Q recast, E edge and R cast damage reduction. The empowered state and max-health healing must actually occur before crediting sustained value.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Less raw AD weakens the 2.0 AD[source modifier] ultimate burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Two slashes do not prove double full on-hits or two automatic Determination stacks.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Trinity Force, Blade of The Ruined King, Terminus, Experimental Hexplate, Sterak's Gage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Cultivation of War",
@@ -415,12 +403,6 @@
           "slot": "R",
           "source": "Characters/Zaahen/Spells/ZaahenRAbility/ZaahenR",
           "formula": "Passive: Zaahen gains [(0.1 / 0.2 / 0.3) × 100]% %i:scaleAPen% Armor Penetration.\n\nActive: Zaahen rises, gaining [50]% Damage Reduction while casting.\n\nZaahen then stabs downward, dealing [250 / 400 / 550 + (2) × AD[statFormula=2]] physical damage and restoring [33]% of the damage dealt to enemy champions as Health."
-        },
-        {
-          "ability": "Dreaded Return",
-          "slot": "W",
-          "source": "Characters/Zaahen/Spells/ZaahenWAbility/ZaahenW",
-          "formula": "Zaahen stabs in a direction, dealing [40 / 60 / 80 / 100 / 120 + (0.5) × AD[statFormula=2]] physical damage to enemies hit, then Pulls them toward him, dealing [30 / 50 / 70 / 90 / 110 + (0.3) × AD[statFormula=2]] physical damage."
         }
       ]
     }

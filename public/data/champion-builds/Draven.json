@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "draven-four-1",
@@ -110,18 +110,20 @@
       ]
     },
     {
-      "id": "draven-four-2",
+      "id": "draven-audit-axe-catch-spellblade-rhythm",
       "champion": "Draven",
-      "name": "Damage interaction: Crit opening experiment",
-      "goal": "Damage interaction for Draven: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A high-pressure ranged attacker who sustains empowered axes and converts champion kills into accumulated gold. Fix axe count and catches, then compare damage without dropping axes while repositioning. Gold from kills is earned, not a free six-item assumption. Crit, AD and an opening attack window test burst from compatible empowered attacks.",
-      "summary": "Crit, AD and an opening attack window test burst from compatible empowered attacks.",
+      "name": "Axe-catch spellblade rhythm",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Make each catch a controlled ability-and-attack sequence.",
+      "goal": "Make each catch a controlled ability-and-attack sequence.",
+      "hypothesis": "Spinning Axe adds up to 1.15 AD statFormula=2 physical damage to its attack; catching refreshes Blood Rush. Essence Reaver adds physical Spellblade and mana to a post-W attack, while Stormrazor's energized speed helps reach the next landing circle. Crit supports ordinary attack damage but axe bonus treatment must be measured separately.",
       "itemIds": [
-        6676,
-        3031,
         3508,
+        3072,
+        3095,
+        3031,
         3036,
-        3026,
         3006
       ],
       "runePage": [
@@ -135,15 +137,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Draven: Fix axe count and catches, then compare damage without dropping axes while repositioning. Gold from kills is earned, not a free six-item assumption.",
-        "Start with the early core (Collector or Essence Reaver, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Crit, AD and an opening attack window test burst from compatible empowered attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Draven's next attack will deal bonus physical damage. This axe will ricochet off the target high up into the air. If Draven catches it, he automatically readies another Spinning Axe. Draven can have two Spinning Axes at once. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need two maintained axes, sensible W pacing and room to catch safely.",
+        "Compare mana and total trade damage with W only when Spellblade is ready versus spammed catches.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
-        "The route fails Draven's stated kit question: Fix axe count and catches, then compare damage without dropping axes while repositioning. Gold from kills is earned, not a free six-item assumption.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Rapid W refreshes can outpace Spellblade readiness and catching into CC loses both axes.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
-        "Full cost 17,150 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Catch refresh does not refresh Essence Reaver's internal item cooldown.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Collector or Essence Reaver, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Essence Reaver, Lord Dominik's Regards, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Essence Reaver, Bloodthirster, Stormrazor, Infinity Edge, Lord Dominik's Regards, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Spinning Axe",
@@ -199,18 +193,6 @@
           "slot": "E",
           "source": "Characters/Draven/Spells/DravenDoubleShotAbility/DravenDoubleShot",
           "formula": "Draven chucks a sideways axe that deals [75 / 110 / 145 / 180 / 215 + (0.5) × AD[statFormula=2]] physical damage, Knocks Back, and Slows by [20 / 25 / 30 / 35 / 40]% for [2] seconds."
-        },
-        {
-          "ability": "League of Draven",
-          "slot": "Passive",
-          "source": "Characters/Draven/Spells/DravenPassiveAbility/DravenPassive",
-          "formula": "Draven gains [1] stack whenever he kills a non-champion unit or turret, catches a Spinning Axe.\n\nDraven gains [25] gold plus [2] additional gold per stack upon killing a champion. Draven loses [50]% of stacks upon death.\n\nTotal Gold Earned: [(1) × BuffStacks(DravenPassiveGoldEarned)]\nHighest Reward: [(1) × BuffStacks(DravenPassiveHighestBounty)]"
-        },
-        {
-          "ability": "Whirling Death",
-          "slot": "R",
-          "source": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast",
-          "formula": "Draven hurls two massive axes that deal [200 / 300 / 400 + (1.1 / 1.3 / 1.5) × AD[statFormula=2]] physical damage. Upon hitting a champion or Recasting, they reverse direction and return to Draven. The axes deal [5]% less damage for each enemy hit, down to a minimum of [50]%.\n\nIf {{ Spell_DravenRCast_Name }} would leave an enemy champion with less health than [100]% of Draven's current {{Spell_DravenPassive_Name}} stacks ([(1) × BuffStacks({577427b5})]), he will execute them."
         }
       ]
     },
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "draven-four-4",
+      "id": "draven-audit-whirling-execution-specialist",
       "champion": "Draven",
-      "name": "Experiment: Attack-led side lane",
-      "goal": "Experiment for Draven: test a different playstyle, with lower confidence",
-      "hypothesis": "A high-pressure ranged attacker who sustains empowered axes and converts champion kills into accumulated gold. Fix axe count and catches, then compare damage without dropping axes while repositioning. Gold from kills is earned, not a free six-item assumption. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Whirling execution specialist",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Prioritize two-pass ultimate damage and earned Adoration thresholds.",
+      "goal": "Prioritize two-pass ultimate damage and earned Adoration thresholds.",
+      "hypothesis": "Whirling Death has a rank-varying 1.1-1.5 AD expression, reverses after champion contact or recast and loses damage through earlier units. Muramana supplies AD/mana subject to spell proc limits; Axiom refunds R only after qualifying deaths, and lethality serves physical damage. Passive Adoration provides a bounded execute threshold, not combat stats or guaranteed income.",
       "itemIds": [
-        3153,
-        3078,
-        3181,
-        3053,
-        6333,
-        3047
+        3042,
+        6696,
+        3142,
+        6694,
+        3814,
+        3158
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
-        8444,
-        8451
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,48 +345,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Draven: Fix axe count and catches, then compare damage without dropping axes while repositioning. Gold from kills is earned, not a free six-item assumption.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Draven's next attack will deal bonus physical damage. This axe will ricochet off the target high up into the air. If Draven catches it, he automatically readies another Spinning Axe. Draven can have two Spinning Axes at once. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need charged Manamune, earned surviving Adoration and an unobstructed return line.",
+        "Measure both R passes at fixed stack counts and compare early reversal versus maximum travel.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Draven's stated kit question: Fix axe count and catches, then compare damage without dropping axes while repositioning. Gold from kills is earned, not a free six-item assumption.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Dying halves stacks; unit attenuation or target movement can erase the execute setup.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Adoration stacks are not unlimited and catching axes does not directly lower R cooldown.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Muramana, Axiom Arc, Youmuu's Ghostblade, Serylda's Grudge, Edge of Night, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Spinning Axe",
           "slot": "Q",
           "source": "Characters/Draven/Spells/DravenSpinningAbility/DravenSpinning",
           "formula": "Draven readies a Spinning Axe, causing his next Attack to deal an additional [40 / 45 / 50 / 55 / 60 + (0.75 / 0.85 / 0.95 / 1.05 / 1.15) × AD[statFormula=2]] physical damage and ricochet into the air. If Draven catches it, he readies another Spinning Axe.\n\nDraven can hold two Spinning Axes at once."
-        },
-        {
-          "ability": "Blood Rush",
-          "slot": "W",
-          "source": "Characters/Draven/Spells/DravenFuryAbility/DravenFury",
-          "formula": "Draven becomes Ghosted, gains [50 / 55 / 60 / 65 / 70]% Move Speed decaying over [1.5] seconds and [20 / 25 / 30 / 35 / 40]% Attack Speed for [3] seconds.\n\nWhen Draven catches a Spinning Axe, this Ability's Cooldown is refreshed."
         },
         {
           "ability": "Stand Aside",

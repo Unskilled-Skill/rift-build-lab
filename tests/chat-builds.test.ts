@@ -13,3 +13,7 @@ it('rejects hallucinated IDs, duplicate items and invalid rune rows',()=>{for(co
 it('rejects unknown champions, wrong patch and oversized text',()=>{expect(()=>parseChatBuilds(JSON.stringify({...payload(),patch:'26.19'}),data)).toThrow();expect(()=>parseChatBuilds(JSON.stringify({...payload(),builds:[{...build,champion:'Fake'}]}),data)).toThrow();expect(()=>parseChatBuilds(JSON.stringify({...payload(),builds:[{...build,hypothesis:'a'.repeat(6000)}]}),data)).toThrow()});
 it('requires six items and bounded scenario conditions',()=>{expect(()=>parseChatBuilds(JSON.stringify({...payload(),builds:[{...build,itemIds:[2501]}]}),data)).toThrow();expect(()=>parseChatBuilds(JSON.stringify({...payload(),builds:[{...build,conditions:{level:1000}}]}),data)).toThrow()});
 
+
+it('rejects malformed numeric-coverage flags on authored tests',()=>{expect(()=>parseChatBuilds(JSON.stringify({...payload(),builds:[{...build,requiresManualTest:'false'}]}),data)).toThrow(/model flag/);expect(parseChatBuilds(JSON.stringify({...payload(),builds:[{...build,requiresManualTest:true}]}),data)[0].requiresManualTest).toBe(true)});
+
+it('preserves manual-only coverage when saving an audited objective',()=>{const b=parseChatBuilds(JSON.stringify({...payload(),builds:[{...build,requiresManualTest:true}]}),data)[0];expect(toTestSave(b,data).requiresManualTest).toBe(true)});

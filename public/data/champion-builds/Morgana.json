@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "morgana-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "morgana-four-2",
+      "id": "morgana-audit-siphon-shadow-refresh",
       "champion": "Morgana",
-      "name": "Damage interaction: Ultimate window",
-      "goal": "Damage interaction for Morgana: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A catch and anti-control mage who roots enemies into damaging ground and protects allies from disabling effects with a magic shield. Measure W occupancy after Q and R tether range, then allied spell-shield saves. An attack experiment must repay moving into danger and losing normal spell-zone damage. Mana and ultimate-oriented item effects test repeated impactful R windows.",
-      "summary": "Mana and ultimate-oriented item effects test repeated impactful R windows.",
+      "name": "Siphon Shadow Refresh",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Record W tick healing events and actual cooldown changes.",
+      "goal": "Record W tick healing events and actual cooldown changes.",
+      "hypothesis": "W cooldown falls 5% each time P heals Morgana; P heals from ability damage on specific eligible units. W damage rises with missing health, so Shadowflame can enhance late magic ticks. Blackfire and Riftmaker test persistent damage/ramp while Rylai helps hold eligible champions in W.",
       "itemIds": [
-        3118,
+        2503,
+        4633,
+        3116,
         4645,
         3089,
-        3135,
-        3157,
         3020
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Morgana: Measure W occupancy after Q and R tether range, then allied spell-shield saves. An attack experiment must repay moving into danger and losing normal spell-zone damage.",
-        "Start with the early core (Malignance only if the R interaction is confirmed, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and ultimate-oriented item effects test repeated impactful R windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Morgana binds an enemy in place with dark magic, forcing them to feel the pain they've caused and dealing magic damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Q holds an eligible champion in W with a finite combat/mana duration.",
+        "Record W tick healing events and actual cooldown changes; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "The route fails Morgana's stated kit question: Measure W occupancy after Q and R tether range, then allied spell-shield saves. An attack experiment must repay moving into danger and losing normal spell-zone damage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Ordinary small minions do not grant P healing and mobile enemies leave the zone.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Extra item damage is not automatically Morgana ability damage that heals P.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Malignance only if the R interaction is confirmed, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Blackfire Torch, Riftmaker, Rylai's Crystal Scepter, Shadowflame, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Dark Binding",
           "slot": "Q",
           "source": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ",
           "formula": "Morgana hurls a blast of starfire that Roots the first enemy hit for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and deals [80 / 135 / 190 / 245 / 300 + (0.9) × AP] magic damage."
-        },
-        {
-          "ability": "Soul Shackles",
-          "slot": "R",
-          "source": "Characters/Morgana/Spells/MorganaRAbility/MorganaR",
-          "formula": "Morgana chains herself to nearby enemy Champions, dealing [200 / 275 / 350 + (0.8) × AP] magic damage and Slowing them by [20]%. After [3] seconds, enemies unable to break the chains take an additional [200 / 275 / 350 + (0.8) × AP] magic damage and are Stunned for [1.5 / 1.75 / 2] seconds.\n\nWhile casting this Ability, Morgana gains [20 / 40 / 60]% Move Speed."
         },
         {
           "ability": "Tormented Shadow",
@@ -205,12 +193,6 @@
           "slot": "Passive",
           "source": "Characters/Morgana/Spells/MorganaPassiveAbility/MorganaPassive",
           "formula": "Morgana Heals for [18]% of the damage dealt by her Abilities to champions, large minions, and medium and larger jungle monsters."
-        },
-        {
-          "ability": "Black Shield",
-          "slot": "E",
-          "source": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
-          "formula": "Morgana grants an ally champion [100 / 155 / 210 / 265 / 320 + (0.7) × AP] Magic Shield for [5] seconds. The shield prevents Disabling and Immobilizing effects until it breaks."
         }
       ]
     },
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "morgana-four-4",
+      "id": "morgana-audit-shackle-shield-ally-charge",
       "champion": "Morgana",
-      "name": "Experiment: AP attack experiment",
-      "goal": "Experiment for Morgana: test a different playstyle, with lower confidence",
-      "hypothesis": "A catch and anti-control mage who roots enemies into damaging ground and protects allies from disabling effects with a magic shield. Measure W occupancy after Q and R tether range, then allied spell-shield saves. An attack experiment must repay moving into danger and losing normal spell-zone damage. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Shackle Shield Ally Charge",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log R completion and Helia charges spent by allied E.",
+      "goal": "Log R completion and Helia charges spent by allied E.",
+      "hypothesis": "R has immediate and three-second delayed magic damage/stun plus movement during casting. E can shield another ally and consume Helia charges from Morgana's champion damage; Staff improves subsequent shields. Zhonya tests surviving the tether while Mandate uses Q or completed R stun.",
       "itemIds": [
-        3115,
-        3124,
-        3089,
-        3135,
         3157,
-        3006
+        6620,
+        6616,
+        4005,
+        3089,
+        3158
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Morgana: Measure W occupancy after Q and R tether range, then allied spell-shield saves. An attack experiment must repay moving into danger and losing normal spell-zone damage.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Morgana binds an enemy in place with dark magic, forcing them to feel the pain they've caused and dealing magic damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Keep R tether until completion and shield an ally after damage rather than only self.",
+        "Log R completion and Helia charges spent by allied E; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Morgana's stated kit question: Measure W occupancy after Q and R tether range, then allied spell-shield saves. An attack experiment must repay moving into danger and losing normal spell-zone damage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Enemy breaks tether or magic shield breaks before protecting the ally.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Black Shield prevents control only while intact and is not an all-damage shield.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Zhonya's Hourglass, Echoes of Helia, Staff of Flowing Water, Imperial Mandate, Rabadon's Deathcap, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Dark Binding",
@@ -403,18 +379,6 @@
           "slot": "R",
           "source": "Characters/Morgana/Spells/MorganaRAbility/MorganaR",
           "formula": "Morgana chains herself to nearby enemy Champions, dealing [200 / 275 / 350 + (0.8) × AP] magic damage and Slowing them by [20]%. After [3] seconds, enemies unable to break the chains take an additional [200 / 275 / 350 + (0.8) × AP] magic damage and are Stunned for [1.5 / 1.75 / 2] seconds.\n\nWhile casting this Ability, Morgana gains [20 / 40 / 60]% Move Speed."
-        },
-        {
-          "ability": "Tormented Shadow",
-          "slot": "W",
-          "source": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
-          "formula": "Morgana ignites the ground for [5] seconds, dealing [18 / 31 / 44 / 57 / 70 + (0.2) × AP] magic damage per second, increased by up to [(18 / 31 / 44 / 57 / 70 + (0.2) × AP) × ((1 + 1))] based on the targets' missing Health.\n\nThis Ability's Cooldown is reduced by [5]% every time Morgana is healed by {{Spell_MorganaPassive_Name}}."
-        },
-        {
-          "ability": "Soul Siphon",
-          "slot": "Passive",
-          "source": "Characters/Morgana/Spells/MorganaPassiveAbility/MorganaPassive",
-          "formula": "Morgana Heals for [18]% of the damage dealt by her Abilities to champions, large minions, and medium and larger jungle monsters."
         },
         {
           "ability": "Black Shield",

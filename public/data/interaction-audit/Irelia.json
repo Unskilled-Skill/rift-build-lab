@@ -1,0 +1,298 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Irelia",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "defiant-ap-stance",
+      "name": "Defiant Ap Stance",
+      "objective": "Compare W reduction and charged damage at fixed incoming patterns.",
+      "mechanic": "W physical reduction has AP scaling and magic reduction is half of it; fully charged W reaches 1.5 AP physical damage, while E/R each have 1 AP magic ratios. Riftmaker AP/health and Zhonya test a defensive countercast sequence; penetration supports E/R rather than W.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        3157,
+        4629,
+        3089,
+        3135,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Charge W into controlled incoming damage and then connect E/R.",
+      "failure": "Standing still invites control and sacrificing AD lowers Q/attack healing.",
+      "test": "Compare W reduction and charged damage at fixed incoming patterns; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "W's AP damage ratio does not make its damage magic.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "four-stack-attack-return",
+      "name": "Four Stack Attack Return",
+      "objective": "Compare four-stack actual attacks against incomplete stack state.",
+      "mechanic": "P reaches bonus magic on-hit only at four ability-hit stacks and lasts six seconds, refreshed by qualifying attacks. Q reset on Unsteady gives access; Nashor/Dusk tests actual attack damage after E mark without claiming Q inherits every item on-hit. W and health/resists preserve the attack window.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "W"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        3153,
+        3091,
+        6333,
+        3006
+      ],
+      "pageKey": "conq",
+      "requiredState": "Reach four P stacks and E mark a champion before Q/attacks.",
+      "failure": "Missed E denies reset and lack of AD reduces Q/healing.",
+      "test": "Compare four-stack actual attacks against incomplete stack state; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Dusk repeated on-hits do not create extra P ability-hit stacks.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional Q reset",
+      "reason": "Q requires death or Unsteady; haste does not create a reset.",
+      "evidenceSlots": [
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive base on-hit calculation is unresolved; W damage-reduction cap and Q/item inheritance remain unverified.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison.",
+    "Unresolved conditional/runtime tooltip tokens prevent a complete numerical model; retained helpers do not establish live behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Ionian Fervor",
+      "paths": [
+        "Characters/Irelia/Spells/IreliaPassiveAbility/IreliaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Bladesurge",
+      "paths": [
+        "Characters/Irelia/Spells/IreliaQAbility/IreliaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Defiant Dance",
+      "paths": [
+        "Characters/Irelia/Spells/IreliaWAbility/IreliaW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Flawless Duet",
+      "paths": [
+        "Characters/Irelia/Spells/IreliaEAbility/IreliaE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Vanguard's Edge",
+      "paths": [
+        "Characters/Irelia/Spells/IreliaRAbility/IreliaR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "irelia-audit-defiant-ap-stance",
+      "champion": "Irelia",
+      "name": "Defiant Ap Stance",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare W reduction and charged damage at fixed incoming patterns.",
+      "goal": "Compare W reduction and charged damage at fixed incoming patterns.",
+      "hypothesis": "W physical reduction has AP scaling and magic reduction is half of it; fully charged W reaches 1.5 AP physical damage, while E/R each have 1 AP magic ratios. Riftmaker AP/health and Zhonya test a defensive countercast sequence; penetration supports E/R rather than W.",
+      "itemIds": [
+        4633,
+        3157,
+        4629,
+        3089,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Charge W into controlled incoming damage and then connect E/R.",
+        "Compare W reduction and charged damage at fixed incoming patterns; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Standing still invites control and sacrificing AD lowers Q/attack healing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W's AP damage ratio does not make its damage magic.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Zhonya's Hourglass, Cosmic Drive, Rabadon's Deathcap, Void Staff, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Vanguard's Edge",
+          "slot": "R",
+          "source": "Characters/Irelia/Spells/IreliaRAbility/IreliaR",
+          "formula": "Irelia launches a barrage of blades, dealing [125 / 200 / 275 + (1) × AP] magic damage and making champions and large jungle monsters Unsteady for [5 / 5 / 5] seconds. The barrage explodes into a cage around the first champion hit for [2.5] seconds. The cage deals [125 / 200 / 275 + (1) × AP] magic damage and Slows by [90 / 90 / 90]% for [1.5 / 1.5 / 1.5] seconds."
+        },
+        {
+          "ability": "Flawless Duet",
+          "slot": "E",
+          "source": "Characters/Irelia/Spells/IreliaEAbility/IreliaE",
+          "formula": "Irelia throws a blade into the ground and can Recast for up to [3.5 / 3.5 / 3.5 / 3.5 / 3.5] seconds. \n\nRecast: Irelia throws a second blade, then they fly towards each other Stunning for [0.75] seconds and dealing [70 / 110 / 150 / 190 / 230 + (1) × AP] magic damage. Champions and large jungle monsters become Unsteady for [5 / 5 / 5 / 5 / 5] seconds."
+        },
+        {
+          "ability": "Defiant Dance",
+          "slot": "W",
+          "source": "Characters/Irelia/Spells/IreliaWAbility/IreliaW",
+          "formula": "Begin Charging: Irelia enters a defensive stance for up to [1.5 / 1.5 / 1.5 / 1.5 / 1.5] seconds, becoming unable to act but reducing physical damage taken by [characterLevelInterpolation(40 → 70; raw flags preserved) + (0.08) × AP]% and magic damage taken by [(characterLevelInterpolation(40 → 70; raw flags preserved) + (0.08) × AP) × (0.5)]%.\n\nRelease: Irelia lashes out with her blades, dealing [10 / 20 / 30 / 40 / 50 + (0.4) × AD + (0.5) × AP] physical damage increased up to [30 / 60 / 90 / 120 / 150 + (1.2) × AD + (1.5) × AP] based on charge time."
+        }
+      ]
+    },
+    {
+      "id": "irelia-audit-four-stack-attack-return",
+      "champion": "Irelia",
+      "name": "Four Stack Attack Return",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare four-stack actual attacks against incomplete stack state.",
+      "goal": "Compare four-stack actual attacks against incomplete stack state.",
+      "hypothesis": "P reaches bonus magic on-hit only at four ability-hit stacks and lasts six seconds, refreshed by qualifying attacks. Q reset on Unsteady gives access; Nashor/Dusk tests actual attack damage after E mark without claiming Q inherits every item on-hit. W and health/resists preserve the attack window.",
+      "itemIds": [
+        3115,
+        2510,
+        3153,
+        3091,
+        6333,
+        3006
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Reach four P stacks and E mark a champion before Q/attacks.",
+        "Compare four-stack actual attacks against incomplete stack state; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Missed E denies reset and lack of AD reduces Q/healing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Dusk repeated on-hits do not create extra P ability-hit stacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Blade of The Ruined King, Wit's End, Death's Dance, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ionian Fervor",
+          "slot": "Passive",
+          "source": "Characters/Irelia/Spells/IreliaPassiveAbility/IreliaPassive",
+          "formula": "Irelia gains a stack for [6] seconds when she hits an enemy with an Ability (max [4]). She gains [characterLevelInterpolation(10 → 25; raw flags preserved)]% Attack Speed per stack, and at max stacks her Attacks deal an additional [UNRESOLVED({b22609db}; see calculationRaw) + (0.2) × AD[statFormula=2]] magic damage.\n\nAttacking a champion, structure, or large monster refreshes the duration of the stacks. Irelia gains a stack for each champion hit, or if she hits at least one non-champion enemy."
+        },
+        {
+          "ability": "Flawless Duet",
+          "slot": "E",
+          "source": "Characters/Irelia/Spells/IreliaEAbility/IreliaE",
+          "formula": "Irelia throws a blade into the ground and can Recast for up to [3.5 / 3.5 / 3.5 / 3.5 / 3.5] seconds. \n\nRecast: Irelia throws a second blade, then they fly towards each other Stunning for [0.75] seconds and dealing [70 / 110 / 150 / 190 / 230 + (1) × AP] magic damage. Champions and large jungle monsters become Unsteady for [5 / 5 / 5 / 5 / 5] seconds."
+        },
+        {
+          "ability": "Defiant Dance",
+          "slot": "W",
+          "source": "Characters/Irelia/Spells/IreliaWAbility/IreliaW",
+          "formula": "Begin Charging: Irelia enters a defensive stance for up to [1.5 / 1.5 / 1.5 / 1.5 / 1.5] seconds, becoming unable to act but reducing physical damage taken by [characterLevelInterpolation(40 → 70; raw flags preserved) + (0.08) × AP]% and magic damage taken by [(characterLevelInterpolation(40 → 70; raw flags preserved) + (0.08) × AP) × (0.5)]%.\n\nRelease: Irelia lashes out with her blades, dealing [10 / 20 / 30 / 40 / 50 + (0.4) × AD + (0.5) × AP] physical damage increased up to [30 / 60 / 90 / 120 / 150 + (1.2) × AD + (1.5) × AP] based on charge time."
+        },
+        {
+          "ability": "Bladesurge",
+          "slot": "Q",
+          "source": "Characters/Irelia/Spells/IreliaQAbility/IreliaQ",
+          "formula": "Irelia dashes to an enemy, dealing [5 / 25 / 45 / 65 / 85 + (0.8) × AD] physical damage and restoring [(0.09 / 0.1 / 0.11 / 0.12 / 0.13) × AD] Health to herself. If the enemy dies or was Unsteady, the Cooldown is refreshed.\n\nDeals [5 / 25 / 45 / 65 / 85 + characterLevelBreakpoints(start=50, perLevel=11, changes=[]) + (0.8) × AD] damage to minions."
+        }
+      ]
+    }
+  ]
+}

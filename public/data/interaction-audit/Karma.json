@@ -1,0 +1,317 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Karma",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "renewal-missing-health-duelist",
+      "name": "Renewal missing-health duelist",
+      "objective": "Use two Mantra-W heal timings rather than a single poke cycle.",
+      "mechanic": "Renewal heals an AP-linked percentage of missing health at both tether start and completion; normal W must stay linked for two seconds to root. Visage amplifies healing received, Rod supports mana/health, and Cosmic Drive plus Inspire speed helps preserve tether. Ability damage reduces Mantra cooldown by four seconds, enabling a pressure-dependent next renewal.",
+      "evidenceSlots": [
+        "R",
+        "W",
+        "E",
+        "P",
+        "Q"
+      ],
+      "itemIds": [
+        6657,
+        3065,
+        4629,
+        4633,
+        3089,
+        3111
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Need missing health without lethal risk, unbroken tether and actual champion ability hits.",
+      "failure": "Anti-heal, burst before the first heal or a broken tether removes the second payoff.",
+      "test": "Compare both heal events, Mantra cooldown and survival versus a mobile melee target.",
+      "rejectedAssumption": "Mantra's heal is not flat max-health healing and a broken tether does not grant the completion heal.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "inspire-ap-transfer-engine",
+      "name": "Inspire AP transfer engine",
+      "objective": "Let offensive hits finance repeated multi-ally shield windows.",
+      "mechanic": "Inspire's base shield has 0.6 AP; Mantra adds 0.45 AP shielding and spreads protection to allies. Staff supplies temporary AP/haste after an allied shield, Moonstone can chain shields, and Helia spends damage-earned charges when shielding. Gathering Fire makes well-timed Q/W champion hits valuable before the next defensive Mantra, rather than substituting auto attacks for documented refunds.",
+      "evidenceSlots": [
+        "E",
+        "R",
+        "Q",
+        "W",
+        "P"
+      ],
+      "itemIds": [
+        6620,
+        6616,
+        6617,
+        6621,
+        2065,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "Need grouped allies for empowered E and safe actual spell damage between shield casts.",
+      "failure": "Mana pressure or threat forces pure shielding, slowing Mantra refunds and Helia charge gains.",
+      "test": "Measure primary and nearby shields plus Mantra uptime in a repeated poke-and-protect sequence.",
+      "rejectedAssumption": "Every allied shield is not an independent infinite Helia charge source; charges must be earned first.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Attack-speed Mantra reset",
+      "reason": "Gathering Fire's current tooltip specifies champion ability damage, not ordinary attacks.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Karma Q conditional wrapper is unresolved; identify current normal-Q expression before quoting a numerical burst total."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Gathering Fire",
+      "paths": [
+        "Characters/Karma/Spells/KarmaPassiveAbility/KarmaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Inner Flame",
+      "paths": [
+        "Characters/Karma/Spells/KarmaQAbility/KarmaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Focused Resolve",
+      "paths": [
+        "Characters/Karma/Spells/KarmaSpiritBindAbility/KarmaSpiritBind"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Inspire",
+      "paths": [
+        "Characters/Karma/Spells/KarmaSolKimShieldAbility/KarmaSolKimShield"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Mantra",
+      "paths": [
+        "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "karma-audit-renewal-missing-health-duelist",
+      "champion": "Karma",
+      "name": "Renewal missing-health duelist",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use two Mantra-W heal timings rather than a single poke cycle.",
+      "goal": "Use two Mantra-W heal timings rather than a single poke cycle.",
+      "hypothesis": "Renewal heals an AP-linked percentage of missing health at both tether start and completion; normal W must stay linked for two seconds to root. Visage amplifies healing received, Rod supports mana/health, and Cosmic Drive plus Inspire speed helps preserve tether. Ability damage reduces Mantra cooldown by four seconds, enabling a pressure-dependent next renewal.",
+      "itemIds": [
+        6657,
+        3065,
+        4629,
+        4633,
+        3089,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need missing health without lethal risk, unbroken tether and actual champion ability hits.",
+        "Compare both heal events, Mantra cooldown and survival versus a mobile melee target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Anti-heal, burst before the first heal or a broken tether removes the second payoff.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Mantra's heal is not flat max-health healing and a broken tether does not grant the completion heal.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Rod of Ages, Spirit Visage, Cosmic Drive, Riftmaker, Rabadon's Deathcap, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Inspire",
+          "slot": "E",
+          "source": "Characters/Karma/Spells/KarmaSolKimShieldAbility/KarmaSolKimShield",
+          "formula": "{{Spell_KarmaE_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Inner Flame",
+          "slot": "Q",
+          "source": "Characters/Karma/Spells/KarmaQAbility/KarmaQ",
+          "formula": "{{Spell_KarmaQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
+        },
+        {
+          "ability": "Focused Resolve",
+          "slot": "W",
+          "source": "Characters/Karma/Spells/KarmaSpiritBindAbility/KarmaSpiritBind",
+          "formula": "{{Spell_KarmaW_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Gathering Fire",
+          "slot": "Passive",
+          "source": "Characters/Karma/Spells/KarmaPassiveAbility/KarmaPassive",
+          "formula": "Karma begins the game with a point in {{Spell_KarmaMantra_Name}}.\n\nShe reduces the Cooldown of {{Spell_KarmaMantra_Name}} by [4] seconds when she damages a champion with an Ability."
+        },
+        {
+          "ability": "Mantra",
+          "slot": "R",
+          "source": "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra",
+          "formula": "Karma empowers her next Ability used within 8 seconds.\n{{Spell_KarmaQ_Name}}: Deals an additional [40 / 100 / 160 / 220 + (0.3) × AP] magic damage and leaves behind a circle of flame, Slowing enemies and dealing an additional [40 / 130 / 220 / 310 + (0.5) × AP] magic damage.{{Spell_KarmaSpiritBind_Name}}: Karma will restore [(17 + (0.01) × AP) × (0.01)] missing Health at the beginning and end of the tether, and Root for [0.5 / 0.75 / 1 / 1.25]s longer.{{Spell_KarmaSolKimShield_Name}}: Karma shields her target for [45 / 85 / 125 / 165 + (0.45) × AP] more Shield, and also shields allies near her target, granting them [(45 / 85 / 125 / 165 + (0.45) × AP) × (1)] Shield and [15]% Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "karma-audit-inspire-ap-transfer-engine",
+      "champion": "Karma",
+      "name": "Inspire AP transfer engine",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Let offensive hits finance repeated multi-ally shield windows.",
+      "goal": "Let offensive hits finance repeated multi-ally shield windows.",
+      "hypothesis": "Inspire's base shield has 0.6 AP; Mantra adds 0.45 AP shielding and spreads protection to allies. Staff supplies temporary AP/haste after an allied shield, Moonstone can chain shields, and Helia spends damage-earned charges when shielding. Gathering Fire makes well-timed Q/W champion hits valuable before the next defensive Mantra, rather than substituting auto attacks for documented refunds.",
+      "itemIds": [
+        6620,
+        6616,
+        6617,
+        6621,
+        2065,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need grouped allies for empowered E and safe actual spell damage between shield casts.",
+        "Measure primary and nearby shields plus Mantra uptime in a repeated poke-and-protect sequence.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Mana pressure or threat forces pure shielding, slowing Mantra refunds and Helia charge gains.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Every allied shield is not an independent infinite Helia charge source; charges must be earned first.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Moonstone Renewer, Dawncore, Shurelya's Battlesong, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Inspire",
+          "slot": "E",
+          "source": "Characters/Karma/Spells/KarmaSolKimShieldAbility/KarmaSolKimShield",
+          "formula": "{{Spell_KarmaE_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Inner Flame",
+          "slot": "Q",
+          "source": "Characters/Karma/Spells/KarmaQAbility/KarmaQ",
+          "formula": "{{Spell_KarmaQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
+        },
+        {
+          "ability": "Focused Resolve",
+          "slot": "W",
+          "source": "Characters/Karma/Spells/KarmaSpiritBindAbility/KarmaSpiritBind",
+          "formula": "{{Spell_KarmaW_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+        },
+        {
+          "ability": "Gathering Fire",
+          "slot": "Passive",
+          "source": "Characters/Karma/Spells/KarmaPassiveAbility/KarmaPassive",
+          "formula": "Karma begins the game with a point in {{Spell_KarmaMantra_Name}}.\n\nShe reduces the Cooldown of {{Spell_KarmaMantra_Name}} by [4] seconds when she damages a champion with an Ability."
+        },
+        {
+          "ability": "Mantra",
+          "slot": "R",
+          "source": "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra",
+          "formula": "Karma empowers her next Ability used within 8 seconds.\n{{Spell_KarmaQ_Name}}: Deals an additional [40 / 100 / 160 / 220 + (0.3) × AP] magic damage and leaves behind a circle of flame, Slowing enemies and dealing an additional [40 / 130 / 220 / 310 + (0.5) × AP] magic damage.{{Spell_KarmaSpiritBind_Name}}: Karma will restore [(17 + (0.01) × AP) × (0.01)] missing Health at the beginning and end of the tether, and Root for [0.5 / 0.75 / 1 / 1.25]s longer.{{Spell_KarmaSolKimShield_Name}}: Karma shields her target for [45 / 85 / 125 / 165 + (0.45) × AP] more Shield, and also shields allies near her target, granting them [(45 / 85 / 125 / 165 + (0.45) × AP) × (1)] Shield and [15]% Move Speed."
+        }
+      ]
+    }
+  ]
+}

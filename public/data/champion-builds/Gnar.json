@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "gnar-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "gnar-four-2",
+      "id": "gnar-audit-hyper-ap-skirmisher",
       "champion": "Gnar",
-      "name": "Damage interaction: Repeated on-hit",
-      "goal": "Damage interaction for Gnar: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A form-timed fighter who kites through Mini Gnar's three-hit pattern before converting rage into Mega Gnar disruption. Build value changes with the form and timing of the fight. Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "Hyper AP skirmisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test hyper ap skirmisher against conventional damage at equal gold.",
+      "goal": "Test hyper ap skirmisher against conventional damage at equal gold.",
+      "hypothesis": "Mini Hyper's helper calculation contains 1.0 AP magic damage per third attack/ability, and Hop grants six seconds of attack speed. Nashor and Terminus support mixed attack pressure; Mega R has AP scaling but remains physical, so the build must survive its forced form change.",
       "itemIds": [
-        3153,
+        3115,
         3124,
         3302,
-        3091,
-        3026,
+        4633,
+        3102,
         3006
       ],
       "runePage": [
-        8008,
+        8005,
         9111,
         9104,
         8014,
-        8429,
+        8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Gnar: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Gnar throws a boomerang that damages and slows enemies it hits before returning to him. If he catches the boomerang its cooldown is reduced.\n\nMega Gnar instead throws a boulder that stops on the first unit hit, damaging and slowing everything nearby. It can then be picked up to reduce the cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Begin in Mini with low Rage and maintain one target's marks.",
+        "Compare Hyper procs before transformation and damage after transformation.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Gnar's stated kit question: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Mega form removes Hyper's repeat pattern and the ranged safety.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Mega R does not become magic from its AP ratio; phantom-hit Hyper stacks need testing.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Terminus, Riftmaker, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Rage",
       "kitEvidence": [
         {
           "ability": "Hyper / Wallop",
@@ -193,12 +187,6 @@
           "slot": "R",
           "source": "Characters/Gnar/Spells/GnarRAbility/GnarR",
           "formula": "Mini Gnar Passive: Increase Hyper's Move Speed.\n\nMega Gnar: Gnar tosses nearby enemies, dealing [200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]] physical damage, Knocking Back, and Slowing them by [45]% for [1.25 / 1.5 / 1.75] seconds. Enemies that hit a wall instead take [(200 / 300 / 400 + (1) × AP + (0.5) × AD[statFormula=2]) × ((150) × (0.01))] physical damage and are Stunned."
-        },
-        {
-          "ability": "Boomerang Throw / Boulder Toss",
-          "slot": "Q",
-          "source": "Characters/Gnar/Spells/GnarQAbility/GnarQ",
-          "formula": "Mini Gnar: Gnar throws a boomerang that deals @spell.GnarQ:MiniTotalDamage@ physical damage and Slows by @spell.GnarQ:SlowAmount*100@% for @spell.GnarQ:SlowDuration@ seconds. The boomerang returns after hitting an enemy, dealing reduced damage to subsequent targets. Each enemy can only be hit once. Catching the boomerang reduces its Cooldown by @spell.GnarQ:MiniCDRefund*100@%."
         },
         {
           "ability": "Rage Gene",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "gnar-four-4",
+      "id": "gnar-audit-boulder-spell-bruiser",
       "champion": "Gnar",
-      "name": "Experiment: Health to attack damage",
-      "goal": "Experiment for Gnar: test a different playstyle, with lower confidence",
-      "hypothesis": "A form-timed fighter who kites through Mini Gnar's three-hit pattern before converting rage into Mega Gnar disruption. Build value changes with the form and timing of the fight. Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately. Bloodmail converts bonus health to AD while Titanic asks for actual attacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Boulder spell bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test boulder spell bruiser against conventional damage at equal gold.",
+      "goal": "Test boulder spell bruiser against conventional damage at equal gold.",
+      "hypothesis": "Mega Boulder has a 1.4 AD physical ratio and picking it up refunds cooldown; Bloodmail adds AD from purchased health while Shojin supports basic spells. Sundered Sky rewards the attack after Mega control, but Mini Q catches and slow-based spacing remain necessary between transformations.",
       "itemIds": [
-        3084,
+        3161,
+        3071,
+        6610,
         2501,
-        3748,
-        3053,
         3065,
         3047
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8010,
         9111,
-        9104
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +351,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Gnar: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Gnar throws a boomerang that damages and slows enemies it hits before returning to him. If he catches the boomerang its cooldown is reduced.\n\nMega Gnar instead throws a boulder that stops on the first unit hit, damaging and slowing everything nearby. It can then be picked up to reduce the cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Reach Mega at the intended fight and recover a safe boulder.",
+        "Measure Q casts and healing across one full Mini-to-Mega cycle.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails Gnar's stated kit question: Fix Mini versus Mega form and rage timing. An attack route must repay lost Mega durability; test Mini three-hit damage and Mega engage separately.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Rage timing or unsafe pickups prevent the planned second cast.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Mega bonus stats and boulder refund are conditional, not always-active item scaling.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Rage. Do not treat mana regeneration as Rage recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Spear of Shojin, Black Cleaver, Sundered Sky, Overlord's Bloodmail, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Rage",
       "kitEvidence": [
-        {
-          "ability": "Hyper / Wallop",
-          "slot": "W",
-          "source": "Characters/Gnar/Spells/GnarWAbility/GnarW",
-          "formula": "Mini Gnar Passive: Every third Attack or Ability on the same enemy deals an additional @spell.GnarW:MiniTotalDamage@ plus @spell.GnarW:MiniPercentHPDamage*100@% max Health magic damage and grants @spell.GnarR:RHyperMovementSpeedPercent@% Move Speed decaying over @spell.GnarW:MiniHasteDuration@ seconds."
-        },
         {
           "ability": "GNAR!",
           "slot": "R",

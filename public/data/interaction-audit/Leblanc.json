@@ -1,0 +1,314 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Leblanc",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "chain-attack-duelist",
+      "name": "Chain attack duelist",
+      "objective": "Test chain attack duelist against conventional damage at equal gold.",
+      "mechanic": "Ethereal Chains roots only after a 1.5-second tether; Nashor and Dusk and Dawn add magic attack pressure while waiting, then Distortion return offers escape. AP supports the large 0.85 AP root hit, but this route must maintain the chain without substituting attacks for Sigil detonation.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3302,
+        3102,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Keep the target tethered and attack safely before returning W.",
+      "failure": "Short attack range exposes LeBlanc and lowers normal instant burst.",
+      "test": "Compare chain damage and attacks landed during the tether against pure burst.",
+      "rejectedAssumption": "Mirror Image deals no damage and must not receive copied item DPS.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "double-chain-magic-shred",
+      "name": "Double-chain magic shred",
+      "objective": "Test double-chain magic shred against conventional damage at equal gold.",
+      "mechanic": "E and Mimic E each deliver separate initial and delayed magic hits; Bloodletter and Liandry support sustained tether pressure while Cosmic Drive helps keep both chains attached. Earned Seraph supplies mana and a late defensive shield, trading some assassination power for repeated control.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        8010,
+        6653,
+        4629,
+        3040,
+        3135,
+        3158
+      ],
+      "pageKey": "conq",
+      "requiredState": "Attach two chains without losing their delayed roots.",
+      "failure": "Dashes or shields can break the tether before the important second hits.",
+      "test": "Compare MR stacks and damage over a complete double-chain exchange.",
+      "rejectedAssumption": "An attack cannot detonate Q's marked sigil, which explicitly requires ability damage.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Mirror Image deals no damage and must not receive copied item DPS.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Controlled current-patch proc testing remains necessary; source helper/statFormula expressions are evidence, not confirmed runtime behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Mirror Image",
+      "paths": [
+        "Characters/Leblanc/Spells/LeblancPAbility/LeblancP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Sigil of Malice",
+      "paths": [
+        "Characters/Leblanc/Spells/LeblancQAbility/LeblancQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Distortion",
+      "paths": [
+        "Characters/Leblanc/Spells/LeblancWAbility/LeblancW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Ethereal Chains",
+      "paths": [
+        "Characters/Leblanc/Spells/LeblancEAbility/LeblancE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Mimic",
+      "paths": [
+        "Characters/Leblanc/Spells/LeblancRAbility/LeblancR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "leblanc-audit-chain-attack-duelist",
+      "champion": "Leblanc",
+      "name": "Chain attack duelist",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test chain attack duelist against conventional damage at equal gold.",
+      "goal": "Test chain attack duelist against conventional damage at equal gold.",
+      "hypothesis": "Ethereal Chains roots only after a 1.5-second tether; Nashor and Dusk and Dawn add magic attack pressure while waiting, then Distortion return offers escape. AP supports the large 0.85 AP root hit, but this route must maintain the chain without substituting attacks for Sigil detonation.",
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3302,
+        3102,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Keep the target tethered and attack safely before returning W.",
+        "Compare chain damage and attacks landed during the tether against pure burst.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Short attack range exposes LeBlanc and lowers normal instant burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Mirror Image deals no damage and must not receive copied item DPS.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Terminus, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ethereal Chains",
+          "slot": "E",
+          "source": "Characters/Leblanc/Spells/LeblancEAbility/LeblancE",
+          "formula": "LeBlanc launches a chain that shackles the first enemy hit, dealing [50 / 70 / 90 / 110 / 130 + (0.4) × AP] magic damage and granting True Sight.\n\nIf they remain shackled for [1.5] seconds, LeBlanc Roots them for [1.5] seconds and deals an additional [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        },
+        {
+          "ability": "Sigil of Malice",
+          "slot": "Q",
+          "source": "Characters/Leblanc/Spells/LeblancQAbility/LeblancQ",
+          "formula": "LeBlanc projects a sigil to an enemy, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage and marking them for [3.5] seconds.\n\nDamaging the marked enemy with an Ability detonates the sigil, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage.\n\nIf either part kills the target, Leblanc refunds [100]% of the Mana cost and [30]% of this spell's remaining Cooldown.\n\nThe initial sigil deals an additional [characterLevelBreakpoints(start=10, perLevel=8, changes=[])] damage to minions."
+        },
+        {
+          "ability": "Mirror Image",
+          "slot": "Passive",
+          "source": "Characters/Leblanc/Spells/LeblancPAbility/LeblancP",
+          "formula": "When LeBlanc drops below 40% Health, she becomes Invisible for 1 second and creates a harmless clone for 8 seconds. LeBlanc can move the clone with the \"Alt\" key."
+        },
+        {
+          "ability": "Distortion",
+          "slot": "W",
+          "source": "Characters/Leblanc/Spells/LeblancWAbility/LeblancW",
+          "formula": "LeBlanc dashes then deals [75 / 115 / 155 / 195 / 235 + (0.9) × AP] magic damage to nearby enemies. For [4] seconds after dashing, LeBlanc can Recast.\n\nRecast: LeBlanc returns to her starting location."
+        },
+        {
+          "ability": "Mimic",
+          "slot": "R",
+          "source": "Characters/Leblanc/Spells/LeblancRAbility/LeblancR",
+          "formula": "LeBlanc mimics her most recent Ability, using it again. The mimicked Ability deals increased damage.\n\nMimicked Sigil of Malice deals [70 / 150 / 230 + (0.4) × AP] magic damage when applied, and [140 / 300 / 460 + (0.8) × AP] magic damage when consumed.\nMimicked Distortion deals [150 / 315 / 480 + (0.9) × AP] magic damage.\nMimicked Ethereal Chains deals [70 / 150 / 230 + (0.4) × AP] magic damage when shackled and [140 / 300 / 460 + (0.85) × AP] magic damage when Rooting."
+        }
+      ]
+    },
+    {
+      "id": "leblanc-audit-double-chain-magic-shred",
+      "champion": "Leblanc",
+      "name": "Double-chain magic shred",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test double-chain magic shred against conventional damage at equal gold.",
+      "goal": "Test double-chain magic shred against conventional damage at equal gold.",
+      "hypothesis": "E and Mimic E each deliver separate initial and delayed magic hits; Bloodletter and Liandry support sustained tether pressure while Cosmic Drive helps keep both chains attached. Earned Seraph supplies mana and a late defensive shield, trading some assassination power for repeated control.",
+      "itemIds": [
+        8010,
+        6653,
+        4629,
+        3040,
+        3135,
+        3158
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Attach two chains without losing their delayed roots.",
+        "Compare MR stacks and damage over a complete double-chain exchange.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Dashes or shields can break the tether before the important second hits.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: An attack cannot detonate Q's marked sigil, which explicitly requires ability damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Bloodletter's Curse, Liandry's Torment, Cosmic Drive, Seraph's Embrace, Void Staff, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ethereal Chains",
+          "slot": "E",
+          "source": "Characters/Leblanc/Spells/LeblancEAbility/LeblancE",
+          "formula": "LeBlanc launches a chain that shackles the first enemy hit, dealing [50 / 70 / 90 / 110 / 130 + (0.4) × AP] magic damage and granting True Sight.\n\nIf they remain shackled for [1.5] seconds, LeBlanc Roots them for [1.5] seconds and deals an additional [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        },
+        {
+          "ability": "Sigil of Malice",
+          "slot": "Q",
+          "source": "Characters/Leblanc/Spells/LeblancQAbility/LeblancQ",
+          "formula": "LeBlanc projects a sigil to an enemy, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage and marking them for [3.5] seconds.\n\nDamaging the marked enemy with an Ability detonates the sigil, dealing [65 / 90 / 115 / 140 / 165 + (0.4) × AP] magic damage.\n\nIf either part kills the target, Leblanc refunds [100]% of the Mana cost and [30]% of this spell's remaining Cooldown.\n\nThe initial sigil deals an additional [characterLevelBreakpoints(start=10, perLevel=8, changes=[])] damage to minions."
+        },
+        {
+          "ability": "Distortion",
+          "slot": "W",
+          "source": "Characters/Leblanc/Spells/LeblancWAbility/LeblancW",
+          "formula": "LeBlanc dashes then deals [75 / 115 / 155 / 195 / 235 + (0.9) × AP] magic damage to nearby enemies. For [4] seconds after dashing, LeBlanc can Recast.\n\nRecast: LeBlanc returns to her starting location."
+        },
+        {
+          "ability": "Mimic",
+          "slot": "R",
+          "source": "Characters/Leblanc/Spells/LeblancRAbility/LeblancR",
+          "formula": "LeBlanc mimics her most recent Ability, using it again. The mimicked Ability deals increased damage.\n\nMimicked Sigil of Malice deals [70 / 150 / 230 + (0.4) × AP] magic damage when applied, and [140 / 300 / 460 + (0.8) × AP] magic damage when consumed.\nMimicked Distortion deals [150 / 315 / 480 + (0.9) × AP] magic damage.\nMimicked Ethereal Chains deals [70 / 150 / 230 + (0.4) × AP] magic damage when shackled and [140 / 300 / 460 + (0.85) × AP] magic damage when Rooting."
+        }
+      ]
+    }
+  ]
+}

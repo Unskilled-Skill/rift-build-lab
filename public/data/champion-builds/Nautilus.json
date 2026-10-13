@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "nautilus-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "nautilus-four-2",
+      "id": "nautilus-audit-titan-wrath-attack-mage",
       "champion": "Nautilus",
-      "name": "Damage interaction: Magic tank experiment",
-      "goal": "Damage interaction for Nautilus: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A control-heavy engage tank who chains a first-hit root, hook and targeted ultimate. Shielded attacks and nearby waves provide secondary damage during the lockdown. Measure passive root cooldown, W shield/attacks and Q/R contact. An offensive on-hit route must justify remaining in range after the support engage. Health-supported AP and close magic amplification trade defense for damage.",
-      "summary": "Health-supported AP and close magic amplification trade defense for damage.",
+      "name": "Titan wrath attack mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test titan wrath attack mage against conventional damage at equal gold.",
+      "goal": "Test titan wrath attack mage against conventional damage at equal gold.",
+      "hypothesis": "Titan's Wrath gives attacks 0.4 AP magic damage over two seconds while its six-second shield survives; Nashor and Dusk and Dawn supply distinct immediate magic packets. Visage supports shield persistence and Bloodletter supports magic kit damage, with Staggering Blow providing the first root.",
       "itemIds": [
-        3084,
+        3115,
+        2510,
         4633,
-        6653,
-        8020,
-        3157,
-        3111
+        8010,
+        3065,
+        3006
       ],
       "runePage": [
-        8010,
+        8005,
         9111,
-        9105,
-        8299,
+        9104,
+        8014,
         8444,
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Nautilus: Measure passive root cooldown, W shield/attacks and Q/R contact. An offensive on-hit route must justify remaining in range after the support engage.",
-        "Start with the early core (Safe health/defense core, then Riftmaker or Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health-supported AP and close magic amplification trade defense for damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Nautilus hurls his anchor forward.  Colliding with an enemy pulls them and Nautilus together, dealing magic damage.  Colliding with terrain pulls Nautilus towards it. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: W shield remains intact and target stays in melee after Q.",
+        "Compare W at one, three and six attacks with shield intact.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
-        "The route fails Nautilus's stated kit question: Measure passive root cooldown, W shield/attacks and Q/R contact. An offensive on-hit route must justify remaining in range after the support engage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Shield removal shuts off W damage and repeated DoT attacks may merely refresh.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
-        "Full cost 16,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Do not sum a fresh full two-second W DoT per overlapping attack without testing refresh behavior.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Safe health/defense core, then Riftmaker or Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Liandry's Torment, Abyssal Mask, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Bloodletter's Curse, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Titan's Wrath",
@@ -199,12 +193,6 @@
           "slot": "Q",
           "source": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag",
           "formula": "Nautilus hurls his anchor forward. If it hits an enemy, Nautilus drags himself and the target together, dealing [85 / 125 / 165 / 205 / 245 + (0.9) × AP] magic damage and Stunning them briefly. If the anchor hits terrain, Nautilus will drag himself towards it."
-        },
-        {
-          "ability": "Depth Charge",
-          "slot": "R",
-          "source": "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine",
-          "formula": "Nautilus fires a shockwave that chases an enemy champion, dealing [150 / 275 / 400 + (0.8) × AP] magic damage, Knocking them Up and Stunning them for [1 / 1.5 / 2] seconds. Other enemies hit by the shockwave are also Knocked Up and Stunned and take [125 / 175 / 225 + (0.4) × AP] magic damage."
         },
         {
           "ability": "Staggering Blow",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "nautilus-four-4",
+      "id": "nautilus-audit-health-shield-lane-engine",
       "champion": "Nautilus",
-      "name": "Experiment: Health/AP attack hybrid",
-      "goal": "Experiment for Nautilus: test a different playstyle, with lower confidence",
-      "hypothesis": "A control-heavy engage tank who chains a first-hit root, hook and targeted ultimate. Shielded attacks and nearby waves provide secondary damage during the lockdown. Measure passive root cooldown, W shield/attacks and Q/R contact. An offensive on-hit route must justify remaining in range after the support engage. Health plus AP and repeated on-hits test a hybrid attack route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Health plus AP and repeated on-hits test a hybrid attack route.",
+      "name": "Health shield lane engine",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health shield lane engine against conventional damage at equal gold.",
+      "goal": "Test health shield lane engine against conventional damage at equal gold.",
+      "hypothesis": "Titan's Wrath scales its shield with 8-12% health; Heartsteel's earned health increases defensive uptime, while Iceborn follows the first rooted attack with physical Spellblade. Sunfire and Abyssal provide close-range magic pressure when his slow and root chain holds the victim.",
       "itemIds": [
         3084,
-        2510,
-        4633,
-        3115,
-        6665,
-        3111
+        6662,
+        3068,
+        8020,
+        3065,
+        3047
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
+        8437,
+        8401,
         8444,
-        8451
+        8451,
+        9111,
+        9104
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Nautilus: Measure passive root cooldown, W shield/attacks and Q/R contact. An offensive on-hit route must justify remaining in range after the support engage.",
-        "Start with the early core (Health/defense as needed, then Dusk and Dawn as the isolated test) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health plus AP and repeated on-hits test a hybrid attack route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Nautilus hurls his anchor forward.  Colliding with an enemy pulls them and Nautilus together, dealing magic damage.  Colliding with terrain pulls Nautilus towards it. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Get a safe Heartsteel attack and keep W intact.",
+        "Measure shield duration, Heartsteel opportunities and total damage in eight seconds.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "The route fails Nautilus's stated kit question: Measure passive root cooldown, W shield/attacks and Q/R contact. An offensive on-hit route must justify remaining in range after the support engage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Percent-health damage destroys the shield before sustained item pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: The per-target passive root is not refreshed on every attack.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Health/defense as needed, then Dusk and Dawn as the isolated test. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Riftmaker, Nashor's Tooth, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Heartsteel, Iceborn Gauntlet, Sunfire Aegis, Abyssal Mask, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Titan's Wrath",

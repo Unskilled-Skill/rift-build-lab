@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Ryze",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "mana-to-contact-budget",
+      "name": "Mana-to-contact budget",
+      "objective": "Test whether a second mana source keeps Flux resets productive during longer contact.",
+      "mechanic": "Passive AP increases max mana and spells explicitly use bonus-mana-linked resource formulas. Actualizer supplies a limited empowered window with doubled mana costs and faster basic cooldown progress; transformed Seraph supplies finite mana/shielding. E/W reset Q and two runes grant speed; Frozen Heart is a matchup mana/armor slot.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        2522,
+        3040,
+        3110,
+        4629,
+        3135,
+        3111
+      ],
+      "pageKey": "storm",
+      "requiredState": "Seraph earned; record AP, bonus/max mana and Actualizer resource expenditure.",
+      "failure": "Empty mana or movement that loses Q hits destroys the proposed extra cast value.",
+      "test": "Count successful E-Q/W-Q cycles and remaining mana with and without Actualizer active.",
+      "rejectedAssumption": "AP-mana feedback cannot be iterated to an invented infinite stat pool.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "flux-bound-attack-interval",
+      "name": "Flux-bound attack interval",
+      "objective": "Explore one Spellblade attack between Flux setup and reset-Q output.",
+      "mechanic": "Q is refreshed by E/W, while E supplies Flux and E-W gives a root. Lich Bane rewards an actual attack during that controlled interval; Nashor asks whether further attacks repay their animation time. Rod provides finite mana/AP/health growth and Cosmic rewards magic damage with movement.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3100,
+        3115,
+        6657,
+        4629,
+        3135,
+        3009
+      ],
+      "pageKey": "pta",
+      "requiredState": "E-W root connected and an attack does not delay a needed Q; Rod age recorded.",
+      "failure": "Attack weaving lowers spell frequency or consumes the root window before the next Q lands.",
+      "test": "Compare spell-only and one-attack root sequences at matched mana/AP, recording cast delays.",
+      "rejectedAssumption": "Q reset does not reset Spellblade cooldown or turn Q into an attack.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Malignance portal damage",
+      "reason": "R active teleports allies without damaging enemies; its Flux Q bonus is passive and does not establish Hatefog from the portal.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "AbilityResource(default, statFormula=2) is preserved; Seraph Awe and Actualizer amplification lack numeric source coefficients. Record observed stats instead."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Arcane Mastery",
+      "paths": [
+        "Characters/Ryze/Spells/RyzePassiveAbility/RyzePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Overload",
+      "paths": [
+        "Characters/Ryze/Spells/RyzeQWrapperAbility/RyzeQWrapper"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Rune Prison",
+      "paths": [
+        "Characters/Ryze/Spells/RyzeWAbility/RyzeW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Spell Flux",
+      "paths": [
+        "Characters/Ryze/Spells/RyzeEAbility/RyzeE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Realm Warp",
+      "paths": [
+        "Characters/Ryze/Spells/RyzeRAbility/RyzeR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "ryze-audit-mana-to-contact-budget",
+      "champion": "Ryze",
+      "name": "Mana-to-contact budget",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether a second mana source keeps Flux resets productive during longer contact.",
+      "goal": "Test whether a second mana source keeps Flux resets productive during longer contact.",
+      "hypothesis": "Passive AP increases max mana and spells explicitly use bonus-mana-linked resource formulas. Actualizer supplies a limited empowered window with doubled mana costs and faster basic cooldown progress; transformed Seraph supplies finite mana/shielding. E/W reset Q and two runes grant speed; Frozen Heart is a matchup mana/armor slot.",
+      "itemIds": [
+        2522,
+        3040,
+        3110,
+        4629,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Seraph earned; record AP, bonus/max mana and Actualizer resource expenditure.",
+        "Count successful E-Q/W-Q cycles and remaining mana with and without Actualizer active.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Empty mana or movement that loses Q hits destroys the proposed extra cast value.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: AP-mana feedback cannot be iterated to an invented infinite stat pool.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Actualizer, Seraph's Embrace, Frozen Heart, Cosmic Drive, Void Staff, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Rune Prison",
+          "slot": "W",
+          "source": "Characters/Ryze/Spells/RyzeWAbility/RyzeW",
+          "formula": "Ryze deals [60 / 90 / 120 / 150 / 180 + (0.6) × AP + 0.03 × AbilityResource(default, statFormula=2)] magic damage and Slows by [50]% for [1.5] seconds. If the target has Flux, it is consumed and this Ability Roots instead of Slowing."
+        },
+        {
+          "ability": "Overload",
+          "slot": "Q",
+          "source": "Characters/Ryze/Spells/RyzeQWrapperAbility/RyzeQWrapper",
+          "formula": "Passive: {{Spell_RyzeW_Name}} and {{Spell_RyzeE_Name}} refresh this Ability's Cooldown and charge a rune for [4] seconds (max [2] runes).\n\nActive: Ryze unleashes a blast, dealing [75 / 95 / 115 / 135 / 155 + (0.55) × AP + 0.02 × AbilityResource(default, statFormula=2)] magic damage to the first enemy hit. If the target has Flux on it, it is consumed, causing this Ability to deal @Spell.RyzeR:OverloadDamageBonus@% increased damage and bounces to nearby enemies with Flux.\n\nRyze also discharges all runes, granting Ryze [28 / 32 / 36 / 40 / 44]% Move Speed for [2] seconds if [2] runes were charged."
+        },
+        {
+          "ability": "Spell Flux",
+          "slot": "E",
+          "source": "Characters/Ryze/Spells/RyzeEAbility/RyzeE",
+          "formula": "Ryze fires an orb, dealing [60 / 90 / 120 / 150 / 180 + (0.5) × AP + 0.02 × AbilityResource(default, statFormula=2)] magic damage and applies Flux for [4] seconds to the target and nearby enemies. Enemies already afflicted with Flux will cause it to spread further."
+        },
+        {
+          "ability": "Arcane Mastery",
+          "slot": "Passive",
+          "source": "Characters/Ryze/Spells/RyzePassiveAbility/RyzePassive",
+          "formula": "Ryze gains [((10) × AP) × (0.01)]% max Mana. His Abilities do additional damage based on his bonus Mana."
+        }
+      ]
+    },
+    {
+      "id": "ryze-audit-flux-bound-attack-interval",
+      "champion": "Ryze",
+      "name": "Flux-bound attack interval",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore one Spellblade attack between Flux setup and reset-Q output.",
+      "goal": "Explore one Spellblade attack between Flux setup and reset-Q output.",
+      "hypothesis": "Q is refreshed by E/W, while E supplies Flux and E-W gives a root. Lich Bane rewards an actual attack during that controlled interval; Nashor asks whether further attacks repay their animation time. Rod provides finite mana/AP/health growth and Cosmic rewards magic damage with movement.",
+      "itemIds": [
+        3100,
+        3115,
+        6657,
+        4629,
+        3135,
+        3009
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: E-W root connected and an attack does not delay a needed Q; Rod age recorded.",
+        "Compare spell-only and one-attack root sequences at matched mana/AP, recording cast delays.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Attack weaving lowers spell frequency or consumes the root window before the next Q lands.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Q reset does not reset Spellblade cooldown or turn Q into an attack.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Rod of Ages, Cosmic Drive, Void Staff, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Rune Prison",
+          "slot": "W",
+          "source": "Characters/Ryze/Spells/RyzeWAbility/RyzeW",
+          "formula": "Ryze deals [60 / 90 / 120 / 150 / 180 + (0.6) × AP + 0.03 × AbilityResource(default, statFormula=2)] magic damage and Slows by [50]% for [1.5] seconds. If the target has Flux, it is consumed and this Ability Roots instead of Slowing."
+        },
+        {
+          "ability": "Overload",
+          "slot": "Q",
+          "source": "Characters/Ryze/Spells/RyzeQWrapperAbility/RyzeQWrapper",
+          "formula": "Passive: {{Spell_RyzeW_Name}} and {{Spell_RyzeE_Name}} refresh this Ability's Cooldown and charge a rune for [4] seconds (max [2] runes).\n\nActive: Ryze unleashes a blast, dealing [75 / 95 / 115 / 135 / 155 + (0.55) × AP + 0.02 × AbilityResource(default, statFormula=2)] magic damage to the first enemy hit. If the target has Flux on it, it is consumed, causing this Ability to deal @Spell.RyzeR:OverloadDamageBonus@% increased damage and bounces to nearby enemies with Flux.\n\nRyze also discharges all runes, granting Ryze [28 / 32 / 36 / 40 / 44]% Move Speed for [2] seconds if [2] runes were charged."
+        },
+        {
+          "ability": "Realm Warp",
+          "slot": "R",
+          "source": "Characters/Ryze/Spells/RyzeRAbility/RyzeR",
+          "formula": "Passive: {{Spell_RyzeQWrapper_Name}} damage bonus against targets with Flux increased to [40 / 65 / 90]%.\n\nActive: Ryze opens a portal to another location. After [2] seconds, all allies near the portal are teleported to that location."
+        },
+        {
+          "ability": "Spell Flux",
+          "slot": "E",
+          "source": "Characters/Ryze/Spells/RyzeEAbility/RyzeE",
+          "formula": "Ryze fires an orb, dealing [60 / 90 / 120 / 150 / 180 + (0.5) × AP + 0.02 × AbilityResource(default, statFormula=2)] magic damage and applies Flux for [4] seconds to the target and nearby enemies. Enemies already afflicted with Flux will cause it to spread further."
+        }
+      ]
+    }
+  ]
+}

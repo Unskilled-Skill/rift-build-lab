@@ -1,0 +1,292 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Nocturne",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "fear-ap-drain",
+      "name": "Fear AP drain",
+      "objective": "Test AP payoff on the tether and repeated passive heals.",
+      "mechanic": "E deals 1 AP magic damage over two seconds and passive healing includes 0.3 AP per target. W's successful block doubles its attack speed bonus, potentially accelerating passive cooldown reduction through actual attacks. Nashor, Riftmaker and Cosmic test this sustained contact route.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        4633,
+        4629,
+        3089,
+        3065,
+        3006
+      ],
+      "pageKey": "conq",
+      "requiredState": "Unbroken E tether, a timed blocked spell and recorded passive cooldown.",
+      "failure": "Losing Q/R physical threat may prevent reaching a target or surviving the first trade.",
+      "test": "Log E damage and passive heal per target, then attacks required to reset passive with W blocked versus unblocked.",
+      "rejectedAssumption": "The passive's unresolved base heal cannot be treated as a known level formula.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "darkness-opening-volley",
+      "name": "Darkness opening volley",
+      "objective": "Use R to begin a finite burst of fast attacks while maintaining the fear tether.",
+      "mechanic": "Paranoia supplies target access, then Fiendhunter grants three enhanced basic attacks after ultimate use. Q's trail supplies AD and speed; Stridebreaker's slow can keep E attached. BotRK supports these real attacks and Cleaver supports physical damage after ramp.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2512,
+        3153,
+        6631,
+        3071,
+        3814,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "R recast reaches the target while the eight-second item window remains; Q trail connects.",
+      "failure": "Spell shields, peel or broken tether prevent the follow-up attacks.",
+      "test": "Record item-window start on initial R versus recast and attacks delivered before fear.",
+      "rejectedAssumption": "Darkness itself does not guarantee an uncontested landing or refresh the item volley.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AP-scaled dash damage",
+      "reason": "Q and R expose AD statFormula terms; E and passive healing contain AP terms instead.",
+      "evidenceSlots": [
+        "Q",
+        "R",
+        "E",
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Raw AD statFormula semantics and R-recast item trigger timing need checks; passive heal base is unresolved."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Umbra Blades",
+      "paths": [
+        "Characters/Nocturne/Spells/NocturnePAbility/NocturneP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Duskbringer",
+      "paths": [
+        "Characters/Nocturne/Spells/NocturneDuskbringerAbility/NocturneDuskbringer"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Shroud of Darkness",
+      "paths": [
+        "Characters/Nocturne/Spells/NocturneShroudofDarknessAbility/NocturneShroudofDarkness"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Unspeakable Horror",
+      "paths": [
+        "Characters/Nocturne/Spells/NocturneUnspeakableHorrorAbility/NocturneUnspeakableHorror"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Paranoia",
+      "paths": [
+        "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "nocturne-audit-fear-ap-drain",
+      "champion": "Nocturne",
+      "name": "Fear AP drain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP payoff on the tether and repeated passive heals.",
+      "goal": "Test AP payoff on the tether and repeated passive heals.",
+      "hypothesis": "E deals 1 AP magic damage over two seconds and passive healing includes 0.3 AP per target. W's successful block doubles its attack speed bonus, potentially accelerating passive cooldown reduction through actual attacks. Nashor, Riftmaker and Cosmic test this sustained contact route.",
+      "itemIds": [
+        3115,
+        4633,
+        4629,
+        3089,
+        3065,
+        3006
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Unbroken E tether, a timed blocked spell and recorded passive cooldown.",
+        "Log E damage and passive heal per target, then attacks required to reset passive with W blocked versus unblocked.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Losing Q/R physical threat may prevent reaching a target or surviving the first trade.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The passive's unresolved base heal cannot be treated as a known level formula.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Riftmaker, Cosmic Drive, Rabadon's Deathcap, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Umbra Blades",
+          "slot": "Passive",
+          "source": "Characters/Nocturne/Spells/NocturnePAbility/NocturneP",
+          "formula": "Every [12] seconds, Nocturne's next Attack strikes all nearby enemies for [(1.2) × AD] physical damage and restores [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.3) × AP] Health per target hit.\n\nNocturne's Attacks reduce this Ability's Cooldown by [1] second, increased to [3] against champions and jungle monsters."
+        },
+        {
+          "ability": "Shroud of Darkness",
+          "slot": "W",
+          "source": "Characters/Nocturne/Spells/NocturneShroudofDarknessAbility/NocturneShroudofDarkness",
+          "formula": "Passive: Nocturne gains [30 / 35 / 40 / 45 / 50]% Attack Speed.\n\nActive: Nocturne creates a shadow barrier for 1.5 seconds that blocks the next enemy Ability. If an Ability is blocked, this Ability's passive effect is increased to [(30 / 35 / 40 / 45 / 50) × 2]% Attack Speed for [5] seconds."
+        },
+        {
+          "ability": "Unspeakable Horror",
+          "slot": "E",
+          "source": "Characters/Nocturne/Spells/NocturneUnspeakableHorrorAbility/NocturneUnspeakableHorror",
+          "formula": "Passive: Nocturne gains [90]% Move Speed toward Feared enemies.\n\nActive: Nocturne plants a nightmare tether into his target, dealing [80 / 125 / 170 / 215 / 260 + (1) × AP] magic damage over [2] seconds. If the tether remains unbroken, the target is Feared for [1.25 / 1.5 / 1.75 / 2 / 2.25] second(s)."
+        }
+      ]
+    },
+    {
+      "id": "nocturne-audit-darkness-opening-volley",
+      "champion": "Nocturne",
+      "name": "Darkness opening volley",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use R to begin a finite burst of fast attacks while maintaining the fear tether.",
+      "goal": "Use R to begin a finite burst of fast attacks while maintaining the fear tether.",
+      "hypothesis": "Paranoia supplies target access, then Fiendhunter grants three enhanced basic attacks after ultimate use. Q's trail supplies AD and speed; Stridebreaker's slow can keep E attached. BotRK supports these real attacks and Cleaver supports physical damage after ramp.",
+      "itemIds": [
+        2512,
+        3153,
+        6631,
+        3071,
+        3814,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R recast reaches the target while the eight-second item window remains; Q trail connects.",
+        "Record item-window start on initial R versus recast and attacks delivered before fear.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Spell shields, peel or broken tether prevent the follow-up attacks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Darkness itself does not guarantee an uncontested landing or refresh the item volley.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Fiendhunter Bolts, Blade of The Ruined King, Stridebreaker, Black Cleaver, Edge of Night, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Duskbringer",
+          "slot": "Q",
+          "source": "Characters/Nocturne/Spells/NocturneDuskbringerAbility/NocturneDuskbringer",
+          "formula": "Nocturne throws a shadow blade, dealing [65 / 105 / 145 / 185 / 225 + (0.85) × AD[statFormula=2]] physical damage and leaving a dusk trail for [5] seconds. Enemy champions hit also leave a trail. \n\nWhile on the trail, Nocturne is Ghosted and gains [20 / 25 / 30 / 35 / 40]% Move Speed and [15 / 25 / 35 / 45 / 55] Attack Damage."
+        },
+        {
+          "ability": "Paranoia",
+          "slot": "R",
+          "source": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+          "formula": "Nocturne darkens the map, reducing the sight radius of all enemy champions and removing their vision of allies for [6] seconds. Nocturne can Recast this Ability during the duration to launch himself at an enemy champion dealing [150 / 275 / 400 + (1.2) × AD[statFormula=2]] physical damage."
+        },
+        {
+          "ability": "Unspeakable Horror",
+          "slot": "E",
+          "source": "Characters/Nocturne/Spells/NocturneUnspeakableHorrorAbility/NocturneUnspeakableHorror",
+          "formula": "Passive: Nocturne gains [90]% Move Speed toward Feared enemies.\n\nActive: Nocturne plants a nightmare tether into his target, dealing [80 / 125 / 170 / 215 / 260 + (1) × AP] magic damage over [2] seconds. If the tether remains unbroken, the target is Feared for [1.25 / 1.5 / 1.75 / 2 / 2.25] second(s)."
+        }
+      ]
+    }
+  ]
+}

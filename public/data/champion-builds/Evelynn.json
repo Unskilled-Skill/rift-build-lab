@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "evelynn-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "evelynn-four-2",
+      "id": "evelynn-audit-shade-reset-whiplash-skirmisher",
       "champion": "Evelynn",
-      "name": "Damage interaction: Spell-and-attack",
-      "goal": "Damage interaction for Evelynn: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A stealth pick assassin who waits for a prepared charm, bursts a target and retreats to regenerate or reset her approach. Measure prepared Charm, target MR and R execute threshold. A sustained-health route must justify staying revealed and losing normal regeneration/reset opportunities. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
-      "summary": "Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "name": "Shade-reset whiplash skirmisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Re-enter Shade to refresh empowered Whiplash instead of committing once.",
+      "goal": "Re-enter Shade to refresh empowered Whiplash instead of committing once.",
+      "hypothesis": "Demon Shade activates after four seconds without attacks/casts and empowered E refreshes through entering Shade. Whiplash has AP-based percent-max-health magic damage and a dash; Dusk and Dawn rewards an actual attack after the reset and Gunblade slows for the follow-up. Riftmaker is experimental because disengaging can sacrifice its combat ramp.",
       "itemIds": [
-        3100,
-        3115,
+        3146,
+        2510,
+        4633,
         3089,
         3135,
-        3157,
         3020
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Evelynn: Measure prepared Charm, target MR and R execute threshold. A sustained-health route must justify staying revealed and losing normal regeneration/reset opportunities.",
-        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Evelynn strikes out with her Lasher, dealing damage to the first unit hit. Then, Evelynn can shoot a line of spikes at nearby foes a few times. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need a safe disengage, level-six camouflage and another empowered E target.",
+        "Time a retreat and second empowered E, logging Shade timing and healing threshold with fixed AP.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "The route fails Evelynn's stated kit question: Measure prepared Charm, target MR and R execute threshold. A sustained-health route must justify staying revealed and losing normal regeneration/reset opportunities.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Reveal effects, damage or forced combat prevent Shade; sustained items lose immediate assassination power.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: E's refreshed state is not an unrestricted reset while Evelynn keeps attacking.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Gunblade, Dusk and Dawn, Riftmaker, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Hate Spike",
@@ -320,18 +314,20 @@
       ]
     },
     {
-      "id": "evelynn-four-4",
+      "id": "evelynn-audit-execute-threshold-ap-dive",
       "champion": "Evelynn",
-      "name": "Experiment: Ultimate window",
-      "goal": "Experiment for Evelynn: test a different playstyle, with lower confidence",
-      "hypothesis": "A stealth pick assassin who waits for a prepared charm, bursts a target and retreats to regenerate or reset her approach. Measure prepared Charm, target MR and R execute threshold. A sustained-health route must justify staying revealed and losing normal regeneration/reset opportunities. Mana and ultimate-oriented item effects test repeated impactful R windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Mana and ultimate-oriented item effects test repeated impactful R windows.",
+      "name": "Execute threshold AP dive",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Push targets across the two separate finishing thresholds.",
+      "goal": "Push targets across the two separate finishing thresholds.",
+      "hypothesis": "Allure after 2.5 seconds removes 35-45% MR, and Q's marked-target bonuses plus E percent health can prepare Last Caress. R's 0.75 AP damage multiplies by 2.4 below 30% health; Shadowflame boosts magic damage below 40%. Rocketbelt improves access, and Banshee helps protect the initial approach.",
       "itemIds": [
-        3118,
+        3152,
         4645,
         3089,
         3135,
-        3157,
+        3102,
         3020
       ],
       "runePage": [
@@ -343,17 +339,17 @@
         8237
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Evelynn: Measure prepared Charm, target MR and R execute threshold. A sustained-health route must justify staying revealed and losing normal regeneration/reset opportunities.",
-        "Start with the early core (Malignance only if the R interaction is confirmed, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and ultimate-oriented item effects test repeated impactful R windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Evelynn strikes out with her Lasher, dealing damage to the first unit hit. Then, Evelynn can shoot a line of spikes at nearby foes a few times. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need full charm preparation and health below 30% before R damage resolves.",
+        "Measure R at 29%, 31% and 41% target health with the same MR and AP.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "The route fails Evelynn's stated kit question: Measure prepared Charm, target MR and R execute threshold. A sustained-health route must justify staying revealed and losing normal regeneration/reset opportunities.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Telegraphing W permits escape; shields or mistimed R produce the weaker damage case.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Shadowflame's 40% threshold does not by itself activate R's separate 30% multiplier.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Malignance only if the R interaction is confirmed, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Rocketbelt, Shadowflame, Rabadon's Deathcap, Void Staff, Banshee's Veil, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Hate Spike",

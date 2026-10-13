@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Twitch",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "venom-true-finish",
+      "name": "Venom true finish",
+      "objective": "Test AP poison ticking into Shadowflame's low-health threshold.",
+      "mechanic": "Passive poison gains 0.03 AP true damage per stack per second up to six stacks; E adds 0.35 AP magic damage per stack. W's AP slow can retain targets while Nashor supplies the attacks to stack poison. Shadowflame explicitly amplifies low-health magic and true damage.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        4645,
+        3089,
+        4629,
+        3135,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Six earned stacks, recorded remaining duration and target crosses below 40% health.",
+      "failure": "Shielding or early E before full stacks limits the proposed finisher; AP loses ordinary R attack pressure.",
+      "test": "Log poison ticks and E physical/magic components above and below threshold at fixed stacks.",
+      "rejectedAssumption": "Void Staff supports E magic damage but does not penetrate poison's true damage.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "spray-bolt-distribution",
+      "name": "Spray bolt distribution",
+      "objective": "Test extra on-hit target coverage during R instead of assuming every bolt duplicates spray.",
+      "mechanic": "R turns attacks into piercing bolts for six seconds with attenuation on later targets. Runaan separately fires on-hit bolts, and Statikk's energized chain explicitly applies on-hits. Terminus supports mixed attack packets; Q's stealth-exit attack speed gives a finite opening to distribute poison.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        3085,
+        3087,
+        3153,
+        3302,
+        3072,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Several targets in controlled alignment, Q exit buff and R active; energized state recorded.",
+      "failure": "Misalignment, dodgeable piercing attacks or short contact leaves expensive spread slots unused.",
+      "test": "Count poison stacks and item packets on each aligned/off-axis target with Runaan and Statikk separately equipped.",
+      "rejectedAssumption": "Runaan bolts are not proven to become additional full piercing R attacks.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "E ordinary crit conversion",
+      "reason": "E lists per-stack physical and magic formulas without ordinary attack critical strikes.",
+      "evidenceSlots": [
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "R/Runaan/Statikk propagation and poison item ownership require per-target packet logs; raw AD flags stay unresolved."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Deadly Venom",
+      "paths": [
+        "Characters/Twitch/Spells/TwitchDeadlyVenomMarkerAbility/TwitchDeadlyVenomMarker"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Ambush",
+      "paths": [
+        "Characters/Twitch/Spells/TwitchHideInShadowsAbility/TwitchHideInShadows"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Venom Cask",
+      "paths": [
+        "Characters/Twitch/Spells/TwitchVenomCaskAbility/TwitchVenomCask"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Contaminate",
+      "paths": [
+        "Characters/Twitch/Spells/TwitchExpungeAbility/TwitchExpunge"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Spray and Pray",
+      "paths": [
+        "Characters/Twitch/Spells/TwitchFullAutomaticAbility/TwitchFullAutomatic"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "twitch-audit-venom-true-finish",
+      "champion": "Twitch",
+      "name": "Venom true finish",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP poison ticking into Shadowflame's low-health threshold.",
+      "goal": "Test AP poison ticking into Shadowflame's low-health threshold.",
+      "hypothesis": "Passive poison gains 0.03 AP true damage per stack per second up to six stacks; E adds 0.35 AP magic damage per stack. W's AP slow can retain targets while Nashor supplies the attacks to stack poison. Shadowflame explicitly amplifies low-health magic and true damage.",
+      "itemIds": [
+        3115,
+        4645,
+        3089,
+        4629,
+        3135,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Six earned stacks, recorded remaining duration and target crosses below 40% health.",
+        "Log poison ticks and E physical/magic components above and below threshold at fixed stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Shielding or early E before full stacks limits the proposed finisher; AP loses ordinary R attack pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Void Staff supports E magic damage but does not penetrate poison's true damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Shadowflame, Rabadon's Deathcap, Cosmic Drive, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ambush",
+          "slot": "Q",
+          "source": "Characters/Twitch/Spells/TwitchHideInShadowsAbility/TwitchHideInShadows",
+          "formula": "Twitch Camouflages and gains [10]% Move Speed for [10 / 11 / 12 / 13 / 14] seconds. The Move Speed increases to [30]% while near an enemy champion that can't see him. After exiting Camouflage, Twitch gains [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% Attack Speed for [6] seconds.\n\nWhen an enemy champion dies while afflicted with Venom, this Ability's Cooldown is refreshed."
+        },
+        {
+          "ability": "Deadly Venom",
+          "slot": "Passive",
+          "source": "Characters/Twitch/Spells/TwitchDeadlyVenomMarkerAbility/TwitchDeadlyVenomMarker",
+          "formula": "Twitch's Attacks infect his target %i:OnHit% On-Hit, dealing [characterLevelBreakpoints(start=1, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 29, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}]) + (0.03) × AP] true damage per second for [6] seconds, stacking up to [6] times. \n\nMax Damage Per Second: [(characterLevelBreakpoints(start=1, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 29, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}]) + (0.03) × AP) × (6)]"
+        },
+        {
+          "ability": "Contaminate",
+          "slot": "E",
+          "source": "Characters/Twitch/Spells/TwitchExpungeAbility/TwitchExpunge",
+          "formula": "Deals [20 / 30 / 40 / 50 / 60] physical damage to all nearby enemies affected by Deadly Venom, plus an additional [15 / 20 / 25 / 30 / 35 + (0.35) × AD[statFormula=2]] physical damage and [(0.35) × AP] magical damage per stack of Deadly Venom.\n\nMax Damage: [20 / 30 / 40 / 50 / 60 + (6) × (15 / 20 / 25 / 30 / 35) + ((0.35) × (6)) × AD[statFormula=2]] physical damage and [((0.35) × AP) × (6)] magical damage."
+        },
+        {
+          "ability": "Venom Cask",
+          "slot": "W",
+          "source": "Characters/Twitch/Spells/TwitchVenomCaskAbility/TwitchVenomCask",
+          "formula": "Twitch hurls a cask that adds a stack of Deadly Venom to all enemies struck and leaves behind a toxic cloud that persists for [3] seconds.\n\nEnemies that remain within the cloud are Slowed by [30 / 35 / 40 / 45 / 50 + (0.06) × AP]% and receive an additional stack of Deadly Venom each second."
+        }
+      ]
+    },
+    {
+      "id": "twitch-audit-spray-bolt-distribution",
+      "champion": "Twitch",
+      "name": "Spray bolt distribution",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test extra on-hit target coverage during R instead of assuming every bolt duplicates spray.",
+      "goal": "Test extra on-hit target coverage during R instead of assuming every bolt duplicates spray.",
+      "hypothesis": "R turns attacks into piercing bolts for six seconds with attenuation on later targets. Runaan separately fires on-hit bolts, and Statikk's energized chain explicitly applies on-hits. Terminus supports mixed attack packets; Q's stealth-exit attack speed gives a finite opening to distribute poison.",
+      "itemIds": [
+        3085,
+        3087,
+        3153,
+        3302,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Several targets in controlled alignment, Q exit buff and R active; energized state recorded.",
+        "Count poison stacks and item packets on each aligned/off-axis target with Runaan and Statikk separately equipped.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Misalignment, dodgeable piercing attacks or short contact leaves expensive spread slots unused.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Runaan bolts are not proven to become additional full piercing R attacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Runaan's Hurricane, Statikk Shiv, Blade of The Ruined King, Terminus, Bloodthirster, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ambush",
+          "slot": "Q",
+          "source": "Characters/Twitch/Spells/TwitchHideInShadowsAbility/TwitchHideInShadows",
+          "formula": "Twitch Camouflages and gains [10]% Move Speed for [10 / 11 / 12 / 13 / 14] seconds. The Move Speed increases to [30]% while near an enemy champion that can't see him. After exiting Camouflage, Twitch gains [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% Attack Speed for [6] seconds.\n\nWhen an enemy champion dies while afflicted with Venom, this Ability's Cooldown is refreshed."
+        },
+        {
+          "ability": "Deadly Venom",
+          "slot": "Passive",
+          "source": "Characters/Twitch/Spells/TwitchDeadlyVenomMarkerAbility/TwitchDeadlyVenomMarker",
+          "formula": "Twitch's Attacks infect his target %i:OnHit% On-Hit, dealing [characterLevelBreakpoints(start=1, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 29, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}]) + (0.03) × AP] true damage per second for [6] seconds, stacking up to [6] times. \n\nMax Damage Per Second: [(characterLevelBreakpoints(start=1, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 29, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}]) + (0.03) × AP) × (6)]"
+        },
+        {
+          "ability": "Spray and Pray",
+          "slot": "R",
+          "source": "Characters/Twitch/Spells/TwitchFullAutomaticAbility/TwitchFullAutomatic",
+          "formula": "Twitch unleashes his crossbow, gaining [300] Attack Range and [30 / 45 / 60] Attack Damage, and causing his Attacks to become piercing bolts for [6] seconds. These bolts hit all enemies they pass through, but deal [10]% less damage to subsequent targets, down to a minimum of [60]% damage."
+        }
+      ]
+    }
+  ]
+}

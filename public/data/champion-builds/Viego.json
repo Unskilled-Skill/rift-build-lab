@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "viego-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "viego-four-2",
+      "id": "viego-audit-mist-ap-second-hit",
       "champion": "Viego",
-      "name": "Damage interaction: Repeated on-hit",
-      "goal": "Damage interaction for Viego: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A melee reset fighter who seeks a first takedown, uses mist for approach and temporarily adopts a fallen enemy's tools. Measure getting the first takedown with Viego's own kit before possession. Borrowed abilities/items during possession cannot be mixed with all his original attacks as permanent DPS. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "Mist AP second hit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP supporting mist access, W control and ability-marked follow-up attacks.",
+      "goal": "Test AP supporting mist access, W control and ability-marked follow-up attacks.",
+      "hypothesis": "W has 1 AP magic damage, E's movement speed scales with AP and Q's marked second attack includes 0.15 AP physical damage plus a heal. Nashor and Dusk support direct attacks during mist, while AP also enters possession healing. The first possession replaces Viego's current items with the victim's items.",
       "itemIds": [
-        3153,
-        3124,
-        3302,
-        3091,
-        3026,
+        3115,
+        2510,
+        4633,
+        4629,
+        3089,
         3006
       ],
       "runePage": [
-        8008,
+        8005,
         9111,
         9104,
         8014,
-        8429,
+        8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Viego: Measure getting the first takedown with Viego's own kit before possession. Borrowed abilities/items during possession cannot be mixed with all his original attacks as permanent DPS.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Viego's spectral blade passively deals bonus percent current Health damage On-Hit and strikes twice vs. enemies he recently hit with an Ability, stealing Health.\n\nViego can activate this Ability to thrust his zweihander forward, impaling enemies in front of him. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Ability mark present, mist contact and target attackable; test pre-possession first.",
+        "Separate W, first attack, Q follow-up and healing with AP varied; repeat before and during a specified possession.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Viego's stated kit question: Measure getting the first takedown with Viego's own kit before possession. Borrowed abilities/items during possession cannot be mixed with all his original attacks as permanent DPS.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low AD weakens normal Q/R threat and possession interrupts the planned item budget.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Viego's six owned items are not continuously retained during possession.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Cosmic Drive, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "None",
       "kitEvidence": [
         {
           "ability": "Harrowed Path",
           "slot": "E",
           "source": "Characters/Viego/Spells/ViegoEAbility/ViegoE",
           "formula": "Viego sends forth a spectre to haunt the first terrain hit, surrounding it with Mist for [8] seconds. Viego gains Camouflage, [0.25 / 0.275 / 0.3 / 0.325 / 0.35 + (0.0004) × AP] Move Speed, and [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% Attack Speed while inside the Mist."
-        },
-        {
-          "ability": "Heartbreaker",
-          "slot": "R",
-          "source": "Characters/Viego/Spells/ViegoRAbility/ViegoR",
-          "formula": "Viego discards any souls he is currently Possessing and teleports. On arrival he Attacks the champion with the lowest percent Health, briefly Slowing them by [99]% and dealing [((1.2) × AD) × ((1 + ((0.7) × Stat(8)) × (((1) × Stat(9) + -1))))] + [12 / 16 / 20 + (0.05) × AD[statFormula=2]]% missing Health physical damage. Other nearby enemies are Knocked Back and take [((1.2) × AD) × ((1 + ((0.7) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage."
         },
         {
           "ability": "Sovereign's Domination",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "viego-four-4",
+      "id": "viego-audit-heartbreaker-crit-window",
       "champion": "Viego",
-      "name": "Experiment: Critical duel",
-      "goal": "Experiment for Viego: test a different playstyle, with lower confidence",
-      "hypothesis": "A melee reset fighter who seeks a first takedown, uses mist for approach and temporarily adopts a fallen enemy's tools. Measure getting the first takedown with Viego's own kit before possession. Borrowed abilities/items during possession cannot be mixed with all his original attacks as permanent DPS. Crit attacks and a conditional shield test repeated duel windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Crit attacks and a conditional shield test repeated duel windows.",
+      "name": "Heartbreaker crit window",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test source-explicit crit-stat scaling on Q and R before cashing an ultimate attack volley.",
+      "goal": "Test source-explicit crit-stat scaling on Q and R before cashing an ultimate attack volley.",
+      "hypothesis": "Q and R expose distinct crit-stat multiplier expressions; R also adds missing-health physical damage. Fiendhunter grants enhanced basic attacks after ultimate use and E supplies attack speed. Infinity Edge/Collector emphasize the opening, with armor penetration supporting confirmed physical packets.",
       "itemIds": [
-        6672,
-        6675,
+        2512,
         3031,
-        6673,
+        6676,
         3036,
+        3072,
         3006
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Viego: Measure getting the first takedown with Viego's own kit before possession. Borrowed abilities/items during possession cannot be mixed with all his original attacks as permanent DPS.",
-        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Viego's spectral blade passively deals bonus percent current Health damage On-Hit and strikes twice vs. enemies he recently hit with an Ability, stealing Health.\n\nViego can activate this Ability to thrust his zweihander forward, impaling enemies in front of him. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: R ready, specified crit stats, target health recorded and no possession item replacement during baseline.",
+        "Vary crit chance/damage independently and log Q/R packets plus three post-R basic attacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
-        "The route fails Viego's stated kit question: Measure getting the first takedown with Viego's own kit before possession. Borrowed abilities/items during possession cannot be mixed with all his original attacks as permanent DPS.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "R targets a different lowest-percent-health champion or the burst fails to secure the next soul.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
-        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: A crit-stat multiplier does not prove Q/R randomly crit or duplicate every attack effect.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Fiendhunter Bolts, Infinity Edge, The Collector, Lord Dominik's Regards, Bloodthirster, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "None",
       "kitEvidence": [
         {
           "ability": "Harrowed Path",
@@ -403,18 +385,6 @@
           "slot": "R",
           "source": "Characters/Viego/Spells/ViegoRAbility/ViegoR",
           "formula": "Viego discards any souls he is currently Possessing and teleports. On arrival he Attacks the champion with the lowest percent Health, briefly Slowing them by [99]% and dealing [((1.2) × AD) × ((1 + ((0.7) × Stat(8)) × (((1) × Stat(9) + -1))))] + [12 / 16 / 20 + (0.05) × AD[statFormula=2]]% missing Health physical damage. Other nearby enemies are Knocked Back and take [((1.2) × AD) × ((1 + ((0.7) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage."
-        },
-        {
-          "ability": "Sovereign's Domination",
-          "slot": "Passive",
-          "source": "Characters/Viego/Spells/ViegoPassiveAbility/ViegoPassive",
-          "formula": "The souls of enemy champions that die within [3] seconds of being hit by Viego become wraiths. Viego can Attack wraiths to Possess them, restoring [2 + (0.025) × AD[statFormula=2] + (0.02) × AP + (5) × Stat(4)[statFormula=2] + (0.004) × Stat(12)[statFormula=2]]% of enemy's max Health and gaining access to their non-ultimate Abilities, Attacks, and items for [10] seconds. During this time he replaces their Ultimate with a free cast of his own and gains [10]% Move Speed towards enemy champions."
-        },
-        {
-          "ability": "Spectral Maw",
-          "slot": "W",
-          "source": "Characters/Viego/Spells/ViegoWAbility/ViegoW",
-          "formula": "Begin Charging: Viego begins gathering Mist, Slowing himself by [10]%.\n\nRelease: Viego dashes forward and hurls the gathered Mist. Deals [80 / 135 / 190 / 245 / 300 + (1) × AP] magic damage and Stuns the first enemy hit for [0.25] to [1.25] seconds based on charge time."
         },
         {
           "ability": "Blade of the Ruined King",

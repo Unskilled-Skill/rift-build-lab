@@ -1,0 +1,311 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "KSante",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "resistance-weave-duelist",
+      "name": "Resistance weave duelist",
+      "objective": "Invest in the resistance ratios while weaving mark-consuming attacks.",
+      "mechanic": "Ntofo Strikes has 0.4 armor and 0.4 MR statFormula expressions despite physical damage; Path Maker also links percent-health damage to defenses. Iceborn delivers a separate physical Spellblade slow after Q, Jak'Sho raises bonus defenses after five seconds, and Visage supports E's received shield. All Out removes 85% bonus defenses, so the outside-R payoff must be measured separately.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "P",
+        "R"
+      ],
+      "itemIds": [
+        6662,
+        6665,
+        2502,
+        3065,
+        3075,
+        3111
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Need marks consumed by actual attacks and combat lasting until Jak'Sho's bonus applies.",
+      "failure": "All Out makes the defense snapshot uncertain; late shield or W charge can miss the window.",
+      "test": "Compare Q/W and mark damage before R, immediately after R and after Jak'Sho activation.",
+      "rejectedAssumption": "Resistance scaling does not establish AP scaling or permanent full-defense damage during All Out.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "ally-dash-shield-escort",
+      "name": "Ally dash shield escort",
+      "objective": "Use Footwork's ally shield and control to protect one carry.",
+      "mechanic": "Footwork grants a shield with a 0.135 health-stat expression and extends dash range when targeted at an ally, shielding both. Knight's Vow and Locket support that escort pattern, Frozen Heart discourages nearby attacks, and Bandlepipes rewards Q/W control with an ally attack-speed aura. R can separate a threat but risks trading away K'Sante's defensive stats.",
+      "evidenceSlots": [
+        "E",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        3190,
+        3109,
+        3065,
+        3110,
+        2524,
+        3158
+      ],
+      "pageKey": "guard",
+      "requiredState": "Need a reachable ally, E available and controlled R usage after protecting the carry.",
+      "failure": "Peeling with R can strand the carry; enemy range bypasses the close aura and Vow tether.",
+      "test": "Measure carry damage prevented, E shield size and time K'Sante remains within aura range.",
+      "rejectedAssumption": "Health-stat formula flags are not proof that E scales from all total health in the displayed amount.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AD health conversion as primary Q scaling",
+      "reason": "Primary Q lists defense expressions rather than an AD ratio; Bloodmail does not directly improve that term.",
+      "evidenceSlots": [
+        "Q",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive max-health token is unresolved; resistance snapshot behavior in All Out and current alternate W wrappers require testing."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Dauntless Instinct",
+      "paths": [
+        "Characters/KSante/Spells/KSantePAbility/KSanteP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Ntofo Strikes",
+      "paths": [
+        "Characters/KSante/Spells/KSanteQAbility/KSanteQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Path Maker",
+      "paths": [
+        "Characters/KSante/Spells/KSanteWAbility/KSanteW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Footwork",
+      "paths": [
+        "Characters/KSante/Spells/KSanteEAbility/KSanteE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "All Out",
+      "paths": [
+        "Characters/KSante/Spells/KSanteRAbility/KSanteR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "ksante-audit-resistance-weave-duelist",
+      "champion": "KSante",
+      "name": "Resistance weave duelist",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Invest in the resistance ratios while weaving mark-consuming attacks.",
+      "goal": "Invest in the resistance ratios while weaving mark-consuming attacks.",
+      "hypothesis": "Ntofo Strikes has 0.4 armor and 0.4 MR statFormula expressions despite physical damage; Path Maker also links percent-health damage to defenses. Iceborn delivers a separate physical Spellblade slow after Q, Jak'Sho raises bonus defenses after five seconds, and Visage supports E's received shield. All Out removes 85% bonus defenses, so the outside-R payoff must be measured separately.",
+      "itemIds": [
+        6662,
+        6665,
+        2502,
+        3065,
+        3075,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need marks consumed by actual attacks and combat lasting until Jak'Sho's bonus applies.",
+        "Compare Q/W and mark damage before R, immediately after R and after Jak'Sho activation.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "All Out makes the defense snapshot uncertain; late shield or W charge can miss the window.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Resistance scaling does not establish AP scaling or permanent full-defense damage during All Out.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Iceborn Gauntlet, Jak'Sho, The Protean, Unending Despair, Spirit Visage, Thornmail, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "All Out",
+          "slot": "R",
+          "source": "Characters/KSante/Spells/KSanteRAbility/KSanteR",
+          "formula": "K'Sante shatters his ntofos to Knock Back an enemy champion, dealing [80 / 115 / 150] physical damage, then dashes behind them and goes All Out for [15]s. If the enemy would hit a wall, they are Knocked Back through the wall and K'Sante strikes them again for [80 / 115 / 150 + (0.05) × Stat(12)[statFormula=2]] physical damage.\n\nWhile All Out, K'Sante's Abilities are upgraded and he gains [(0.4 / 0.6 / 0.8) × 100]% Attack Speed, [50]% Bonus Armor Penetration, and [20]% Omnivamp, but loses [35]% max Health, [85]% Bonus Armor, and [85]% Bonus Magic Resistance."
+        },
+        {
+          "ability": "Dauntless Instinct",
+          "slot": "Passive",
+          "source": "Characters/KSante/Spells/KSantePAbility/KSanteP",
+          "formula": "K'Sante's damaging Abilities mark enemies hit. Attacking a marked enemy deals [12] plus [UNRESOLVED({ee18a47b}; see calculationRaw)] max Health physical damage and consumes the mark.\n\nAll Out: K'Sante's Attacks, Abilities and Passive deal an additional [0.01 + (0.0001) × Stat(1)[statFormula=2] + (0.0001) × Stat(6)[statFormula=2]] max Health physical damage."
+        },
+        {
+          "ability": "Footwork",
+          "slot": "E",
+          "source": "Characters/KSante/Spells/KSanteEAbility/KSanteE",
+          "formula": "K'Sante dashes, gaining [70 / 112.5 / 155 / 197.5 / 240 + (0.135) × Stat(12)[statFormula=2]] Shield for [2] seconds. If dashing to an ally, the distance of the dash is significantly increased and the ally is also Shielded.\n\nAll Out: Cooldown is decreased by [50]% and dash speed is increased."
+        },
+        {
+          "ability": "Path Maker",
+          "slot": "W",
+          "source": "Characters/KSante/Spells/KSanteWAbility/KSanteW",
+          "formula": "K'Sante raises his weapons defensively for [0.4]-@MaxDuration.1@s, becoming Unstoppable and reducing incoming damage by [25]%. Then, he rams forward, dealing [45 / 75 / 105 / 135 / 165] + [0.08 + (0.0002) × Stat(1)[statFormula=2] + (0.0002) × Stat(6)[statFormula=2]] max Health physical damage. Enemies hit are Knocked Back and Stunned for [0.5]-[1.75]s (based on charge time).\n\nAll Out: Cooldown is refreshed. Deals an additional [10]-[80]% damage as true damage (based on charge time), damage reduction is increased to [70]% and dash speed is increased, but no longer Knocks Back or Stuns."
+        },
+        {
+          "ability": "Ntofo Strikes",
+          "slot": "Q",
+          "source": "Characters/KSante/Spells/KSanteQAbility/KSanteQ",
+          "formula": "K'Sante slams his weapon, dealing [70 / 100 / 130 / 160 / 190 + (0.4) × Stat(1)[statFormula=2] + (0.4) × Stat(6)[statFormula=2]] physical damage and Slowing enemies by [80]% for [0.5]s. If he hits, he gains a stack of Ntofo Strikes for [6] seconds. At 2 stacks, he instead fires a shockwave that Stuns and Pulls enemies for [1] second.\n\nAll Out: Cooldown is reduced by @RCooldownReduction.0*100@%."
+        }
+      ]
+    },
+    {
+      "id": "ksante-audit-ally-dash-shield-escort",
+      "champion": "KSante",
+      "name": "Ally dash shield escort",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use Footwork's ally shield and control to protect one carry.",
+      "goal": "Use Footwork's ally shield and control to protect one carry.",
+      "hypothesis": "Footwork grants a shield with a 0.135 health-stat expression and extends dash range when targeted at an ally, shielding both. Knight's Vow and Locket support that escort pattern, Frozen Heart discourages nearby attacks, and Bandlepipes rewards Q/W control with an ally attack-speed aura. R can separate a threat but risks trading away K'Sante's defensive stats.",
+      "itemIds": [
+        3190,
+        3109,
+        3065,
+        3110,
+        2524,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need a reachable ally, E available and controlled R usage after protecting the carry.",
+        "Measure carry damage prevented, E shield size and time K'Sante remains within aura range.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Peeling with R can strand the carry; enemy range bypasses the close aura and Vow tether.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Health-stat formula flags are not proof that E scales from all total health in the displayed amount.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Locket of the Iron Solari, Knight's Vow, Spirit Visage, Frozen Heart, Bandlepipes, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "All Out",
+          "slot": "R",
+          "source": "Characters/KSante/Spells/KSanteRAbility/KSanteR",
+          "formula": "K'Sante shatters his ntofos to Knock Back an enemy champion, dealing [80 / 115 / 150] physical damage, then dashes behind them and goes All Out for [15]s. If the enemy would hit a wall, they are Knocked Back through the wall and K'Sante strikes them again for [80 / 115 / 150 + (0.05) × Stat(12)[statFormula=2]] physical damage.\n\nWhile All Out, K'Sante's Abilities are upgraded and he gains [(0.4 / 0.6 / 0.8) × 100]% Attack Speed, [50]% Bonus Armor Penetration, and [20]% Omnivamp, but loses [35]% max Health, [85]% Bonus Armor, and [85]% Bonus Magic Resistance."
+        },
+        {
+          "ability": "Footwork",
+          "slot": "E",
+          "source": "Characters/KSante/Spells/KSanteEAbility/KSanteE",
+          "formula": "K'Sante dashes, gaining [70 / 112.5 / 155 / 197.5 / 240 + (0.135) × Stat(12)[statFormula=2]] Shield for [2] seconds. If dashing to an ally, the distance of the dash is significantly increased and the ally is also Shielded.\n\nAll Out: Cooldown is decreased by [50]% and dash speed is increased."
+        },
+        {
+          "ability": "Path Maker",
+          "slot": "W",
+          "source": "Characters/KSante/Spells/KSanteWAbility/KSanteW",
+          "formula": "K'Sante raises his weapons defensively for [0.4]-@MaxDuration.1@s, becoming Unstoppable and reducing incoming damage by [25]%. Then, he rams forward, dealing [45 / 75 / 105 / 135 / 165] + [0.08 + (0.0002) × Stat(1)[statFormula=2] + (0.0002) × Stat(6)[statFormula=2]] max Health physical damage. Enemies hit are Knocked Back and Stunned for [0.5]-[1.75]s (based on charge time).\n\nAll Out: Cooldown is refreshed. Deals an additional [10]-[80]% damage as true damage (based on charge time), damage reduction is increased to [70]% and dash speed is increased, but no longer Knocks Back or Stuns."
+        },
+        {
+          "ability": "Ntofo Strikes",
+          "slot": "Q",
+          "source": "Characters/KSante/Spells/KSanteQAbility/KSanteQ",
+          "formula": "K'Sante slams his weapon, dealing [70 / 100 / 130 / 160 / 190 + (0.4) × Stat(1)[statFormula=2] + (0.4) × Stat(6)[statFormula=2]] physical damage and Slowing enemies by [80]% for [0.5]s. If he hits, he gains a stack of Ntofo Strikes for [6] seconds. At 2 stacks, he instead fires a shockwave that Stuns and Pulls enemies for [1] second.\n\nAll Out: Cooldown is reduced by @RCooldownReduction.0*100@%."
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "olaf-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "olaf-four-2",
+      "id": "olaf-audit-low-health-bloodmail-swing",
       "champion": "Olaf",
-      "name": "Damage interaction: Attack-led side lane",
-      "goal": "Damage interaction for Olaf: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A relentless melee attacker who retrieves axes, fights at low health and keeps R active through contact. Attack uptime also recycles his true-damage swing. Fix current health, axe retrieval and R uptime. Compare low-health attack pressure with surviving real damage; CC immunity does not mean damage immunity. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Low-health Bloodmail swing",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test low-health bloodmail swing against conventional damage at equal gold.",
+      "goal": "Test low-health bloodmail swing against conventional damage at equal gold.",
+      "hypothesis": "Berserker Rage gains attack speed/lifesteal with missing health, while Bloodmail gains AD as health falls; Reckless Swing adds 0.5 total AD true damage and attacks refund its cooldown. Visage supports lifesteal and Tough It Out's missing-health shield during Ragnarok contact.",
       "itemIds": [
+        2501,
         3153,
-        3078,
-        3181,
         3053,
-        6333,
+        3065,
+        3071,
         3047
       ],
       "runePage": [
-        8005,
+        8008,
         9111,
         9104,
         8014,
-        8444,
+        8429,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Olaf: Fix current health, axe retrieval and R uptime. Compare low-health attack pressure with surviving real damage; CC immunity does not mean damage immunity.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Olaf throws an axe into the ground at a target location, dealing damage to enemies it passes through and reducing their Armor and Move Speed. If Olaf picks up the axe, the ability's cooldown is reset. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Reach low health safely with R ready and champion attacks connected.",
+        "Compare E casts and healing at fixed low-health percentages.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Olaf's stated kit question: Fix current health, axe retrieval and R uptime. Compare low-health attack pressure with surviving real damage; CC immunity does not mean damage immunity.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Execution burst kills him before sustain, or kiting ends Ragnarok.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Low health is a controlled test condition, not free permanent maximum Bloodmail value.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Overlord's Bloodmail, Blade of The Ruined King, Sterak's Gage, Spirit Visage, Black Cleaver, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Ragnarok",
@@ -320,19 +314,21 @@
       ]
     },
     {
-      "id": "olaf-four-4",
+      "id": "olaf-audit-axe-spellblade-caster",
       "champion": "Olaf",
-      "name": "Experiment: Sustain and waves",
-      "goal": "Experiment for Olaf: test a different playstyle, with lower confidence",
-      "hypothesis": "A relentless melee attacker who retrieves axes, fights at low health and keeps R active through contact. Attack uptime also recycles his true-damage swing. Fix current health, axe retrieval and R uptime. Compare low-health attack pressure with surviving real damage; CC immunity does not mean damage immunity. Hydra wave control and conditional healing may extend repeated trades. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Hydra wave control and conditional healing may extend repeated trades.",
+      "name": "Axe Spellblade caster",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test axe spellblade caster against conventional damage at equal gold.",
+      "goal": "Test axe spellblade caster against conventional damage at equal gold.",
+      "hypothesis": "Picking up Undertow caps its cooldown at the documented short interval; Trinity rewards an attack between axe throws while Shojin supports Q/E repetition. Cleaver accompanies Q's armor removal, but Reckless Swing remains true damage and does not benefit armor penetration.",
       "itemIds": [
-        3074,
-        6610,
-        3053,
+        3078,
+        3161,
+        6692,
+        3071,
         6333,
-        3065,
-        3047
+        3158
       ],
       "runePage": [
         8010,
@@ -343,17 +339,17 @@
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Olaf: Fix current health, axe retrieval and R uptime. Compare low-health attack pressure with surviving real damage; CC immunity does not mean damage immunity.",
-        "Start with the early core (Ravenous Hydra, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Hydra wave control and conditional healing may extend repeated trades. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Olaf throws an axe into the ground at a target location, dealing damage to enemies it passes through and reducing their Armor and Move Speed. If Olaf picks up the axe, the ability's cooldown is reset. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Retrieve axes without abandoning champion contact.",
+        "Count Q and E casts with safe versus obstructed pickups.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Healing reduction, kiting and the cost of delaying penetration can defeat the idea.",
-        "The route fails Olaf's stated kit question: Fix current health, axe retrieval and R uptime. Compare low-health attack pressure with surviving real damage; CC immunity does not mean damage immunity.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Bad axe placement makes the build's haste and Spellblade rhythm inaccessible.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Healing reduction, kiting and the cost of delaying penetration can defeat the idea.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Armor reduction does not increase E true damage or make axe cooldown literally zero on every pickup.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Ravenous Hydra, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Trinity Force, Spear of Shojin, Eclipse, Black Cleaver, Death's Dance, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Ragnarok",
@@ -409,18 +397,6 @@
           "slot": "Q",
           "source": "Characters/Olaf/Spells/OlafAxeThrowCastAbility/OlafAxeThrowCast",
           "formula": "Olaf throws an axe, dealing [70 / 120 / 170 / 220 / 270 + (1) × AD[statFormula=2]] physical damage and Slowing by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for up to [3] seconds (based on distance travelled). Champions hit lose [20]% Armor for [4] seconds.\n\nIf Olaf picks up the axe, this Ability's Cooldown is reduced to [(2.5) × (runtimeCooldownMultiplier)] seconds, or fully refunded if [(2.5) × (runtimeCooldownMultiplier)] seconds has elapsed."
-        },
-        {
-          "ability": "Tough It Out",
-          "slot": "W",
-          "source": "Characters/Olaf/Spells/OlafFrenziedStrikesAbility/OlafFrenziedStrikes",
-          "formula": "Olaf gains [(0.4 / 0.5 / 0.6 / 0.7 / 0.8) × 100]% Attack Speed for [5] seconds, and [10 / 40 / 70 / 100 / 130] plus [17.5]% missing Health Shield (up to a maximum of [10 / 40 / 70 / 100 / 130 + ((0.175) × ((1 + (-1) × (0.3)))) × Stat(12)] Shield below [30]% Health) for [2.5] seconds."
-        },
-        {
-          "ability": "Berserker Rage",
-          "slot": "Passive",
-          "source": "Characters/Olaf/Spells/OlafBerzerkerRageAbility/OlafBerzerkerRage",
-          "formula": "Olaf gains up to [characterLevelInterpolation(0.5 → 1; raw flags preserved)] Attack Speed and [characterLevelInterpolation(0.08 → 0.25; raw flags preserved)] Life Steal, based on his missing Health."
         }
       ]
     }

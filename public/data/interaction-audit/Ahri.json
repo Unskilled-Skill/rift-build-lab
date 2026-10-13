@@ -1,0 +1,291 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Ahri",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "dash-weave-chase",
+      "name": "Dash-weave chase",
+      "objective": "Turn Spirit Rush into spaced attack windows.",
+      "mechanic": "Fox-Fire grants 40% decaying speed and Spirit Rush permits three initial dashes over 15 seconds. Nashor's Tooth rewards actual attacks; Dusk and Dawn adds one Spellblade attack and repeats on-hits. AP still powers Charm and both Orb passes, so the attack experiment retains spell damage.",
+      "evidenceSlots": [
+        "W",
+        "R",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4629,
+        3089,
+        3137,
+        3020
+      ],
+      "pageKey": "hob",
+      "requiredState": "Need Charm connected, an isolated target and time between dashes for attacks.",
+      "failure": "Lost burst can prevent the first takedown and its healing/recast reward.",
+      "test": "Compare attacks landed and total damage over one moving-target R chase at equal gold.",
+      "rejectedAssumption": "Three dash casts do not guarantee three independently ready Spellblade procs.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "return-orb-finisher",
+      "name": "Return-orb finisher",
+      "objective": "Exploit the return pass against armored targets.",
+      "mechanic": "Orb of Deception has 0.5 AP on each pass, with true damage returning. Shadowflame explicitly enhances magic and true damage below 40% health; Cosmic Drive triggers on either type, letting W speed and R relocation steer the return. Void Staff supports the other magic hits rather than penetrating true damage.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        6655,
+        4645,
+        4629,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "first",
+      "requiredState": "Keep the target intersecting both Orb paths and push below Shadowflame's threshold before return.",
+      "failure": "Dashes away from the return path or shields can erase the proposed finish.",
+      "test": "Measure outbound and return separately above and below 40%, then repeat versus different MR.",
+      "rejectedAssumption": "Magic penetration does not increase Q's true damage half.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Crit-casting",
+      "reason": "Charm and Fox-Fire have AP magic ratios, not ordinary attack crit scaling.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Dusk and Dawn repeat-on-hit behavior needs a live attack log; Spirit Rush acquisition can split bolts between targets."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Essence Theft",
+      "paths": [
+        "Characters/Ahri/Spells/AhriPassiveAbility/AhriPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Orb of Deception",
+      "paths": [
+        "Characters/Ahri/Spells/AhriQAbility/AhriQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Fox-Fire",
+      "paths": [
+        "Characters/Ahri/Spells/AhriWAbility/AhriW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Charm",
+      "paths": [
+        "Characters/Ahri/Spells/AhriEAbility/AhriE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Spirit Rush",
+      "paths": [
+        "Characters/Ahri/Spells/AhriRAbility/AhriR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "ahri-audit-dash-weave-chase",
+      "champion": "Ahri",
+      "name": "Dash-weave chase",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Turn Spirit Rush into spaced attack windows.",
+      "goal": "Turn Spirit Rush into spaced attack windows.",
+      "hypothesis": "Fox-Fire grants 40% decaying speed and Spirit Rush permits three initial dashes over 15 seconds. Nashor's Tooth rewards actual attacks; Dusk and Dawn adds one Spellblade attack and repeats on-hits. AP still powers Charm and both Orb passes, so the attack experiment retains spell damage.",
+      "itemIds": [
+        3115,
+        2510,
+        4629,
+        3089,
+        3137,
+        3020
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need Charm connected, an isolated target and time between dashes for attacks.",
+        "Compare attacks landed and total damage over one moving-target R chase at equal gold.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Lost burst can prevent the first takedown and its healing/recast reward.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Three dash casts do not guarantee three independently ready Spellblade procs.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Fox-Fire",
+          "slot": "W",
+          "source": "Characters/Ahri/Spells/AhriWAbility/AhriW",
+          "formula": "Ahri releases 3 fox-fires that seek nearby enemies and deal [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage, reduced to [(40 / 60 / 80 / 100 / 120 + (0.4) × AP) × (0.4)] damage beyond the first. She also gains [40]% Move Speed decaying over [2] seconds."
+        },
+        {
+          "ability": "Spirit Rush",
+          "slot": "R",
+          "source": "Characters/Ahri/Spells/AhriRAbility/AhriR",
+          "formula": "Ahri nimbly dashes, firing [3] essence bolts at nearby enemies, prioritizing champions. These bolts deal [75 / 125 / 175 + (0.35) × AP] magic damage each. Spirit Rush can be Recast up to 2 more times within [15] seconds.\n\nConsuming a champion's Essence with Essence Theft during this period extends the recast window by up to [10] seconds and grants an additional recast of Spirit Rush (up to [3] stored)."
+        },
+        {
+          "ability": "Charm",
+          "slot": "E",
+          "source": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "formula": "Ahri blows a kiss that Charms the first enemy hit for [1.2 / 1.35 / 1.5 / 1.65 / 1.8] seconds and deals [80 / 120 / 160 / 200 / 240 + (0.85) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "ahri-audit-return-orb-finisher",
+      "champion": "Ahri",
+      "name": "Return-orb finisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Exploit the return pass against armored targets.",
+      "goal": "Exploit the return pass against armored targets.",
+      "hypothesis": "Orb of Deception has 0.5 AP on each pass, with true damage returning. Shadowflame explicitly enhances magic and true damage below 40% health; Cosmic Drive triggers on either type, letting W speed and R relocation steer the return. Void Staff supports the other magic hits rather than penetrating true damage.",
+      "itemIds": [
+        6655,
+        4645,
+        4629,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Keep the target intersecting both Orb paths and push below Shadowflame's threshold before return.",
+        "Measure outbound and return separately above and below 40%, then repeat versus different MR.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Dashes away from the return path or shields can erase the proposed finish.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Magic penetration does not increase Q's true damage half.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Luden's Echo, Shadowflame, Cosmic Drive, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Fox-Fire",
+          "slot": "W",
+          "source": "Characters/Ahri/Spells/AhriWAbility/AhriW",
+          "formula": "Ahri releases 3 fox-fires that seek nearby enemies and deal [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage, reduced to [(40 / 60 / 80 / 100 / 120 + (0.4) × AP) × (0.4)] damage beyond the first. She also gains [40]% Move Speed decaying over [2] seconds."
+        },
+        {
+          "ability": "Spirit Rush",
+          "slot": "R",
+          "source": "Characters/Ahri/Spells/AhriRAbility/AhriR",
+          "formula": "Ahri nimbly dashes, firing [3] essence bolts at nearby enemies, prioritizing champions. These bolts deal [75 / 125 / 175 + (0.35) × AP] magic damage each. Spirit Rush can be Recast up to 2 more times within [15] seconds.\n\nConsuming a champion's Essence with Essence Theft during this period extends the recast window by up to [10] seconds and grants an additional recast of Spirit Rush (up to [3] stored)."
+        },
+        {
+          "ability": "Orb of Deception",
+          "slot": "Q",
+          "source": "Characters/Ahri/Spells/AhriQAbility/AhriQ",
+          "formula": "Ahri throws then pulls back her orb, dealing [35 / 60 / 85 / 110 / 135 + (0.5) × AP] magic damage on the way out and [35 / 60 / 85 / 110 / 135 + (0.5) × AP] true damage on the way back."
+        }
+      ]
+    }
+  ]
+}

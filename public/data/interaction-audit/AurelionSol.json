@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "AurelionSol",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "flight-beam-lock",
+      "name": "Flight Beam Lock",
+      "objective": "Count full-second bursts during moving flight.",
+      "mechanic": "Q bursts require a full second on one enemy. W removes Q cooldown/channel cap during flight; Rylai may retain the enemy, Cosmic assists movement and Seraph provides finite mana. Riftmaker rewards actual sustained combat.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W"
+      ],
+      "itemIds": [
+        3116,
+        4629,
+        3040,
+        4633,
+        3089,
+        3020
+      ],
+      "pageKey": "conq",
+      "requiredState": "Record Stardust, mana and a flight path allowing repeated full-second hits. Earn Seraph transformation through recorded Tear stacks before using this six-slot state.",
+      "failure": "Control interrupts Q or flight carries him away.",
+      "test": "Count full-second bursts during moving flight; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "9999 channel duration does not mean infinite mana.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "singularity-ally-window",
+      "name": "Singularity Ally Window",
+      "objective": "Compare allied damage after R against E alone.",
+      "mechanic": "E drags and has a Stardust execute; R stuns or knocks up. Mandate explicitly requires immobilization, so use R as its trigger. Blackfire rewards enemies actually burned and Cryptbloom rewards a real confinement takedown.",
+      "evidenceSlots": [
+        "P",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4005,
+        2503,
+        3116,
+        3137,
+        3089,
+        3158
+      ],
+      "pageKey": "comet",
+      "requiredState": "Record enhanced R readiness and finite Stardust; allies hit the mark.",
+      "failure": "Targets leave E or allies cannot exploit R.",
+      "test": "Compare allied damage after R against E alone; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "An E drag or Rylai slow is not proven to trigger Mandate.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Attack crit beam",
+      "reason": "Q is magic AP damage, not an ordinary attack.",
+      "evidenceSlots": [
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Stardust W/R area helpers are unresolved; enhanced R is conditional.",
+    "Unresolved conditional/runtime tooltip tokens prevent a complete numerical model; retained helpers do not establish live behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Cosmic Creator",
+      "paths": [
+        "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Breath of Light",
+      "paths": [
+        "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Astral Flight",
+      "paths": [
+        "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Singularity",
+      "paths": [
+        "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Falling Star / The Skies Descend",
+      "paths": [
+        "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "aurelionsol-audit-flight-beam-lock",
+      "champion": "AurelionSol",
+      "name": "Flight Beam Lock",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count full-second bursts during moving flight.",
+      "goal": "Count full-second bursts during moving flight.",
+      "hypothesis": "Q bursts require a full second on one enemy. W removes Q cooldown/channel cap during flight; Rylai may retain the enemy, Cosmic assists movement and Seraph provides finite mana. Riftmaker rewards actual sustained combat.",
+      "itemIds": [
+        3116,
+        4629,
+        3040,
+        4633,
+        3089,
+        3020
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record Stardust, mana and a flight path allowing repeated full-second hits. Earn Seraph transformation through recorded Tear stacks before using this six-slot state.",
+        "Count full-second bursts during moving flight; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Control interrupts Q or flight carries him away.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: 9999 channel duration does not mean infinite mana.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Rylai's Crystal Scepter, Cosmic Drive, Seraph's Embrace, Riftmaker, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Breath of Light",
+          "slot": "Q",
+          "source": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+          "formula": "Aurelion Sol breathes starfire for up to [3.25 / 3.25 / 3.25 / 3.25 / 9999] seconds, dealing [45 / 60 / 75 / 90 / 105 + (0.55) × AP] magic damage per second to the first enemy hit and [50]% of the damage to surrounding enemies.\n\nEach full second of breath on the same enemy deals a burst of [60 / 70 / 80 / 90 / 100 + (0.3) × AP] magic damage plus [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage and absorbs [2] Stardust if they are a champion."
+        },
+        {
+          "ability": "Cosmic Creator",
+          "slot": "Passive",
+          "source": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+          "formula": "Aurelion Sol's damaging Abilities break down enemies into Stardust, which improves his Abilities.{{Spell_AurelionSolQ_Name}}: Bursts deal an additional [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage{{Spell_AurelionSolW_Name}}: @f2.1@% increased distance.{{Spell_AurelionSolE_Name}}: @f3.1@% increased area and [(0.026) × BuffStacks({c9372c6b})] bonus execute threshold.{{Spell_AurelionSolR1_Name}} and {{Spell_AurelionSolR2_Name}}: @f4.1@% increased area.\nAurelion Sol has acquired Stardust: @f1@"
+        },
+        {
+          "ability": "Astral Flight",
+          "slot": "W",
+          "source": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+          "formula": "Aurelion Sol flies in a direction. While flying, {{Spell_AurelionSolQ_Name}} has no Cooldown, no max channel duration, and its flat damage is increased by [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 100]%.\n\nTakedowns on champions within [3] seconds of damaging them refunds [90]% of this Ability's Cooldown.\n\nRecast: End flight early."
+        }
+      ]
+    },
+    {
+      "id": "aurelionsol-audit-singularity-ally-window",
+      "champion": "AurelionSol",
+      "name": "Singularity Ally Window",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare allied damage after R against E alone.",
+      "goal": "Compare allied damage after R against E alone.",
+      "hypothesis": "E drags and has a Stardust execute; R stuns or knocks up. Mandate explicitly requires immobilization, so use R as its trigger. Blackfire rewards enemies actually burned and Cryptbloom rewards a real confinement takedown.",
+      "itemIds": [
+        4005,
+        2503,
+        3116,
+        3137,
+        3089,
+        3158
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record enhanced R readiness and finite Stardust; allies hit the mark.",
+        "Compare allied damage after R against E alone; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Targets leave E or allies cannot exploit R.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: An E drag or Rylai slow is not proven to trigger Mandate.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Imperial Mandate, Blackfire Torch, Rylai's Crystal Scepter, Cryptbloom, Rabadon's Deathcap, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Falling Star / The Skies Descend",
+          "slot": "R",
+          "source": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+          "formula": "Aurelion Sol plucks a star from the heavens and crashes it into the earth, dealing [150 / 250 / 350 + (0.75) × AP] magic damage, Stunning enemies [1] second, and absorbing [5] Stardust for each champion hit.\n\nGathering [75] Stardust transforms the next {{Spell_AurelionSolR1_Name}} into {{Spell_AurelionSolR2_Name}}.\n\n{{Spell_AurelionSolR2_Name}}: Aurelion Sol drags a constellation's worth of fury down from the cosmos, dealing [(150 / 250 / 350 + (0.75) × AP) × (1.25)] magic damage in a larger area, Knocking Up enemies hit for [1] second, and unleashing a massive shockwave that deals [(150 / 250 / 350 + (0.75) × AP) × (0.9)] magic damage to champions and Epic Monsters and Slows all enemies hit by [50]% for 1 second."
+        },
+        {
+          "ability": "Singularity",
+          "slot": "E",
+          "source": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+          "formula": "Aurelion Sol summons a black hole, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage per second and Dragging enemies towards the center for [5] seconds. Enemies in the center below [5 + (0.026) × BuffStacks({c9372c6b})]% max Health die instantly.\n\nThe black hole absorbs Stardust when enemies die within it and each second an enemy champion is inside."
+        },
+        {
+          "ability": "Cosmic Creator",
+          "slot": "Passive",
+          "source": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+          "formula": "Aurelion Sol's damaging Abilities break down enemies into Stardust, which improves his Abilities.{{Spell_AurelionSolQ_Name}}: Bursts deal an additional [(0.00031) × BuffStacks({c9372c6b})] max Health magic damage{{Spell_AurelionSolW_Name}}: @f2.1@% increased distance.{{Spell_AurelionSolE_Name}}: @f3.1@% increased area and [(0.026) × BuffStacks({c9372c6b})] bonus execute threshold.{{Spell_AurelionSolR1_Name}} and {{Spell_AurelionSolR2_Name}}: @f4.1@% increased area.\nAurelion Sol has acquired Stardust: @f1@"
+        }
+      ]
+    }
+  ]
+}

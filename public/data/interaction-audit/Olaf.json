@@ -1,0 +1,307 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Olaf",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "low-health-bloodmail-swing",
+      "name": "Low-health Bloodmail swing",
+      "objective": "Test low-health bloodmail swing against conventional damage at equal gold.",
+      "mechanic": "Berserker Rage gains attack speed/lifesteal with missing health, while Bloodmail gains AD as health falls; Reckless Swing adds 0.5 total AD true damage and attacks refund its cooldown. Visage supports lifesteal and Tough It Out's missing-health shield during Ragnarok contact.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2501,
+        3153,
+        3053,
+        3065,
+        3071,
+        3047
+      ],
+      "pageKey": "lt",
+      "requiredState": "Reach low health safely with R ready and champion attacks connected.",
+      "failure": "Execution burst kills him before sustain, or kiting ends Ragnarok.",
+      "test": "Compare E casts and healing at fixed low-health percentages.",
+      "rejectedAssumption": "Low health is a controlled test condition, not free permanent maximum Bloodmail value.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "axe-spellblade-caster",
+      "name": "Axe Spellblade caster",
+      "objective": "Test axe spellblade caster against conventional damage at equal gold.",
+      "mechanic": "Picking up Undertow caps its cooldown at the documented short interval; Trinity rewards an attack between axe throws while Shojin supports Q/E repetition. Cleaver accompanies Q's armor removal, but Reckless Swing remains true damage and does not benefit armor penetration.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3078,
+        3161,
+        6692,
+        3071,
+        6333,
+        3158
+      ],
+      "pageKey": "conq",
+      "requiredState": "Retrieve axes without abandoning champion contact.",
+      "failure": "Bad axe placement makes the build's haste and Spellblade rhythm inaccessible.",
+      "test": "Count Q and E casts with safe versus obstructed pickups.",
+      "rejectedAssumption": "Armor reduction does not increase E true damage or make axe cooldown literally zero on every pickup.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Low health is a controlled test condition, not free permanent maximum Bloodmail value.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Proc effectiveness and ordering need a controlled current-patch test; source statFormula IDs and helper records do not establish live dispatch."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Berserker Rage",
+      "paths": [
+        "Characters/Olaf/Spells/OlafBerzerkerRageAbility/OlafBerzerkerRage"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Undertow",
+      "paths": [
+        "Characters/Olaf/Spells/OlafAxeThrowCastAbility/OlafAxeThrowCast"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Tough It Out",
+      "paths": [
+        "Characters/Olaf/Spells/OlafFrenziedStrikesAbility/OlafFrenziedStrikes"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Reckless Swing",
+      "paths": [
+        "Characters/Olaf/Spells/OlafRecklessStrikeAbility/OlafRecklessStrike"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Ragnarok",
+      "paths": [
+        "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "olaf-audit-low-health-bloodmail-swing",
+      "champion": "Olaf",
+      "name": "Low-health Bloodmail swing",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test low-health bloodmail swing against conventional damage at equal gold.",
+      "goal": "Test low-health bloodmail swing against conventional damage at equal gold.",
+      "hypothesis": "Berserker Rage gains attack speed/lifesteal with missing health, while Bloodmail gains AD as health falls; Reckless Swing adds 0.5 total AD true damage and attacks refund its cooldown. Visage supports lifesteal and Tough It Out's missing-health shield during Ragnarok contact.",
+      "itemIds": [
+        2501,
+        3153,
+        3053,
+        3065,
+        3071,
+        3047
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Reach low health safely with R ready and champion attacks connected.",
+        "Compare E casts and healing at fixed low-health percentages.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Execution burst kills him before sustain, or kiting ends Ragnarok.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Low health is a controlled test condition, not free permanent maximum Bloodmail value.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Blade of The Ruined King, Sterak's Gage, Spirit Visage, Black Cleaver, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ragnarok",
+          "slot": "R",
+          "source": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok",
+          "formula": "Passive: Olaf gains [10 / 15 / 20] Armor and [10 / 15 / 20] Magic Resist.\n\nActive: Olaf cleanses all Immobilizing and Disabling effects on himself and becomes immune to them for [3] seconds. While active, Olaf gains [10 / 20 / 30 + (0.25) × AD] Attack Damage. Hitting a champion with an Attack or Reckless Swing extends the duration by [2.5] seconds.\n\nAdditionally, Olaf gains [(0.2 / 0.45 / 0.7) × 100]% Move Speed towards enemy champions for [1] second."
+        },
+        {
+          "ability": "Reckless Swing",
+          "slot": "E",
+          "source": "Characters/Olaf/Spells/OlafRecklessStrikeAbility/OlafRecklessStrike",
+          "formula": "Olaf ferociously swings his axes, dealing [70 / 115 / 160 / 205 / 250 + (0.5) × AD] true damage. If the enemy dies, the cost is refunded.\n\nAttacks lower the Cooldown of this Ability by 1 second, increased to 2 seconds when attacking monsters."
+        },
+        {
+          "ability": "Undertow",
+          "slot": "Q",
+          "source": "Characters/Olaf/Spells/OlafAxeThrowCastAbility/OlafAxeThrowCast",
+          "formula": "Olaf throws an axe, dealing [70 / 120 / 170 / 220 / 270 + (1) × AD[statFormula=2]] physical damage and Slowing by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for up to [3] seconds (based on distance travelled). Champions hit lose [20]% Armor for [4] seconds.\n\nIf Olaf picks up the axe, this Ability's Cooldown is reduced to [(2.5) × (runtimeCooldownMultiplier)] seconds, or fully refunded if [(2.5) × (runtimeCooldownMultiplier)] seconds has elapsed."
+        },
+        {
+          "ability": "Tough It Out",
+          "slot": "W",
+          "source": "Characters/Olaf/Spells/OlafFrenziedStrikesAbility/OlafFrenziedStrikes",
+          "formula": "Olaf gains [(0.4 / 0.5 / 0.6 / 0.7 / 0.8) × 100]% Attack Speed for [5] seconds, and [10 / 40 / 70 / 100 / 130] plus [17.5]% missing Health Shield (up to a maximum of [10 / 40 / 70 / 100 / 130 + ((0.175) × ((1 + (-1) × (0.3)))) × Stat(12)] Shield below [30]% Health) for [2.5] seconds."
+        },
+        {
+          "ability": "Berserker Rage",
+          "slot": "Passive",
+          "source": "Characters/Olaf/Spells/OlafBerzerkerRageAbility/OlafBerzerkerRage",
+          "formula": "Olaf gains up to [characterLevelInterpolation(0.5 → 1; raw flags preserved)] Attack Speed and [characterLevelInterpolation(0.08 → 0.25; raw flags preserved)] Life Steal, based on his missing Health."
+        }
+      ]
+    },
+    {
+      "id": "olaf-audit-axe-spellblade-caster",
+      "champion": "Olaf",
+      "name": "Axe Spellblade caster",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test axe spellblade caster against conventional damage at equal gold.",
+      "goal": "Test axe spellblade caster against conventional damage at equal gold.",
+      "hypothesis": "Picking up Undertow caps its cooldown at the documented short interval; Trinity rewards an attack between axe throws while Shojin supports Q/E repetition. Cleaver accompanies Q's armor removal, but Reckless Swing remains true damage and does not benefit armor penetration.",
+      "itemIds": [
+        3078,
+        3161,
+        6692,
+        3071,
+        6333,
+        3158
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Retrieve axes without abandoning champion contact.",
+        "Count Q and E casts with safe versus obstructed pickups.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Bad axe placement makes the build's haste and Spellblade rhythm inaccessible.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Armor reduction does not increase E true damage or make axe cooldown literally zero on every pickup.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Spear of Shojin, Eclipse, Black Cleaver, Death's Dance, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ragnarok",
+          "slot": "R",
+          "source": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok",
+          "formula": "Passive: Olaf gains [10 / 15 / 20] Armor and [10 / 15 / 20] Magic Resist.\n\nActive: Olaf cleanses all Immobilizing and Disabling effects on himself and becomes immune to them for [3] seconds. While active, Olaf gains [10 / 20 / 30 + (0.25) × AD] Attack Damage. Hitting a champion with an Attack or Reckless Swing extends the duration by [2.5] seconds.\n\nAdditionally, Olaf gains [(0.2 / 0.45 / 0.7) × 100]% Move Speed towards enemy champions for [1] second."
+        },
+        {
+          "ability": "Reckless Swing",
+          "slot": "E",
+          "source": "Characters/Olaf/Spells/OlafRecklessStrikeAbility/OlafRecklessStrike",
+          "formula": "Olaf ferociously swings his axes, dealing [70 / 115 / 160 / 205 / 250 + (0.5) × AD] true damage. If the enemy dies, the cost is refunded.\n\nAttacks lower the Cooldown of this Ability by 1 second, increased to 2 seconds when attacking monsters."
+        },
+        {
+          "ability": "Undertow",
+          "slot": "Q",
+          "source": "Characters/Olaf/Spells/OlafAxeThrowCastAbility/OlafAxeThrowCast",
+          "formula": "Olaf throws an axe, dealing [70 / 120 / 170 / 220 / 270 + (1) × AD[statFormula=2]] physical damage and Slowing by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for up to [3] seconds (based on distance travelled). Champions hit lose [20]% Armor for [4] seconds.\n\nIf Olaf picks up the axe, this Ability's Cooldown is reduced to [(2.5) × (runtimeCooldownMultiplier)] seconds, or fully refunded if [(2.5) × (runtimeCooldownMultiplier)] seconds has elapsed."
+        }
+      ]
+    }
+  ]
+}

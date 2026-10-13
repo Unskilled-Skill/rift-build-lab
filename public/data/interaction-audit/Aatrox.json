@@ -1,0 +1,298 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Aatrox",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "bloodmail-edge-sustain",
+      "name": "Bloodmail edge sustain",
+      "objective": "Test bloodmail edge sustain against the conventional damage pattern at equal gold.",
+      "mechanic": "The Darkin Blade's 0.6-0.9 AD ratio and 75% edge bonus let Bloodmail's health-to-AD feed spell damage; World Ender amplifies AD and self-healing, while Sundered Sky rewards the attack between casts.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2501,
+        6610,
+        3071,
+        3065,
+        3053,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Land Q edges and one attack before disengaging.",
+      "failure": "W escape and healing reduction break the loop.",
+      "test": "Compare three edge hits and healing over ten seconds at equal gold.",
+      "rejectedAssumption": "Health never grants unlimited healing; E Stat(12)[statFormula=2] needs mapping.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "passive-double-strike-window",
+      "name": "Passive double-strike window",
+      "objective": "Test passive double-strike window against the conventional damage pattern at equal gold.",
+      "mechanic": "Deathbringer Stance deals max-health physical damage and attacks reduce its cooldown by two seconds; Trinity supplies Spellblade on the attack after E, while Blade of the Ruined King adds independent attack damage. Q edges still refund more passive cooldown than normal attacks.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3078,
+        3153,
+        3071,
+        6333,
+        3065,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Fight inside attack range and weave Q edges.",
+      "failure": "Attack purchases weaken the normal Q burst and expose him to kiting.",
+      "test": "Count passive activations across twelve seconds versus the spell build.",
+      "rejectedAssumption": "Spellblade and Blade damage are separate packets, not doubled by Q edges.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Health never grants unlimited healing; E Stat(12)[statFormula=2] needs mapping.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Item and ability proc attribution requires a controlled current-patch test; symbolic statFormula and source flags are not runtime verification."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Deathbringer Stance",
+      "paths": [
+        "Characters/Aatrox/Spells/AatroxPassiveAbility/AatroxPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "The Darkin Blade",
+      "paths": [
+        "Characters/Aatrox/Spells/AatroxQAbility/AatroxQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Infernal Chains",
+      "paths": [
+        "Characters/Aatrox/Spells/AatroxWAbility/AatroxW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Umbral Dash",
+      "paths": [
+        "Characters/Aatrox/Spells/AatroxEAbility/AatroxE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "World Ender",
+      "paths": [
+        "Characters/Aatrox/Spells/AatroxRAbility/AatroxR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "aatrox-audit-bloodmail-edge-sustain",
+      "champion": "Aatrox",
+      "name": "Bloodmail edge sustain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bloodmail edge sustain against the conventional damage pattern at equal gold.",
+      "goal": "Test bloodmail edge sustain against the conventional damage pattern at equal gold.",
+      "hypothesis": "The Darkin Blade's 0.6-0.9 AD ratio and 75% edge bonus let Bloodmail's health-to-AD feed spell damage; World Ender amplifies AD and self-healing, while Sundered Sky rewards the attack between casts.",
+      "itemIds": [
+        2501,
+        6610,
+        3071,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Land Q edges and one attack before disengaging.",
+        "Compare three edge hits and healing over ten seconds at equal gold.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "W escape and healing reduction break the loop.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Health never grants unlimited healing; E Stat(12)[statFormula=2] needs mapping.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Sundered Sky, Black Cleaver, Spirit Visage, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "World Ender",
+          "slot": "R",
+          "source": "Characters/Aatrox/Spells/AatroxRAbility/AatroxR",
+          "formula": "Aatrox reveals his true demonic form, Fearing nearby minions for [3] seconds and gaining [(0.6 / 0.8 / 1) × 100]% Move Speed decaying over [10] seconds. He also gains [(0.2 / 0.3 / 0.4) × 100]% Attack Damage and increases self-healing by [(0.5 / 0.75 / 1) × 100]% for the duration.\n\nChampion takedowns extend the duration of this effect by [5] seconds and refresh the Move Speed effect."
+        },
+        {
+          "ability": "The Darkin Blade",
+          "slot": "Q",
+          "source": "Characters/Aatrox/Spells/AatroxQAbility/AatroxQ",
+          "formula": "Aatrox slams his greatsword, dealing [10 / 25 / 40 / 55 / 70 + (0.6 / 0.675 / 0.75 / 0.825 / 0.9) × AD] physical damage. If they are hit on the edge, they are briefly Knocked Up and they take [(10 / 25 / 40 / 55 / 70 + (0.6 / 0.675 / 0.75 / 0.825 / 0.9) × AD) × ((1 + 0.75))] instead. This Ability can be Recast twice, each one changing shape and dealing 25% more damage than the previous one."
+        },
+        {
+          "ability": "Umbral Dash",
+          "slot": "E",
+          "source": "Characters/Aatrox/Spells/AatroxEAbility/AatroxE",
+          "formula": "Passive: Aatrox heals for [(16 + (0.013) × Stat(12)[statFormula=2]) × (0.01)] of the damage he deals to Champions.\n\nActive: Aatrox dashes. He can use this Ability while winding up his other Abilities."
+        }
+      ]
+    },
+    {
+      "id": "aatrox-audit-passive-double-strike-window",
+      "champion": "Aatrox",
+      "name": "Passive double-strike window",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test passive double-strike window against the conventional damage pattern at equal gold.",
+      "goal": "Test passive double-strike window against the conventional damage pattern at equal gold.",
+      "hypothesis": "Deathbringer Stance deals max-health physical damage and attacks reduce its cooldown by two seconds; Trinity supplies Spellblade on the attack after E, while Blade of the Ruined King adds independent attack damage. Q edges still refund more passive cooldown than normal attacks.",
+      "itemIds": [
+        3078,
+        3153,
+        3071,
+        6333,
+        3065,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Fight inside attack range and weave Q edges.",
+        "Count passive activations across twelve seconds versus the spell build.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Attack purchases weaken the normal Q burst and expose him to kiting.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Spellblade and Blade damage are separate packets, not doubled by Q edges.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Blade of The Ruined King, Black Cleaver, Death's Dance, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "World Ender",
+          "slot": "R",
+          "source": "Characters/Aatrox/Spells/AatroxRAbility/AatroxR",
+          "formula": "Aatrox reveals his true demonic form, Fearing nearby minions for [3] seconds and gaining [(0.6 / 0.8 / 1) × 100]% Move Speed decaying over [10] seconds. He also gains [(0.2 / 0.3 / 0.4) × 100]% Attack Damage and increases self-healing by [(0.5 / 0.75 / 1) × 100]% for the duration.\n\nChampion takedowns extend the duration of this effect by [5] seconds and refresh the Move Speed effect."
+        },
+        {
+          "ability": "The Darkin Blade",
+          "slot": "Q",
+          "source": "Characters/Aatrox/Spells/AatroxQAbility/AatroxQ",
+          "formula": "Aatrox slams his greatsword, dealing [10 / 25 / 40 / 55 / 70 + (0.6 / 0.675 / 0.75 / 0.825 / 0.9) × AD] physical damage. If they are hit on the edge, they are briefly Knocked Up and they take [(10 / 25 / 40 / 55 / 70 + (0.6 / 0.675 / 0.75 / 0.825 / 0.9) × AD) × ((1 + 0.75))] instead. This Ability can be Recast twice, each one changing shape and dealing 25% more damage than the previous one."
+        },
+        {
+          "ability": "Deathbringer Stance",
+          "slot": "Passive",
+          "source": "Characters/Aatrox/Spells/AatroxPassiveAbility/AatroxPassive",
+          "formula": "Aatrox's Attacks deal an additional [characterLevelInterpolation(0.04 → 0.1; raw flags preserved)] max Health magic damage and restore [100]% of damage dealt as Health, reduced to [25]% against minions. This effect has a [characterLevelInterpolation(22 → 10; raw flags preserved)] second cooldown.\n\nAttack and Ability hits against champions and large jungle monsters reduce this effect's cooldown by 2 seconds. Hits with the edge of The Darkin Blade reduce it by 4 seconds instead."
+        },
+        {
+          "ability": "Umbral Dash",
+          "slot": "E",
+          "source": "Characters/Aatrox/Spells/AatroxEAbility/AatroxE",
+          "formula": "Passive: Aatrox heals for [(16 + (0.013) × Stat(12)[statFormula=2]) × (0.01)] of the damage he deals to Champions.\n\nActive: Aatrox dashes. He can use this Ability while winding up his other Abilities."
+        }
+      ]
+    }
+  ]
+}

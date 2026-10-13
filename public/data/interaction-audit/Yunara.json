@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Yunara",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "ap-critical-vow",
+      "name": "AP critical vow",
+      "objective": "Test AP on attacks that are confirmed critical strikes during Transcendence.",
+      "mechanic": "Passive states that critical strikes gain bonus magic damage with AP; Q adds AP magic on-hit and R instantly activates its enhanced state. Fiendhunter supplies a finite post-R critical volley, while Nashor and Deathcap support AP packets and Infinity Edge tests the separate critical component.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        2512,
+        3115,
+        3089,
+        3031,
+        3135,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "R ready, item volley active and individual attack crit status logged.",
+      "failure": "AP costs lower physical carry damage and the finite volley ends before a takedown.",
+      "test": "Separate physical crit, passive magic and Q/Nashor packets across AP values, with item-forced versus natural crits.",
+      "rejectedAssumption": "Passive's compact expression does not establish the base quantity its magic coefficient multiplies.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "unleash-spread-audit",
+      "name": "Unleash spread audit",
+      "objective": "Compare Q's native spread with item-based on-hit distribution.",
+      "mechanic": "Attacks earn one Unleash or two against champions; eight enables five seconds of Q attack speed, extra on-hit and physical spread. Runaan and Statikk provide separate described on-hit propagation. E speed or its R-state dash supports access, while Terminus requires actual attack ramp.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3085,
+        3087,
+        3115,
+        3302,
+        3072,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Eight earned Unleash without R in baseline, several off-axis enemies and recorded energized state.",
+      "failure": "Spread targets stand out of range or AP/attack budget delays essential single-target damage.",
+      "test": "Count Unleash and per-target Q/Statikk/Runaan packets with Q inactive and active, then R-state separately.",
+      "rejectedAssumption": "Native Q physical spread does not state that it carries all item or passive on-hits.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AP-scaled native physical spread",
+      "reason": "Q native spread lists 0.3 AD physical damage; AP improves its distinct magic on-hit rather than that spread term.",
+      "evidenceSlots": [
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive magic coefficient basis and Q spread inheritance need live testing. R calculations supply empowered W 160/320/480 plus 1.2 AD[statFormula=2] and 0.75 AP despite unresolved tooltip rendering; empty W2/E2 helpers do not establish delivery rules."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Vow of the First Lands",
+      "paths": [
+        "Characters/Yunara/Spells/YunaraPassiveAbility/YunaraPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Cultivation of Spirit",
+      "paths": [
+        "Characters/Yunara/Spells/YunaraQAbility/YunaraQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Arc of Judgment | Arc of Ruin",
+      "paths": [
+        "Characters/Yunara/Spells/YunaraWAbility/YunaraW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Kanmei's Steps | Untouchable Shadow",
+      "paths": [
+        "Characters/Yunara/Spells/YunaraEAbility/YunaraE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Transcend One's Self",
+      "paths": [
+        "Characters/Yunara/Spells/YunaraRAbility/YunaraR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "yunara-audit-ap-critical-vow",
+      "champion": "Yunara",
+      "name": "AP critical vow",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP on attacks that are confirmed critical strikes during Transcendence.",
+      "goal": "Test AP on attacks that are confirmed critical strikes during Transcendence.",
+      "hypothesis": "Passive states that critical strikes gain bonus magic damage with AP; Q adds AP magic on-hit and R instantly activates its enhanced state. Fiendhunter supplies a finite post-R critical volley, while Nashor and Deathcap support AP packets and Infinity Edge tests the separate critical component.",
+      "itemIds": [
+        2512,
+        3115,
+        3089,
+        3031,
+        3135,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R ready, item volley active and individual attack crit status logged.",
+        "Separate physical crit, passive magic and Q/Nashor packets across AP values, with item-forced versus natural crits.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "AP costs lower physical carry damage and the finite volley ends before a takedown.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Passive's compact expression does not establish the base quantity its magic coefficient multiplies.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Fiendhunter Bolts, Nashor's Tooth, Rabadon's Deathcap, Infinity Edge, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Cultivation of Spirit",
+          "slot": "Q",
+          "source": "Characters/Yunara/Spells/YunaraQAbility/YunaraQ",
+          "formula": "Passive: Yunara deal [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit and attacking grants [1] Unleash ([2] Unleash for champions).\n\nActive: Yunara consumes [8] Unleash and for [5] seconds gains [0.2 / 0.3 / 0.4 / 0.5 / 0.6] Attack Speed and deals an additional [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit. During this time, her Attacks spread to nearby enemies dealing them [(0.3) × AD] physical damage.\n\nTranscendent State: This Ability is instantly activated for @Spell.YunaraR:Buff_Duration@ seconds."
+        },
+        {
+          "ability": "Vow of the First Lands",
+          "slot": "Passive",
+          "source": "Characters/Yunara/Spells/YunaraPassiveAbility/YunaraPassive",
+          "formula": "Yunara's Critical Strikes deal an additional [0.1 + (0.001) × AP] magic damage."
+        },
+        {
+          "ability": "Transcend One's Self",
+          "slot": "R",
+          "source": "Characters/Yunara/Spells/YunaraRAbility/YunaraR",
+          "formula": "Yunara enters a Transcendent State for [15] seconds upgrading her basic Abilities for the duration."
+        }
+      ]
+    },
+    {
+      "id": "yunara-audit-unleash-spread-audit",
+      "champion": "Yunara",
+      "name": "Unleash spread audit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare Q's native spread with item-based on-hit distribution.",
+      "goal": "Compare Q's native spread with item-based on-hit distribution.",
+      "hypothesis": "Attacks earn one Unleash or two against champions; eight enables five seconds of Q attack speed, extra on-hit and physical spread. Runaan and Statikk provide separate described on-hit propagation. E speed or its R-state dash supports access, while Terminus requires actual attack ramp.",
+      "itemIds": [
+        3085,
+        3087,
+        3115,
+        3302,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Eight earned Unleash without R in baseline, several off-axis enemies and recorded energized state.",
+        "Count Unleash and per-target Q/Statikk/Runaan packets with Q inactive and active, then R-state separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Spread targets stand out of range or AP/attack budget delays essential single-target damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Native Q physical spread does not state that it carries all item or passive on-hits.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Runaan's Hurricane, Statikk Shiv, Nashor's Tooth, Terminus, Bloodthirster, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Cultivation of Spirit",
+          "slot": "Q",
+          "source": "Characters/Yunara/Spells/YunaraQAbility/YunaraQ",
+          "formula": "Passive: Yunara deal [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit and attacking grants [1] Unleash ([2] Unleash for champions).\n\nActive: Yunara consumes [8] Unleash and for [5] seconds gains [0.2 / 0.3 / 0.4 / 0.5 / 0.6] Attack Speed and deals an additional [3 / 8 / 13 / 18 / 23 + (0.2) × AP] magic damage %i:OnHit% On-Hit. During this time, her Attacks spread to nearby enemies dealing them [(0.3) × AD] physical damage.\n\nTranscendent State: This Ability is instantly activated for @Spell.YunaraR:Buff_Duration@ seconds."
+        },
+        {
+          "ability": "Kanmei's Steps | Untouchable Shadow",
+          "slot": "E",
+          "source": "Characters/Yunara/Spells/YunaraEAbility/YunaraE",
+          "formula": "Yunara gains [0.3 / 0.35 / 0.4 / 0.45 / 0.5] Move Speed, increased to [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × (1.5)] Move Speed when moving toward an enemy champion, for [1.5] seconds.\n\nTranscendent State - {{Spell_YunaraE2_Name}}: Yunara dashes in a direction."
+        },
+        {
+          "ability": "Arc of Judgment | Arc of Ruin",
+          "slot": "W",
+          "source": "Characters/Yunara/Spells/YunaraWAbility/YunaraW",
+          "formula": "Yunara lets rip a prayer bead that deals [55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP] magic damage and Slows by [0.99] decaying over [1.5] seconds. It deals an additional [(55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP) × (0.6)] magic damage per second.\n\nTranscendent State - {{Spell_YunaraW2_Name}}: Yunara fires a laser that deals @Spell.YunaraR:Calc_RW_Damage@ magic damage and Slows by @Spell.YunaraR:Calc_RW_Slow_Amount@ decaying over @Spell.YunaraR:RW_Slow_Duration@ second."
+        },
+        {
+          "ability": "Transcend One's Self",
+          "slot": "R",
+          "source": "Characters/Yunara/Spells/YunaraRAbility/YunaraR",
+          "formula": "Yunara enters a Transcendent State for [15] seconds upgrading her basic Abilities for the duration."
+        }
+      ]
+    }
+  ]
+}

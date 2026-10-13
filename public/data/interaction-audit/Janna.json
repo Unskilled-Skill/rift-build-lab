@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Janna",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "tailwind-attack-skater",
+      "name": "Tailwind attack skater",
+      "objective": "Use bonus movement speed as documented on-hit magic damage.",
+      "mechanic": "Tailwind adds 0.3 times a movement-speed stat expression to attacks and Zephyr; Zephyr's passive grants speed with an AP term. Nashor and Dusk and Dawn reward real attacks, Stormrazor grants a brief energized speed burst, and Ardent can buff Janna after shielding an ally. Q disruption and self E help tolerate the attack-range risk.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "Q"
+      ],
+      "itemIds": [
+        3115,
+        3095,
+        3504,
+        2510,
+        4629,
+        3009
+      ],
+      "pageKey": "pta",
+      "requiredState": "Need movement buffs active, an allied shield target for Ardent and safe repeated attacks.",
+      "failure": "Casting Zephyr may alter passive availability; Q/R disengage can move targets outside attack range.",
+      "test": "Compare on-hit damage with speed buffs active versus expired and record empowered attack frequency.",
+      "rejectedAssumption": "Tailwind's raw movement stat flag is not proof that all displayed total speed converts to damage.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "shield-refund-damage-support",
+      "name": "Shield refund damage support",
+      "objective": "Convert repeated movement impairment into more allied AD shielding.",
+      "mechanic": "Eye of the Storm adds AD while its shield survives and refunds 20% cooldown when Janna impairs champion movement with an ability. Q/W/R can provide the impairment, while Helia charges from real damage before an allied shield. Staff grants AP/haste after shielding and Mandate serves actual Q/R immobilization; Shurelya helps allies reach Janna's formation.",
+      "evidenceSlots": [
+        "E",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        6620,
+        4005,
+        6616,
+        6621,
+        2065,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "Need shields surviving long enough to use AD and repeated safe impairment hits.",
+      "failure": "Burst instantly removes the shield AD, or aggressive damage fishing exposes Janna to engage.",
+      "test": "Measure E cooldown refunds, shield uptime and ally attack damage during a controlled two-target peel.",
+      "rejectedAssumption": "Current Mandate requires immobilization; Zephyr's slow alone cannot be assumed to mark.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Monsoon attack channel",
+      "reason": "Moving or using an ability ends R; it cannot sustain a simultaneous full attack combo.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Tailwind movement statFormula meaning, Zephyr passive loss and Helia charge timing need live checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Tailwind",
+      "paths": [
+        "Characters/Janna/Spells/TailwindSelfAbility/Tailwind",
+        "Characters/Janna/Spells/TailwindSelfAbility/TailwindSelf"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Howling Gale",
+      "paths": [
+        "Characters/Janna/Spells/HowlingGaleAbility/HowlingGale"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Zephyr",
+      "paths": [
+        "Characters/Janna/Spells/SowTheWindAbility/SowTheWind"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Eye Of The Storm",
+      "paths": [
+        "Characters/Janna/Spells/EyeOfTheStormAbility/EyeOfTheStorm"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Monsoon",
+      "paths": [
+        "Characters/Janna/Spells/ReapTheWhirlwindAbility/ReapTheWhirlwind"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "janna-audit-tailwind-attack-skater",
+      "champion": "Janna",
+      "name": "Tailwind attack skater",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use bonus movement speed as documented on-hit magic damage.",
+      "goal": "Use bonus movement speed as documented on-hit magic damage.",
+      "hypothesis": "Tailwind adds 0.3 times a movement-speed stat expression to attacks and Zephyr; Zephyr's passive grants speed with an AP term. Nashor and Dusk and Dawn reward real attacks, Stormrazor grants a brief energized speed burst, and Ardent can buff Janna after shielding an ally. Q disruption and self E help tolerate the attack-range risk.",
+      "itemIds": [
+        3115,
+        3095,
+        3504,
+        2510,
+        4629,
+        3009
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need movement buffs active, an allied shield target for Ardent and safe repeated attacks.",
+        "Compare on-hit damage with speed buffs active versus expired and record empowered attack frequency.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Casting Zephyr may alter passive availability; Q/R disengage can move targets outside attack range.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Tailwind's raw movement stat flag is not proof that all displayed total speed converts to damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Stormrazor, Ardent Censer, Dusk and Dawn, Cosmic Drive, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Eye Of The Storm",
+          "slot": "E",
+          "source": "Characters/Janna/Spells/EyeOfTheStormAbility/EyeOfTheStorm",
+          "formula": "Janna grants an ally champion or turret [80 / 120 / 160 / 200 / 240 + (0.55) × AP] Shield for [4] seconds. While shielded, they gain [10 / 15 / 20 / 25 / 30 + (0.1) × AP] Attack Damage.\n\nJanna refunds [20]% of the cooldown whenever she impairs an enemy champion's movement with an Ability."
+        },
+        {
+          "ability": "Tailwind",
+          "slot": "Passive",
+          "source": "Characters/Janna/Spells/TailwindSelfAbility/TailwindSelf",
+          "formula": "Ally champions gain [6]% Move Speed moving towards Janna.\n\nJanna deals [(0.3) × Stat(7)[statFormula=2]] bonus magic damage {{ Item_Keyword_OnHit }} and with Zephyr."
+        },
+        {
+          "ability": "Howling Gale",
+          "slot": "Q",
+          "source": "Characters/Janna/Spells/HowlingGaleAbility/HowlingGale",
+          "formula": "Janna summons a tornado that grows stronger over [3] seconds then blows along its path. It deals [55 / 90 / 125 / 160 / 195 + (0.5) × AP] - [55 / 90 / 125 / 160 / 195 + (0.5) × AP + (3) × ((10 / 15 / 20 / 25 / 30 + (0.1) × AP))] magic damage and Knocks Up for [0.5] - [0.5 + (3) × (0.25)] seconds. The distance, damage, and Knock Up duration increase based on how much the tornado grew. Janna can Recast to send the tornado early."
+        },
+        {
+          "ability": "Zephyr",
+          "slot": "W",
+          "source": "Characters/Janna/Spells/SowTheWindAbility/SowTheWind",
+          "formula": "Passive: Janna gains [0.06 / 0.07 / 0.08 / 0.09 / 0.1 + (0.0002) × AP] Move Speed and is Ghosted.\n\nActive: Janna's elemental strikes an enemy, Slowing them by [(20 / 24 / 28 / 32 / 36 + (0.06) × AP) × (0.01)] for [2] seconds, and dealing [55 / 85 / 115 / 145 / 175 + (0.5) × AP] + @spell.TailwindSelf:BonusDamage@ magic damage."
+        }
+      ]
+    },
+    {
+      "id": "janna-audit-shield-refund-damage-support",
+      "champion": "Janna",
+      "name": "Shield refund damage support",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert repeated movement impairment into more allied AD shielding.",
+      "goal": "Convert repeated movement impairment into more allied AD shielding.",
+      "hypothesis": "Eye of the Storm adds AD while its shield survives and refunds 20% cooldown when Janna impairs champion movement with an ability. Q/W/R can provide the impairment, while Helia charges from real damage before an allied shield. Staff grants AP/haste after shielding and Mandate serves actual Q/R immobilization; Shurelya helps allies reach Janna's formation.",
+      "itemIds": [
+        6620,
+        4005,
+        6616,
+        6621,
+        2065,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need shields surviving long enough to use AD and repeated safe impairment hits.",
+        "Measure E cooldown refunds, shield uptime and ally attack damage during a controlled two-target peel.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Burst instantly removes the shield AD, or aggressive damage fishing exposes Janna to engage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Current Mandate requires immobilization; Zephyr's slow alone cannot be assumed to mark.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Echoes of Helia, Imperial Mandate, Staff of Flowing Water, Dawncore, Shurelya's Battlesong, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Monsoon",
+          "slot": "R",
+          "source": "Characters/Janna/Spells/ReapTheWhirlwindAbility/ReapTheWhirlwind",
+          "formula": "Janna summons a magical monsoon, Knocking Back nearby enemies then healing nearby allies for [(100 / 150 / 200 + (0.5) × AP) × (3 / 3 / 3)] Health over [3 / 3 / 3] seconds. Moving or using an Ability ends the monsoon early."
+        },
+        {
+          "ability": "Eye Of The Storm",
+          "slot": "E",
+          "source": "Characters/Janna/Spells/EyeOfTheStormAbility/EyeOfTheStorm",
+          "formula": "Janna grants an ally champion or turret [80 / 120 / 160 / 200 / 240 + (0.55) × AP] Shield for [4] seconds. While shielded, they gain [10 / 15 / 20 / 25 / 30 + (0.1) × AP] Attack Damage.\n\nJanna refunds [20]% of the cooldown whenever she impairs an enemy champion's movement with an Ability."
+        },
+        {
+          "ability": "Howling Gale",
+          "slot": "Q",
+          "source": "Characters/Janna/Spells/HowlingGaleAbility/HowlingGale",
+          "formula": "Janna summons a tornado that grows stronger over [3] seconds then blows along its path. It deals [55 / 90 / 125 / 160 / 195 + (0.5) × AP] - [55 / 90 / 125 / 160 / 195 + (0.5) × AP + (3) × ((10 / 15 / 20 / 25 / 30 + (0.1) × AP))] magic damage and Knocks Up for [0.5] - [0.5 + (3) × (0.25)] seconds. The distance, damage, and Knock Up duration increase based on how much the tornado grew. Janna can Recast to send the tornado early."
+        },
+        {
+          "ability": "Zephyr",
+          "slot": "W",
+          "source": "Characters/Janna/Spells/SowTheWindAbility/SowTheWind",
+          "formula": "Passive: Janna gains [0.06 / 0.07 / 0.08 / 0.09 / 0.1 + (0.0002) × AP] Move Speed and is Ghosted.\n\nActive: Janna's elemental strikes an enemy, Slowing them by [(20 / 24 / 28 / 32 / 36 + (0.06) × AP) × (0.01)] for [2] seconds, and dealing [55 / 85 / 115 / 145 / 175 + (0.5) × AP] + @spell.TailwindSelf:BonusDamage@ magic damage."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Ambessa",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "energy-charge-strikes",
+      "name": "Energy Charge Strikes",
+      "objective": "Count casts possible from a fixed starting Energy pool.",
+      "mechanic": "P attack charges grant range/speed and restore Energy when consumed. Trinity and Sundered Sky reward cast-attack weaving; Shojin improves basic availability while Death's Dance buys time for R ability healing.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        3078,
+        6610,
+        3161,
+        6333,
+        3053,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Issue a move/attack command during each cast and consume four-second charges.",
+      "failure": "Kiting denies energy refunds despite haste.",
+      "test": "Count casts possible from a fixed starting Energy pool; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Haste alone does not fund additional casts.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "brace-chain-retention",
+      "name": "Brace Chain Retention",
+      "objective": "Compare braced W and dash-enabled E against missed brace/no dash.",
+      "mechanic": "W gains retaliation damage only after bracing a qualifying hit; E gains another strike when initiating P. Eclipse rewards separate hits and Cleaver supports physical packets; Stridebreaker retains proximity after E's brief slow.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        6692,
+        3071,
+        6631,
+        3053,
+        6333,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Brace incoming champion damage then dash with E.",
+      "failure": "Unbraced W or an outward dash loses damage.",
+      "test": "Compare braced W and dash-enabled E against missed brace/no dash; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Multiple packets do not prove instant full Cleaver stacks.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Mana dashes",
+      "reason": "P refunds Energy; mana-pool items cannot fund casts.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "R healing uses Stat(18), not a resolved named stat; no numerical lifesteal multiplier is assumed.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Drakehound's Step",
+      "paths": [
+        "Characters/Ambessa/Spells/AmbessaPassiveAbility/AmbessaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Cunning Sweep / Sundering Slam",
+      "paths": [
+        "Characters/Ambessa/Spells/AmbessaQAbility/AmbessaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Repudiation",
+      "paths": [
+        "Characters/Ambessa/Spells/AmbessaWAbility/AmbessaW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Lacerate",
+      "paths": [
+        "Characters/Ambessa/Spells/AmbessaEAbility/AmbessaE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Public Execution",
+      "paths": [
+        "Characters/Ambessa/Spells/AmbessaRAbility/AmbessaR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "ambessa-audit-energy-charge-strikes",
+      "champion": "Ambessa",
+      "name": "Energy Charge Strikes",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count casts possible from a fixed starting Energy pool.",
+      "goal": "Count casts possible from a fixed starting Energy pool.",
+      "hypothesis": "P attack charges grant range/speed and restore Energy when consumed. Trinity and Sundered Sky reward cast-attack weaving; Shojin improves basic availability while Death's Dance buys time for R ability healing.",
+      "itemIds": [
+        3078,
+        6610,
+        3161,
+        6333,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Issue a move/attack command during each cast and consume four-second charges.",
+        "Count casts possible from a fixed starting Energy pool; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Kiting denies energy refunds despite haste.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Haste alone does not fund additional casts.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Sundered Sky, Spear of Shojin, Death's Dance, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Drakehound's Step",
+          "slot": "Passive",
+          "source": "Characters/Ambessa/Spells/AmbessaPassiveAbility/AmbessaPassive",
+          "formula": "When Ambessa is casting an Ability, issuing a Move or Attack order will cause her to dash in that direction after the Ability finishes.\n\nEach cast initiation grants her a charge for [4] seconds (max: [3]). While Ambessa has a charge, she gains [75] %i:scaleRange% Attack Range and [0.5] %i:scaleAS% Attack Speed. Attacks consume a charge to deal [characterLevelInterpolation(5 → 25; raw flags preserved) + (0.2) × AD[statFormula=2]] physical damage and restore [characterLevelBreakpoints(start=40, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 15.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 15.0, \"__type\": \"Breakpoint\"}])] Energy."
+        },
+        {
+          "ability": "Cunning Sweep / Sundering Slam",
+          "slot": "Q",
+          "source": "Characters/Ambessa/Spells/AmbessaQAbility/AmbessaQ",
+          "formula": "Cunning Sweep: Ambessa sweeps her blades forward, dealing [40 / 60 / 80 / 100 / 120 + (0.6) × AD[statFormula=2]] + [0.04 / 0.045 / 0.05 / 0.055 / 0.06 + (0.0003) × AD[statFormula=2]] max Health physical damage to enemies at the edge of the strike. All other enemies take [0.5] damage. Striking an enemy readies a Sundering Slam.\n\nSundering Slam: Ambessa slams her blades down, dealing [50 / 75 / 100 / 125 / 150 + (0.9) × AD[statFormula=2]] + [0.04 / 0.045 / 0.05 / 0.055 / 0.06 + (0.0004) × AD[statFormula=2]] max Health physical damage against the first enemy hit. All other enemies take [0.5] damage."
+        },
+        {
+          "ability": "Public Execution",
+          "slot": "R",
+          "source": "Characters/Ambessa/Spells/AmbessaRAbility/AmbessaR",
+          "formula": "Passive: Ambessa gains [(0.1 / 0.2 / 0.3) × 100]% %i:scaleAPen% Armor Penetration and her Abilities heal her for [0.15 / 0.175 / 0.2 + (0.5) × Stat(18)] of the damage she dealt.\n\nActive: Ambessa becomes Unstoppable and blinks to the farthest enemy champion in a line, Suppressing the target for [0.75] seconds and then slamming them into the ground, dealing [150 / 250 / 350 + (0.8) × AD[statFormula=2]] physical damage and Stunning them for [0.4] seconds."
+        }
+      ]
+    },
+    {
+      "id": "ambessa-audit-brace-chain-retention",
+      "champion": "Ambessa",
+      "name": "Brace Chain Retention",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare braced W and dash-enabled E against missed brace/no dash.",
+      "goal": "Compare braced W and dash-enabled E against missed brace/no dash.",
+      "hypothesis": "W gains retaliation damage only after bracing a qualifying hit; E gains another strike when initiating P. Eclipse rewards separate hits and Cleaver supports physical packets; Stridebreaker retains proximity after E's brief slow.",
+      "itemIds": [
+        6692,
+        3071,
+        6631,
+        3053,
+        6333,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Brace incoming champion damage then dash with E.",
+        "Compare braced W and dash-enabled E against missed brace/no dash; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Unbraced W or an outward dash loses damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Multiple packets do not prove instant full Cleaver stacks.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Eclipse, Black Cleaver, Stridebreaker, Sterak's Gage, Death's Dance, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Drakehound's Step",
+          "slot": "Passive",
+          "source": "Characters/Ambessa/Spells/AmbessaPassiveAbility/AmbessaPassive",
+          "formula": "When Ambessa is casting an Ability, issuing a Move or Attack order will cause her to dash in that direction after the Ability finishes.\n\nEach cast initiation grants her a charge for [4] seconds (max: [3]). While Ambessa has a charge, she gains [75] %i:scaleRange% Attack Range and [0.5] %i:scaleAS% Attack Speed. Attacks consume a charge to deal [characterLevelInterpolation(5 → 25; raw flags preserved) + (0.2) × AD[statFormula=2]] physical damage and restore [characterLevelBreakpoints(start=40, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 15.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 15.0, \"__type\": \"Breakpoint\"}])] Energy."
+        },
+        {
+          "ability": "Repudiation",
+          "slot": "W",
+          "source": "Characters/Ambessa/Spells/AmbessaWAbility/AmbessaW",
+          "formula": "Ambessa gains [characterLevelInterpolation(50 → 320; raw flags preserved) + (1.5) × AD[statFormula=2]] Shield for [1.5] seconds and braces herself for [0.5] seconds. She then slams the ground, dealing [50 / 75 / 100 / 125 / 150 + (0.5) × AD[statFormula=2]] physical damage to nearby enemies, which increases to [(50 / 75 / 100 / 125 / 150 + (0.5) × AD[statFormula=2]) × (1.5)] physical damage if she braced herself from damage from an enemy champion, large monster, or structure."
+        },
+        {
+          "ability": "Lacerate",
+          "slot": "E",
+          "source": "Characters/Ambessa/Spells/AmbessaEAbility/AmbessaE",
+          "formula": "Ambessa whips her chains around, dealing [40 / 60 / 80 / 100 / 120 + (0.5) × AD[statFormula=2]] physical damage and Slowing enemies by [99]%, which decays over [1] second. Initiating {{Spell_AmbessaP_Name}} from this Ability will trigger an additional strike."
+        }
+      ]
+    }
+  ]
+}

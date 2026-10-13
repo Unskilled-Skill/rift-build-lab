@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Mel",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "brilliance-attack-weaver",
+      "name": "Brilliance attack weaver",
+      "objective": "Convert stored post-cast projectiles into a real attack burst.",
+      "mechanic": "Searing Brilliance grants three extra projectiles after an ability, stored up to nine, each with 0.04 AP magic damage. Nashor and Dusk and Dawn reward the actual releasing attack while Cosmic Drive assists positioning. Q/E multi-hit magic damage builds five-second Overwhelm stacks for R, so attack weaving tests additional stack delivery rather than replacing spells entirely.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4629,
+        3089,
+        3137,
+        3020
+      ],
+      "pageKey": "hob",
+      "requiredState": "Need stored projectiles, a tagged champion and a safe attack before stacks expire.",
+      "failure": "Holding all projectiles can waste short Overwhelm windows; attacking exposes Mel after W's 0.75-second protection.",
+      "test": "Count extra projectiles, Overwhelm stacks and item procs for one versus three stored casts.",
+      "rejectedAssumption": "Extra projectiles are not automatically nine full Nashor or Spellblade applications.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "reflective-ap-shield-counter",
+      "name": "Reflective AP shield counter",
+      "objective": "Make reflected projectile windows useful against projectile-heavy teams.",
+      "mechanic": "Rebuttal shields with 0.7 AP for 0.75 seconds and returns a rank/AP fraction of original projectile damage as magic. Visage strengthens the received shield, Rod supplies mana/health and Deathcap supports both shield and reflect coefficient. E's center root can trigger Aftershock defenses before a dangerous reflect, while Bloodletter relies on actual spell magic hits.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "Q",
+        "R",
+        "P"
+      ],
+      "itemIds": [
+        6657,
+        3065,
+        3089,
+        8010,
+        3157,
+        3111
+      ],
+      "pageKey": "after",
+      "requiredState": "Need an incoming reflectable projectile, W timing and E center root rather than only the slow area.",
+      "failure": "Non-projectile attacks bypass reflection; mistiming the tiny window leaves a low-burst defensive build.",
+      "test": "Compare shield absorbed and reflected magic damage across small and large projectiles, recording original damage.",
+      "rejectedAssumption": "Reflection does not guarantee original damage type, all spell effects or an ability's complete return payload.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Overwhelm infinite stacks",
+      "reason": "Stacks refresh for five seconds; execution compares stored damage to combined health and shields, not an automatic kill.",
+      "evidenceSlots": [
+        "P",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Reflection eligibility, item proc ownership and Q total token are unresolved; per-projectile Overwhelm gains need live confirmation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Searing Brilliance",
+      "paths": [
+        "Characters/Mel/Spells/MelPassiveAbility/MelPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Radiant Volley",
+      "paths": [
+        "Characters/Mel/Spells/MelQAbility/MelQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Rebuttal",
+      "paths": [
+        "Characters/Mel/Spells/MelWAbility/MelW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Solar Snare",
+      "paths": [
+        "Characters/Mel/Spells/MelEAbility/MelE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Golden Eclipse",
+      "paths": [
+        "Characters/Mel/Spells/MelRAbility/MelR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "mel-audit-brilliance-attack-weaver",
+      "champion": "Mel",
+      "name": "Brilliance attack weaver",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert stored post-cast projectiles into a real attack burst.",
+      "goal": "Convert stored post-cast projectiles into a real attack burst.",
+      "hypothesis": "Searing Brilliance grants three extra projectiles after an ability, stored up to nine, each with 0.04 AP magic damage. Nashor and Dusk and Dawn reward the actual releasing attack while Cosmic Drive assists positioning. Q/E multi-hit magic damage builds five-second Overwhelm stacks for R, so attack weaving tests additional stack delivery rather than replacing spells entirely.",
+      "itemIds": [
+        3115,
+        2510,
+        4629,
+        3089,
+        3137,
+        3020
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need stored projectiles, a tagged champion and a safe attack before stacks expire.",
+        "Count extra projectiles, Overwhelm stacks and item procs for one versus three stored casts.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Holding all projectiles can waste short Overwhelm windows; attacking exposes Mel after W's 0.75-second protection.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Extra projectiles are not automatically nine full Nashor or Spellblade applications.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Rebuttal",
+          "slot": "W",
+          "source": "Characters/Mel/Spells/MelWAbility/MelW",
+          "formula": "Mel forms a barrier around herself that reflects projectiles from enemy champions, gaining [80 / 110 / 140 / 170 / 200 + (0.7) × AP] Shields for [0.75] seconds and [40]% decaying Move Speed for [0.75] seconds.\n\nReflected projectiles deal [0.4 / 0.45 / 0.5 / 0.55 / 0.6 + (0.0005) × AP] original damage as magic damage."
+        },
+        {
+          "ability": "Searing Brilliance",
+          "slot": "Passive",
+          "source": "Characters/Mel/Spells/MelPassiveAbility/MelPassive",
+          "formula": "Mel's Attacks and Abilities apply and refresh stacks of Overwhelm for [5] seconds each time they deal damage, storing @spell.MelR:PassiveFlatDamage@ plus @spell.MelR:PassiveStackDamage@ damage per stack of magic damage. When applied, if the stored amount exceeds the enemy's combined shields and Health, they are executed.\n\nWhen an Ability is cast, Mel's next Attack fires [3] extra projectiles, each dealing [characterLevelInterpolation(8 → 30; raw flags preserved) + (0.04) × AP] magic damage. This effect can stack up to [9] extra projectiles."
+        },
+        {
+          "ability": "Golden Eclipse",
+          "slot": "R",
+          "source": "Characters/Mel/Spells/MelRAbility/MelR",
+          "formula": "Passive: Overwhelm damage is increased to [60 / 70 / 80 + (0.1) × AP] magic damage plus [3 / 4 / 5 + (0.0075) × AP] magic damage per stack.\n\nActive: Mel unleashes her power on all enemies affected by Overwhelm, dealing [125 / 200 / 275 + (0.3) × AP] magic damage plus [4 / 7 / 10 + (0.04) × AP] magic damage per Overwhelm stack.\n\nCan only be cast when an enemy champion is affected by Overwhelm."
+        },
+        {
+          "ability": "Radiant Volley",
+          "slot": "Q",
+          "source": "Characters/Mel/Spells/MelQAbility/MelQ",
+          "formula": "Mel unleashes a barrage of [6 / 7 / 8 / 9 / 10] projectiles that explode in the area around a target location.\n\nThe first explosion hit deals [60 / 85 / 110 / 135 / 160 + (0.55) × AP] magic damage and each subsequent explosion deals [5 / 7 / 9 / 11 / 13 + (0.05) × AP] magic damage, adding up to [UNRESOLVED({f3cbe7b2}; see calculationRaw) + (UNRESOLVED({f3cbe7b2}; see calculationRaw)) × ((6 / 7 / 8 / 9 / 10 + -1))] magic damage total."
+        },
+        {
+          "ability": "Solar Snare",
+          "slot": "E",
+          "source": "Characters/Mel/Spells/MelEAbility/MelE",
+          "formula": "Mel fires a radiating orb, Rooting enemies at its center for [1.5] seconds and dealing [60 / 105 / 150 / 195 / 240 + (0.7) × AP] magic damage.\n\nThe orb builds up a hostile area around it that Slows enemies by [30]% and deals [16 / 28 / 40 / 52 / 64 + (0.08) × AP] magic damage per second."
+        }
+      ]
+    },
+    {
+      "id": "mel-audit-reflective-ap-shield-counter",
+      "champion": "Mel",
+      "name": "Reflective AP shield counter",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Make reflected projectile windows useful against projectile-heavy teams.",
+      "goal": "Make reflected projectile windows useful against projectile-heavy teams.",
+      "hypothesis": "Rebuttal shields with 0.7 AP for 0.75 seconds and returns a rank/AP fraction of original projectile damage as magic. Visage strengthens the received shield, Rod supplies mana/health and Deathcap supports both shield and reflect coefficient. E's center root can trigger Aftershock defenses before a dangerous reflect, while Bloodletter relies on actual spell magic hits.",
+      "itemIds": [
+        6657,
+        3065,
+        3089,
+        8010,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need an incoming reflectable projectile, W timing and E center root rather than only the slow area.",
+        "Compare shield absorbed and reflected magic damage across small and large projectiles, recording original damage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Non-projectile attacks bypass reflection; mistiming the tiny window leaves a low-burst defensive build.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Reflection does not guarantee original damage type, all spell effects or an ability's complete return payload.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Rod of Ages, Spirit Visage, Rabadon's Deathcap, Bloodletter's Curse, Zhonya's Hourglass, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Rebuttal",
+          "slot": "W",
+          "source": "Characters/Mel/Spells/MelWAbility/MelW",
+          "formula": "Mel forms a barrier around herself that reflects projectiles from enemy champions, gaining [80 / 110 / 140 / 170 / 200 + (0.7) × AP] Shields for [0.75] seconds and [40]% decaying Move Speed for [0.75] seconds.\n\nReflected projectiles deal [0.4 / 0.45 / 0.5 / 0.55 / 0.6 + (0.0005) × AP] original damage as magic damage."
+        },
+        {
+          "ability": "Searing Brilliance",
+          "slot": "Passive",
+          "source": "Characters/Mel/Spells/MelPassiveAbility/MelPassive",
+          "formula": "Mel's Attacks and Abilities apply and refresh stacks of Overwhelm for [5] seconds each time they deal damage, storing @spell.MelR:PassiveFlatDamage@ plus @spell.MelR:PassiveStackDamage@ damage per stack of magic damage. When applied, if the stored amount exceeds the enemy's combined shields and Health, they are executed.\n\nWhen an Ability is cast, Mel's next Attack fires [3] extra projectiles, each dealing [characterLevelInterpolation(8 → 30; raw flags preserved) + (0.04) × AP] magic damage. This effect can stack up to [9] extra projectiles."
+        },
+        {
+          "ability": "Golden Eclipse",
+          "slot": "R",
+          "source": "Characters/Mel/Spells/MelRAbility/MelR",
+          "formula": "Passive: Overwhelm damage is increased to [60 / 70 / 80 + (0.1) × AP] magic damage plus [3 / 4 / 5 + (0.0075) × AP] magic damage per stack.\n\nActive: Mel unleashes her power on all enemies affected by Overwhelm, dealing [125 / 200 / 275 + (0.3) × AP] magic damage plus [4 / 7 / 10 + (0.04) × AP] magic damage per Overwhelm stack.\n\nCan only be cast when an enemy champion is affected by Overwhelm."
+        },
+        {
+          "ability": "Radiant Volley",
+          "slot": "Q",
+          "source": "Characters/Mel/Spells/MelQAbility/MelQ",
+          "formula": "Mel unleashes a barrage of [6 / 7 / 8 / 9 / 10] projectiles that explode in the area around a target location.\n\nThe first explosion hit deals [60 / 85 / 110 / 135 / 160 + (0.55) × AP] magic damage and each subsequent explosion deals [5 / 7 / 9 / 11 / 13 + (0.05) × AP] magic damage, adding up to [UNRESOLVED({f3cbe7b2}; see calculationRaw) + (UNRESOLVED({f3cbe7b2}; see calculationRaw)) × ((6 / 7 / 8 / 9 / 10 + -1))] magic damage total."
+        },
+        {
+          "ability": "Solar Snare",
+          "slot": "E",
+          "source": "Characters/Mel/Spells/MelEAbility/MelE",
+          "formula": "Mel fires a radiating orb, Rooting enemies at its center for [1.5] seconds and dealing [60 / 105 / 150 / 195 / 240 + (0.7) × AP] magic damage.\n\nThe orb builds up a hostile area around it that Slows enemies by [30]% and deals [16 / 28 / 40 / 52 / 64 + (0.08) × AP] magic damage per second."
+        }
+      ]
+    }
+  ]
+}

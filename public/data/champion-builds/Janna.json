@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "janna-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "janna-four-2",
+      "id": "janna-audit-tailwind-attack-skater",
       "champion": "Janna",
-      "name": "Damage interaction: Attack-carry facilitator",
-      "goal": "Damage interaction for Janna: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A disengage enchanter who controls enemy approach and improves allied movement, shielding and damage. Measure disengage, shield absorption and ally damage preserved. AP damage or movement spending must beat the actual protection lost; R channel time and interruption matter. Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
-      "summary": "Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
+      "name": "Tailwind attack skater",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use bonus movement speed as documented on-hit magic damage.",
+      "goal": "Use bonus movement speed as documented on-hit magic damage.",
+      "hypothesis": "Tailwind adds 0.3 times a movement-speed stat expression to attacks and Zephyr; Zephyr's passive grants speed with an AP term. Nashor and Dusk and Dawn reward real attacks, Stormrazor grants a brief energized speed burst, and Ardent can buff Janna after shielding an ally. Q disruption and self E help tolerate the attack-range risk.",
       "itemIds": [
-        3869,
-        6620,
+        3115,
+        3095,
         3504,
-        6616,
-        3107,
-        3158
+        2510,
+        4629,
+        3009
       ],
       "runePage": [
-        8214,
-        8226,
-        8210,
-        8237,
-        8345,
-        8347
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5005,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,43 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Janna: Measure disengage, shield absorption and ally damage preserved. AP damage or movement spending must beat the actual protection lost; R channel time and interruption matter.",
-        "Start with the early core (Support quest, Helia if it can be triggered, then an ally-appropriate buff item) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Eligible healing/shielding may deliver ally buffs and repeated supportive value. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: By creating a localized change in pressure and temperature, Janna is able to create a small storm that grows in size with time. She can activate the spell again to release the storm. On release this storm will fly towards the direction it was cast in, dealing damage and knocking away any enemies in its path. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need movement buffs active, an allied shield target for Ardent and safe repeated attacks.",
+        "Compare on-hit damage with speed buffs active versus expired and record empowered attack frequency.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
-        "The route fails Janna's stated kit question: Measure disengage, shield absorption and ally damage preserved. AP damage or movement spending must beat the actual protection lost; R channel time and interruption matter.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Casting Zephyr may alter passive availability; Q/R disengage can move targets outside attack range.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
-        "Full cost 10,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Tailwind's raw movement stat flag is not proof that all displayed total speed converts to damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Helia if it can be triggered, then an ally-appropriate buff item. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Ardent Censer, Staff of Flowing Water, Redemption are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Stormrazor, Ardent Censer, Dusk and Dawn, Cosmic Drive, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Monsoon",
-          "slot": "R",
-          "source": "Characters/Janna/Spells/ReapTheWhirlwindAbility/ReapTheWhirlwind",
-          "formula": "Janna summons a magical monsoon, Knocking Back nearby enemies then healing nearby allies for [(100 / 150 / 200 + (0.5) × AP) × (3 / 3 / 3)] Health over [3 / 3 / 3] seconds. Moving or using an Ability ends the monsoon early."
-        },
         {
           "ability": "Eye Of The Storm",
           "slot": "E",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "janna-four-4",
+      "id": "janna-audit-shield-refund-damage-support",
       "champion": "Janna",
-      "name": "Experiment: AP support gamble",
-      "goal": "Experiment for Janna: test a different playstyle, with lower confidence",
-      "hypothesis": "A disengage enchanter who controls enemy approach and improves allied movement, shielding and damage. Measure disengage, shield absorption and ally damage preserved. AP damage or movement spending must beat the actual protection lost; R channel time and interruption matter. A quest slot retained alongside AP tests whether personal spell damage repays reduced utility. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "A quest slot retained alongside AP tests whether personal spell damage repays reduced utility.",
+      "name": "Shield refund damage support",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert repeated movement impairment into more allied AD shielding.",
+      "goal": "Convert repeated movement impairment into more allied AD shielding.",
+      "hypothesis": "Eye of the Storm adds AD while its shield survives and refunds 20% cooldown when Janna impairs champion movement with an ability. Q/W/R can provide the impairment, while Helia charges from real damage before an allied shield. Staff grants AP/haste after shielding and Mandate serves actual Q/R immobilization; Shurelya helps allies reach Janna's formation.",
       "itemIds": [
-        3869,
-        6655,
-        3089,
-        3135,
-        3157,
-        3020
+        6620,
+        4005,
+        6616,
+        6621,
+        2065,
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Janna: Measure disengage, shield absorption and ally damage preserved. AP damage or movement spending must beat the actual protection lost; R channel time and interruption matter.",
-        "Start with the early core (Support quest, affordable AP/mana core before expensive scaling) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A quest slot retained alongside AP tests whether personal spell damage repays reduced utility. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: By creating a localized change in pressure and temperature, Janna is able to create a small storm that grows in size with time. She can activate the spell again to release the storm. On release this storm will fly towards the direction it was cast in, dealing damage and knocking away any enemies in its path. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need shields surviving long enough to use AD and repeated safe impairment hits.",
+        "Measure E cooldown refunds, shield uptime and ally attack damage during a controlled two-target peel.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "The route fails Janna's stated kit question: Measure disengage, shield absorption and ally damage preserved. AP damage or movement spending must beat the actual protection lost; R channel time and interruption matter.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Burst instantly removes the shield AD, or aggressive damage fishing exposes Janna to engage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "Full cost 14,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Current Mandate requires immobilization; Zephyr's slow alone cannot be assumed to mark.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, affordable AP/mana core before expensive scaling. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Echoes of Helia, Imperial Mandate, Staff of Flowing Water, Dawncore, Shurelya's Battlesong, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Monsoon",
@@ -403,12 +385,6 @@
           "slot": "E",
           "source": "Characters/Janna/Spells/EyeOfTheStormAbility/EyeOfTheStorm",
           "formula": "Janna grants an ally champion or turret [80 / 120 / 160 / 200 / 240 + (0.55) × AP] Shield for [4] seconds. While shielded, they gain [10 / 15 / 20 / 25 / 30 + (0.1) × AP] Attack Damage.\n\nJanna refunds [20]% of the cooldown whenever she impairs an enemy champion's movement with an Ability."
-        },
-        {
-          "ability": "Tailwind",
-          "slot": "Passive",
-          "source": "Characters/Janna/Spells/TailwindSelfAbility/TailwindSelf",
-          "formula": "Ally champions gain [6]% Move Speed moving towards Janna.\n\nJanna deals [(0.3) × Stat(7)[statFormula=2]] bonus magic damage {{ Item_Keyword_OnHit }} and with Zephyr."
         },
         {
           "ability": "Howling Gale",

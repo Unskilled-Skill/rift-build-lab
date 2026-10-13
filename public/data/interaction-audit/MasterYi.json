@@ -1,0 +1,314 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "MasterYi",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "meditate-hybrid-survivor",
+      "name": "Meditate hybrid survivor",
+      "objective": "Test meditate hybrid survivor against conventional damage at equal gold.",
+      "mechanic": "Meditate heals with 1.0 AP across four seconds, increased at low health; Nashor and Gunblade preserve attack damage while AP tests survival through the channel. Terminus supports mixed ordinary attacks, but W cannot deal damage and E's true damage still benefits AD.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        3146,
+        4633,
+        3065,
+        3302,
+        3006
+      ],
+      "pageKey": "conq",
+      "requiredState": "Use W after the initial half-second damage-reduction window is relevant.",
+      "failure": "Interruptions or lost attacking time outweigh extra healing.",
+      "test": "Measure healing at fixed missing health and subsequent five-second attack damage.",
+      "rejectedAssumption": "Meditate is not an AP damage spell; Q has no documented AP ratio.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "wuju-health-to-ad-reset",
+      "name": "Wuju health-to-AD reset",
+      "objective": "Test wuju health-to-ad reset against conventional damage at equal gold.",
+      "mechanic": "Wuju Style adds 0.35 AD[source modifier] true damage per attack; Bloodmail converts item health to AD while Titanic supports physical attacks. Hexplate synchronizes with Highlander for an eight-second attack window, then champion takedowns reduce basic cooldowns by 70%.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2501,
+        3748,
+        3073,
+        3053,
+        6333,
+        3047
+      ],
+      "pageKey": "lt",
+      "requiredState": "Enter with R and survive to an actual first takedown.",
+      "failure": "Lower attack speed and kiting can prevent the reset the build depends on.",
+      "test": "Compare E true damage and time to first kill with equal targets.",
+      "rejectedAssumption": "No free Highlander extension or cooldown refund without champion takedowns.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Meditate is not an AP damage spell; Q has no documented AP ratio.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Controlled current-patch proc testing remains necessary; source helper/statFormula expressions are evidence, not confirmed runtime behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Double Strike",
+      "paths": [
+        "Characters/MasterYi/Spells/MasterYiPassiveAbility/MasterYiPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Alpha Strike",
+      "paths": [
+        "Characters/MasterYi/Spells/AlphaStrikeAbility/AlphaStrike"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Meditate",
+      "paths": [
+        "Characters/MasterYi/Spells/MeditateAbility/Meditate"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Wuju Style",
+      "paths": [
+        "Characters/MasterYi/Spells/WujuStyleAbility/WujuStyle"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Highlander",
+      "paths": [
+        "Characters/MasterYi/Spells/HighlanderAbility/Highlander"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "masteryi-audit-meditate-hybrid-survivor",
+      "champion": "MasterYi",
+      "name": "Meditate hybrid survivor",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test meditate hybrid survivor against conventional damage at equal gold.",
+      "goal": "Test meditate hybrid survivor against conventional damage at equal gold.",
+      "hypothesis": "Meditate heals with 1.0 AP across four seconds, increased at low health; Nashor and Gunblade preserve attack damage while AP tests survival through the channel. Terminus supports mixed ordinary attacks, but W cannot deal damage and E's true damage still benefits AD.",
+      "itemIds": [
+        3115,
+        3146,
+        4633,
+        3065,
+        3302,
+        3006
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Use W after the initial half-second damage-reduction window is relevant.",
+        "Measure healing at fixed missing health and subsequent five-second attack damage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Interruptions or lost attacking time outweigh extra healing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Meditate is not an AP damage spell; Q has no documented AP ratio.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Hextech Gunblade, Riftmaker, Spirit Visage, Terminus, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Double Strike",
+          "slot": "Passive",
+          "source": "Characters/MasterYi/Spells/MasterYiPassiveAbility/MasterYiPassive",
+          "formula": "Every [4]th Attack, Master Yi strikes twice. The second Attack deals [(0.5) × AD] physical damage."
+        },
+        {
+          "ability": "Alpha Strike",
+          "slot": "Q",
+          "source": "Characters/MasterYi/Spells/AlphaStrikeAbility/AlphaStrike",
+          "formula": "Master Yi becomes Untargetable and teleports to rapidly strike enemies near his target, dealing [20 / 40 / 60 / 80 / 100 + (0.7) × AD] physical damage to all enemies hit after [4] hits. \n\nThis Ability can strike the same enemy repeatedly if there are no other targets, dealing [25]% damage for subsequent hits ([((20 / 40 / 60 / 80 / 100 + (0.7) × AD)) × (0.25)]), for a maximum single target total of [(20 / 40 / 60 / 80 / 100 + (0.7) × AD) × ((1 + (0.25) × ((-1 + 4))))] physical damage."
+        },
+        {
+          "ability": "Meditate",
+          "slot": "W",
+          "source": "Characters/MasterYi/Spells/MeditateAbility/Meditate",
+          "formula": "Master Yi channels, restoring [120 / 200 / 280 / 360 / 440 + (1) × AP] Health over [4] seconds. This healing is increased by up to [100]% based on Master Yi's missing Health.\n\nWhile channeling and for [0.5] seconds afterwards, he takes [(0.45 / 0.475 / 0.5 / 0.525 / 0.55 + 0.25 / 0.225 / 0.2 / 0.175 / 0.15)] reduced damage, decreased to [(0.45 / 0.475 / 0.5 / 0.525 / 0.55) × 100]% after the first [0.5] seconds."
+        },
+        {
+          "ability": "Wuju Style",
+          "slot": "E",
+          "source": "Characters/MasterYi/Spells/WujuStyleAbility/WujuStyle",
+          "formula": "Master Yi's Attacks deal an additional [20 / 25 / 30 / 35 / 40 + (0.35) × AD[statFormula=2]] true damage for [5] seconds."
+        },
+        {
+          "ability": "Highlander",
+          "slot": "R",
+          "source": "Characters/MasterYi/Spells/HighlanderAbility/Highlander",
+          "formula": "Passive: Champion takedowns reduce the remaining Cooldown of Master Yi's basic Abilities by [70]%.\n\nActive: Master Yi enters a trance, gaining [40 / 50 / 60]% Move Speed, [25 / 45 / 65]% Attack Speed, and immunity to Slows for [7] seconds. Champion takedowns extend the duration of this Ability by [7] seconds."
+        }
+      ]
+    },
+    {
+      "id": "masteryi-audit-wuju-health-to-ad-reset",
+      "champion": "MasterYi",
+      "name": "Wuju health-to-AD reset",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test wuju health-to-ad reset against conventional damage at equal gold.",
+      "goal": "Test wuju health-to-ad reset against conventional damage at equal gold.",
+      "hypothesis": "Wuju Style adds 0.35 AD[source modifier] true damage per attack; Bloodmail converts item health to AD while Titanic supports physical attacks. Hexplate synchronizes with Highlander for an eight-second attack window, then champion takedowns reduce basic cooldowns by 70%.",
+      "itemIds": [
+        2501,
+        3748,
+        3073,
+        3053,
+        6333,
+        3047
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Enter with R and survive to an actual first takedown.",
+        "Compare E true damage and time to first kill with equal targets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Lower attack speed and kiting can prevent the reset the build depends on.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: No free Highlander extension or cooldown refund without champion takedowns.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Titanic Hydra, Experimental Hexplate, Sterak's Gage, Death's Dance, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Double Strike",
+          "slot": "Passive",
+          "source": "Characters/MasterYi/Spells/MasterYiPassiveAbility/MasterYiPassive",
+          "formula": "Every [4]th Attack, Master Yi strikes twice. The second Attack deals [(0.5) × AD] physical damage."
+        },
+        {
+          "ability": "Alpha Strike",
+          "slot": "Q",
+          "source": "Characters/MasterYi/Spells/AlphaStrikeAbility/AlphaStrike",
+          "formula": "Master Yi becomes Untargetable and teleports to rapidly strike enemies near his target, dealing [20 / 40 / 60 / 80 / 100 + (0.7) × AD] physical damage to all enemies hit after [4] hits. \n\nThis Ability can strike the same enemy repeatedly if there are no other targets, dealing [25]% damage for subsequent hits ([((20 / 40 / 60 / 80 / 100 + (0.7) × AD)) × (0.25)]), for a maximum single target total of [(20 / 40 / 60 / 80 / 100 + (0.7) × AD) × ((1 + (0.25) × ((-1 + 4))))] physical damage."
+        },
+        {
+          "ability": "Wuju Style",
+          "slot": "E",
+          "source": "Characters/MasterYi/Spells/WujuStyleAbility/WujuStyle",
+          "formula": "Master Yi's Attacks deal an additional [20 / 25 / 30 / 35 / 40 + (0.35) × AD[statFormula=2]] true damage for [5] seconds."
+        },
+        {
+          "ability": "Highlander",
+          "slot": "R",
+          "source": "Characters/MasterYi/Spells/HighlanderAbility/Highlander",
+          "formula": "Passive: Champion takedowns reduce the remaining Cooldown of Master Yi's basic Abilities by [70]%.\n\nActive: Master Yi enters a trance, gaining [40 / 50 / 60]% Move Speed, [25 / 45 / 65]% Attack Speed, and immunity to Slows for [7] seconds. Champion takedowns extend the duration of this Ability by [7] seconds."
+        }
+      ]
+    }
+  ]
+}

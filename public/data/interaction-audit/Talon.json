@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Talon",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "melee-q-crit-boundary",
+      "name": "Melee-Q crit boundary",
+      "objective": "Test the specifically crit-labelled melee Q using one crit-damage item.",
+      "mechanic": "Q changes from leap damage to a critical hit in melee range, with CriticalDamage retaining Stat(9)[statFormula=2]. Infinity Edge supplies crit damage for a controlled test; AD/lethality and Serylda support the physical sequence. R can bring blades back to an attack/Q target and the final actual attack can trigger three-stack bleed.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        3031,
+        6692,
+        6694,
+        3814,
+        3142,
+        3158
+      ],
+      "pageKey": "electro",
+      "requiredState": "Q cast from measured melee range; initial wounds and incoming shields are fixed.",
+      "failure": "Reaching melee costs health and the crit investment may not affect Q as expected.",
+      "test": "Compare leap versus melee Q with/without Infinity Edge at equal observed AD and armor.",
+      "rejectedAssumption": "The special Q critical formula does not prove crit chance makes ranged Q or bleed crit.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "bleed-ramp-survivor",
+      "name": "Bleed ramp survivor",
+      "objective": "Use the finite bleed window to test physical shred while preserving a second spell cycle.",
+      "mechanic": "W outbound and return apply physical ability damage and wounds; a real attack at three wounds starts two seconds of 2.1 AD[statFormula=2] bleed. Cleaver can ramp on eligible physical packets; Shojin supports basic spells and Deaths Dance buys a bounded recovery chance if a damaged target dies. E terrain cooldown still limits the exit.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3071,
+        3161,
+        3074,
+        6333,
+        3053,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Both W passes and a three-wound attack connect; terrain for E escape is unused.",
+      "failure": "Target escapes before the attack or the bleed kill occurs after Talon dies.",
+      "test": "Record wound application, bleed ticks, Cleaver stacks and time to a second W/Q.",
+      "rejectedAssumption": "Bleed ticks are not guaranteed separate wound stacks or independently stacking every item effect.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Armor penetration increases every damage type",
+      "reason": "Talon kit packets shown are physical; penetration supports them but has no universal damage amplification premise.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q crit Stat(9) flag and AD statFormula=2 require numeric resolution. Cleaver/Shojin stacking per bleed packet needs observed logs."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Blade's End",
+      "paths": [
+        "Characters/Talon/Spells/TalonPassiveAbility/TalonPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Noxian Diplomacy",
+      "paths": [
+        "Characters/Talon/Spells/TalonQAbility/TalonQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Rake",
+      "paths": [
+        "Characters/Talon/Spells/TalonWAbility/TalonW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Assassin's Path",
+      "paths": [
+        "Characters/Talon/Spells/TalonEAbility/TalonE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Shadow Assault",
+      "paths": [
+        "Characters/Talon/Spells/TalonRAbility/TalonR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "talon-audit-melee-q-crit-boundary",
+      "champion": "Talon",
+      "name": "Melee-Q crit boundary",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test the specifically crit-labelled melee Q using one crit-damage item.",
+      "goal": "Test the specifically crit-labelled melee Q using one crit-damage item.",
+      "hypothesis": "Q changes from leap damage to a critical hit in melee range, with CriticalDamage retaining Stat(9)[statFormula=2]. Infinity Edge supplies crit damage for a controlled test; AD/lethality and Serylda support the physical sequence. R can bring blades back to an attack/Q target and the final actual attack can trigger three-stack bleed.",
+      "itemIds": [
+        3031,
+        6692,
+        6694,
+        3814,
+        3142,
+        3158
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Q cast from measured melee range; initial wounds and incoming shields are fixed.",
+        "Compare leap versus melee Q with/without Infinity Edge at equal observed AD and armor.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Reaching melee costs health and the crit investment may not affect Q as expected.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The special Q critical formula does not prove crit chance makes ranged Q or bleed crit.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Infinity Edge, Eclipse, Serylda's Grudge, Edge of Night, Youmuu's Ghostblade, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Assault",
+          "slot": "R",
+          "source": "Characters/Talon/Spells/TalonRAbility/TalonR",
+          "formula": "Talon disperses a ring of blades that deal [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage, gains [(0.4 / 0.55 / 0.7) × 100]% Move Speed, and becomes Invisible for [2.5] seconds. When the Invisibility ends, the blades return to Talon, dealing [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage again.\n\nIf Talon cancels the Invisibility with an Attack or with {{Spell_TalonQ_Name}}, the blades return to the target instead."
+        },
+        {
+          "ability": "Blade's End",
+          "slot": "Passive",
+          "source": "Characters/Talon/Spells/TalonPassiveAbility/TalonPassive",
+          "formula": "Talon's Abilities apply a stack to champions and large jungle monsters they damage for [6] seconds (max 3 stacks).\n\nWhen Talon Attacks a target with 3 stacks, he deals an additional [characterLevelInterpolation(80 → 280; raw flags preserved) + (2.1) × AD[statFormula=2]] physical damage over [2] seconds."
+        },
+        {
+          "ability": "Noxian Diplomacy",
+          "slot": "Q",
+          "source": "Characters/Talon/Spells/TalonQAbility/TalonQ",
+          "formula": "Talon leaps to a target and deals [65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]] physical damage. If used in melee range, this Ability instead critically strikes for [(65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]) × ((1.5 + (1) × Stat(9)[statFormula=2]))] physical damage.\n\nIf this Ability kills the target, Talon restores [characterLevelInterpolation(9 → 55; raw flags preserved)] Health and refunds [50]% of its Cooldown."
+        }
+      ]
+    },
+    {
+      "id": "talon-audit-bleed-ramp-survivor",
+      "champion": "Talon",
+      "name": "Bleed ramp survivor",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use the finite bleed window to test physical shred while preserving a second spell cycle.",
+      "goal": "Use the finite bleed window to test physical shred while preserving a second spell cycle.",
+      "hypothesis": "W outbound and return apply physical ability damage and wounds; a real attack at three wounds starts two seconds of 2.1 AD[statFormula=2] bleed. Cleaver can ramp on eligible physical packets; Shojin supports basic spells and Deaths Dance buys a bounded recovery chance if a damaged target dies. E terrain cooldown still limits the exit.",
+      "itemIds": [
+        3071,
+        3161,
+        3074,
+        6333,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Both W passes and a three-wound attack connect; terrain for E escape is unused.",
+        "Record wound application, bleed ticks, Cleaver stacks and time to a second W/Q.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Target escapes before the attack or the bleed kill occurs after Talon dies.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Bleed ticks are not guaranteed separate wound stacks or independently stacking every item effect.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Black Cleaver, Spear of Shojin, Ravenous Hydra, Death's Dance, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Assault",
+          "slot": "R",
+          "source": "Characters/Talon/Spells/TalonRAbility/TalonR",
+          "formula": "Talon disperses a ring of blades that deal [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage, gains [(0.4 / 0.55 / 0.7) × 100]% Move Speed, and becomes Invisible for [2.5] seconds. When the Invisibility ends, the blades return to Talon, dealing [90 / 135 / 180 + (1) × AD[statFormula=2]] physical damage again.\n\nIf Talon cancels the Invisibility with an Attack or with {{Spell_TalonQ_Name}}, the blades return to the target instead."
+        },
+        {
+          "ability": "Assassin's Path",
+          "slot": "E",
+          "source": "Characters/Talon/Spells/TalonEAbility/TalonE",
+          "formula": "Talon vaults over the nearest terrain or structure. Talon cannot dash over the same terrain more than once every [160 / 135 / 110 / 85 / 60] seconds."
+        },
+        {
+          "ability": "Blade's End",
+          "slot": "Passive",
+          "source": "Characters/Talon/Spells/TalonPassiveAbility/TalonPassive",
+          "formula": "Talon's Abilities apply a stack to champions and large jungle monsters they damage for [6] seconds (max 3 stacks).\n\nWhen Talon Attacks a target with 3 stacks, he deals an additional [characterLevelInterpolation(80 → 280; raw flags preserved) + (2.1) × AD[statFormula=2]] physical damage over [2] seconds."
+        },
+        {
+          "ability": "Rake",
+          "slot": "W",
+          "source": "Characters/Talon/Spells/TalonWAbility/TalonW",
+          "formula": "Talon tosses a volley of blades, dealing [50 / 60 / 70 / 80 / 90 + (0.4) × AD[statFormula=2]] physical damage. The blades then return to him, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and Slowing by [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% for [1] second."
+        },
+        {
+          "ability": "Noxian Diplomacy",
+          "slot": "Q",
+          "source": "Characters/Talon/Spells/TalonQAbility/TalonQ",
+          "formula": "Talon leaps to a target and deals [65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]] physical damage. If used in melee range, this Ability instead critically strikes for [(65 / 85 / 105 / 125 / 145 + (1) × AD[statFormula=2]) × ((1.5 + (1) × Stat(9)[statFormula=2]))] physical damage.\n\nIf this Ability kills the target, Talon restores [characterLevelInterpolation(9 → 55; raw flags preserved)] Health and refunds [50]% of its Cooldown."
+        }
+      ]
+    }
+  ]
+}

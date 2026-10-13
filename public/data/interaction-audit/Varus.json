@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Varus",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "blight-cooldown-circuit",
+      "name": "Blight cooldown circuit",
+      "objective": "Use three-stack detonation to reopen basic spells while preserving attack access.",
+      "mechanic": "W supplies AP/AD magic on-hit, three Blight stacks and maximum-cooldown reductions per detonation stack against champions/epic monsters. Nashor and Dusk test attack-to-detonation cycling; R gradually grants three stacks while Q charge amplifies detonation. AP supports both on-hit and percent-health damage.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        3089,
+        3137,
+        4629,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Three actual stacks before detonation, target eligible for cooldown refund and Q charge recorded.",
+      "failure": "Charging while exposed prevents attacks or detonating early forfeits health damage and refund.",
+      "test": "Log stacks, Q charge and basic cooldown remaining after one versus three-stack detonations.",
+      "rejectedAssumption": "Dusk repeat does not establish two Blight stacks from one attack.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "root-volley-magic",
+      "name": "Root volley magic",
+      "objective": "Use R's root to apply Fiendhunter's finite attacks before a charged W-Q finish.",
+      "mechanic": "R roots and applies Blight over its duration; Fiendhunter grants three enhanced basic attacks after R. Statikk offers AD/AP and attack effects; W's missing-health active rewards delaying Q until health falls. Terminus provides mixed penetration only after confirmed attack ramp.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        2512,
+        3087,
+        3031,
+        3302,
+        3072,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "R lands, three attacks available inside item window and W active held for charged Q.",
+      "failure": "Overlapping R and attack stacks waste the cap or target dies/escapes before Q charge.",
+      "test": "Compare R-three attacks-WQ versus R-WQ, counting capped stacks and all attack/item packets.",
+      "rejectedAssumption": "Passive's raw Stat(4) formula cannot be assumed to grant a fixed AP/AD amount.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Blight scales with missing health",
+      "reason": "Passive Blight detonation is max-health damage; W active adds a distinct missing-health Q packet.",
+      "evidenceSlots": [
+        "W",
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive Stat(4), W phantom-hit stacking and exact charge multiplier ordering need in-game verification."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Living Vengeance",
+      "paths": [
+        "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Piercing Arrow",
+      "paths": [
+        "Characters/Varus/Spells/VarusQAbility/VarusQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Blighted Quiver",
+      "paths": [
+        "Characters/Varus/Spells/VarusWAbility/VarusW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Hail of Arrows",
+      "paths": [
+        "Characters/Varus/Spells/VarusEAbility/VarusE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Chain of Corruption",
+      "paths": [
+        "Characters/Varus/Spells/VarusRAbility/VarusR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "varus-audit-blight-cooldown-circuit",
+      "champion": "Varus",
+      "name": "Blight cooldown circuit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use three-stack detonation to reopen basic spells while preserving attack access.",
+      "goal": "Use three-stack detonation to reopen basic spells while preserving attack access.",
+      "hypothesis": "W supplies AP/AD magic on-hit, three Blight stacks and maximum-cooldown reductions per detonation stack against champions/epic monsters. Nashor and Dusk test attack-to-detonation cycling; R gradually grants three stacks while Q charge amplifies detonation. AP supports both on-hit and percent-health damage.",
+      "itemIds": [
+        3115,
+        2510,
+        3089,
+        3137,
+        4629,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Three actual stacks before detonation, target eligible for cooldown refund and Q charge recorded.",
+        "Log stacks, Q charge and basic cooldown remaining after one versus three-stack detonations.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Charging while exposed prevents attacks or detonating early forfeits health damage and refund.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Dusk repeat does not establish two Blight stacks from one attack.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Rabadon's Deathcap, Cryptbloom, Cosmic Drive, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Hail of Arrows",
+          "slot": "E",
+          "source": "Characters/Varus/Spells/VarusEAbility/VarusE",
+          "formula": "Varus fires a hail of arrows that deals [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage and desecrates the ground for [4] seconds, Slowing enemies by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% and applying [40]% Grievous Wounds."
+        },
+        {
+          "ability": "Blighted Quiver",
+          "slot": "W",
+          "source": "Characters/Varus/Spells/VarusWAbility/VarusW",
+          "formula": "Passive: Varus' Attacks deal an additional [4 / 13 / 22 / 31 / 40 + (0.25) × AP + (0.15) × AD[statFormula=2]] magic damage and apply a Blight stack for [6] seconds (max [3] stacks).\n\nVarus' other Abilities detonate Blight stacks dealing [0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP] max Health magic damage per stack (max [(0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP) × (3)] max Health damage). Detonating Blight on champions and epic monsters also reduces his basic Abilities' Cooldowns by [13]% of their Maximum per stack.\n\nActive: Varus' next {{Spell_VarusQ_Name}} deals an additional [0.06 / 0.08 / 0.1 / 0.12 / 0.14] missing Health magic damage, increased up to [(0.06 / 0.08 / 0.1 / 0.12 / 0.14) × (1.5)] missing Health damage based on charge time."
+        },
+        {
+          "ability": "Piercing Arrow",
+          "slot": "Q",
+          "source": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+          "formula": "Begin Charging: Varus draws back his next shot, Slowing himself by [20]%. After [4] seconds, if not fired, Varus will cancel the Ability and refund [50]% of its Mana cost.\n\nRelease: Varus releases the arrow, dealing [(80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]) × (0.66667)] physical damage, reduced by [15]% per enemy hit (minimum [33]%). Damage and Blight detonation effects are increased by up to [50]% based on charge time (maximum [80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]]) ."
+        },
+        {
+          "ability": "Chain of Corruption",
+          "slot": "R",
+          "source": "Characters/Varus/Spells/VarusRAbility/VarusR",
+          "formula": "Varus flings out a tendril of corruption, Rooting the first champion hit for [2] seconds and dealing [150 / 250 / 350 + (1) × AP] magic damage. Rooted enemies gain [3] Blight stacks over the duration.\n\nThe corruption spreads from its target to uninfected enemy champions. If it reaches them, they take the same damage and Root."
+        }
+      ]
+    },
+    {
+      "id": "varus-audit-root-volley-magic",
+      "champion": "Varus",
+      "name": "Root volley magic",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use R's root to apply Fiendhunter's finite attacks before a charged W-Q finish.",
+      "goal": "Use R's root to apply Fiendhunter's finite attacks before a charged W-Q finish.",
+      "hypothesis": "R roots and applies Blight over its duration; Fiendhunter grants three enhanced basic attacks after R. Statikk offers AD/AP and attack effects; W's missing-health active rewards delaying Q until health falls. Terminus provides mixed penetration only after confirmed attack ramp.",
+      "itemIds": [
+        2512,
+        3087,
+        3031,
+        3302,
+        3072,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R lands, three attacks available inside item window and W active held for charged Q.",
+        "Compare R-three attacks-WQ versus R-WQ, counting capped stacks and all attack/item packets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Overlapping R and attack stacks waste the cap or target dies/escapes before Q charge.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Passive's raw Stat(4) formula cannot be assumed to grant a fixed AP/AD amount.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Fiendhunter Bolts, Statikk Shiv, Infinity Edge, Terminus, Bloodthirster, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Blighted Quiver",
+          "slot": "W",
+          "source": "Characters/Varus/Spells/VarusWAbility/VarusW",
+          "formula": "Passive: Varus' Attacks deal an additional [4 / 13 / 22 / 31 / 40 + (0.25) × AP + (0.15) × AD[statFormula=2]] magic damage and apply a Blight stack for [6] seconds (max [3] stacks).\n\nVarus' other Abilities detonate Blight stacks dealing [0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP] max Health magic damage per stack (max [(0.03 / 0.035 / 0.04 / 0.045 / 0.05 + ((0.01) × (0.013)) × AP) × (3)] max Health damage). Detonating Blight on champions and epic monsters also reduces his basic Abilities' Cooldowns by [13]% of their Maximum per stack.\n\nActive: Varus' next {{Spell_VarusQ_Name}} deals an additional [0.06 / 0.08 / 0.1 / 0.12 / 0.14] missing Health magic damage, increased up to [(0.06 / 0.08 / 0.1 / 0.12 / 0.14) × (1.5)] missing Health damage based on charge time."
+        },
+        {
+          "ability": "Living Vengeance",
+          "slot": "Passive",
+          "source": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+          "formula": "When Varus kills an enemy, he gains [characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] Attack Speed, [(11) × Stat(4)[statFormula=2]] Attack Damage, and [(11) × Stat(4)[statFormula=2]] Ability Power for [characterLevelBreakpoints(start=5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 26, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}])] seconds.\n\nChampion takedowns grant [0.3] Attack Speed that can bypass the Attack Speed cap, [(33) × Stat(4)[statFormula=2]] Attack Damage, and [(33) × Stat(4)[statFormula=2]] Ability Power instead."
+        },
+        {
+          "ability": "Piercing Arrow",
+          "slot": "Q",
+          "source": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+          "formula": "Begin Charging: Varus draws back his next shot, Slowing himself by [20]%. After [4] seconds, if not fired, Varus will cancel the Ability and refund [50]% of its Mana cost.\n\nRelease: Varus releases the arrow, dealing [(80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]) × (0.66667)] physical damage, reduced by [15]% per enemy hit (minimum [33]%). Damage and Blight detonation effects are increased by up to [50]% based on charge time (maximum [80 / 150 / 220 / 290 / 360 + (1.2) × AD[statFormula=2]]) ."
+        },
+        {
+          "ability": "Chain of Corruption",
+          "slot": "R",
+          "source": "Characters/Varus/Spells/VarusRAbility/VarusR",
+          "formula": "Varus flings out a tendril of corruption, Rooting the first champion hit for [2] seconds and dealing [150 / 250 / 350 + (1) × AP] magic damage. Rooted enemies gain [3] Blight stacks over the duration.\n\nThe corruption spreads from its target to uninfected enemy champions. If it reaches them, they take the same damage and Root."
+        }
+      ]
+    }
+  ]
+}

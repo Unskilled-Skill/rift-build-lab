@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "velkoz-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "velkoz-four-2",
+      "id": "velkoz-audit-researched-true-ray",
       "champion": "Velkoz",
-      "name": "Damage interaction: Mana burst",
-      "goal": "Damage interaction for Vel'Koz: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A geometric artillery mage who combines spell hits to trigger true damage, then channels a beam from a protected angle. Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Researched true ray",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Prepare Deconstruction before R and test the true-damage finish threshold.",
+      "goal": "Prepare Deconstruction before R and test the true-damage finish threshold.",
+      "hypothesis": "Three ability stacks trigger AP-scaled true damage and cause R to deal true damage to a recently deconstructed target. Shadowflame explicitly boosts low-health true damage; Cosmic reacts to true/magic damage and can help positioning before channeling. Mana and AP support the preparatory W/E/Q sequence.",
       "itemIds": [
         6655,
         4645,
         3089,
-        3135,
+        4629,
         3157,
         3020
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Vel'Koz: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Vel'Koz shoots a bolt of plasma that splits in two on reactivation or upon hitting an enemy. The bolt slows and damages on hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Passive proc confirmed before R, target within beam and channel protected.",
+        "Record R damage type after zero versus three setup stacks and above versus below 40% target health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Vel'Koz's stated kit question: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Missed setup or interruption converts the expected payoff into a short magic channel.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Magic penetration cannot increase the researched beam's true damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Luden's Echo, Shadowflame, Rabadon's Deathcap, Cosmic Drive, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Plasma Fission",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "velkoz-four-4",
+      "id": "velkoz-audit-attack-refresh-stack",
       "champion": "Velkoz",
-      "name": "Experiment: Mana burn zones",
-      "goal": "Experiment for Vel'Koz: test a different playstyle, with lower confidence",
-      "hypothesis": "A geometric artillery mage who combines spell hits to trigger true damage, then channels a beam from a protected angle. Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time. Mana and repeated ability damage may maintain burns and MR-reduction stacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "name": "Attack refresh stack",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Preserve partial Deconstruction with an occasional safer attack before the next spell.",
+      "goal": "Preserve partial Deconstruction with an occasional safer attack before the next spell.",
+      "hypothesis": "Attacks refresh the passive's seven-second duration without adding stacks. RFC offers a charged attack range window and Lich Bane rewards a preceding cast; Q's slow and split geometry can keep a delayed follow-up spell accessible. The expensive attack slot must repay stacks that otherwise expire.",
       "itemIds": [
-        2503,
-        6653,
-        3116,
-        8010,
-        3157,
-        3020
+        3094,
+        3100,
+        4629,
+        3089,
+        3137,
+        3158
       ],
       "runePage": [
-        8992,
+        8230,
         8226,
-        8210,
+        8234,
         8236,
-        8126,
-        8106
+        8009,
+        9105
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Vel'Koz: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
-        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Vel'Koz shoots a bolt of plasma that splits in two on reactivation or upon hitting an enemy. The bolt slows and damages on hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: One or two partial stacks about to expire, RFC ready and safe attack range.",
+        "Delay follow-up beyond seven seconds with versus without one attack and inspect refresh, proc and exposure.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "The route fails Vel'Koz's stated kit question: Track research stacks and R true-damage eligibility. Magic penetration does not multiply true damage; a full beam needs protection and uninterrupted channel time.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "The attack exposes Vel'Koz to engage or an ordinary spell could have refreshed stacks more safely.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: An attack refresh is not a new Deconstruction stack, including repeated on-hits.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Rapid Firecannon, Lich Bane, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Plasma Fission",
@@ -409,12 +397,6 @@
           "slot": "W",
           "source": "Characters/Velkoz/Spells/VelkozWAbility/VelkozW",
           "formula": "Vel'Koz opens a rift to the void, dealing [30 / 50 / 70 / 90 / 110 + (0.2) × AP] magic damage. The rift then erupts, dealing [45 / 75 / 105 / 135 / 165 + (0.25) × AP] magic damage.\n\nThis Ability has 2 charges (@AmmoRechargeTime@ second refresh)."
-        },
-        {
-          "ability": "Life Form Disintegration Ray",
-          "slot": "R",
-          "source": "Characters/Velkoz/Spells/VelkozRAbility/VelkozR",
-          "formula": "Vel'Koz channels a ray of energy that follows the cursor, dealing a total of [450 / 700 / 925 + (1.25) × AP] magic damage over 2.5 seconds and Slowing by [20 / 20 / 20]%. Deals true damage instead to enemies recently damaged by {{Spell_VelkozPassive_Name}}.\n\nEnemies gain stacks of Deconstruction periodically while in the beam."
         },
         {
           "ability": "Organic Deconstruction",

@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "camille-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "camille-four-2",
+      "id": "camille-audit-ultimatum-on-hit-lock",
       "champion": "Camille",
-      "name": "Damage interaction: Attack-led side lane",
-      "goal": "Damage interaction for Camille: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A mobile duelist who times the second Q for enhanced true damage and isolates a chosen target with R. Short trading windows and wall angles matter more than blindly maximizing attack frequency. Time Q2 conversion and a single Spellblade item. Compare true-damage Q2 trades at matched gold; armor penetration does not multiply damage already converted to true damage. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Ultimatum on-hit lock",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test ultimatum on-hit lock against the conventional damage pattern at equal gold.",
+      "goal": "Test ultimatum on-hit lock against the conventional damage pattern at equal gold.",
+      "hypothesis": "Hextech Ultimatum adds current-health magic damage to Camille's attacks for 2.5-4 seconds; Hookshot grants five seconds of attack speed. Blade and Terminus reward attacking inside that short isolation window rather than maximizing one delayed Q.",
       "itemIds": [
         3153,
-        3078,
-        3181,
+        3124,
+        3302,
+        3748,
         3053,
-        6333,
-        3047
+        3006
       ],
       "runePage": [
-        8005,
+        8008,
         9111,
         9104,
         8014,
-        8444,
+        8429,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Camille: Time Q2 conversion and a single Spellblade item. Compare true-damage Q2 trades at matched gold; armor penetration does not multiply damage already converted to true damage.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Camille's next attack deals bonus damage and grants bonus Move Speed. This spell can be recast for a short period of time, doing significantly increased bonus damage if Camille delays a period of time between the two attacks. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Hit E and R, then stay in attack range through the trap.",
+        "Count ordinary attacks and R magic packets during a full rank-three cage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Camille's stated kit question: Time Q2 conversion and a single Spellblade item. Compare true-damage Q2 trades at matched gold; armor penetration does not multiply damage already converted to true damage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Short R duration and outside peel prevent stacking attack effects.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Q2 true conversion cannot be assumed to convert all purchased on-hit packets.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Blade of The Ruined King, Guinsoo's Rageblade, Terminus, Titanic Hydra, Sterak's Gage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Adaptive Defenses",
@@ -205,12 +199,6 @@
           "slot": "R",
           "source": "Characters/Camille/Spells/CamilleRAbility/CamilleR",
           "formula": "Camille briefly becomes Untargetable and leaps onto an enemy champion, interrupting channels and locking them into an area they cannot escape by any means for [2.5 / 3.25 / 4] seconds. Other nearby enemies are Knocked Away. Her Attacks against the trapped enemy deal an additional [4 / 6 / 8]% current Health magic damage."
-        },
-        {
-          "ability": "Tactical Sweep",
-          "slot": "W",
-          "source": "Characters/Camille/Spells/CamilleWAbility/CamilleW",
-          "formula": "Camille winds up and slices, dealing [60 / 85 / 110 / 135 / 160 + (0.6) × AD[statFormula=2]] physical damage.\n\nEnemies hit by the outer half are Slowed by [80]% decaying over [2] seconds, and they take an additional [0.07 / 0.075 / 0.08 / 0.085 / 0.09 + (0.00025) × AD[statFormula=2]] max Health physical damage. Camille restores [100]% of the bonus damage dealt to champions as Health."
         }
       ]
     },
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "camille-four-4",
+      "id": "camille-audit-sweep-shield-sustain",
       "champion": "Camille",
-      "name": "Experiment: Physical spell burst",
-      "goal": "Experiment for Camille: test a different playstyle, with lower confidence",
-      "hypothesis": "A mobile duelist who times the second Q for enhanced true damage and isolates a chosen target with R. Short trading windows and wall angles matter more than blindly maximizing attack frequency. Time Q2 conversion and a single Spellblade item. Compare true-damage Q2 trades at matched gold; armor penetration does not multiply damage already converted to true damage. High AD and penetration test ability-first trades with a conditional anti-magic slot. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "High AD and penetration test ability-first trades with a conditional anti-magic slot.",
+      "name": "Sweep shield sustain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test sweep shield sustain against the conventional damage pattern at equal gold.",
+      "goal": "Test sweep shield sustain against the conventional damage pattern at equal gold.",
+      "hypothesis": "Tactical Sweep's outer hit heals from bonus max-health physical damage, while Adaptive Defenses shields from Camille's max health. Bloodmail and Trinity add AD and a separate Spellblade attack; Visage supports shields and healing between spaced Q casts.",
       "itemIds": [
-        6692,
-        6698,
-        6694,
-        3814,
-        3156,
-        3158
+        6610,
+        2501,
+        3078,
+        3065,
+        3071,
+        3047
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Camille: Time Q2 conversion and a single Spellblade item. Compare true-damage Q2 trades at matched gold; armor penetration does not multiply damage already converted to true damage.",
-        "Start with the early core (Eclipse, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: High AD and penetration test ability-first trades with a conditional anti-magic slot. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Camille's next attack deals bonus damage and grants bonus Move Speed. This spell can be recast for a short period of time, doing significantly increased bonus damage if Camille delays a period of time between the two attacks. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Keep enemies at W outer edge and delay Q2 at least 1.5 seconds.",
+        "Compare shield size and healing after two outer-W trades.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
-        "The route fails Camille's stated kit question: Time Q2 conversion and a single Spellblade item. Compare true-damage Q2 trades at matched gold; armor penetration does not multiply damage already converted to true damage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Point-blank dives lose W healing and mismatched damage can bypass the passive shield.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: No claim that Sundered Sky's forced crit multiplies Q2's converted true component.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Serylda's Grudge, Edge of Night, Maw of Malmortius are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Sundered Sky, Overlord's Bloodmail, Trinity Force, Spirit Visage, Black Cleaver, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Adaptive Defenses",
@@ -409,12 +391,6 @@
           "slot": "Q",
           "source": "Characters/Camille/Spells/CamilleQAbility/CamilleQ",
           "formula": "Camille's next Attack deals an additional [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × AD] physical damage and grants her [(0.25 / 0.3 / 0.35 / 0.4 / 0.45) × 100]% Move Speed for [1] second. This ability can be Recast in the next [3.5] seconds.\n\nIf the Recast Attack hits at least [1.5] seconds after the first, the bonus damage is increased to [((0.2 / 0.25 / 0.3 / 0.35 / 0.4) × AD) × (2)] and [characterLevelBreakpoints(start=0.4, perLevel=0.04, changes=[{\"mLevel\": 17, \"__type\": \"Breakpoint\"}])] of the Attack's damage is converted into true damage.\n\n{{ buff_desc_SpellEffects }}"
-        },
-        {
-          "ability": "The Hextech Ultimatum",
-          "slot": "R",
-          "source": "Characters/Camille/Spells/CamilleRAbility/CamilleR",
-          "formula": "Camille briefly becomes Untargetable and leaps onto an enemy champion, interrupting channels and locking them into an area they cannot escape by any means for [2.5 / 3.25 / 4] seconds. Other nearby enemies are Knocked Away. Her Attacks against the trapped enemy deal an additional [4 / 6 / 8]% current Health magic damage."
         },
         {
           "ability": "Tactical Sweep",

@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Locke",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "nail-repeat-finish",
+      "name": "Nail Repeat Finish",
+      "objective": "Separate nail consumption, P and repeated on-hit packets.",
+      "mechanic": "Q marks Soul Nails and actual attacks consume them for AP magic per stack with two/three-nail multipliers. P is a separate AP on-hit that rises with missing health; Nashor/Dusk rewards attacks while W supplies attack speed. R marks enemies for a finite execute threshold.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4645,
+        3089,
+        3135,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Land three nails before attacking and record finite R artifact stacks.",
+      "failure": "Partial nail hits or unsafe W health loss outweigh follow-up damage.",
+      "test": "Separate nail consumption, P and repeated on-hit packets; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Dusk repetition does not recreate already-consumed Soul Nails.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "ignition-recovery-ramp",
+      "name": "Ignition Recovery Ramp",
+      "objective": "Compare W net healing and exit access with early recast versus full duration.",
+      "mechanic": "W costs current-health true damage each second but restores recent damage and AP-scaled recovery under a remaining-health cap. Riftmaker health/AP and Cosmic can support repositioning; Zhonya tests survival around the six-second window and E takedown reset offers a conditional exit.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        4629,
+        3157,
+        3089,
+        3137,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Record W duration, self-damage, heal cap and an accessible E reset target.",
+      "failure": "Control/burst kills Locke before recovery or W self-loss outpaces benefit.",
+      "test": "Compare W net healing and exit access with early recast versus full duration; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "W health costs do not prove self-damage creates Riftmaker champion-combat ramp.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Infinite artifact execute",
+      "reason": "R threshold growth requires marked enemies sealed and artifact pickup, with finite recorded stacks.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Locke passive base and W remaining-health cap are unresolved; E path nail consumption and W/stasis interaction need direct logs.",
+    "Unresolved conditional/runtime tooltip tokens prevent a complete numerical model; retained helpers do not establish live behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Silver Stake",
+      "paths": [
+        "Characters/Locke/Spells/LockePassiveAbility/LockePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Ritual Nails",
+      "paths": [
+        "Characters/Locke/Spells/LockeQAbility/LockeQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Soul Ignition",
+      "paths": [
+        "Characters/Locke/Spells/LockeWAbility/LockeW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Ashen Pursuit",
+      "paths": [
+        "Characters/Locke/Spells/LockeEAbility/LockeE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Purgatory",
+      "paths": [
+        "Characters/Locke/Spells/LockeRAbility/LockeR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "locke-audit-nail-repeat-finish",
+      "champion": "Locke",
+      "name": "Nail Repeat Finish",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Separate nail consumption, P and repeated on-hit packets.",
+      "goal": "Separate nail consumption, P and repeated on-hit packets.",
+      "hypothesis": "Q marks Soul Nails and actual attacks consume them for AP magic per stack with two/three-nail multipliers. P is a separate AP on-hit that rises with missing health; Nashor/Dusk rewards attacks while W supplies attack speed. R marks enemies for a finite execute threshold.",
+      "itemIds": [
+        3115,
+        2510,
+        4645,
+        3089,
+        3135,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Land three nails before attacking and record finite R artifact stacks.",
+        "Separate nail consumption, P and repeated on-hit packets; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Partial nail hits or unsafe W health loss outweigh follow-up damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Dusk repetition does not recreate already-consumed Soul Nails.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Shadowflame, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Purgatory",
+          "slot": "R",
+          "source": "Characters/Locke/Spells/LockeRAbility/LockeR",
+          "formula": "Locke throws a binding artifact to a location, dealing [150 / 225 / 300 + (0.6) × AP] magic damage and Slowing enemies in the area by [99]%, decaying over [2] seconds. The artifact marks enemies hit for [5] seconds, sealing away marked enemy champions brought below [0.1 / 0.11 / 0.12 + (0.005) × BuffStacks({b5c3348f})], and resetting the duration of the mark on other affected champions.\n\nAfter the duration ends, if at least one champion was sealed, the artifact lands on the ground. Locke can pick up the artifact to permanently increase its execution threshold by [0.5]%, and refund [20]% of his total Cooldown, for each champion sealed."
+        },
+        {
+          "ability": "Soul Ignition",
+          "slot": "W",
+          "source": "Characters/Locke/Spells/LockeWAbility/LockeW",
+          "formula": "Locke ignites his own soul, gaining [characterLevelInterpolation(0.4 → 0.7; raw flags preserved)] Attack Speed and [0.4 + (0.0002) × AP] Move Speed that decays over [1 + 1] seconds.\n\nFor [6] seconds, he suffers [2]% current Health true damage per second but Heals back the last [40 / 60 / 80 / 100 / 120 + (1) × AP] damage taken, and an additional [characterLevelInterpolation(40 → 200; raw flags preserved) + (0.2) × AP] Health based on missing Health and time passed, up to a maximum of [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.6) × AP] Health remaining.\n\nCan be Recast to end early."
+        },
+        {
+          "ability": "Ritual Nails",
+          "slot": "Q",
+          "source": "Characters/Locke/Spells/LockeQAbility/LockeQ",
+          "formula": "Locke readies a set of Soul Nails to throw, dealing [40 / 48 / 56 / 64 / 72 + (0.2) × AP] magic damage and marking enemies hit. Nails apply a [25]/[25]/[60]% Slow for [1]/[1]/[2] seconds, stacking with the amount of nails hit.\n\nAttacking the enemy consumes the Soul Nails, dealing [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × AP + 18 / 26 / 34 / 42 / 50] magic damage per stack, increased by [20]% and [40]% for two and three nails respectively."
+        },
+        {
+          "ability": "Silver Stake",
+          "slot": "Passive",
+          "source": "Characters/Locke/Spells/LockePassiveAbility/LockePassive",
+          "formula": "Locke's Attacks deal an additional [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.1) × AP] magic damage on-hit, increased up to [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.2) × AP] magic damage based on the target's missing Health."
+        }
+      ]
+    },
+    {
+      "id": "locke-audit-ignition-recovery-ramp",
+      "champion": "Locke",
+      "name": "Ignition Recovery Ramp",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare W net healing and exit access with early recast versus full duration.",
+      "goal": "Compare W net healing and exit access with early recast versus full duration.",
+      "hypothesis": "W costs current-health true damage each second but restores recent damage and AP-scaled recovery under a remaining-health cap. Riftmaker health/AP and Cosmic can support repositioning; Zhonya tests survival around the six-second window and E takedown reset offers a conditional exit.",
+      "itemIds": [
+        4633,
+        4629,
+        3157,
+        3089,
+        3137,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record W duration, self-damage, heal cap and an accessible E reset target.",
+        "Compare W net healing and exit access with early recast versus full duration; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Control/burst kills Locke before recovery or W self-loss outpaces benefit.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W health costs do not prove self-damage creates Riftmaker champion-combat ramp.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Cosmic Drive, Zhonya's Hourglass, Rabadon's Deathcap, Cryptbloom, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ashen Pursuit",
+          "slot": "E",
+          "source": "Characters/Locke/Spells/LockeEAbility/LockeE",
+          "formula": "Locke teleports to a location, dealing [40 / 50 / 60 / 70 / 80 + (0.4) × AP] magic damage to nearby enemies on arrival. \n\nOn his next Attack, he dashes to his target, dealing [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage to all enemies in his path. Each hit consumes Soul Nails.\n\nIf Locke scores a takedown, the Cooldown of this Ability is reset."
+        },
+        {
+          "ability": "Purgatory",
+          "slot": "R",
+          "source": "Characters/Locke/Spells/LockeRAbility/LockeR",
+          "formula": "Locke throws a binding artifact to a location, dealing [150 / 225 / 300 + (0.6) × AP] magic damage and Slowing enemies in the area by [99]%, decaying over [2] seconds. The artifact marks enemies hit for [5] seconds, sealing away marked enemy champions brought below [0.1 / 0.11 / 0.12 + (0.005) × BuffStacks({b5c3348f})], and resetting the duration of the mark on other affected champions.\n\nAfter the duration ends, if at least one champion was sealed, the artifact lands on the ground. Locke can pick up the artifact to permanently increase its execution threshold by [0.5]%, and refund [20]% of his total Cooldown, for each champion sealed."
+        },
+        {
+          "ability": "Soul Ignition",
+          "slot": "W",
+          "source": "Characters/Locke/Spells/LockeWAbility/LockeW",
+          "formula": "Locke ignites his own soul, gaining [characterLevelInterpolation(0.4 → 0.7; raw flags preserved)] Attack Speed and [0.4 + (0.0002) × AP] Move Speed that decays over [1 + 1] seconds.\n\nFor [6] seconds, he suffers [2]% current Health true damage per second but Heals back the last [40 / 60 / 80 / 100 / 120 + (1) × AP] damage taken, and an additional [characterLevelInterpolation(40 → 200; raw flags preserved) + (0.2) × AP] Health based on missing Health and time passed, up to a maximum of [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.6) × AP] Health remaining.\n\nCan be Recast to end early."
+        }
+      ]
+    }
+  ]
+}

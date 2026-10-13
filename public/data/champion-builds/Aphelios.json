@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "aphelios-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "aphelios-four-2",
+      "id": "aphelios-audit-ap-gravity-artillery",
       "champion": "Aphelios",
-      "name": "Damage interaction: Multi-target carry",
-      "goal": "Damage interaction for Aphelios: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A weapon-cycle marksman whose strongest attack pattern depends on the current main/off-hand pair. Ammo management and stationary fighting windows shape his damage delivery. Test a specified main/off-hand pair and ammo state. Runaan and on-hit results must be confirmed per weapon; weapon changes prevent treating one dummy result as universal. Runaan asks whether real multi-target attacks improve teamfight output.",
-      "summary": "Runaan asks whether real multi-target attacks improve teamfight output.",
+      "name": "AP gravity artillery",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test ap gravity artillery against the conventional damage pattern at equal gold.",
+      "goal": "Test ap gravity artillery against the conventional damage pattern at equal gold.",
+      "hypothesis": "GravitumQ's helper calculation has 0.7 AP and Moonlight Vigil's initial physical blast has 1.0 AP; Nashor and Lich Bane preserve some normal attack pressure. This tests a mixed weapon spell pattern rather than claiming AP strengthens every gun attack.",
       "itemIds": [
-        3032,
-        3085,
-        3031,
-        3036,
-        3072,
-        3006
+        3115,
+        3100,
+        3089,
+        3135,
+        3102,
+        3020
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,53 +153,33 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Aphelios: Test a specified main/off-hand pair and ammo state. Runaan and on-hit results must be confirmed per weapon; weapon changes prevent treating one dummy result as universal.",
-        "Start with the early core (Yun Tal, then Runaan) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Runaan asks whether real multi-target attacks improve teamfight output. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Aphelios has 5 different activated abilities, based on his main-hand weapon:\n\nCalibrum (Rifle): Long range shot that marks its target for a long-range follow-up attack.\nSeverum (Scythe Pistol): Run fast while attacking nearby enemies with both weapons.\nGravitum (Cannon): Root all enemies slowed by this weapon.\nInfernum (Flamethrower): Blast enemies in a cone and attack them with your off-hand weapon.\nCrescendum (Chakram): Deploy a sentry that shoots your off-hand weapon. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Gravitum available for root setup and a favorable off-hand pair.",
+        "Measure Gravitum spell and R initial damage separately for each weapon pair.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
-        "The route fails Aphelios's stated kit question: Test a specified main/off-hand pair and ammo state. Runaan and on-hit results must be confirmed per weapon; weapon changes prevent treating one dummy result as universal.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Ammo rotation makes the desired spell unavailable; physical R resists magic penetration.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
-        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Primary Q tooltip is symbolic; helper presence alone does not verify dispatch or turret item inheritance.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Yun Tal, then Runaan. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Infinity Edge, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Void Staff, Banshee's Veil, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "The Hitman and the Seer",
-          "slot": "Passive",
-          "source": "Characters/Aphelios/Spells/ApheliosPAbility/ApheliosP",
-          "formula": "Aphelios wields 5 Lunari Weapons made by his sister, Alune. He has access to two at a time: one main-hand and one off-hand. Each weapon has a unique Attack and Ability [@spell.ApheliosCalibrumQ:Hotkey@]. Attacks and Abilities consume a weapon's ammo. When out of ammo, Aphelios discards the weapon and Alune summons the next one. \n\nAphelios unlocks his weapon's Ability [@spell.ApheliosCalibrumQ:Hotkey@] at level 2 and his Ultimate at level 6. Instead of powering up his Abilities, Aphelios' rank-ups grant him permanent stats.\n\nLunari Weapon Order:{{ Spell_ApheliosP_GunShortDesc_@f1@ }}{{ Spell_ApheliosP_GunShortDesc_@f2@ }}{{ Spell_ApheliosP_GunShortDesc_@f3@ }}{{ Spell_ApheliosP_GunShortDesc_@f4@ }}{{ Spell_ApheliosP_GunShortDesc_@f5@ }}"
-        },
         {
           "ability": "Weapon Abilites",
           "slot": "Q",
           "source": "Characters/Aphelios/Spells/ApheliosQ_ClientTooltipWrapper",
-          "formula": "@SpellModifierDescriptionAppend@"
-        },
-        {
-          "ability": "Weapon Queue System",
-          "slot": "E",
-          "source": "Characters/Aphelios/Spells/ApheliosE_ClientTooltipWrapper",
           "formula": "@SpellModifierDescriptionAppend@"
         },
         {
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "aphelios-four-4",
+      "id": "aphelios-audit-weapon-spell-endurance",
       "champion": "Aphelios",
-      "name": "Experiment: Repeated on-hit",
-      "goal": "Experiment for Aphelios: test a different playstyle, with lower confidence",
-      "hypothesis": "A weapon-cycle marksman whose strongest attack pattern depends on the current main/off-hand pair. Ammo management and stationary fighting windows shape his damage delivery. Test a specified main/off-hand pair and ammo state. Runaan and on-hit results must be confirmed per weapon; weapon changes prevent treating one dummy result as universal. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "Weapon spell endurance",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test weapon spell endurance against the conventional damage pattern at equal gold.",
+      "goal": "Test weapon spell endurance against the conventional damage pattern at equal gold.",
+      "hypothesis": "Weapon-specific Q casts and the physical Moonlight Vigil blast favor AD and ability haste; Shojin supports spell repetitions while Hexplate rewards the ultimate with attack speed and movement. Cleaver serves physical attacks and spell packets; Bloodthirster supplies attack sustain during the rotation. Death's Dance protects the physical trade window instead of an incompatible Last Whisper purchase.",
       "itemIds": [
-        3153,
-        3124,
-        3302,
-        3091,
-        3026,
-        3006
+        3161,
+        3071,
+        3072,
+        3073,
+        6333,
+        3111
       ],
       "runePage": [
-        8008,
+        8010,
         9111,
-        9104,
-        8014,
-        8429,
+        9105,
+        8299,
+        8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Aphelios: Test a specified main/off-hand pair and ammo state. Runaan and on-hit results must be confirmed per weapon; weapon changes prevent treating one dummy result as universal.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Aphelios has 5 different activated abilities, based on his main-hand weapon:\n\nCalibrum (Rifle): Long range shot that marks its target for a long-range follow-up attack.\nSeverum (Scythe Pistol): Run fast while attacking nearby enemies with both weapons.\nGravitum (Cannon): Root all enemies slowed by this weapon.\nInfernum (Flamethrower): Blast enemies in a cone and attack them with your off-hand weapon.\nCrescendum (Chakram): Deploy a sentry that shoots your off-hand weapon. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Plan ammo transitions before fighting, with enough space to attack after R.",
+        "Compare two complete weapon rotations and total physical damage at equal gold.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Aphelios's stated kit question: Test a specified main/off-hand pair and ammo state. Runaan and on-hit results must be confirmed per weapon; weapon changes prevent treating one dummy result as universal.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Missing crit and attack speed can lose standard weapon burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Severum flurries and sentry shots require individual trigger checks; no universal six-hit item claim.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Spear of Shojin, Black Cleaver, Bloodthirster, Experimental Hexplate, Death's Dance, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "The Hitman and the Seer",
@@ -402,12 +378,6 @@
           "ability": "Weapon Abilites",
           "slot": "Q",
           "source": "Characters/Aphelios/Spells/ApheliosQ_ClientTooltipWrapper",
-          "formula": "@SpellModifierDescriptionAppend@"
-        },
-        {
-          "ability": "Weapon Queue System",
-          "slot": "E",
-          "source": "Characters/Aphelios/Spells/ApheliosE_ClientTooltipWrapper",
           "formula": "@SpellModifierDescriptionAppend@"
         },
         {

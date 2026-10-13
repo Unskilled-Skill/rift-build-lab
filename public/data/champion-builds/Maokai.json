@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "maokai-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "maokai-four-2",
+      "id": "maokai-audit-brush-health-ap-zone",
       "champion": "Maokai",
-      "name": "Damage interaction: Magic tank experiment",
-      "goal": "Damage interaction for Maokai: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A durable controller who starts fights with a targeted root, pushes enemies with Q and recovers through repeated Sap Magic attacks. Separate passive attack healing, melee control and brush sapling effects. Fix target position and cooldown reduction sources; AP damage must repay weaker engage durability. Health-supported AP and close magic amplification trade defense for damage.",
-      "summary": "Health-supported AP and close magic amplification trade defense for damage.",
+      "name": "Brush Health Ap Zone",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare brush and non-brush E damage and lifetime.",
+      "goal": "Compare brush and non-brush E damage and lifetime.",
+      "hypothesis": "E brush saplings double documented base/AP/health damage and gain health-scaled duration plus AP/health slow. Earned Heartsteel health and Riftmaker conversion can support E while Blackfire tests two-second damage persistence; Q/W maintain access for a follow-up.",
       "itemIds": [
         3084,
         4633,
-        6653,
-        8020,
-        3157,
-        3111
+        2503,
+        3089,
+        3137,
+        3158
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
-        8444,
-        8451
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,49 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Maokai: Separate passive attack healing, melee control and brush sapling effects. Fix target position and cooldown reduction sources; AP damage must repay weaker engage durability.",
-        "Start with the early core (Safe health/defense core, then Riftmaker or Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health-supported AP and close magic amplification trade defense for damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Maokai knocks back nearby enemies with a shockwave, dealing magic damage and slowing them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Place E in brush with finite earned health and champion contact.",
+        "Compare brush and non-brush E damage and lifetime; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
-        "The route fails Maokai's stated kit question: Separate passive attack healing, melee control and brush sapling effects. Fix target position and cooldown reduction sources; AP damage must repay weaker engage durability.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Enemies avoid brush or AP/health investment weakens front-line resists.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
-        "Full cost 16,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: A sapling is not given Maokai personal attack on-hit effects.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Safe health/defense core, then Riftmaker or Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Liandry's Torment, Abyssal Mask, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Heartsteel, Riftmaker, Blackfire Torch, Rabadon's Deathcap, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Sap Magic",
-          "slot": "Passive",
-          "source": "Characters/Maokai/Spells/MaokaiPassiveAbility/MaokaiPassive",
-          "formula": "Maokai's next Attack restores [(characterLevelBreakpoints(start=0.04, perLevel=0.002, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 0.006500000134110451, \"__type\": \"Breakpoint\"}])) × Stat(12)] Health.\n\nUsing an Ability or being hit by an enemy champion's Ability reduces the Cooldown by [4] seconds. Being hit by large or epic monster's Attacks or Abilities reduces the Cooldown by [1.5] second."
-        },
-        {
-          "ability": "Nature's Grasp",
-          "slot": "R",
-          "source": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR",
-          "formula": "Maokai summons a colossal wave of brambles and thorns, Rooting enemies for [0.75] to [2.25] seconds, increasing with distance travelled, and dealing [150 / 225 / 300 + (0.75) × AP] magic damage. Hitting a champion gives Maokai [(0.4 / 0.5 / 0.6) × 100]% Move Speed, decaying over [2] seconds."
-        },
         {
           "ability": "Bramble Smash",
           "slot": "Q",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "maokai-four-4",
+      "id": "maokai-audit-sap-countercast-cycle",
       "champion": "Maokai",
-      "name": "Experiment: Engage and rescue",
-      "goal": "Experiment for Maokai: test a different playstyle, with lower confidence",
-      "hypothesis": "A durable controller who starts fights with a targeted root, pushes enemies with Q and recovers through repeated Sap Magic attacks. Separate passive attack healing, melee control and brush sapling effects. Fix target position and cooldown reduction sources; AP damage must repay weaker engage durability. A support quest and protective actives test allied survival after an engage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "A support quest and protective actives test allied survival after an engage.",
+      "name": "Sap Countercast Cycle",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count P heals under controlled incoming spell cadence.",
+      "goal": "Count P heals under controlled incoming spell cadence.",
+      "hypothesis": "P heals from max health on the next attack and cooldown falls four seconds on ability use or enemy champion ability hits. E champion hit reduces it another four seconds; haste/resists permit real casts and Unending Despair adds close-range recovery. Iceborn gives one actual attack slow after W.",
       "itemIds": [
-        3869,
-        3190,
-        3109,
-        3050,
-        3222,
+        2502,
+        3110,
+        6662,
+        2504,
+        3084,
         3111
       ],
       "runePage": [
-        8439,
-        8463,
-        8473,
+        8437,
+        8401,
+        8444,
         8451,
-        8345,
-        8347
+        9111,
+        9104
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,48 +345,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Maokai: Separate passive attack healing, melee control and brush sapling effects. Fix target position and cooldown reduction sources; AP damage must repay weaker engage durability.",
-        "Start with the early core (Support quest, boots and Locket; choose later actives by threat) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A support quest and protective actives test allied survival after an engage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Maokai knocks back nearby enemies with a shockwave, dealing magic damage and slowing them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Keep enemy spell pressure and actual attacks reachable, record P readiness.",
+        "Count P heals under controlled incoming spell cadence; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
-        "The route fails Maokai's stated kit question: Separate passive attack healing, melee control and brush sapling effects. Fix target position and cooldown reduction sources; AP damage must repay weaker engage durability.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Cannot attack to collect healing or mana is depleted despite haste.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
-        "Full cost 10,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Being hit reduces P cooldown but does not itself perform the healing attack.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, boots and Locket; choose later actives by threat. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Knight's Vow, Zeke's Convergence, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Unending Despair, Frozen Heart, Iceborn Gauntlet, Kaenic Rookern, Heartsteel, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Sap Magic",
           "slot": "Passive",
           "source": "Characters/Maokai/Spells/MaokaiPassiveAbility/MaokaiPassive",
           "formula": "Maokai's next Attack restores [(characterLevelBreakpoints(start=0.04, perLevel=0.002, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 0.006500000134110451, \"__type\": \"Breakpoint\"}])) × Stat(12)] Health.\n\nUsing an Ability or being hit by an enemy champion's Ability reduces the Cooldown by [4] seconds. Being hit by large or epic monster's Attacks or Abilities reduces the Cooldown by [1.5] second."
-        },
-        {
-          "ability": "Nature's Grasp",
-          "slot": "R",
-          "source": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR",
-          "formula": "Maokai summons a colossal wave of brambles and thorns, Rooting enemies for [0.75] to [2.25] seconds, increasing with distance travelled, and dealing [150 / 225 / 300 + (0.75) × AP] magic damage. Hitting a champion gives Maokai [(0.4 / 0.5 / 0.6) × 100]% Move Speed, decaying over [2] seconds."
         },
         {
           "ability": "Bramble Smash",

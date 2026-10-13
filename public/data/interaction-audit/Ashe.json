@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Ashe",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "arrow-first-hybrid-barrage",
+      "name": "Arrow-first hybrid barrage",
+      "objective": "Follow an AP arrow catch with three rapid attacks.",
+      "mechanic": "Enchanted Crystal Arrow carries a 1.2 AP magic ratio and up to 3.5 seconds of stun. Fiendhunter Bolts grants three accelerated crit attacks after R, Nashor supports these actual attacks, and Malignance rewards R's magic hit. This tests pick burst plus follow-up, while Q still needs four attack stacks before activation.",
+      "evidenceSlots": [
+        "R",
+        "Q",
+        "P"
+      ],
+      "itemIds": [
+        2512,
+        3118,
+        3115,
+        3089,
+        3137,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Need a clear arrow lane and ability to reach attack range during the stun.",
+      "failure": "A global arrow may land beyond follow-up range; low AD weakens extended Q trades.",
+      "test": "Measure arrow alone, three attacks and then Q availability at several arrow distances.",
+      "rejectedAssumption": "Ashe crits enhance Frost Shot behavior; do not assume normal bonus crit damage on her attacks.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "volley-pursuit-bruiser",
+      "name": "Volley pursuit bruiser",
+      "objective": "Use repeated physical Volley to expose and soften fleeing teams.",
+      "mechanic": "Volley has an AD statFormula=2 expression and only its first arrow damages a given target. Muramana offers mana and physical spell payload subject to proc rules; Cleaver shreds armor through physical damage, Shojin supports repeated abilities, and Youmuu supplies physical penetration and an active movement burst for positioning. Hawkshot helps choose safe approach lines between casts.",
+      "evidenceSlots": [
+        "W",
+        "P",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3042,
+        3071,
+        3161,
+        3142,
+        3814,
+        3158
+      ],
+      "pageKey": "comet",
+      "requiredState": "Need charged Manamune, real W hits and allies able to exploit softened targets.",
+      "failure": "Low attack DPS and single-hit Volley cannot rapidly shred one target; R remains weak without AP.",
+      "test": "Record W intervals and armor stacks over repeated volleys, versus a normal attack build.",
+      "rejectedAssumption": "Multiple arrows striking one champion do not grant multiple damage events or full Cleaver stacks.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Mandate Volley mark",
+      "reason": "Current Imperial Mandate marks on immobilization; Volley's slow alone does not qualify.",
+      "evidenceSlots": [
+        "W",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Ashe passive crit formula remains symbolic; Muramana per-cast restrictions and Fiendhunter special crit handling require live validation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Frost Shot",
+      "paths": [
+        "Characters/Ashe/Spells/AshePassiveAbility/AshePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Ranger's Focus",
+      "paths": [
+        "Characters/Ashe/Spells/AsheQAbility/AsheQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Volley",
+      "paths": [
+        "Characters/Ashe/Spells/VolleyAbility/Volley"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Hawkshot",
+      "paths": [
+        "Characters/Ashe/Spells/AsheSpiritOfTheHawkAbility/AsheSpiritOfTheHawk"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Enchanted Crystal Arrow",
+      "paths": [
+        "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "ashe-audit-arrow-first-hybrid-barrage",
+      "champion": "Ashe",
+      "name": "Arrow-first hybrid barrage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Follow an AP arrow catch with three rapid attacks.",
+      "goal": "Follow an AP arrow catch with three rapid attacks.",
+      "hypothesis": "Enchanted Crystal Arrow carries a 1.2 AP magic ratio and up to 3.5 seconds of stun. Fiendhunter Bolts grants three accelerated crit attacks after R, Nashor supports these actual attacks, and Malignance rewards R's magic hit. This tests pick burst plus follow-up, while Q still needs four attack stacks before activation.",
+      "itemIds": [
+        2512,
+        3118,
+        3115,
+        3089,
+        3137,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need a clear arrow lane and ability to reach attack range during the stun.",
+        "Measure arrow alone, three attacks and then Q availability at several arrow distances.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A global arrow may land beyond follow-up range; low AD weakens extended Q trades.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Ashe crits enhance Frost Shot behavior; do not assume normal bonus crit damage on her attacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Fiendhunter Bolts, Malignance, Nashor's Tooth, Rabadon's Deathcap, Cryptbloom, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ranger's Focus",
+          "slot": "Q",
+          "source": "Characters/Ashe/Spells/AsheQAbility/AsheQ",
+          "formula": "Passive: Ashe's Attacks grant a stack for [4] seconds. At [4] stacks, she may activate this Ability.\n\nActive: Ashe gains [20 / 30 / 40 / 50 / 60]% Attack Speed and her Attacks deal [(1.1 / 1.15 / 1.2 / 1.25 / 1.3) × AD] damage instead for [6] seconds."
+        },
+        {
+          "ability": "Enchanted Crystal Arrow",
+          "slot": "R",
+          "source": "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow",
+          "formula": "Ashe launches a crystal arrow of ice that Stuns the first champion hit and deals [200 / 400 / 600 + (1.2) × AP] magic damage. The Stun duration increases with distance travelled, up to [3.5] seconds. Surrounding enemies are Slowed by Frost Shot."
+        },
+        {
+          "ability": "Frost Shot",
+          "slot": "Passive",
+          "source": "Characters/Ashe/Spells/AshePassiveAbility/AshePassive",
+          "formula": "Ashe's Attacks and Abilities Slow by [characterLevelInterpolation(0.2 → 0.3; raw flags preserved)] for [2] seconds. Attacks deal [1 + ((1 + (1) × Stat(9)[statFormula=2])) × Stat(8)] damage.\n\nAshe's critical strikes deal no extra damage, instead increasing the Slow to [characterLevelInterpolation(0.4 → 0.6; raw flags preserved)] decaying."
+        }
+      ]
+    },
+    {
+      "id": "ashe-audit-volley-pursuit-bruiser",
+      "champion": "Ashe",
+      "name": "Volley pursuit bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use repeated physical Volley to expose and soften fleeing teams.",
+      "goal": "Use repeated physical Volley to expose and soften fleeing teams.",
+      "hypothesis": "Volley has an AD statFormula=2 expression and only its first arrow damages a given target. Muramana offers mana and physical spell payload subject to proc rules; Cleaver shreds armor through physical damage, Shojin supports repeated abilities, and Youmuu supplies physical penetration and an active movement burst for positioning. Hawkshot helps choose safe approach lines between casts.",
+      "itemIds": [
+        3042,
+        3071,
+        3161,
+        3142,
+        3814,
+        3158
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need charged Manamune, real W hits and allies able to exploit softened targets.",
+        "Record W intervals and armor stacks over repeated volleys, versus a normal attack build.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low attack DPS and single-hit Volley cannot rapidly shred one target; R remains weak without AP.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Multiple arrows striking one champion do not grant multiple damage events or full Cleaver stacks.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Muramana, Black Cleaver, Spear of Shojin, Youmuu's Ghostblade, Edge of Night, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Enchanted Crystal Arrow",
+          "slot": "R",
+          "source": "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow",
+          "formula": "Ashe launches a crystal arrow of ice that Stuns the first champion hit and deals [200 / 400 / 600 + (1.2) × AP] magic damage. The Stun duration increases with distance travelled, up to [3.5] seconds. Surrounding enemies are Slowed by Frost Shot."
+        },
+        {
+          "ability": "Volley",
+          "slot": "W",
+          "source": "Characters/Ashe/Spells/VolleyAbility/Volley",
+          "formula": "Ashe fires a volley of [7 / 8 / 9 / 10 / 11] arrows, each dealing [60 / 95 / 130 / 165 / 200 + (1) × AD[statFormula=2]] physical damage. Enemies can be hit by multiple arrows, but only take damage from the first."
+        },
+        {
+          "ability": "Hawkshot",
+          "slot": "E",
+          "source": "Characters/Ashe/Spells/AsheSpiritOfTheHawkAbility/AsheSpiritOfTheHawk",
+          "formula": "Ashe sends forth a hawk to grant vision for 5 seconds anywhere on the map. It also reveals the area around it as it flies.\n\nThis Ability has 2 charges ([(runtimeCooldownMultiplier) × (90 / 80 / 70 / 60 / 50)] second recharge)."
+        },
+        {
+          "ability": "Frost Shot",
+          "slot": "Passive",
+          "source": "Characters/Ashe/Spells/AshePassiveAbility/AshePassive",
+          "formula": "Ashe's Attacks and Abilities Slow by [characterLevelInterpolation(0.2 → 0.3; raw flags preserved)] for [2] seconds. Attacks deal [1 + ((1 + (1) × Stat(9)[statFormula=2])) × Stat(8)] damage.\n\nAshe's critical strikes deal no extra damage, instead increasing the Slow to [characterLevelInterpolation(0.4 → 0.6; raw flags preserved)] decaying."
+        }
+      ]
+    }
+  ]
+}

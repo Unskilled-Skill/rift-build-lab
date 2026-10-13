@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "hwei-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "hwei-four-2",
+      "id": "hwei-audit-serenity-damage-medic",
       "champion": "Hwei",
-      "name": "Damage interaction: Mana burn zones",
-      "goal": "Damage interaction for Hwei: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged combination mage who pairs distinct damaging spells for passive explosions and selects control or ally utility for the situation. He trades mobility for broad zone control. Use two distinct damaging spells to trigger passive explosions. Record the chosen utility/control spell and actual zone time; no single generic combo represents every spellbook situation. Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
-      "summary": "Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "name": "Serenity damage medic",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test serenity damage medic against conventional damage at equal gold.",
+      "goal": "Test serenity damage medic against conventional damage at equal gold.",
+      "hypothesis": "Serenity WW grants an AP-scaled ally shield over time; Helia stores charges from champion damage, then shielding consumes them as healing. EQ/EW/EE immobilization fits Mandate's current vulnerability text, while WE restores mana for damage-to-shield cycles.",
       "itemIds": [
-        2503,
-        6653,
-        3116,
-        8010,
-        3157,
-        3020
+        6620,
+        6617,
+        3504,
+        6621,
+        4005,
+        3158
       ],
       "runePage": [
-        8992,
+        8214,
         8226,
         8210,
-        8236,
-        8126,
-        8106
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,43 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Hwei: Use two distinct damaging spells to trigger passive explosions. Record the chosen utility/control spell and actual zone time; no single generic combo represents every spellbook situation.",
-        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Hwei envisions a series of disasters, allowing him to paint a devastating blow.\n\nThis ability replaces Hwei's abilities with damaging abilities: Devastating Fire, Severing Bolt, and Molten Fissure. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: An ally remains in WW and Hwei lands distinct damaging spells.",
+        "Measure Helia charge spending and allied shielding per WW cast.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "The route fails Hwei's stated kit question: Use two distinct damaging spells to trigger passive explosions. Record the chosen utility/control spell and actual zone time; no single generic combo represents every spellbook situation.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Weak burst and shielding reduction make the utility investment poor.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: WE's self mana restoration is not an allied heal; Mandate no longer follows every slow in this catalog.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Echoes of Helia, Moonstone Renewer, Ardent Censer, Dawncore, Imperial Mandate, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Spiraling Despair",
-          "slot": "R",
-          "source": "Characters/Hwei/Spells/HweiRAbility/HweiR",
-          "formula": "Hwei launches a vision of pure despair that sticks to an enemy champion for [3] seconds. The vision expands over time applying a Slow to enemies for [10]% stacking every 0.25 seconds, and dealing [10 / 20 / 30 + (0.05) × AP] magic damage per second.\n\nUpon completion, the vision shatters, dealing [200 / 325 / 450 + (0.8) × AP] magic damage."
-        },
         {
           "ability": "Subject: Torment",
           "slot": "E",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "hwei-four-4",
+      "id": "hwei-audit-three-lights-attack-mage",
       "champion": "Hwei",
-      "name": "Experiment: Ultimate window",
-      "goal": "Experiment for Hwei: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged combination mage who pairs distinct damaging spells for passive explosions and selects control or ally utility for the situation. He trades mobility for broad zone control. Use two distinct damaging spells to trigger passive explosions. Record the chosen utility/control spell and actual zone time; no single generic combo represents every spellbook situation. Mana and ultimate-oriented item effects test repeated impactful R windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Mana and ultimate-oriented item effects test repeated impactful R windows.",
+      "name": "Three-lights attack mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test three-lights attack mage against conventional damage at equal gold.",
+      "goal": "Test three-lights attack mage against conventional damage at equal gold.",
+      "hypothesis": "WE explicitly empowers three abilities or attacks for 0.15 AP bonus magic damage and restores mana each time; Nashor and Dusk and Dawn test spending lights through attacks between E setup and Q. Seraph is earned through Archangel and supplies a defensive mana ceiling.",
       "itemIds": [
-        3118,
-        4645,
-        3089,
+        3115,
+        2510,
+        4629,
+        3040,
         3135,
-        3157,
-        3020
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
+        9923,
+        8126,
         8140,
         8106,
-        8233,
-        8237
+        8210,
+        8236
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +351,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Hwei: Use two distinct damaging spells to trigger passive explosions. Record the chosen utility/control spell and actual zone time; no single generic combo represents every spellbook situation.",
-        "Start with the early core (Malignance only if the R interaction is confirmed, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and ultimate-oriented item effects test repeated impactful R windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Hwei envisions a series of disasters, allowing him to paint a devastating blow.\n\nThis ability replaces Hwei's abilities with damaging abilities: Devastating Fire, Severing Bolt, and Molten Fissure. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: WE active with a controlled target inside attack range.",
+        "Compare three light attacks against light-empowered spell expenditure.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "The route fails Hwei's stated kit question: Use two distinct damaging spells to trigger passive explosions. Record the chosen utility/control spell and actual zone time; no single generic combo represents every spellbook situation.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Basic attacks expose Hwei and spending lights on them delays safer spell pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Three WE attack hits do not replace the passive's requirement for a second damaging ability.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Malignance only if the R interaction is confirmed, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Cosmic Drive, Seraph's Embrace, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Spiraling Despair",
-          "slot": "R",
-          "source": "Characters/Hwei/Spells/HweiRAbility/HweiR",
-          "formula": "Hwei launches a vision of pure despair that sticks to an enemy champion for [3] seconds. The vision expands over time applying a Slow to enemies for [10]% stacking every 0.25 seconds, and dealing [10 / 20 / 30 + (0.05) × AP] magic damage per second.\n\nUpon completion, the vision shatters, dealing [200 / 325 / 450 + (0.8) × AP] magic damage."
-        },
         {
           "ability": "Subject: Torment",
           "slot": "E",

@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Veigar",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "stack-fed-attack-mage",
+      "name": "Stack-fed attack mage",
+      "objective": "Test stack-fed attack mage against conventional damage at equal gold.",
+      "mechanic": "Phenomenal Evil grants AP from actual spell hits and takedowns; Nashor and Lich Bane turn earned AP into independent attack magic damage during Event Horizon control. Terminus serves mixed ordinary attacks without claiming the cage itself deals damage or grants stacks.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "W"
+      ],
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3302,
+        3102,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Record realistic AP stacks and trap an enemy who cannot immediately escape.",
+      "failure": "Tiny attack range and cage cooldown make the mage vulnerable.",
+      "test": "Compare three cage-window attacks with Q/W burst at equal earned stacks.",
+      "rejectedAssumption": "Attacks and item procs do not automatically grant passive AP stacks, which require ability hits.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "cage-resistance-battle-mage",
+      "name": "Cage resistance battle mage",
+      "objective": "Test cage resistance battle mage against conventional damage at equal gold.",
+      "mechanic": "Dark Matter's cooldown decreases at passive-stack milestones; earned Seraph and Frozen Heart provide mana and defense while Riftmaker tests repeated Q/W pressure. Abyssal rewards fighting within its range, but a recorded AP stack budget must still sustain damage despite defensive slots.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3040,
+        3110,
+        8020,
+        4633,
+        3135,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Reach a real W milestone and use cage edges to hold nearby enemies.",
+      "failure": "The cage interior is not an immediate stun and short range invites burst.",
+      "test": "Measure W cast count and survival at fixed AP stacks against melee pressure.",
+      "rejectedAssumption": "No assumed infinite AP and no damage proc from Event Horizon's non-damaging stun alone.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Attacks and item procs do not automatically grant passive AP stacks, which require ability hits.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Current-patch proc ordering/effectiveness is untested; symbolic source stats and helper form/pet records are not runtime dispatch proof."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Phenomenal Evil Power",
+      "paths": [
+        "Characters/Veigar/Spells/VeigarPassiveAbility/VeigarPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Baleful Strike",
+      "paths": [
+        "Characters/Veigar/Spells/VeigarBalefulStrikeAbility/VeigarBalefulStrike"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Dark Matter",
+      "paths": [
+        "Characters/Veigar/Spells/VeigarDarkMatterAbility/VeigarDarkMatter"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Event Horizon",
+      "paths": [
+        "Characters/Veigar/Spells/VeigarEventHorizonAbility/VeigarEventHorizon"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Primordial Burst",
+      "paths": [
+        "Characters/Veigar/Spells/VeigarRAbility/VeigarR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "veigar-audit-stack-fed-attack-mage",
+      "champion": "Veigar",
+      "name": "Stack-fed attack mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test stack-fed attack mage against conventional damage at equal gold.",
+      "goal": "Test stack-fed attack mage against conventional damage at equal gold.",
+      "hypothesis": "Phenomenal Evil grants AP from actual spell hits and takedowns; Nashor and Lich Bane turn earned AP into independent attack magic damage during Event Horizon control. Terminus serves mixed ordinary attacks without claiming the cage itself deals damage or grants stacks.",
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3302,
+        3102,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record realistic AP stacks and trap an enemy who cannot immediately escape.",
+        "Compare three cage-window attacks with Q/W burst at equal earned stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Tiny attack range and cage cooldown make the mage vulnerable.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Attacks and item procs do not automatically grant passive AP stacks, which require ability hits.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Terminus, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Baleful Strike",
+          "slot": "Q",
+          "source": "Characters/Veigar/Spells/VeigarBalefulStrikeAbility/VeigarBalefulStrike",
+          "formula": "Veigar unleashes a bolt of dark energy, dealing [80 / 120 / 160 / 200 / 240 + (0.5 / 0.55 / 0.6 / 0.65 / 0.7) × AP] magic damage to the first two enemies hit.\n\nIf Veigar kills an enemy with this Ability, he gains @Spell.VeigarPassive:dQKillStacks@ stack of Phenomenal Evil. Large minions and large monsters grant @Spell.VeigarPassive:dQKillStacksLarge@ stacks instead."
+        },
+        {
+          "ability": "Phenomenal Evil Power",
+          "slot": "Passive",
+          "source": "Characters/Veigar/Spells/VeigarPassiveAbility/VeigarPassive",
+          "formula": "Veigar's Abilities grant him [1] stack of Phenomenal Evil when they strike enemy champions. Takedowns on champions grant an additional [5] stacks.\n\nEach stack of Phenomenal Evil grants Veigar [1] Ability Power."
+        },
+        {
+          "ability": "Event Horizon",
+          "slot": "E",
+          "source": "Characters/Veigar/Spells/VeigarEventHorizonAbility/VeigarEventHorizon",
+          "formula": "Veigar twists the edges of space, creating a cage that Stuns enemies that pass through for [1.5 / 1.75 / 2 / 2.25 / 2.5] seconds. The cage lasts for 3 seconds."
+        },
+        {
+          "ability": "Dark Matter",
+          "slot": "W",
+          "source": "Characters/Veigar/Spells/VeigarDarkMatterAbility/VeigarDarkMatter",
+          "formula": "Veigar summons dark matter from the sky, dealing [85 / 140 / 195 / 250 / 305 + (0.7 / 0.8 / 0.9 / 1 / 1.1) × AP] magic damage.\n\nEvery @Spell.VeigarPassive:PStacksPerDarkMatterCDR@ stacks of Phenomenal Evil reduce this Ability's Cooldown by @Spell.VeigarPassive:DarkMatterCDRIncrement*100@%."
+        }
+      ]
+    },
+    {
+      "id": "veigar-audit-cage-resistance-battle-mage",
+      "champion": "Veigar",
+      "name": "Cage resistance battle mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test cage resistance battle mage against conventional damage at equal gold.",
+      "goal": "Test cage resistance battle mage against conventional damage at equal gold.",
+      "hypothesis": "Dark Matter's cooldown decreases at passive-stack milestones; earned Seraph and Frozen Heart provide mana and defense while Riftmaker tests repeated Q/W pressure. Abyssal rewards fighting within its range, but a recorded AP stack budget must still sustain damage despite defensive slots.",
+      "itemIds": [
+        3040,
+        3110,
+        8020,
+        4633,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Reach a real W milestone and use cage edges to hold nearby enemies.",
+        "Measure W cast count and survival at fixed AP stacks against melee pressure.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "The cage interior is not an immediate stun and short range invites burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: No assumed infinite AP and no damage proc from Event Horizon's non-damaging stun alone.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Seraph's Embrace, Frozen Heart, Abyssal Mask, Riftmaker, Void Staff, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Baleful Strike",
+          "slot": "Q",
+          "source": "Characters/Veigar/Spells/VeigarBalefulStrikeAbility/VeigarBalefulStrike",
+          "formula": "Veigar unleashes a bolt of dark energy, dealing [80 / 120 / 160 / 200 / 240 + (0.5 / 0.55 / 0.6 / 0.65 / 0.7) × AP] magic damage to the first two enemies hit.\n\nIf Veigar kills an enemy with this Ability, he gains @Spell.VeigarPassive:dQKillStacks@ stack of Phenomenal Evil. Large minions and large monsters grant @Spell.VeigarPassive:dQKillStacksLarge@ stacks instead."
+        },
+        {
+          "ability": "Phenomenal Evil Power",
+          "slot": "Passive",
+          "source": "Characters/Veigar/Spells/VeigarPassiveAbility/VeigarPassive",
+          "formula": "Veigar's Abilities grant him [1] stack of Phenomenal Evil when they strike enemy champions. Takedowns on champions grant an additional [5] stacks.\n\nEach stack of Phenomenal Evil grants Veigar [1] Ability Power."
+        },
+        {
+          "ability": "Event Horizon",
+          "slot": "E",
+          "source": "Characters/Veigar/Spells/VeigarEventHorizonAbility/VeigarEventHorizon",
+          "formula": "Veigar twists the edges of space, creating a cage that Stuns enemies that pass through for [1.5 / 1.75 / 2 / 2.25 / 2.5] seconds. The cage lasts for 3 seconds."
+        },
+        {
+          "ability": "Dark Matter",
+          "slot": "W",
+          "source": "Characters/Veigar/Spells/VeigarDarkMatterAbility/VeigarDarkMatter",
+          "formula": "Veigar summons dark matter from the sky, dealing [85 / 140 / 195 / 250 / 305 + (0.7 / 0.8 / 0.9 / 1 / 1.1) × AP] magic damage.\n\nEvery @Spell.VeigarPassive:PStacksPerDarkMatterCDR@ stacks of Phenomenal Evil reduce this Ability's Cooldown by @Spell.VeigarPassive:DarkMatterCDRIncrement*100@%."
+        },
+        {
+          "ability": "Primordial Burst",
+          "slot": "R",
+          "source": "Characters/Veigar/Spells/VeigarRAbility/VeigarR",
+          "formula": "Veigar blasts an enemy champion with primal magic to deal between [175 / 250 / 325 + (0.65 / 0.7 / 0.75) × AP] and [(175 / 250 / 325 + (0.65 / 0.7 / 0.75) × AP) × (2)] magic damage, increasing with the target's missing Health. Damage is maximized against enemies below 33% Health."
+        }
+      ]
+    }
+  ]
+}

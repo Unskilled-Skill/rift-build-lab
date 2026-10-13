@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Brand",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "detonation-ally-mark",
+      "name": "Detonation Ally Mark",
+      "objective": "Log allied damage within Q mark and detonation delay.",
+      "mechanic": "Three Blaze stacks explode after two seconds and apply spell effects. Q stuns an already Ablaze target, allowing Mandate vulnerability before the delayed explosion and allied follow-up. Rylai tests retention; Blackfire benefits from actual spread.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4005,
+        3116,
+        2503,
+        3137,
+        3089,
+        3158
+      ],
+      "pageKey": "comet",
+      "requiredState": "Apply Blaze before Q and complete three stacks with an ally nearby.",
+      "failure": "Missed Q or spread targets prevent the overlap.",
+      "test": "Log allied damage within Q mark and detonation delay; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Blaze slow alone is not Mandate immobilization.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "self-bounce-retention",
+      "name": "Self Bounce Retention",
+      "objective": "Record every R recipient while varying Brand distance.",
+      "mechanic": "R can bounce to Brand and prioritizes Blaze stacking; E doubles spread on Ablaze. Riftmaker can ramp through sustained combat, Cosmic repositions the bounce anchor and Zhonya tests pressure survival. Shadowflame affects qualifying low-health magic packets.",
+      "evidenceSlots": [
+        "P",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        4629,
+        3157,
+        4645,
+        3089,
+        3020
+      ],
+      "pageKey": "conq",
+      "requiredState": "Stay within bounce spacing with enough health to survive.",
+      "failure": "Retreat strands bounces or stasis changes routing.",
+      "test": "Record every R recipient while varying Brand distance; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Five bounces are not five hits on one champion.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Attack speed Blaze",
+      "reason": "Ordinary attacks do not apply spell Blaze stacks.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Burn reapplication intervals and self-bounce behavior during stasis require live testing."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Blaze",
+      "paths": [
+        "Characters/Brand/Spells/BrandPassiveAbility/BrandPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Sear",
+      "paths": [
+        "Characters/Brand/Spells/BrandQAbility/BrandQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Pillar of Flame",
+      "paths": [
+        "Characters/Brand/Spells/BrandWAbility/BrandW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Conflagration",
+      "paths": [
+        "Characters/Brand/Spells/BrandEAbility/BrandE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Pyroclasm",
+      "paths": [
+        "Characters/Brand/Spells/BrandRAbility/BrandR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "brand-audit-detonation-ally-mark",
+      "champion": "Brand",
+      "name": "Detonation Ally Mark",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log allied damage within Q mark and detonation delay.",
+      "goal": "Log allied damage within Q mark and detonation delay.",
+      "hypothesis": "Three Blaze stacks explode after two seconds and apply spell effects. Q stuns an already Ablaze target, allowing Mandate vulnerability before the delayed explosion and allied follow-up. Rylai tests retention; Blackfire benefits from actual spread.",
+      "itemIds": [
+        4005,
+        3116,
+        2503,
+        3137,
+        3089,
+        3158
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Apply Blaze before Q and complete three stacks with an ally nearby.",
+        "Log allied damage within Q mark and detonation delay; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Missed Q or spread targets prevent the overlap.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Blaze slow alone is not Mandate immobilization.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Imperial Mandate, Rylai's Crystal Scepter, Blackfire Torch, Cryptbloom, Rabadon's Deathcap, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Blaze",
+          "slot": "Passive",
+          "source": "Characters/Brand/Spells/BrandPassiveAbility/BrandPassive",
+          "formula": "Brand's Abilities light his targets Ablaze, dealing [2]% max Health magic damage over 4 seconds. If Brand kills a unit that is Ablaze, he regains [characterLevelBreakpoints(start=20, perLevel=0, changes=[{\"mLevel\": 3, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 3.3329999446868896, \"__type\": \"Breakpoint\"}, {\"mLevel\": 18, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}])] mana. Blaze can stack up to 3 times.\n\nWhen a champion or large jungle monster reaches 3 stacks, the Blaze will detonate after 2 seconds, dealing [(characterLevelInterpolation(6 → 12; raw flags preserved) + (0.02) × AP) × (0.01)] max Health magic damage to surrounding enemies."
+        },
+        {
+          "ability": "Conflagration",
+          "slot": "E",
+          "source": "Characters/Brand/Spells/BrandEAbility/BrandE",
+          "formula": "Brand conjures a powerful blast at his target, dealing [55 / 80 / 105 / 130 / 155 + (0.6) × AP] magic damage to surrounding units.\n\nIf the target is Ablaze, the spread range is doubled."
+        },
+        {
+          "ability": "Pyroclasm",
+          "slot": "R",
+          "source": "Characters/Brand/Spells/BrandRAbility/BrandR",
+          "formula": "Brand unleashes a devastating torrent of fire that can bounce to Brand or another enemy up to 5 times, dealing [100 / 175 / 250 + (0.3) × AP] magic damage to enemies each bounce. Bounces prioritize stacking Blaze to max on champions.\n\nIf the target is Ablaze, they are briefly Slowed by [30 / 45 / 60]%."
+        },
+        {
+          "ability": "Sear",
+          "slot": "Q",
+          "source": "Characters/Brand/Spells/BrandQAbility/BrandQ",
+          "formula": "Brand launches a fireball that deals [70 / 100 / 130 / 160 / 190 + (0.65) × AP] magic damage to the first enemy hit.\n\nIf the target is Ablaze, they will be Stunned for [1.75] seconds."
+        }
+      ]
+    },
+    {
+      "id": "brand-audit-self-bounce-retention",
+      "champion": "Brand",
+      "name": "Self Bounce Retention",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Record every R recipient while varying Brand distance.",
+      "goal": "Record every R recipient while varying Brand distance.",
+      "hypothesis": "R can bounce to Brand and prioritizes Blaze stacking; E doubles spread on Ablaze. Riftmaker can ramp through sustained combat, Cosmic repositions the bounce anchor and Zhonya tests pressure survival. Shadowflame affects qualifying low-health magic packets.",
+      "itemIds": [
+        4633,
+        4629,
+        3157,
+        4645,
+        3089,
+        3020
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Stay within bounce spacing with enough health to survive.",
+        "Record every R recipient while varying Brand distance; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Retreat strands bounces or stasis changes routing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Five bounces are not five hits on one champion.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Cosmic Drive, Zhonya's Hourglass, Shadowflame, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Blaze",
+          "slot": "Passive",
+          "source": "Characters/Brand/Spells/BrandPassiveAbility/BrandPassive",
+          "formula": "Brand's Abilities light his targets Ablaze, dealing [2]% max Health magic damage over 4 seconds. If Brand kills a unit that is Ablaze, he regains [characterLevelBreakpoints(start=20, perLevel=0, changes=[{\"mLevel\": 3, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 3.3329999446868896, \"__type\": \"Breakpoint\"}, {\"mLevel\": 18, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}])] mana. Blaze can stack up to 3 times.\n\nWhen a champion or large jungle monster reaches 3 stacks, the Blaze will detonate after 2 seconds, dealing [(characterLevelInterpolation(6 → 12; raw flags preserved) + (0.02) × AP) × (0.01)] max Health magic damage to surrounding enemies."
+        },
+        {
+          "ability": "Conflagration",
+          "slot": "E",
+          "source": "Characters/Brand/Spells/BrandEAbility/BrandE",
+          "formula": "Brand conjures a powerful blast at his target, dealing [55 / 80 / 105 / 130 / 155 + (0.6) × AP] magic damage to surrounding units.\n\nIf the target is Ablaze, the spread range is doubled."
+        },
+        {
+          "ability": "Pyroclasm",
+          "slot": "R",
+          "source": "Characters/Brand/Spells/BrandRAbility/BrandR",
+          "formula": "Brand unleashes a devastating torrent of fire that can bounce to Brand or another enemy up to 5 times, dealing [100 / 175 / 250 + (0.3) × AP] magic damage to enemies each bounce. Bounces prioritize stacking Blaze to max on champions.\n\nIf the target is Ablaze, they are briefly Slowed by [30 / 45 / 60]%."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Sivir",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "hunt-shield-refresh",
+      "name": "Hunt shield refresh",
+      "objective": "Use champion attacks during R to reopen E defensively.",
+      "mechanic": "R attacks against champions subtract 0.5 seconds from basic cooldowns. Navori also reduces remaining basic cooldowns through attacks; W grants speed and E restores AD/AP-scaled health after blocking a spell. This route tests faster E access with crit supporting W's explicitly critical bounces.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6675,
+        3031,
+        3072,
+        3095,
+        3036,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "R active, real champion attacks and an incoming blockable spell after E refresh.",
+      "failure": "Peel prevents attacks or the spell shield is mistimed, losing the heal.",
+      "test": "Measure E cooldown after a fixed number of attacks with R and Navori independently enabled.",
+      "rejectedAssumption": "Ricochet's extra bounces are not automatically additional R cooldown-subtracting attacks.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "boomerang-ap-guard",
+      "name": "Boomerang AP guard",
+      "objective": "Test AP on the two-pass Q and blocked-spell recovery.",
+      "mechanic": "Q includes 0.6 AP inside a crit-stat multiplier expression while E healing includes 0.5 AP. Gunblade and Cosmic supply mixed damage/access, Deathcap improves these AP terms and Navori adds crit plus attack-led Q/E recovery. Ordinary Q is still physical damage.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3146,
+        3089,
+        4629,
+        6675,
+        6694,
+        3158
+      ],
+      "pageKey": "storm",
+      "requiredState": "Both Q passes intersect the target and actual attacks reduce cooldowns between casts.",
+      "failure": "Low sustained AD/crit attack damage or a missed return pass erases the AP tradeoff.",
+      "test": "Measure outbound/return Q and E heal at fixed AP/crit values, logging the raw multiplier separately.",
+      "rejectedAssumption": "An explicit crit-stat scaling term is not evidence that Q randomly crits like an attack.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Mana restore on E block",
+      "reason": "The inspected E restores health and triggers Fleet of Foot; it does not state a mana refund.",
+      "evidenceSlots": [
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q crit-stat multiplier semantics and bounce interaction with attack cooldown effects need live checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Fleet of Foot",
+      "paths": [
+        "Characters/Sivir/Spells/SivirPassiveAbility/SivirPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Boomerang Blade",
+      "paths": [
+        "Characters/Sivir/Spells/SivirQAbility/SivirQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Ricochet",
+      "paths": [
+        "Characters/Sivir/Spells/SivirWAbility/SivirW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Spell Shield",
+      "paths": [
+        "Characters/Sivir/Spells/SivirEAbility/SivirE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "On The Hunt",
+      "paths": [
+        "Characters/Sivir/Spells/SivirRAbility/SivirR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "sivir-audit-hunt-shield-refresh",
+      "champion": "Sivir",
+      "name": "Hunt shield refresh",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use champion attacks during R to reopen E defensively.",
+      "goal": "Use champion attacks during R to reopen E defensively.",
+      "hypothesis": "R attacks against champions subtract 0.5 seconds from basic cooldowns. Navori also reduces remaining basic cooldowns through attacks; W grants speed and E restores AD/AP-scaled health after blocking a spell. This route tests faster E access with crit supporting W's explicitly critical bounces.",
+      "itemIds": [
+        6675,
+        3031,
+        3072,
+        3095,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R active, real champion attacks and an incoming blockable spell after E refresh.",
+        "Measure E cooldown after a fixed number of attacks with R and Navori independently enabled.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Peel prevents attacks or the spell shield is mistimed, losing the heal.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Ricochet's extra bounces are not automatically additional R cooldown-subtracting attacks.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Navori Flickerblade, Infinity Edge, Bloodthirster, Stormrazor, Lord Dominik's Regards, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "On The Hunt",
+          "slot": "R",
+          "source": "Characters/Sivir/Spells/SivirRAbility/SivirR",
+          "formula": "Sivir rallies her nearby allies, granting them [(0.2 / 0.25 / 0.3) × 100]% Move Speed for [8 / 10 / 12] seconds.\n\nSivir's attacks against champions while On The Hunt reduce the cooldown of her basic abilities by [0.5] seconds.\n\nTakedowns on recently damaged enemies refreshes the duration of the hunt."
+        },
+        {
+          "ability": "Ricochet",
+          "slot": "W",
+          "source": "Characters/Sivir/Spells/SivirWAbility/SivirW",
+          "formula": "For the next [4] seconds, Sivir gains [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% Attack Speed and her auto attacks are empowered to bounce to additional surrounding enemies dealing [(0.4 / 0.425 / 0.45 / 0.475 / 0.5) × AD] physical damage each bounce for up to [8] bounces.\n\nThese bounces critically strike if the attack generating them does."
+        },
+        {
+          "ability": "Spell Shield",
+          "slot": "E",
+          "source": "Characters/Sivir/Spells/SivirEAbility/SivirE",
+          "formula": "Sivir creates a magical barrier for [1.5] seconds that blocks the next incoming enemy Ability. If an ability is blocked, Sivir restores [(0.6 / 0.65 / 0.7 / 0.75 / 0.8) × AD + (0.5) × AP] health and triggers Fleet of Foot."
+        }
+      ]
+    },
+    {
+      "id": "sivir-audit-boomerang-ap-guard",
+      "champion": "Sivir",
+      "name": "Boomerang AP guard",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP on the two-pass Q and blocked-spell recovery.",
+      "goal": "Test AP on the two-pass Q and blocked-spell recovery.",
+      "hypothesis": "Q includes 0.6 AP inside a crit-stat multiplier expression while E healing includes 0.5 AP. Gunblade and Cosmic supply mixed damage/access, Deathcap improves these AP terms and Navori adds crit plus attack-led Q/E recovery. Ordinary Q is still physical damage.",
+      "itemIds": [
+        3146,
+        3089,
+        4629,
+        6675,
+        6694,
+        3158
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Both Q passes intersect the target and actual attacks reduce cooldowns between casts.",
+        "Measure outbound/return Q and E heal at fixed AP/crit values, logging the raw multiplier separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low sustained AD/crit attack damage or a missed return pass erases the AP tradeoff.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: An explicit crit-stat scaling term is not evidence that Q randomly crits like an attack.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Gunblade, Rabadon's Deathcap, Cosmic Drive, Navori Flickerblade, Serylda's Grudge, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Boomerang Blade",
+          "slot": "Q",
+          "source": "Characters/Sivir/Spells/SivirQAbility/SivirQ",
+          "formula": "Sivir hurls her crossblade like a boomerang, dealing [(60 / 85 / 110 / 135 / 160 + (0.7) × AD[statFormula=2] + (0.6) × AP) × ((1 + ((0.4) × Stat(8)) × (((1) × Stat(9) + -1))))] to all enemies it cuts through. Hitting non-champions reduces the damage to subsequent targets, down to a minimum of [40]%."
+        },
+        {
+          "ability": "On The Hunt",
+          "slot": "R",
+          "source": "Characters/Sivir/Spells/SivirRAbility/SivirR",
+          "formula": "Sivir rallies her nearby allies, granting them [(0.2 / 0.25 / 0.3) × 100]% Move Speed for [8 / 10 / 12] seconds.\n\nSivir's attacks against champions while On The Hunt reduce the cooldown of her basic abilities by [0.5] seconds.\n\nTakedowns on recently damaged enemies refreshes the duration of the hunt."
+        },
+        {
+          "ability": "Fleet of Foot",
+          "slot": "Passive",
+          "source": "Characters/Sivir/Spells/SivirPassiveAbility/SivirPassive",
+          "formula": "Sivir's Attacks and Abilities grant her a burst of [characterLevelBreakpoints(start=55, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 18, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])] Decaying Move Speed for [1.5] seconds when they damage enemy champions."
+        },
+        {
+          "ability": "Spell Shield",
+          "slot": "E",
+          "source": "Characters/Sivir/Spells/SivirEAbility/SivirE",
+          "formula": "Sivir creates a magical barrier for [1.5] seconds that blocks the next incoming enemy Ability. If an ability is blocked, Sivir restores [(0.6 / 0.65 / 0.7 / 0.75 / 0.8) × AD + (0.5) × AP] health and triggers Fleet of Foot."
+        }
+      ]
+    }
+  ]
+}

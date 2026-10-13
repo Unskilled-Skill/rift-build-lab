@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "lissandra-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "lissandra-four-2",
+      "id": "lissandra-audit-tomb-drain-frontliner",
       "champion": "Lissandra",
-      "name": "Damage interaction: Mana burst",
-      "goal": "Damage interaction for Lissandra: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A close-range control mage who uses claw repositioning to enter, lock targets and turn nearby deaths into follow-up threats. Measure claw entry, self-R versus enemy R and passive thrall follow-up. A support tank route trades AP for reliable control; no simultaneous offensive and defensive R. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Tomb drain frontliner",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use self-Tomb as a timed healing pivot inside sustained combat.",
+      "goal": "Use self-Tomb as a timed healing pivot inside sustained combat.",
+      "hypothesis": "Self-cast Frozen Tomb creates 2.5 seconds of stasis and an AP heal increased with missing health; it still emits magic dark ice. Rod and Riftmaker support health/AP, Visage enhances received healing and Abyssal serves close magic contact. Ring of Frost and E access create the entry, while Zhonya's can extend safety if used as a separate planned window.",
       "itemIds": [
-        6655,
-        4645,
-        3089,
-        3135,
+        6657,
+        4633,
+        3065,
         3157,
-        3020
+        8020,
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Lissandra: Measure claw entry, self-R versus enemy R and passive thrall follow-up. A support tank route trades AP for reliable control; no simultaneous offensive and defensive R.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Throws a spear of ice that shatters when it hits an enemy, dealing magic damage and slowing Move Speed. Shards pass through the target, dealing the same damage to other enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need self R ready, nearby enemies held and missing health without lethal pre-cast damage.",
+        "Compare healing, damage and escape after a W-self-R sequence at two starting health values.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Lissandra's stated kit question: Measure claw entry, self-R versus enemy R and passive thrall follow-up. A support tank route trades AP for reliable control; no simultaneous offensive and defensive R.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Stasis alone does not protect allies; enemies can wait beyond the ice and punish the exit.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Enemy-cast Tomb supplies stun rather than the documented self heal/stasis package.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Rod of Ages, Riftmaker, Spirit Visage, Zhonya's Hourglass, Abyssal Mask, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Ring of Frost",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "lissandra-four-4",
+      "id": "lissandra-audit-frozen-zombie-chain-finisher",
       "champion": "Lissandra",
-      "name": "Experiment: Engage and rescue",
-      "goal": "Experiment for Lissandra: test a different playstyle, with lower confidence",
-      "hypothesis": "A close-range control mage who uses claw repositioning to enter, lock targets and turn nearby deaths into follow-up threats. Measure claw entry, self-R versus enemy R and passive thrall follow-up. A support tank route trades AP for reliable control; no simultaneous offensive and defensive R. A support quest and protective actives test allied survival after an engage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "A support quest and protective actives test allied survival after an engage.",
+      "name": "Frozen zombie chain finisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Seek a first death that turns into delayed area cleanup.",
+      "goal": "Seek a first death that turns into delayed area cleanup.",
+      "hypothesis": "Iceborn Subjugation creates zombies on nearby champion deaths; they slow, then shatter after four seconds for level damage plus 0.5 AP magic. Shadowflame can improve low-health magic hits and Cryptbloom adds a heal nova on qualifying deaths. Malignance supplies R pressure for the initial victim, with high AP retaining the delayed zombie threat.",
       "itemIds": [
-        3869,
-        3190,
-        3109,
-        3050,
-        3222,
-        3111
+        6655,
+        4645,
+        3089,
+        3137,
+        3118,
+        3020
       ],
       "runePage": [
-        8439,
-        8463,
-        8473,
-        8451,
+        8369,
+        8321,
         8345,
-        8347
+        8347,
+        8226,
+        8233
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Lissandra: Measure claw entry, self-R versus enemy R and passive thrall follow-up. A support tank route trades AP for reliable control; no simultaneous offensive and defensive R.",
-        "Start with the early core (Support quest, boots and Locket; choose later actives by threat) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A support quest and protective actives test allied survival after an engage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Throws a spear of ice that shatters when it hits an enemy, dealing magic damage and slowing Move Speed. Shards pass through the target, dealing the same damage to other enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need a genuine nearby death and living enemies still close when the zombie shatters.",
+        "Measure first-victim burst and zombie damage separately, including failed chain cases with enemy disengage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
-        "The route fails Lissandra's stated kit question: Measure claw entry, self-R versus enemy R and passive thrall follow-up. A support tank route trades AP for reliable control; no simultaneous offensive and defensive R.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "No first death means no passive damage; surviving enemies spread before the delay expires.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low income rarely reaches six items; Mikael does not remove airborne/suppression.",
-        "Full cost 10,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Zombies are not normal attacking pets and cannot be assigned owner attack on-hits without evidence.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, boots and Locket; choose later actives by threat. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Knight's Vow, Zeke's Convergence, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Luden's Echo, Shadowflame, Rabadon's Deathcap, Cryptbloom, Malignance, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Ring of Frost",

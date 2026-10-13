@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Rakan",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "quill-charge-rescue",
+      "name": "Quill-charge rescue",
+      "objective": "Cash champion damage into Helia while using two E shields as staggered delivery windows.",
+      "mechanic": "Q has 0.7 AP damage and 0.55 AP ally healing triggered after three seconds or on ally contact. E has 0.7 AP shields and a second cast within five seconds. Helia charges from champion damage, then ally healing/shielding consumes them; Staff may improve the next W/Q and allied caster window.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3869,
+        6620,
+        6616,
+        6617,
+        2065,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "Q connects and the intended ally is accessible; spread E casts around real incoming damage.",
+      "failure": "Burst before Q healing or a missed Q leaves empty Helia charges.",
+      "test": "Log Q damage/heal timing and both E shields, Helia consumption and ally shield waste.",
+      "rejectedAssumption": "Two E casts do not cash the same Helia charges twice.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "feather-recharge-skirmish",
+      "name": "Feather recharge skirmish",
+      "objective": "Test sustained AP attack contact as a way to regain the large passive shield.",
+      "mechanic": "Fey Feathers has 0.95 AP shielding and each attack or ability against champions removes one second from its cooldown. Nashor and Dusk and Dawn support real attacks between W and E exits; AP also powers Q healing and E shielding. Visage increases Rakan self shields, while R charm gives a short access window.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2510,
+        3115,
+        4633,
+        3065,
+        3157,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "A safe farmed-income skirmish permits actual attacks and a cooldown cycle.",
+      "failure": "Melee time kills Rakan before recharge and sacrifices support actives.",
+      "test": "Count passive cooldown reductions per attack/cast and shields regained in a fixed moving fight.",
+      "rejectedAssumption": "Duplicated on-hit packets are not additional attacks or automatic extra passive cooldown reductions.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Passive shield transferred to allies",
+      "reason": "Fey Feathers shields Rakan; E shields allies. Visage on Rakan does not amplify all shields he gives others.",
+      "evidenceSlots": [
+        "P",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive timing, multi-target ability cooldown reductions and Dusk repeated-on-hit behavior require logs; support quest remains required on support income."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Fey Feathers",
+      "paths": [
+        "Characters/Rakan/Spells/RakanPassiveAbility/RakanPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Gleaming Quill",
+      "paths": [
+        "Characters/Rakan/Spells/RakanQAbility/RakanQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Grand Entrance",
+      "paths": [
+        "Characters/Rakan/Spells/RakanWAbility/RakanW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Battle Dance",
+      "paths": [
+        "Characters/Rakan/Spells/RakanEAbility/RakanE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "The Quickness",
+      "paths": [
+        "Characters/Rakan/Spells/RakanRAbility/RakanR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "rakan-audit-quill-charge-rescue",
+      "champion": "Rakan",
+      "name": "Quill-charge rescue",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Cash champion damage into Helia while using two E shields as staggered delivery windows.",
+      "goal": "Cash champion damage into Helia while using two E shields as staggered delivery windows.",
+      "hypothesis": "Q has 0.7 AP damage and 0.55 AP ally healing triggered after three seconds or on ally contact. E has 0.7 AP shields and a second cast within five seconds. Helia charges from champion damage, then ally healing/shielding consumes them; Staff may improve the next W/Q and allied caster window.",
+      "itemIds": [
+        3869,
+        6620,
+        6616,
+        6617,
+        2065,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Q connects and the intended ally is accessible; spread E casts around real incoming damage.",
+        "Log Q damage/heal timing and both E shields, Helia consumption and ally shield waste.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Burst before Q healing or a missed Q leaves empty Helia charges.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Two E casts do not cash the same Helia charges twice.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Echoes of Helia, Staff of Flowing Water, Moonstone Renewer, Shurelya's Battlesong, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Grand Entrance",
+          "slot": "W",
+          "source": "Characters/Rakan/Spells/RakanWAbility/RakanW",
+          "formula": "Rakan dashes, then spirals into the air, Knocking Up for [1] second and dealing [70 / 120 / 170 / 220 / 270 + (0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Gleaming Quill",
+          "slot": "Q",
+          "source": "Characters/Rakan/Spells/RakanQAbility/RakanQ",
+          "formula": "Rakan flings a magical feather that deals [70 / 115 / 160 / 205 / 250 + (0.7) × AP] magic damage to the first enemy hit.\n\nIf the feather hits a champion or epic jungle monster, Rakan restores [characterLevelInterpolation(40 → 210; raw flags preserved) + (0.55) × AP] Health to himself and nearby allies after [3] seconds or when he touches an allied champion."
+        },
+        {
+          "ability": "Battle Dance",
+          "slot": "E",
+          "source": "Characters/Rakan/Spells/RakanEAbility/RakanE",
+          "formula": "Rakan dashes to an allied champion, granting them [50 / 75 / 100 / 125 / 150 + (0.7) × AP] Shield for [3] seconds.\n\nRakan can Recast this Ability once within [5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "rakan-audit-feather-recharge-skirmish",
+      "champion": "Rakan",
+      "name": "Feather recharge skirmish",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test sustained AP attack contact as a way to regain the large passive shield.",
+      "goal": "Test sustained AP attack contact as a way to regain the large passive shield.",
+      "hypothesis": "Fey Feathers has 0.95 AP shielding and each attack or ability against champions removes one second from its cooldown. Nashor and Dusk and Dawn support real attacks between W and E exits; AP also powers Q healing and E shielding. Visage increases Rakan self shields, while R charm gives a short access window.",
+      "itemIds": [
+        2510,
+        3115,
+        4633,
+        3065,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: A safe farmed-income skirmish permits actual attacks and a cooldown cycle.",
+        "Count passive cooldown reductions per attack/cast and shields regained in a fixed moving fight.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Melee time kills Rakan before recharge and sacrifices support actives.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Duplicated on-hit packets are not additional attacks or automatic extra passive cooldown reductions.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Dusk and Dawn, Nashor's Tooth, Riftmaker, Spirit Visage, Zhonya's Hourglass, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Grand Entrance",
+          "slot": "W",
+          "source": "Characters/Rakan/Spells/RakanWAbility/RakanW",
+          "formula": "Rakan dashes, then spirals into the air, Knocking Up for [1] second and dealing [70 / 120 / 170 / 220 / 270 + (0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Gleaming Quill",
+          "slot": "Q",
+          "source": "Characters/Rakan/Spells/RakanQAbility/RakanQ",
+          "formula": "Rakan flings a magical feather that deals [70 / 115 / 160 / 205 / 250 + (0.7) × AP] magic damage to the first enemy hit.\n\nIf the feather hits a champion or epic jungle monster, Rakan restores [characterLevelInterpolation(40 → 210; raw flags preserved) + (0.55) × AP] Health to himself and nearby allies after [3] seconds or when he touches an allied champion."
+        },
+        {
+          "ability": "Battle Dance",
+          "slot": "E",
+          "source": "Characters/Rakan/Spells/RakanEAbility/RakanE",
+          "formula": "Rakan dashes to an allied champion, granting them [50 / 75 / 100 / 125 / 150 + (0.7) × AP] Shield for [3] seconds.\n\nRakan can Recast this Ability once within [5] seconds."
+        },
+        {
+          "ability": "Fey Feathers",
+          "slot": "Passive",
+          "source": "Characters/Rakan/Spells/RakanPassiveAbility/RakanPassive",
+          "formula": "Every [characterLevelBreakpoints(start=40, perLevel=-1.5, changes=[{\"mLevel\": 19, \"mBonusPerLevelAtAndAfter\": -0.875, \"__type\": \"Breakpoint\"}])] seconds, Rakan gains [characterLevelInterpolation(30 → 225; raw flags preserved) + (0.95) × AP] Shield. Rakan's Attacks and Abilities against enemy champions reduce this Cooldown by [1] second.\n\nLover's Leap - Xayah and Rakan can recall together."
+        },
+        {
+          "ability": "The Quickness",
+          "slot": "R",
+          "source": "Characters/Rakan/Spells/RakanRAbility/RakanR",
+          "formula": "Rakan gains [75]% Move Speed for [4] seconds. Rakan deals [100 / 200 / 300 + (0.5) × AP] magic damage and Charms enemies for [1 / 1.25 / 1.5] second(s) the first time he touches them. The first champion touched grants Rakan [150]% decaying Move Speed."
+        }
+      ]
+    }
+  ]
+}

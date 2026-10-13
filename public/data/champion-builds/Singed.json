@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "singed-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "singed-four-2",
+      "id": "singed-audit-fling-and-strike-pass",
       "champion": "Singed",
-      "name": "Damage interaction: AP health frontline",
-      "goal": "Damage interaction for Singed: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A movement-driven disruptor who draws enemies through poison, grounds escape routes and flings targets into unfavorable positions. Measure poison trail occupancy, fling geometry and grounding. Moving faster must produce additional useful poison/control, not just a faster exit that deals less damage. Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
-      "summary": "Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
+      "name": "Fling-and-strike pass",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore one AP Spellblade attack as Fling changes target position.",
+      "goal": "Explore one AP Spellblade attack as Fling changes target position.",
+      "hypothesis": "E has 0.55 AP plus max-health magic damage and places the enemy behind Singed. Lich Bane and Nashor reward an actual nearby attack; Q continues magic damage while Cosmic supplies movement and R gives AP/defenses for a bounded 25 seconds. This route asks whether the attack fits a run-by rather than assuming Fling applies on-hits.",
       "itemIds": [
+        3100,
+        3115,
+        4629,
         4633,
-        6653,
-        3116,
-        8010,
-        3065,
-        3111
+        3135,
+        3009
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
-        8444,
-        8451
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,43 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Singed: Measure poison trail occupancy, fling geometry and grounding. Moving faster must produce additional useful poison/control, not just a faster exit that deals less damage.",
-        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Leaves a trail of poison behind Singed, dealing damage to enemies caught in the path. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: A Fling target is in attack reach and poison contact continues during the attack animation.",
+        "Compare a moving Fling pass with and without one attack, recording poison uptime and incoming damage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
-        "The route fails Singed's stated kit question: Measure poison trail occupancy, fling geometry and grounding. Moving faster must produce additional useful poison/control, not just a faster exit that deals less damage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Standing to attack sacrifices Slipstream movement and exposes Singed to control.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
-        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Fling itself does not consume Spellblade or apply Nashor.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Cosmic Drive, Riftmaker, Void Staff, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Noxious Slipstream",
-          "slot": "Passive",
-          "source": "Characters/Singed/Spells/SingedPAbility/SingedP",
-          "formula": "Singed drafts off of nearby allied or enemy champions, gaining [25]% Move Speed for [2] seconds. This effect has an [8] second Cooldown per champion."
-        },
         {
           "ability": "Poison Trail",
           "slot": "Q",
@@ -205,12 +193,6 @@
           "slot": "R",
           "source": "Characters/Singed/Spells/InsanityPotionAbility/InsanityPotion",
           "formula": "Singed drinks a potent brew of chemicals, granting him [25 / 55 / 85] Ability Power, Armor, Magic Resist, Move Speed, Health Regen, and Mana Regen for [25] seconds. During this effect, Singed's Poison Trail also applies [40]% Grievous Wounds for [1] second."
-        },
-        {
-          "ability": "Mega Adhesive",
-          "slot": "W",
-          "source": "Characters/Singed/Spells/MegaAdhesiveAbility/MegaAdhesive",
-          "formula": "Singed hurls a cask of sticky liquid, Grounding and Slowing enemies in the area by [50 / 55 / 60 / 65 / 70]% for [3] seconds."
         }
       ]
     },
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "singed-four-4",
+      "id": "singed-audit-adhesive-vulnerability-turn",
       "champion": "Singed",
-      "name": "Experiment: Movement frontline",
-      "goal": "Experiment for Singed: test a different playstyle, with lower confidence",
-      "hypothesis": "A movement-driven disruptor who draws enemies through poison, grounds escape routes and flings targets into unfavorable positions. Measure poison trail occupancy, fling geometry and grounding. Moving faster must produce additional useful poison/control, not just a faster exit that deals less damage. Movement and matchup resistances test reaching a useful control angle and resetting afterward. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Movement and matchup resistances test reaching a useful control angle and resetting afterward.",
+      "name": "Adhesive vulnerability turn",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use the Fling-into-W root as the trigger for ally amplification.",
+      "goal": "Use the Fling-into-W root as the trigger for ally amplification.",
+      "hypothesis": "W grounds and slows; E roots only when the victim lands in adhesive. Current Mandate needs immobilization, so E-W root is the concrete trigger. Bandlepipes can use the initial slow; Abyssal rewards close magic pressure from Q/E and R keeps Singed mobile during the escort.",
       "itemIds": [
-        3742,
-        4401,
-        3083,
-        6665,
-        2502,
+        4005,
+        2524,
+        8020,
+        6653,
+        2065,
         3009
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
+        8439,
+        8463,
+        8473,
         8451,
-        9111,
-        9104
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +345,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Singed: Measure poison trail occupancy, fling geometry and grounding. Moving faster must produce additional useful poison/control, not just a faster exit that deals less damage.",
-        "Start with the early core (Matchup defense and boots; movement slots only if they improve contact) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Movement and matchup resistances test reaching a useful control angle and resetting afterward. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Leaves a trail of poison behind Singed, dealing damage to enemies caught in the path. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Adhesive is placed where Fling will land and allies can hit during the four-second vulnerability.",
+        "Time root, Mandate vulnerability, ally follow-up and poison contact after the same Fling placement.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Limited direct damage; Warmog thresholds and out-of-combat timing must be verified.",
-        "The route fails Singed's stated kit question: Measure poison trail occupancy, fling geometry and grounding. Moving faster must produce additional useful poison/control, not just a faster exit that deals less damage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "A misplaced W gives only slow/grounding and loses Mandate marking.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Limited direct damage; Warmog thresholds and out-of-combat timing must be verified.",
-        "Full cost 15,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Grounding or a slow is not automatically Mandate immobilization.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Matchup defense and boots; movement slots only if they improve contact. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Warmog's Armor, Jak'Sho, The Protean, Unending Despair are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Imperial Mandate, Bandlepipes, Abyssal Mask, Liandry's Torment, Shurelya's Battlesong, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Noxious Slipstream",
-          "slot": "Passive",
-          "source": "Characters/Singed/Spells/SingedPAbility/SingedP",
-          "formula": "Singed drafts off of nearby allied or enemy champions, gaining [25]% Move Speed for [2] seconds. This effect has an [8] second Cooldown per champion."
-        },
         {
           "ability": "Poison Trail",
           "slot": "Q",

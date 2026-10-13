@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Diana",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "moonlight-third-hit",
+      "name": "Moonlight Third Hit",
+      "objective": "Count cleaves during marked versus unmarked approaches.",
+      "mechanic": "Q Moonlight refreshes E and P gives five seconds of cast attack-speed boost with a third-hit cleave. Nashor/Trinity reward attacks between dashes; Cosmic retains reach and Riftmaker health/AP supports W shield scaling.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        3078,
+        4633,
+        4629,
+        3089,
+        3006
+      ],
+      "pageKey": "conq",
+      "requiredState": "Mark Q and complete three actual attacks during the boost.",
+      "failure": "Dashing without attacks wastes P and Spellblade.",
+      "test": "Count cleaves during marked versus unmarked approaches; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "E reset does not independently refresh Spellblade.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "final-orb-shield",
+      "name": "Final Orb Shield",
+      "objective": "Record final-orb shield and damage survived.",
+      "mechanic": "W adds shield and refreshes duration after the third orb detonates. R pulls enemies into contact; Riftmaker supports W AP/health scaling and Unending Despair rewards close combat. Zhonya tests survival while Moonfall resolves.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        2502,
+        3157,
+        3089,
+        3137,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "All W orbs available with an enemy pulled into contact.",
+      "failure": "Last orb stays intact or tank slots lose too much burst.",
+      "test": "Record final-orb shield and damage survived; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Maximum extra-champion Moonfall damage is not available in a duel.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Free maximum Moonfall",
+      "reason": "R adds damage only for actual extra champions pulled.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "W health basis and stasis/orb contact behavior need observation.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Moonsilver Blade",
+      "paths": [
+        "Characters/Diana/Spells/DianaPassiveAbility/DianaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Crescent Strike",
+      "paths": [
+        "Characters/Diana/Spells/DianaQAbility/DianaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Pale Cascade",
+      "paths": [
+        "Characters/Diana/Spells/DianaOrbsAbility/DianaOrbs"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Lunar Rush",
+      "paths": [
+        "Characters/Diana/Spells/DianaTeleportAbility/DianaTeleport"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Moonfall",
+      "paths": [
+        "Characters/Diana/Spells/DianaRAbility/DianaR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "diana-audit-moonlight-third-hit",
+      "champion": "Diana",
+      "name": "Moonlight Third Hit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count cleaves during marked versus unmarked approaches.",
+      "goal": "Count cleaves during marked versus unmarked approaches.",
+      "hypothesis": "Q Moonlight refreshes E and P gives five seconds of cast attack-speed boost with a third-hit cleave. Nashor/Trinity reward attacks between dashes; Cosmic retains reach and Riftmaker health/AP supports W shield scaling.",
+      "itemIds": [
+        3115,
+        3078,
+        4633,
+        4629,
+        3089,
+        3006
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Mark Q and complete three actual attacks during the boost.",
+        "Count cleaves during marked versus unmarked approaches; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Dashing without attacks wastes P and Spellblade.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: E reset does not independently refresh Spellblade.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Trinity Force, Riftmaker, Cosmic Drive, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Pale Cascade",
+          "slot": "W",
+          "source": "Characters/Diana/Spells/DianaOrbsAbility/DianaOrbs",
+          "formula": "Diana creates three orbiting spheres for [5] seconds that explode on contact, each dealing [20 / 32 / 44 / 56 / 68 + (0.18) × AP] magic damage, up to a max of [(20 / 32 / 44 / 56 / 68 + (0.18) × AP) × (3)] damage.\n\nDiana also gains [45 / 60 / 75 / 90 / 105 + (0.3) × AP + (0.14) × Stat(12)[statFormula=2]] Shield for the same duration. When the last sphere detonates, she gains an additional [45 / 60 / 75 / 90 / 105 + (0.3) × AP + (0.14) × Stat(12)[statFormula=2]] Shield and refreshes the duration."
+        },
+        {
+          "ability": "Crescent Strike",
+          "slot": "Q",
+          "source": "Characters/Diana/Spells/DianaQAbility/DianaQ",
+          "formula": "Diana unleashes an arc of lunar energy, dealing [70 / 105 / 140 / 175 / 210 + (0.7) × AP] magic damage and marking with Moonlight for [3] seconds. \n\nMoonlight reveals enemies that are not stealthed."
+        },
+        {
+          "ability": "Lunar Rush",
+          "slot": "E",
+          "source": "Characters/Diana/Spells/DianaTeleportAbility/DianaTeleport",
+          "formula": "Diana becomes as the vengeful moon, dashing to an enemy and dealing [50 / 70 / 90 / 110 / 130 + (0.6) × AP] magic damage. If the target is afflicted with Moonlight, this Ability's Cooldown is refreshed."
+        },
+        {
+          "ability": "Moonsilver Blade",
+          "slot": "Passive",
+          "source": "Characters/Diana/Spells/DianaPassiveAbility/DianaPassive",
+          "formula": "Diana gains [characterLevelInterpolation(0.15 → 0.35; raw flags preserved)] Attack Speed, increased to [(characterLevelInterpolation(0.15 → 0.35; raw flags preserved)) × (3)] for [5] seconds after using an Ability.\n\nEvery third Attack cleaves nearby enemies for an additional [characterLevelBreakpoints(start=20, perLevel=5, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 25.0, \"__type\": \"Breakpoint\"}]) + (0.5) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "diana-audit-final-orb-shield",
+      "champion": "Diana",
+      "name": "Final Orb Shield",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Record final-orb shield and damage survived.",
+      "goal": "Record final-orb shield and damage survived.",
+      "hypothesis": "W adds shield and refreshes duration after the third orb detonates. R pulls enemies into contact; Riftmaker supports W AP/health scaling and Unending Despair rewards close combat. Zhonya tests survival while Moonfall resolves.",
+      "itemIds": [
+        4633,
+        2502,
+        3157,
+        3089,
+        3137,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: All W orbs available with an enemy pulled into contact.",
+        "Record final-orb shield and damage survived; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Last orb stays intact or tank slots lose too much burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Maximum extra-champion Moonfall damage is not available in a duel.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Unending Despair, Zhonya's Hourglass, Rabadon's Deathcap, Cryptbloom, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Pale Cascade",
+          "slot": "W",
+          "source": "Characters/Diana/Spells/DianaOrbsAbility/DianaOrbs",
+          "formula": "Diana creates three orbiting spheres for [5] seconds that explode on contact, each dealing [20 / 32 / 44 / 56 / 68 + (0.18) × AP] magic damage, up to a max of [(20 / 32 / 44 / 56 / 68 + (0.18) × AP) × (3)] damage.\n\nDiana also gains [45 / 60 / 75 / 90 / 105 + (0.3) × AP + (0.14) × Stat(12)[statFormula=2]] Shield for the same duration. When the last sphere detonates, she gains an additional [45 / 60 / 75 / 90 / 105 + (0.3) × AP + (0.14) × Stat(12)[statFormula=2]] Shield and refreshes the duration."
+        },
+        {
+          "ability": "Moonfall",
+          "slot": "R",
+          "source": "Characters/Diana/Spells/DianaRAbility/DianaR",
+          "formula": "Diana Pulls In, Slows by [40 / 50 / 60]%, and reveals nearby enemies for [2] seconds.\n\nIf Diana hits at least one enemy champion, she calls to the moon, dealing [200 / 300 / 400 + (0.6) × AP] magic damage plus [35 / 60 / 85 + (0.15) × AP] for each champion pulled beyond the first, up to a max of an additional [(35 / 60 / 85 + (0.15) × AP) × (5)] damage."
+        },
+        {
+          "ability": "Lunar Rush",
+          "slot": "E",
+          "source": "Characters/Diana/Spells/DianaTeleportAbility/DianaTeleport",
+          "formula": "Diana becomes as the vengeful moon, dashing to an enemy and dealing [50 / 70 / 90 / 110 / 130 + (0.6) × AP] magic damage. If the target is afflicted with Moonlight, this Ability's Cooldown is refreshed."
+        }
+      ]
+    }
+  ]
+}

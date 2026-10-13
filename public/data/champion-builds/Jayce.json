@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "jayce-four-1",
@@ -110,19 +110,21 @@
       ]
     },
     {
-      "id": "jayce-four-2",
+      "id": "jayce-audit-hypercharge-proc-ambush",
       "champion": "Jayce",
-      "name": "Damage interaction: Mana spell-and-attack",
-      "goal": "Damage interaction for Jayce: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A stance-switching fighter who uses ranged poke to create openings, then commits to melee burst or displacement. Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items. A stacked mana item, real Spellblade attacks and haste test spell/attack cycling.",
-      "summary": "A stacked mana item, real Spellblade attacks and haste test spell/attack cycling.",
+      "name": "Hypercharge proc ambush",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use the three maximum-speed cannon attacks for a focused item window.",
+      "goal": "Use the three maximum-speed cannon attacks for a focused item window.",
+      "hypothesis": "Hyper Charge grants three attacks at maximum speed with 0.7-1.1 AD damage depending on rank. Blade supplies current-health physical on-hit, Kraken rewards the third attack, and Essence Reaver gives a single post-cast Spellblade plus mana. Transforming into Cannon makes the first attack shred defenses, then Hammer Q/E can finish with mixed damage.",
       "itemIds": [
-        3004,
-        3078,
-        6694,
-        3161,
-        3026,
-        3158
+        3153,
+        3508,
+        6672,
+        3031,
+        3036,
+        3006
       ],
       "runePage": [
         8005,
@@ -135,15 +137,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Jayce: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
-        "Start with the early core (Early Tear, Trinity or Manamune by lane needs) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A stacked mana item, real Spellblade attacks and haste test spell/attack cycling. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Hammer Stance: Leaps to an enemy dealing physical damage and slowing enemies.\n\nCannon Stance: Fires an orb of electricity that detonates upon hitting an enemy (or reaching the end of its path) dealing physical damage to all enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need high W rank, a clear three-shot target and transformation timing before firing.",
+        "Measure each of the three shots and the defense shred before adding Hammer follow-up.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Manamune must stack and transform in game; no guessed transformed damage or extra Spellblade items.",
-        "The route fails Jayce's stated kit question: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low-rank W reduces attack damage; target exits range or defensive items absorb the short burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Manamune must stack and transform in game; no guessed transformed damage or extra Spellblade items.",
-        "Full cost 16,433 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Three Hyper Charge attacks do not mean three Spellblade procs without new ready cast windows.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Early Tear, Trinity or Manamune by lane needs. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Serylda's Grudge, Spear of Shojin, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Blade of The Ruined King, Essence Reaver, Kraken Slayer, Infinity Edge, Lord Dominik's Regards, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Lightning Field / Hyper Charge",
           "slot": "W",
           "source": "Characters/Jayce/Spells/JayceStaticFieldAbility/JayceStaticField",
           "formula": "Mercury Hammer - Passive: Jayce's Hammer Attacks grant @spell.JayceStaticField:ManaGain@ Mana.\n\nMercury Hammer - Active: Jayce creates an electric aura dealing @spell.JayceStaticField:Damage@ magic damage over @spell.JayceStaticField:Duration@ seconds."
-        },
-        {
-          "ability": "Hextech Capacitor",
-          "slot": "Passive",
-          "source": "Characters/Jayce/Spells/JaycePassiveAbility/JaycePassive",
-          "formula": "Jayce can swap between melee and ranged weapons using Mercury Cannon / Mercury Hammer starting from level 1. Swapping weapons also swaps all his Abilities and grants him [30] Move Speed for [0.75] seconds."
         },
         {
           "ability": "Thundering Blow / Acceleration Gate",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "jayce-four-4",
+      "id": "jayce-audit-lightning-field-hybrid-hammer",
       "champion": "Jayce",
-      "name": "Experiment: Long-range finish",
-      "goal": "Experiment for Jayce: test a different playstyle, with lower confidence",
-      "hypothesis": "A stance-switching fighter who uses ranged poke to create openings, then commits to melee burst or displacement. Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items. Crit and a Rapid Firecannon attack window test safer pick damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Crit and a Rapid Firecannon attack window test safer pick damage.",
+      "name": "Lightning field hybrid hammer",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test the AP field while retaining useful hammer AD interactions.",
+      "goal": "Test the AP field while retaining useful hammer AD interactions.",
+      "hypothesis": "Hammer Lightning Field has 1 AP magic damage over four seconds; Hammer transform adds a magic attack term and Thundering Blow deals percent-health magic plus an AD expression. Gunblade gives mixed offense, Dusk and Dawn rewards a transformation-weaved real attack, and Abyssal serves the field's magic damage. Hammer Q remains physical AD, giving the route an explicit tradeoff.",
       "itemIds": [
-        6676,
-        3031,
-        3094,
-        3036,
-        3072,
-        3006
+        3146,
+        2510,
+        4633,
+        3065,
+        8020,
+        3111
       ],
       "runePage": [
-        8005,
+        8010,
         9111,
-        9104,
-        8014,
+        9105,
+        8299,
         8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Jayce: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
-        "Start with the early core (Collector, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Crit and a Rapid Firecannon attack window test safer pick damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Hammer Stance: Leaps to an enemy dealing physical damage and slowing enemies.\n\nCannon Stance: Fires an orb of electricity that detonates upon hitting an enemy (or reaching the end of its path) dealing physical damage to all enemies hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need prolonged Hammer contact and reliable form cycling without being kited.",
+        "Compare four-second Hammer contact damage against separate ranged poke and standard physical itemization.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "RFC does not extend every ability; its charged attack must actually be consumed.",
-        "The route fails Jayce's stated kit question: Separate ranged gated-Q poke, Hyper Charge attacks and melee commitment. A real Spellblade route must justify form/attack cadence and mana use without double Spellblade items.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Field's small area and weak ranged Q threaten lane control; E knockback ends your own contact.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "RFC does not extend every ability; its charged attack must actually be consumed.",
-        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Hammer E's AD ratio still deals magic; lethality does not improve that component.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Collector, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rapid Firecannon, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Gunblade, Dusk and Dawn, Riftmaker, Spirit Visage, Abyssal Mask, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Lightning Field / Hyper Charge",

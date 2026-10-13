@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "anivia-four-1",
@@ -110,18 +110,20 @@
       ]
     },
     {
-      "id": "anivia-four-2",
+      "id": "anivia-audit-storm-shred-corridor",
       "champion": "Anivia",
-      "name": "Damage interaction: Mana burn zones",
-      "goal": "Damage interaction for Anivia: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A terrain-control mage who funnels enemies into a growing storm and capitalizes on chilled targets with Frostbite. Does chilled E damage or storm occupancy determine the fight? Compare real R growth, wall placement, mana exhaustion and opponents leaving the storm. Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
-      "summary": "Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "name": "Storm shred corridor",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use terrain to hold targets through stacking magic effects.",
+      "goal": "Use terrain to hold targets through stacking magic effects.",
+      "hypothesis": "Glacial Storm triples its damage after 1.5 seconds and then chills for doubled Frostbite, whose base 0.55 AP becomes 1.1 AP on chilled targets. Bloodletter's Curse rewards repeated ability magic hits; Blackfire Torch and Malignance add area pressure. Crystallize makes remaining in that fully formed storm more realistic.",
       "itemIds": [
         2503,
-        6653,
-        3116,
         8010,
-        3157,
+        3118,
+        3089,
+        3137,
         3020
       ],
       "runePage": [
@@ -133,17 +135,17 @@
         8106
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Anivia: Does chilled E damage or storm occupancy determine the fight? Compare real R growth, wall placement, mana exhaustion and opponents leaving the storm.",
-        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Anivia brings her wings together and summons a sphere of ice that flies towards her opponents, chilling and damaging anyone in its path. When the sphere explodes it does moderate damage in a radius, stunning anyone in the area. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need mana, a held corridor and R uninterrupted long enough to form.",
+        "Track shred stacks, time inside R and doubled E damage over four seconds.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "The route fails Anivia's stated kit question: Does chilled E damage or storm occupancy determine the fight? Compare real R growth, wall placement, mana exhaustion and opponents leaving the storm.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Leaving the storm, interrupting the toggle or mana exhaustion leaves an expensive low-mobility build exposed.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: R damage is not immediately tripled at the first tick.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Blackfire Torch, Bloodletter's Curse, Malignance, Rabadon's Deathcap, Cryptbloom, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Glacial Storm",
           "slot": "R",
           "source": "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm",
           "formula": "Toggle: Anivia calls forth a driving rain of ice and hail that Slows enemies by [20 / 30 / 40]% and deals [30 / 45 / 60 + (0.125) × AP] magic damage per second. The storm increases in size over [1.5] seconds.\n\nWhen the storm is fully formed, it Chills, Slows by [30 / 45 / 60]%, and does [(30 / 45 / 60 + (0.125) × AP) × (3)] magic damage per second instead."
-        },
-        {
-          "ability": "Rebirth",
-          "slot": "Passive",
-          "source": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
-          "formula": "Upon taking fatal damage, Anivia reverts to an egg, healing to full Health and receiving [characterLevelBreakpoints(start=-40, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 15.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 8, \"mAdditionalBonusAtThisLevel\": 15.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 15.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 15.0, \"__type\": \"Breakpoint\"}])] Armor and Magic Resist. If she survives for 6 seconds, she is reborn."
         },
         {
           "ability": "Flash Frost",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "anivia-four-4",
+      "id": "anivia-audit-egg-siege-survivor",
       "champion": "Anivia",
-      "name": "Experiment: Range and poke",
-      "goal": "Experiment for Anivia: test a different playstyle, with lower confidence",
-      "hypothesis": "A terrain-control mage who funnels enemies into a growing storm and capitalizes on chilled targets with Frostbite. Does chilled E damage or storm occupancy determine the fight? Compare real R growth, wall placement, mana exhaustion and opponents leaving the storm. Range-compatible spell hits test poke AP/penetration before a commitment. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Range-compatible spell hits test poke AP/penetration before a commitment.",
+      "name": "Egg siege survivor",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Buy time for the six-second Rebirth transformation.",
+      "goal": "Buy time for the six-second Rebirth transformation.",
+      "hypothesis": "Rebirth returns Anivia to a full-health egg with level-dependent defenses and requires six seconds of survival. Rod of Ages health and Seraph's shield support the initial life; Zhonya's can delay burst before lethal damage, while Q stun and W terrain limit access. AP retains the doubled E threat that discourages enemy commitment.",
       "itemIds": [
-        6655,
-        4628,
+        6657,
+        3040,
+        3157,
+        3065,
         3089,
-        3135,
-        3102,
-        3020
+        3111
       ],
       "runePage": [
-        8229,
-        8226,
-        8210,
-        8237,
-        8126,
-        8106
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Anivia: Does chilled E damage or storm occupancy determine the fight? Compare real R growth, wall placement, mana exhaustion and opponents leaving the storm.",
-        "Start with the early core (Luden, then Horizon) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Range-compatible spell hits test poke AP/penetration before a commitment. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Anivia brings her wings together and summons a sphere of ice that flies towards her opponents, chilling and damaging anyone in its path. When the sphere explodes it does moderate damage in a radius, stunning anyone in the area. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need charged Tear, aged Rod, Rebirth ready and teammates able to defend the egg.",
+        "Compare time survived before egg and egg survival against one versus three attackers.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Comet can miss and distance matters; no automatic full-range damage bonus.",
-        "The route fails Anivia's stated kit question: Does chilled E damage or storm occupancy determine the fight? Compare real R growth, wall placement, mana exhaustion and opponents leaving the storm.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "A stationary egg remains easy to focus; delaying death may allow opponents to surround it.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Comet can miss and distance matters; no automatic full-range damage bonus.",
-        "Full cost 16,050 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Do not assume active items can be cast while egg-bound or the Seraph shield resets on Rebirth.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Horizon. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Banshee's Veil are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Rod of Ages, Seraph's Embrace, Zhonya's Hourglass, Spirit Visage, Rabadon's Deathcap, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Glacial Storm",

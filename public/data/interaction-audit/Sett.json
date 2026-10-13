@@ -1,0 +1,289 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Sett",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "grit-timed-bloodmail",
+      "name": "Grit-timed Bloodmail",
+      "objective": "Test missing-health AD during a finite Grit conversion.",
+      "mechanic": "W caps Grit at half health and scales the conversion with an AD statFormula term. Bloodmail gives bonus-health AD plus missing-health AD; Titanic and Sterak add health while E's two-sided stun can secure W's true-damage center. No full Grit is granted without actual incoming damage. Warmog adds health for the Grit cap; its out-of-combat healing is not active-fight regeneration.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        2501,
+        3748,
+        3053,
+        3083,
+        3065,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Recorded incoming damage, current health and Grit, with enemies on both sides for E stun.",
+      "failure": "Grit decays after four seconds or the center misses despite the health investment.",
+      "test": "Compare W center damage at matched earned Grit and differing current health, recording Bloodmail AD before cast.",
+      "rejectedAssumption": "More health does not automatically provide full Grit or a guaranteed center hit. Titanic and Stridebreaker are competing Cleave purchases.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "right-punch-fifth-hit",
+      "name": "Right-punch fifth hit",
+      "objective": "Exploit Sett's alternating punches to reach a structure attack payoff.",
+      "mechanic": "Right punches follow quickly and carry bonus physical damage; Q enhances the next two attacks and supplies approach speed. Hullbreaker rewards every fifth real attack against eligible targets, while Trinity rewards spaced spell casts. BotRK and attack speed test the cost of prioritizing punches over a larger W.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        3181,
+        3078,
+        3153,
+        3091,
+        3053,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Tracked left/right sequence, fifth-attack counter and an accessible structure or champion.",
+      "failure": "Peel denies five attacks and the lower health/AD balance weakens the defensive W trade.",
+      "test": "Count left/right attacks and Hullbreaker triggers on a turret, then a champion, with Q used between pairs.",
+      "rejectedAssumption": "An extra on-hit packet is not another right punch or Hullbreaker counter increment.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Penetrate W center",
+      "reason": "W center is true damage; armor penetration only supports its physical edge and other physical hits.",
+      "evidenceSlots": [
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "W's raw AD flag, Bloodmail timing and alternating attack item counters require packet checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Pit Grit",
+      "paths": [
+        "Characters/Sett/Spells/SettPassiveAbility/SettPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Knuckle Down",
+      "paths": [
+        "Characters/Sett/Spells/SettQAbility/SettQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Haymaker",
+      "paths": [
+        "Characters/Sett/Spells/SettWAbility/SettW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Facebreaker",
+      "paths": [
+        "Characters/Sett/Spells/SettEAbility/SettE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "The Show Stopper",
+      "paths": [
+        "Characters/Sett/Spells/SettRAbility/SettR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "sett-audit-grit-timed-bloodmail",
+      "champion": "Sett",
+      "name": "Grit-timed Bloodmail",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test missing-health AD during a finite Grit conversion.",
+      "goal": "Test missing-health AD during a finite Grit conversion.",
+      "hypothesis": "W caps Grit at half health and scales the conversion with an AD statFormula term. Bloodmail gives bonus-health AD plus missing-health AD; Titanic and Sterak add health while E's two-sided stun can secure W's true-damage center. No full Grit is granted without actual incoming damage. Warmog adds health for the Grit cap; its out-of-combat healing is not active-fight regeneration.",
+      "itemIds": [
+        2501,
+        3748,
+        3053,
+        3083,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Recorded incoming damage, current health and Grit, with enemies on both sides for E stun.",
+        "Compare W center damage at matched earned Grit and differing current health, recording Bloodmail AD before cast.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Grit decays after four seconds or the center misses despite the health investment.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: More health does not automatically provide full Grit or a guaranteed center hit. Titanic and Stridebreaker are competing Cleave purchases.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Titanic Hydra, Sterak's Gage, Warmog's Armor, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Pit Grit",
+          "slot": "Passive",
+          "source": "Characters/Sett/Spells/SettPassiveAbility/SettPassive",
+          "formula": "Sett's Attacks alternate between left and right punches. Right punches follow the left quickly and deal an additional [characterLevelTable[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150] + (0.55) × AD[statFormula=2]] physical damage.\n\nSett gains [((characterLevelBreakpoints(start=3, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 7.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mBonusPerLevelAtAndAfter\": 1.0, \"__type\": \"Breakpoint\"}])) × (0.01)) × (5)] Health Regeneration for each [5]% missing Health."
+        },
+        {
+          "ability": "Facebreaker",
+          "slot": "E",
+          "source": "Characters/Sett/Spells/SettEAbility/SettE",
+          "formula": "Sett smashes enemies on either side of him into each other, dealing [50 / 70 / 90 / 110 / 130 + (0.6) × AD] physical damage and Slowing them by [70]% for [0.5] seconds. If Sett grabbed at least one enemy on each side, all enemies are Stunned for [1] second."
+        },
+        {
+          "ability": "Haymaker",
+          "slot": "W",
+          "source": "Characters/Sett/Spells/SettWAbility/SettW",
+          "formula": "Passive: Sett stores [100]% of damage taken as Grit, up to [(0.5) × Stat(12)]. Grit decays quickly [4] seconds after the damage was taken.\n\nActive: Sett consumes all Grit, gaining a [100]% Grit consumed Shield decaying over [3] seconds. Sett then delivers a massive punch, dealing [80 / 100 / 120 / 140 / 160] plus [0.25 + (0.0025) × AD[statFormula=2]] Grit consumed true damage to enemies in the center (max @f1@ damage). Enemies not in the center instead take physical damage."
+        }
+      ]
+    },
+    {
+      "id": "sett-audit-right-punch-fifth-hit",
+      "champion": "Sett",
+      "name": "Right-punch fifth hit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Exploit Sett's alternating punches to reach a structure attack payoff.",
+      "goal": "Exploit Sett's alternating punches to reach a structure attack payoff.",
+      "hypothesis": "Right punches follow quickly and carry bonus physical damage; Q enhances the next two attacks and supplies approach speed. Hullbreaker rewards every fifth real attack against eligible targets, while Trinity rewards spaced spell casts. BotRK and attack speed test the cost of prioritizing punches over a larger W.",
+      "itemIds": [
+        3181,
+        3078,
+        3153,
+        3091,
+        3053,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Tracked left/right sequence, fifth-attack counter and an accessible structure or champion.",
+        "Count left/right attacks and Hullbreaker triggers on a turret, then a champion, with Q used between pairs.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Peel denies five attacks and the lower health/AD balance weakens the defensive W trade.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: An extra on-hit packet is not another right punch or Hullbreaker counter increment.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hullbreaker, Trinity Force, Blade of The Ruined King, Wit's End, Sterak's Gage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Knuckle Down",
+          "slot": "Q",
+          "source": "Characters/Sett/Spells/SettQAbility/SettQ",
+          "formula": "Sett itches for a fight, gaining [30]% Move Speed towards enemy champions for [1.5] seconds.\n\nAdditionally Sett's next two Attacks deal an additional [10 / 20 / 30 / 40 / 50] plus [0.01 + (0.0001 / 0.00015 / 0.0002 / 0.00025 / 0.0003) × AD] max Health physical damage."
+        },
+        {
+          "ability": "Pit Grit",
+          "slot": "Passive",
+          "source": "Characters/Sett/Spells/SettPassiveAbility/SettPassive",
+          "formula": "Sett's Attacks alternate between left and right punches. Right punches follow the left quickly and deal an additional [characterLevelTable[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150] + (0.55) × AD[statFormula=2]] physical damage.\n\nSett gains [((characterLevelBreakpoints(start=3, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 7.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mBonusPerLevelAtAndAfter\": 1.0, \"__type\": \"Breakpoint\"}])) × (0.01)) × (5)] Health Regeneration for each [5]% missing Health."
+        },
+        {
+          "ability": "Facebreaker",
+          "slot": "E",
+          "source": "Characters/Sett/Spells/SettEAbility/SettE",
+          "formula": "Sett smashes enemies on either side of him into each other, dealing [50 / 70 / 90 / 110 / 130 + (0.6) × AD] physical damage and Slowing them by [70]% for [0.5] seconds. If Sett grabbed at least one enemy on each side, all enemies are Stunned for [1] second."
+        }
+      ]
+    }
+  ]
+}

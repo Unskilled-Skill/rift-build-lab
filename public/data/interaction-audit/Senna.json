@@ -1,0 +1,282 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Senna",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "mist-fed-healer-cadence",
+      "name": "Mist-fed healer cadence",
+      "objective": "Test whether attacks reduce Q cooldown enough to deliver repeated ally heals and buffs.",
+      "mechanic": "Q heals with 0.35 AP and 0.4 AD[statFormula=2] and attacks reduce its cooldown by one second. Mist adds finite AD; Nashor and Ardent support real attack cadence while Helia can consume prior damage charges on Q healing. Staff supplies a caster ally buff and haste for the next Q.",
+      "evidenceSlots": [
+        "P",
+        "Q"
+      ],
+      "itemIds": [
+        3869,
+        3115,
+        6620,
+        3504,
+        6616,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "Finite Mist stacks; safe attacks and an ally lie on the Q line.",
+      "failure": "Senna long attack windups or unsafe targeting defeat the cooldown gain.",
+      "test": "Measure Q interval, attacks completed and ally healing/buff uptime at fixed Mist.",
+      "rejectedAssumption": "Attack speed does not remove Senna special attack windup or make all Q hits ordinary attacks.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "ap-mist-procession",
+      "name": "AP mist procession",
+      "objective": "Use AP for team movement and large shields while retaining ranged attack follow-up.",
+      "mechanic": "E wraith speed has 0.0005 AP, R shield 0.5 AP plus finite Mist, and Q slow 0.0007 AP. Shurelya helps the team move through E while Lich Bane supports a real follow-up attack. Cryptbloom offers a conditional takedown heal; R remains physical despite its AP damage ratio.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3869,
+        2065,
+        3100,
+        3089,
+        3137,
+        3009
+      ],
+      "pageKey": "aery",
+      "requiredState": "Allies need E escape/approach and line up for R shielding; use finite Mist.",
+      "failure": "The expensive AP route loses attack damage and may shield allies after the threat has ended.",
+      "test": "Log E movement, R shielding and one attack packet; record physical R damage separately.",
+      "rejectedAssumption": "AP scaling does not convert R physical damage to magic or make magic penetration improve it.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Ordinary carry crit multiplier",
+      "reason": "Absolution explicitly adjusts Senna crit damage and excess crit becomes lifesteal; normal carry crit assumptions are unsupported.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q on-hit/item delivery and Mist siphon triggers need packet checks; AP route is a farmed-income gamble with quest retained."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Absolution",
+      "paths": [
+        "Characters/Senna/Spells/SennaPassiveAbility/SennaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Piercing Darkness",
+      "paths": [
+        "Characters/Senna/Spells/SennaQAbility/SennaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Last Embrace",
+      "paths": [
+        "Characters/Senna/Spells/SennaWAbility/SennaW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Curse of the Black Mist",
+      "paths": [
+        "Characters/Senna/Spells/SennaEAbility/SennaE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Dawning Shadow",
+      "paths": [
+        "Characters/Senna/Spells/SennaRAbility/SennaR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "senna-audit-mist-fed-healer-cadence",
+      "champion": "Senna",
+      "name": "Mist-fed healer cadence",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether attacks reduce Q cooldown enough to deliver repeated ally heals and buffs.",
+      "goal": "Test whether attacks reduce Q cooldown enough to deliver repeated ally heals and buffs.",
+      "hypothesis": "Q heals with 0.35 AP and 0.4 AD[statFormula=2] and attacks reduce its cooldown by one second. Mist adds finite AD; Nashor and Ardent support real attack cadence while Helia can consume prior damage charges on Q healing. Staff supplies a caster ally buff and haste for the next Q.",
+      "itemIds": [
+        3869,
+        3115,
+        6620,
+        3504,
+        6616,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Finite Mist stacks; safe attacks and an ally lie on the Q line.",
+        "Measure Q interval, attacks completed and ally healing/buff uptime at fixed Mist.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Senna long attack windups or unsafe targeting defeat the cooldown gain.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Attack speed does not remove Senna special attack windup or make all Q hits ordinary attacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Nashor's Tooth, Echoes of Helia, Ardent Censer, Staff of Flowing Water, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Piercing Darkness",
+          "slot": "Q",
+          "source": "Characters/Senna/Spells/SennaQAbility/SennaQ",
+          "formula": "Senna shoots a bolt of piercing shadow through an ally or enemy, dealing [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage to enemies and Slowing them by [0.15 + (0.0007) × AP + (0.0015) × AD[statFormula=2]] for [1 / 1.25 / 1.5 / 1.75 / 2] second(s). Restores [40 / 60 / 80 / 100 / 120 + (0.35) × AP + (0.4) × AD[statFormula=2]] Health to allied champions. \n\nAttacks reduce this Ability's Cooldown by [1] second."
+        },
+        {
+          "ability": "Absolution",
+          "slot": "Passive",
+          "source": "Characters/Senna/Spells/SennaPassiveAbility/SennaPassive",
+          "formula": "Senna can attack souls that spawn from dead enemies to absorb their Mist. She can also siphon Mist from enemy champions she hits with Attacks or Abilities twice, dealing an additional [characterLevelBreakpoints(start=1, perLevel=1, changes=[{\"mLevel\": 11, \"__type\": \"Breakpoint\"}])]% current Health physical damage.\n\nEach stack of Mist grants [0.75] Attack Damage. Every [20] stacks grant [20] Attack Range and [10]% Critical Strike Chance but she only has [(1) × Stat(9)] Critical Strike Damage. [35]% of excess Critical Strike Chance is converted into Lifesteal.\n\nSenna's Attacks take extra time to fire, deal an additional [(0.2) × AD] physical damage, and briefly grant her [characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] of the target's Move Speed."
+        }
+      ]
+    },
+    {
+      "id": "senna-audit-ap-mist-procession",
+      "champion": "Senna",
+      "name": "AP mist procession",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use AP for team movement and large shields while retaining ranged attack follow-up.",
+      "goal": "Use AP for team movement and large shields while retaining ranged attack follow-up.",
+      "hypothesis": "E wraith speed has 0.0005 AP, R shield 0.5 AP plus finite Mist, and Q slow 0.0007 AP. Shurelya helps the team move through E while Lich Bane supports a real follow-up attack. Cryptbloom offers a conditional takedown heal; R remains physical despite its AP damage ratio.",
+      "itemIds": [
+        3869,
+        2065,
+        3100,
+        3089,
+        3137,
+        3009
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Allies need E escape/approach and line up for R shielding; use finite Mist.",
+        "Log E movement, R shielding and one attack packet; record physical R damage separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "The expensive AP route loses attack damage and may shield allies after the threat has ended.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: AP scaling does not convert R physical damage to magic or make magic penetration improve it.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Shurelya's Battlesong, Lich Bane, Rabadon's Deathcap, Cryptbloom, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Dawning Shadow",
+          "slot": "R",
+          "source": "Characters/Senna/Spells/SennaRAbility/SennaR",
+          "formula": "Senna fires a beam of light that deals [250 / 400 / 550 + (0.7) × AP + (1.15) × AD[statFormula=2]] physical damage to all enemy champions hit. Allied champions hit in a wider area receive [120 / 160 / 200 + (0.5) × AP + (1.5) × BuffStacks({e88568f8})] Shield for [3] seconds."
+        },
+        {
+          "ability": "Curse of the Black Mist",
+          "slot": "E",
+          "source": "Characters/Senna/Spells/SennaEAbility/SennaE",
+          "formula": "Senna dissolves into a cloud of Black Mist for [6 / 6.5 / 7 / 7.5 / 8] seconds, becoming a Wraith. Allied champions who enter the Mist are Camouflaged and become Wraiths when they leave. Wraiths gain [0.2 + (0.0005) × AP] Move Speed, are Unselectable, and hide their identities as long as no enemy champions are nearby."
+        },
+        {
+          "ability": "Piercing Darkness",
+          "slot": "Q",
+          "source": "Characters/Senna/Spells/SennaQAbility/SennaQ",
+          "formula": "Senna shoots a bolt of piercing shadow through an ally or enemy, dealing [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage to enemies and Slowing them by [0.15 + (0.0007) × AP + (0.0015) × AD[statFormula=2]] for [1 / 1.25 / 1.5 / 1.75 / 2] second(s). Restores [40 / 60 / 80 / 100 / 120 + (0.35) × AP + (0.4) × AD[statFormula=2]] Health to allied champions. \n\nAttacks reduce this Ability's Cooldown by [1] second."
+        }
+      ]
+    }
+  ]
+}

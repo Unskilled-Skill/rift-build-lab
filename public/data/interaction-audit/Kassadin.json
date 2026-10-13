@@ -1,0 +1,314 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Kassadin",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "nether-blade-fighter",
+      "name": "Nether blade fighter",
+      "objective": "Test nether blade fighter against conventional damage at equal gold.",
+      "mechanic": "Nether Blade's passive adds 0.1 AP magic on every ordinary attack and its active adds 0.8 AP while restoring missing mana. Nashor and Dusk and Dawn test repeated W-assisted attacks, with Riftwalk used for positioning instead of only stacked burst.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3302,
+        3065,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Maintain melee contact and hold enough mana for an exit R.",
+      "failure": "Early weakness and physical burst overwhelm the attack investment.",
+      "test": "Compare repeated W attacks and mana regained against stacked-R burst.",
+      "rejectedAssumption": "Mana restoration does not erase exponential R costs or guarantee a free infinite chase.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "armor-mana-pulse-skirmisher",
+      "name": "Armor mana pulse skirmisher",
+      "objective": "Test armor mana pulse skirmisher against conventional damage at equal gold.",
+      "mechanic": "Force Pulse's cooldown falls 0.75 seconds whenever a nearby ability is used; Frozen Heart and earned Seraph increase mana and survival while Q gives a magic shield. Cosmic Drive supports E/R spacing during crowded fights; Rod of Ages rewards spending mana without claiming a resolved mana damage stat.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3040,
+        3110,
+        6657,
+        4629,
+        3135,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Fight near frequent spell casts after completing item ramp and Tear.",
+      "failure": "Few nearby casts or early physical burst defeats the delayed power.",
+      "test": "Compare E cast count in one-versus-one and a spell-heavy teamfight.",
+      "rejectedAssumption": "R AbilityResource expressions require source mapping before precise max-mana damage claims.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Mana restoration does not erase exponential R costs or guarantee a free infinite chase.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Controlled current-patch proc testing remains necessary; source helper/statFormula expressions are evidence, not confirmed runtime behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Void Stone",
+      "paths": [
+        "Characters/Kassadin/Spells/VoidStoneAbility/VoidStone"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Null Sphere",
+      "paths": [
+        "Characters/Kassadin/Spells/NullLanceAbility/NullLance"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Nether Blade",
+      "paths": [
+        "Characters/Kassadin/Spells/NetherBladeAbility/NetherBlade"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Force Pulse",
+      "paths": [
+        "Characters/Kassadin/Spells/ForcePulseAbility/ForcePulse"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Riftwalk",
+      "paths": [
+        "Characters/Kassadin/Spells/RiftWalkAbility/RiftWalk"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "kassadin-audit-nether-blade-fighter",
+      "champion": "Kassadin",
+      "name": "Nether blade fighter",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test nether blade fighter against conventional damage at equal gold.",
+      "goal": "Test nether blade fighter against conventional damage at equal gold.",
+      "hypothesis": "Nether Blade's passive adds 0.1 AP magic on every ordinary attack and its active adds 0.8 AP while restoring missing mana. Nashor and Dusk and Dawn test repeated W-assisted attacks, with Riftwalk used for positioning instead of only stacked burst.",
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3302,
+        3065,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Maintain melee contact and hold enough mana for an exit R.",
+        "Compare repeated W attacks and mana regained against stacked-R burst.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Early weakness and physical burst overwhelm the attack investment.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Mana restoration does not erase exponential R costs or guarantee a free infinite chase.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Terminus, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Force Pulse",
+          "slot": "E",
+          "source": "Characters/Kassadin/Spells/ForcePulseAbility/ForcePulse",
+          "formula": "Passive: {{Spell_ForcePulse_Name}}'s Cooldown is reduced by [0.75] second whenever any Ability is used near Kassadin.\n\nActive: Kassadin unleashes a void pulse, dealing [70 / 100 / 130 / 160 / 190 + (0.7) × AP] magic damage and Slowing by [50 / 55 / 60 / 65 / 70]% for [1] second."
+        },
+        {
+          "ability": "Null Sphere",
+          "slot": "Q",
+          "source": "Characters/Kassadin/Spells/NullLanceAbility/NullLance",
+          "formula": "Kassadin fires an orb of void energy, dealing [65 / 95 / 125 / 155 / 185 + (0.8) × AP] magic damage and interrupting channels. Kassadin also gains [80 / 110 / 140 / 170 / 200 + (0.3) × AP] Magic Shield for 1.5 seconds."
+        },
+        {
+          "ability": "Nether Blade",
+          "slot": "W",
+          "source": "Characters/Kassadin/Spells/NetherBladeAbility/NetherBlade",
+          "formula": "Passive: Kassadin's Attacks deal an additional [25 + (0.1) × AP] magic damage.\n\nActive: Kassadin charges his blade, causing his next Attack to deal [50 / 75 / 100 / 125 / 150 + (0.8) × AP] magic damage and restore [4 / 4.5 / 5 / 5.5 / 6]% missing Mana, increased to [20 / 22.5 / 25 / 27.5 / 30]% against champions."
+        },
+        {
+          "ability": "Void Stone",
+          "slot": "Passive",
+          "source": "Characters/Kassadin/Spells/VoidStoneAbility/VoidStone",
+          "formula": "Kassadin takes [10]% reduced magic damage and is Ghosted."
+        },
+        {
+          "ability": "Riftwalk",
+          "slot": "R",
+          "source": "Characters/Kassadin/Spells/RiftWalkAbility/RiftWalk",
+          "formula": "Kassadin teleports to a nearby location, dealing [80 / 95 / 110 + (0.5) × AP + 0.02 × AbilityResource(default, statFormula=default)] magic damage.\n\nEach subsequent use of this Ability within the next [15] seconds doubles the Mana cost and deals an additional [35 / 45 / 55 + (0.07) × AP + 0.01 × AbilityResource(default, statFormula=default)] magic damage. The cost and damage increases can stack up to [4] times."
+        }
+      ]
+    },
+    {
+      "id": "kassadin-audit-armor-mana-pulse-skirmisher",
+      "champion": "Kassadin",
+      "name": "Armor mana pulse skirmisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test armor mana pulse skirmisher against conventional damage at equal gold.",
+      "goal": "Test armor mana pulse skirmisher against conventional damage at equal gold.",
+      "hypothesis": "Force Pulse's cooldown falls 0.75 seconds whenever a nearby ability is used; Frozen Heart and earned Seraph increase mana and survival while Q gives a magic shield. Cosmic Drive supports E/R spacing during crowded fights; Rod of Ages rewards spending mana without claiming a resolved mana damage stat.",
+      "itemIds": [
+        3040,
+        3110,
+        6657,
+        4629,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Fight near frequent spell casts after completing item ramp and Tear.",
+        "Compare E cast count in one-versus-one and a spell-heavy teamfight.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Few nearby casts or early physical burst defeats the delayed power.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: R AbilityResource expressions require source mapping before precise max-mana damage claims.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Seraph's Embrace, Frozen Heart, Rod of Ages, Cosmic Drive, Void Staff, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Force Pulse",
+          "slot": "E",
+          "source": "Characters/Kassadin/Spells/ForcePulseAbility/ForcePulse",
+          "formula": "Passive: {{Spell_ForcePulse_Name}}'s Cooldown is reduced by [0.75] second whenever any Ability is used near Kassadin.\n\nActive: Kassadin unleashes a void pulse, dealing [70 / 100 / 130 / 160 / 190 + (0.7) × AP] magic damage and Slowing by [50 / 55 / 60 / 65 / 70]% for [1] second."
+        },
+        {
+          "ability": "Null Sphere",
+          "slot": "Q",
+          "source": "Characters/Kassadin/Spells/NullLanceAbility/NullLance",
+          "formula": "Kassadin fires an orb of void energy, dealing [65 / 95 / 125 / 155 / 185 + (0.8) × AP] magic damage and interrupting channels. Kassadin also gains [80 / 110 / 140 / 170 / 200 + (0.3) × AP] Magic Shield for 1.5 seconds."
+        },
+        {
+          "ability": "Nether Blade",
+          "slot": "W",
+          "source": "Characters/Kassadin/Spells/NetherBladeAbility/NetherBlade",
+          "formula": "Passive: Kassadin's Attacks deal an additional [25 + (0.1) × AP] magic damage.\n\nActive: Kassadin charges his blade, causing his next Attack to deal [50 / 75 / 100 / 125 / 150 + (0.8) × AP] magic damage and restore [4 / 4.5 / 5 / 5.5 / 6]% missing Mana, increased to [20 / 22.5 / 25 / 27.5 / 30]% against champions."
+        },
+        {
+          "ability": "Riftwalk",
+          "slot": "R",
+          "source": "Characters/Kassadin/Spells/RiftWalkAbility/RiftWalk",
+          "formula": "Kassadin teleports to a nearby location, dealing [80 / 95 / 110 + (0.5) × AP + 0.02 × AbilityResource(default, statFormula=default)] magic damage.\n\nEach subsequent use of this Ability within the next [15] seconds doubles the Mana cost and deals an additional [35 / 45 / 55 + (0.07) × AP + 0.01 × AbilityResource(default, statFormula=default)] magic damage. The cost and damage increases can stack up to [4] times."
+        }
+      ]
+    }
+  ]
+}

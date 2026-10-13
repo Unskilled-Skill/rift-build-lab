@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Lux",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "double-pass-charge-heal",
+      "name": "Double Pass Charge Heal",
+      "objective": "Log two shield passes and Helia consumption per pass.",
+      "mechanic": "W shields allies on outward and return passes. Q/E champion damage can preload Helia before W, while Staff gives AP/haste on allied shielding; AP improves both shield passes. Q immobilization can supply Mandate vulnerability to support the ally's damage.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        6620,
+        6616,
+        4005,
+        3089,
+        3107,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "An ally intersects both W paths after champion damage and Q hits for Mandate.",
+      "failure": "Return path misses the ally or charges were already consumed.",
+      "test": "Log two shield passes and Helia consumption per pass; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Two shield passes do not prove two full independent Helia heals.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "spark-mark-reload",
+      "name": "Spark Mark Reload",
+      "objective": "Count marks consumed during Q-attack-R-attack sequence.",
+      "mechanic": "P says R consumes existing Illumination and refreshes it. Q/root enables an attack before R and a second attack after R; Lich Bane/Nashor reward the risky short-range weave while Cosmic/E slow can preserve access. AP keeps R and mark damage relevant.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3100,
+        3115,
+        4629,
+        3089,
+        3135,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Target survives first attack/R and Lux can safely reach for refreshed mark.",
+      "failure": "Approaching for two attacks forfeits range advantage or the target dies before the second mark.",
+      "test": "Count marks consumed during Q-attack-R-attack sequence; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "R refresh does not grant unlimited marks or free attack resets.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Ordinary crit Final Spark",
+      "reason": "R is AP magic with explicit passive mark behavior, not an ordinary critical attack.",
+      "evidenceSlots": [
+        "P",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "R/P event ordering and Lich Bane availability across rapid casts need live logs."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Illumination",
+      "paths": [
+        "Characters/Lux/Spells/LuxIlluminationPassiveAbility/LuxIlluminationPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Light Binding",
+      "paths": [
+        "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Prismatic Barrier",
+      "paths": [
+        "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Lucent Singularity",
+      "paths": [
+        "Characters/Lux/Spells/LuxLightStrikeKugelAbility/LuxLightStrikeKugel"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Final Spark",
+      "paths": [
+        "Characters/Lux/Spells/LuxRAbility/LuxR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "lux-audit-double-pass-charge-heal",
+      "champion": "Lux",
+      "name": "Double Pass Charge Heal",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log two shield passes and Helia consumption per pass.",
+      "goal": "Log two shield passes and Helia consumption per pass.",
+      "hypothesis": "W shields allies on outward and return passes. Q/E champion damage can preload Helia before W, while Staff gives AP/haste on allied shielding; AP improves both shield passes. Q immobilization can supply Mandate vulnerability to support the ally's damage.",
+      "itemIds": [
+        6620,
+        6616,
+        4005,
+        3089,
+        3107,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: An ally intersects both W paths after champion damage and Q hits for Mandate.",
+        "Log two shield passes and Helia consumption per pass; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Return path misses the ally or charges were already consumed.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Two shield passes do not prove two full independent Helia heals.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Imperial Mandate, Rabadon's Deathcap, Redemption, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Prismatic Barrier",
+          "slot": "W",
+          "source": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave",
+          "formula": "Lux throws her wand, granting [40 / 55 / 70 / 85 / 100 + (0.4) × AP] Shield for [2.5] seconds to allies it passes through. Then it returns, granting the same Shield on its return."
+        },
+        {
+          "ability": "Light Binding",
+          "slot": "Q",
+          "source": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding",
+          "formula": "Lux fires a ball of light, Rooting the first two enemies for [2] seconds and dealing [80 / 120 / 160 / 200 / 240 + (0.75) × AP] magic damage to each."
+        },
+        {
+          "ability": "Lucent Singularity",
+          "slot": "E",
+          "source": "Characters/Lux/Spells/LuxLightStrikeKugelAbility/LuxLightStrikeKugel",
+          "formula": "Lux creates a light zone that Slows by [25 / 30 / 35 / 40 / 45]% and reveals the area. After [5] seconds or on Recasting this Ability, it detonates, dealing [65 / 115 / 165 / 215 / 265 + (0.8) × AP] magic damage and Slowing for an additional [1] second."
+        }
+      ]
+    },
+    {
+      "id": "lux-audit-spark-mark-reload",
+      "champion": "Lux",
+      "name": "Spark Mark Reload",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count marks consumed during Q-attack-R-attack sequence.",
+      "goal": "Count marks consumed during Q-attack-R-attack sequence.",
+      "hypothesis": "P says R consumes existing Illumination and refreshes it. Q/root enables an attack before R and a second attack after R; Lich Bane/Nashor reward the risky short-range weave while Cosmic/E slow can preserve access. AP keeps R and mark damage relevant.",
+      "itemIds": [
+        3100,
+        3115,
+        4629,
+        3089,
+        3135,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Target survives first attack/R and Lux can safely reach for refreshed mark.",
+        "Count marks consumed during Q-attack-R-attack sequence; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Approaching for two attacks forfeits range advantage or the target dies before the second mark.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: R refresh does not grant unlimited marks or free attack resets.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Cosmic Drive, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Light Binding",
+          "slot": "Q",
+          "source": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding",
+          "formula": "Lux fires a ball of light, Rooting the first two enemies for [2] seconds and dealing [80 / 120 / 160 / 200 / 240 + (0.75) × AP] magic damage to each."
+        },
+        {
+          "ability": "Illumination",
+          "slot": "Passive",
+          "source": "Characters/Lux/Spells/LuxIlluminationPassiveAbility/LuxIlluminationPassive",
+          "formula": "Lux's damaging Abilities mark enemies for [6] seconds. Lux's Attacks consume the mark, dealing [characterLevelTable[20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320] + (0.35) × AP] magic damage.\n\nFinal Spark will consume marks on enemies it hits and refresh them."
+        },
+        {
+          "ability": "Lucent Singularity",
+          "slot": "E",
+          "source": "Characters/Lux/Spells/LuxLightStrikeKugelAbility/LuxLightStrikeKugel",
+          "formula": "Lux creates a light zone that Slows by [25 / 30 / 35 / 40 / 45]% and reveals the area. After [5] seconds or on Recasting this Ability, it detonates, dealing [65 / 115 / 165 / 215 / 265 + (0.8) × AP] magic damage and Slowing for an additional [1] second."
+        },
+        {
+          "ability": "Final Spark",
+          "slot": "R",
+          "source": "Characters/Lux/Spells/LuxRAbility/LuxR",
+          "formula": "Lux fires a dazzling ray of light, dealing [300 / 400 / 500 + (1.2) × AP] magic damage to all enemies in a line."
+        }
+      ]
+    }
+  ]
+}

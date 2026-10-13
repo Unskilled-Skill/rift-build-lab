@@ -1,0 +1,298 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Jax",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "lantern-ap-burst",
+      "name": "Lantern AP burst",
+      "objective": "Test lantern ap burst against conventional damage at equal gold.",
+      "mechanic": "Empower has 0.6 AP, Grandmaster's active 1.0 AP[source modifier], and Counter Strike 0.7 AP plus max-health magic damage. Lich Bane adds an independent magic attack after W; Rocketbelt helps connect E without requiring sustained AD attacks.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3135,
+        3152,
+        3020
+      ],
+      "pageKey": "electro",
+      "requiredState": "Dodge incoming attacks before releasing E and connect the R active.",
+      "failure": "Burst failure leaves a fragile melee champion without conventional AD defenses.",
+      "test": "Compare E after zero and five dodges, then W-R burst.",
+      "rejectedAssumption": "Leap Strike remains physical with an AD term; AP does not strengthen that documented component.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "grandmaster-attack-battery",
+      "name": "Grandmaster attack battery",
+      "objective": "Test grandmaster attack battery against conventional damage at equal gold.",
+      "mechanic": "Grandmaster's Might makes the magic passive every second attack while its active defense lasts eight seconds; Nashor and Rageblade complement normal attacks, while Terminus penetrates mixed damage. Riftmaker supports staying after Counter Strike ends, but losing bonus AD also reduces R resistance terms.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        3124,
+        3302,
+        4633,
+        3065,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Hit a champion with R and attack continuously during its eight seconds.",
+      "failure": "CC or disengage wastes the activated two-hit cadence.",
+      "test": "Count genuine R passive procs and total attacks across the active duration.",
+      "rejectedAssumption": "Rageblade phantom-hit advancement of Jax's counter is a test, not a guaranteed double proc.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Leap Strike remains physical with an AD term; AP does not strengthen that documented component.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Controlled current-patch proc testing remains necessary; source helper/statFormula expressions are evidence, not confirmed runtime behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Relentless Assault",
+      "paths": [
+        "Characters/Jax/Spells/JaxPassiveAbility/JaxPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Leap Strike",
+      "paths": [
+        "Characters/Jax/Spells/JaxQAbility/JaxQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Empower",
+      "paths": [
+        "Characters/Jax/Spells/JaxWAbility/JaxW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Counter Strike",
+      "paths": [
+        "Characters/Jax/Spells/JaxEAbility/JaxE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Grandmaster-at-Arms",
+      "paths": [
+        "Characters/Jax/Spells/JaxRAbility/JaxR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "jax-audit-lantern-ap-burst",
+      "champion": "Jax",
+      "name": "Lantern AP burst",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test lantern ap burst against conventional damage at equal gold.",
+      "goal": "Test lantern ap burst against conventional damage at equal gold.",
+      "hypothesis": "Empower has 0.6 AP, Grandmaster's active 1.0 AP[source modifier], and Counter Strike 0.7 AP plus max-health magic damage. Lich Bane adds an independent magic attack after W; Rocketbelt helps connect E without requiring sustained AD attacks.",
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3135,
+        3152,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Dodge incoming attacks before releasing E and connect the R active.",
+        "Compare E after zero and five dodges, then W-R burst.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Burst failure leaves a fragile melee champion without conventional AD defenses.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Leap Strike remains physical with an AD term; AP does not strengthen that documented component.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Void Staff, Hextech Rocketbelt, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Empower",
+          "slot": "W",
+          "source": "Characters/Jax/Spells/JaxWAbility/JaxW",
+          "formula": "Jax charges his weapon with energy, causing his next Attack or Leap Strike to deal an additional [50 / 85 / 120 / 155 / 190 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Grandmaster-at-Arms",
+          "slot": "R",
+          "source": "Characters/Jax/Spells/JaxRAbility/JaxR",
+          "formula": "Passive: Every third Attack within [2.5] seconds deals an additional [75 / 130 / 185 + (0.6) × AP] magic damage.\n\nActive: Jax slams his lantern down, dealing [100 / 175 / 250 + (1) × AP[statFormula=2]] magic damage to nearby enemies. If he hits a champion he gains [45 / 60 / 75 + (0.4) × AD[statFormula=2]] Armor and [(45 / 60 / 75 + (0.4) × AD[statFormula=2]) × (0.6)] Magic Resist plus [20 / 25 / 30 + (0.1) × AD[statFormula=2]] Armor and [(20 / 25 / 30 + (0.1) × AD[statFormula=2]) × (0.6)] Magic Resist per additional champion hit for [8] seconds. During this time every second Attack deals additional magic damage instead of every third."
+        },
+        {
+          "ability": "Counter Strike",
+          "slot": "E",
+          "source": "Characters/Jax/Spells/JaxEAbility/JaxE",
+          "formula": "Jax enters a defensive stance for up to [2] seconds, dodging incoming Attacks and taking [25]% less damage from area of effect Abilities. After [2] seconds or Recasting, Jax deals [40 / 70 / 100 / 130 / 160 + (0.7) × AP[statFormula=2]] + [4]% max Health magic damage and Stuns nearby enemies for [1] second. \n\nThe damage is increased by [20]% per Attack dodged, up to a maximum of [(40 / 70 / 100 / 130 / 160 + (0.7) × AP[statFormula=2]) × (2)] + [(4) × (2)]% max Health."
+        }
+      ]
+    },
+    {
+      "id": "jax-audit-grandmaster-attack-battery",
+      "champion": "Jax",
+      "name": "Grandmaster attack battery",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test grandmaster attack battery against conventional damage at equal gold.",
+      "goal": "Test grandmaster attack battery against conventional damage at equal gold.",
+      "hypothesis": "Grandmaster's Might makes the magic passive every second attack while its active defense lasts eight seconds; Nashor and Rageblade complement normal attacks, while Terminus penetrates mixed damage. Riftmaker supports staying after Counter Strike ends, but losing bonus AD also reduces R resistance terms.",
+      "itemIds": [
+        3115,
+        3124,
+        3302,
+        4633,
+        3065,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Hit a champion with R and attack continuously during its eight seconds.",
+        "Count genuine R passive procs and total attacks across the active duration.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "CC or disengage wastes the activated two-hit cadence.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Rageblade phantom-hit advancement of Jax's counter is a test, not a guaranteed double proc.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Terminus, Riftmaker, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Relentless Assault",
+          "slot": "Passive",
+          "source": "Characters/Jax/Spells/JaxPassiveAbility/JaxPassive",
+          "formula": "Jax's Attacks grant a stack for 2.5 seconds that gives him [characterLevelBreakpoints(start=0.05, perLevel=0, changes=[{\"mLevel\": 4, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}])] Attack Speed (max [(characterLevelBreakpoints(start=0.05, perLevel=0, changes=[{\"mLevel\": 4, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.014999999664723873, \"__type\": \"Breakpoint\"}])) × (8)] Attack Speed)."
+        },
+        {
+          "ability": "Empower",
+          "slot": "W",
+          "source": "Characters/Jax/Spells/JaxWAbility/JaxW",
+          "formula": "Jax charges his weapon with energy, causing his next Attack or Leap Strike to deal an additional [50 / 85 / 120 / 155 / 190 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Grandmaster-at-Arms",
+          "slot": "R",
+          "source": "Characters/Jax/Spells/JaxRAbility/JaxR",
+          "formula": "Passive: Every third Attack within [2.5] seconds deals an additional [75 / 130 / 185 + (0.6) × AP] magic damage.\n\nActive: Jax slams his lantern down, dealing [100 / 175 / 250 + (1) × AP[statFormula=2]] magic damage to nearby enemies. If he hits a champion he gains [45 / 60 / 75 + (0.4) × AD[statFormula=2]] Armor and [(45 / 60 / 75 + (0.4) × AD[statFormula=2]) × (0.6)] Magic Resist plus [20 / 25 / 30 + (0.1) × AD[statFormula=2]] Armor and [(20 / 25 / 30 + (0.1) × AD[statFormula=2]) × (0.6)] Magic Resist per additional champion hit for [8] seconds. During this time every second Attack deals additional magic damage instead of every third."
+        },
+        {
+          "ability": "Counter Strike",
+          "slot": "E",
+          "source": "Characters/Jax/Spells/JaxEAbility/JaxE",
+          "formula": "Jax enters a defensive stance for up to [2] seconds, dodging incoming Attacks and taking [25]% less damage from area of effect Abilities. After [2] seconds or Recasting, Jax deals [40 / 70 / 100 / 130 / 160 + (0.7) × AP[statFormula=2]] + [4]% max Health magic damage and Stuns nearby enemies for [1] second. \n\nThe damage is increased by [20]% per Attack dodged, up to a maximum of [(40 / 70 / 100 / 130 / 160 + (0.7) × AP[statFormula=2]) × (2)] + [(4) × (2)]% max Health."
+        }
+      ]
+    }
+  ]
+}

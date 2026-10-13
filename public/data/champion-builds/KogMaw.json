@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "kogmaw-four-1",
@@ -122,18 +122,20 @@
       ]
     },
     {
-      "id": "kogmaw-four-2",
+      "id": "kogmaw-audit-ap-barrage-repeat",
       "champion": "KogMaw",
-      "name": "Damage interaction: AP attack experiment",
-      "goal": "Damage interaction for Kog'Maw: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A stationary ranged damage engine who either exploits W's long-range max-health attacks or uses spells to soften enemies beyond attack range. Separate W's max-health attacks from R artillery and rising mana cost. Confirm phantom/bolt applications and Q shred rather than assigning full item damage to every spell. AP-supported attacks and Nashor may create a second damage route.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Ap Barrage Repeat",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log W on-hit packets during Dusk and fully stacked Rageblade.",
+      "goal": "Log W on-hit packets during Dusk and fully stacked Rageblade.",
+      "hypothesis": "W supplies eight seconds of AP-scaled max-health magic On-Hit and extra range; Q removes both resists. Nashor/Dusk/Rageblade tests a personal on-hit attack window with AP scaling and Phantom Hit, without assigning passive death damage to attacks.",
       "itemIds": [
         3115,
+        2510,
         3124,
         3089,
         3135,
-        3157,
         3006
       ],
       "runePage": [
@@ -147,15 +149,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -163,36 +165,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kog'Maw: Separate W's max-health attacks from R artillery and rising mana cost. Confirm phantom/bolt applications and Q shred rather than assigning full item damage to every spell.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kog'Maw launches a corrosive projectile which deals magic damage and corrodes the target's armor and magic resist for a short time. Kog'Maw also gains additional attack speed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: W active and Q shred lands; record Rageblade ramp and Dusk availability.",
+        "Log W on-hit packets during Dusk and fully stacked Rageblade; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Kog'Maw's stated kit question: Separate W's max-health attacks from R artillery and rising mana cost. Confirm phantom/bolt applications and Q shred rather than assigning full item damage to every spell.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low defense or delayed attacks wastes the eight-second duration.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Repeated on-hits do not grant extra W duration or attack range.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Guinsoo's Rageblade, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Bio-Arcane Barrage",
@@ -201,40 +195,10 @@
           "formula": "Kog'Maw gains [130 / 150 / 170 / 190 / 210] Attack Range and his Attacks deal an additional [(3 / 3.75 / 4.5 / 5.25 / 6 + (0.015) × AP) × (0.01)] max Health magic damage %i:OnHit% On-Hit for [8] seconds."
         },
         {
-          "ability": "Living Artillery",
-          "slot": "R",
-          "source": "Characters/KogMaw/Spells/KogMawLivingArtilleryAbility/KogMawLivingArtillery",
-          "formula": "Kog'Maw shoots acid at an area, dealing [100 / 140 / 180 + (0.35 / 0.4 / 0.45) × AP + (0.75) × AD[statFormula=2]] plus [0.83333]% per 1% missing Health magic damage and revealing enemies hit for 2 seconds. Enemies below 40% Health instead take [(100 / 140 / 180 + (0.35 / 0.4 / 0.45) × AP + (0.75) × AD[statFormula=2]) × (2)] magic damage.\n\nSubsequent shots within [8] seconds cost an additional [40] Mana (max: [400] Mana)."
-        },
-        {
           "ability": "Caustic Spittle",
           "slot": "Q",
           "source": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
           "formula": "Passive: Kog'Maw gains [(0.05 / 0.1 / 0.15 / 0.2 / 0.25) × 100]% Attack Speed.\n\nActive: Kog'Maw vomits a corrosive projectile that deals [80 / 125 / 170 / 215 / 260 + (0.9) × AP] magic damage to the first enemy hit and shreds [16 / 20 / 24 / 28 / 32]% Armor and Magic Resist for [4] seconds."
-        },
-        {
-          "ability": "Void Ooze",
-          "slot": "E",
-          "source": "Characters/KogMaw/Spells/KogMawVoidOozeAbility/KogMawVoidOoze",
-          "formula": "Kog'Maw spits bile, dealing [70 / 110 / 150 / 190 / 230 + (0.65) × AP] magic damage and leaving a trail of ooze for [3] seconds. Enemies in the ooze are Slowed by [40 / 45 / 50 / 55 / 60]%."
-        },
-        {
-          "ability": "Icathian Surprise",
-          "slot": "Passive",
-          "source": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurprise",
-          "formula": "For [4] seconds after dying, Kog'Maw can continue to move, can move through units, and gains 10% Move Speed, increasing to [40]% Move Speed over the duration. At the end of the duration, he explodes and deals [characterLevelInterpolation(125 → 550; raw flags preserved)] true damage to nearby enemies."
-        },
-        {
-          "ability": "Icathian Surprise",
-          "slot": "Passive",
-          "source": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianDisplay",
-          "formula": "For [4] seconds after dying, Kog'Maw can continue to move, can move through units, and gains 10% Move Speed, increasing to [40]% Move Speed over the duration. At the end of the duration, he explodes and deals [characterLevelInterpolation(140 → 650; raw flags preserved)] true damage to nearby enemies."
-        },
-        {
-          "ability": "Icathian Surprise",
-          "slot": "Passive",
-          "source": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurpriseReady",
-          "formula": "For [4] seconds after dying, Kog'Maw can continue to move, can move through units, and gains 10% Move Speed, increasing to [50]% Move Speed over the duration. At the end of the duration, he explodes and deals [characterLevelInterpolation(140 → 650; raw flags preserved)] true damage to nearby enemies."
         }
       ]
     },
@@ -356,18 +320,20 @@
       ]
     },
     {
-      "id": "kogmaw-four-4",
+      "id": "kogmaw-audit-artillery-threshold-reveal",
       "champion": "KogMaw",
-      "name": "Experiment: Range and poke",
-      "goal": "Experiment for Kog'Maw: test a different playstyle, with lower confidence",
-      "hypothesis": "A stationary ranged damage engine who either exploits W's long-range max-health attacks or uses spells to soften enemies beyond attack range. Separate W's max-health attacks from R artillery and rising mana cost. Confirm phantom/bolt applications and Q shred rather than assigning full item damage to every spell. Range-compatible spell hits test poke AP/penetration before a commitment. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Range-compatible spell hits test poke AP/penetration before a commitment.",
+      "name": "Artillery Threshold Reveal",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare R damage at 41% versus 39% while recording cast costs.",
+      "goal": "Compare R damage at 41% versus 39% while recording cast costs.",
+      "hypothesis": "R doubles its base packet below 40% target health and Shadowflame uses the same threshold for magic damage. E slow and Q shred improve a follow-up artillery aim; Seraph provides finite mana and Horizon adds long-range reveal for subsequent shots.",
       "itemIds": [
-        6655,
+        3040,
         4628,
+        4645,
         3089,
         3135,
-        3102,
         3020
       ],
       "runePage": [
@@ -379,17 +345,17 @@
         8106
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -397,43 +363,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kog'Maw: Separate W's max-health attacks from R artillery and rising mana cost. Confirm phantom/bolt applications and Q shred rather than assigning full item damage to every spell.",
-        "Start with the early core (Luden, then Horizon) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Range-compatible spell hits test poke AP/penetration before a commitment. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kog'Maw launches a corrosive projectile which deals magic damage and corrodes the target's armor and magic resist for a short time. Kog'Maw also gains additional attack speed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Enemy below 40%; track R casts within eight seconds and actual mana. Earn Seraph transformation through recorded Tear stacks before using this six-slot state.",
+        "Compare R damage at 41% versus 39% while recording cast costs; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Comet can miss and distance matters; no automatic full-range damage bonus.",
-        "The route fails Kog'Maw's stated kit question: Separate W's max-health attacks from R artillery and rising mana cost. Confirm phantom/bolt applications and Q shred rather than assigning full item damage to every spell.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Escalating R cost reaches 400 and misses exhaust mana.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Comet can miss and distance matters; no automatic full-range damage bonus.",
-        "Full cost 16,050 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: R missing-health ramp and below-40% doubled branch are not freely multiplied together.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Horizon. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Banshee's Veil are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Seraph's Embrace, Horizon Focus, Shadowflame, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Bio-Arcane Barrage",
-          "slot": "W",
-          "source": "Characters/KogMaw/Spells/KogMawBioArcaneBarrageAbility/KogMawBioArcaneBarrage",
-          "formula": "Kog'Maw gains [130 / 150 / 170 / 190 / 210] Attack Range and his Attacks deal an additional [(3 / 3.75 / 4.5 / 5.25 / 6 + (0.015) × AP) × (0.01)] max Health magic damage %i:OnHit% On-Hit for [8] seconds."
-        },
         {
           "ability": "Living Artillery",
           "slot": "R",
@@ -451,24 +403,6 @@
           "slot": "E",
           "source": "Characters/KogMaw/Spells/KogMawVoidOozeAbility/KogMawVoidOoze",
           "formula": "Kog'Maw spits bile, dealing [70 / 110 / 150 / 190 / 230 + (0.65) × AP] magic damage and leaving a trail of ooze for [3] seconds. Enemies in the ooze are Slowed by [40 / 45 / 50 / 55 / 60]%."
-        },
-        {
-          "ability": "Icathian Surprise",
-          "slot": "Passive",
-          "source": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurprise",
-          "formula": "For [4] seconds after dying, Kog'Maw can continue to move, can move through units, and gains 10% Move Speed, increasing to [40]% Move Speed over the duration. At the end of the duration, he explodes and deals [characterLevelInterpolation(125 → 550; raw flags preserved)] true damage to nearby enemies."
-        },
-        {
-          "ability": "Icathian Surprise",
-          "slot": "Passive",
-          "source": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianDisplay",
-          "formula": "For [4] seconds after dying, Kog'Maw can continue to move, can move through units, and gains 10% Move Speed, increasing to [40]% Move Speed over the duration. At the end of the duration, he explodes and deals [characterLevelInterpolation(140 → 650; raw flags preserved)] true damage to nearby enemies."
-        },
-        {
-          "ability": "Icathian Surprise",
-          "slot": "Passive",
-          "source": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurpriseReady",
-          "formula": "For [4] seconds after dying, Kog'Maw can continue to move, can move through units, and gains 10% Move Speed, increasing to [50]% Move Speed over the duration. At the end of the duration, he explodes and deals [characterLevelInterpolation(140 → 650; raw flags preserved)] true damage to nearby enemies."
         }
       ]
     }

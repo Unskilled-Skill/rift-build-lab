@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "kennen-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "kennen-four-2",
+      "id": "kennen-audit-lightning-rush-crit-extension",
       "champion": "Kennen",
-      "name": "Damage interaction: Health burn zones",
-      "goal": "Damage interaction for Kennen: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged skirmisher who accumulates storm marks, then uses speed to deliver an area stun ultimate. Compare mark-based stun and R contact with a real W/passive attack experiment. Energy, mark cooldowns and getting into ult range prevent unlimited spell/attack procs. Health/AP and repeated damage test longer contact without buying mana.",
-      "summary": "Health/AP and repeated damage test longer contact without buying mana.",
+      "name": "Lightning Rush crit extension",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Keep the post-Rush attack-speed window alive through real crits.",
+      "goal": "Keep the post-Rush attack-speed window alive through real crits.",
+      "hypothesis": "Lightning Rush grants 50-90% attack speed for four seconds after ending, and current primary text says critical strikes extend it one second. Yun Tal builds crit through attacks, Infinity Edge supports actual crit damage, and Stormrazor helps kite while W's every-fifth attack adds magic damage with AP/AD terms. Terminus addresses the mixed ordinary attack and W output.",
       "itemIds": [
-        6653,
-        4633,
-        3116,
-        8010,
-        3157,
-        3020
+        3032,
+        3031,
+        3095,
+        3302,
+        3072,
+        3006
       ],
       "runePage": [
-        8992,
-        8275,
-        8210,
-        8236,
-        8126,
-        8106
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kennen: Compare mark-based stun and R contact with a real W/passive attack experiment. Energy, mark cooldowns and getting into ult range prevent unlimited spell/attack procs.",
-        "Start with the early core (Liandry, then Riftmaker) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP and repeated damage test longer contact without buying mana. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kennen throws a fast moving shuriken towards a location, causing damage and adding a Mark of the Storm to any opponent that it hits. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need E ended, actual crit attacks landing and W counter tracked.",
+        "Measure extension duration, crit count and fifth-W damage versus an enemy that disengages.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Rylai does not stack additively with every existing slow; Riftmaker needs combat ramp.",
-        "The route fails Kennen's stated kit question: Compare mark-based stun and R contact with a real W/passive attack experiment. Energy, mark cooldowns and getting into ult range prevent unlimited spell/attack procs.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "No attack access means the window expires; AD investment weakens Q/R burst and mobility consumes energy.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Rylai does not stack additively with every existing slow; Riftmaker needs combat ramp.",
-        "Full cost 15,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Extension is conditional on crit events; E itself does not crit or grant permanent attack speed.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Liandry, then Riftmaker. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Yun Tal Wildarrows, Infinity Edge, Stormrazor, Terminus, Bloodthirster, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Energy",
       "kitEvidence": [
         {
           "ability": "Mark of the Storm",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "kennen-four-4",
+      "id": "kennen-audit-storm-resistance-shred-dive",
       "champion": "Kennen",
-      "name": "Experiment: AP attack experiment",
-      "goal": "Experiment for Kennen: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged skirmisher who accumulates storm marks, then uses speed to deliver an area stun ultimate. Compare mark-based stun and R contact with a real W/passive attack experiment. Energy, mark cooldowns and getting into ult range prevent unlimited spell/attack procs. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Storm resistance shred dive",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use repeated storm hits to develop shred while surviving the stun cycle.",
+      "goal": "Use repeated storm hits to develop shred while surviving the stun cycle.",
+      "hypothesis": "Slicing Maelstrom hits every 0.5 seconds for three seconds, gains damage on successive hits and grants armor/MR. Bloodletter can shred MR through qualifying ability hits; Riftmaker needs sustained combat and Rocketbelt helps maintain storm contact. Zhonya's is a survival tool after committing, while passive marks require three stacks for a stun and energy return.",
       "itemIds": [
-        3115,
-        3124,
-        3089,
-        3135,
+        3152,
+        8010,
+        4633,
         3157,
-        3006
+        3089,
+        3020
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kennen: Compare mark-based stun and R contact with a real W/passive attack experiment. Energy, mark cooldowns and getting into ult range prevent unlimited spell/attack procs.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kennen throws a fast moving shuriken towards a location, causing damage and adding a Mark of the Storm to any opponent that it hits. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need an entry angle, enemy escape constrained and passive marks developing on priority targets.",
+        "Track storm hit count, shred stacks and stun timing against two separated moving targets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Kennen's stated kit question: Compare mark-based stun and R contact with a real W/passive attack experiment. Energy, mark cooldowns and getting into ult range prevent unlimited spell/attack procs.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Blink escapes or early interruption limits storm hits; holding Zhonya too long risks dying first.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Six ticks are not guaranteed on every target and repeated marks have their own stun behavior.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Hextech Rocketbelt, Bloodletter's Curse, Riftmaker, Zhonya's Hourglass, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Energy",
       "kitEvidence": [
         {
           "ability": "Mark of the Storm",

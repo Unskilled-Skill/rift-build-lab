@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "corki-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "corki-four-2",
+      "id": "corki-audit-bomb-hybrid-siege",
       "champion": "Corki",
-      "name": "Damage interaction: Mana spell-and-attack",
-      "goal": "Damage interaction for Corki: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged AD spell-and-attack hybrid who uses resistance shred and missiles while weaving attacks to refill R charges. His current passive adds true damage rather than converting his attacks to magic. Compare missile/spell cycling with real attacks refilling R charges. The current passive adds true damage; do not apply an old magic-conversion assumption to attacks. A stacked mana item, real Spellblade attacks and haste test spell/attack cycling.",
-      "summary": "A stacked mana item, real Spellblade attacks and haste test spell/attack cycling.",
+      "name": "Bomb hybrid siege",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bomb hybrid siege against the conventional damage pattern at equal gold.",
+      "goal": "Test bomb hybrid siege against the conventional damage pattern at equal gold.",
+      "hypothesis": "Phosphorus Bomb has 1.0 AP and Valkyrie's full burn 1.5 AP, supporting magic siege with Lich Bane attacks after casts. Gunblade retains AD for physical Gatling Gun and rockets; Seraph must be earned and supplies mana for repeated bombs.",
       "itemIds": [
-        3004,
-        3078,
-        6694,
-        3161,
-        3026,
-        3158
+        3146,
+        3100,
+        3040,
+        3089,
+        3135,
+        3020
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
-        8444,
-        8451
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Corki: Compare missile/spell cycling with real attacks refilling R charges. The current passive adds true damage; do not apply an old magic-conversion assumption to attacks.",
-        "Start with the early core (Early Tear, Trinity or Manamune by lane needs) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A stacked mana item, real Spellblade attacks and haste test spell/attack cycling. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Corki fires a flash bomb at a target location, dealing magic damage to enemies in the area. This attack additionally reveals units in the area for a duration. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Enemies remain in the burn and Corki can safely weave attacks.",
+        "Compare Q and full W burn separately from physical rockets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Manamune must stack and transform in game; no guessed transformed damage or extra Spellblade items.",
-        "The route fails Corki's stated kit question: Compare missile/spell cycling with real attacks refilling R charges. The current passive adds true damage; do not apply an old magic-conversion assumption to attacks.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Rocket Barrage has no documented AP term and becomes weak.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Manamune must stack and transform in game; no guessed transformed damage or extra Spellblade items.",
-        "Full cost 16,433 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: The older magic-rocket premise is invalid in these primary records.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Early Tear, Trinity or Manamune by lane needs. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Serylda's Grudge, Spear of Shojin, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Gunblade, Lich Bane, Seraph's Embrace, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Missile Barrage",
@@ -205,12 +199,6 @@
           "slot": "W",
           "source": "Characters/Corki/Spells/CarpetBombAbility/CarpetBomb",
           "formula": "Corki flies over and scorches a path, burning it for [2.5] seconds. Enemies in the fire take up to [150 / 225 / 300 / 375 / 450 + (1.5) × AP + (2) × AD[statFormula=2]] magic damage over the duration."
-        },
-        {
-          "ability": "Hextech Munitions",
-          "slot": "Passive",
-          "source": "Characters/Corki/Spells/RapidReloadAbility/RapidReload",
-          "formula": "Corki's Attacks and Spellblades deal [20]% bonus true damage.\nAttacks: [(0.2) × AD].\nCritical Strikes: [((0.2) × AD) × ((1) × Stat(9))]."
         }
       ]
     },
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "corki-four-4",
+      "id": "corki-audit-crit-rocket-recharge-bruiser",
       "champion": "Corki",
-      "name": "Experiment: Physical pick",
-      "goal": "Experiment for Corki: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged AD spell-and-attack hybrid who uses resistance shred and missiles while weaving attacks to refill R charges. His current passive adds true damage rather than converting his attacks to magic. Compare missile/spell cycling with real attacks refilling R charges. The current passive adds true damage; do not apply an old magic-conversion assumption to attacks. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "name": "Crit rocket recharge bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test crit rocket recharge bruiser against the conventional damage pattern at equal gold.",
+      "goal": "Test crit rocket recharge bruiser against the conventional damage pattern at equal gold.",
+      "hypothesis": "Missile Barrage charges recharge faster from champion attacks using a crit-linked source term; Essence Reaver supplies mana and a physical Spellblade packet. Hexplate buys attack uptime after R, while Shojin and Cleaver reward physical rockets and Gatling Gun.",
       "itemIds": [
-        3142,
-        6698,
-        3814,
-        6694,
-        3026,
-        3158
+        3508,
+        3073,
+        3161,
+        3071,
+        3031,
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Corki: Compare missile/spell cycling with real attacks refilling R charges. The current passive adds true damage; do not apply an old magic-conversion assumption to attacks.",
-        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Corki fires a flash bomb at a target location, dealing magic damage to enemies in the area. This attack additionally reveals units in the area for a duration. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Alternate champion attacks with rockets instead of only firing from range.",
+        "Measure rockets replenished and E armor shred through ten seconds.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "The route fails Corki's stated kit question: Compare missile/spell cycling with real attacks refilling R charges. The current passive adds true damage; do not apply an old magic-conversion assumption to attacks.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low sustained attack access loses both recharge and penetration stacks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Crit does not make every rocket crit; the recharge expression needs source-stat verification.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Essence Reaver, Experimental Hexplate, Spear of Shojin, Black Cleaver, Infinity Edge, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Missile Barrage",
@@ -399,22 +381,10 @@
           "formula": "Corki fires a missile that explodes on the first enemy hit, dealing [90 / 170 / 250 + (0.85) × AD[statFormula=2]] physical damage to surrounding enemies. Every third missile instead deals [(90 / 170 / 250 + (0.85) × AD[statFormula=2]) × (2)] physical damage.\n\nThis Ability has up to [4] charges. Basic attacks against champions reduce the time between charges by [(1 + (2) × Stat(8)) × (2)] seconds on hit."
         },
         {
-          "ability": "Phosphorus Bomb",
-          "slot": "Q",
-          "source": "Characters/Corki/Spells/PhosphorusBombAbility/PhosphorusBomb",
-          "formula": "Corki lobs a bomb, dealing [60 / 105 / 150 / 195 / 240 + (1.25) × AD[statFormula=2] + (1) × AP] magic damage. The area and champions hit are revealed for [6] seconds."
-        },
-        {
           "ability": "Gatling Gun",
           "slot": "E",
           "source": "Characters/Corki/Spells/GGunAbility/GGun",
           "formula": "Corki fires a gatling gun in front of him, dealing [80 / 130 / 180 / 230 / 280 + (2.4) × AD[statFormula=2]] physical damage over [4] seconds and shredding up to [(-12 / -14 / -16 / -18 / -20) × -1] Armor and Magic Resist."
-        },
-        {
-          "ability": "Valkyrie",
-          "slot": "W",
-          "source": "Characters/Corki/Spells/CarpetBombAbility/CarpetBomb",
-          "formula": "Corki flies over and scorches a path, burning it for [2.5] seconds. Enemies in the fire take up to [150 / 225 / 300 / 375 / 450 + (1.5) × AP + (2) × AD[statFormula=2]] magic damage over the duration."
         },
         {
           "ability": "Hextech Munitions",

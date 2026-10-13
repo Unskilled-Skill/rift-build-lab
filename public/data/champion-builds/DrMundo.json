@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "drmundo-four-1",
@@ -110,18 +110,20 @@
       ]
     },
     {
-      "id": "drmundo-four-2",
+      "id": "drmundo-audit-medical-bag-ad-conversion",
       "champion": "DrMundo",
-      "name": "Damage interaction: Health to attack damage",
-      "goal": "Damage interaction for Dr. Mundo: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A regenerating juggernaut who converts health into attack damage and wins by repeatedly reaching a slowed enemy. Canister recovery and a well-timed W/R sustain window are central. Measure the health-to-AD conversion, canister recovery and W/R healing window. AP is not assumed to improve this health-driven attack route; count actual target contact. Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Medical bag AD conversion",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test medical bag ad conversion against the conventional damage pattern at equal gold.",
+      "goal": "Test medical bag ad conversion against the conventional damage pattern at equal gold.",
+      "hypothesis": "Blunt Force Trauma passively grants 2-3.2% source health as AD; Bloodmail adds a separate bonus-health conversion and Titanic adds attack pressure. Maximum Dosage increases max health and regeneration, making timed E attacks the payoff rather than pretending bonesaws scale with AD.",
       "itemIds": [
         3084,
         2501,
         3748,
-        3053,
         3065,
+        3053,
         3047
       ],
       "runePage": [
@@ -133,17 +135,17 @@
         9104
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Dr. Mundo: Measure the health-to-AD conversion, canister recovery and W/R healing window. AP is not assumed to improve this health-driven attack route; count actual target contact.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Dr. Mundo throws an infected bonesaw, dealing damage to the first enemy hit based on their current health and slowing them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Earn realistic Heartsteel stacks and use R before the finishing E trade.",
+        "Record E attack damage before and during R at equal missing-health percentages.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails Dr. Mundo's stated kit question: Measure the health-to-AD conversion, canister recovery and W/R healing window. AP is not assumed to improve this health-driven attack route; count actual target contact.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Healing reduction and percent-health damage punish the huge health pool.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Health conversions are additive hypotheses, not recursive infinite AD.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Heartsteel, Overlord's Bloodmail, Titanic Hydra, Spirit Visage, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "None",
       "kitEvidence": [
         {
           "ability": "Goes Where He Pleases",
@@ -195,22 +189,10 @@
           "formula": "Passive: Dr Mundo gains [((2 / 2.3 / 2.6 / 2.9 / 3.2) × Stat(12)) × (0.01)] Attack Damage.\n\nActive: Dr Mundo violently swings his \"medical\" bag, causing his next Attack to deal an additional [5 / 15 / 25 / 35 / 45 + (0.05) × Stat(12)[statFormula=2]] physical damage, increased by up to [1.4 + -1] based on his missing Health. If the enemy is killed, Mundo swats them away, dealing [5 / 15 / 25 / 35 / 45 + (0.05) × Stat(12)[statFormula=2]] physical damage to enemies they pass through."
         },
         {
-          "ability": "Heart Zapper",
-          "slot": "W",
-          "source": "Characters/DrMundo/Spells/DrMundoWAbility/DrMundoW",
-          "formula": "Dr. Mundo charges up a defibrilator, dealing [(5 / 8.75 / 12.5 / 16.25 / 20) × 4] magic damage each second for up to [3] seconds to nearby enemies. Additionally he stores [characterLevelInterpolation(0.8 → 0.95; raw flags preserved)] of damage taken for the first [0.75] seconds and [25]% for the remaining duration as gray health and can Recast.\n\nRecast: Detonate the defibrilator, dealing [20 / 35 / 50 / 65 / 80 + (0.07) × Stat(12)[statFormula=2]] magic damage to nearby enemies. If this hits at least one champion, Dr. Mundo restores [100]% of gray health, otherwise he instead restores [50]% of gray health."
-        },
-        {
           "ability": "Maximum Dosage",
           "slot": "R",
           "source": "Characters/DrMundo/Spells/DrMundoRAbility/DrMundoR",
           "formula": "Dr. Mundo pumps himself with chemicals, gaining [(0.15 / 0.2 / 0.25) × 100]% of his missing Health as max Health, [(0.15 / 0.25 / 0.35) × 100]% Move Speed, and regenerating [(0.2 / 0.4 / 0.6) × 100]% max Health over [10] seconds.\n\nAt Rank 3, both healing effects are increased by an additional [5]% per nearby enemy champion."
-        },
-        {
-          "ability": "Infected Bonesaw",
-          "slot": "Q",
-          "source": "Characters/DrMundo/Spells/DrMundoQAbility/DrMundoQ",
-          "formula": "Dr. Mundo hurls his bonesaw, dealing [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% current Health magic damage to the first enemy hit and Slowing them by [40]% for [2] seconds.\n\nIf the bonesaw hits a champion or monster, Dr. Mundo restores [(1) × (50 / 60 / 70 / 80 / 90)] Health. If it hits a non-champion or non-monster, Dr. Mundo instead restores [(0.5) × (50 / 60 / 70 / 80 / 90)] Health."
         }
       ]
     },
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "drmundo-four-4",
+      "id": "drmundo-audit-bonesaw-resistance-execution",
       "champion": "DrMundo",
-      "name": "Experiment: Movement frontline",
-      "goal": "Experiment for Dr. Mundo: test a different playstyle, with lower confidence",
-      "hypothesis": "A regenerating juggernaut who converts health into attack damage and wins by repeatedly reaching a slowed enemy. Canister recovery and a well-timed W/R sustain window are central. Measure the health-to-AD conversion, canister recovery and W/R healing window. AP is not assumed to improve this health-driven attack route; count actual target contact. Movement and matchup resistances test reaching a useful control angle and resetting afterward. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Movement and matchup resistances test reaching a useful control angle and resetting afterward.",
+      "name": "Bonesaw resistance execution",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bonesaw resistance execution against the conventional damage pattern at equal gold.",
+      "goal": "Test bonesaw resistance execution against the conventional damage pattern at equal gold.",
+      "hypothesis": "Infected Bonesaw removes 20-30% current health as magic damage without an AP ratio; Blade supplies an independent physical current-health attack. Trinity follows cleaver casts with physical Spellblade while resistances let Mundo remain for W's gray-health detonation.",
       "itemIds": [
-        3742,
+        3153,
+        3078,
         4401,
-        3083,
-        6665,
-        2502,
-        3009
+        3143,
+        3065,
+        3111
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8005,
         9111,
-        9104
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +345,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Dr. Mundo: Measure the health-to-AD conversion, canister recovery and W/R healing window. AP is not assumed to improve this health-driven attack route; count actual target contact.",
-        "Start with the early core (Matchup defense and boots; movement slots only if they improve contact) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Movement and matchup resistances test reaching a useful control angle and resetting afterward. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Dr. Mundo throws an infected bonesaw, dealing damage to the first enemy hit based on their current health and slowing them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Land Q first and detonate W on a champion after absorbing damage.",
+        "Compare Q then three attacks against different health and resistance targets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Limited direct damage; Warmog thresholds and out-of-combat timing must be verified.",
-        "The route fails Dr. Mundo's stated kit question: Measure the health-to-AD conversion, canister recovery and W/R healing window. AP is not assumed to improve this health-driven attack route; count actual target contact.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Bonesaw weakens as health drops and lack of mobility loses attacks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Limited direct damage; Warmog thresholds and out-of-combat timing must be verified.",
-        "Full cost 15,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: AP purchases do not improve the documented bonesaw percentage; W needs a champion hit for full gray healing.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Matchup defense and boots; movement slots only if they improve contact. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Warmog's Armor, Jak'Sho, The Protean, Unending Despair are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Blade of The Ruined King, Trinity Force, Force of Nature, Randuin's Omen, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "None",
       "kitEvidence": [
-        {
-          "ability": "Goes Where He Pleases",
-          "slot": "Passive",
-          "source": "Characters/DrMundo/Spells/DrMundoPassiveAbility/DrMundoP",
-          "formula": "Dr. Mundo resists the first Immobilizing effect that hits him, instead losing [4]% current Health and dropping a chemical cannister nearby for [7] seconds. Moving over it reduces this Ability's Cooldown by [15] seconds and restores [4]% max Health. Enemy champions moving over the cannister destroy it.\n\nDr. Mundo regenerates [characterLevelBreakpoints(start=0.004, perLevel=0.0005, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 0.0010000000474974513, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 0.001500000013038516, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 0.0020000000949949026, \"__type\": \"Breakpoint\"}])] max Health every 5 seconds."
-        },
         {
           "ability": "Blunt Force Trauma",
           "slot": "E",

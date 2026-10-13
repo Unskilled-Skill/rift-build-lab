@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "sion-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "sion-four-2",
+      "id": "sion-audit-soul-furnace-ap-fortress",
       "champion": "Sion",
-      "name": "Damage interaction: Health to attack damage",
-      "goal": "Damage interaction for Sion: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A scaling-health frontline fighter who uses slows to set up charged Q and long-distance R engages. His death-state attacks offer a final damage window but cannot replace staying alive for control. Fix earned W health and Q charge time. A physical burst/death-state route is a risky experiment; deaths and waves lost remain costs rather than free damage opportunities. Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Soul Furnace AP fortress",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test soul furnace ap fortress against conventional damage at equal gold.",
+      "goal": "Test soul furnace ap fortress against conventional damage at equal gold.",
+      "hypothesis": "Soul Furnace has 0.4 AP shield/detonation terms and 14% target max-health magic damage; E supplies 0.55 AP magic poke. Riftmaker and Visage support surviving the mandatory three seconds before W detonation, with health from actual W farming recorded rather than assumed infinite.",
       "itemIds": [
-        3084,
-        2501,
-        3748,
-        3053,
+        4633,
+        6653,
+        3089,
+        8020,
         3065,
-        3047
+        3111
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8010,
         9111,
-        9104
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Sion: Fix earned W health and Q charge time. A physical burst/death-state route is a risky experiment; deaths and waves lost remain costs rather than free damage opportunities.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sion charges a powerful swing in an area in front of himself that will deal damage to enemies when released. If he charges for enough time, enemies hit by the swing will also be knocked up and stunned. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Shield survives three seconds and E hits a useful target.",
+        "Measure W survival and damage with recorded farm-health stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails Sion's stated kit question: Fix earned W health and Q charge time. A physical burst/death-state route is a risky experiment; deaths and waves lost remain costs rather than free damage opportunities.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Focus fire breaks W before detonation and AP leaves Q/R physical damage weak.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: A broken shield cannot detonate and AP does not increase W's documented percent-health component.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Riftmaker, Liandry's Torment, Rabadon's Deathcap, Abyssal Mask, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Roar of the Slayer",
@@ -199,12 +193,6 @@
           "slot": "Passive",
           "source": "Characters/Sion/Spells/SionPassiveAbility/SionPassive",
           "formula": "After being killed Sion will reanimate himself allowing him to move and Attack, but his Health rapidly decays while he is reanimated. He also gains [100]% Lifesteal, attacks extremely fast, and his Attacks deal an additional [10]% max Health physical damage.\n\nAll of his Abilities are replaced with Death Surge, which grants him a burst of Move Speed."
-        },
-        {
-          "ability": "Unstoppable Onslaught",
-          "slot": "R",
-          "source": "Characters/Sion/Spells/SionRAbility/SionR",
-          "formula": "Sion charges Unstoppably in a direction for 8 seconds, turning towards the mouse cursor. Sion stops on colliding with an enemy champion or wall or on Recasting this Ability.  \n\nAt the end of the charge, Sion deals between [150 / 300 / 450 + (0.6) × AD[statFormula=2]] and [400 / 800 / 1200 + (1.2) × AD[statFormula=2]] physical damage based on distance travelled. Enemies close to Sion are Stunned for between [0.75] and [1.75] seconds based on distance travelled. Enemies in a larger area are Slowed by [40 / 45 / 50]% for 3 seconds."
         },
         {
           "ability": "Decimating Smash",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "sion-four-4",
+      "id": "sion-audit-reanimation-attack-closer",
       "champion": "Sion",
-      "name": "Experiment: Physical pick",
-      "goal": "Experiment for Sion: test a different playstyle, with lower confidence",
-      "hypothesis": "A scaling-health frontline fighter who uses slows to set up charged Q and long-distance R engages. His death-state attacks offer a final damage window but cannot replace staying alive for control. Fix earned W health and Q charge time. A physical burst/death-state route is a risky experiment; deaths and waves lost remain costs rather than free damage opportunities. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "name": "Reanimation attack closer",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test reanimation attack closer against conventional damage at equal gold.",
+      "goal": "Test reanimation attack closer against conventional damage at equal gold.",
+      "hypothesis": "Glory in Death grants rapid attacks, lifesteal and 10% target max-health physical attack damage; Blade and Titanic test a post-death finisher after an AD/health living phase. Bloodmail supports Q's large charged total-AD ratio, while E armor reduction assists both phases.",
       "itemIds": [
-        3142,
-        6698,
-        3814,
-        6694,
-        3026,
-        3158
+        3153,
+        3748,
+        2501,
+        3071,
+        6333,
+        3047
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Sion: Fix earned W health and Q charge time. A physical burst/death-state route is a risky experiment; deaths and waves lost remain costs rather than free damage opportunities.",
-        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sion charges a powerful swing in an area in front of himself that will deal damage to enemies when released. If he charges for enough time, enemies hit by the swing will also be knocked up and stunned. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Reach the victim alive, then remain close after death.",
+        "Record living Q damage and post-death attack damage separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "The route fails Sion's stated kit question: Fix earned W health and Q charge time. A physical burst/death-state route is a risky experiment; deaths and waves lost remain costs rather than free damage opportunities.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Rapid decay and kiting end the reanimated phase before attacks connect.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Do not assume item actives remain usable or death grants infinite posthumous health.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Blade of The Ruined King, Titanic Hydra, Overlord's Bloodmail, Black Cleaver, Death's Dance, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Roar of the Slayer",

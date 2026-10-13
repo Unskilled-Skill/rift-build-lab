@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Kayle",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "blessing-damage-charge",
+      "name": "Blessing Damage Charge",
+      "objective": "Measure Helia charge use and ally attack uptime during W movement.",
+      "mechanic": "W heals both Kayle and an ally and has AP-scaled movement. Q/actual attacks can store Helia champion damage before W; Staff grants AP/haste after allied healing, supporting E passive magic and a later W. R gives invulnerability access to preserve the beneficiary.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6620,
+        6616,
+        3115,
+        3089,
+        3137,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "W affects another ally after Kayle deals champion damage; record level/Exalted state.",
+      "failure": "Utility investment reduces carry damage and W mana/cooldown limits repetition.",
+      "test": "Measure Helia charge use and ally attack uptime during W movement; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Self-only healing does not satisfy Helia/Staff allied trigger.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "exalted-wave-threshold",
+      "name": "Exalted Wave Threshold",
+      "objective": "Separate wave, E and ordinary attack damage above and below 40%.",
+      "mechanic": "At level 11 Exalted attacks launch AP magic waves and at 16 Exalted is permanent. E also adds AP magic and missing-health damage; Shadowflame tests qualifying low-health wave/E packets while Riftmaker rewards real combat duration. Nashor supports actual attacks and Q removes both resists before delivery.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        4633,
+        4645,
+        3089,
+        3135,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Level 11 with five P stacks or level 16; target below 40% for Shadowflame.",
+      "failure": "Pre-Exalted state removes waves or kiting prevents ramp.",
+      "test": "Separate wave, E and ordinary attack damage above and below 40%; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Rageblade on-hit repetition is not proof of duplicated fire waves.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Early permanent waves",
+      "reason": "P requires level 11 plus Exalted for waves and level 16 for permanent Exalted.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "E explosion threshold is a runtime token; wave crit/on-hit inheritance is not established by this source.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Divine Ascent",
+      "paths": [
+        "Characters/Kayle/Spells/KaylePassiveAbility/KaylePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Radiant Blast",
+      "paths": [
+        "Characters/Kayle/Spells/KayleQAbility/KayleQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Celestial Blessing",
+      "paths": [
+        "Characters/Kayle/Spells/KayleWAbility/KayleW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Starfire Spellblade",
+      "paths": [
+        "Characters/Kayle/Spells/KayleEAbility/KayleE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Divine Judgment",
+      "paths": [
+        "Characters/Kayle/Spells/KayleRAbility/KayleR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "kayle-audit-blessing-damage-charge",
+      "champion": "Kayle",
+      "name": "Blessing Damage Charge",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure Helia charge use and ally attack uptime during W movement.",
+      "goal": "Measure Helia charge use and ally attack uptime during W movement.",
+      "hypothesis": "W heals both Kayle and an ally and has AP-scaled movement. Q/actual attacks can store Helia champion damage before W; Staff grants AP/haste after allied healing, supporting E passive magic and a later W. R gives invulnerability access to preserve the beneficiary.",
+      "itemIds": [
+        6620,
+        6616,
+        3115,
+        3089,
+        3137,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: W affects another ally after Kayle deals champion damage; record level/Exalted state.",
+        "Measure Helia charge use and ally attack uptime during W movement; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Utility investment reduces carry damage and W mana/cooldown limits repetition.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Self-only healing does not satisfy Helia/Staff allied trigger.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Nashor's Tooth, Rabadon's Deathcap, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Starfire Spellblade",
+          "slot": "E",
+          "source": "Characters/Kayle/Spells/KayleEAbility/KayleE",
+          "formula": "Passive: Attacks deal an additional [15 / 20 / 25 / 30 / 35 + (0.2) × AP + (0.1) × AD[statFormula=2]] magic damage.\n\nActive: Kayle's next attack becomes ranged and deals an additional [(8 / 8.5 / 9 / 9.5 / 10 + (0.015) × AP) × (0.01)] missing Health magic damage. This attack upgrades when Kayle reaches Level @Spell.KaylePassive:LevelForPassiveRank2@, causing it to explode when it hits the target, dealing damage to nearby enemies."
+        },
+        {
+          "ability": "Radiant Blast",
+          "slot": "Q",
+          "source": "Characters/Kayle/Spells/KayleQAbility/KayleQ",
+          "formula": "Kayle fires a celestial sword that stops on the first enemy hit, dealing [60 / 90 / 120 / 150 / 180 + (0.5) × AP + (0.6) × AD[statFormula=2]] magic damage, Slowing by [25 / 30 / 35 / 40 / 45]% for [2] seconds, and removing [15]% Armor and Magic Resist for [4] seconds from the target and enemies behind them."
+        },
+        {
+          "ability": "Divine Ascent",
+          "slot": "Passive",
+          "source": "Characters/Kayle/Spells/KaylePassiveAbility/KaylePassive",
+          "formula": "Kayle's attacks rank up as she gains levels and spends skill points.\n\nLevel [1] - Zealous: Attacks grant [6]% Attack Speed for [5] seconds (max 5 stacks). At max stacks Kayle becomes Exalted, gaining [10]% Move Speed.\nLevel [6] - Arisen: Attack range is increased to [525].\nLevel [11] - Aflame: Exalted attacks launch fire waves that deal [characterLevelBreakpoints(start=20, perLevel=0, changes=[{\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}]) + (0.25) × AP + (0.1) × AD[statFormula=2]] magic damage.\nLevel [16] - Transcendent: Become permanently Exalted. Attack range is increased to [625]."
+        },
+        {
+          "ability": "Celestial Blessing",
+          "slot": "W",
+          "source": "Characters/Kayle/Spells/KayleWAbility/KayleW",
+          "formula": "Kayle infuses herself and an allied champion with light, restoring [55 / 80 / 105 / 130 / 155 + (0.25) × AP] Health and granting [0.24 / 0.28 / 0.32 / 0.36 / 0.4 + (0.0008) × AP] Move Speed for [2] seconds."
+        },
+        {
+          "ability": "Divine Judgment",
+          "slot": "R",
+          "source": "Characters/Kayle/Spells/KayleRAbility/KayleR",
+          "formula": "Kayle makes an allied champion Invulnerable for [2.5] seconds and then purifies the area around them, dealing [200 / 300 / 400 + (0.7) × AP + (1) × AD[statFormula=2]] magic damage to nearby enemies."
+        }
+      ]
+    },
+    {
+      "id": "kayle-audit-exalted-wave-threshold",
+      "champion": "Kayle",
+      "name": "Exalted Wave Threshold",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Separate wave, E and ordinary attack damage above and below 40%.",
+      "goal": "Separate wave, E and ordinary attack damage above and below 40%.",
+      "hypothesis": "At level 11 Exalted attacks launch AP magic waves and at 16 Exalted is permanent. E also adds AP magic and missing-health damage; Shadowflame tests qualifying low-health wave/E packets while Riftmaker rewards real combat duration. Nashor supports actual attacks and Q removes both resists before delivery.",
+      "itemIds": [
+        3115,
+        4633,
+        4645,
+        3089,
+        3135,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Level 11 with five P stacks or level 16; target below 40% for Shadowflame.",
+        "Separate wave, E and ordinary attack damage above and below 40%; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Pre-Exalted state removes waves or kiting prevents ramp.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Rageblade on-hit repetition is not proof of duplicated fire waves.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Riftmaker, Shadowflame, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Starfire Spellblade",
+          "slot": "E",
+          "source": "Characters/Kayle/Spells/KayleEAbility/KayleE",
+          "formula": "Passive: Attacks deal an additional [15 / 20 / 25 / 30 / 35 + (0.2) × AP + (0.1) × AD[statFormula=2]] magic damage.\n\nActive: Kayle's next attack becomes ranged and deals an additional [(8 / 8.5 / 9 / 9.5 / 10 + (0.015) × AP) × (0.01)] missing Health magic damage. This attack upgrades when Kayle reaches Level @Spell.KaylePassive:LevelForPassiveRank2@, causing it to explode when it hits the target, dealing damage to nearby enemies."
+        },
+        {
+          "ability": "Radiant Blast",
+          "slot": "Q",
+          "source": "Characters/Kayle/Spells/KayleQAbility/KayleQ",
+          "formula": "Kayle fires a celestial sword that stops on the first enemy hit, dealing [60 / 90 / 120 / 150 / 180 + (0.5) × AP + (0.6) × AD[statFormula=2]] magic damage, Slowing by [25 / 30 / 35 / 40 / 45]% for [2] seconds, and removing [15]% Armor and Magic Resist for [4] seconds from the target and enemies behind them."
+        },
+        {
+          "ability": "Divine Ascent",
+          "slot": "Passive",
+          "source": "Characters/Kayle/Spells/KaylePassiveAbility/KaylePassive",
+          "formula": "Kayle's attacks rank up as she gains levels and spends skill points.\n\nLevel [1] - Zealous: Attacks grant [6]% Attack Speed for [5] seconds (max 5 stacks). At max stacks Kayle becomes Exalted, gaining [10]% Move Speed.\nLevel [6] - Arisen: Attack range is increased to [525].\nLevel [11] - Aflame: Exalted attacks launch fire waves that deal [characterLevelBreakpoints(start=20, perLevel=0, changes=[{\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}]) + (0.25) × AP + (0.1) × AD[statFormula=2]] magic damage.\nLevel [16] - Transcendent: Become permanently Exalted. Attack range is increased to [625]."
+        }
+      ]
+    }
+  ]
+}

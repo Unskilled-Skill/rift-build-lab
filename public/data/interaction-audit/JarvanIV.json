@@ -1,0 +1,291 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "JarvanIV",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "cadence-target-cycle",
+      "name": "Cadence Target Cycle",
+      "objective": "Compare fresh-target cadence attacks with repeated locked-target attacks.",
+      "mechanic": "P gives current-health physical damage with a per-target cooldown. Q armor reduction helps the next attack; E grants attack speed and Trinity/Sundered Sky reward an actual fresh-target attack. Stridebreaker aids moving among targets rather than repeatedly hitting a P-locked opponent.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        3078,
+        6610,
+        6631,
+        3071,
+        3053,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Two reachable targets with separate P cooldowns and Q applied first.",
+      "failure": "Target switching loses focus damage or exposes Jarvan to both enemies.",
+      "test": "Compare fresh-target cadence attacks with repeated locked-target attacks; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Attack speed does not remove the per-target passive cooldown.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "flag-magic-ally-lock",
+      "name": "Flag Magic Ally Lock",
+      "objective": "Measure E impact and allied attack uptime during flag plus cage.",
+      "mechanic": "E has 0.8 AP magic damage while granting allied attack speed for eight seconds. AP/haste flags plus E-Q knockup can trigger Mandate for allies; R terrain can keep enemies in reach. Cosmic follows E magic damage and Cryptbloom rewards allies completing the catch.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4005,
+        4629,
+        3089,
+        3137,
+        3102,
+        3158
+      ],
+      "pageKey": "comet",
+      "requiredState": "Flag hits a champion with allies using the aura; E-Q knockup connects.",
+      "failure": "AP sacrifices Q/R physical damage and the target dashes out of R.",
+      "test": "Measure E impact and allied attack uptime during flag plus cage; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "The flag attack-speed aura is not a heal or shield trigger.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AP Cataclysm",
+      "reason": "R lists AD physical scaling, unlike E's AP magic packet.",
+      "evidenceSlots": [
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q/W/R AD statFormula basis needs checking; allied aura must not be assumed to activate enchantment healing items.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Martial Cadence",
+      "paths": [
+        "Characters/JarvanIV/Spells/JarvanIVMartialCadenceAbility/JarvanIVMartialCadence"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Dragon Strike",
+      "paths": [
+        "Characters/JarvanIV/Spells/JarvanIVDragonStrikeAbility/JarvanIVDragonStrike"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Golden Aegis",
+      "paths": [
+        "Characters/JarvanIV/Spells/JarvanIVGoldenAegisAbility/JarvanIVGoldenAegis"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Demacian Standard",
+      "paths": [
+        "Characters/JarvanIV/Spells/JarvanIVDemacianStandardAbility/JarvanIVDemacianStandard"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Cataclysm",
+      "paths": [
+        "Characters/JarvanIV/Spells/JarvanIVCataclysmAbility/JarvanIVCataclysm"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "jarvaniv-audit-cadence-target-cycle",
+      "champion": "JarvanIV",
+      "name": "Cadence Target Cycle",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare fresh-target cadence attacks with repeated locked-target attacks.",
+      "goal": "Compare fresh-target cadence attacks with repeated locked-target attacks.",
+      "hypothesis": "P gives current-health physical damage with a per-target cooldown. Q armor reduction helps the next attack; E grants attack speed and Trinity/Sundered Sky reward an actual fresh-target attack. Stridebreaker aids moving among targets rather than repeatedly hitting a P-locked opponent.",
+      "itemIds": [
+        3078,
+        6610,
+        6631,
+        3071,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Two reachable targets with separate P cooldowns and Q applied first.",
+        "Compare fresh-target cadence attacks with repeated locked-target attacks; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Target switching loses focus damage or exposes Jarvan to both enemies.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Attack speed does not remove the per-target passive cooldown.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Sundered Sky, Stridebreaker, Black Cleaver, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Martial Cadence",
+          "slot": "Passive",
+          "source": "Characters/JarvanIV/Spells/JarvanIVMartialCadenceAbility/JarvanIVMartialCadence",
+          "formula": "Jarvan's Attacks deal an additional [8]% current Health physical damage. This effect has a [characterLevelBreakpoints(start=6, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] second Cooldown per target."
+        },
+        {
+          "ability": "Dragon Strike",
+          "slot": "Q",
+          "source": "Characters/JarvanIV/Spells/JarvanIVDragonStrikeAbility/JarvanIVDragonStrike",
+          "formula": "Jarvan extends his lance, dealing [90 / 130 / 170 / 210 / 250 + (1.45) × AD[statFormula=2]] physical damage and removing [(0.1 / 0.14 / 0.18 / 0.22 / 0.26) × 100]% Armor for [3] seconds.\n\nIf the lance connects with {{Spell_JarvanIVDemacianStandard_Name}}, Jarvan will pull himself to it, Knocking Up those in his path for 0.75 seconds."
+        },
+        {
+          "ability": "Demacian Standard",
+          "slot": "E",
+          "source": "Characters/JarvanIV/Spells/JarvanIVDemacianStandardAbility/JarvanIVDemacianStandard",
+          "formula": "Passive: Jarvan gains [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Attack Speed.\n\nActive: Jarvan throws a standard into the ground, dealing [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage and granting allies near the standard [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Attack Speed for [8] seconds."
+        }
+      ]
+    },
+    {
+      "id": "jarvaniv-audit-flag-magic-ally-lock",
+      "champion": "JarvanIV",
+      "name": "Flag Magic Ally Lock",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure E impact and allied attack uptime during flag plus cage.",
+      "goal": "Measure E impact and allied attack uptime during flag plus cage.",
+      "hypothesis": "E has 0.8 AP magic damage while granting allied attack speed for eight seconds. AP/haste flags plus E-Q knockup can trigger Mandate for allies; R terrain can keep enemies in reach. Cosmic follows E magic damage and Cryptbloom rewards allies completing the catch.",
+      "itemIds": [
+        4005,
+        4629,
+        3089,
+        3137,
+        3102,
+        3158
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Flag hits a champion with allies using the aura; E-Q knockup connects.",
+        "Measure E impact and allied attack uptime during flag plus cage; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "AP sacrifices Q/R physical damage and the target dashes out of R.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The flag attack-speed aura is not a heal or shield trigger.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Imperial Mandate, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Banshee's Veil, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Dragon Strike",
+          "slot": "Q",
+          "source": "Characters/JarvanIV/Spells/JarvanIVDragonStrikeAbility/JarvanIVDragonStrike",
+          "formula": "Jarvan extends his lance, dealing [90 / 130 / 170 / 210 / 250 + (1.45) × AD[statFormula=2]] physical damage and removing [(0.1 / 0.14 / 0.18 / 0.22 / 0.26) × 100]% Armor for [3] seconds.\n\nIf the lance connects with {{Spell_JarvanIVDemacianStandard_Name}}, Jarvan will pull himself to it, Knocking Up those in his path for 0.75 seconds."
+        },
+        {
+          "ability": "Cataclysm",
+          "slot": "R",
+          "source": "Characters/JarvanIV/Spells/JarvanIVCataclysmAbility/JarvanIVCataclysm",
+          "formula": "Jarvan heroically leaps to an enemy Champion, dealing [200 / 325 / 450 + (1.8) × AD[statFormula=2]] physical damage to them and surrounding enemies and creating an arena of impassable terrain around them for [3.5] seconds.\n\nJarvan can Recast to collapse the terrain."
+        },
+        {
+          "ability": "Demacian Standard",
+          "slot": "E",
+          "source": "Characters/JarvanIV/Spells/JarvanIVDemacianStandardAbility/JarvanIVDemacianStandard",
+          "formula": "Passive: Jarvan gains [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Attack Speed.\n\nActive: Jarvan throws a standard into the ground, dealing [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage and granting allies near the standard [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Attack Speed for [8] seconds."
+        }
+      ]
+    }
+  ]
+}

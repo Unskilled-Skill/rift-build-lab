@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "soraka-four-1",
@@ -110,19 +110,21 @@
       ]
     },
     {
-      "id": "soraka-four-2",
+      "id": "soraka-audit-starcall-funded-rescue",
       "champion": "Soraka",
-      "name": "Damage interaction: Attack-carry facilitator",
-      "goal": "Damage interaction for Soraka: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A recovery-focused enchanter who must land Q to sustain herself and reduce the cost of repeated ally heals, while silence denies enemy casts. Measure Q hits, self-health cost and ally heal availability. AP damage does not justify starving repeated W heals; silence placement and healing reduction need separate tests. Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
-      "summary": "Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
+      "name": "Starcall funded rescue",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether Q contact and out-of-combat reset can fund repeated low-cost W casts.",
+      "goal": "Test whether Q contact and out-of-combat reset can fund repeated low-cost W casts.",
+      "hypothesis": "Q grants Rejuvenation healing and movement; W health cost is reduced by 80-100% while Rejuvenation is active and transfers it to the ally. Warmog supplies an out-of-combat reset only after 2000 bonus health; Visage enhances Soraka own Q recovery. Moonstone and Redemption support ally rescue while the quest remains retained.",
       "itemIds": [
         3869,
-        6620,
-        3504,
-        6616,
+        3083,
+        3065,
+        6617,
         3107,
-        3158
+        3009
       ],
       "runePage": [
         8214,
@@ -133,17 +135,17 @@
         8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,60 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Soraka: Measure Q hits, self-health cost and ally heal availability. AP damage does not justify starving repeated W heals; silence placement and healing reduction need separate tests.",
-        "Start with the early core (Support quest, Helia if it can be triggered, then an ally-appropriate buff item) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Eligible healing/shielding may deliver ally buffs and repeated supportive value. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: A star falls from the sky at the target location dealing magic damage and slowing enemies. If an enemy champion is hit by Starcall, Soraka recovers Health. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Confirm actual bonus-health threshold, eight seconds without damage for Warmog, and Q before W.",
+        "Log W health cost with/without Rejuvenation and Warmog activation at actual observed bonus health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
-        "The route fails Soraka's stated kit question: Measure Q hits, self-health cost and ally heal availability. AP damage does not justify starving repeated W heals; silence placement and healing reduction need separate tests.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Burst or constant damage prevents the reset; missed Q spends health at full cost.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
-        "Full cost 10,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Warmog is not in-combat regeneration and its threshold is not presumed satisfied.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Helia if it can be triggered, then an ally-appropriate buff item. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Ardent Censer, Staff of Flowing Water, Redemption are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Warmog's Armor, Spirit Visage, Moonstone Renewer, Redemption, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Equinox",
-          "slot": "E",
-          "source": "Characters/Soraka/Spells/SorakaEAbility/SorakaE",
-          "formula": "Soraka creates a starfield that deals [70 / 95 / 120 / 145 / 170 + (0.4) × AP] magic damage to champions. The field lingers for [1.5] seconds, Silencing enemies inside. When the zone disappears, champions inside the zone are Rooted for [1 / 1.25 / 1.5 / 1.75 / 2] second(s) and take [70 / 95 / 120 / 145 / 170 + (0.4) × AP] magic damage."
-        },
         {
           "ability": "Starcall",
           "slot": "Q",
           "source": "Characters/Soraka/Spells/SorakaQAbility/SorakaQ",
           "formula": "Soraka calls down a star, dealing [85 / 120 / 155 / 190 / 225 + (0.35) × AP] magic damage and Slowing by [30]% for [1.5] seconds. \n\nHitting an enemy champion grants Soraka Rejuvenation, which restores [60 / 75 / 90 / 105 / 120 + (0.3) × AP] Health over [2.5] seconds and grants [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Move Speed decaying over the same duration."
-        },
-        {
-          "ability": "Salvation",
-          "slot": "Passive",
-          "source": "Characters/Soraka/Spells/Consecration_SelfAbility/Consecration_Self",
-          "formula": "Soraka gains [90]% Move Speed while moving towards allied champions who are below [40]% Health."
-        },
-        {
-          "ability": "Wish",
-          "slot": "R",
-          "source": "Characters/Soraka/Spells/SorakaRAbility/SorakaR",
-          "formula": "Soraka calls upon divine powers, restoring [150 / 250 / 350 + (0.5) × AP] Health to all allied champions, regardless of distance. Healing is increased to [(150 / 250 / 350 + (0.5) × AP) × ((1 + 0.5))] on targets below 40% Health."
         },
         {
           "ability": "Astral Infusion",
@@ -320,40 +296,42 @@
       ]
     },
     {
-      "id": "soraka-four-4",
+      "id": "soraka-audit-equinox-artillery-escort",
       "champion": "Soraka",
-      "name": "Experiment: AP support gamble",
-      "goal": "Experiment for Soraka: test a different playstyle, with lower confidence",
-      "hypothesis": "A recovery-focused enchanter who must land Q to sustain herself and reduce the cost of repeated ally heals, while silence denies enemy casts. Measure Q hits, self-health cost and ally heal availability. AP damage does not justify starving repeated W heals; silence placement and healing reduction need separate tests. A quest slot retained alongside AP tests whether personal spell damage repays reduced utility. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "A quest slot retained alongside AP tests whether personal spell damage repays reduced utility.",
+      "name": "Equinox artillery escort",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use AP to threaten both Equinox hits while improving low-health Wish rescue.",
+      "goal": "Use AP to threaten both Equinox hits while improving low-health Wish rescue.",
+      "hypothesis": "E deals 0.4 AP magic damage on placement and again on its delayed root; Q slow helps hold the zone. R has 0.5 AP healing increased by half on allies below 40%. Cryptbloom can add a takedown heal and Mandate needs the E root, while Staff/Helia turn successful offensive contact into ally support.",
       "itemIds": [
         3869,
-        6655,
-        3089,
-        3135,
-        3157,
-        3020
+        4005,
+        6620,
+        6616,
+        3137,
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +339,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Soraka: Measure Q hits, self-health cost and ally heal availability. AP damage does not justify starving repeated W heals; silence placement and healing reduction need separate tests.",
-        "Start with the early core (Support quest, affordable AP/mana core before expensive scaling) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A quest slot retained alongside AP tests whether personal spell damage repays reduced utility. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: A star falls from the sky at the target location dealing magic damage and slowing enemies. If an enemy champion is hit by Starcall, Soraka recovers Health. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Target stays in E for 1.5 seconds; Q and healing recipients are available.",
+        "Measure E first hit, root/second hit, Mandate mark and subsequent Helia heal/Wish.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "The route fails Soraka's stated kit question: Measure Q hits, self-health cost and ally heal availability. AP damage does not justify starving repeated W heals; silence placement and healing reduction need separate tests.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Silence alone does not root; delaying healing to fish for damage loses allies.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "Full cost 14,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Silence is not the immobilization required for current Mandate.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, affordable AP/mana core before expensive scaling. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Imperial Mandate, Echoes of Helia, Staff of Flowing Water, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Equinox",
@@ -403,12 +373,6 @@
           "slot": "Q",
           "source": "Characters/Soraka/Spells/SorakaQAbility/SorakaQ",
           "formula": "Soraka calls down a star, dealing [85 / 120 / 155 / 190 / 225 + (0.35) × AP] magic damage and Slowing by [30]% for [1.5] seconds. \n\nHitting an enemy champion grants Soraka Rejuvenation, which restores [60 / 75 / 90 / 105 / 120 + (0.3) × AP] Health over [2.5] seconds and grants [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Move Speed decaying over the same duration."
-        },
-        {
-          "ability": "Salvation",
-          "slot": "Passive",
-          "source": "Characters/Soraka/Spells/Consecration_SelfAbility/Consecration_Self",
-          "formula": "Soraka gains [90]% Move Speed while moving towards allied champions who are below [40]% Health."
         },
         {
           "ability": "Wish",

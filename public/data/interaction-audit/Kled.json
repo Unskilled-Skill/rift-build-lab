@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Kled",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "remount-attack-sprint",
+      "name": "Remount attack sprint",
+      "objective": "Make a saved Violent Tendencies window rebuild Courage quickly.",
+      "mechanic": "Dismounted attacks grant 15 Courage against champions, while Violent Tendencies supplies 150% attack speed for four attacks and its fourth strike has AD/health-linked percent damage. Blade rewards these actual attacks, Stridebreaker helps contact and Death's Dance may delay lethal damage long enough to remount. Pocket Pistol pellets contribute Courage if they really connect.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        3153,
+        6631,
+        3181,
+        6333,
+        3053,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Need W ready at dismount, a target reachable and remount's 30-second gate clear.",
+      "failure": "Automatic W can be spent on the wave; CC or burst kills Kled before Courage completes.",
+      "test": "Measure time from dismount to remount with W available versus already consumed.",
+      "rejectedAssumption": "Four attacks alone do not necessarily reach full Courage; item hits do not grant extra Courage by assumption.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "skaarl-health-to-ad-bruiser",
+      "name": "Skaarl health-to-AD bruiser",
+      "objective": "Test health investment across mounted pressure and dismounted defense.",
+      "mechanic": "The current dismounted passive adds defenses through a health-stat expression; W fourth strike also includes AD and health expressions. Bloodmail converts bonus health to AD supporting Q/E and R's large AD-linked shield, while Visage supports received heals and remount recovery only if that recovery qualifies. Cleaver serves repeated physical hits, not R's magic impact.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "R",
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        2501,
+        6610,
+        3071,
+        3065,
+        3053,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Need fixed health sources, remount available and accurate mounted/dismounted comparisons.",
+      "failure": "Buying health can raise the remount target without guaranteeing time to reach it; anti-heal may limit recovery.",
+      "test": "Measure W fourth hit, dismounted defenses and remount health at fixed bought health.",
+      "rejectedAssumption": "R's percent-health impact is magic despite AD scaling and is not improved by Cleaver's armor shred.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AP mounted damage",
+      "reason": "Current Q/E/W/R offensive expressions do not provide an AP scaling route.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Skaarl health allocation, statFormula flags and remount classification as healing need explicit live checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Skaarl, the Cowardly Lizard",
+      "paths": [
+        "Characters/Kled/Spells/KledPassiveAbility/KledPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Bear Trap on a Rope",
+      "paths": [
+        "Characters/Kled/Spells/KledQAbility/KledQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Violent Tendencies",
+      "paths": [
+        "Characters/Kled/Spells/KledWAbility/KledW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Jousting",
+      "paths": [
+        "Characters/Kled/Spells/KledEAbility/KledE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Chaaaaaaaarge!!!",
+      "paths": [
+        "Characters/Kled/Spells/KledRAbility/KledR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "kled-audit-remount-attack-sprint",
+      "champion": "Kled",
+      "name": "Remount attack sprint",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Make a saved Violent Tendencies window rebuild Courage quickly.",
+      "goal": "Make a saved Violent Tendencies window rebuild Courage quickly.",
+      "hypothesis": "Dismounted attacks grant 15 Courage against champions, while Violent Tendencies supplies 150% attack speed for four attacks and its fourth strike has AD/health-linked percent damage. Blade rewards these actual attacks, Stridebreaker helps contact and Death's Dance may delay lethal damage long enough to remount. Pocket Pistol pellets contribute Courage if they really connect.",
+      "itemIds": [
+        3153,
+        6631,
+        3181,
+        6333,
+        3053,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need W ready at dismount, a target reachable and remount's 30-second gate clear.",
+        "Measure time from dismount to remount with W available versus already consumed.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Automatic W can be spent on the wave; CC or burst kills Kled before Courage completes.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Four attacks alone do not necessarily reach full Courage; item hits do not grant extra Courage by assumption.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blade of The Ruined King, Stridebreaker, Hullbreaker, Death's Dance, Sterak's Gage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Jousting",
+          "slot": "E",
+          "source": "Characters/Kled/Spells/KledEAbility/KledE",
+          "formula": "Kled dashes, dealing [35 / 60 / 85 / 110 / 135 + (0.55) × AD[statFormula=2]] physical damage to enemies he passes through, pulling minions and small monsters towards him.\n\nIf this Ability hits an enemy champion or large jungle monster, Kled gains [50]% Move Speed for [1] second(s) and can Recast within [3] seconds to dash back through the same target."
+        },
+        {
+          "ability": "Bear Trap on a Rope",
+          "slot": "Q",
+          "source": "Characters/Kled/Spells/KledQAbility/KledQ",
+          "formula": "Mounted: Kled throws a bear trap that deals [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage and hooks onto the first enemy champion or large jungle monster hit.\n\nIf Kled stays near a hooked enemy for [1.75] seconds, he yanks out the trap, dealing [(30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]) × (2)] physical damage, Pulling them, and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [2.5] seconds."
+        },
+        {
+          "ability": "Skaarl, the Cowardly Lizard",
+          "slot": "Passive",
+          "source": "Characters/Kled/Spells/KledPassiveAbility/KledPassive",
+          "formula": "Mounted: Kled's mount Skaarl takes damage instead of Kled. When his Health depletes, Kled dismounts.\n\nDismounted: Kled replaces {{spell_KledQ_Name}}, gains [characterLevelBreakpoints(start=70, perLevel=5, changes=[])] Move Speed toward enemy champions, and he gains [4 + (0.01) × Stat(12)[statFormula=2]] bonus Armor and Magic Resist, increased by [30]% for each nearby enemy Champion, up to [(4 + (0.01) × Stat(12)[statFormula=2]) × (2.5)]. While dismounted, Kled's attacks deal [characterLevelBreakpoints(start=0.15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}])] reduced damage to Champions. \n\nKled gains [15] Courage by Attacking champions, [5] Courage by Attacking epic monsters and structures, and [5] Courage by killing minions. At max Courage Kled remounts with [characterLevelBreakpoints(start=0.4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] of Skaarl's Health, once every [30] seconds."
+        },
+        {
+          "ability": "Violent Tendencies",
+          "slot": "W",
+          "source": "Characters/Kled/Spells/KledWAbility/KledW",
+          "formula": "Passive: Kled's next Attack grants [150]% Attack Speed for four Attacks or [4] seconds.\n\nThe fourth hit deals an additional [20 / 30 / 40 / 50 / 60] plus [(4.5 / 5 / 5.5 / 6 / 6.5 + (0.02) × AD[statFormula=2] + (0.004) × Stat(12)[statFormula=2]) × (0.01)] max Health physical damage."
+        }
+      ]
+    },
+    {
+      "id": "kled-audit-skaarl-health-to-ad-bruiser",
+      "champion": "Kled",
+      "name": "Skaarl health-to-AD bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health investment across mounted pressure and dismounted defense.",
+      "goal": "Test health investment across mounted pressure and dismounted defense.",
+      "hypothesis": "The current dismounted passive adds defenses through a health-stat expression; W fourth strike also includes AD and health expressions. Bloodmail converts bonus health to AD supporting Q/E and R's large AD-linked shield, while Visage supports received heals and remount recovery only if that recovery qualifies. Cleaver serves repeated physical hits, not R's magic impact.",
+      "itemIds": [
+        2501,
+        6610,
+        3071,
+        3065,
+        3053,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need fixed health sources, remount available and accurate mounted/dismounted comparisons.",
+        "Measure W fourth hit, dismounted defenses and remount health at fixed bought health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Buying health can raise the remount target without guaranteeing time to reach it; anti-heal may limit recovery.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: R's percent-health impact is magic despite AD scaling and is not improved by Cleaver's armor shred.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Sundered Sky, Black Cleaver, Spirit Visage, Sterak's Gage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Jousting",
+          "slot": "E",
+          "source": "Characters/Kled/Spells/KledEAbility/KledE",
+          "formula": "Kled dashes, dealing [35 / 60 / 85 / 110 / 135 + (0.55) × AD[statFormula=2]] physical damage to enemies he passes through, pulling minions and small monsters towards him.\n\nIf this Ability hits an enemy champion or large jungle monster, Kled gains [50]% Move Speed for [1] second(s) and can Recast within [3] seconds to dash back through the same target."
+        },
+        {
+          "ability": "Bear Trap on a Rope",
+          "slot": "Q",
+          "source": "Characters/Kled/Spells/KledQAbility/KledQ",
+          "formula": "Mounted: Kled throws a bear trap that deals [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage and hooks onto the first enemy champion or large jungle monster hit.\n\nIf Kled stays near a hooked enemy for [1.75] seconds, he yanks out the trap, dealing [(30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]) × (2)] physical damage, Pulling them, and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [2.5] seconds."
+        },
+        {
+          "ability": "Chaaaaaaaarge!!!",
+          "slot": "R",
+          "source": "Characters/Kled/Spells/KledRAbility/KledR",
+          "formula": "Kled charges toward an area, leaving a trail that grants allies increasing Move Speed. While charging and for 2 seconds after Kled gains up to [200 / 300 / 400 + (3) × AD[statFormula=2]] Shield. Skaarl rams the first enemy champion encountered, dealing [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.01)] to [(4 / 6 / 8 + (0.03) × AD[statFormula=2]) × (0.03)] max Health magic damage (based on distance travelled) and briefly Knocking Back."
+        },
+        {
+          "ability": "Skaarl, the Cowardly Lizard",
+          "slot": "Passive",
+          "source": "Characters/Kled/Spells/KledPassiveAbility/KledPassive",
+          "formula": "Mounted: Kled's mount Skaarl takes damage instead of Kled. When his Health depletes, Kled dismounts.\n\nDismounted: Kled replaces {{spell_KledQ_Name}}, gains [characterLevelBreakpoints(start=70, perLevel=5, changes=[])] Move Speed toward enemy champions, and he gains [4 + (0.01) × Stat(12)[statFormula=2]] bonus Armor and Magic Resist, increased by [30]% for each nearby enemy Champion, up to [(4 + (0.01) × Stat(12)[statFormula=2]) × (2.5)]. While dismounted, Kled's attacks deal [characterLevelBreakpoints(start=0.15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": -0.05000000074505806, \"__type\": \"Breakpoint\"}])] reduced damage to Champions. \n\nKled gains [15] Courage by Attacking champions, [5] Courage by Attacking epic monsters and structures, and [5] Courage by killing minions. At max Courage Kled remounts with [characterLevelBreakpoints(start=0.4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] of Skaarl's Health, once every [30] seconds."
+        },
+        {
+          "ability": "Violent Tendencies",
+          "slot": "W",
+          "source": "Characters/Kled/Spells/KledWAbility/KledW",
+          "formula": "Passive: Kled's next Attack grants [150]% Attack Speed for four Attacks or [4] seconds.\n\nThe fourth hit deals an additional [20 / 30 / 40 / 50 / 60] plus [(4.5 / 5 / 5.5 / 6 / 6.5 + (0.02) × AD[statFormula=2] + (0.004) × Stat(12)[statFormula=2]) × (0.01)] max Health physical damage."
+        }
+      ]
+    }
+  ]
+}

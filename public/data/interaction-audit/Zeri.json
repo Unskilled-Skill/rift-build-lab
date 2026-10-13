@@ -1,0 +1,321 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Zeri",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "laser-hybrid-artillery",
+      "name": "Laser hybrid artillery",
+      "objective": "Test laser hybrid artillery against conventional damage at equal gold.",
+      "mechanic": "Ultrashock Laser has 0.5 AP and total-AD physical damage and terrain hits force its special crit; R adds 1.1 AP magic damage while E adds AP-scaled magic on-hit. Gunblade retains AD and earned Muramana supports physical spell poke, with Serylda matching physical W rather than R.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3146,
+        3089,
+        3161,
+        6694,
+        3042,
+        3158
+      ],
+      "pageKey": "comet",
+      "requiredState": "Find safe terrain laser angles and save E for repositioning.",
+      "failure": "Weak ordinary Q attack scaling and reduced sustained crit lose extended fights.",
+      "test": "Measure terrain W physical damage separately from R/E magic packets.",
+      "rejectedAssumption": "Legacy Q missiles contain AP terms, but primary Q has no AP term; do not promote helpers to live damage.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "burst-fire-health-bruiser",
+      "name": "Burst Fire health bruiser",
+      "objective": "Test burst fire health bruiser against conventional damage at equal gold.",
+      "mechanic": "Burst Fire is explicitly treated as an attack and scales 1.02-1.1 total AD; Bloodmail and Titanic test health-backed physical Q attacks while Cleaver supports shred. Hexplate synchronizes with R's speed window, but item trigger effectiveness must be checked on the whole Q burst.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2501,
+        3748,
+        3071,
+        3073,
+        3053,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Hit moving Q bursts and maintain R through champion contact.",
+      "failure": "Low crit loses extra Overcharge stacks and E cooldown refunds.",
+      "test": "Count Q item packets, E refunds and R uptime during a moving ten-second chase.",
+      "rejectedAssumption": "Seven Q rounds are not seven full independent item on-hits, and passive attacks are treated as abilities.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Legacy Q missiles contain AP terms, but primary Q has no AP term; do not promote helpers to live damage.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Current-patch proc ordering/effectiveness is untested; symbolic source stats and helper form/pet records are not runtime dispatch proof."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Living Battery",
+      "paths": [
+        "Characters/Zeri/Spells/ZeriPassiveAbility/ZeriPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Burst Fire",
+      "paths": [
+        "Characters/Zeri/Spells/ZeriQAbility/ZeriQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Ultrashock Laser",
+      "paths": [
+        "Characters/Zeri/Spells/ZeriWAbility/ZeriW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Spark Surge",
+      "paths": [
+        "Characters/Zeri/Spells/ZeriEAbility/ZeriE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Lightning Crash",
+      "paths": [
+        "Characters/Zeri/Spells/ZeriRAbility/ZeriR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "zeri-audit-laser-hybrid-artillery",
+      "champion": "Zeri",
+      "name": "Laser hybrid artillery",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test laser hybrid artillery against conventional damage at equal gold.",
+      "goal": "Test laser hybrid artillery against conventional damage at equal gold.",
+      "hypothesis": "Ultrashock Laser has 0.5 AP and total-AD physical damage and terrain hits force its special crit; R adds 1.1 AP magic damage while E adds AP-scaled magic on-hit. Gunblade retains AD and earned Muramana supports physical spell poke, with Serylda matching physical W rather than R.",
+      "itemIds": [
+        3146,
+        3089,
+        3161,
+        6694,
+        3042,
+        3158
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Find safe terrain laser angles and save E for repositioning.",
+        "Measure terrain W physical damage separately from R/E magic packets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Weak ordinary Q attack scaling and reduced sustained crit lose extended fights.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Legacy Q missiles contain AP terms, but primary Q has no AP term; do not promote helpers to live damage.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Gunblade, Rabadon's Deathcap, Spear of Shojin, Serylda's Grudge, Muramana, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Living Battery",
+          "slot": "Passive",
+          "source": "Characters/Zeri/Spells/ZeriPassiveAbility/ZeriPassive",
+          "formula": "Zeri's Attacks are treated as Abilities instead of Attacks and can be charged up by moving and casting {{Spell_ZeriQ_Name}}. Uncharged Attacks consume a small amount of charge, deal @Spell.ZeriQ:MinDamage@ magic damage and execute enemies below @Spell.ZeriQ:PassiveExecuteThreshold@ Health. A fully charged Attack deals @Spell.ZeriQ:PassiveMaxDamage@ + @Spell.ZeriQ:PassiveMaxChargePercentHealth@ max Health magic damage and consumes all charge."
+        },
+        {
+          "ability": "Burst Fire",
+          "slot": "Q",
+          "source": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+          "formula": "Zeri fires a burst of [7] rounds that deals [22 / 26 / 30 / 34 / 38 + (1.02 / 1.04 / 1.06 / 1.08 / 1.1) × AD] physical damage to the first enemy hit. This Ability is treated as an Attack."
+        },
+        {
+          "ability": "Ultrashock Laser",
+          "slot": "W",
+          "source": "Characters/Zeri/Spells/ZeriWAbility/ZeriW",
+          "formula": "Zeri fires an electric pulse that deals [30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP] physical damage and Slows the first enemy hit by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nIf the pulse hits terrain, it expands into a laser that applies the effects in an area and Critically Strikes champions and monsters for [(30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP) × ((1 + (0.5) × (((1) × Stat(9) + -1))))] physical damage."
+        },
+        {
+          "ability": "Lightning Crash",
+          "slot": "R",
+          "source": "Characters/Zeri/Spells/ZeriRAbility/ZeriR",
+          "formula": "Zeri discharges a nova of electricity, dealing [150 / 250 / 350 + (1.1) × AP + (0.6) × AD[statFormula=2]] magic damage to nearby enemies. If she hits an enemy champion, Zeri gains [30]% Attack Speed and [15]% Move Speed for [5] seconds. Hitting an enemy champion with an Attack or Ability extends this ability's duration and adds a stack of Overcharge for [2.5] seconds. Critical strikes add 2 additional stacks. Each stack grants [1.5]% Move Speed.\n\nDuring this time, {{Spell_ZeriQ_Name}} becomes a faster triple shot that chains [(0.4) × AD] physical damage to nearby enemies."
+        },
+        {
+          "ability": "Spark Surge",
+          "slot": "E",
+          "source": "Characters/Zeri/Spells/ZeriEAbility/ZeriE",
+          "formula": "Zeri dashes a short distance and vaults over any terrain she touches, greatly extending the dash range. For the next [5] seconds, her shots of {{Spell_ZeriQ_Name}} pierce dealing [(0.8 / 0.85 / 0.9 / 0.95 / 1) × 100]% damage to enemies after the first and an additional [(22 / 24 / 26 / 28 / 30 + (0.2) × AP) × ((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1))))] magic damage On-Hit to the first target struck. \n\nHitting an enemy with an Attack reduces this Ability's cooldown by [0.5] seconds. Critical strikes reduce the cooldown by [1.5] seconds instead."
+        }
+      ]
+    },
+    {
+      "id": "zeri-audit-burst-fire-health-bruiser",
+      "champion": "Zeri",
+      "name": "Burst Fire health bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test burst fire health bruiser against conventional damage at equal gold.",
+      "goal": "Test burst fire health bruiser against conventional damage at equal gold.",
+      "hypothesis": "Burst Fire is explicitly treated as an attack and scales 1.02-1.1 total AD; Bloodmail and Titanic test health-backed physical Q attacks while Cleaver supports shred. Hexplate synchronizes with R's speed window, but item trigger effectiveness must be checked on the whole Q burst.",
+      "itemIds": [
+        2501,
+        3748,
+        3071,
+        3073,
+        3053,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Hit moving Q bursts and maintain R through champion contact.",
+        "Count Q item packets, E refunds and R uptime during a moving ten-second chase.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low crit loses extra Overcharge stacks and E cooldown refunds.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Seven Q rounds are not seven full independent item on-hits, and passive attacks are treated as abilities.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Titanic Hydra, Black Cleaver, Experimental Hexplate, Sterak's Gage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Living Battery",
+          "slot": "Passive",
+          "source": "Characters/Zeri/Spells/ZeriPassiveAbility/ZeriPassive",
+          "formula": "Zeri's Attacks are treated as Abilities instead of Attacks and can be charged up by moving and casting {{Spell_ZeriQ_Name}}. Uncharged Attacks consume a small amount of charge, deal @Spell.ZeriQ:MinDamage@ magic damage and execute enemies below @Spell.ZeriQ:PassiveExecuteThreshold@ Health. A fully charged Attack deals @Spell.ZeriQ:PassiveMaxDamage@ + @Spell.ZeriQ:PassiveMaxChargePercentHealth@ max Health magic damage and consumes all charge."
+        },
+        {
+          "ability": "Burst Fire",
+          "slot": "Q",
+          "source": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+          "formula": "Zeri fires a burst of [7] rounds that deals [22 / 26 / 30 / 34 / 38 + (1.02 / 1.04 / 1.06 / 1.08 / 1.1) × AD] physical damage to the first enemy hit. This Ability is treated as an Attack."
+        },
+        {
+          "ability": "Ultrashock Laser",
+          "slot": "W",
+          "source": "Characters/Zeri/Spells/ZeriWAbility/ZeriW",
+          "formula": "Zeri fires an electric pulse that deals [30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP] physical damage and Slows the first enemy hit by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% for [2] seconds.\n\nIf the pulse hits terrain, it expands into a laser that applies the effects in an area and Critically Strikes champions and monsters for [(30 / 70 / 110 / 150 / 190 + (1) × AD + (0.5) × AP) × ((1 + (0.5) × (((1) × Stat(9) + -1))))] physical damage."
+        },
+        {
+          "ability": "Lightning Crash",
+          "slot": "R",
+          "source": "Characters/Zeri/Spells/ZeriRAbility/ZeriR",
+          "formula": "Zeri discharges a nova of electricity, dealing [150 / 250 / 350 + (1.1) × AP + (0.6) × AD[statFormula=2]] magic damage to nearby enemies. If she hits an enemy champion, Zeri gains [30]% Attack Speed and [15]% Move Speed for [5] seconds. Hitting an enemy champion with an Attack or Ability extends this ability's duration and adds a stack of Overcharge for [2.5] seconds. Critical strikes add 2 additional stacks. Each stack grants [1.5]% Move Speed.\n\nDuring this time, {{Spell_ZeriQ_Name}} becomes a faster triple shot that chains [(0.4) × AD] physical damage to nearby enemies."
+        },
+        {
+          "ability": "Spark Surge",
+          "slot": "E",
+          "source": "Characters/Zeri/Spells/ZeriEAbility/ZeriE",
+          "formula": "Zeri dashes a short distance and vaults over any terrain she touches, greatly extending the dash range. For the next [5] seconds, her shots of {{Spell_ZeriQ_Name}} pierce dealing [(0.8 / 0.85 / 0.9 / 0.95 / 1) × 100]% damage to enemies after the first and an additional [(22 / 24 / 26 / 28 / 30 + (0.2) × AP) × ((1 + ((1) × Stat(8)) × (((1) × Stat(9) + -1))))] magic damage On-Hit to the first target struck. \n\nHitting an enemy with an Attack reduces this Ability's cooldown by [0.5] seconds. Critical strikes reduce the cooldown by [1.5] seconds instead."
+        }
+      ]
+    }
+  ]
+}

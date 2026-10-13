@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "taric-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "taric-four-2",
+      "id": "taric-audit-bravado-armor-boxer",
       "champion": "Taric",
-      "name": "Damage interaction: Protection specialist",
-      "goal": "Damage interaction for Taric: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "An armored support fighter who alternates spells with two fast Bravado attacks to recycle healing and control. A linked ally extends spell origins, while R demands predicting damage several seconds ahead. Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability. Healing/shield power and timed actives test preserving an allied carry.",
-      "summary": "Healing/shield power and timed actives test preserving an allied carry.",
+      "name": "Bravado armor boxer",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bravado armor boxer against conventional damage at equal gold.",
+      "goal": "Test bravado armor boxer against conventional damage at equal gold.",
+      "hypothesis": "Bravado grants two rapid attacks after a spell, with bonus magic damage scaling from source armor; Dazzle also has a 0.5 source-armor term. Iceborn adds a physical Spellblade and slow while Q gains charges from actual Bravado attacks, supporting a mixed-damage melee loop.",
       "itemIds": [
-        3869,
-        6617,
-        3107,
-        3222,
-        6621,
-        3158
+        6662,
+        3110,
+        3302,
+        3065,
+        3748,
+        3006
       ],
       "runePage": [
-        8465,
-        8463,
+        8005,
+        9111,
+        9104,
+        8014,
         8444,
-        8453,
-        8345,
-        8347
+        8451
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5005,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Taric: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
-        "Start with the early core (Support quest, Moonstone only with useful eligible heals/shields, then the needed active) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Healing/shield power and timed actives test preserving an allied carry. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Heals nearby allied champions based on charges stored. Bravado-empowered attacks grant a charge of Starlight's Touch. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Have enough mana and an attackable target through Dazzle's one-second delay.",
+        "Count Q charges, E casts and personal attacks over ten seconds.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "The route fails Taric's stated kit question: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Kiting prevents attack refunds and Frozen Heart's mana cannot fix poor access.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Attack speed does not itself generate free Bravado charges without spell casts.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Moonstone only with useful eligible heals/shields, then the needed active. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Redemption, Mikael's Blessing, Dawncore are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Iceborn Gauntlet, Frozen Heart, Terminus, Spirit Visage, Titanic Hydra, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Bravado",
@@ -193,12 +187,6 @@
           "slot": "W",
           "source": "Characters/Taric/Spells/TaricWAbility/TaricW",
           "formula": "Passive: Taric gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and forms a tether between him and the ally bound by this Ability. As long as they are near each other, the ally gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and Taric casts all his Abilities from both himself and his linked ally.\n\nActive: Taric binds to an ally champion, granting a [7 / 8 / 9 / 10 / 11]% max Health Shield for [2.5] seconds."
-        },
-        {
-          "ability": "Cosmic Radiance",
-          "slot": "R",
-          "source": "Characters/Taric/Spells/TaricRAbility/TaricR",
-          "formula": "Taric calls down protection from the heavens. After [2.5] seconds, nearby ally champions become invulnerable for [2.5] seconds."
         },
         {
           "ability": "Starlight's Touch",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "taric-four-4",
+      "id": "taric-audit-damage-charge-heal-conductor",
       "champion": "Taric",
-      "name": "Experiment: Health/AP attack hybrid",
-      "goal": "Experiment for Taric: test a different playstyle, with lower confidence",
-      "hypothesis": "An armored support fighter who alternates spells with two fast Bravado attacks to recycle healing and control. A linked ally extends spell origins, while R demands predicting damage several seconds ahead. Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability. Health plus AP and repeated on-hits test a hybrid attack route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Health plus AP and repeated on-hits test a hybrid attack route.",
+      "name": "Damage charge heal conductor",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test damage charge heal conductor against conventional damage at equal gold.",
+      "goal": "Test damage charge heal conductor against conventional damage at equal gold.",
+      "hypothesis": "Bravado attacks supply damage and Q charges; Q heals each stack with AP and health terms, creating a repeated Helia damage-to-heal cycle. Bastion duplicates spell origins around the tethered ally, while armor and mana from Frozen Heart help Taric keep attacking through the delayed R protection.",
       "itemIds": [
-        3084,
-        2510,
-        4633,
-        3115,
-        6665,
-        3111
+        6620,
+        6617,
+        3504,
+        6621,
+        3110,
+        3158
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
-        8444,
-        8451
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Taric: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
-        "Start with the early core (Health/defense as needed, then Dusk and Dawn as the isolated test) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health plus AP and repeated on-hits test a hybrid attack route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Heals nearby allied champions based on charges stored. Bravado-empowered attacks grant a charge of Starlight's Touch. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: A nearby Bastion ally and enemies in personal attack reach.",
+        "Measure Helia charges and allied healing for two-stack Q cycles.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "The route fails Taric's stated kit question: Bravado needs two real attacks between spells to recycle resources. Compare armor-backed dueling with ally protection, and measure delayed R arrival rather than instant invulnerability.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Mana starvation, severed tether range or burst before R's 2.5-second delay loses the loop.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Duplicated Bastion origins do not imply the same ally receives two full copies of every heal.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Health/defense as needed, then Dusk and Dawn as the isolated test. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Riftmaker, Nashor's Tooth, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Echoes of Helia, Moonstone Renewer, Ardent Censer, Dawncore, Frozen Heart, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Bravado",

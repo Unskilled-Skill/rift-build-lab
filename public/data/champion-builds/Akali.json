@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "akali-four-1",
@@ -128,19 +128,21 @@
       ]
     },
     {
-      "id": "akali-four-2",
+      "id": "akali-audit-ring-spellblade",
       "champion": "Akali",
-      "name": "Damage interaction: Dusk and Dawn",
-      "goal": "Damage interaction for Akali: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A skirmishing assassin who alternates spell hits with ring-crossing empowered attacks and uses shroud to pace an engagement. Can ring-crossing empowered attacks consume Spellblade safely without losing spell or shroud timing? Avoid mana purchases for her energy resource. Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern.",
-      "summary": "Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern.",
+      "name": "Ring Spellblade",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare damage per completed ring-exit attack.",
+      "goal": "Compare damage per completed ring-exit attack.",
+      "hypothesis": "P grants extra attack range and AP magic damage after leaving its ring. Q tip slow and W movement/energy allow a return attack. Lich Bane adds a separate empowered attack, Nashor rewards actual attacks and Cosmic Drive helps ring traversal.",
       "itemIds": [
-        2510,
-        4633,
+        3100,
         3115,
+        4629,
+        4633,
         3089,
-        3157,
-        3111
+        3020
       ],
       "runePage": [
         8010,
@@ -153,15 +155,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -169,36 +171,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Akali: Can ring-crossing empowered attacks consume Spellblade safely without losing spell or shroud timing? Avoid mana purchases for her energy resource.",
-        "Start with the early core (Dusk and Dawn, then Riftmaker) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Akali throws out five kunai, dealing damage based on her bonus Attack Damage and Ability Power and slowing. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Exit and re-enter the ring with energy for the next spell.",
+        "Compare damage per completed ring-exit attack; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
-        "The route fails Akali's stated kit question: Can ring-crossing empowered attacks consume Spellblade safely without losing spell or shroud timing? Avoid mana purchases for her energy resource.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Walking the ring loses spell uptime or exposes Akali.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
-        "Full cost 17,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Repeated casts do not guarantee repeated ready Spellblade procs.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Dusk and Dawn, then Riftmaker. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Nashor's Tooth, Rabadon's Deathcap, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Cosmic Drive, Riftmaker, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Energy",
       "kitEvidence": [
         {
           "ability": "Twilight Shroud",
@@ -235,18 +229,6 @@
           "slot": "Q",
           "source": "Characters/Akali/Spells/AkaliQAbility/AkaliQ",
           "formula": "Akali slings kunai in an arc, dealing [45 / 70 / 95 / 120 / 145 + (0.65) × AD + (0.6) × AP] magic damage and Slowing enemies at the tip by [50]% for [0.5] seconds."
-        },
-        {
-          "ability": "Perfect Execution",
-          "slot": "R",
-          "source": "Characters/Akali/Spells/AkaliRAbility/AkaliR",
-          "formula": "Akali vaults over an enemy champion, dealing [110 / 220 / 330 + (0.5) × AD[statFormula=2] + (0.3) × AP] magic damage to all enemies in her path. \n\nAkali can Recast after [2.5] seconds to execute a piercing thrust, dashing and dealing [70 / 140 / 210 + (0.3) × AP] to [(70 / 140 / 210 + (0.3) × AP) × (3)] magic damage based on missing Health."
-        },
-        {
-          "ability": "Shuriken Flip",
-          "slot": "E",
-          "source": "Characters/Akali/Spells/AkaliEAbility/AkaliE",
-          "formula": "Akali flips backwards as she throws a shuriken, dealing [(70 / 140 / 210 / 280 / 350 + (1) × AD + (1.1) × AP) × (0.3)] magic damage and marking the first enemy or smoke cloud hit. Akali can Recast this once to dash to the marked target, dealing [(70 / 140 / 210 / 280 / 350 + (1) × AD + (1.1) × AP) × (0.7)] magic damage."
         }
       ]
     },
@@ -374,40 +356,42 @@
       ]
     },
     {
-      "id": "akali-four-4",
+      "id": "akali-audit-shroud-ramp-return",
       "champion": "Akali",
-      "name": "Experiment: Spell-and-attack",
-      "goal": "Experiment for Akali: test a different playstyle, with lower confidence",
-      "hypothesis": "A skirmishing assassin who alternates spell hits with ring-crossing empowered attacks and uses shroud to pace an engagement. Can ring-crossing empowered attacks consume Spellblade safely without losing spell or shroud timing? Avoid mana purchases for her energy resource. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "name": "Shroud Ramp Return",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure E2 and R2 success through a pressured shroud.",
+      "goal": "Measure E2 and R2 success through a pressured shroud.",
+      "hypothesis": "W lasts 5–7 seconds and R recasts after 2.5 seconds. Riftmaker ramps in champion combat and converts bonus health into AP; Rocketbelt gives access, Zhonya covers part of the wait, and E2 supplies most of E damage.",
       "itemIds": [
-        3100,
-        3115,
-        3089,
-        3135,
+        4633,
+        3152,
         3157,
-        3020
+        4645,
+        3089,
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -415,72 +399,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Akali: Can ring-crossing empowered attacks consume Spellblade safely without losing spell or shroud timing? Avoid mana purchases for her energy resource.",
-        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Akali throws out five kunai, dealing damage based on her bonus Attack Damage and Ability Power and slowing. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Maintain champion combat through W and R delay with E marked.",
+        "Measure E2 and R2 success through a pressured shroud; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "The route fails Akali's stated kit question: Can ring-crossing empowered attacks consume Spellblade safely without losing spell or shroud timing? Avoid mana purchases for her energy resource.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Disengage prevents ramp and stasis may miss E/R windows.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Invisibility is not invulnerability.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Riftmaker, Hextech Rocketbelt, Zhonya's Hourglass, Shadowflame, Rabadon's Deathcap, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Energy",
       "kitEvidence": [
         {
           "ability": "Twilight Shroud",
           "slot": "W",
           "source": "Characters/Akali/Spells/AkaliWAbility/AkaliW",
           "formula": "Akali drops a smoke bomb, unleashing a spreading cover of smoke lasting [5 / 5.5 / 6 / 6.5 / 7] seconds and granting herself [30 / 35 / 40 / 45 / 50]% Move Speed decaying over [2] seconds.\n\nAkali increases her max Energy by [100] while the shroud is active. \n\nWhile inside the smoke, Akali is Invisible."
-        },
-        {
-          "ability": "Assassin's Mark",
-          "slot": "Passive",
-          "source": "Characters/Akali/Spells/AkaliPAbility/AkaliPWeapon",
-          "formula": "When Akali hits an enemy champion with an Ability, she reveals a ring around them for 4 seconds and gains [characterLevelBreakpoints(start=0.4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed towards the ring. Crossing the ring causes Akali's next Attack to have doubled range and deal an additional [characterLevelBreakpoints(start=39, perLevel=3, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 9.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AD[statFormula=2] + (0.5) × AP] magic damage."
-        },
-        {
-          "ability": "Assassin's Mark",
-          "slot": "Passive",
-          "source": "Characters/Akali/Spells/AkaliPAbility/AkaliP",
-          "formula": "When Akali hits an enemy champion with an Ability, she reveals a ring around them for 4 seconds and gains [UNRESOLVED({4ce08984}; see calculationRaw)] Move Speed towards the ring. Crossing the ring causes Akali's next Attack to have doubled range and deal an additional [characterLevelBreakpoints(start=35, perLevel=3, changes=[{\"mLevel\": 8, \"mBonusPerLevelAtAndAfter\": 9.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AD[statFormula=2] + (0.55) × AP] magic damage."
-        },
-        {
-          "ability": "Assassin's Mark",
-          "slot": "Passive",
-          "source": "Characters/Akali/Spells/AkaliPAbility/AkaliPZoneGround",
-          "formula": "When Akali hits an enemy champion with an Ability, she reveals a ring around them for 4 seconds and gains [characterLevelBreakpoints(start=0.4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed towards the ring. Crossing the ring causes Akali's next Attack to have doubled range and deal an additional [characterLevelBreakpoints(start=39, perLevel=3, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 9.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AD[statFormula=2] + (0.5) × AP] magic damage."
-        },
-        {
-          "ability": "Assassin's Mark",
-          "slot": "Passive",
-          "source": "Characters/Akali/Spells/AkaliQAbility/AkaliQSpellPassive",
-          "formula": "When Akali hits an enemy champion with an Ability, she reveals a ring around them for 4 seconds and gains [characterLevelBreakpoints(start=0.4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed towards the ring. Crossing the ring causes Akali's next Attack to have doubled range and deal an additional [characterLevelBreakpoints(start=39, perLevel=3, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 9.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AD[statFormula=2] + (0.5) × AP] magic damage."
-        },
-        {
-          "ability": "Five Point Strike",
-          "slot": "Q",
-          "source": "Characters/Akali/Spells/AkaliQAbility/AkaliQ",
-          "formula": "Akali slings kunai in an arc, dealing [45 / 70 / 95 / 120 / 145 + (0.65) × AD + (0.6) × AP] magic damage and Slowing enemies at the tip by [50]% for [0.5] seconds."
         },
         {
           "ability": "Perfect Execution",

@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "yone-four-1",
@@ -110,18 +110,20 @@
       ]
     },
     {
-      "id": "yone-four-2",
+      "id": "yone-audit-mixed-blade-penetration-ramp",
       "champion": "Yone",
-      "name": "Damage interaction: Critical carry",
-      "goal": "Damage interaction for Yone: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A melee attack skirmisher who builds a knock-up through Q, takes temporary spirit-form trades and returns after amplifying his attack and ability damage. Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter. Attack cadence, crit and penetration support repeatable carry damage.",
-      "summary": "Attack cadence, crit and penetration support repeatable carry damage.",
+      "name": "Mixed-blade penetration ramp",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether finite mixed penetration repays reduced crit investment during an E window.",
+      "goal": "Test whether finite mixed penetration repays reduced crit investment during an E window.",
+      "hypothesis": "Passive every second attack deals half magic damage; W and R split physical/magic damage. Terminus provides finite armor/MR penetration and defensive stacks through champion attacks, while Rageblade/BotRK support attack packets. E lasts five seconds and repeats a share of documented attack/ability damage, so proc inclusion remains a separate question.",
       "itemIds": [
-        6672,
+        3153,
+        3124,
+        3302,
+        6673,
         3031,
-        3046,
-        3036,
-        3072,
         3006
       ],
       "runePage": [
@@ -135,15 +137,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Yone: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
-        "Start with the early core (Kraken, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Attack cadence, crit and penetration support repeatable carry damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Mortal Steel dashes Yone forward with a gust of wind knocking enemies Airborne. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Fix crit cap, initial Terminus/Rageblade stacks and complete attacks inside one E duration.",
+        "Separate physical/magic packets and E repeat with zero versus recorded pre-stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
-        "The route fails Yone's stated kit question: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Ramp occurs after the target disengages or the return body is threatened.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
-        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Item on-hit damage is not automatically included in E repeat merely because it accompanied an attack.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Kraken, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Phantom Dancer, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Blade of The Ruined King, Guinsoo's Rageblade, Terminus, Immortal Shieldbow, Infinity Edge, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Flow",
       "kitEvidence": [
         {
           "ability": "Mortal Steel",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "yone-four-4",
+      "id": "yone-audit-cleave-shield-duel",
       "champion": "Yone",
-      "name": "Experiment: Attack-led side lane",
-      "goal": "Experiment for Yone: test a different playstyle, with lower confidence",
-      "hypothesis": "A melee attack skirmisher who builds a knock-up through Q, takes temporary spirit-form trades and returns after amplifying his attack and ability damage. Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Cleave shield duel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use a health/AD route to protect repeated W hits during a bounded spirit trade.",
+      "goal": "Use a health/AD route to protect repeated W hits during a bounded spirit trade.",
+      "hypothesis": "W hits grant an AD[statFormula=2] shield increased per champion struck; Visage enhances self shields. Bloodmail gives bounded health-to-AD and missing-health AD, supporting that shield if its retained flag is confirmed. Trinity supplies an actual attack Spellblade and Sundered Sky tests first-attack healing while Q/R provide access.",
       "itemIds": [
-        3153,
+        2501,
         3078,
-        3181,
+        6610,
         3053,
-        6333,
+        3065,
         3047
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
+        8437,
+        8401,
         8444,
-        8451
+        8451,
+        9111,
+        9104
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Yone: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Thrusts forward, damaging all enemies in a line.\n\nOn hit, grants a stack of Gathering Storm for a few seconds. At 2 stacks, Mortal Steel dashes Yone forward with a gust of wind knocking enemies Airborne. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Observed AD/health fixed, W hits one versus two champions and E return body stays safe.",
+        "Log W shield per victim, damage and health retained over a five-second E exchange.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Yone's stated kit question: Record Q knockup readiness and E spirit damage replay. Do not apply replay twice or treat E as a free permanent position; attack-speed/Q limits still matter.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Reduced crit damage/attack speed may lose the trade despite larger shields.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: W shield target count does not make all W damage or health scalings multiply freely.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Flow. Do not treat mana regeneration as Flow recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Overlord's Bloodmail, Trinity Force, Sundered Sky, Sterak's Gage, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Flow",
       "kitEvidence": [
         {
           "ability": "Mortal Steel",
@@ -415,12 +403,6 @@
           "slot": "W",
           "source": "Characters/Yone/Spells/YoneWAbility/YoneW",
           "formula": "Yone cleaves forward, dealing [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health physical damage and [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health magic damage.\n\nIf Yone hits, he gains [characterLevelInterpolation(40 → 90; raw flags preserved) + (0.65) × AD[statFormula=2]] Shield for [1.5] seconds. The amount of Shield increases for each champion struck."
-        },
-        {
-          "ability": "Way of the Hunter",
-          "slot": "Passive",
-          "source": "Characters/Yone/Spells/YonePassiveAbility/YonePassive",
-          "formula": "Steel and Spirit: Yone uses two blades, causing every second Attack to deal [50]% magic damage.\n\nIntent: Yone's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YoneCritToAD*.01@ Bonus AD for every 1% Critical Strike Chance above 100%."
         }
       ]
     }

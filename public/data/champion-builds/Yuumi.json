@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "yuumi-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "yuumi-four-2",
+      "id": "yuumi-audit-best-friend-ap-attack-grant",
       "champion": "Yuumi",
-      "name": "Damage interaction: Protection specialist",
-      "goal": "Damage interaction for Yuumi: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "An attached protector who follows an ally, manages Best Friend bonuses and combines guided poke with shield, attack-speed support and healing waves. Fix attached ally and Best Friend state. Evaluate ally damage/survival and guided Q hits; offensive AP cannot erase attachment targeting and role-income constraints. Healing/shield power and timed actives test preserving an allied carry.",
-      "summary": "Healing/shield power and timed actives test preserving an allied carry.",
+      "name": "Best-friend AP attack grant",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore AP spending for the ally on-hit grant while retaining an eligible heal/shield buff.",
+      "goal": "Explore AP spending for the ally on-hit grant while retaining an eligible heal/shield buff.",
+      "hypothesis": "Best Friend Q grants five seconds of 0.05 AP on-hit damage, enhanced by the ally crit chance, and W grants 0.03 AP healing per ally hit. E supplies AP-scaled attack speed/shield; Ardent adds its own ally attack buff when E shields. Deathcap/Staff test AP investment versus ordinary support power, retaining the quest.",
       "itemIds": [
         3869,
-        6617,
-        3107,
-        3222,
+        3504,
+        6616,
+        3089,
         6621,
         3158
       ],
       "runePage": [
-        8465,
-        8463,
-        8444,
-        8453,
+        8214,
+        8226,
+        8210,
+        8237,
         8345,
         8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Yuumi: Fix attached ally and Best Friend state. Evaluate ally damage/survival and guided Q hits; offensive AP cannot erase attachment targeting and role-income constraints.",
-        "Start with the early core (Support quest, Moonstone only with useful eligible heals/shields, then the needed active) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Healing/shield power and timed actives test preserving an allied carry. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Yuumi fires a missile, dealing damage and slowing first target hit. It deals bonus damage and an enchanced slow if it takes at least 1.35 seconds to get to its target. While on her Best Friend, the slow is always enhanced and grants bonus On-Hit damage to her ally.\n\nWhile Attached, the missile can be controlled with your cursor for a brief period. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Actual Best Friend with recorded attack rate and crit chance; land Q and shield before the attack window.",
+        "Count ally Q-granted on-hit and W healing packets over five seconds at fixed ally crit/attack rate.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "The route fails Yuumi's stated kit question: Fix attached ally and Best Friend state. Evaluate ally damage/survival and guided Q hits; offensive AP cannot erase attachment targeting and role-income constraints.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "A non-Best-Friend attachment or missed Q removes the on-hit grant and expensive AP fails to pay.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Buying crit on Yuumi does not supply the ally crit chance used by Q.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Moonstone only with useful eligible heals/shields, then the needed active. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Redemption, Mikael's Blessing, Dawncore are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Ardent Censer, Staff of Flowing Water, Rabadon's Deathcap, Dawncore, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Prowling Projectile",
@@ -199,12 +193,6 @@
           "slot": "Passive",
           "source": "Characters/Yuumi/Spells/YuumiPAbility/YuumiP",
           "formula": "When Yuumi's Attacks and Abilities strike champions, she heals herself for [characterLevelInterpolation(20 → 110; raw flags preserved) + (0.3) × AP] health. If Yuumi Attaches to an ally within [4] seconds, they are healed as well. This effect has a [characterLevelBreakpoints(start=20, perLevel=-1, changes=[{\"mLevel\": 14, \"__type\": \"Breakpoint\"}])] second Cooldown.\n\nWhile Attached, Yuumi gains Friendship with her ally whenever they kill a champion or minion. The ally with the most Friendship becomes her Best Friend and grants Yuumi bonus effects to her Abilities while she is Attached to them. \n\nThe heal will automatically trigger if Yuumi is already Attached to an ally."
-        },
-        {
-          "ability": "Final Chapter",
-          "slot": "R",
-          "source": "Characters/Yuumi/Spells/YuumiRAbility/YuumiR",
-          "formula": "Yuumi channels for [3.5] seconds, launching [5] magical waves affecting both teams. If initially cast while Attached, Yuumi can steer the waves to follow her mouse.\n\nEnemies struck are dealt [75 / 125 / 175 + (0.25) × AP] magic damage and Slowed by [10]% for [1.25] seconds, increased by [10]% per wave hit.\n\nAlly champions are healed for [30 / 50 / 70 + (0.12) × AP] health per wave. Excess healing is converted to a Shield instead.\n\nBest Friend Bonus: For her Best Friend, the heal is increased to [(30 / 50 / 70 + (0.12) × AP) × (UNRESOLVED({f3cbe7b2}; see calculationRaw))] health.\n\nCasting You and Me! will locks the waves in the current direction.\nYuumi can move and cast Zoomies while channeling."
         },
         {
           "ability": "Zoomies",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "yuumi-four-4",
+      "id": "yuumi-audit-chapter-shield-relay",
       "champion": "Yuumi",
-      "name": "Experiment: AP support gamble",
-      "goal": "Experiment for Yuumi: test a different playstyle, with lower confidence",
-      "hypothesis": "An attached protector who follows an ally, manages Best Friend bonuses and combines guided poke with shield, attack-speed support and healing waves. Fix attached ally and Best Friend state. Evaluate ally damage/survival and guided Q hits; offensive AP cannot erase attachment targeting and role-income constraints. A quest slot retained alongside AP tests whether personal spell damage repays reduced utility. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "A quest slot retained alongside AP tests whether personal spell damage repays reduced utility.",
+      "name": "Chapter shield relay",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Stagger E during the five R waves to keep attack-speed and ally protection useful.",
+      "goal": "Stagger E during the five R waves to keep attack-speed and ally protection useful.",
+      "hypothesis": "R launches five healing waves over 3.5 seconds and excess healing becomes shields; E can be cast during channel, adds shield/attack speed and restores missing-mana-scaled mana while attached. Moonstone can chain eligible ally heals/shields and Helia asks whether Q/R damage charges are consumed by these wave heals. Mikael can remove eligible control so the carrier moves the channel.",
       "itemIds": [
         3869,
-        6655,
-        3089,
-        3135,
-        3157,
-        3020
+        6617,
+        6620,
+        3222,
+        3107,
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Yuumi: Fix attached ally and Best Friend state. Evaluate ally damage/survival and guided Q hits; offensive AP cannot erase attachment targeting and role-income constraints.",
-        "Start with the early core (Support quest, affordable AP/mana core before expensive scaling) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A quest slot retained alongside AP tests whether personal spell damage repays reduced utility. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Yuumi fires a missile, dealing damage and slowing first target hit. It deals bonus damage and an enchanced slow if it takes at least 1.35 seconds to get to its target. While on her Best Friend, the slow is always enhanced and grants bonus On-Hit damage to her ally.\n\nWhile Attached, the missile can be controlled with your cursor for a brief period. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Attached to an ally, R aimed at actual allies/enemies and E timed against incoming damage.",
+        "Log five wave heals/shields, Moonstone chains, Helia charge consumption and E mana restoration.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "The route fails Yuumi's stated kit question: Fix attached ally and Best Friend state. Evaluate ally damage/survival and guided Q hits; offensive AP cannot erase attachment targeting and role-income constraints.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Attaching mid-channel locks direction; healing full targets may create shields that expire unused.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "Full cost 14,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Mikael does not remove airborne or suppression, and each wave is not free stored Helia charges.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, affordable AP/mana core before expensive scaling. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Moonstone Renewer, Echoes of Helia, Mikael's Blessing, Redemption, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Prowling Projectile",
@@ -403,12 +385,6 @@
           "slot": "W",
           "source": "Characters/Yuumi/Spells/YuumiWAbility/YuumiW",
           "formula": "Passive: While on her Best Friend, Yuumi gains an additional [(0.04 / 0.05 / 0.06 / 0.07 / 0.08) × 100]% Heal & Shield Power and her ally also restores [3 / 4 / 5 / 6 / 7 + (0.03) × AP] health On-Hit %i:OnHit%.\n\nActive: Yuumi dashes to an ally champion and Attaches to them. While Yuumi is Attached, she follows her partner's movement and is Untargetable except from towers.\n\nImmobilizing effects on Yuumi place this Ability on a [5] second Cooldown."
-        },
-        {
-          "ability": "Feline Friendship",
-          "slot": "Passive",
-          "source": "Characters/Yuumi/Spells/YuumiPAbility/YuumiP",
-          "formula": "When Yuumi's Attacks and Abilities strike champions, she heals herself for [characterLevelInterpolation(20 → 110; raw flags preserved) + (0.3) × AP] health. If Yuumi Attaches to an ally within [4] seconds, they are healed as well. This effect has a [characterLevelBreakpoints(start=20, perLevel=-1, changes=[{\"mLevel\": 14, \"__type\": \"Breakpoint\"}])] second Cooldown.\n\nWhile Attached, Yuumi gains Friendship with her ally whenever they kill a champion or minion. The ally with the most Friendship becomes her Best Friend and grants Yuumi bonus effects to her Abilities while she is Attached to them. \n\nThe heal will automatically trigger if Yuumi is already Attached to an ally."
         },
         {
           "ability": "Final Chapter",

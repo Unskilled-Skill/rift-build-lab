@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Vayne",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "ap-tumble-packet",
+      "name": "AP tumble packet",
+      "objective": "Investigate Q AP damage in an actual Spellblade attack while preserving Silver Bolts cadence.",
+      "mechanic": "Q next attack adds 0.5 AP but deals physical damage; Lich Bane and Nashor add separate magic attack packets. R reduces Tumble cooldown and grants one second invisibility on Q, buying a spacing window. Rageblade can be tested for Silver Bolts delivery rather than presumed to copy the third-hit counter.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        3100,
+        3115,
+        3124,
+        3089,
+        3135,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Same target for consecutive W actions; finite Rageblade ramp and R active.",
+      "failure": "Low AD and attack commitment can lose damage before the next Silver Bolts trigger.",
+      "test": "Separate physical Q, magic item packets and true W at matched consecutive attacks.",
+      "rejectedAssumption": "Magic penetration does not improve Q physical damage or W true damage.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "condemn-frost-pocket",
+      "name": "Condemn frost pocket",
+      "objective": "Use Q Spellblade slowing to hold a wall angle for Condemn and three real hits.",
+      "mechanic": "Iceborn rewards the actual post-Tumble attack with a frost field; E only gains its extra damage and stun when the target hits terrain. BotRK adds a current-health physical on-hit and three-attack slow, while Terminus supplies finite mixed penetration/resistance stacks. R/Night Hunter improve pursuit after the controlled pocket.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6662,
+        3153,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "A real wall behind the target and same-target attack access; item stacks start recorded.",
+      "failure": "The frost field cannot create terrain or rescue a failed E angle; armor spending lowers carry output.",
+      "test": "Record E wall success and time to three same-target attacks versus a moving opponent.",
+      "rejectedAssumption": "Iceborn slows do not make every Condemn a wall stun.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Runaan freely multiplies Silver Bolts",
+      "reason": "W requires three consecutive actions against an enemy; the source does not establish independent Silver Bolts counters on bolts.",
+      "evidenceSlots": [
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q spell-effects helper remains unresolved; Rageblade/Dusk on-hit effects versus W counters require live validation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Night Hunter",
+      "paths": [
+        "Characters/Vayne/Spells/VaynePassiveAbility/VaynePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Tumble",
+      "paths": [
+        "Characters/Vayne/Spells/VayneTumbleAbility/VayneTumble"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Silver Bolts",
+      "paths": [
+        "Characters/Vayne/Spells/VayneSilveredBoltsAbility/VayneSilveredBolts"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Condemn",
+      "paths": [
+        "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Final Hour",
+      "paths": [
+        "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "vayne-audit-ap-tumble-packet",
+      "champion": "Vayne",
+      "name": "AP tumble packet",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Investigate Q AP damage in an actual Spellblade attack while preserving Silver Bolts cadence.",
+      "goal": "Investigate Q AP damage in an actual Spellblade attack while preserving Silver Bolts cadence.",
+      "hypothesis": "Q next attack adds 0.5 AP but deals physical damage; Lich Bane and Nashor add separate magic attack packets. R reduces Tumble cooldown and grants one second invisibility on Q, buying a spacing window. Rageblade can be tested for Silver Bolts delivery rather than presumed to copy the third-hit counter.",
+      "itemIds": [
+        3100,
+        3115,
+        3124,
+        3089,
+        3135,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Same target for consecutive W actions; finite Rageblade ramp and R active.",
+        "Separate physical Q, magic item packets and true W at matched consecutive attacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low AD and attack commitment can lose damage before the next Silver Bolts trigger.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Magic penetration does not improve Q physical damage or W true damage.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Guinsoo's Rageblade, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Final Hour",
+          "slot": "R",
+          "source": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+          "formula": "Vayne gains [35 / 50 / 65] Attack Damage for [8 / 10 / 12] seconds, extended by [4] seconds whenever a champion damaged by Vayne dies within [3] seconds. Additionally, during the duration:Night Hunter instead grants [90] Move Speed.The Cooldown of Tumble is reduced by [30 / 40 / 50]%, and grants Invisibility for [1] second."
+        },
+        {
+          "ability": "Tumble",
+          "slot": "Q",
+          "source": "Characters/Vayne/Spells/VayneTumbleAbility/VayneTumble",
+          "formula": "Vayne rolls a short distance, and deals an additional [(0.75 / 0.85 / 0.95 / 1.05 / 1.15) × AD + (0.5) × AP] physical damage on her next Attack.\n\n{{ buff_desc_SpellEffects }}"
+        },
+        {
+          "ability": "Silver Bolts",
+          "slot": "W",
+          "source": "Characters/Vayne/Spells/VayneSilveredBoltsAbility/VayneSilveredBolts",
+          "formula": "Passive: Every third consecutive Attack or Ability against an enemy deals an additional [0.04 / 0.055 / 0.07 / 0.085 / 0.1] max Health true damage."
+        }
+      ]
+    },
+    {
+      "id": "vayne-audit-condemn-frost-pocket",
+      "champion": "Vayne",
+      "name": "Condemn frost pocket",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use Q Spellblade slowing to hold a wall angle for Condemn and three real hits.",
+      "goal": "Use Q Spellblade slowing to hold a wall angle for Condemn and three real hits.",
+      "hypothesis": "Iceborn rewards the actual post-Tumble attack with a frost field; E only gains its extra damage and stun when the target hits terrain. BotRK adds a current-health physical on-hit and three-attack slow, while Terminus supplies finite mixed penetration/resistance stacks. R/Night Hunter improve pursuit after the controlled pocket.",
+      "itemIds": [
+        6662,
+        3153,
+        3302,
+        3091,
+        3026,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: A real wall behind the target and same-target attack access; item stacks start recorded.",
+        "Record E wall success and time to three same-target attacks versus a moving opponent.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "The frost field cannot create terrain or rescue a failed E angle; armor spending lowers carry output.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Iceborn slows do not make every Condemn a wall stun.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Iceborn Gauntlet, Blade of The Ruined King, Terminus, Wit's End, Guardian Angel, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Condemn",
+          "slot": "E",
+          "source": "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn",
+          "formula": "Vayne fires a bolt that Knocks Back and deals [50 / 85 / 120 / 155 / 190 + (0.5) × AD[statFormula=2]] physical damage. If the target collides with terrain, they take [(50 / 85 / 120 / 155 / 190 + (0.5) × AD[statFormula=2]) × (1.5)] bonus physical damage and become Stunned for [1.5] seconds."
+        },
+        {
+          "ability": "Night Hunter",
+          "slot": "Passive",
+          "source": "Characters/Vayne/Spells/VaynePassiveAbility/VaynePassive",
+          "formula": "Vayne ruthlessly hunts evil-doers, gaining [30] Move Speed when moving toward nearby enemy champions."
+        },
+        {
+          "ability": "Final Hour",
+          "slot": "R",
+          "source": "Characters/Vayne/Spells/VayneInquisitionAbility/VayneInquisition",
+          "formula": "Vayne gains [35 / 50 / 65] Attack Damage for [8 / 10 / 12] seconds, extended by [4] seconds whenever a champion damaged by Vayne dies within [3] seconds. Additionally, during the duration:Night Hunter instead grants [90] Move Speed.The Cooldown of Tumble is reduced by [30 / 40 / 50]%, and grants Invisibility for [1] second."
+        },
+        {
+          "ability": "Tumble",
+          "slot": "Q",
+          "source": "Characters/Vayne/Spells/VayneTumbleAbility/VayneTumble",
+          "formula": "Vayne rolls a short distance, and deals an additional [(0.75 / 0.85 / 0.95 / 1.05 / 1.15) × AD + (0.5) × AP] physical damage on her next Attack.\n\n{{ buff_desc_SpellEffects }}"
+        },
+        {
+          "ability": "Silver Bolts",
+          "slot": "W",
+          "source": "Characters/Vayne/Spells/VayneSilveredBoltsAbility/VayneSilveredBolts",
+          "formula": "Passive: Every third consecutive Attack or Ability against an enemy deals an additional [0.04 / 0.055 / 0.07 / 0.085 / 0.1] max Health true damage."
+        }
+      ]
+    }
+  ]
+}

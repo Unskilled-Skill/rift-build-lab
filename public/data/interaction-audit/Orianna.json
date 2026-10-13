@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Orianna",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "self-ball-windup",
+      "name": "Self-ball windup",
+      "objective": "Keep the ball on Orianna while ramping same-target attacks.",
+      "mechanic": "Clockwork Windup's AP magic damage increases across attacks on one target within four seconds. Self E adds shield and ball resists while W supplies escape speed. Nashor supports attacks; Dusk provides one spell-followed attack and Cosmic reacts to magic packets.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4629,
+        3089,
+        3137,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Ball attached to self, stable attack target and less than four seconds between attacks.",
+      "failure": "Attack range forces exposure or repeated target switching discards passive ramp.",
+      "test": "Measure first three passive attack packets and damage prevented by self E while alternating versus holding targets.",
+      "rejectedAssumption": "Repeating an on-hit does not establish an extra Clockwork Windup stack.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "protect-then-pulse",
+      "name": "Protect then pulse",
+      "objective": "Use an ally ball carrier to distribute utility and damage in one engagement.",
+      "mechanic": "E shields and supplies attached resists; Staff rewards allied shielding with AP/haste, then W and R originate at the ally's ball. Helia requires Orianna's champion damage before the next E shield. Shurelya supports the carrier's entry; AP improves shield and pulse damage.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6616,
+        6620,
+        2065,
+        3089,
+        3137,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "An allied diver carries the ball within tether range and E is available after champion damage.",
+      "failure": "Automatic ball return invalidates placement or the ally dies before shielding.",
+      "test": "Record ball position, shield amount and Helia consumption for E-before-damage versus damage-before-E.",
+      "rejectedAssumption": "Ball attachment does not transfer Orianna's items to the carrier.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Permanent passive ramp",
+      "reason": "Windup increases only for subsequent attacks on the same target within four seconds, with a cap.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive repeated-on-hit stacking and Helia attribution from remote ball hits need live confirmation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Clockwork Windup",
+      "paths": [
+        "Characters/Orianna/Spells/OriannaPAbility/OriannaP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Command: Attack",
+      "paths": [
+        "Characters/Orianna/Spells/OrianaIzunaCommandAbility/OrianaIzunaCommand"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Command: Dissonance",
+      "paths": [
+        "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Command: Protect",
+      "paths": [
+        "Characters/Orianna/Spells/OrianaRedactCommandAbility/OrianaRedactCommand"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Command: Shockwave",
+      "paths": [
+        "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "orianna-audit-self-ball-windup",
+      "champion": "Orianna",
+      "name": "Self-ball windup",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Keep the ball on Orianna while ramping same-target attacks.",
+      "goal": "Keep the ball on Orianna while ramping same-target attacks.",
+      "hypothesis": "Clockwork Windup's AP magic damage increases across attacks on one target within four seconds. Self E adds shield and ball resists while W supplies escape speed. Nashor supports attacks; Dusk provides one spell-followed attack and Cosmic reacts to magic packets.",
+      "itemIds": [
+        3115,
+        2510,
+        4629,
+        3089,
+        3137,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Ball attached to self, stable attack target and less than four seconds between attacks.",
+        "Measure first three passive attack packets and damage prevented by self E while alternating versus holding targets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Attack range forces exposure or repeated target switching discards passive ramp.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Repeating an on-hit does not establish an extra Clockwork Windup stack.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Command: Protect",
+          "slot": "E",
+          "source": "Characters/Orianna/Spells/OrianaRedactCommandAbility/OrianaRedactCommand",
+          "formula": "Passive: The Ball adds [6 / 12 / 18 / 24 / 30] Armor and [6 / 12 / 18 / 24 / 30] Magic Resist to the allied champion it is attached to.\n\nActive: Orianna commands her Ball to attach to an allied champion, granting them [55 / 90 / 125 / 160 / 195 + (0.45) × AP] Shield for [2.5] seconds. Enemies the Ball passes through take [60 / 90 / 120 / 150 / 180 + (0.3) × AP] magic damage."
+        },
+        {
+          "ability": "Command: Dissonance",
+          "slot": "W",
+          "source": "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand",
+          "formula": "Orianna commands her Ball to release an electric pulse, dealing [70 / 110 / 150 / 190 / 230 + (0.8) × AP] magic damage to surrounding enemies.\n\nThe pulse leaves behind an energy field for [3] seconds, Slowing enemies by [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% and granting allies [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% Move Speed, decaying over [2] seconds."
+        },
+        {
+          "ability": "Clockwork Windup",
+          "slot": "Passive",
+          "source": "Characters/Orianna/Spells/OriannaPAbility/OriannaP",
+          "formula": "Orianna's Abilities originate from her Ball. Orianna's Ball automatically returns to her if she is too far away from it.\n\nOrianna's Attacks deal an additional [characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP] magic damage. Subsequent Attacks against the same target within [4] seconds deal an additional [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × (0.15)] magic damage (max of [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × ((0.15) × (2))] damage)."
+        }
+      ]
+    },
+    {
+      "id": "orianna-audit-protect-then-pulse",
+      "champion": "Orianna",
+      "name": "Protect then pulse",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use an ally ball carrier to distribute utility and damage in one engagement.",
+      "goal": "Use an ally ball carrier to distribute utility and damage in one engagement.",
+      "hypothesis": "E shields and supplies attached resists; Staff rewards allied shielding with AP/haste, then W and R originate at the ally's ball. Helia requires Orianna's champion damage before the next E shield. Shurelya supports the carrier's entry; AP improves shield and pulse damage.",
+      "itemIds": [
+        6616,
+        6620,
+        2065,
+        3089,
+        3137,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: An allied diver carries the ball within tether range and E is available after champion damage.",
+        "Record ball position, shield amount and Helia consumption for E-before-damage versus damage-before-E.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Automatic ball return invalidates placement or the ally dies before shielding.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Ball attachment does not transfer Orianna's items to the carrier.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Staff of Flowing Water, Echoes of Helia, Shurelya's Battlesong, Rabadon's Deathcap, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Command: Protect",
+          "slot": "E",
+          "source": "Characters/Orianna/Spells/OrianaRedactCommandAbility/OrianaRedactCommand",
+          "formula": "Passive: The Ball adds [6 / 12 / 18 / 24 / 30] Armor and [6 / 12 / 18 / 24 / 30] Magic Resist to the allied champion it is attached to.\n\nActive: Orianna commands her Ball to attach to an allied champion, granting them [55 / 90 / 125 / 160 / 195 + (0.45) × AP] Shield for [2.5] seconds. Enemies the Ball passes through take [60 / 90 / 120 / 150 / 180 + (0.3) × AP] magic damage."
+        },
+        {
+          "ability": "Command: Dissonance",
+          "slot": "W",
+          "source": "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand",
+          "formula": "Orianna commands her Ball to release an electric pulse, dealing [70 / 110 / 150 / 190 / 230 + (0.8) × AP] magic damage to surrounding enemies.\n\nThe pulse leaves behind an energy field for [3] seconds, Slowing enemies by [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% and granting allies [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% Move Speed, decaying over [2] seconds."
+        },
+        {
+          "ability": "Clockwork Windup",
+          "slot": "Passive",
+          "source": "Characters/Orianna/Spells/OriannaPAbility/OriannaP",
+          "formula": "Orianna's Abilities originate from her Ball. Orianna's Ball automatically returns to her if she is too far away from it.\n\nOrianna's Attacks deal an additional [characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP] magic damage. Subsequent Attacks against the same target within [4] seconds deal an additional [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × (0.15)] magic damage (max of [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × ((0.15) × (2))] damage)."
+        },
+        {
+          "ability": "Command: Shockwave",
+          "slot": "R",
+          "source": "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand",
+          "formula": "Orianna commands her Ball to unleash a shockwave, dealing [225 / 350 / 475 + (1.1) × AP] magic damage to nearby enemies and Knocking them in the direction of the Ball."
+        }
+      ]
+    }
+  ]
+}

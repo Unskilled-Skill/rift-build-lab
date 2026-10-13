@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "seraphine-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "seraphine-four-2",
+      "id": "seraphine-audit-notes-attack-mage",
       "champion": "Seraphine",
-      "name": "Damage interaction: Mana burn zones",
-      "goal": "Damage interaction for Seraphine: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A team-oriented ranged mage who sequences echoes, combines control with allied effects and consumes notes through a ranged attack. Grouping amplifies her shielding and ultimate reach. Record Echo readiness, ally notes and pre-existing slows/roots for E upgrades. Grouped shielding/R reach cannot be assumed during a solo-target damage test. Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
-      "summary": "Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "name": "Notes attack mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test notes attack mage against conventional damage at equal gold.",
+      "goal": "Test notes attack mage against conventional damage at equal gold.",
+      "hypothesis": "Stage Presence adds 25 attack range and AP-scaled magic damage per note; casting near allies and hitting Encore through them prepares a long-range empowered attack. Nashor supports subsequent attacks and Lich Bane adds one spell-triggered magic packet, but notes are consumed on the first attack.",
       "itemIds": [
-        2503,
-        6653,
-        3116,
-        8010,
-        3157,
-        3020
+        3115,
+        3100,
+        3089,
+        3135,
+        3102,
+        3006
       ],
       "runePage": [
-        8992,
-        8226,
-        8210,
-        8236,
+        9923,
         8126,
-        8106
+        8140,
+        8106,
+        8210,
+        8236
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Seraphine: Record Echo readiness, ally notes and pre-existing slows/roots for E upgrades. Grouped shielding/R reach cannot be assumed during a solo-target damage test.",
-        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Seraphine deals damage in an area. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Several allies near casts and notes banked before attacking.",
+        "Compare first note attack and subsequent two attacks separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "The route fails Seraphine's stated kit question: Record Echo readiness, ally notes and pre-existing slows/roots for E upgrades. Grouped shielding/R reach cannot be assumed during a solo-target damage test.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "After note consumption she loses that temporary range and becomes exposed.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Every attack does not retain maximum notes or permanently extended range.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Void Staff, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Surround Sound",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "seraphine-four-4",
+      "id": "seraphine-audit-slow-to-stun-charge-support",
       "champion": "Seraphine",
-      "name": "Experiment: Mana burst",
-      "goal": "Experiment for Seraphine: test a different playstyle, with lower confidence",
-      "hypothesis": "A team-oriented ranged mage who sequences echoes, combines control with allied effects and consumes notes through a ranged attack. Grouping amplifies her shielding and ultimate reach. Record Echo readiness, ally notes and pre-existing slows/roots for E upgrades. Grouped shielding/R reach cannot be assumed during a solo-target damage test. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Slow-to-stun charge support",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test slow-to-stun charge support against conventional damage at equal gold.",
+      "goal": "Test slow-to-stun charge support against conventional damage at equal gold.",
+      "hypothesis": "Beat Drop upgrades slow to root and immobilization to stun; Rylai tests providing a slow on the damage event, while echoed E offers a second hit. Helia stores damage and WW shielding consumes it for healing; Mandate benefits confirmed immobilizations rather than arbitrary slows.",
       "itemIds": [
-        6655,
-        4645,
-        3089,
-        3135,
-        3157,
-        3020
+        3116,
+        6620,
+        6617,
+        4005,
+        6621,
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Seraphine: Record Echo readiness, ally notes and pre-existing slows/roots for E upgrades. Grouped shielding/R reach cannot be assumed during a solo-target damage test.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Seraphine deals damage in an area. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Echo E available and allies remain inside Surround Sound.",
+        "Compare single E, echoed E and pre-slowed E, then measure WW healing.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Seraphine's stated kit question: Record Echo readiness, ally notes and pre-existing slows/roots for E upgrades. Grouped shielding/R reach cannot be assumed during a solo-target damage test.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Rylai processing order might not upgrade a single E; weak AP reduces damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Rylai's same-hit status ordering needs testing instead of assuming unconditional single-cast root.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Rylai's Crystal Scepter, Echoes of Helia, Moonstone Renewer, Imperial Mandate, Dawncore, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Surround Sound",
@@ -403,12 +391,6 @@
           "slot": "E",
           "source": "Characters/Seraphine/Spells/SeraphineEAbility/SeraphineE",
           "formula": "Seraphine unleashes a heavy soundwave, dealing [70 / 100 / 130 / 160 / 190 + (0.5) × AP] magic damage to enemies in a line and Slowing them by [99]% for [1.1 / 1.2 / 1.3 / 1.4 / 1.5] seconds.\n\nEnemies that are already Slowed are Rooted instead, and Immobilized enemies are Stunned."
-        },
-        {
-          "ability": "High Note",
-          "slot": "Q",
-          "source": "Characters/Seraphine/Spells/SeraphineQAbility/SeraphineQ",
-          "formula": "Seraphine projects a pure note, dealing [60 / 85 / 110 / 135 / 160 + (0.4) × AP] magic damage, increased against champions and monsters by the target's missing Health percentage up to [(60 / 85 / 110 / 135 / 160 + (0.4) × AP) × (1.75)] damage below [25]% Health."
         },
         {
           "ability": "Stage Presence",

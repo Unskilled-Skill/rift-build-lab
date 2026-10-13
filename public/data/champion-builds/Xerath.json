@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "xerath-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "xerath-four-2",
+      "id": "xerath-audit-mana-surge-stun-attack",
       "champion": "Xerath",
-      "name": "Damage interaction: Mana burst",
-      "goal": "Damage interaction for Xerath: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A long-range artillery mage who charges beams, slows targets into skillshots and uses successive ultimate shots to finish from safety. Measure skillshot hit rate and successive R shots from a safe position. Maximum-range Comet and an uninterrupted full R volley cannot be granted on demand. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Mana-surge stun attack",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test a deliberate energized attack after E stun as a resource-positive trade.",
+      "goal": "Test a deliberate energized attack after E stun as a resource-positive trade.",
+      "hypothesis": "Mana Surge restores twice the non-champion amount on a champion attack, on a sixteen-second clock reduced by kills. E stuns up to 2.25 seconds depending on flight distance; RFC extends one attack and Lich Bane adds a separate magic packet after a cast. AP still strengthens Q/W, while Cosmic can support retreat after the hit.",
       "itemIds": [
+        3094,
+        3100,
         6655,
-        4645,
-        3089,
+        4629,
         3135,
-        3157,
         3020
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,43 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Xerath: Measure skillshot hit rate and successive R shots from a safe position. Maximum-range Comet and an uninterrupted full R volley cannot be granted on demand.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Fires a long-range beam of energy, dealing magic damage to all targets hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Passive and energized attack ready; E connects and attacker can reach within the stun.",
+        "Compare E-one-attack-Q with spell-only poke, logging mana restored, attack range and damage taken.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Xerath's stated kit question: Measure skillshot hit rate and successive R shots from a safe position. Maximum-range Comet and an uninterrupted full R volley cannot be granted on demand.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Approaching to attack forfeits artillery safety and wastes the low-AD crit slot.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: RFC extends the charged attack, not Xerath Q/E cast range.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Rapid Firecannon, Lich Bane, Luden's Echo, Cosmic Drive, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Rite of the Arcane",
-          "slot": "R",
-          "source": "Characters/Xerath/Spells/XerathLocusOfPower2Ability/XerathLocusOfPower2",
-          "formula": "Xerath ascends to his true form and channels for [10] seconds. During this time he may Recast up to [4 / 5 / 6] times.\n\nRecast: Xerath launches a magical artillery, dealing [170 / 220 / 270 + (0.45) × AP] magic damage. For each champion hit, the artillery deals an additional [20 / 25 / 30 + (0.05) × AP] magic damage."
-        },
         {
           "ability": "Arcanopulse",
           "slot": "Q",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "xerath-four-4",
+      "id": "xerath-audit-artillery-hit-ladder",
       "champion": "Xerath",
-      "name": "Experiment: Ultimate window",
-      "goal": "Experiment for Xerath: test a different playstyle, with lower confidence",
-      "hypothesis": "A long-range artillery mage who charges beams, slows targets into skillshots and uses successive ultimate shots to finish from safety. Measure skillshot hit rate and successive R shots from a safe position. Maximum-range Comet and an uninterrupted full R volley cannot be granted on demand. Mana and ultimate-oriented item effects test repeated impactful R windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Mana and ultimate-oriented item effects test repeated impactful R windows.",
+      "name": "Artillery hit ladder",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Preserve R hit accuracy while testing debuffs around its per-hit damage growth.",
+      "goal": "Preserve R hit accuracy while testing debuffs around its per-hit damage growth.",
+      "hypothesis": "R fires four to six times and adds AP-scaled damage per champion hit, so later shots depend on actual earlier connections. Horizon reveals targets struck from at least 600 range; Malignance can test Hatefog/MR reduction for R damage and Bloodletter tests debuff ramp. W center slow and E stun help prepare the channel rather than assuming every shot lands.",
       "itemIds": [
         3118,
-        4645,
+        4628,
+        8010,
         3089,
-        3135,
         3157,
         3020
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Xerath: Measure skillshot hit rate and successive R shots from a safe position. Maximum-range Comet and an uninterrupted full R volley cannot be granted on demand.",
-        "Start with the early core (Malignance only if the R interaction is confirmed, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and ultimate-oriented item effects test repeated impactful R windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Fires a long-range beam of energy, dealing magic damage to all targets hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Record R rank, shot count, hits and distance; a safe ten-second channel is possible.",
+        "Measure shot-by-shot damage and MR debuff after a miss versus a connected opening hit.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "The route fails Xerath's stated kit question: Measure skillshot hit rate and successive R shots from a safe position. Maximum-range Comet and an uninterrupted full R volley cannot be granted on demand.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "An interrupted channel or moving target causes misses and removes the claimed shot ladder.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Horizon current catalog is a reveal effect, not an assumed generic damage amplification.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Malignance only if the R interaction is confirmed, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Malignance, Horizon Focus, Bloodletter's Curse, Rabadon's Deathcap, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Rite of the Arcane",
@@ -409,12 +391,6 @@
           "slot": "E",
           "source": "Characters/Xerath/Spells/XerathMageSpearAbility/XerathMageSpear",
           "formula": "Xerath fires an orb of raw magic, Stunning the first enemy hit for up to [2.25] seconds based on distance travelled, and dealing [70 / 100 / 130 / 160 / 190 + (0.45) × AP] magic damage."
-        },
-        {
-          "ability": "Mana Surge",
-          "slot": "Passive",
-          "source": "Characters/Xerath/Spells/XerathAscended2Ability/XerathAscended2",
-          "formula": "Every 16 seconds Xerath's next Attack against a champion restores [(characterLevelBreakpoints(start=30, perLevel=3, changes=[{\"mLevel\": 4, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 9.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 12.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}])) × (2)] Mana. It restores [characterLevelBreakpoints(start=30, perLevel=3, changes=[{\"mLevel\": 4, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 9.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 12.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}])] Mana if attacking minions, jungle monsters or structures.\n\nWhenever Xerath kills a unit, this cooldown is reduced by [3.5] seconds."
         },
         {
           "ability": "Eye of Destruction",

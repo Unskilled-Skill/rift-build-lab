@@ -1,0 +1,319 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Kennen",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "lightning-rush-crit-extension",
+      "name": "Lightning Rush crit extension",
+      "objective": "Keep the post-Rush attack-speed window alive through real crits.",
+      "mechanic": "Lightning Rush grants 50-90% attack speed for four seconds after ending, and current primary text says critical strikes extend it one second. Yun Tal builds crit through attacks, Infinity Edge supports actual crit damage, and Stormrazor helps kite while W's every-fifth attack adds magic damage with AP/AD terms. Terminus addresses the mixed ordinary attack and W output.",
+      "evidenceSlots": [
+        "E",
+        "W",
+        "P",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        3032,
+        3031,
+        3095,
+        3302,
+        3072,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Need E ended, actual crit attacks landing and W counter tracked.",
+      "failure": "No attack access means the window expires; AD investment weakens Q/R burst and mobility consumes energy.",
+      "test": "Measure extension duration, crit count and fifth-W damage versus an enemy that disengages.",
+      "rejectedAssumption": "Extension is conditional on crit events; E itself does not crit or grant permanent attack speed.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "storm-resistance-shred-dive",
+      "name": "Storm resistance shred dive",
+      "objective": "Use repeated storm hits to develop shred while surviving the stun cycle.",
+      "mechanic": "Slicing Maelstrom hits every 0.5 seconds for three seconds, gains damage on successive hits and grants armor/MR. Bloodletter can shred MR through qualifying ability hits; Riftmaker needs sustained combat and Rocketbelt helps maintain storm contact. Zhonya's is a survival tool after committing, while passive marks require three stacks for a stun and energy return.",
+      "evidenceSlots": [
+        "R",
+        "P",
+        "E",
+        "Q",
+        "W"
+      ],
+      "itemIds": [
+        3152,
+        8010,
+        4633,
+        3157,
+        3089,
+        3020
+      ],
+      "pageKey": "after",
+      "requiredState": "Need an entry angle, enemy escape constrained and passive marks developing on priority targets.",
+      "failure": "Blink escapes or early interruption limits storm hits; holding Zhonya too long risks dying first.",
+      "test": "Track storm hit count, shred stacks and stun timing against two separated moving targets.",
+      "rejectedAssumption": "Six ticks are not guaranteed on every target and repeated marks have their own stun behavior.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Mana Rush sustain",
+      "reason": "Kennen uses energy; mana purchases and Manaflow do not extend his cast resource.",
+      "evidenceSlots": [
+        "E",
+        "Q",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "W's fifth-hit on-hit interaction and crit-extension ordering need live checks; R ramp timing must use observed hits."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Mark of the Storm",
+      "paths": [
+        "Characters/Kennen/Spells/KennenPassiveAbility/KennenPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Thundering Shuriken",
+      "paths": [
+        "Characters/Kennen/Spells/KennenShurikenHurlMissile1Ability/KennenShurikenHurlMissile1"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Electrical Surge",
+      "paths": [
+        "Characters/Kennen/Spells/KennenBringTheLightAbility/KennenBringTheLight"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Lightning Rush",
+      "paths": [
+        "Characters/Kennen/Spells/KennenLightningRushAbility/KennenLightningRush"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Slicing Maelstrom",
+      "paths": [
+        "Characters/Kennen/Spells/KennenShurikenStormAbility/KennenShurikenStorm"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "kennen-audit-lightning-rush-crit-extension",
+      "champion": "Kennen",
+      "name": "Lightning Rush crit extension",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Keep the post-Rush attack-speed window alive through real crits.",
+      "goal": "Keep the post-Rush attack-speed window alive through real crits.",
+      "hypothesis": "Lightning Rush grants 50-90% attack speed for four seconds after ending, and current primary text says critical strikes extend it one second. Yun Tal builds crit through attacks, Infinity Edge supports actual crit damage, and Stormrazor helps kite while W's every-fifth attack adds magic damage with AP/AD terms. Terminus addresses the mixed ordinary attack and W output.",
+      "itemIds": [
+        3032,
+        3031,
+        3095,
+        3302,
+        3072,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need E ended, actual crit attacks landing and W counter tracked.",
+        "Measure extension duration, crit count and fifth-W damage versus an enemy that disengages.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "No attack access means the window expires; AD investment weakens Q/R burst and mobility consumes energy.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Extension is conditional on crit events; E itself does not crit or grant permanent attack speed.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Yun Tal Wildarrows, Infinity Edge, Stormrazor, Terminus, Bloodthirster, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Mark of the Storm",
+          "slot": "Passive",
+          "source": "Characters/Kennen/Spells/KennenPassiveAbility/KennenPassive",
+          "formula": "Kennen's abilities apply a stack for [6] seconds. At 3 stacks, enemies are Stunned for [1.25] seconds and Kennen gains [25] Energy."
+        },
+        {
+          "ability": "Slicing Maelstrom",
+          "slot": "R",
+          "source": "Characters/Kennen/Spells/KennenShurikenStormAbility/KennenShurikenStorm",
+          "formula": "Kennen unleashes a magical storm, dealing [40 / 80 / 120 + (0.25) × AP] magic damage to all nearby enemies every [0.5] seconds, and gaining [25 / 50 / 75] Armor and [25 / 50 / 75] Magic Resist for [3] seconds. Successive hits deal [10]% increased damage for each hit the enemy has already suffered."
+        },
+        {
+          "ability": "Lightning Rush",
+          "slot": "E",
+          "source": "Characters/Kennen/Spells/KennenLightningRushAbility/KennenLightningRush",
+          "formula": "Kennen turns into a ball of lightning, gaining [100]% Move Speed, dealing [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage to enemies he passes through, and becoming Ghosted for [2] seconds. If Kennen damages at least one enemy, he gains [40] Energy. \n\nAfter this ability ends, Kennen gains [(0.5 / 0.6 / 0.7 / 0.8 / 0.9) × 100]% Attack Speed for [4] seconds. Critical Strikes extend this duration by [1] second(s). Kennen can Recast to end this Ability early."
+        },
+        {
+          "ability": "Thundering Shuriken",
+          "slot": "Q",
+          "source": "Characters/Kennen/Spells/KennenShurikenHurlMissile1Ability/KennenShurikenHurlMissile1",
+          "formula": "Kennen throws a shuriken, dealing [75 / 125 / 175 / 225 / 275 + (0.75) × AP] magic damage to the first enemy hit."
+        },
+        {
+          "ability": "Electrical Surge",
+          "slot": "W",
+          "source": "Characters/Kennen/Spells/KennenBringTheLightAbility/KennenBringTheLight",
+          "formula": "Passive: Every 5th Attack deals an additional [35 / 45 / 55 / 65 / 75 + (0.35) × AP + (0.8 / 0.9 / 1 / 1.1 / 1.2) × AD[statFormula=2]] magic damage %i:OnHit% On-Hit.\n\nActive: Kennen sends out a blast of electricity, dealing [70 / 95 / 120 / 145 / 170 + (0.8) × AP] magic damage to nearby enemies affected by Mark of the Storm."
+        }
+      ]
+    },
+    {
+      "id": "kennen-audit-storm-resistance-shred-dive",
+      "champion": "Kennen",
+      "name": "Storm resistance shred dive",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use repeated storm hits to develop shred while surviving the stun cycle.",
+      "goal": "Use repeated storm hits to develop shred while surviving the stun cycle.",
+      "hypothesis": "Slicing Maelstrom hits every 0.5 seconds for three seconds, gains damage on successive hits and grants armor/MR. Bloodletter can shred MR through qualifying ability hits; Riftmaker needs sustained combat and Rocketbelt helps maintain storm contact. Zhonya's is a survival tool after committing, while passive marks require three stacks for a stun and energy return.",
+      "itemIds": [
+        3152,
+        8010,
+        4633,
+        3157,
+        3089,
+        3020
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need an entry angle, enemy escape constrained and passive marks developing on priority targets.",
+        "Track storm hit count, shred stacks and stun timing against two separated moving targets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Blink escapes or early interruption limits storm hits; holding Zhonya too long risks dying first.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Six ticks are not guaranteed on every target and repeated marks have their own stun behavior.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Rocketbelt, Bloodletter's Curse, Riftmaker, Zhonya's Hourglass, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Mark of the Storm",
+          "slot": "Passive",
+          "source": "Characters/Kennen/Spells/KennenPassiveAbility/KennenPassive",
+          "formula": "Kennen's abilities apply a stack for [6] seconds. At 3 stacks, enemies are Stunned for [1.25] seconds and Kennen gains [25] Energy."
+        },
+        {
+          "ability": "Slicing Maelstrom",
+          "slot": "R",
+          "source": "Characters/Kennen/Spells/KennenShurikenStormAbility/KennenShurikenStorm",
+          "formula": "Kennen unleashes a magical storm, dealing [40 / 80 / 120 + (0.25) × AP] magic damage to all nearby enemies every [0.5] seconds, and gaining [25 / 50 / 75] Armor and [25 / 50 / 75] Magic Resist for [3] seconds. Successive hits deal [10]% increased damage for each hit the enemy has already suffered."
+        },
+        {
+          "ability": "Lightning Rush",
+          "slot": "E",
+          "source": "Characters/Kennen/Spells/KennenLightningRushAbility/KennenLightningRush",
+          "formula": "Kennen turns into a ball of lightning, gaining [100]% Move Speed, dealing [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage to enemies he passes through, and becoming Ghosted for [2] seconds. If Kennen damages at least one enemy, he gains [40] Energy. \n\nAfter this ability ends, Kennen gains [(0.5 / 0.6 / 0.7 / 0.8 / 0.9) × 100]% Attack Speed for [4] seconds. Critical Strikes extend this duration by [1] second(s). Kennen can Recast to end this Ability early."
+        },
+        {
+          "ability": "Thundering Shuriken",
+          "slot": "Q",
+          "source": "Characters/Kennen/Spells/KennenShurikenHurlMissile1Ability/KennenShurikenHurlMissile1",
+          "formula": "Kennen throws a shuriken, dealing [75 / 125 / 175 / 225 / 275 + (0.75) × AP] magic damage to the first enemy hit."
+        },
+        {
+          "ability": "Electrical Surge",
+          "slot": "W",
+          "source": "Characters/Kennen/Spells/KennenBringTheLightAbility/KennenBringTheLight",
+          "formula": "Passive: Every 5th Attack deals an additional [35 / 45 / 55 / 65 / 75 + (0.35) × AP + (0.8 / 0.9 / 1 / 1.1 / 1.2) × AD[statFormula=2]] magic damage %i:OnHit% On-Hit.\n\nActive: Kennen sends out a blast of electricity, dealing [70 / 95 / 120 / 145 / 170 + (0.8) × AP] magic damage to nearby enemies affected by Mark of the Storm."
+        }
+      ]
+    }
+  ]
+}

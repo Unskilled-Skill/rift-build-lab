@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "urgot-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "urgot-four-2",
+      "id": "urgot-audit-purge-health-ad-orbit",
       "champion": "Urgot",
-      "name": "Damage interaction: Health to attack damage",
-      "goal": "Damage interaction for Urgot: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A short-range juggernaut who circles enemies to fire fresh leg cannons and converts a low-health target into an execute and area fear. Purge provides fixed-rate moving attacks rather than a normal attack-speed steroid. Purge attacks at a fixed rate, so bought attack speed is not ordinary W DPS. Test leg-cannon cooldowns and W on-hit effectiveness; the shred route is conditional on actual attack delivery. Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Purge health-AD orbit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test purge health-ad orbit against conventional damage at equal gold.",
+      "goal": "Test purge health-ad orbit against conventional damage at equal gold.",
+      "hypothesis": "Purge attacks three times per second with AD scaling; Bloodmail and Titanic favor health-driven physical attack pressure while Cleaver supports repeated physical packets. Disdain shields with AD and source-health terms, and Visage supports that shield during the orbit required to expose separate shotgun legs.",
       "itemIds": [
-        3084,
         2501,
         3748,
+        3071,
         3053,
         3065,
         3047
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8010,
         9111,
-        9104
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Urgot: Purge attacks at a fixed rate, so bought attack speed is not ordinary W DPS. Test leg-cannon cooldowns and W on-hit effectiveness; the shred route is conditional on actual attack delivery.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Fires an explosive charge at the target location, dealing physical damage and slowing enemies caught in the explosion. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Max-rank W and enough room to rotate around the victim.",
+        "Measure six-leg exposure, shield size and Purge item damage separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails Urgot's stated kit question: Purge attacks at a fixed rate, so bought attack speed is not ordinary W DPS. Test leg-cannon cooldowns and W on-hit effectiveness; the shred route is conditional on actual attack delivery.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Peel blocks leg access and W can choose an unwanted nearest target.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Purge's fixed firing rate is not increased by ordinary attack-speed purchases.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Overlord's Bloodmail, Titanic Hydra, Black Cleaver, Sterak's Gage, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Purge",
@@ -199,12 +193,6 @@
           "slot": "R",
           "source": "Characters/Urgot/Spells/UrgotRAbility/UrgotR",
           "formula": "Urgot fires a chem-drill, impaling the first champion hit, dealing [100 / 225 / 350 + (0.5) × AD[statFormula=2]] physical damage and Slowing for [4] seconds by 1% per 1% missing Health, up to [75]%.\n\nIf the impaled victim falls below [25]% Health, Urgot can Recast this Ability, Suppressing the victim and dragging them to himself. On reaching Urgot, they are killed and nearby enemies are Feared for [1.5] seconds."
-        },
-        {
-          "ability": "Corrosive Charge",
-          "slot": "Q",
-          "source": "Characters/Urgot/Spells/UrgotQAbility/UrgotQ",
-          "formula": "Urgot fires an explosive charge, dealing [25 / 70 / 115 / 160 / 205 + (0.7) × AD] physical damage and Slowing by [(0.45 / 0.5 / 0.55 / 0.6 / 0.65) × 100]% for [1.25] seconds."
         },
         {
           "ability": "Echoing Flames",
@@ -320,19 +308,21 @@
       ]
     },
     {
-      "id": "urgot-four-4",
+      "id": "urgot-audit-purge-toggle-spellblade-weave",
       "champion": "Urgot",
-      "name": "Experiment: Physical shred",
-      "goal": "Experiment for Urgot: test a different playstyle, with lower confidence",
-      "hypothesis": "A short-range juggernaut who circles enemies to fire fresh leg cannons and converts a low-health target into an execute and area fear. Purge provides fixed-rate moving attacks rather than a normal attack-speed steroid. Purge attacks at a fixed rate, so bought attack speed is not ordinary W DPS. Test leg-cannon cooldowns and W on-hit effectiveness; the shred route is conditional on actual attack delivery. Attack health damage plus repeated physical hits test armor reduction and sustained target access. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Attack health damage plus repeated physical hits test armor reduction and sustained target access.",
+      "name": "Purge toggle Spellblade weave",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test purge toggle spellblade weave against conventional damage at equal gold.",
+      "goal": "Test purge toggle spellblade weave against conventional damage at equal gold.",
+      "hypothesis": "At rank five Purge toggles freely; Trinity tests an ordinary attack between W firing intervals after Q/E, while Blade supplies physical on-hit pressure subject to Purge effectiveness. Eclipse supports separate-hit shielding and Cleaver handles physical shot/leg damage.",
       "itemIds": [
+        3078,
         3153,
         3071,
-        3161,
+        6692,
         6333,
-        3053,
-        3047
+        3111
       ],
       "runePage": [
         8005,
@@ -345,15 +335,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Urgot: Purge attacks at a fixed rate, so bought attack speed is not ordinary W DPS. Test leg-cannon cooldowns and W on-hit effectiveness; the shred route is conditional on actual attack delivery.",
-        "Start with the early core (BotRK or Cleaver by actual damage delivery, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Attack health damage plus repeated physical hits test armor reduction and sustained target access. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Fires an explosive charge at the target location, dealing physical damage and slowing enemies caught in the explosion. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Practice toggle timing so a full ordinary attack lands without losing W uptime.",
+        "Compare uninterrupted W with repeated three-shot-plus-normal-attack cycles.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "BotRK is attack-based and target-current-health based; Cleaver does not reduce MR.",
-        "The route fails Urgot's stated kit question: Purge attacks at a fixed rate, so bought attack speed is not ordinary W DPS. Test leg-cannon cooldowns and W on-hit effectiveness; the shred route is conditional on actual attack delivery.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Poor timing removes more shots than Spellblade adds.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "BotRK is attack-based and target-current-health based; Cleaver does not reduce MR.",
-        "Full cost 17,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Do not assume every Purge bullet gets full on-hit damage or a fresh Spellblade charge.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Cleaver by actual damage delivery, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Spear of Shojin, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Trinity Force, Blade of The Ruined King, Black Cleaver, Eclipse, Death's Dance, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Purge",
@@ -403,12 +385,6 @@
           "slot": "E",
           "source": "Characters/Urgot/Spells/UrgotEAbility/UrgotE",
           "formula": "Urgot charges forward, gaining [55 / 75 / 95 / 115 / 135 + (1.35 / 1.35 / 1.35 / 1.35 / 1.35) × AD[statFormula=2] + (0.135 / 0.135 / 0.135 / 0.135 / 0.135) × Stat(12)[statFormula=2]] Shield for [4] seconds. The first champion hit is Stunned for [1.5] seconds and thrown behind Urgot. All enemies Urgot collides with take [90 / 120 / 150 / 180 / 210 + (1) × AD[statFormula=2]] physical damage."
-        },
-        {
-          "ability": "Fear Beyond Death",
-          "slot": "R",
-          "source": "Characters/Urgot/Spells/UrgotRAbility/UrgotR",
-          "formula": "Urgot fires a chem-drill, impaling the first champion hit, dealing [100 / 225 / 350 + (0.5) × AD[statFormula=2]] physical damage and Slowing for [4] seconds by 1% per 1% missing Health, up to [75]%.\n\nIf the impaled victim falls below [25]% Health, Urgot can Recast this Ability, Suppressing the victim and dragging them to himself. On reaching Urgot, they are killed and nearby enemies are Feared for [1.5] seconds."
         },
         {
           "ability": "Corrosive Charge",

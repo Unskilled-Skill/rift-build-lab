@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Heimerdinger",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "grenade-charge-mark",
+      "name": "Grenade Charge Mark",
+      "objective": "Log E stun mark and charged-shot timing.",
+      "mechanic": "E champion hits fully charge nearby turrets, while W rockets add 20% charge each. Mandate vulnerability can come from the center E stun; Rylai tests retention after charged shots and Cryptbloom can heal on the resulting takedown. AP supports E/W and documented upgraded turret shots.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4005,
+        3116,
+        2503,
+        3137,
+        3089,
+        3158
+      ],
+      "pageKey": "comet",
+      "requiredState": "Active turrets near the enemy and E center connects with allied follow-up.",
+      "failure": "Turrets are inactive/destroyed or grenade only slows.",
+      "test": "Log E stun mark and charged-shot timing; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Grenade peripheral slow alone is not the catalog Mandate immobilization trigger.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "apex-eight-second-zone",
+      "name": "Apex Eight Second Zone",
+      "objective": "Measure Apex shots and Riftmaker combat timer through stasis.",
+      "mechanic": "R Q turret lasts eight seconds, has AP shots/charged shots and a built-in slow. Riftmaker can ramp only while Heimer is in champion combat; Cosmic/P tower movement support staying near the zone, and Zhonya buys controller survival. This relies on AP scaling, not pet attack-item inheritance.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        4629,
+        3157,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "conq",
+      "requiredState": "R Q is chosen and a champion stays inside its zone for several seconds.",
+      "failure": "Enemies wait out eight seconds or controller combat tracking does not recognize pet damage.",
+      "test": "Measure Apex shots and Riftmaker combat timer through stasis; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Pet attacks do not inherit Heimer's Nashor or personal lifesteal.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Turret on-hit inventory",
+      "reason": "Q/R describe turret attacks but grant no ownership of Heimer personal on-hit items.",
+      "evidenceSlots": [
+        "Q",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Ordinary Q turret shot coefficients are absent from resolved tooltip; P speed and E slow are unresolved tokens. Pet item-proc ownership must be observed."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Hextech Affinity",
+      "paths": [
+        "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassive",
+        "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassiveSpeed"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "H-28 G Evolution Turret",
+      "paths": [
+        "Characters/Heimerdinger/Spells/HeimerdingerQAbility/HeimerdingerQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Hextech Micro-Rockets",
+      "paths": [
+        "Characters/Heimerdinger/Spells/HeimerdingerWAbility/HeimerdingerW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "CH-2 Electron Storm Grenade",
+      "paths": [
+        "Characters/Heimerdinger/Spells/HeimerdingerEAbility/HeimerdingerE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "UPGRADE!!!",
+      "paths": [
+        "Characters/Heimerdinger/Spells/HeimerdingerRAbility/HeimerdingerR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "heimerdinger-audit-grenade-charge-mark",
+      "champion": "Heimerdinger",
+      "name": "Grenade Charge Mark",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log E stun mark and charged-shot timing.",
+      "goal": "Log E stun mark and charged-shot timing.",
+      "hypothesis": "E champion hits fully charge nearby turrets, while W rockets add 20% charge each. Mandate vulnerability can come from the center E stun; Rylai tests retention after charged shots and Cryptbloom can heal on the resulting takedown. AP supports E/W and documented upgraded turret shots.",
+      "itemIds": [
+        4005,
+        3116,
+        2503,
+        3137,
+        3089,
+        3158
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Active turrets near the enemy and E center connects with allied follow-up.",
+        "Log E stun mark and charged-shot timing; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Turrets are inactive/destroyed or grenade only slows.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Grenade peripheral slow alone is not the catalog Mandate immobilization trigger.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Imperial Mandate, Rylai's Crystal Scepter, Blackfire Torch, Cryptbloom, Rabadon's Deathcap, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Hextech Micro-Rockets",
+          "slot": "W",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerWAbility/HeimerdingerW",
+          "formula": "Heimerdinger unleashes a barrage of [5] rockets that deal [50 / 75 / 100 / 125 / 150 + (0.55) × AP] magic damage to the first enemy hit. Additional rocket hits deal reduced damage.\n\nMax Damage: [90 / 135 / 180 / 225 / 270 + (1.03) × AP] magic damage.\n\nNearby Turrets gain 20% charge per rocket that hits a champion."
+        },
+        {
+          "ability": "UPGRADE!!!",
+          "slot": "R",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerRAbility/HeimerdingerR",
+          "formula": "Heimerdinger upgrades his next non-ultimate Ability.\n\nH-28Q Apex Turret: Place an upgraded Turret for 8 seconds that doesn't count towards Heimerdinger's max turrets, deals [80 / 100 / 120 + (0.35) × AP] magic damage per shot and [100 / 140 / 180 + (0.7) × AP] magic damage per charged shot. Its attacks deal damage in an area, Slow by 25% for 2 seconds, and it is immune to crowd control.\n\nHextech Rocket Swarm: Fires 4 waves of rockets that each deal [135 / 180 / 225 + (0.45) × AP] magic damage. Champions and jungle monsters hit by additional rockets take reduced damage, and minions take increased damage. Max Damage: [503 / 697.5 / 892 + (1.83) × AP] magic damage. \n\nCH-3X Lightning Grenade: Throws a bouncing grenade that discharges three times, dealing [100 / 200 / 300 + (0.6) × AP] magic damage. The Stun and Slow areas are larger.\n\nRecast: Cancel this Ability."
+        },
+        {
+          "ability": "CH-2 Electron Storm Grenade",
+          "slot": "E",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerEAbility/HeimerdingerE",
+          "formula": "Heimerdinger hurls a grenade that deals [60 / 100 / 140 / 180 / 220 + (0.6) × AP] magic damage in an area and Slows by @SlowPercent.0*100@% for [2] seconds. Enemies in the center are also Stunned for [1.5] seconds.\n\nHitting a champion fully charges nearby Turrets."
+        },
+        {
+          "ability": "H-28 G Evolution Turret",
+          "slot": "Q",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerQAbility/HeimerdingerQ",
+          "formula": "Heimerdinger constructs a Turret that attacks nearby enemies. Heimerdinger can have [3 / 3 / 3 / 3 / 3] turrets active at once. Turrets slowly build up charge. At max charge, they fire a stronger attack.\n\nIf Heimerdinger gets too far away, his Turrets will deactivate after 8 seconds.\n\nThis Ability has [3 / 3 / 3 / 3 / 3] charges."
+        }
+      ]
+    },
+    {
+      "id": "heimerdinger-audit-apex-eight-second-zone",
+      "champion": "Heimerdinger",
+      "name": "Apex Eight Second Zone",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure Apex shots and Riftmaker combat timer through stasis.",
+      "goal": "Measure Apex shots and Riftmaker combat timer through stasis.",
+      "hypothesis": "R Q turret lasts eight seconds, has AP shots/charged shots and a built-in slow. Riftmaker can ramp only while Heimer is in champion combat; Cosmic/P tower movement support staying near the zone, and Zhonya buys controller survival. This relies on AP scaling, not pet attack-item inheritance.",
+      "itemIds": [
+        4633,
+        4629,
+        3157,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R Q is chosen and a champion stays inside its zone for several seconds.",
+        "Measure Apex shots and Riftmaker combat timer through stasis; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Enemies wait out eight seconds or controller combat tracking does not recognize pet damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Pet attacks do not inherit Heimer's Nashor or personal lifesteal.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Cosmic Drive, Zhonya's Hourglass, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "UPGRADE!!!",
+          "slot": "R",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerRAbility/HeimerdingerR",
+          "formula": "Heimerdinger upgrades his next non-ultimate Ability.\n\nH-28Q Apex Turret: Place an upgraded Turret for 8 seconds that doesn't count towards Heimerdinger's max turrets, deals [80 / 100 / 120 + (0.35) × AP] magic damage per shot and [100 / 140 / 180 + (0.7) × AP] magic damage per charged shot. Its attacks deal damage in an area, Slow by 25% for 2 seconds, and it is immune to crowd control.\n\nHextech Rocket Swarm: Fires 4 waves of rockets that each deal [135 / 180 / 225 + (0.45) × AP] magic damage. Champions and jungle monsters hit by additional rockets take reduced damage, and minions take increased damage. Max Damage: [503 / 697.5 / 892 + (1.83) × AP] magic damage. \n\nCH-3X Lightning Grenade: Throws a bouncing grenade that discharges three times, dealing [100 / 200 / 300 + (0.6) × AP] magic damage. The Stun and Slow areas are larger.\n\nRecast: Cancel this Ability."
+        },
+        {
+          "ability": "H-28 G Evolution Turret",
+          "slot": "Q",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerQAbility/HeimerdingerQ",
+          "formula": "Heimerdinger constructs a Turret that attacks nearby enemies. Heimerdinger can have [3 / 3 / 3 / 3 / 3] turrets active at once. Turrets slowly build up charge. At max charge, they fire a stronger attack.\n\nIf Heimerdinger gets too far away, his Turrets will deactivate after 8 seconds.\n\nThis Ability has [3 / 3 / 3 / 3 / 3] charges."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassive",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        },
+        {
+          "ability": "Hextech Affinity",
+          "slot": "Passive",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerPassiveAbility/HeimerdingerPassiveSpeed",
+          "formula": "Heimerdinger gains @MovementSpeed.0*100@% Move Speed near his Turrets and ally towers."
+        }
+      ]
+    }
+  ]
+}

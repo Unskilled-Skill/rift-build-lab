@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "LeeSin",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "safeguard-ap-escort",
+      "name": "Safeguard AP escort",
+      "objective": "Test the 0.8 AP ally shield while retaining peel access.",
+      "mechanic": "Safeguard shields both Lee Sin and a champion ally for two seconds with 0.8 AP scaling; ward casts do not grant the documented champion shield. Helia converts actual damage into allied healing through the shield and Staff/Ardent buff both after protection. Flurry supplies two energy-restoring attacks between casts; E slow and R knockback defend the shield recipient.",
+      "evidenceSlots": [
+        "W",
+        "P",
+        "E",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        6620,
+        6616,
+        3504,
+        3065,
+        3190,
+        3158
+      ],
+      "pageKey": "guard",
+      "requiredState": "Need a champion dash target, enough energy and safe attacks to restore it.",
+      "failure": "Low AD undermines damage threats; a ward escape does not deliver the promised allied shield.",
+      "test": "Measure allied shield and Helia heal with champion casts versus ward casts, then record energy after weaving.",
+      "rejectedAssumption": "Mana regen on support items is a wasted stat, not energy regeneration; no mana pool item is included.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "kick-through-health-bruiser",
+      "name": "Kick-through health bruiser",
+      "objective": "Use a high-health frontliner as a physical projectile.",
+      "mechanic": "Dragon's Rage has 2 AD statFormula=2 physical damage; collision victims additionally take 12-18% of the kicked target's bonus health. Bloodmail/Shojin improve AD-linked spell pressure, Cleaver supports physical damage, and Sundered Sky rewards the Flurry weave. Iron Will's four-second omnivamp helps only when actual damage lands after the kick rather than during a failed displacement.",
+      "evidenceSlots": [
+        "R",
+        "Q",
+        "E",
+        "W",
+        "P"
+      ],
+      "itemIds": [
+        2501,
+        3161,
+        6610,
+        3071,
+        3053,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Need an aligned enemy frontliner and carry behind it, with Q mark for access.",
+      "failure": "A bad angle saves the opponent; the target can reposition before Lee commits.",
+      "test": "Compare primary versus collision damage against targets with different bonus health and identical armor.",
+      "rejectedAssumption": "The collision health bonus comes from the kicked enemy, not Lee Sin's purchased health.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AP Tempest carry",
+      "reason": "E's magic damage uses 0.9 AD, not AP; buying AP primarily improves W shielding.",
+      "evidenceSlots": [
+        "E",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Helia interaction and support-item wasted mana regeneration require practical gold-efficiency testing; raw AD formula flags remain unresolved."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Flurry",
+      "paths": [
+        "Characters/LeeSin/Spells/LeeSinPassiveAbility/LeeSinPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Sonic Wave / Resonating Strike",
+      "paths": [
+        "Characters/LeeSin/Spells/LeeSinQOneAbility/LeeSinQOne"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Safeguard / Iron Will",
+      "paths": [
+        "Characters/LeeSin/Spells/LeeSinWOneAbility/LeeSinWOne"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Tempest / Cripple",
+      "paths": [
+        "Characters/LeeSin/Spells/LeeSinEOneAbility/LeeSinEOne"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Dragon's Rage",
+      "paths": [
+        "Characters/LeeSin/Spells/LeeSinRAbility/LeeSinR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "leesin-audit-safeguard-ap-escort",
+      "champion": "LeeSin",
+      "name": "Safeguard AP escort",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test the 0.8 AP ally shield while retaining peel access.",
+      "goal": "Test the 0.8 AP ally shield while retaining peel access.",
+      "hypothesis": "Safeguard shields both Lee Sin and a champion ally for two seconds with 0.8 AP scaling; ward casts do not grant the documented champion shield. Helia converts actual damage into allied healing through the shield and Staff/Ardent buff both after protection. Flurry supplies two energy-restoring attacks between casts; E slow and R knockback defend the shield recipient.",
+      "itemIds": [
+        6620,
+        6616,
+        3504,
+        3065,
+        3190,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need a champion dash target, enough energy and safe attacks to restore it.",
+        "Measure allied shield and Helia heal with champion casts versus ward casts, then record energy after weaving.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low AD undermines damage threats; a ward escape does not deliver the promised allied shield.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Mana regen on support items is a wasted stat, not energy regeneration; no mana pool item is included.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Ardent Censer, Spirit Visage, Locket of the Iron Solari, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Flurry",
+          "slot": "Passive",
+          "source": "Characters/LeeSin/Spells/LeeSinPassiveAbility/LeeSinPassive",
+          "formula": "Lee Sin's Abilities grant him [40]% Attack Speed for two Attacks. The first Attack restores [(characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])) × (2)] Energy and the second restores [characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])] Energy."
+        },
+        {
+          "ability": "Sonic Wave / Resonating Strike",
+          "slot": "Q",
+          "source": "Characters/LeeSin/Spells/LeeSinQOneAbility/LeeSinQOne",
+          "formula": "Lee Sin projects a discordant wave of sound, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage to the first enemy hit, granting True Sight of them, and allows Lee Sin to Recast for the next [3] seconds.\n\nRecast: Lee Sin dashes to the enemy hit by the sound wave, dealing between [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] to [(60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]) × (2)] physical damage scaling with the target's missing Health."
+        },
+        {
+          "ability": "Dragon's Rage",
+          "slot": "R",
+          "source": "Characters/LeeSin/Spells/LeeSinRAbility/LeeSinR",
+          "formula": "Lee Sin performs a powerful roundhouse kick Knocking Back an enemy champion and dealing [175 / 400 / 625 + (2) × AD[statFormula=2]] physical damage.\n\nEnemies the target collides with are briefly Knocked Up and take [175 / 400 / 625 + (2) × AD[statFormula=2]] plus [12 / 15 / 18]% of the kicked enemy's bonus Health as physical damage."
+        },
+        {
+          "ability": "Tempest / Cripple",
+          "slot": "E",
+          "source": "Characters/LeeSin/Spells/LeeSinEOneAbility/LeeSinEOne",
+          "formula": "Lee Sin smashes the ground, sending out a shockwave that deals [35 / 60 / 85 / 110 / 135 + (0.9) × AD] magic damage and reveals them for [4] seconds. If this hits an enemy, Lee Sin can Recast for the next [3] seconds.\n\nRecast: Lee Sin Slows nearby enemies struck by the shockwave by [35 / 45 / 55 / 65 / 75]% decaying over [4] seconds."
+        },
+        {
+          "ability": "Safeguard / Iron Will",
+          "slot": "W",
+          "source": "Characters/LeeSin/Spells/LeeSinWOneAbility/LeeSinWOne",
+          "formula": "Lee Sin dashes to an ally or ward. If the target is a champion, Lee Sin grants them and himself [60 / 105 / 150 / 195 / 240 + (0.8) × AP] Shield for [2] seconds. Lee Sin may Recast for the next [3] seconds.\n\nRecast: Lee Sin gains [10 / 14 / 18 / 22 / 26]% Omnivamp for [4] seconds."
+        }
+      ]
+    },
+    {
+      "id": "leesin-audit-kick-through-health-bruiser",
+      "champion": "LeeSin",
+      "name": "Kick-through health bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use a high-health frontliner as a physical projectile.",
+      "goal": "Use a high-health frontliner as a physical projectile.",
+      "hypothesis": "Dragon's Rage has 2 AD statFormula=2 physical damage; collision victims additionally take 12-18% of the kicked target's bonus health. Bloodmail/Shojin improve AD-linked spell pressure, Cleaver supports physical damage, and Sundered Sky rewards the Flurry weave. Iron Will's four-second omnivamp helps only when actual damage lands after the kick rather than during a failed displacement.",
+      "itemIds": [
+        2501,
+        3161,
+        6610,
+        3071,
+        3053,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need an aligned enemy frontliner and carry behind it, with Q mark for access.",
+        "Compare primary versus collision damage against targets with different bonus health and identical armor.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A bad angle saves the opponent; the target can reposition before Lee commits.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The collision health bonus comes from the kicked enemy, not Lee Sin's purchased health.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Spear of Shojin, Sundered Sky, Black Cleaver, Sterak's Gage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Flurry",
+          "slot": "Passive",
+          "source": "Characters/LeeSin/Spells/LeeSinPassiveAbility/LeeSinPassive",
+          "formula": "Lee Sin's Abilities grant him [40]% Attack Speed for two Attacks. The first Attack restores [(characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])) × (2)] Energy and the second restores [characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}])] Energy."
+        },
+        {
+          "ability": "Sonic Wave / Resonating Strike",
+          "slot": "Q",
+          "source": "Characters/LeeSin/Spells/LeeSinQOneAbility/LeeSinQOne",
+          "formula": "Lee Sin projects a discordant wave of sound, dealing [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage to the first enemy hit, granting True Sight of them, and allows Lee Sin to Recast for the next [3] seconds.\n\nRecast: Lee Sin dashes to the enemy hit by the sound wave, dealing between [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] to [(60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]) × (2)] physical damage scaling with the target's missing Health."
+        },
+        {
+          "ability": "Dragon's Rage",
+          "slot": "R",
+          "source": "Characters/LeeSin/Spells/LeeSinRAbility/LeeSinR",
+          "formula": "Lee Sin performs a powerful roundhouse kick Knocking Back an enemy champion and dealing [175 / 400 / 625 + (2) × AD[statFormula=2]] physical damage.\n\nEnemies the target collides with are briefly Knocked Up and take [175 / 400 / 625 + (2) × AD[statFormula=2]] plus [12 / 15 / 18]% of the kicked enemy's bonus Health as physical damage."
+        },
+        {
+          "ability": "Tempest / Cripple",
+          "slot": "E",
+          "source": "Characters/LeeSin/Spells/LeeSinEOneAbility/LeeSinEOne",
+          "formula": "Lee Sin smashes the ground, sending out a shockwave that deals [35 / 60 / 85 / 110 / 135 + (0.9) × AD] magic damage and reveals them for [4] seconds. If this hits an enemy, Lee Sin can Recast for the next [3] seconds.\n\nRecast: Lee Sin Slows nearby enemies struck by the shockwave by [35 / 45 / 55 / 65 / 75]% decaying over [4] seconds."
+        },
+        {
+          "ability": "Safeguard / Iron Will",
+          "slot": "W",
+          "source": "Characters/LeeSin/Spells/LeeSinWOneAbility/LeeSinWOne",
+          "formula": "Lee Sin dashes to an ally or ward. If the target is a champion, Lee Sin grants them and himself [60 / 105 / 150 / 195 / 240 + (0.8) × AP] Shield for [2] seconds. Lee Sin may Recast for the next [3] seconds.\n\nRecast: Lee Sin gains [10 / 14 / 18 / 22 / 26]% Omnivamp for [4] seconds."
+        }
+      ]
+    }
+  ]
+}

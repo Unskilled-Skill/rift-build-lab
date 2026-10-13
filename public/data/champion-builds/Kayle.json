@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "kayle-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "kayle-four-2",
+      "id": "kayle-audit-blessing-damage-charge",
       "champion": "Kayle",
-      "name": "Damage interaction: AP sustained duel",
-      "goal": "Damage interaction for Kayle: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A level-scaling attack carry who grows from limited early reach into ranged wave attacks, using healing and invulnerability to preserve attack time. Use the recorded level/form and passive wave state. Compare AP/on-hit with crit at the actual attack range; R invulnerability preserves attack time but has a real cooldown. AP plus real attack cadence tests sustained contact and later penetration.",
-      "summary": "AP plus real attack cadence tests sustained contact and later penetration.",
+      "name": "Blessing Damage Charge",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure Helia charge use and ally attack uptime during W movement.",
+      "goal": "Measure Helia charge use and ally attack uptime during W movement.",
+      "hypothesis": "W heals both Kayle and an ally and has AP-scaled movement. Q/actual attacks can store Helia champion damage before W; Staff grants AP/haste after allied healing, supporting E passive magic and a later W. R gives invulnerability access to preserve the beneficiary.",
       "itemIds": [
-        4633,
+        6620,
+        6616,
         3115,
         3089,
-        3135,
-        3157,
-        3111
+        3137,
+        3158
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
-        8444,
-        8451
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kayle: Use the recorded level/form and passive wave state. Compare AP/on-hit with crit at the actual attack range; R invulnerability preserves attack time but has a real cooldown.",
-        "Start with the early core (Riftmaker, then Nashor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP plus real attack cadence tests sustained contact and later penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kayle conjures a portal, summoning a celestial sword that pierces through enemies, slowing, damaging, and reducing the resistances of all hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: W affects another ally after Kayle deals champion damage; record level/Exalted state.",
+        "Measure Helia charge use and ally attack uptime during W movement; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
-        "The route fails Kayle's stated kit question: Use the recorded level/form and passive wave state. Compare AP/on-hit with crit at the actual attack range; R invulnerability preserves attack time but has a real cooldown.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Utility investment reduces carry damage and W mana/cooldown limits repetition.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
-        "Full cost 17,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Self-only healing does not satisfy Helia/Staff allied trigger.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Riftmaker, then Nashor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Nashor's Tooth, Rabadon's Deathcap, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Starfire Spellblade",
@@ -320,18 +314,20 @@
       ]
     },
     {
-      "id": "kayle-four-4",
+      "id": "kayle-audit-exalted-wave-threshold",
       "champion": "Kayle",
-      "name": "Experiment: Multi-target carry",
-      "goal": "Experiment for Kayle: test a different playstyle, with lower confidence",
-      "hypothesis": "A level-scaling attack carry who grows from limited early reach into ranged wave attacks, using healing and invulnerability to preserve attack time. Use the recorded level/form and passive wave state. Compare AP/on-hit with crit at the actual attack range; R invulnerability preserves attack time but has a real cooldown. Runaan asks whether real multi-target attacks improve teamfight output. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Runaan asks whether real multi-target attacks improve teamfight output.",
+      "name": "Exalted Wave Threshold",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Separate wave, E and ordinary attack damage above and below 40%.",
+      "goal": "Separate wave, E and ordinary attack damage above and below 40%.",
+      "hypothesis": "At level 11 Exalted attacks launch AP magic waves and at 16 Exalted is permanent. E also adds AP magic and missing-health damage; Shadowflame tests qualifying low-health wave/E packets while Riftmaker rewards real combat duration. Nashor supports actual attacks and Q removes both resists before delivery.",
       "itemIds": [
-        3032,
-        3085,
-        3031,
-        3036,
-        3072,
+        3115,
+        4633,
+        4645,
+        3089,
+        3135,
         3006
       ],
       "runePage": [
@@ -345,15 +341,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kayle: Use the recorded level/form and passive wave state. Compare AP/on-hit with crit at the actual attack range; R invulnerability preserves attack time but has a real cooldown.",
-        "Start with the early core (Yun Tal, then Runaan) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Runaan asks whether real multi-target attacks improve teamfight output. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kayle conjures a portal, summoning a celestial sword that pierces through enemies, slowing, damaging, and reducing the resistances of all hit. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Level 11 with five P stacks or level 16; target below 40% for Shadowflame.",
+        "Separate wave, E and ordinary attack damage above and below 40%; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
-        "The route fails Kayle's stated kit question: Use the recorded level/form and passive wave state. Compare AP/on-hit with crit at the actual attack range; R invulnerability preserves attack time but has a real cooldown.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Pre-Exalted state removes waves or kiting prevents ramp.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
-        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Rageblade on-hit repetition is not proof of duplicated fire waves.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Yun Tal, then Runaan. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Infinity Edge, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Riftmaker, Shadowflame, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Starfire Spellblade",
@@ -409,18 +397,6 @@
           "slot": "Passive",
           "source": "Characters/Kayle/Spells/KaylePassiveAbility/KaylePassive",
           "formula": "Kayle's attacks rank up as she gains levels and spends skill points.\n\nLevel [1] - Zealous: Attacks grant [6]% Attack Speed for [5] seconds (max 5 stacks). At max stacks Kayle becomes Exalted, gaining [10]% Move Speed.\nLevel [6] - Arisen: Attack range is increased to [525].\nLevel [11] - Aflame: Exalted attacks launch fire waves that deal [characterLevelBreakpoints(start=20, perLevel=0, changes=[{\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}]) + (0.25) × AP + (0.1) × AD[statFormula=2]] magic damage.\nLevel [16] - Transcendent: Become permanently Exalted. Attack range is increased to [625]."
-        },
-        {
-          "ability": "Celestial Blessing",
-          "slot": "W",
-          "source": "Characters/Kayle/Spells/KayleWAbility/KayleW",
-          "formula": "Kayle infuses herself and an allied champion with light, restoring [55 / 80 / 105 / 130 / 155 + (0.25) × AP] Health and granting [0.24 / 0.28 / 0.32 / 0.36 / 0.4 + (0.0008) × AP] Move Speed for [2] seconds."
-        },
-        {
-          "ability": "Divine Judgment",
-          "slot": "R",
-          "source": "Characters/Kayle/Spells/KayleRAbility/KayleR",
-          "formula": "Kayle makes an allied champion Invulnerable for [2.5] seconds and then purifies the area around them, dealing [200 / 300 / 400 + (0.7) × AP + (1) × AD[statFormula=2]] magic damage to nearby enemies."
         }
       ]
     }

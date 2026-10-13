@@ -1,0 +1,283 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Graves",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "pellet-dash-defense",
+      "name": "Pellet Dash Defense",
+      "objective": "Record pellet count, E cooldown and resist stacks during close versus distant shots.",
+      "mechanic": "Each attack bullet hit reduces E cooldown by 0.5 seconds. E reloads one shell, grants armor/MR stacks and doubles stacks when dashing toward a champion. Close contact can connect more pellets; Trinity rewards cast/shot weaving and Death's Dance extends stack maintenance.",
+      "evidenceSlots": [
+        "P",
+        "E"
+      ],
+      "itemIds": [
+        3078,
+        6610,
+        3071,
+        6333,
+        3053,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Dash toward a champion and connect pellets without front-unit interception.",
+      "failure": "Spread/missed pellets lose E acceleration; stacks lapse before the next fight.",
+      "test": "Record pellet count, E cooldown and resist stacks during close versus distant shots; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Four pellets do not prove four full item on-hit applications.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "terrain-return-round",
+      "name": "Terrain Return Round",
+      "objective": "Compare wall-triggered Q return reliability with open-space shots.",
+      "mechanic": "Q detonates immediately after terrain collision rather than waiting one second. Shojin supports repeat Q/E and Eclipse rewards separate physical hits; Collector/AD assist finishing while Cleaver supports repeated physical packets. W vision denial helps position the terrain shot.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3161,
+        6692,
+        6676,
+        3071,
+        6333,
+        3158
+      ],
+      "pageKey": "first",
+      "requiredState": "Target stays in the return line near terrain.",
+      "failure": "Open-space Q delay is escaped or W's AP magic hit contributes little.",
+      "test": "Compare wall-triggered Q return reliability with open-space shots; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Primary and cone R damage are not both freely assigned to the same target.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Normal crit shotgun model",
+      "reason": "P explicitly changes crit into six bullets and a special modifier; ordinary single-projectile crit math is invalid.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "P level-table raw entries and Stat(9) crit basis need checking; E now lists MR as well as armor, so older armor-only assumptions are rejected.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "New Destiny",
+      "paths": [
+        "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "End of the Line",
+      "paths": [
+        "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Smoke Screen",
+      "paths": [
+        "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Quickdraw",
+      "paths": [
+        "Characters/Graves/Spells/GravesMoveAbility/GravesMove"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Collateral Damage",
+      "paths": [
+        "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "graves-audit-pellet-dash-defense",
+      "champion": "Graves",
+      "name": "Pellet Dash Defense",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Record pellet count, E cooldown and resist stacks during close versus distant shots.",
+      "goal": "Record pellet count, E cooldown and resist stacks during close versus distant shots.",
+      "hypothesis": "Each attack bullet hit reduces E cooldown by 0.5 seconds. E reloads one shell, grants armor/MR stacks and doubles stacks when dashing toward a champion. Close contact can connect more pellets; Trinity rewards cast/shot weaving and Death's Dance extends stack maintenance.",
+      "itemIds": [
+        3078,
+        6610,
+        3071,
+        6333,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Dash toward a champion and connect pellets without front-unit interception.",
+        "Record pellet count, E cooldown and resist stacks during close versus distant shots; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Spread/missed pellets lose E acceleration; stacks lapse before the next fight.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Four pellets do not prove four full item on-hit applications.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Sundered Sky, Black Cleaver, Death's Dance, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "New Destiny",
+          "slot": "Passive",
+          "source": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+          "formula": "Graves' Attacks have unique properties:\nIt can only fire two Shells before he must reload. Attack Speed reduces reload time slightly, but reduces time between shots dramatically.Each Attack fires 4 bullets. The first bullet on a target deals [(characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD] physical damage, and subsequent bullets deal [((characterLevelTable[0, 0.700002, 0.711298, 0.723388, 0.736273, 0.749951, 0.764424, 0.779692, 0.795753, 0.812609, 0.830259, 0.848703, 0.867941, 0.887974, 0.908801, 0.930422, 0.952838, 0.976048, 1.00005, 1.02485, 1.05044, 1.07683, 1.10401, 1.13199, 1.16076, 1.19032, 1.22068, 1.25183, 1.28378, 1.31652, 1.35005]) × AD) × (0.333)] each. Instead of normal Critical effects, Critical strikes fire 6 bullets and deal [(0.5) × ((-1 + (1) × Stat(9)))] more damage. Structures take [25]% reduced damage.Bullets stop on the first unit hit. Non-champions struck by multiple bullets are Knocked Back."
+        },
+        {
+          "ability": "Quickdraw",
+          "slot": "E",
+          "source": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+          "formula": "Graves dashes and reloads one Shell into his shotgun. He also gains a stack for [4] seconds (max [8] stacks) or two stacks if he dashes towards an enemy champion. Stacks grant him [7 / 10 / 13 / 16 / 19] Armor and [(7 / 10 / 13 / 16 / 19) × (0.5)] Magic Resist. Stacks are refreshed when damaging a non-minion.\n\nEach bullet hit from Graves' Attacks reduces this Ability's Cooldown by [0.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "graves-audit-terrain-return-round",
+      "champion": "Graves",
+      "name": "Terrain Return Round",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare wall-triggered Q return reliability with open-space shots.",
+      "goal": "Compare wall-triggered Q return reliability with open-space shots.",
+      "hypothesis": "Q detonates immediately after terrain collision rather than waiting one second. Shojin supports repeat Q/E and Eclipse rewards separate physical hits; Collector/AD assist finishing while Cleaver supports repeated physical packets. W vision denial helps position the terrain shot.",
+      "itemIds": [
+        3161,
+        6692,
+        6676,
+        3071,
+        6333,
+        3158
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Target stays in the return line near terrain.",
+        "Compare wall-triggered Q return reliability with open-space shots; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Open-space Q delay is escaped or W's AP magic hit contributes little.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Primary and cone R damage are not both freely assigned to the same target.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Spear of Shojin, Eclipse, The Collector, Black Cleaver, Death's Dance, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "End of the Line",
+          "slot": "Q",
+          "source": "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+          "formula": "Graves fires a powder round dealing [50 / 75 / 100 / 125 / 150 + (0.55) × AD[statFormula=2]] physical damage. After 1 second or after colliding with terrain, it detonates, dealing [80 / 125 / 170 / 215 / 260 + (0.45 / 0.6 / 0.75 / 0.9 / 1.05) × AD[statFormula=2]] physical damage along the travel path again and to enemies near the blast."
+        },
+        {
+          "ability": "Smoke Screen",
+          "slot": "W",
+          "source": "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+          "formula": "Graves creates a cloud of black smoke for 4 seconds, Slowing enemies inside by [50]% and blocking their vision outside the area. The initial impact deals [60 / 110 / 160 / 210 / 260 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Quickdraw",
+          "slot": "E",
+          "source": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+          "formula": "Graves dashes and reloads one Shell into his shotgun. He also gains a stack for [4] seconds (max [8] stacks) or two stacks if he dashes towards an enemy champion. Stacks grant him [7 / 10 / 13 / 16 / 19] Armor and [(7 / 10 / 13 / 16 / 19) × (0.5)] Magic Resist. Stacks are refreshed when damaging a non-minion.\n\nEach bullet hit from Graves' Attacks reduces this Ability's Cooldown by [0.5] seconds."
+        }
+      ]
+    }
+  ]
+}

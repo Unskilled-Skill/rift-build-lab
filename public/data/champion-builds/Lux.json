@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "lux-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "lux-four-2",
+      "id": "lux-audit-double-pass-charge-heal",
       "champion": "Lux",
-      "name": "Damage interaction: Mana burst",
-      "goal": "Damage interaction for Lux: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged catch mage who zones with E, roots two targets with Q and cashes spell marks through attacks or her laser. Separate E/Q/R spell burst, passive-mark consumption by a real attack and allied shield value. Lich Bane requires stepping into attack range safely. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Double Pass Charge Heal",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log two shield passes and Helia consumption per pass.",
+      "goal": "Log two shield passes and Helia consumption per pass.",
+      "hypothesis": "W shields allies on outward and return passes. Q/E champion damage can preload Helia before W, while Staff gives AP/haste on allied shielding; AP improves both shield passes. Q immobilization can supply Mandate vulnerability to support the ally's damage.",
       "itemIds": [
-        6655,
-        4645,
+        6620,
+        6616,
+        4005,
         3089,
-        3135,
-        3157,
-        3020
+        3107,
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Lux: Separate E/Q/R spell burst, passive-mark consumption by a real attack and allied shield value. Lich Bane requires stepping into attack range safely.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Lux releases a sphere of light that binds and deals damage to up to two enemy units. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: An ally intersects both W paths after champion damage and Q hits for Mandate.",
+        "Log two shield passes and Helia consumption per pass; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Lux's stated kit question: Separate E/Q/R spell burst, passive-mark consumption by a real attack and allied shield value. Lich Bane requires stepping into attack range safely.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Return path misses the ally or charges were already consumed.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Two shield passes do not prove two full independent Helia heals.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Imperial Mandate, Rabadon's Deathcap, Redemption, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Prismatic Barrier",
@@ -195,22 +189,10 @@
           "formula": "Lux fires a ball of light, Rooting the first two enemies for [2] seconds and dealing [80 / 120 / 160 / 200 / 240 + (0.75) × AP] magic damage to each."
         },
         {
-          "ability": "Illumination",
-          "slot": "Passive",
-          "source": "Characters/Lux/Spells/LuxIlluminationPassiveAbility/LuxIlluminationPassive",
-          "formula": "Lux's damaging Abilities mark enemies for [6] seconds. Lux's Attacks consume the mark, dealing [characterLevelTable[20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320] + (0.35) × AP] magic damage.\n\nFinal Spark will consume marks on enemies it hits and refresh them."
-        },
-        {
           "ability": "Lucent Singularity",
           "slot": "E",
           "source": "Characters/Lux/Spells/LuxLightStrikeKugelAbility/LuxLightStrikeKugel",
           "formula": "Lux creates a light zone that Slows by [25 / 30 / 35 / 40 / 45]% and reveals the area. After [5] seconds or on Recasting this Ability, it detonates, dealing [65 / 115 / 165 / 215 / 265 + (0.8) × AP] magic damage and Slowing for an additional [1] second."
-        },
-        {
-          "ability": "Final Spark",
-          "slot": "R",
-          "source": "Characters/Lux/Spells/LuxRAbility/LuxR",
-          "formula": "Lux fires a dazzling ray of light, dealing [300 / 400 / 500 + (1.2) × AP] magic damage to all enemies in a line."
         }
       ]
     },
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "lux-four-4",
+      "id": "lux-audit-spark-mark-reload",
       "champion": "Lux",
-      "name": "Experiment: Spell-and-attack",
-      "goal": "Experiment for Lux: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged catch mage who zones with E, roots two targets with Q and cashes spell marks through attacks or her laser. Separate E/Q/R spell burst, passive-mark consumption by a real attack and allied shield value. Lich Bane requires stepping into attack range safely. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "name": "Spark Mark Reload",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count marks consumed during Q-attack-R-attack sequence.",
+      "goal": "Count marks consumed during Q-attack-R-attack sequence.",
+      "hypothesis": "P says R consumes existing Illumination and refreshes it. Q/root enables an attack before R and a second attack after R; Lich Bane/Nashor reward the risky short-range weave while Cosmic/E slow can preserve access. AP keeps R and mark damage relevant.",
       "itemIds": [
         3100,
         3115,
+        4629,
         3089,
         3135,
-        3157,
-        3020
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
+        9923,
+        8126,
         8140,
         8106,
-        8233,
-        8237
+        8210,
+        8236
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +345,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Lux: Separate E/Q/R spell burst, passive-mark consumption by a real attack and allied shield value. Lich Bane requires stepping into attack range safely.",
-        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Lux releases a sphere of light that binds and deals damage to up to two enemy units. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Target survives first attack/R and Lux can safely reach for refreshed mark.",
+        "Count marks consumed during Q-attack-R-attack sequence; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "The route fails Lux's stated kit question: Separate E/Q/R spell burst, passive-mark consumption by a real attack and allied shield value. Lich Bane requires stepping into attack range safely.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Approaching for two attacks forfeits range advantage or the target dies before the second mark.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: R refresh does not grant unlimited marks or free attack resets.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Cosmic Drive, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Prismatic Barrier",
-          "slot": "W",
-          "source": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave",
-          "formula": "Lux throws her wand, granting [40 / 55 / 70 / 85 / 100 + (0.4) × AP] Shield for [2.5] seconds to allies it passes through. Then it returns, granting the same Shield on its return."
-        },
         {
           "ability": "Light Binding",
           "slot": "Q",

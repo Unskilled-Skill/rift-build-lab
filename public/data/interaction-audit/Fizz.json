@@ -1,0 +1,285 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Fizz",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "nonlethal-trident-window",
+      "name": "Nonlethal Trident Window",
+      "objective": "Compare W nonlethal follow-up versus W kill/refund sequence.",
+      "mechanic": "If W's empowered attack fails to kill, it grants five seconds of AP magic damage on subsequent attacks. Nashor/Dusk and Dawn reward this actual attack window, and Q provides access. Cosmic and Riftmaker help stay close while W bleed continues.",
+      "evidenceSlots": [
+        "Q",
+        "W"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4629,
+        4633,
+        3089,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "First W attack does not kill and target remains reachable for follow-up attacks.",
+      "failure": "Evasion needs E, reducing attacks; target death ends the proposed sustained window.",
+      "test": "Compare W nonlethal follow-up versus W kill/refund sequence; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "W kill cooldown refund and nonlethal five-second buff are alternative outcomes.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "flat-reduction-brawler",
+      "name": "Flat Reduction Brawler",
+      "objective": "Compare survival against equal-total small-packet and large-packet damage.",
+      "mechanic": "P reduces damage by 4 plus 0.01 AP per source. AP from Riftmaker/Deathcap can modestly increase reduction against repeated small packets; health/resists and Unending Despair buy close-combat time. E untargetability avoids a large threat, while W supplies sustained AP magic damage.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        4633,
+        3089,
+        2502,
+        3068,
+        3102,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Incoming pattern must include repeated small hits; E timed for the large packet.",
+      "failure": "Reduction is tiny against burst and defense delays enough AP to matter.",
+      "test": "Compare survival against equal-total small-packet and large-packet damage; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Flat passive reduction is not percentage damage immunity.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Normal crit trident spells",
+      "reason": "W/E are AP magic packets and Q has separately named physical/magic portions, with no ordinary crit rule.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "P minimum damage behavior and W/Dusk repetition require live logs; no infinite damage reduction is claimed.",
+    "Q primary description states on-hit application, while the resolved tooltip separates physical AD and magic AP packets; do not count the entire mixed Q as magic."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Nimble Fighter",
+      "paths": [
+        "Characters/Fizz/Spells/FizzPassiveAbility/FizzPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Urchin Strike",
+      "paths": [
+        "Characters/Fizz/Spells/FizzQAbility/FizzQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Seastone Trident",
+      "paths": [
+        "Characters/Fizz/Spells/FizzWAbility/FizzW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Playful / Trickster",
+      "paths": [
+        "Characters/Fizz/Spells/FizzEAbility/FizzE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Chum the Waters",
+      "paths": [
+        "Characters/Fizz/Spells/FizzRAbility/FizzR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "fizz-audit-nonlethal-trident-window",
+      "champion": "Fizz",
+      "name": "Nonlethal Trident Window",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare W nonlethal follow-up versus W kill/refund sequence.",
+      "goal": "Compare W nonlethal follow-up versus W kill/refund sequence.",
+      "hypothesis": "If W's empowered attack fails to kill, it grants five seconds of AP magic damage on subsequent attacks. Nashor/Dusk and Dawn reward this actual attack window, and Q provides access. Cosmic and Riftmaker help stay close while W bleed continues.",
+      "itemIds": [
+        3115,
+        2510,
+        4629,
+        4633,
+        3089,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: First W attack does not kill and target remains reachable for follow-up attacks.",
+        "Compare W nonlethal follow-up versus W kill/refund sequence; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Evasion needs E, reducing attacks; target death ends the proposed sustained window.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W kill cooldown refund and nonlethal five-second buff are alternative outcomes.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Cosmic Drive, Riftmaker, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Seastone Trident",
+          "slot": "W",
+          "source": "Characters/Fizz/Spells/FizzWAbility/FizzW",
+          "formula": "Passive: Fizz's Attacks cause his enemies to bleed, dealing [30 / 45 / 60 / 75 / 90 + (0.25) × AP] magic damage over [3] seconds. \n\nActive: Fizz's next Attack deals an additional [50 / 75 / 100 / 125 / 150 + (0.45) × AP] magic damage. If this Attack kills its target, Fizz refunds [30 / 40 / 50 / 60 / 70] Mana and reduces the cooldown of this Ability to [1] second. If it does not kill, Fizz's Attacks deal an additional [20 / 25 / 30 / 35 / 40 + (0.3) × AP] magic damage for [5] seconds."
+        },
+        {
+          "ability": "Urchin Strike",
+          "slot": "Q",
+          "source": "Characters/Fizz/Spells/FizzQAbility/FizzQ",
+          "formula": "Fizz dashes through an enemy, dealing [(1) × AD] physical damage plus [10 / 25 / 40 / 55 / 70 + (0.55) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "fizz-audit-flat-reduction-brawler",
+      "champion": "Fizz",
+      "name": "Flat Reduction Brawler",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare survival against equal-total small-packet and large-packet damage.",
+      "goal": "Compare survival against equal-total small-packet and large-packet damage.",
+      "hypothesis": "P reduces damage by 4 plus 0.01 AP per source. AP from Riftmaker/Deathcap can modestly increase reduction against repeated small packets; health/resists and Unending Despair buy close-combat time. E untargetability avoids a large threat, while W supplies sustained AP magic damage.",
+      "itemIds": [
+        4633,
+        3089,
+        2502,
+        3068,
+        3102,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Incoming pattern must include repeated small hits; E timed for the large packet.",
+        "Compare survival against equal-total small-packet and large-packet damage; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Reduction is tiny against burst and defense delays enough AP to matter.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Flat passive reduction is not percentage damage immunity.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Rabadon's Deathcap, Unending Despair, Sunfire Aegis, Banshee's Veil, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Playful / Trickster",
+          "slot": "E",
+          "source": "Characters/Fizz/Spells/FizzEAbility/FizzE",
+          "formula": "Fizz hops onto his trident, becoming Untargetable for 0.75 seconds, after which he deals [80 / 130 / 180 / 230 / 280 + (0.95) × AP] magic damage to nearby enemies and Slows them by [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% for [2] seconds. \n\nFizz can Recast this Ability while Untargetable to dash again, which ends the effect early, deals damage in a smaller area, and doesn't Slow."
+        },
+        {
+          "ability": "Nimble Fighter",
+          "slot": "Passive",
+          "source": "Characters/Fizz/Spells/FizzPassiveAbility/FizzPassive",
+          "formula": "Fizz is Ghosted and takes [4 + (0.01) × AP] reduced damage from all sources."
+        },
+        {
+          "ability": "Seastone Trident",
+          "slot": "W",
+          "source": "Characters/Fizz/Spells/FizzWAbility/FizzW",
+          "formula": "Passive: Fizz's Attacks cause his enemies to bleed, dealing [30 / 45 / 60 / 75 / 90 + (0.25) × AP] magic damage over [3] seconds. \n\nActive: Fizz's next Attack deals an additional [50 / 75 / 100 / 125 / 150 + (0.45) × AP] magic damage. If this Attack kills its target, Fizz refunds [30 / 40 / 50 / 60 / 70] Mana and reduces the cooldown of this Ability to [1] second. If it does not kill, Fizz's Attacks deal an additional [20 / 25 / 30 / 35 / 40 + (0.3) × AP] magic damage for [5] seconds."
+        }
+      ]
+    }
+  ]
+}

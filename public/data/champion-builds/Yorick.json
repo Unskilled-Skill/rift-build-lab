@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "yorick-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "yorick-four-2",
+      "id": "yorick-audit-mist-magic-siege",
       "champion": "Yorick",
-      "name": "Damage interaction: Health to attack damage",
-      "goal": "Damage interaction for Yorick: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A summon-led side-lane fighter who prepares graves, marks a target for his walkers and traps escape routes. Maiden coordination and his own empowered attack create sustained pressure. Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect. Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Mist magic siege",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test mist magic siege against conventional damage at equal gold.",
+      "goal": "Test mist magic siege against conventional damage at equal gold.",
+      "hypothesis": "Mourning Mist adds 0.03 AP percentage-point scaling to its target-max-health magic damage; Liandry supports that spell burn while Maiden's magic attack and marked-target followup supply a second magic pressure source. AP does not scale Mist Walker AD, so pet damage must be compared honestly.",
       "itemIds": [
-        3084,
-        2501,
-        3748,
-        3053,
-        3065,
-        3047
+        6653,
+        8010,
+        4633,
+        3089,
+        3135,
+        3158
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
-        9111,
-        9104
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Yorick: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Yorick deals bonus damage on his next attack and heals himself. If the target is a champion or large monster or if the target dies, a grave will be dug. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Maiden alive, E lands and enemy remains near owner followup attacks.",
+        "Measure E, Maiden and owner mark-followup damage separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails Yorick's stated kit question: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Weak Q/ghoul physical damage and pet clearing can erase the siege.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: AP does not grant ghouls AP attack scaling or owner item on-hit inheritance.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Liandry's Torment, Bloodletter's Curse, Riftmaker, Rabadon's Deathcap, Void Staff, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Last Rites",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "yorick-four-4",
+      "id": "yorick-audit-grave-health-spell-bruiser",
       "champion": "Yorick",
-      "name": "Experiment: Physical pick",
-      "goal": "Experiment for Yorick: test a different playstyle, with lower confidence",
-      "hypothesis": "A summon-led side-lane fighter who prepares graves, marks a target for his walkers and traps escape routes. Maiden coordination and his own empowered attack create sustained pressure. Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "name": "Grave health spell bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test grave health spell bruiser against conventional damage at equal gold.",
+      "goal": "Test grave health spell bruiser against conventional damage at equal gold.",
+      "hypothesis": "Mist Walker and Maiden helper health scale from source owner health, while their damage uses AD[source modifier]; Bloodmail therefore tests health-to-AD pet durability and damage together. Sundered Sky rewards Yorick's own Q attack and Visage supports its missing-health heal, with E providing current armor reduction.",
       "itemIds": [
-        3142,
-        6698,
-        3814,
-        6694,
-        3026,
-        3158
+        2501,
+        3161,
+        3071,
+        6610,
+        3065,
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Yorick: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
-        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Yorick deals bonus damage on his next attack and heals himself. If the target is a champion or large monster or if the target dies, a grave will be dug. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Raise real graves and preserve Maiden before committing.",
+        "Compare pet health/damage with measured owner health and AD, plus Q healing.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "The route fails Yorick's stated kit question: Fix graves, Mist Walker count and Maiden targeting. Pet damage and marks must be measured; lethality cannot assume all pets inherit every item passive or on-hit effect.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Pet clearing and weak personal mobility prevent meaningful pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Pet helper stats require source mapping; Maiden is not assumed to proc Sundered Sky.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Overlord's Bloodmail, Spear of Shojin, Black Cleaver, Sundered Sky, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Last Rites",

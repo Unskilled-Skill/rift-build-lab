@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Sejuani",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "solo-frost-attack",
+      "name": "Solo frost attack",
+      "objective": "Test faster self attacks to enable E without allied melee help.",
+      "mechanic": "W contributes Permafrost stacks and nearby melee allies can add stacks, but solo testing must count only Sejuani's own actions. Nashor and Dusk support real attacks; E has 0.7 AP and the passive shatter adds target-health magic damage after her stun. Health also strengthens both W swings.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        8020,
+        3089,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "No allied stack contribution, unstunned target and four verified stacks before E.",
+      "failure": "Slow stack delivery loses E access or expiring armor leaves the attacker vulnerable.",
+      "test": "Count stacks per W swing and ordinary attack, then isolate E and first post-stun attack packets.",
+      "rejectedAssumption": "Repeated on-hits are not proven to add extra Permafrost stacks.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "health-flail-resistance",
+      "name": "Health flail resistance",
+      "objective": "Combine health-scaled physical W with a deliberately refreshed Frost Armor entry.",
+      "mechanic": "W includes 4% and 8% health Stat terms over its two swings; Cleaver can benefit its confirmed physical packets. Passive Frost Armor adds resistance after avoiding champion/large-monster damage, while Warmog supports disengage and health budget. E then supplies a stun for the shatter attack.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "Q"
+      ],
+      "itemIds": [
+        3083,
+        3071,
+        2502,
+        3065,
+        3748,
+        3047
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Frost Armor refreshed before Q entry and finite health/bonus resistance state recorded.",
+      "failure": "Incidental large-monster damage delays armor refresh or W's second swing misses.",
+      "test": "Compare W hits and incoming damage with Frost Armor active versus expired at equal health.",
+      "rejectedAssumption": "Frost Armor is not continuously active merely because resistance items are equipped.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Armor-scaled flail damage",
+      "reason": "W shows AP and health Stat terms; armor principally changes survival and Frost Armor.",
+      "evidenceSlots": [
+        "P",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Permafrost stun immunity/order, shatter eligibility and raw resistance/health Stat flags require observation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Fury of the North",
+      "paths": [
+        "Characters/Sejuani/Spells/SejuaniPassiveAbility/SejuaniPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Arctic Assault",
+      "paths": [
+        "Characters/Sejuani/Spells/SejuaniQAbility/SejuaniQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Winter's Wrath",
+      "paths": [
+        "Characters/Sejuani/Spells/SejuaniWAbility/SejuaniW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Permafrost",
+      "paths": [
+        "Characters/Sejuani/Spells/SejuaniEAbility/SejuaniE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Glacial Prison",
+      "paths": [
+        "Characters/Sejuani/Spells/SejuaniRAbility/SejuaniR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "sejuani-audit-solo-frost-attack",
+      "champion": "Sejuani",
+      "name": "Solo frost attack",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test faster self attacks to enable E without allied melee help.",
+      "goal": "Test faster self attacks to enable E without allied melee help.",
+      "hypothesis": "W contributes Permafrost stacks and nearby melee allies can add stacks, but solo testing must count only Sejuani's own actions. Nashor and Dusk support real attacks; E has 0.7 AP and the passive shatter adds target-health magic damage after her stun. Health also strengthens both W swings.",
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        8020,
+        3089,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: No allied stack contribution, unstunned target and four verified stacks before E.",
+        "Count stacks per W swing and ordinary attack, then isolate E and first post-stun attack packets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Slow stack delivery loses E access or expiring armor leaves the attacker vulnerable.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Repeated on-hits are not proven to add extra Permafrost stacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Abyssal Mask, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Fury of the North",
+          "slot": "Passive",
+          "source": "Characters/Sejuani/Spells/SejuaniPassiveAbility/SejuaniPassive",
+          "formula": "Sejuani becomes immune to Slows and gains [10 + (0.75) × Stat(1)[statFormula=2]] Armor and [10 + (0.75) × Stat(6)[statFormula=2]] Magic Resist after not taking damage from champions or large jungle monsters for [characterLevelInterpolation(12 → 6; raw flags preserved)] seconds.\n\nSejuani's first Attack against enemies she has Stunned deals an additional [0.1] max Health magic damage."
+        },
+        {
+          "ability": "Permafrost",
+          "slot": "E",
+          "source": "Characters/Sejuani/Spells/SejuaniEAbility/SejuaniE",
+          "formula": "Passive: Nearby melee allied champions' Attacks apply a stack to champions and jungle monsters.\n\nActive: Sejuani deals [55 / 105 / 155 / 205 / 255 + (0.7) × AP] magic damage to target enemy with 4 stacks and Stuns them for [1] second."
+        },
+        {
+          "ability": "Winter's Wrath",
+          "slot": "W",
+          "source": "Characters/Sejuani/Spells/SejuaniWAbility/SejuaniW",
+          "formula": "Sejuani swings her flail, dealing [5 / 15 / 25 / 35 / 45 + (0.3) × AP + (0.04) × Stat(12)] physical damage and Knocking Back minions and jungle monsters. She then lashes out again, dealing [5 / 25 / 45 / 65 / 85 + (0.6) × AP + (0.08) × Stat(12)] physical damage and briefly Slowing targets.\n\nBoth swings apply stacks of Permafrost."
+        }
+      ]
+    },
+    {
+      "id": "sejuani-audit-health-flail-resistance",
+      "champion": "Sejuani",
+      "name": "Health flail resistance",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Combine health-scaled physical W with a deliberately refreshed Frost Armor entry.",
+      "goal": "Combine health-scaled physical W with a deliberately refreshed Frost Armor entry.",
+      "hypothesis": "W includes 4% and 8% health Stat terms over its two swings; Cleaver can benefit its confirmed physical packets. Passive Frost Armor adds resistance after avoiding champion/large-monster damage, while Warmog supports disengage and health budget. E then supplies a stun for the shatter attack.",
+      "itemIds": [
+        3083,
+        3071,
+        2502,
+        3065,
+        3748,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Frost Armor refreshed before Q entry and finite health/bonus resistance state recorded.",
+        "Compare W hits and incoming damage with Frost Armor active versus expired at equal health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Incidental large-monster damage delays armor refresh or W's second swing misses.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Frost Armor is not continuously active merely because resistance items are equipped.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Warmog's Armor, Black Cleaver, Unending Despair, Spirit Visage, Titanic Hydra, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Fury of the North",
+          "slot": "Passive",
+          "source": "Characters/Sejuani/Spells/SejuaniPassiveAbility/SejuaniPassive",
+          "formula": "Sejuani becomes immune to Slows and gains [10 + (0.75) × Stat(1)[statFormula=2]] Armor and [10 + (0.75) × Stat(6)[statFormula=2]] Magic Resist after not taking damage from champions or large jungle monsters for [characterLevelInterpolation(12 → 6; raw flags preserved)] seconds.\n\nSejuani's first Attack against enemies she has Stunned deals an additional [0.1] max Health magic damage."
+        },
+        {
+          "ability": "Permafrost",
+          "slot": "E",
+          "source": "Characters/Sejuani/Spells/SejuaniEAbility/SejuaniE",
+          "formula": "Passive: Nearby melee allied champions' Attacks apply a stack to champions and jungle monsters.\n\nActive: Sejuani deals [55 / 105 / 155 / 205 / 255 + (0.7) × AP] magic damage to target enemy with 4 stacks and Stuns them for [1] second."
+        },
+        {
+          "ability": "Winter's Wrath",
+          "slot": "W",
+          "source": "Characters/Sejuani/Spells/SejuaniWAbility/SejuaniW",
+          "formula": "Sejuani swings her flail, dealing [5 / 15 / 25 / 35 / 45 + (0.3) × AP + (0.04) × Stat(12)] physical damage and Knocking Back minions and jungle monsters. She then lashes out again, dealing [5 / 25 / 45 / 65 / 85 + (0.6) × AP + (0.08) × Stat(12)] physical damage and briefly Slowing targets.\n\nBoth swings apply stacks of Permafrost."
+        },
+        {
+          "ability": "Arctic Assault",
+          "slot": "Q",
+          "source": "Characters/Sejuani/Spells/SejuaniQAbility/SejuaniQ",
+          "formula": "Sejuani charges, dealing [90 / 140 / 190 / 240 / 290 + (0.75) × AP] magic damage to enemies and Knocking them Up for [0.5] seconds. The charge ends after hitting an enemy champion."
+        }
+      ]
+    }
+  ]
+}

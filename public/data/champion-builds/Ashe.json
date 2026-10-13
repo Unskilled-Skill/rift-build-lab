@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "ashe-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "ashe-four-2",
+      "id": "ashe-audit-arrow-first-hybrid-barrage",
       "champion": "Ashe",
-      "name": "Damage interaction: Repeated on-hit",
-      "goal": "Damage interaction for Ashe: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged attacker who maintains slows to kite and uses scouting and a long-range stun to start favorable fights. Can constant attack slows and scouting/R initiation generate more teamfight uptime, or does an active-support route sacrifice too much personal damage? Use a fixed Q readiness state. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "Arrow-first hybrid barrage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Follow an AP arrow catch with three rapid attacks.",
+      "goal": "Follow an AP arrow catch with three rapid attacks.",
+      "hypothesis": "Enchanted Crystal Arrow carries a 1.2 AP magic ratio and up to 3.5 seconds of stun. Fiendhunter Bolts grants three accelerated crit attacks after R, Nashor supports these actual attacks, and Malignance rewards R's magic hit. This tests pick burst plus follow-up, while Q still needs four attack stacks before activation.",
       "itemIds": [
-        3153,
-        3124,
-        3302,
-        3091,
-        3026,
+        2512,
+        3118,
+        3115,
+        3089,
+        3137,
         3006
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Ashe: Can constant attack slows and scouting/R initiation generate more teamfight uptime, or does an active-support route sacrifice too much personal damage? Use a fixed Q readiness state.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Ashe builds up Focus by attacking. At maximum Focus, Ashe can cast Ranger's Focus to consume all stacks of Focus, temporarily increasing her Attack Speed and transforming her basic attack into a powerful flurry attack for the duration. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need a clear arrow lane and ability to reach attack range during the stun.",
+        "Measure arrow alone, three attacks and then Q availability at several arrow distances.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Ashe's stated kit question: Can constant attack slows and scouting/R initiation generate more teamfight uptime, or does an active-support route sacrifice too much personal damage? Use a fixed Q readiness state.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "A global arrow may land beyond follow-up range; low AD weakens extended Q trades.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Ashe crits enhance Frost Shot behavior; do not assume normal bonus crit damage on her attacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Fiendhunter Bolts, Malignance, Nashor's Tooth, Rabadon's Deathcap, Cryptbloom, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Ranger's Focus",
@@ -193,18 +187,6 @@
           "slot": "R",
           "source": "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow",
           "formula": "Ashe launches a crystal arrow of ice that Stuns the first champion hit and deals [200 / 400 / 600 + (1.2) × AP] magic damage. The Stun duration increases with distance travelled, up to [3.5] seconds. Surrounding enemies are Slowed by Frost Shot."
-        },
-        {
-          "ability": "Volley",
-          "slot": "W",
-          "source": "Characters/Ashe/Spells/VolleyAbility/Volley",
-          "formula": "Ashe fires a volley of [7 / 8 / 9 / 10 / 11] arrows, each dealing [60 / 95 / 130 / 165 / 200 + (1) × AD[statFormula=2]] physical damage. Enemies can be hit by multiple arrows, but only take damage from the first."
-        },
-        {
-          "ability": "Hawkshot",
-          "slot": "E",
-          "source": "Characters/Ashe/Spells/AsheSpiritOfTheHawkAbility/AsheSpiritOfTheHawk",
-          "formula": "Ashe sends forth a hawk to grant vision for 5 seconds anywhere on the map. It also reveals the area around it as it flies.\n\nThis Ability has 2 charges ([(runtimeCooldownMultiplier) × (90 / 80 / 70 / 60 / 50)] second recharge)."
         },
         {
           "ability": "Frost Shot",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "ashe-four-4",
+      "id": "ashe-audit-volley-pursuit-bruiser",
       "champion": "Ashe",
-      "name": "Experiment: Tempo and pursuit",
-      "goal": "Experiment for Ashe: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged attacker who maintains slows to kite and uses scouting and a long-range stun to start favorable fights. Can constant attack slows and scouting/R initiation generate more teamfight uptime, or does an active-support route sacrifice too much personal damage? Use a fixed Q readiness state. Movement tools and compatible control marks test coordinated pursuit or escape. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Movement tools and compatible control marks test coordinated pursuit or escape.",
+      "name": "Volley pursuit bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use repeated physical Volley to expose and soften fleeing teams.",
+      "goal": "Use repeated physical Volley to expose and soften fleeing teams.",
+      "hypothesis": "Volley has an AD statFormula=2 expression and only its first arrow damages a given target. Muramana offers mana and physical spell payload subject to proc rules; Cleaver shreds armor through physical damage, Shojin supports repeated abilities, and Youmuu supplies physical penetration and an active movement burst for positioning. Hawkshot helps choose safe approach lines between casts.",
       "itemIds": [
-        3869,
-        2065,
-        4005,
-        3107,
-        3222,
-        3009
+        3042,
+        3071,
+        3161,
+        3142,
+        3814,
+        3158
       ],
       "runePage": [
-        8214,
+        8229,
         8226,
         8210,
         8237,
-        8345,
-        8347
+        8126,
+        8106
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +345,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Ashe: Can constant attack slows and scouting/R initiation generate more teamfight uptime, or does an active-support route sacrifice too much personal damage? Use a fixed Q readiness state.",
-        "Start with the early core (Support quest, Shurelya or Mandate according to the kit) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Movement tools and compatible control marks test coordinated pursuit or escape. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Ashe builds up Focus by attacking. At maximum Focus, Ashe can cast Ranger's Focus to consume all stacks of Focus, temporarily increasing her Attack Speed and transforming her basic attack into a powerful flurry attack for the duration. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need charged Manamune, real W hits and allies able to exploit softened targets.",
+        "Record W intervals and armor stacks over repeated volleys, versus a normal attack build.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
-        "The route fails Ashe's stated kit question: Can constant attack slows and scouting/R initiation generate more teamfight uptime, or does an active-support route sacrifice too much personal damage? Use a fixed Q readiness state.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Low attack DPS and single-hit Volley cannot rapidly shred one target; R remains weak without AP.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
-        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Multiple arrows striking one champion do not grant multiple damage events or full Cleaver stacks.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Shurelya or Mandate according to the kit. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Imperial Mandate, Redemption, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Muramana, Black Cleaver, Spear of Shojin, Youmuu's Ghostblade, Edge of Night, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Ranger's Focus",
-          "slot": "Q",
-          "source": "Characters/Ashe/Spells/AsheQAbility/AsheQ",
-          "formula": "Passive: Ashe's Attacks grant a stack for [4] seconds. At [4] stacks, she may activate this Ability.\n\nActive: Ashe gains [20 / 30 / 40 / 50 / 60]% Attack Speed and her Attacks deal [(1.1 / 1.15 / 1.2 / 1.25 / 1.3) × AD] damage instead for [6] seconds."
-        },
         {
           "ability": "Enchanted Crystal Arrow",
           "slot": "R",

@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Malphite",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "armor-aftershock-boxer",
+      "name": "Armor aftershock boxer",
+      "objective": "Test armor aftershock boxer against conventional damage at equal gold.",
+      "mechanic": "Thunderclap's attack and five-second aftershocks scale with 0.15 armor as physical damage, while Ground Slam scales 0.4 armor as magic. Iceborn adds physical Spellblade and a slow zone; Terminus helps mixed attack damage if Malphite can remain in melee.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3110,
+        6662,
+        3068,
+        3302,
+        3065,
+        3047
+      ],
+      "pageKey": "pta",
+      "requiredState": "Granite Shield active for the larger passive armor multiplier.",
+      "failure": "Magic opponents bypass the armor focus and poke removes the tripled W bonus.",
+      "test": "Measure W attacks and E before and after shield breaks.",
+      "rejectedAssumption": "Armor does not give AP to Q/R and aftershocks cannot be assumed to crit.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "hybrid-armor-ap-punch",
+      "name": "Hybrid armor AP punch",
+      "objective": "Test hybrid armor ap punch against conventional damage at equal gold.",
+      "mechanic": "Thunderclap also carries AP ratios on its empowered attack and physical aftershocks, while E has 0.6 AP magic scaling. Nashor and Dusk and Dawn test the five-second W attack window after R; Randuin adds armor that supports W/E and buys melee survival.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3089,
+        3143,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "R connects and target stays within W attacks.",
+      "failure": "Lower penetration or attack access loses the conventional R burst.",
+      "test": "Compare three W attacks plus E against a full AP burst at equal gold.",
+      "rejectedAssumption": "AP ratios do not change W's physical damage type; Spellblade is a separate magic packet.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Armor does not give AP to Q/R and aftershocks cannot be assumed to crit.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Controlled current-patch proc testing remains necessary; source helper/statFormula expressions are evidence, not confirmed runtime behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Granite Shield",
+      "paths": [
+        "Characters/Malphite/Spells/MalphiteShieldAbility/MalphiteShield"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Seismic Shard",
+      "paths": [
+        "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Thunderclap",
+      "paths": [
+        "Characters/Malphite/Spells/ObduracyAbility/Obduracy"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Ground Slam",
+      "paths": [
+        "Characters/Malphite/Spells/LandslideAbility/Landslide"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Unstoppable Force",
+      "paths": [
+        "Characters/Malphite/Spells/UFSlashAbility/UFSlash"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "malphite-audit-armor-aftershock-boxer",
+      "champion": "Malphite",
+      "name": "Armor aftershock boxer",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test armor aftershock boxer against conventional damage at equal gold.",
+      "goal": "Test armor aftershock boxer against conventional damage at equal gold.",
+      "hypothesis": "Thunderclap's attack and five-second aftershocks scale with 0.15 armor as physical damage, while Ground Slam scales 0.4 armor as magic. Iceborn adds physical Spellblade and a slow zone; Terminus helps mixed attack damage if Malphite can remain in melee.",
+      "itemIds": [
+        3110,
+        6662,
+        3068,
+        3302,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Granite Shield active for the larger passive armor multiplier.",
+        "Measure W attacks and E before and after shield breaks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Magic opponents bypass the armor focus and poke removes the tripled W bonus.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Armor does not give AP to Q/R and aftershocks cannot be assumed to crit.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Frozen Heart, Iceborn Gauntlet, Sunfire Aegis, Terminus, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Granite Shield",
+          "slot": "Passive",
+          "source": "Characters/Malphite/Spells/MalphiteShieldAbility/MalphiteShield",
+          "formula": "Malphite grants himself [(0.1) × Stat(12)] Shield after not taking damage for [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] seconds."
+        },
+        {
+          "ability": "Thunderclap",
+          "slot": "W",
+          "source": "Characters/Malphite/Spells/ObduracyAbility/Obduracy",
+          "formula": "Passive: Malphite gains [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 100]% Armor (%i:scaleArmor%@f1@). This effect is increased to [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 300]% (%i:scaleArmor%@f2@) while Granite Shield is active.\n\nActive: Malphite's next Attack deals an additional [30 / 40 / 50 / 60 / 70 + (0.2) × AP + (0.15) × Stat(1)] physical damage and creates an aftershock which deals [15 / 25 / 35 / 45 / 55 + (0.3) × AP + (0.15) × Stat(1)] physical damage %i:OnHit% On-Hit in their direction. His Attacks continue to create aftershocks %i:OnHit% On-Hit for the next [5] seconds."
+        },
+        {
+          "ability": "Ground Slam",
+          "slot": "E",
+          "source": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+          "formula": "Malphite slams the ground, dealing [60 / 95 / 130 / 165 / 200 + (0.4) × Stat(1) + (0.6) × AP] magic damage and reducing Attack Speed by [30 / 35 / 40 / 45 / 50]% for [3] seconds."
+        }
+      ]
+    },
+    {
+      "id": "malphite-audit-hybrid-armor-ap-punch",
+      "champion": "Malphite",
+      "name": "Hybrid armor AP punch",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test hybrid armor ap punch against conventional damage at equal gold.",
+      "goal": "Test hybrid armor ap punch against conventional damage at equal gold.",
+      "hypothesis": "Thunderclap also carries AP ratios on its empowered attack and physical aftershocks, while E has 0.6 AP magic scaling. Nashor and Dusk and Dawn test the five-second W attack window after R; Randuin adds armor that supports W/E and buys melee survival.",
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        3089,
+        3143,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R connects and target stays within W attacks.",
+        "Compare three W attacks plus E against a full AP burst at equal gold.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Lower penetration or attack access loses the conventional R burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: AP ratios do not change W's physical damage type; Spellblade is a separate magic packet.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Rabadon's Deathcap, Randuin's Omen, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Granite Shield",
+          "slot": "Passive",
+          "source": "Characters/Malphite/Spells/MalphiteShieldAbility/MalphiteShield",
+          "formula": "Malphite grants himself [(0.1) × Stat(12)] Shield after not taking damage for [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}])] seconds."
+        },
+        {
+          "ability": "Thunderclap",
+          "slot": "W",
+          "source": "Characters/Malphite/Spells/ObduracyAbility/Obduracy",
+          "formula": "Passive: Malphite gains [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 100]% Armor (%i:scaleArmor%@f1@). This effect is increased to [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 300]% (%i:scaleArmor%@f2@) while Granite Shield is active.\n\nActive: Malphite's next Attack deals an additional [30 / 40 / 50 / 60 / 70 + (0.2) × AP + (0.15) × Stat(1)] physical damage and creates an aftershock which deals [15 / 25 / 35 / 45 / 55 + (0.3) × AP + (0.15) × Stat(1)] physical damage %i:OnHit% On-Hit in their direction. His Attacks continue to create aftershocks %i:OnHit% On-Hit for the next [5] seconds."
+        },
+        {
+          "ability": "Unstoppable Force",
+          "slot": "R",
+          "source": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+          "formula": "Malphite charges with the force of a landslide, dashing Unstoppably. At the end of the dash, Malphite Knocks Up for [1.5] seconds and deals [200 / 300 / 400 + (0.9) × AP] magic damage."
+        },
+        {
+          "ability": "Seismic Shard",
+          "slot": "Q",
+          "source": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+          "formula": "Malphite launches a shard of earth at an enemy, dealing [70 / 120 / 170 / 220 / 270 + (0.6) × AP] magic damage and Slowing them by [20 / 25 / 30 / 35 / 40]% for [3] seconds. Malphite also steals the amount Slowed, gaining it as Move Speed for [3] seconds."
+        },
+        {
+          "ability": "Ground Slam",
+          "slot": "E",
+          "source": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+          "formula": "Malphite slams the ground, dealing [60 / 95 / 130 / 165 / 200 + (0.4) × Stat(1) + (0.6) × AP] magic damage and reducing Attack Speed by [30 / 35 / 40 / 45 / 50]% for [3] seconds."
+        }
+      ]
+    }
+  ]
+}

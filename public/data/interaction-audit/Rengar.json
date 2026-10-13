@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Rengar",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "double-roar-ap-retreat",
+      "name": "Double-roar AP retreat",
+      "objective": "Test normal and empowered W damage with recovery after taking a finite burst.",
+      "mechanic": "W has 0.8 AP magic damage and restores half of damage received in the last 1.5 seconds; empowered W adds a cleanse. AP and magic penetration target those roars while Visage improves received healing. Passive ferocity and E control must enable the actual empowered W, trading away empowered Q damage.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3152,
+        4633,
+        3135,
+        3157,
+        3065,
+        3020
+      ],
+      "pageKey": "electro",
+      "requiredState": "Record initial ferocity, burst taken and both W timings within the recovery window.",
+      "failure": "No recent incoming damage means little W recovery; AP reduces the AD leap threat.",
+      "test": "Measure W packets and heal amounts with controlled incoming burst and finite ferocity.",
+      "rejectedAssumption": "Empowered W cleanse does not justify inventing additional healing beyond the recorded W behavior.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "ferocity-recovery-chase",
+      "name": "Ferocity recovery chase",
+      "objective": "Use empowered-cast speed to keep healing attack trades within reach.",
+      "mechanic": "Passive grants brief speed after an empowered ability; Q gives the next two attacks attack speed. Sundered Sky and Ravenous support real attacks while Visage improves W and item healing. Trinity adds one Spellblade packet; normal/empowered E can constrain an escape before choosing healing W or damage Q.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3078,
+        6610,
+        3074,
+        3065,
+        3053,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Brush/leap access and a finite four-ferocity cycle permit more than the opening hit.",
+      "failure": "No brush, healing reduction or forced disengage leaves an inferior burst sequence.",
+      "test": "Compare damage and health retained over two ferocity cycles, tracking which empowered spell was chosen.",
+      "rejectedAssumption": "Q first-attack scaling is not proof every Q bonus inherits ordinary critical multipliers.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Free empowered ability on each cast",
+      "reason": "Passive requires four ferocity and a choice of the next non-ultimate spell; Q/W/E cannot all be empowered from one bar.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "AD[statFormula=2] and unusual empowered-level tables are retained source values. Q/Sundered Sky crit packets and W empowered recovery need live confirmation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Unseen Predator",
+      "paths": [
+        "Characters/Rengar/Spells/RengarPassiveAbility/RengarPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Savagery",
+      "paths": [
+        "Characters/Rengar/Spells/RengarQAbility/RengarQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Battle Roar",
+      "paths": [
+        "Characters/Rengar/Spells/RengarWAbility/RengarW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Bola Strike",
+      "paths": [
+        "Characters/Rengar/Spells/RengarEAbility/RengarE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Thrill of the Hunt",
+      "paths": [
+        "Characters/Rengar/Spells/RengarRAbility/RengarR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "rengar-audit-double-roar-ap-retreat",
+      "champion": "Rengar",
+      "name": "Double-roar AP retreat",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test normal and empowered W damage with recovery after taking a finite burst.",
+      "goal": "Test normal and empowered W damage with recovery after taking a finite burst.",
+      "hypothesis": "W has 0.8 AP magic damage and restores half of damage received in the last 1.5 seconds; empowered W adds a cleanse. AP and magic penetration target those roars while Visage improves received healing. Passive ferocity and E control must enable the actual empowered W, trading away empowered Q damage.",
+      "itemIds": [
+        3152,
+        4633,
+        3135,
+        3157,
+        3065,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record initial ferocity, burst taken and both W timings within the recovery window.",
+        "Measure W packets and heal amounts with controlled incoming burst and finite ferocity.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "No recent incoming damage means little W recovery; AP reduces the AD leap threat.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Empowered W cleanse does not justify inventing additional healing beyond the recorded W behavior.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Rocketbelt, Riftmaker, Void Staff, Zhonya's Hourglass, Spirit Visage, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Battle Roar",
+          "slot": "W",
+          "source": "Characters/Rengar/Spells/RengarWAbility/RengarW",
+          "formula": "Rengar roars, dealing [50 / 80 / 110 / 140 / 170 + (0.8) × AP] magic damage to nearby enemies and restoring [50]% of the damage taken in the last [1.5] seconds as Health.\n\nMax Ferocity: Deals [characterLevelTable[0, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340] + (0.8) × AP] magic damage and additionally cleanses Rengar of crowd control."
+        },
+        {
+          "ability": "Bola Strike",
+          "slot": "E",
+          "source": "Characters/Rengar/Spells/RengarEAbility/RengarE",
+          "formula": "Rengar throws a bola, dealing [55 / 100 / 145 / 190 / 235 + (0.8) × AD[statFormula=2]] physical damage to the first enemy hit, revealing and Slowing them by [30 / 45 / 60 / 75 / 90]% for [1.75] seconds.\n\nMax Ferocity: Deals [characterLevelBreakpoints(start=50, perLevel=15, changes=[]) + (0.8) × AD[statFormula=2]] physical damage and Roots for [1.75] seconds."
+        },
+        {
+          "ability": "Unseen Predator",
+          "slot": "Passive",
+          "source": "Characters/Rengar/Spells/RengarPassiveAbility/RengarPassive",
+          "formula": "While in Brush, Rengar leaps to enemies he Attacks.\n\nRengar generates 1 Ferocity when he uses a non-ultimate Ability. At the start of the leap Unseen Predator will generate 1 Ferocity if none of his current Ferocity was generated this way.\n \nAt [4] Ferocity, his next non-ultimate Ability is empowered. Casting an empowered Ability grants Rengar [characterLevelBreakpoints(start=0.3, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed for [1.5] seconds.\n\nUnique takedowns increase Rengar's Attack Damage from Bonetooth Necklace."
+        }
+      ]
+    },
+    {
+      "id": "rengar-audit-ferocity-recovery-chase",
+      "champion": "Rengar",
+      "name": "Ferocity recovery chase",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use empowered-cast speed to keep healing attack trades within reach.",
+      "goal": "Use empowered-cast speed to keep healing attack trades within reach.",
+      "hypothesis": "Passive grants brief speed after an empowered ability; Q gives the next two attacks attack speed. Sundered Sky and Ravenous support real attacks while Visage improves W and item healing. Trinity adds one Spellblade packet; normal/empowered E can constrain an escape before choosing healing W or damage Q.",
+      "itemIds": [
+        3078,
+        6610,
+        3074,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Brush/leap access and a finite four-ferocity cycle permit more than the opening hit.",
+        "Compare damage and health retained over two ferocity cycles, tracking which empowered spell was chosen.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "No brush, healing reduction or forced disengage leaves an inferior burst sequence.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Q first-attack scaling is not proof every Q bonus inherits ordinary critical multipliers.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Sundered Sky, Ravenous Hydra, Spirit Visage, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Battle Roar",
+          "slot": "W",
+          "source": "Characters/Rengar/Spells/RengarWAbility/RengarW",
+          "formula": "Rengar roars, dealing [50 / 80 / 110 / 140 / 170 + (0.8) × AP] magic damage to nearby enemies and restoring [50]% of the damage taken in the last [1.5] seconds as Health.\n\nMax Ferocity: Deals [characterLevelTable[0, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340] + (0.8) × AP] magic damage and additionally cleanses Rengar of crowd control."
+        },
+        {
+          "ability": "Savagery",
+          "slot": "Q",
+          "source": "Characters/Rengar/Spells/RengarQAbility/RengarQ",
+          "formula": "Rengar's next 2 Attacks gain [40]% Attack Speed. The first Attack deals [20 / 55 / 90 / 125 / 160 + (1) × AD + (0.05) × AD] physical damage.\n\nMax Ferocity: The first Attack deals [characterLevelBreakpoints(start=35, perLevel=15, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (1) × AD + (0.2) × AD] physical damage and grants Rengar [(characterLevelBreakpoints(start=50, perLevel=3, changes=[])) × (0.01)] Attack Speed for [5] seconds."
+        },
+        {
+          "ability": "Bola Strike",
+          "slot": "E",
+          "source": "Characters/Rengar/Spells/RengarEAbility/RengarE",
+          "formula": "Rengar throws a bola, dealing [55 / 100 / 145 / 190 / 235 + (0.8) × AD[statFormula=2]] physical damage to the first enemy hit, revealing and Slowing them by [30 / 45 / 60 / 75 / 90]% for [1.75] seconds.\n\nMax Ferocity: Deals [characterLevelBreakpoints(start=50, perLevel=15, changes=[]) + (0.8) × AD[statFormula=2]] physical damage and Roots for [1.75] seconds."
+        },
+        {
+          "ability": "Unseen Predator",
+          "slot": "Passive",
+          "source": "Characters/Rengar/Spells/RengarPassiveAbility/RengarPassive",
+          "formula": "While in Brush, Rengar leaps to enemies he Attacks.\n\nRengar generates 1 Ferocity when he uses a non-ultimate Ability. At the start of the leap Unseen Predator will generate 1 Ferocity if none of his current Ferocity was generated this way.\n \nAt [4] Ferocity, his next non-ultimate Ability is empowered. Casting an empowered Ability grants Rengar [characterLevelBreakpoints(start=0.3, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed for [1.5] seconds.\n\nUnique takedowns increase Rengar's Attack Damage from Bonetooth Necklace."
+        }
+      ]
+    }
+  ]
+}

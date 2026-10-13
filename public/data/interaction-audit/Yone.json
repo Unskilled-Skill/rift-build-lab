@@ -1,0 +1,312 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Yone",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "mixed-blade-penetration-ramp",
+      "name": "Mixed-blade penetration ramp",
+      "objective": "Test whether finite mixed penetration repays reduced crit investment during an E window.",
+      "mechanic": "Passive every second attack deals half magic damage; W and R split physical/magic damage. Terminus provides finite armor/MR penetration and defensive stacks through champion attacks, while Rageblade/BotRK support attack packets. E lasts five seconds and repeats a share of documented attack/ability damage, so proc inclusion remains a separate question.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        6673,
+        3031,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Fix crit cap, initial Terminus/Rageblade stacks and complete attacks inside one E duration.",
+      "failure": "Ramp occurs after the target disengages or the return body is threatened.",
+      "test": "Separate physical/magic packets and E repeat with zero versus recorded pre-stacks.",
+      "rejectedAssumption": "Item on-hit damage is not automatically included in E repeat merely because it accompanied an attack.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "cleave-shield-duel",
+      "name": "Cleave shield duel",
+      "objective": "Use a health/AD route to protect repeated W hits during a bounded spirit trade.",
+      "mechanic": "W hits grant an AD[statFormula=2] shield increased per champion struck; Visage enhances self shields. Bloodmail gives bounded health-to-AD and missing-health AD, supporting that shield if its retained flag is confirmed. Trinity supplies an actual attack Spellblade and Sundered Sky tests first-attack healing while Q/R provide access.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2501,
+        3078,
+        6610,
+        3053,
+        3065,
+        3047
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Observed AD/health fixed, W hits one versus two champions and E return body stays safe.",
+      "failure": "Reduced crit damage/attack speed may lose the trade despite larger shields.",
+      "test": "Log W shield per victim, damage and health retained over a five-second E exchange.",
+      "rejectedAssumption": "W shield target count does not make all W damage or health scalings multiply freely.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Full armor penetration benefits all Yone damage",
+      "reason": "Passive/W/R include magic portions; armor penetration affects only physical packets and cannot be applied to the whole mixed total.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q crit and crit-to-AD excess conversion use special formulas. W retained WDamage helper differs from rendered percent-health tooltip; do not substitute it. E damage ledger needs live reconciliation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Way of the Hunter",
+      "paths": [
+        "Characters/Yone/Spells/YonePassiveAbility/YonePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Mortal Steel",
+      "paths": [
+        "Characters/Yone/Spells/YoneQAbility/YoneQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Spirit Cleave",
+      "paths": [
+        "Characters/Yone/Spells/YoneWAbility/YoneW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Soul Unbound",
+      "paths": [
+        "Characters/Yone/Spells/YoneEAbility/YoneE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Fate Sealed",
+      "paths": [
+        "Characters/Yone/Spells/YoneRAbility/YoneR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "yone-audit-mixed-blade-penetration-ramp",
+      "champion": "Yone",
+      "name": "Mixed-blade penetration ramp",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether finite mixed penetration repays reduced crit investment during an E window.",
+      "goal": "Test whether finite mixed penetration repays reduced crit investment during an E window.",
+      "hypothesis": "Passive every second attack deals half magic damage; W and R split physical/magic damage. Terminus provides finite armor/MR penetration and defensive stacks through champion attacks, while Rageblade/BotRK support attack packets. E lasts five seconds and repeats a share of documented attack/ability damage, so proc inclusion remains a separate question.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        6673,
+        3031,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Fix crit cap, initial Terminus/Rageblade stacks and complete attacks inside one E duration.",
+        "Separate physical/magic packets and E repeat with zero versus recorded pre-stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Ramp occurs after the target disengages or the return body is threatened.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Item on-hit damage is not automatically included in E repeat merely because it accompanied an attack.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blade of The Ruined King, Guinsoo's Rageblade, Terminus, Immortal Shieldbow, Infinity Edge, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Mortal Steel",
+          "slot": "Q",
+          "source": "Characters/Yone/Spells/YoneQAbility/YoneQ",
+          "formula": "Yone thrusts forward, dealing [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage.\n\nOn hit, grants a stack for [6] seconds. At 2 stacks, this ability causes Yone to dash forward with a wave of wind that Knocks Up for [0.75] seconds and deals [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage."
+        },
+        {
+          "ability": "Fate Sealed",
+          "slot": "R",
+          "source": "Characters/Yone/Spells/YoneRAbility/YoneR",
+          "formula": "Yone strikes all enemies along a path for [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] physical damage and [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] magic damage, teleporting behind the last champion hit and Knocking Up victims towards Yone."
+        },
+        {
+          "ability": "Soul Unbound",
+          "slot": "E",
+          "source": "Characters/Yone/Spells/YoneEAbility/YoneE",
+          "formula": "Yone enters a spirit form for [5] seconds, leaving his body behind for the duration and gaining [10]% to [30]% ramping Move Speed. \n\nWhen the spirit form ends, Yone snaps back to his body and repeats [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × 100]% of all Attack and Ability damage he dealt to champions during this time. You may Recast this ability during spirit form.\n\nRecast: End spirit form early."
+        },
+        {
+          "ability": "Spirit Cleave",
+          "slot": "W",
+          "source": "Characters/Yone/Spells/YoneWAbility/YoneW",
+          "formula": "Yone cleaves forward, dealing [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health physical damage and [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health magic damage.\n\nIf Yone hits, he gains [characterLevelInterpolation(40 → 90; raw flags preserved) + (0.65) × AD[statFormula=2]] Shield for [1.5] seconds. The amount of Shield increases for each champion struck."
+        },
+        {
+          "ability": "Way of the Hunter",
+          "slot": "Passive",
+          "source": "Characters/Yone/Spells/YonePassiveAbility/YonePassive",
+          "formula": "Steel and Spirit: Yone uses two blades, causing every second Attack to deal [50]% magic damage.\n\nIntent: Yone's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YoneCritToAD*.01@ Bonus AD for every 1% Critical Strike Chance above 100%."
+        }
+      ]
+    },
+    {
+      "id": "yone-audit-cleave-shield-duel",
+      "champion": "Yone",
+      "name": "Cleave shield duel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use a health/AD route to protect repeated W hits during a bounded spirit trade.",
+      "goal": "Use a health/AD route to protect repeated W hits during a bounded spirit trade.",
+      "hypothesis": "W hits grant an AD[statFormula=2] shield increased per champion struck; Visage enhances self shields. Bloodmail gives bounded health-to-AD and missing-health AD, supporting that shield if its retained flag is confirmed. Trinity supplies an actual attack Spellblade and Sundered Sky tests first-attack healing while Q/R provide access.",
+      "itemIds": [
+        2501,
+        3078,
+        6610,
+        3053,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Observed AD/health fixed, W hits one versus two champions and E return body stays safe.",
+        "Log W shield per victim, damage and health retained over a five-second E exchange.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Reduced crit damage/attack speed may lose the trade despite larger shields.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W shield target count does not make all W damage or health scalings multiply freely.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Trinity Force, Sundered Sky, Sterak's Gage, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Mortal Steel",
+          "slot": "Q",
+          "source": "Characters/Yone/Spells/YoneQAbility/YoneQ",
+          "formula": "Yone thrusts forward, dealing [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage.\n\nOn hit, grants a stack for [6] seconds. At 2 stacks, this ability causes Yone to dash forward with a wave of wind that Knocks Up for [0.75] seconds and deals [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage."
+        },
+        {
+          "ability": "Fate Sealed",
+          "slot": "R",
+          "source": "Characters/Yone/Spells/YoneRAbility/YoneR",
+          "formula": "Yone strikes all enemies along a path for [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] physical damage and [(200 / 400 / 600 + (0.8) × AD[statFormula=2]) × (0.5)] magic damage, teleporting behind the last champion hit and Knocking Up victims towards Yone."
+        },
+        {
+          "ability": "Soul Unbound",
+          "slot": "E",
+          "source": "Characters/Yone/Spells/YoneEAbility/YoneE",
+          "formula": "Yone enters a spirit form for [5] seconds, leaving his body behind for the duration and gaining [10]% to [30]% ramping Move Speed. \n\nWhen the spirit form ends, Yone snaps back to his body and repeats [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × 100]% of all Attack and Ability damage he dealt to champions during this time. You may Recast this ability during spirit form.\n\nRecast: End spirit form early."
+        },
+        {
+          "ability": "Spirit Cleave",
+          "slot": "W",
+          "source": "Characters/Yone/Spells/YoneWAbility/YoneW",
+          "formula": "Yone cleaves forward, dealing [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health physical damage and [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health magic damage.\n\nIf Yone hits, he gains [characterLevelInterpolation(40 → 90; raw flags preserved) + (0.65) × AD[statFormula=2]] Shield for [1.5] seconds. The amount of Shield increases for each champion struck."
+        }
+      ]
+    }
+  ]
+}

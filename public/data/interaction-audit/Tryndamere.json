@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Tryndamere",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "fury-heal-ap-spin",
+      "name": "Fury-heal AP spin",
+      "objective": "Explore AP as both a physical E ratio and an emergency post-R heal.",
+      "mechanic": "E deals physical damage with 0.8 AP; Q heals with 0.3 AP plus 0.012 AP per consumed Fury. Lich Bane and Nashor supply attack packets while Visage improves Q recovery. R grants a finite Fury amount and five seconds of death prevention; Q consumption trades the passive 0.5% crit chance per Fury for healing.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3100,
+        3115,
+        4633,
+        3089,
+        3065,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Record Fury before/after Q and heal near R expiry, with actual attacks for item value.",
+      "failure": "Healing too early removes crit during R; hard control wastes the AP attack investment.",
+      "test": "Compare E damage and Q heal at zero versus 100 Fury, then record post-R survival.",
+      "rejectedAssumption": "AP scaling on E does not change its damage type from physical.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "last-health-bloodmail-window",
+      "name": "Last-health bloodmail window",
+      "objective": "Test missing-health AD during R against the timing cost of delayed healing.",
+      "mechanic": "Q passive grants AD with missing health; Bloodmail adds another bounded missing-health AD effect and bonus-health conversion. R prevents death for five seconds, enabling a measured low-health window; attack crits reduce E cooldown and Navori separately reduces remaining basic cooldowns on attacks. Hydra helps recover after the window.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2501,
+        3031,
+        6675,
+        3074,
+        3036,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Record finite Fury and capped observed crit: the three crit items supply 75%, so high Fury can exceed 100% and waste crit investment. Fix R timer and actual percent missing health.",
+      "failure": "CC or exit failure makes the low-health plan lethal the instant R ends.",
+      "test": "Track observed AD, crit frequency, E recycles and healing timing over one five-second R.",
+      "rejectedAssumption": "Death prevention is not damage immunity and does not permit infinite missing-health scaling.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Crit E spell directly",
+      "reason": "E cooldown is reduced by crit attacks; its tooltip does not establish E itself critically strikes.",
+      "evidenceSlots": [
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Crit cap/excess investment and Navori cooldown behavior need measured attack logs; no mana items used for Fury."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Battle Fury",
+      "paths": [
+        "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Bloodlust",
+      "paths": [
+        "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Mocking Shout",
+      "paths": [
+        "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Spinning Slash",
+      "paths": [
+        "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Undying Rage",
+      "paths": [
+        "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "tryndamere-audit-fury-heal-ap-spin",
+      "champion": "Tryndamere",
+      "name": "Fury-heal AP spin",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore AP as both a physical E ratio and an emergency post-R heal.",
+      "goal": "Explore AP as both a physical E ratio and an emergency post-R heal.",
+      "hypothesis": "E deals physical damage with 0.8 AP; Q heals with 0.3 AP plus 0.012 AP per consumed Fury. Lich Bane and Nashor supply attack packets while Visage improves Q recovery. R grants a finite Fury amount and five seconds of death prevention; Q consumption trades the passive 0.5% crit chance per Fury for healing.",
+      "itemIds": [
+        3100,
+        3115,
+        4633,
+        3089,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record Fury before/after Q and heal near R expiry, with actual attacks for item value.",
+        "Compare E damage and Q heal at zero versus 100 Fury, then record post-R survival.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Healing too early removes crit during R; hard control wastes the AP attack investment.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: AP scaling on E does not change its damage type from physical.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Riftmaker, Rabadon's Deathcap, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Spinning Slash",
+          "slot": "E",
+          "source": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+          "formula": "Tryndamere spins through his enemies, dealing [80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2] + (0.8) × AP] physical damage and generating [2] Fury per enemy hit, increased to [5] Fury against enemy champions.\n\nThis Ability's Cooldown is reduced by [0.75] seconds when Tryndamere critically strikes, and reduced by [1.5] seconds when critically striking a champion."
+        },
+        {
+          "ability": "Battle Fury",
+          "slot": "Passive",
+          "source": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+          "formula": "Tryndamere's Attacks grant him 5 Fury or 10 Fury for a critical strike, and 10 Fury for killing a unit. After 8 seconds of being out of combat, Tryndamere loses 5 Fury every second.\n\nEach point of Fury grants [0.5]% Critical Strike Chance."
+        },
+        {
+          "ability": "Undying Rage",
+          "slot": "R",
+          "source": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+          "formula": "Tryndamere becomes completely immune to death for [5] seconds, refusing to be reduced below [30 / 50 / 70] Health, and instantly gains [50 / 75 / 100] Fury."
+        },
+        {
+          "ability": "Bloodlust",
+          "slot": "Q",
+          "source": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+          "formula": "Passive: Tryndamere thirsts for blood, gaining up to [20 / 35 / 50 / 65 / 80] Attack Damage based on his missing Health.\n\nActive: Tryndamere consumes his Fury, restoring [30 / 40 / 50 / 60 / 70 + (0.3) × AP] plus [0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP] Health per Fury (max: [30 / 40 / 50 / 60 / 70 + (0.3) × AP + (1 × AbilityResource(4, statFormula=default)) × ((0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP))])."
+        }
+      ]
+    },
+    {
+      "id": "tryndamere-audit-last-health-bloodmail-window",
+      "champion": "Tryndamere",
+      "name": "Last-health bloodmail window",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test missing-health AD during R against the timing cost of delayed healing.",
+      "goal": "Test missing-health AD during R against the timing cost of delayed healing.",
+      "hypothesis": "Q passive grants AD with missing health; Bloodmail adds another bounded missing-health AD effect and bonus-health conversion. R prevents death for five seconds, enabling a measured low-health window; attack crits reduce E cooldown and Navori separately reduces remaining basic cooldowns on attacks. Hydra helps recover after the window.",
+      "itemIds": [
+        2501,
+        3031,
+        6675,
+        3074,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record finite Fury and capped observed crit: the three crit items supply 75%, so high Fury can exceed 100% and waste crit investment. Fix R timer and actual percent missing health.",
+        "Track observed AD, crit frequency, E recycles and healing timing over one five-second R.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "CC or exit failure makes the low-health plan lethal the instant R ends.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Death prevention is not damage immunity and does not permit infinite missing-health scaling.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Infinity Edge, Navori Flickerblade, Ravenous Hydra, Lord Dominik's Regards, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Spinning Slash",
+          "slot": "E",
+          "source": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+          "formula": "Tryndamere spins through his enemies, dealing [80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2] + (0.8) × AP] physical damage and generating [2] Fury per enemy hit, increased to [5] Fury against enemy champions.\n\nThis Ability's Cooldown is reduced by [0.75] seconds when Tryndamere critically strikes, and reduced by [1.5] seconds when critically striking a champion."
+        },
+        {
+          "ability": "Battle Fury",
+          "slot": "Passive",
+          "source": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+          "formula": "Tryndamere's Attacks grant him 5 Fury or 10 Fury for a critical strike, and 10 Fury for killing a unit. After 8 seconds of being out of combat, Tryndamere loses 5 Fury every second.\n\nEach point of Fury grants [0.5]% Critical Strike Chance."
+        },
+        {
+          "ability": "Undying Rage",
+          "slot": "R",
+          "source": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+          "formula": "Tryndamere becomes completely immune to death for [5] seconds, refusing to be reduced below [30 / 50 / 70] Health, and instantly gains [50 / 75 / 100] Fury."
+        },
+        {
+          "ability": "Bloodlust",
+          "slot": "Q",
+          "source": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+          "formula": "Passive: Tryndamere thirsts for blood, gaining up to [20 / 35 / 50 / 65 / 80] Attack Damage based on his missing Health.\n\nActive: Tryndamere consumes his Fury, restoring [30 / 40 / 50 / 60 / 70 + (0.3) × AP] plus [0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP] Health per Fury (max: [30 / 40 / 50 / 60 / 70 + (0.3) × AP + (1 × AbilityResource(4, statFormula=default)) × ((0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP))])."
+        }
+      ]
+    }
+  ]
+}

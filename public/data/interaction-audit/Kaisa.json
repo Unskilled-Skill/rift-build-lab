@@ -1,0 +1,293 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Kaisa",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "evolved-seeker-return",
+      "name": "Evolved Seeker Return",
+      "objective": "Compare W recast timing on champion hit versus miss.",
+      "mechanic": "W evolves at 100 AP, applies three Plasma stacks and reduces its cooldown by 75% on champion hit. AP items support repeated W and missing-health Plasma; Horizon tests long-range hit follow-up, while R shield scales with AP for a finishing approach.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        6655,
+        4628,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "comet",
+      "requiredState": "Verify W evolve stat threshold and hit an unobstructed champion.",
+      "failure": "Missed W receives no refund and entering with R is unsafe.",
+      "test": "Compare W recast timing on champion hit versus miss; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Evolution cooldown refund is not granted on every non-champion hit.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "plasma-repeat-window",
+      "name": "Plasma Repeat Window",
+      "objective": "Count attacks, Plasma stacks and E cooldown in one four-second window.",
+      "mechanic": "P attacks stack Plasma and consume four stacks for AP-scaled missing-health magic; E gives four seconds of attack speed and attacks reduce E cooldown. Nashor/Dusk plus Rageblade tests personal on-hit repetition, but Plasma stack events must be logged independently. Q evolution is not assumed for this AP mix.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        3124,
+        3089,
+        3091,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Confirm E evolution separately and record starting Plasma/E cooldown.",
+      "failure": "On-hit duplication may not duplicate Plasma and Q lacks enough bonus AD to evolve.",
+      "test": "Count attacks, Plasma stacks and E cooldown in one four-second window; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Repeated item on-hits do not automatically duplicate Plasma stack application.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Free all-three evolves",
+      "reason": "Q/W/E require separate bonus AD/AP/AS thresholds; one evolved ability does not grant the others.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q maximum conditional damage is unresolved; per-item evolve totals and Dusk/Rageblade Plasma inheritance require live checks.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison.",
+    "Unresolved conditional/runtime tooltip tokens prevent a complete numerical model; retained helpers do not establish live behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Second Skin",
+      "paths": [
+        "Characters/Kaisa/Spells/KaisaPassiveAbility/KaisaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Icathian Rain",
+      "paths": [
+        "Characters/Kaisa/Spells/KaisaQAbility/KaisaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Void Seeker",
+      "paths": [
+        "Characters/Kaisa/Spells/KaisaWAbility/KaisaW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Supercharge",
+      "paths": [
+        "Characters/Kaisa/Spells/KaisaEAbility/KaisaE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Killer Instinct",
+      "paths": [
+        "Characters/Kaisa/Spells/KaisaRAbility/KaisaR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "kaisa-audit-evolved-seeker-return",
+      "champion": "Kaisa",
+      "name": "Evolved Seeker Return",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare W recast timing on champion hit versus miss.",
+      "goal": "Compare W recast timing on champion hit versus miss.",
+      "hypothesis": "W evolves at 100 AP, applies three Plasma stacks and reduces its cooldown by 75% on champion hit. AP items support repeated W and missing-health Plasma; Horizon tests long-range hit follow-up, while R shield scales with AP for a finishing approach.",
+      "itemIds": [
+        6655,
+        4628,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Verify W evolve stat threshold and hit an unobstructed champion.",
+        "Compare W recast timing on champion hit versus miss; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Missed W receives no refund and entering with R is unsafe.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Evolution cooldown refund is not granted on every non-champion hit.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Luden's Echo, Horizon Focus, Shadowflame, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Second Skin",
+          "slot": "Passive",
+          "source": "Characters/Kaisa/Spells/KaisaPassiveAbility/KaisaPassive",
+          "formula": "Kai'Sa's Attacks stack Plasma for [4] seconds and deal an additional [(characterLevelInterpolation(4 → 30; raw flags preserved) + (0.12) × AP) × (1)] plus [(characterLevelInterpolation(1 → 8; raw flags preserved) + (0.03) × AP) × (1)] per stack magic damage. Attacking an enemy with [4] stacks consumes the Plasma, dealing [0.15 + (0.0006) × AP] missing Health magic damage. Nearby allies apply [1] stack to champions they Immobilize.\n\nKai'Sa's suit evolves her basic Abilities based on her stats.\nIcathian Rain: @f1.1@/@spell.KaisaQ:Effect6Amount@ Bonus Attack Damage\nVoid Seeker: @f2.1@/@spell.KaisaW:Effect2Amount@ Ability Power\nSupercharge: @f3.1@%/@spell.KaisaE:Effect6Amount@% Bonus Attack Speed"
+        },
+        {
+          "ability": "Void Seeker",
+          "slot": "W",
+          "source": "Characters/Kaisa/Spells/KaisaWAbility/KaisaW",
+          "formula": "Kai'Sa fires a void blast that deals [30 / 55 / 80 / 105 / 130 + (1.3) × AD + (0.45) × AP] magic damage, applies [2] stacks of Plasma, and grants True Sight of the first enemy hit for @spell.KaisaPassive:PDuration@ seconds.\n\nEvolved: Kai'Sa instead applies [3] stacks of Plasma and hitting a champion reduces the Cooldown by [75]%.\nCurrent: @f2.1@/[100] Ability Power"
+        },
+        {
+          "ability": "Killer Instinct",
+          "slot": "R",
+          "source": "Characters/Kaisa/Spells/KaisaRAbility/KaisaR",
+          "formula": "Kai'Sa warps near an enemy champion affected by Plasma and gains [100 / 150 / 200 + (0.9 / 1.35 / 1.8) × AD + (1.2) × AP] Shield for [2] seconds."
+        }
+      ]
+    },
+    {
+      "id": "kaisa-audit-plasma-repeat-window",
+      "champion": "Kaisa",
+      "name": "Plasma Repeat Window",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count attacks, Plasma stacks and E cooldown in one four-second window.",
+      "goal": "Count attacks, Plasma stacks and E cooldown in one four-second window.",
+      "hypothesis": "P attacks stack Plasma and consume four stacks for AP-scaled missing-health magic; E gives four seconds of attack speed and attacks reduce E cooldown. Nashor/Dusk plus Rageblade tests personal on-hit repetition, but Plasma stack events must be logged independently. Q evolution is not assumed for this AP mix.",
+      "itemIds": [
+        3115,
+        2510,
+        3124,
+        3089,
+        3091,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Confirm E evolution separately and record starting Plasma/E cooldown.",
+        "Count attacks, Plasma stacks and E cooldown in one four-second window; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "On-hit duplication may not duplicate Plasma and Q lacks enough bonus AD to evolve.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Repeated item on-hits do not automatically duplicate Plasma stack application.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Guinsoo's Rageblade, Rabadon's Deathcap, Wit's End, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Icathian Rain",
+          "slot": "Q",
+          "source": "Characters/Kaisa/Spells/KaisaQAbility/KaisaQ",
+          "formula": "Kai'Sa launches [6] missiles that split among nearby enemies, each dealing [40 / 55 / 70 / 85 / 100 + (0.55) × AD[statFormula=2] + (0.2) × AP] physical damage, up to a maximum of [UNRESOLVED(GameCalculationConditional; see calculationRaw)]. Additional missile hits on champions or monsters deal [25]% damage.\n\nEvolved: Kai'Sa instead fires [12] missiles.\nCurrent: @f11.1@/[100] Bonus Attack Damage"
+        },
+        {
+          "ability": "Supercharge",
+          "slot": "E",
+          "source": "Characters/Kaisa/Spells/KaisaEAbility/KaisaE",
+          "formula": "Kai'Sa supercharges her void energy, gaining [(clamp(((1) × Stat(4)[statFormula=2] + 1), 1, 2)) × (0.55 / 0.6 / 0.65 / 0.7 / 0.75)] Move Speed and becoming Ghosted while charging, then gaining [(0.4 / 0.5 / 0.6 / 0.7 / 0.8) × 100]% Attack Speed for [4] seconds.\n\nAttacks reduce this Ability's Cooldown by [0.5] seconds.\n\nEvolved: Kai'Sa also becomes Invisible for [0.5] seconds.\nCurrent: @f10.1@%/[100]% Bonus Attack Speed"
+        },
+        {
+          "ability": "Second Skin",
+          "slot": "Passive",
+          "source": "Characters/Kaisa/Spells/KaisaPassiveAbility/KaisaPassive",
+          "formula": "Kai'Sa's Attacks stack Plasma for [4] seconds and deal an additional [(characterLevelInterpolation(4 → 30; raw flags preserved) + (0.12) × AP) × (1)] plus [(characterLevelInterpolation(1 → 8; raw flags preserved) + (0.03) × AP) × (1)] per stack magic damage. Attacking an enemy with [4] stacks consumes the Plasma, dealing [0.15 + (0.0006) × AP] missing Health magic damage. Nearby allies apply [1] stack to champions they Immobilize.\n\nKai'Sa's suit evolves her basic Abilities based on her stats.\nIcathian Rain: @f1.1@/@spell.KaisaQ:Effect6Amount@ Bonus Attack Damage\nVoid Seeker: @f2.1@/@spell.KaisaW:Effect2Amount@ Ability Power\nSupercharge: @f3.1@%/@spell.KaisaE:Effect6Amount@% Bonus Attack Speed"
+        }
+      ]
+    }
+  ]
+}

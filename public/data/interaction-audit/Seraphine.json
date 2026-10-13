@@ -1,0 +1,314 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Seraphine",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "notes-attack-mage",
+      "name": "Notes attack mage",
+      "objective": "Test notes attack mage against conventional damage at equal gold.",
+      "mechanic": "Stage Presence adds 25 attack range and AP-scaled magic damage per note; casting near allies and hitting Encore through them prepares a long-range empowered attack. Nashor supports subsequent attacks and Lich Bane adds one spell-triggered magic packet, but notes are consumed on the first attack.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3135,
+        3102,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Several allies near casts and notes banked before attacking.",
+      "failure": "After note consumption she loses that temporary range and becomes exposed.",
+      "test": "Compare first note attack and subsequent two attacks separately.",
+      "rejectedAssumption": "Every attack does not retain maximum notes or permanently extended range.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "slow-to-stun-charge-support",
+      "name": "Slow-to-stun charge support",
+      "objective": "Test slow-to-stun charge support against conventional damage at equal gold.",
+      "mechanic": "Beat Drop upgrades slow to root and immobilization to stun; Rylai tests providing a slow on the damage event, while echoed E offers a second hit. Helia stores damage and WW shielding consumes it for healing; Mandate benefits confirmed immobilizations rather than arbitrary slows.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3116,
+        6620,
+        6617,
+        4005,
+        6621,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "Echo E available and allies remain inside Surround Sound.",
+      "failure": "Rylai processing order might not upgrade a single E; weak AP reduces damage.",
+      "test": "Compare single E, echoed E and pre-slowed E, then measure WW healing.",
+      "rejectedAssumption": "Rylai's same-hit status ordering needs testing instead of assuming unconditional single-cast root.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Every attack does not retain maximum notes or permanently extended range.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Proc effectiveness and ordering need a controlled current-patch test; source statFormula IDs and helper records do not establish live dispatch."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Stage Presence",
+      "paths": [
+        "Characters/Seraphine/Spells/SeraphinePassiveAbility/SeraphinePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "High Note",
+      "paths": [
+        "Characters/Seraphine/Spells/SeraphineQAbility/SeraphineQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Surround Sound",
+      "paths": [
+        "Characters/Seraphine/Spells/SeraphineWAbility/SeraphineW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Beat Drop",
+      "paths": [
+        "Characters/Seraphine/Spells/SeraphineEAbility/SeraphineE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Encore",
+      "paths": [
+        "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "seraphine-audit-notes-attack-mage",
+      "champion": "Seraphine",
+      "name": "Notes attack mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test notes attack mage against conventional damage at equal gold.",
+      "goal": "Test notes attack mage against conventional damage at equal gold.",
+      "hypothesis": "Stage Presence adds 25 attack range and AP-scaled magic damage per note; casting near allies and hitting Encore through them prepares a long-range empowered attack. Nashor supports subsequent attacks and Lich Bane adds one spell-triggered magic packet, but notes are consumed on the first attack.",
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3135,
+        3102,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Several allies near casts and notes banked before attacking.",
+        "Compare first note attack and subsequent two attacks separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "After note consumption she loses that temporary range and becomes exposed.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Every attack does not retain maximum notes or permanently extended range.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Void Staff, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Surround Sound",
+          "slot": "W",
+          "source": "Characters/Seraphine/Spells/SeraphineWAbility/SeraphineW",
+          "formula": "Seraphine spurs her nearby allied champions in song, granting them [(0.2 + (0.0002) × AP) × (0.4)] Move Speed, herself [0.2 + (0.0002) × AP] decaying Move Speed and both [(60 / 80 / 100 / 120 / 140 + (0.2) × AP) × (1)] Shield for [2.5] seconds.\n\nIf Seraphine is already Shielded, she calls out to her allies to join her, restoring [8 / 10 / 12 / 14 / 16]% missing Health to them after a [2.5] second delay."
+        },
+        {
+          "ability": "Beat Drop",
+          "slot": "E",
+          "source": "Characters/Seraphine/Spells/SeraphineEAbility/SeraphineE",
+          "formula": "Seraphine unleashes a heavy soundwave, dealing [70 / 100 / 130 / 160 / 190 + (0.5) × AP] magic damage to enemies in a line and Slowing them by [99]% for [1.1 / 1.2 / 1.3 / 1.4 / 1.5] seconds.\n\nEnemies that are already Slowed are Rooted instead, and Immobilized enemies are Stunned."
+        },
+        {
+          "ability": "High Note",
+          "slot": "Q",
+          "source": "Characters/Seraphine/Spells/SeraphineQAbility/SeraphineQ",
+          "formula": "Seraphine projects a pure note, dealing [60 / 85 / 110 / 135 / 160 + (0.4) × AP] magic damage, increased against champions and monsters by the target's missing Health percentage up to [(60 / 85 / 110 / 135 / 160 + (0.4) × AP) × (1.75)] damage below [25]% Health."
+        },
+        {
+          "ability": "Stage Presence",
+          "slot": "Passive",
+          "source": "Characters/Seraphine/Spells/SeraphinePassiveAbility/SeraphinePassive",
+          "formula": "Every third basic Ability Seraphine casts will echo, automatically casting a second time.\n\nAdditionally, Seraphine draws inspiration from the music within her allies, creating a Note for each nearby ally whenever she casts an Ability. For each Note, Seraphine's Attacks gain [25] Attack Range and deal an additional [characterLevelInterpolation(4 → 25; raw flags preserved) + (0.04) × AP] magic damage and consume the Notes."
+        },
+        {
+          "ability": "Encore",
+          "slot": "R",
+          "source": "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR",
+          "formula": "Seraphine takes the stage, projecting a captivating force that Charms for [1.25 / 1.5 / 1.75] seconds and deals [150 / 200 / 250 + (0.4) × AP] magic damage.\n\nAny champions struck (including allies) become part of the performance, extending the range of this Ability. Allied champions gain maximum Notes."
+        }
+      ]
+    },
+    {
+      "id": "seraphine-audit-slow-to-stun-charge-support",
+      "champion": "Seraphine",
+      "name": "Slow-to-stun charge support",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test slow-to-stun charge support against conventional damage at equal gold.",
+      "goal": "Test slow-to-stun charge support against conventional damage at equal gold.",
+      "hypothesis": "Beat Drop upgrades slow to root and immobilization to stun; Rylai tests providing a slow on the damage event, while echoed E offers a second hit. Helia stores damage and WW shielding consumes it for healing; Mandate benefits confirmed immobilizations rather than arbitrary slows.",
+      "itemIds": [
+        3116,
+        6620,
+        6617,
+        4005,
+        6621,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Echo E available and allies remain inside Surround Sound.",
+        "Compare single E, echoed E and pre-slowed E, then measure WW healing.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Rylai processing order might not upgrade a single E; weak AP reduces damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Rylai's same-hit status ordering needs testing instead of assuming unconditional single-cast root.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Rylai's Crystal Scepter, Echoes of Helia, Moonstone Renewer, Imperial Mandate, Dawncore, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Surround Sound",
+          "slot": "W",
+          "source": "Characters/Seraphine/Spells/SeraphineWAbility/SeraphineW",
+          "formula": "Seraphine spurs her nearby allied champions in song, granting them [(0.2 + (0.0002) × AP) × (0.4)] Move Speed, herself [0.2 + (0.0002) × AP] decaying Move Speed and both [(60 / 80 / 100 / 120 / 140 + (0.2) × AP) × (1)] Shield for [2.5] seconds.\n\nIf Seraphine is already Shielded, she calls out to her allies to join her, restoring [8 / 10 / 12 / 14 / 16]% missing Health to them after a [2.5] second delay."
+        },
+        {
+          "ability": "Beat Drop",
+          "slot": "E",
+          "source": "Characters/Seraphine/Spells/SeraphineEAbility/SeraphineE",
+          "formula": "Seraphine unleashes a heavy soundwave, dealing [70 / 100 / 130 / 160 / 190 + (0.5) × AP] magic damage to enemies in a line and Slowing them by [99]% for [1.1 / 1.2 / 1.3 / 1.4 / 1.5] seconds.\n\nEnemies that are already Slowed are Rooted instead, and Immobilized enemies are Stunned."
+        },
+        {
+          "ability": "Stage Presence",
+          "slot": "Passive",
+          "source": "Characters/Seraphine/Spells/SeraphinePassiveAbility/SeraphinePassive",
+          "formula": "Every third basic Ability Seraphine casts will echo, automatically casting a second time.\n\nAdditionally, Seraphine draws inspiration from the music within her allies, creating a Note for each nearby ally whenever she casts an Ability. For each Note, Seraphine's Attacks gain [25] Attack Range and deal an additional [characterLevelInterpolation(4 → 25; raw flags preserved) + (0.04) × AP] magic damage and consume the Notes."
+        },
+        {
+          "ability": "Encore",
+          "slot": "R",
+          "source": "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR",
+          "formula": "Seraphine takes the stage, projecting a captivating force that Charms for [1.25 / 1.5 / 1.75] seconds and deals [150 / 200 / 250 + (0.4) × AP] magic damage.\n\nAny champions struck (including allies) become part of the performance, extending the range of this Ability. Allied champions gain maximum Notes."
+        }
+      ]
+    }
+  ]
+}

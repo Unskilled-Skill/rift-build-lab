@@ -15,3 +15,5 @@ For each route:
 Completed deeper collections: Blitzcrank, Thresh, Warwick, Jax, Varus, Malzahar and Leona (28 proposals). Other champions remain first-pass shared candidate packages; do not present them as already individually revised.
 
 No live AI provider or complete damage solver exists. These authoring instructions support this conversation's local workflow. Numerical adapters remain Cassiopeia Q/E and Sett W.
+
+A second research pass adds a complete roster interaction ledger under `scripts/interaction-audit`. Each champion receives two separately reasoned routes with evidence slots, finite required state, a failure case and rejected assumptions. The ledger is not a guarantee that every possible interaction has been found. `npm run interaction-audit` validates exact coverage and item constraints before publishing. Seven fully authored collections stay unchanged; other collections use two audited routes plus their reference/matchup comparisons. Every audit route is flagged for manual testing so a different ability objective cannot inherit a misleading number from the limited solver.

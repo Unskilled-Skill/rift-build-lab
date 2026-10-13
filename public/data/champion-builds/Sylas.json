@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "sylas-four-1",
@@ -110,18 +110,20 @@
       ]
     },
     {
-      "id": "sylas-four-2",
+      "id": "sylas-audit-health-kingslayer-return",
       "champion": "Sylas",
-      "name": "Damage interaction: Dusk and Dawn",
-      "goal": "Damage interaction for Sylas: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A spell-and-attack melee skirmisher who cycles empowered attacks and healing, adapting his ultimate options to enemy champions. Measure empowered passive attacks and W healing with a specified stolen R. Do not average every enemy ultimate into one guaranteed burst/utility result. Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern.",
-      "summary": "Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern.",
+      "name": "Health Kingslayer return",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use bonus health to support a second low-health W rather than a single burst.",
+      "goal": "Use bonus health to support a second low-health W rather than a single burst.",
+      "hypothesis": "W healing includes AP and a bonus-health Stat term, doubling toward low health. Riftmaker turns bonus health into AP and Visage increases received healing; Cosmic helps stay close and Dusk rewards attacks between casts. E access and charge attacks are still necessary to maintain contact.",
       "itemIds": [
-        2510,
         4633,
-        3115,
+        3065,
+        4629,
+        2510,
         3089,
-        3157,
         3111
       ],
       "runePage": [
@@ -135,15 +137,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Sylas: Measure empowered passive attacks and W healing with a specified stolen R. Do not average every enemy ultimate into one guaranteed burst/utility result.",
-        "Start with the early core (Dusk and Dawn, then Riftmaker) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sylas lashes his chains out, intersecting at his targeted location dealing damage to and slowing enemies. \n\nAfter a delay, magical energy explodes from the intersection point dealing damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: W targets a champion, current health recorded and enough time for a second W.",
+        "Measure W heal at above and below 40% health with matched bonus health, then record second-cast access.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
-        "The route fails Sylas's stated kit question: Measure empowered passive attacks and W healing with a specified stolen R. Do not average every enemy ultimate into one guaranteed burst/utility result.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Grievous Wounds or burst before the second cast defeats the sustain budget.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
-        "Full cost 17,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Kingslayer's champion heal does not apply identically against minions.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Dusk and Dawn, then Riftmaker. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Nashor's Tooth, Rabadon's Deathcap, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Riftmaker, Spirit Visage, Cosmic Drive, Dusk and Dawn, Rabadon's Deathcap, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Petricite Burst",
@@ -193,18 +187,6 @@
           "slot": "W",
           "source": "Characters/Sylas/Spells/SylasWAbility/SylasW",
           "formula": "Sylas lunges at an enemy with magical force dealing [75 / 110 / 145 / 180 / 215 + (0.6) × AP] magic damage. Against champions, Sylas restores between [20 / 40 / 60 / 80 / 100 + (0.3) × AP + (0.05) × Stat(12)[statFormula=2]] and [(20 / 40 / 60 / 80 / 100 + (0.3) × AP + (0.05) × Stat(12)[statFormula=2]) × (2)] Health based on his missing Health (max healing at or below [40]% Health)."
-        },
-        {
-          "ability": "Hijack",
-          "slot": "R",
-          "source": "Characters/Sylas/Spells/SylasRAbility/SylasR",
-          "formula": "Sylas hijacks an enemy champion, allowing him to cast a copy of their ultimate Ability, based on his Ultimate level and using his stats.\n\nHijacking an enemy places a Cooldown on them for [(runtimeCooldownMultiplier) × (200)]% (modified by Sylas' Ability Haste) of the enemy's ultimate's Cooldown, with a minimum of [40] seconds, during which time Sylas cannot hijack them again."
-        },
-        {
-          "ability": "Chain Lash",
-          "slot": "Q",
-          "source": "Characters/Sylas/Spells/SylasQAbility/SylasQ",
-          "formula": "Sylas lashes his chains out, dealing [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage and Slowing by [0.15 / 0.2 / 0.25 / 0.3 / 0.35] for [1.5] seconds. The place where the chains intersect explodes, dealing a further [60 / 115 / 170 / 225 / 280 + (0.8) × AP] magic damage."
         },
         {
           "ability": "Abscond / Abduct",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "sylas-four-4",
+      "id": "sylas-audit-petricite-ad-ratio",
       "champion": "Sylas",
-      "name": "Experiment: AP and conditional recovery",
-      "goal": "Experiment for Sylas: test a different playstyle, with lower confidence",
-      "hypothesis": "A spell-and-attack melee skirmisher who cycles empowered attacks and healing, adapting his ultimate options to enemy champions. Measure empowered passive attacks and W healing with a specified stolen R. Do not average every enemy ultimate into one guaranteed burst/utility result. AP first, then conditional Visage recovery, tests damage before death. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP first, then conditional Visage recovery, tests damage before death.",
+      "name": "Petricite AD ratio",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AD on the passive's main-target magic attack conversion.",
+      "goal": "Test AD on the passive's main-target magic attack conversion.",
+      "hypothesis": "Petricite Burst converts a main-target attack using 1.3 AD and 0.3 AP, while charged state gives 125% attack speed. Trinity, Titanic and Bloodmail test a health/AD attack budget; Abyssal supports nearby passive magic damage while Titanic supplies separate physical packets. Hijacked R selection remains opponent dependent.",
       "itemIds": [
-        4633,
-        3089,
-        3157,
-        3135,
-        3065,
-        3111
+        3078,
+        3748,
+        2501,
+        3053,
+        8020,
+        3047
       ],
       "runePage": [
-        8010,
+        8005,
         9111,
-        9105,
-        8299,
+        9104,
+        8014,
         8444,
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Sylas: Measure empowered passive attacks and W healing with a specified stolen R. Do not average every enemy ultimate into one guaranteed burst/utility result.",
-        "Start with the early core (Riftmaker, then AP or protection according to the fight) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP first, then conditional Visage recovery, tests damage before death. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sylas lashes his chains out, intersecting at his targeted location dealing damage to and slowing enemies. \n\nAfter a delay, magical energy explodes from the intersection point dealing damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Cast then spend passive charges instead of overflowing the charge cap, with finite bonus health.",
+        "Separate main-target passive magic damage, splash and item physical damage after one cast at matched total AD.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Visage is not efficient without useful healing/shields or an appropriate magic-damage threat.",
-        "The route fails Sylas's stated kit question: Measure empowered passive attacks and W healing with a specified stolen R. Do not average every enemy ultimate into one guaranteed burst/utility result.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Losing AP weakens W/Q/E and converted magic attacks gain nothing from armor penetration.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Visage is not efficient without useful healing/shields or an appropriate magic-damage threat.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Passive's magic conversion does not prove it carries every ordinary attack or crit rule.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Riftmaker, then AP or protection according to the fight. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Zhonya's Hourglass, Void Staff, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Trinity Force, Titanic Hydra, Overlord's Bloodmail, Sterak's Gage, Abyssal Mask, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Petricite Burst",

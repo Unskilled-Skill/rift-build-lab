@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "gwen-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "gwen-four-2",
+      "id": "gwen-audit-mixed-on-hit-scissors",
       "champion": "Gwen",
-      "name": "Damage interaction: Dusk and Dawn",
-      "goal": "Damage interaction for Gwen: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A melee AP duelist who stacks attacks into Q, seeks its center line, and uses mist to isolate threats. Sustained contact feeds percent-health damage and healing. Compare Q center hits, passive percent-health damage and attacks between casts. Mist positioning and the number of needle hits must be explicit; phantom hits need mechanic verification. Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern.",
-      "summary": "Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern.",
+      "name": "Mixed on-hit scissors",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test mixed on-hit scissors against conventional damage at equal gold.",
+      "goal": "Test mixed on-hit scissors against conventional damage at equal gold.",
+      "hypothesis": "Skip 'n Slash adds 0.2 AP magic on-hit plus attack speed and range; four ordinary attacks prepare Snip Snip. Nashor and Rageblade emphasize repeated attacks while Blade adds physical current-health damage, making Terminus's mixed penetration relevant to attacks even though Q centers deal true damage.",
       "itemIds": [
-        2510,
-        4633,
         3115,
-        3089,
-        3157,
-        3111
+        3124,
+        3302,
+        3153,
+        4633,
+        3006
       ],
       "runePage": [
-        8010,
+        8008,
         9111,
-        9105,
-        8299,
-        8444,
+        9104,
+        8014,
+        8429,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Gwen: Compare Q center hits, passive percent-health damage and attacks between casts. Mist positioning and the number of needle hits must be explicit; phantom hits need mechanic verification.",
-        "Start with the early core (Dusk and Dawn, then Riftmaker) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Gwen snips her scissors in a cone up to 6 times dealing magic damage. Gwen deals true damage to units in the center and applies her passive to them on each snip. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Remain inside Hallowed Mist and build Q stacks before snipping.",
+        "Compare on-hit packets and Q center damage separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
-        "The route fails Gwen's stated kit question: Compare Q center hits, passive percent-health damage and attacks between casts. Mist positioning and the number of needle hits must be explicit; phantom hits need mechanic verification.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "No bulk or burst leaves Gwen vulnerable when Mist expires.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
-        "Full cost 17,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Rageblade is not assumed to multiply Q snips or grant extra Q stacks per phantom hit.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Dusk and Dawn, then Riftmaker. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Nashor's Tooth, Rabadon's Deathcap, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Terminus, Blade of The Ruined King, Riftmaker, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Snip Snip!",
           "slot": "Q",
           "source": "Characters/Gwen/Spells/GwenQAbility/GwenQ",
           "formula": "Passive: Gwen gains 1 stack when she hits an enemy with an attack (max 4, lasts [6] seconds).\n\nActive: Consumes stacks. Gwen snips once for [10 / 14 / 18 / 22 / 26 + (0.05) × AP] magic damage, snips again for each ammo consumed, and then snips a final time for [60 / 85 / 110 / 135 / 160 + (0.35) × AP] magic damage. \n\nThe center of each strikes converts [50]% of the damage into true damage instead and applies A Thousand Cuts to enemies hit.\n\nDeals [80]% damage to minions.\nMinions below [20]% health take [1000]% bonus damage instead of reduced damage."
-        },
-        {
-          "ability": "Hallowed Mist",
-          "slot": "W",
-          "source": "Characters/Gwen/Spells/GwenWAbility/GwenW",
-          "formula": "Gwen summons the Hallowed Mist, making her Untargetable to all enemies (except towers) outside the zone for [4] seconds or until she leaves it. While in the Mist, Gwen gains [22 / 24 / 26 / 28 / 30 + (0.07) × AP] Armor and Magic Resist.\n\nGwen can Recast this Ability once to call the Mist to her. This will automatically Recast the first time Gwen attempts to leave the zone."
         },
         {
           "ability": "Skip 'n Slash",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "gwen-four-4",
+      "id": "gwen-audit-mist-resistance-drain",
       "champion": "Gwen",
-      "name": "Experiment: AP attack experiment",
-      "goal": "Experiment for Gwen: test a different playstyle, with lower confidence",
-      "hypothesis": "A melee AP duelist who stacks attacks into Q, seeks its center line, and uses mist to isolate threats. Sustained contact feeds percent-health damage and healing. Compare Q center hits, passive percent-health damage and attacks between casts. Mist positioning and the number of needle hits must be explicit; phantom hits need mechanic verification. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Mist resistance drain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test mist resistance drain against conventional damage at equal gold.",
+      "goal": "Test mist resistance drain against conventional damage at equal gold.",
+      "hypothesis": "A Thousand Cuts heals from its champion damage, while Hallowed Mist grants 0.07 AP armor/MR; Riftmaker and Visage support repeated passive applications from Q centers and Needlework. Bloodletter assists magic passive/R packets, while Liandry supplies a burn during the extended duel.",
       "itemIds": [
-        3115,
-        3124,
+        4633,
+        6653,
+        8010,
+        3065,
         3089,
-        3135,
-        3157,
-        3006
+        3111
       ],
       "runePage": [
-        8008,
+        8010,
         9111,
-        9104,
-        8014,
-        8429,
+        9105,
+        8299,
+        8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Gwen: Compare Q center hits, passive percent-health damage and attacks between casts. Mist positioning and the number of needle hits must be explicit; phantom hits need mechanic verification.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Gwen snips her scissors in a cone up to 6 times dealing magic damage. Gwen deals true damage to units in the center and applies her passive to them on each snip. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Hit Q centers and stay protected from enemies outside Mist.",
+        "Record passive healing through a complete nine-needle R sequence.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Gwen's stated kit question: Compare Q center hits, passive percent-health damage and attacks between casts. Mist positioning and the number of needle hits must be explicit; phantom hits need mechanic verification.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Enemies enter Mist or disengage before sustained effects mature.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Magic resistance reduction cannot amplify the true portion of centered Q.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Riftmaker, Liandry's Torment, Bloodletter's Curse, Spirit Visage, Rabadon's Deathcap, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Snip Snip!",
@@ -403,12 +385,6 @@
           "slot": "W",
           "source": "Characters/Gwen/Spells/GwenWAbility/GwenW",
           "formula": "Gwen summons the Hallowed Mist, making her Untargetable to all enemies (except towers) outside the zone for [4] seconds or until she leaves it. While in the Mist, Gwen gains [22 / 24 / 26 / 28 / 30 + (0.07) × AP] Armor and Magic Resist.\n\nGwen can Recast this Ability once to call the Mist to her. This will automatically Recast the first time Gwen attempts to leave the zone."
-        },
-        {
-          "ability": "Skip 'n Slash",
-          "slot": "E",
-          "source": "Characters/Gwen/Spells/GwenEAbility/GwenE",
-          "formula": "Gwen dashes and empowers her Attacks for [4] seconds.\n\nEmpowered Attacks gain [(30 / 42.5 / 55 / 67.5 / 80) × (0.01)] Attack Speed, [15 + (0.2) × AP] magic damage %i:OnHit% On-Hit, [75] range, and the first one to hit an enemy refunds [(0.25 / 0.35 / 0.45 / 0.55 / 0.65) × 100]% of this Ability's Cooldown."
         },
         {
           "ability": "Needlework",

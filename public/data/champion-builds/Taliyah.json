@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "taliyah-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "taliyah-four-2",
+      "id": "taliyah-audit-worked-ground-active",
       "champion": "Taliyah",
-      "name": "Damage interaction: Mana burst",
-      "goal": "Damage interaction for Taliyah: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A mobile zone-control mage who uses worked-ground rocks for repeated pressure and punishes movement through her minefield. Fix Worked Ground and minefield/dash interaction. R is terrain and mobility, not a guaranteed damage proc; measure actual Q hits and W setup. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Worked ground active",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Spend Actualizer's short window on reduced-cost boulder cycles.",
+      "goal": "Spend Actualizer's short window on reduced-cost boulder cycles.",
+      "hypothesis": "Q on worked ground costs ten mana, halves cooldown and consumes the ground for a stronger boulder. Actualizer increases spell cost while speeding basic cooldown progress; Cosmic helps reposition across created patches. E/W control can buy the time to land those boulders.",
       "itemIds": [
-        6655,
-        4645,
+        2522,
+        4629,
         3089,
-        3135,
+        3137,
         3157,
-        3020
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Taliyah: Fix Worked Ground and minefield/dash interaction. R is terrain and mobility, not a guaranteed damage proc; measure actual Q hits and W setup.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Taliyah throws a volley of rocks in a target direction, moving freely as she casts. This creates Worked Ground below her. If Taliyah casts Threaded Volley on Worked Ground, she consumes the ground to throw a stronger boulder that slows enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Precreated finite worked-ground patches, Actualizer ready and mana recorded.",
+        "Compare cast count and mana spent in eight seconds on prepared ground with the active on versus off.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Taliyah's stated kit question: Fix Worked Ground and minefield/dash interaction. R is terrain and mobility, not a guaranteed damage proc; measure actual Q hits and W setup.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Ground consumed too quickly or moving opponents force ordinary volleys and higher costs.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Five rocks do not deal five full first-hit packets to one target.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Actualizer, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Zhonya's Hourglass, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Unraveled Earth",
@@ -193,18 +187,6 @@
           "slot": "Q",
           "source": "Characters/Taliyah/Spells/TaliyahQAbility/TaliyahQ",
           "formula": "Taliyah hurls 5 rocks, each dealing [55 / 72.5 / 90 / 107.5 / 125 + (0.5) × AP] magic damage in an area around the first enemy hit while creating Worked Ground at that area. Subsequent hits against the same enemy deal [60]% less damage.\n\nCasts on worked ground cost [10] Mana and have [50]% less Cooldown, consume the Worked Ground, and hurl a boulder that Slows enemies it hits by [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% for [1.5] seconds, dealing [(55 / 72.5 / 90 / 107.5 / 125 + (0.5) × AP) × (1.8 / 1.8 / 1.8 / 1.8 / 1.8)] magic damage to the primary target. Monsters hit by the boulder are Stunned for [3] seconds."
-        },
-        {
-          "ability": "Weaver's Wall",
-          "slot": "R",
-          "source": "Characters/Taliyah/Spells/TaliyahRAbility/TaliyahR",
-          "formula": "Taliyah creates a massive earthen wall for [4] seconds. If she immediately Recasts, she will ride along the wall as it unravels. Moving or being immobilized will end the ride.\n\nThis ability cannot be cast if Taliyah has taken damage from Champions or structures within the last [3] seconds."
-        },
-        {
-          "ability": "Rock Surfing",
-          "slot": "Passive",
-          "source": "Characters/Taliyah/Spells/TaliyahPassiveAbility/TaliyahPassive",
-          "formula": "Taliyah gains [characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 0.15000000596046448, \"__type\": \"Breakpoint\"}, {\"mLevel\": 27, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 0.30000001192092896, \"__type\": \"Breakpoint\"}])] Move Speed while out of combat if she has been near a wall within the last [3] seconds."
         },
         {
           "ability": "Seismic Shove",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "taliyah-four-4",
+      "id": "taliyah-audit-stonefield-displacement",
       "champion": "Taliyah",
-      "name": "Experiment: Mana burn zones",
-      "goal": "Experiment for Taliyah: test a different playstyle, with lower confidence",
-      "hypothesis": "A mobile zone-control mage who uses worked-ground rocks for repeated pressure and punishes movement through her minefield. Fix Worked Ground and minefield/dash interaction. R is terrain and mobility, not a guaranteed damage proc; measure actual Q hits and W setup. Mana and repeated ability damage may maintain burns and MR-reduction stacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "name": "Stonefield displacement",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Make a forced movement through E the decisive damage event.",
+      "goal": "Make a forced movement through E the decisive damage event.",
+      "hypothesis": "E stones detonate on dashes or knock-through movement; W supplies directed displacement without a listed damage packet. Rocketbelt helps choose W angle, Rylai tests retention after Q and Bloodletter can reduce MR on qualifying magic ability damage before E detonations.",
       "itemIds": [
-        2503,
-        6653,
+        3152,
         3116,
         8010,
+        3089,
         3157,
         3020
       ],
       "runePage": [
-        8992,
+        8229,
         8226,
         8210,
-        8236,
+        8237,
         8126,
         8106
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Taliyah: Fix Worked Ground and minefield/dash interaction. R is terrain and mobility, not a guaranteed damage proc; measure actual Q hits and W setup.",
-        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Taliyah throws a volley of rocks in a target direction, moving freely as she casts. This creates Worked Ground below her. If Taliyah casts Threaded Volley on Worked Ground, she consumes the ground to throw a stronger boulder that slows enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: W direction crosses a prepared E field; R travel setup occurs before recent damage locks R.",
+        "Log E placement and detonation packets from W knock-through versus an enemy dash, with stacks recorded.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "The route fails Taliyah's stated kit question: Fix Worked Ground and minefield/dash interaction. R is terrain and mobility, not a guaranteed damage proc; measure actual Q hits and W setup.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "W misses or opponents cross outside stones; spending on slows adds little to existing control.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: W and R cannot be assigned AP damage merely because other spells scale with AP.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Rocketbelt, Rylai's Crystal Scepter, Bloodletter's Curse, Rabadon's Deathcap, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Unraveled Earth",

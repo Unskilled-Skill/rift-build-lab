@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Xayah",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "recall-angle-spellblade",
+      "name": "Recall angle Spellblade",
+      "objective": "Build a feather line through spaced casts and change the recall angle with W speed.",
+      "mechanic": "Casts enable feather-leaving attacks; W gives attack speed and champion-hit movement. Essence Reaver rewards one attack after a cast, Stormrazor assists repositioning and Navori tests basic spell recovery through real attacks. E needs three feathers crossing the target to root and exposes crit-stat scaling.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3508,
+        3095,
+        6675,
+        3031,
+        3036,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Feathers placed on a recorded line, W champion hit and three crossings at recall.",
+      "failure": "Attacks cluster feathers at an ineffective angle or movement puts Xayah outside a safe firing position.",
+      "test": "Record feather locations, E hit count and Spellblade packets with stationary versus speed-assisted recall angles.",
+      "rejectedAssumption": "Feather piercing attacks do not prove every secondary target gets all on-hit effects.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "featherstorm-opening-barrage",
+      "name": "Featherstorm opening barrage",
+      "objective": "Test whether post-R enhanced attacks can quickly add feathers for a defensive recall.",
+      "mechanic": "R grants 1.5 seconds untargetability and leaves a feather line; Fiendhunter's ultimate-triggered three attacks can add passive feathers after landing. RFC tests one safer opening attack while W speed supports an E root angle. The crit budget supports E's explicit stat expression.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2512,
+        3094,
+        3031,
+        3036,
+        3072,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "R cast before attacks, finite feather lifetime and all attacks inside the item window.",
+      "failure": "R travel time or peel denies the volley, and spending R offensively loses a defensive escape.",
+      "test": "Log item window from R cast through landing, attack count and feathers crossing the same target.",
+      "rejectedAssumption": "Fiendhunter's enhanced attack damage does not automatically enhance E as an ordinary crit.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "R critical strikes",
+      "reason": "R lists AD physical damage without an attack crit term; E alone has explicit crit-stat scaling.",
+      "evidenceSlots": [
+        "R",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive feather-count/lifetime tokens, E crit multiplier and W secondary-blade item inheritance need live observation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Clean Cuts",
+      "paths": [
+        "Characters/Xayah/Spells/XayahPassiveAbility/XayahPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Double Daggers",
+      "paths": [
+        "Characters/Xayah/Spells/XayahQAbility/XayahQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Deadly Plumage",
+      "paths": [
+        "Characters/Xayah/Spells/XayahWAbility/XayahW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Bladecaller",
+      "paths": [
+        "Characters/Xayah/Spells/XayahEAbility/XayahE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Featherstorm",
+      "paths": [
+        "Characters/Xayah/Spells/XayahRAbility/XayahR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "xayah-audit-recall-angle-spellblade",
+      "champion": "Xayah",
+      "name": "Recall angle Spellblade",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Build a feather line through spaced casts and change the recall angle with W speed.",
+      "goal": "Build a feather line through spaced casts and change the recall angle with W speed.",
+      "hypothesis": "Casts enable feather-leaving attacks; W gives attack speed and champion-hit movement. Essence Reaver rewards one attack after a cast, Stormrazor assists repositioning and Navori tests basic spell recovery through real attacks. E needs three feathers crossing the target to root and exposes crit-stat scaling.",
+      "itemIds": [
+        3508,
+        3095,
+        6675,
+        3031,
+        3036,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Feathers placed on a recorded line, W champion hit and three crossings at recall.",
+        "Record feather locations, E hit count and Spellblade packets with stationary versus speed-assisted recall angles.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Attacks cluster feathers at an ineffective angle or movement puts Xayah outside a safe firing position.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Feather piercing attacks do not prove every secondary target gets all on-hit effects.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Essence Reaver, Stormrazor, Navori Flickerblade, Infinity Edge, Lord Dominik's Regards, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bladecaller",
+          "slot": "E",
+          "source": "Characters/Xayah/Spells/XayahEAbility/XayahE",
+          "formula": "Xayah calls all Feathers back to her, dealing [(50 / 65 / 80 / 95 / 110 + (0.4) × AD[statFormula=2]) × ((1 + ((0.5) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage each. If [3] or more Feathers hit an enemy, they are Rooted for [1.25] seconds."
+        },
+        {
+          "ability": "Double Daggers",
+          "slot": "Q",
+          "source": "Characters/Xayah/Spells/XayahQAbility/XayahQ",
+          "formula": "Xayah throws two daggers, dealing [45 / 60 / 75 / 90 / 105 + (0.5) × AD[statFormula=2]] physical damage each and leaving two Feathers. Targets hit after the first take [(45 / 60 / 75 / 90 / 105 + (0.5) × AD[statFormula=2]) × (0.5)] damage from each dagger."
+        },
+        {
+          "ability": "Deadly Plumage",
+          "slot": "W",
+          "source": "Characters/Xayah/Spells/XayahWAbility/XayahW",
+          "formula": "Xayah creates a storm of blades for [4] seconds that grants her [35 / 40 / 45 / 50 / 55]% Attack Speed and cause her Attacks to fire a secondary blade that deals [25]% damage.\n\nWhen the secondary blade hits a champion, she grants herself [30]% Move Speed for [1.5] seconds.\n\nIf Rakan is nearby he will also gain the effects of this Ability, except he gains Move Speed when Xayah strikes a target."
+        },
+        {
+          "ability": "Clean Cuts",
+          "slot": "Passive",
+          "source": "Characters/Xayah/Spells/XayahPassiveAbility/XayahPassive",
+          "formula": "After using an Ability, Xayah's next @f14@ Attacks will deal @f16*100@% damage to all other targets along their path and leave a Feather for @f12@ seconds.\n\nLover's Leap: Xayah and Rakan can recall together."
+        }
+      ]
+    },
+    {
+      "id": "xayah-audit-featherstorm-opening-barrage",
+      "champion": "Xayah",
+      "name": "Featherstorm opening barrage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether post-R enhanced attacks can quickly add feathers for a defensive recall.",
+      "goal": "Test whether post-R enhanced attacks can quickly add feathers for a defensive recall.",
+      "hypothesis": "R grants 1.5 seconds untargetability and leaves a feather line; Fiendhunter's ultimate-triggered three attacks can add passive feathers after landing. RFC tests one safer opening attack while W speed supports an E root angle. The crit budget supports E's explicit stat expression.",
+      "itemIds": [
+        2512,
+        3094,
+        3031,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R cast before attacks, finite feather lifetime and all attacks inside the item window.",
+        "Log item window from R cast through landing, attack count and feathers crossing the same target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "R travel time or peel denies the volley, and spending R offensively loses a defensive escape.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Fiendhunter's enhanced attack damage does not automatically enhance E as an ordinary crit.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Fiendhunter Bolts, Rapid Firecannon, Infinity Edge, Lord Dominik's Regards, Bloodthirster, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bladecaller",
+          "slot": "E",
+          "source": "Characters/Xayah/Spells/XayahEAbility/XayahE",
+          "formula": "Xayah calls all Feathers back to her, dealing [(50 / 65 / 80 / 95 / 110 + (0.4) × AD[statFormula=2]) × ((1 + ((0.5) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage each. If [3] or more Feathers hit an enemy, they are Rooted for [1.25] seconds."
+        },
+        {
+          "ability": "Deadly Plumage",
+          "slot": "W",
+          "source": "Characters/Xayah/Spells/XayahWAbility/XayahW",
+          "formula": "Xayah creates a storm of blades for [4] seconds that grants her [35 / 40 / 45 / 50 / 55]% Attack Speed and cause her Attacks to fire a secondary blade that deals [25]% damage.\n\nWhen the secondary blade hits a champion, she grants herself [30]% Move Speed for [1.5] seconds.\n\nIf Rakan is nearby he will also gain the effects of this Ability, except he gains Move Speed when Xayah strikes a target."
+        },
+        {
+          "ability": "Featherstorm",
+          "slot": "R",
+          "source": "Characters/Xayah/Spells/XayahRAbility/XayahR",
+          "formula": "Xayah leaps into the air becoming Untargetable and Ghosted for 1.5 seconds before raining down daggers that deal [200 / 300 / 400 + (1) × AD[statFormula=2]] physical damage and leave behind a line of Feathers."
+        },
+        {
+          "ability": "Clean Cuts",
+          "slot": "Passive",
+          "source": "Characters/Xayah/Spells/XayahPassiveAbility/XayahPassive",
+          "formula": "After using an Ability, Xayah's next @f14@ Attacks will deal @f16*100@% damage to all other targets along their path and leave a Feather for @f12@ seconds.\n\nLover's Leap: Xayah and Rakan can recall together."
+        }
+      ]
+    }
+  ]
+}

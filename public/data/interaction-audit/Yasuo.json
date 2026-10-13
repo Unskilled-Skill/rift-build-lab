@@ -1,0 +1,291 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Yasuo",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "dash-ap-flow",
+      "name": "Dash AP Flow",
+      "objective": "Test AP on a finite chain of distinct-target E dashes.",
+      "mechanic": "E deals 0.6 AP magic damage and increases subsequent E damage up to four stacks, subject to per-target cooldowns. Cosmic responds to magic damage, Riftmaker rewards extended combat and Lich Bane requires a real follow-up attack. Movement grants Flow, so faster relocation can alter shield availability.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        4629,
+        4633,
+        3100,
+        3115,
+        3089,
+        3020
+      ],
+      "pageKey": "storm",
+      "requiredState": "Several distinct dash targets, E stack duration maintained and finite Flow recorded.",
+      "failure": "Isolated opponents deny E chains; sacrificing crit reduces Q and ordinary attack threat.",
+      "test": "Measure successive E hits on separate targets at zero through four stacks and shield availability after the path.",
+      "rejectedAssumption": "The same target cannot be redashed immediately simply because E's cast cooldown is short.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "last-breath-three-attacks",
+      "name": "Last Breath three attacks",
+      "objective": "Use R's post-cast armor interaction for a short critical attack follow-up.",
+      "mechanic": "R requires an airborne champion and grants maximum Flow; afterward critical strikes ignore bonus armor for fifteen seconds. Fiendhunter offers three enhanced basic attacks after R and movement from Stridebreaker helps contact. Yasuo's passive doubles crit chance, so a finite crit budget reaches its cap quickly.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        2512,
+        3031,
+        3153,
+        6631,
+        3053,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Valid airborne target, R used and three follow-up attacks within the item window.",
+      "failure": "No knockup denies R or peel stops attacks; low enemy bonus armor reduces the special penetration value.",
+      "test": "Compare three post-R attacks versus pre-R against equal total armor with different bonus-armor shares.",
+      "rejectedAssumption": "R's bonus-armor ignore is not a blanket reduction to all armor for every spell.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Mana shield engine",
+      "reason": "Yasuo builds Flow through movement and does not spend mana.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q primary description explicitly treats it as a basic attack; exact per-target on-hit delivery and modified crit rules still need logs. Passive crit-to-AD token and Fiendhunter critical interaction require live checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Way of the Wanderer",
+      "paths": [
+        "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Steel Tempest",
+      "paths": [
+        "Characters/Yasuo/Spells/YasuoQ1WrapperAbility/YasuoQ1Wrapper"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Wind Wall",
+      "paths": [
+        "Characters/Yasuo/Spells/YasuoWAbility/YasuoW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Sweeping Blade",
+      "paths": [
+        "Characters/Yasuo/Spells/YasuoEAbility/YasuoE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Last Breath",
+      "paths": [
+        "Characters/Yasuo/Spells/YasuoRAbility/YasuoR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "yasuo-audit-dash-ap-flow",
+      "champion": "Yasuo",
+      "name": "Dash AP Flow",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP on a finite chain of distinct-target E dashes.",
+      "goal": "Test AP on a finite chain of distinct-target E dashes.",
+      "hypothesis": "E deals 0.6 AP magic damage and increases subsequent E damage up to four stacks, subject to per-target cooldowns. Cosmic responds to magic damage, Riftmaker rewards extended combat and Lich Bane requires a real follow-up attack. Movement grants Flow, so faster relocation can alter shield availability.",
+      "itemIds": [
+        4629,
+        4633,
+        3100,
+        3115,
+        3089,
+        3020
+      ],
+      "runePage": [
+        8230,
+        8275,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Several distinct dash targets, E stack duration maintained and finite Flow recorded.",
+        "Measure successive E hits on separate targets at zero through four stacks and shield availability after the path.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Isolated opponents deny E chains; sacrificing crit reduces Q and ordinary attack threat.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The same target cannot be redashed immediately simply because E's cast cooldown is short.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Cosmic Drive, Riftmaker, Lich Bane, Nashor's Tooth, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Steel Tempest",
+          "slot": "Q",
+          "source": "Characters/Yasuo/Spells/YasuoQ1WrapperAbility/YasuoQ1Wrapper",
+          "formula": "Yasuo thrusts, dealing [20 / 45 / 70 / 95 / 120 + (1.05) × AD] physical damage. If he hits, he gains a stack for [6] seconds. While he has 2 stacks, his next use of this Ability fires a whirlwind from range, dealing the same damage and Knocking Up for [1] second.\n\nIf used while dashing, this Ability strikes in a circle rather than a stab."
+        },
+        {
+          "ability": "Sweeping Blade",
+          "slot": "E",
+          "source": "Characters/Yasuo/Spells/YasuoEAbility/YasuoE",
+          "formula": "Yasuo dashes through a target, dealing [70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP] magic damage. Each use of this Ability grants [(70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP) × (0.25)] bonus damage to subsequent uses for [5] seconds, stacking up to [4] times.\n\nThis Ability has a [10 / 9 / 8 / 7 / 6] second per-target Cooldown."
+        },
+        {
+          "ability": "Way of the Wanderer",
+          "slot": "Passive",
+          "source": "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive",
+          "formula": "Resolve: Moving grants Flow, which is tracked on Yasuo's resource bar. Moving faster grants more Flow. At maximum Flow, damage from a champion or monster briefly grants [characterLevelInterpolation(125 → 600; raw flags preserved)] Shield.\n\nIntent: Yasuo's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YasuoCritToAD*.01@ Bonus Attack Damage for every 1% Critical Strike Chance above 100%."
+        }
+      ]
+    },
+    {
+      "id": "yasuo-audit-last-breath-three-attacks",
+      "champion": "Yasuo",
+      "name": "Last Breath three attacks",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use R's post-cast armor interaction for a short critical attack follow-up.",
+      "goal": "Use R's post-cast armor interaction for a short critical attack follow-up.",
+      "hypothesis": "R requires an airborne champion and grants maximum Flow; afterward critical strikes ignore bonus armor for fifteen seconds. Fiendhunter offers three enhanced basic attacks after R and movement from Stridebreaker helps contact. Yasuo's passive doubles crit chance, so a finite crit budget reaches its cap quickly.",
+      "itemIds": [
+        2512,
+        3031,
+        3153,
+        6631,
+        3053,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Valid airborne target, R used and three follow-up attacks within the item window.",
+        "Compare three post-R attacks versus pre-R against equal total armor with different bonus-armor shares.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "No knockup denies R or peel stops attacks; low enemy bonus armor reduces the special penetration value.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: R's bonus-armor ignore is not a blanket reduction to all armor for every spell.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Fiendhunter Bolts, Infinity Edge, Blade of The Ruined King, Stridebreaker, Sterak's Gage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Steel Tempest",
+          "slot": "Q",
+          "source": "Characters/Yasuo/Spells/YasuoQ1WrapperAbility/YasuoQ1Wrapper",
+          "formula": "Yasuo thrusts, dealing [20 / 45 / 70 / 95 / 120 + (1.05) × AD] physical damage. If he hits, he gains a stack for [6] seconds. While he has 2 stacks, his next use of this Ability fires a whirlwind from range, dealing the same damage and Knocking Up for [1] second.\n\nIf used while dashing, this Ability strikes in a circle rather than a stab."
+        },
+        {
+          "ability": "Last Breath",
+          "slot": "R",
+          "source": "Characters/Yasuo/Spells/YasuoRAbility/YasuoR",
+          "formula": "Yasuo teleports to an Airborne enemy champion, dealing [200 / 350 / 500 + (1.5) × AD[statFormula=2]] physical damage and holding all nearby Airborne enemies up for an additional [1] second. Yasuo also gains maximum Flow, but loses all {{Spell_YasuoQ1Wrapper_Name}} stacks.\n\nAfterwards, Yasuo's critical strikes ignore [60]% bonus Armor for [15] seconds."
+        },
+        {
+          "ability": "Way of the Wanderer",
+          "slot": "Passive",
+          "source": "Characters/Yasuo/Spells/YasuoPassiveAbility/YasuoPassive",
+          "formula": "Resolve: Moving grants Flow, which is tracked on Yasuo's resource bar. Moving faster grants more Flow. At maximum Flow, damage from a champion or monster briefly grants [characterLevelInterpolation(125 → 600; raw flags preserved)] Shield.\n\nIntent: Yasuo's Critical Strike Chance is increased by [100]% but his Critical Strike Damage is reduced to [(1) × Stat(9)]. Gain @YasuoCritToAD*.01@ Bonus Attack Damage for every 1% Critical Strike Chance above 100%."
+        }
+      ]
+    }
+  ]
+}

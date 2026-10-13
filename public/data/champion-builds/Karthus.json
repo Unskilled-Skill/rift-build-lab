@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "karthus-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "karthus-four-2",
+      "id": "karthus-audit-wall-isolated-motion",
       "champion": "Karthus",
-      "name": "Damage interaction: Ultimate window",
-      "goal": "Damage interaction for Karthus: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A sustained spell-damage mage who lands isolated Qs, occupies space with E and retains a final casting window after death. Compare isolated versus shared Q hits and R damage. E mana cost and post-death casting are finite; do not assume uninterrupted ten-second Q spam while moving. Mana and ultimate-oriented item effects test repeated impactful R windows.",
-      "summary": "Mana and ultimate-oriented item effects test repeated impactful R windows.",
+      "name": "Wall Isolated Motion",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure isolated Q accuracy after W against targets beside a minion.",
+      "goal": "Measure isolated Q accuracy after W against targets beside a minion.",
+      "hypothesis": "Q doubles damage only when hitting one enemy. W removes MR and slows for five seconds; Cosmic follows Q magic to adjust the next blast, while Rylai tests retention beyond W. Riftmaker supports a living close-range sequence with E damage between isolated Q hits.",
       "itemIds": [
-        3118,
-        4645,
+        4629,
+        3116,
+        4633,
         3089,
         3135,
-        3157,
         3020
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,54 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Karthus: Compare isolated versus shared Q hits and R damage. E mana cost and post-death casting are finite; do not assume uninterrupted ten-second Q spam while moving.",
-        "Start with the early core (Malignance only if the R interaction is confirmed, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and ultimate-oriented item effects test repeated impactful R windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Karthus unleashes a delayed blast at a location, dealing damage to nearby enemies. Deals increased damage to isolated enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: W crossed and Q hits exactly one unit with enough mana to continue.",
+        "Measure isolated Q accuracy after W against targets beside a minion; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "The route fails Karthus's stated kit question: Compare isolated versus shared Q hits and R damage. E mana cost and post-death casting are finite; do not assume uninterrupted ten-second Q spam while moving.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Minions break isolation or proximity kills Karthus before ramp.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Two enemies do not each receive isolated-double Q damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Malignance only if the R interaction is confirmed, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Cosmic Drive, Rylai's Crystal Scepter, Riftmaker, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Lay Waste",
           "slot": "Q",
           "source": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
           "formula": "Karthus creates a blast of magic, dealing [40 / 59 / 78 / 97 / 116 + (0.35) × AP] magic damage. If the blast hits only one enemy, it instead deals [(40 / 59 / 78 / 97 / 116 + (0.35) × AP) × (2)] magic damage."
-        },
-        {
-          "ability": "Death Defied",
-          "slot": "Passive",
-          "source": "Characters/Karthus/Spells/KarthusDeathDefiedAbility/KarthusDeathDefied",
-          "formula": "When Karthus dies he can use his Abilities for free for [7] seconds."
-        },
-        {
-          "ability": "Requiem",
-          "slot": "R",
-          "source": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne",
-          "formula": "Karthus channels for 3 seconds, then deals [200 / 350 / 500 + (0.7) × AP] magic damage to enemy champions, regardless of distance."
         },
         {
           "ability": "Defile",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "karthus-four-4",
+      "id": "karthus-audit-death-window-global-finish",
       "champion": "Karthus",
-      "name": "Experiment: Range and poke",
-      "goal": "Experiment for Karthus: test a different playstyle, with lower confidence",
-      "hypothesis": "A sustained spell-damage mage who lands isolated Qs, occupies space with E and retains a final casting window after death. Compare isolated versus shared Q hits and R damage. E mana cost and post-death casting are finite; do not assume uninterrupted ten-second Q spam while moving. Range-compatible spell hits test poke AP/penetration before a commitment. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Range-compatible spell hits test poke AP/penetration before a commitment.",
+      "name": "Death Window Global Finish",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log full R completion and low-health damage inside the seven-second window.",
+      "goal": "Log full R completion and low-health damage inside the seven-second window.",
+      "hypothesis": "P allows free spells for seven seconds after death; R needs a three-second channel. Shadowflame can enhance qualifying low-health Requiem magic damage, and Cryptbloom may reward an actual damage-tagged takedown. Blackfire tests damage persistence from E/Q before the R channel.",
       "itemIds": [
-        6655,
-        4628,
+        2503,
+        4645,
         3089,
-        3135,
-        3102,
+        3137,
+        3157,
         3020
       ],
       "runePage": [
-        8229,
+        8369,
+        8321,
+        8345,
+        8347,
         8226,
-        8210,
-        8237,
-        8126,
-        8106
+        8233
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Karthus: Compare isolated versus shared Q hits and R damage. E mana cost and post-death casting are finite; do not assume uninterrupted ten-second Q spam while moving.",
-        "Start with the early core (Luden, then Horizon) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Range-compatible spell hits test poke AP/penetration before a commitment. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Karthus unleashes a delayed blast at a location, dealing damage to nearby enemies. Deals increased damage to isolated enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Record death time, R readiness, enemy health and last damage time; start R with three seconds remaining.",
+        "Log full R completion and low-health damage inside the seven-second window; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Comet can miss and distance matters; no automatic full-range damage bonus.",
-        "The route fails Karthus's stated kit question: Compare isolated versus shared Q hits and R damage. E mana cost and post-death casting are finite; do not assume uninterrupted ten-second Q spam while moving.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Waiting for low-health targets leaves insufficient passive time; First Strike may be unavailable.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Comet can miss and distance matters; no automatic full-range damage bonus.",
-        "Full cost 16,050 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Death form is finite and does not permit unlimited free casts.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Horizon. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Banshee's Veil are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Blackfire Torch, Shadowflame, Rabadon's Deathcap, Cryptbloom, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Lay Waste",
@@ -415,12 +391,6 @@
           "slot": "E",
           "source": "Characters/Karthus/Spells/KarthusDefileAbility/KarthusDefile",
           "formula": "Passive: When Karthus kills a unit, he restores [10 / 20 / 30 / 40 / 50] Mana.\n\nToggle: Karthus creates a necrotic aura, dealing [30 / 50 / 70 / 90 / 110 + (0.2) × AP] magic damage per second to nearby enemies."
-        },
-        {
-          "ability": "Wall of Pain",
-          "slot": "W",
-          "source": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain",
-          "formula": "Karthus creates a wall that lasts for [5] seconds. Enemies that pass through lose [25]% Magic Resist for [5] seconds and are Slowed by [40 / 50 / 60 / 70 / 80]% decaying over the duration."
         }
       ]
     }

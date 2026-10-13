@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Lulu",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "pix-self-carry-weaving",
+      "name": "Pix self-carry weaving",
+      "objective": "Keep Pix on Lulu and exploit actual attack speed windows.",
+      "mechanic": "Pix fires three AP-linked magic bolts when Lulu attacks, but bolts hit the first enemy in their path. Self Whimsy grants attack speed; Nashor and Dusk and Dawn reward real attacks, while an allied E shield can activate Ardent for both participants. Rageblade supports attack frequency, with Pix repetition treated as unverified rather than an automatic phantom-hit bonus.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        3504,
+        3124,
+        3302,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Need Pix retained or returned, a clear projectile lane and safe attack range.",
+      "failure": "E transfers Pix away from Lulu; minions intercept bolts and R lacks damaging AP scaling.",
+      "test": "Compare Lulu attacks with Pix on self versus an ally and count actual Pix bolts under Rageblade.",
+      "rejectedAssumption": "Pix's three bolts do not each inherit every owner on-hit and phantom attacks may not refire Pix.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "wild-growth-health-escort",
+      "name": "Wild Growth health escort",
+      "objective": "Combine AP-scaled temporary health with repeated ally shield windows.",
+      "mechanic": "Wild Growth grants 275-575 plus 0.55 AP max health for seven seconds and knocks up nearby enemies. Staff's ally-shield AP buff can improve a subsequent R, while Moonstone enhances E shield distribution and Dawncore supports heal/shield stats through mana regeneration. Redemption and Locket provide separate health recovery/shields after the enlarged ally absorbs damage.",
+      "evidenceSlots": [
+        "R",
+        "E",
+        "W",
+        "Q",
+        "P"
+      ],
+      "itemIds": [
+        6617,
+        6621,
+        6616,
+        3107,
+        3190,
+        3158
+      ],
+      "pageKey": "guard",
+      "requiredState": "Need E before R for the temporary AP buff and allies close enough for chains.",
+      "failure": "R expires after seven seconds; timing it too early wastes health and exposes Lulu's short-range E.",
+      "test": "Measure R max-health increase separately from shield/heal totals with and without Staff active.",
+      "rejectedAssumption": "A max-health grant is not automatically a heal for Moonstone, Ardent or heal-power calculations.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unlimited Pix on-hit inheritance",
+      "reason": "Pix has independent projectile damage and interception; owner item proc inheritance is not stated.",
+      "evidenceSlots": [
+        "P",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "R health-grant classification, Pix phantom-hit behavior and E transfer ownership require live testing."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Pix, Faerie Companion",
+      "paths": [
+        "Characters/Lulu/Spells/LuluPassiveAbility/LuluPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Glitterlance",
+      "paths": [
+        "Characters/Lulu/Spells/LuluQAbility/LuluQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Whimsy",
+      "paths": [
+        "Characters/Lulu/Spells/LuluWAbility/LuluW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Help, Pix!",
+      "paths": [
+        "Characters/Lulu/Spells/LuluEAbility/LuluE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Wild Growth",
+      "paths": [
+        "Characters/Lulu/Spells/LuluRAbility/LuluR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "lulu-audit-pix-self-carry-weaving",
+      "champion": "Lulu",
+      "name": "Pix self-carry weaving",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Keep Pix on Lulu and exploit actual attack speed windows.",
+      "goal": "Keep Pix on Lulu and exploit actual attack speed windows.",
+      "hypothesis": "Pix fires three AP-linked magic bolts when Lulu attacks, but bolts hit the first enemy in their path. Self Whimsy grants attack speed; Nashor and Dusk and Dawn reward real attacks, while an allied E shield can activate Ardent for both participants. Rageblade supports attack frequency, with Pix repetition treated as unverified rather than an automatic phantom-hit bonus.",
+      "itemIds": [
+        3115,
+        2510,
+        3504,
+        3124,
+        3302,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need Pix retained or returned, a clear projectile lane and safe attack range.",
+        "Compare Lulu attacks with Pix on self versus an ally and count actual Pix bolts under Rageblade.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "E transfers Pix away from Lulu; minions intercept bolts and R lacks damaging AP scaling.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Pix's three bolts do not each inherit every owner on-hit and phantom attacks may not refire Pix.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Ardent Censer, Guinsoo's Rageblade, Terminus, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Glitterlance",
+          "slot": "Q",
+          "source": "Characters/Lulu/Spells/LuluQAbility/LuluQ",
+          "formula": "Lulu and Pix each fire a piercing bolt dealing [60 / 95 / 130 / 165 / 200 + (0.5) × AP] magic damage and Slowing by [80]%, decaying over [2] seconds.\n\nEnemies take [(60 / 95 / 130 / 165 / 200 + (0.5) × AP) × (0.5)] magic damage from additional bolts."
+        },
+        {
+          "ability": "Whimsy",
+          "slot": "W",
+          "source": "Characters/Lulu/Spells/LuluWAbility/LuluW",
+          "formula": "When used on an ally, Lulu grants [0.25 + (0.0005) × AP] Move Speed and [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Attack Speed for [3 / 3.25 / 3.5 / 3.75 / 4] seconds.\n\nWhen used on an enemy, Lulu Polymorphs them for [1.2 / 1.4 / 1.6 / 1.8 / 2] seconds."
+        },
+        {
+          "ability": "Help, Pix!",
+          "slot": "E",
+          "source": "Characters/Lulu/Spells/LuluEAbility/LuluE",
+          "formula": "When used on an ally, Pix jumps to them and grants Pix, Faerie Companion for [6] seconds. If the ally is a champion, Pix also grants [70 / 110 / 150 / 190 / 230 + (0.5) × AP] Shield for [2.5] seconds.\n\nWhen used on an enemy champion, Pix hampers them, dealing [70 / 110 / 150 / 190 / 230 + (0.5) × AP] magic damage and granting True Sight of them for [4] seconds."
+        },
+        {
+          "ability": "Wild Growth",
+          "slot": "R",
+          "source": "Characters/Lulu/Spells/LuluRAbility/LuluR",
+          "formula": "Lulu enlarges an ally, Knocking Up surrounding enemies for [1] second. The enlarged ally gains [275 / 425 / 575 + (0.55) × AP] max Health and Slows surrounding enemies by [30 / 45 / 60]% for [7] seconds."
+        },
+        {
+          "ability": "Pix, Faerie Companion",
+          "slot": "Passive",
+          "source": "Characters/Lulu/Spells/LuluPassiveAbility/LuluPassive",
+          "formula": "Lulu is assisted by Pix the faerie. When Lulu Attacks, Pix fires 3 bolts at her target, dealing [(characterLevelInterpolation(5 → 39; raw flags preserved) + (0.05) × AP) × (3)] magic damage to the first enemy hit."
+        }
+      ]
+    },
+    {
+      "id": "lulu-audit-wild-growth-health-escort",
+      "champion": "Lulu",
+      "name": "Wild Growth health escort",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Combine AP-scaled temporary health with repeated ally shield windows.",
+      "goal": "Combine AP-scaled temporary health with repeated ally shield windows.",
+      "hypothesis": "Wild Growth grants 275-575 plus 0.55 AP max health for seven seconds and knocks up nearby enemies. Staff's ally-shield AP buff can improve a subsequent R, while Moonstone enhances E shield distribution and Dawncore supports heal/shield stats through mana regeneration. Redemption and Locket provide separate health recovery/shields after the enlarged ally absorbs damage.",
+      "itemIds": [
+        6617,
+        6621,
+        6616,
+        3107,
+        3190,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need E before R for the temporary AP buff and allies close enough for chains.",
+        "Measure R max-health increase separately from shield/heal totals with and without Staff active.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "R expires after seven seconds; timing it too early wastes health and exposes Lulu's short-range E.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: A max-health grant is not automatically a heal for Moonstone, Ardent or heal-power calculations.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Moonstone Renewer, Dawncore, Staff of Flowing Water, Redemption, Locket of the Iron Solari, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Glitterlance",
+          "slot": "Q",
+          "source": "Characters/Lulu/Spells/LuluQAbility/LuluQ",
+          "formula": "Lulu and Pix each fire a piercing bolt dealing [60 / 95 / 130 / 165 / 200 + (0.5) × AP] magic damage and Slowing by [80]%, decaying over [2] seconds.\n\nEnemies take [(60 / 95 / 130 / 165 / 200 + (0.5) × AP) × (0.5)] magic damage from additional bolts."
+        },
+        {
+          "ability": "Whimsy",
+          "slot": "W",
+          "source": "Characters/Lulu/Spells/LuluWAbility/LuluW",
+          "formula": "When used on an ally, Lulu grants [0.25 + (0.0005) × AP] Move Speed and [(0.2 / 0.225 / 0.25 / 0.275 / 0.3) × 100]% Attack Speed for [3 / 3.25 / 3.5 / 3.75 / 4] seconds.\n\nWhen used on an enemy, Lulu Polymorphs them for [1.2 / 1.4 / 1.6 / 1.8 / 2] seconds."
+        },
+        {
+          "ability": "Help, Pix!",
+          "slot": "E",
+          "source": "Characters/Lulu/Spells/LuluEAbility/LuluE",
+          "formula": "When used on an ally, Pix jumps to them and grants Pix, Faerie Companion for [6] seconds. If the ally is a champion, Pix also grants [70 / 110 / 150 / 190 / 230 + (0.5) × AP] Shield for [2.5] seconds.\n\nWhen used on an enemy champion, Pix hampers them, dealing [70 / 110 / 150 / 190 / 230 + (0.5) × AP] magic damage and granting True Sight of them for [4] seconds."
+        },
+        {
+          "ability": "Wild Growth",
+          "slot": "R",
+          "source": "Characters/Lulu/Spells/LuluRAbility/LuluR",
+          "formula": "Lulu enlarges an ally, Knocking Up surrounding enemies for [1] second. The enlarged ally gains [275 / 425 / 575 + (0.55) × AP] max Health and Slows surrounding enemies by [30 / 45 / 60]% for [7] seconds."
+        },
+        {
+          "ability": "Pix, Faerie Companion",
+          "slot": "Passive",
+          "source": "Characters/Lulu/Spells/LuluPassiveAbility/LuluPassive",
+          "formula": "Lulu is assisted by Pix the faerie. When Lulu Attacks, Pix fires 3 bolts at her target, dealing [(characterLevelInterpolation(5 → 39; raw flags preserved) + (0.05) × AP) × (3)] magic damage to the first enemy hit."
+        }
+      ]
+    }
+  ]
+}

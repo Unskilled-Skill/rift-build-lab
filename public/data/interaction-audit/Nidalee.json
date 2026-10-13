@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Nidalee",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "hunted-mixed-stat-pounce",
+      "name": "Hunted mixed-stat pounce",
+      "objective": "Test an AD/AP hybrid cougar follow-up after a Hunt.",
+      "mechanic": "Aspect of the Cougar retains 0.5 AD[statFormula=2] plus 0.3 AP on Pounce and 0.7 AD[statFormula=2] plus 0.55 AP on Swipe. Trinity gives actual Takedown attacks a physical Spellblade packet; Nashor supports human E attack-speed windows. Hunt grants reach and a Pounce cooldown reduction, not unlimited jumps.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3078,
+        3115,
+        4633,
+        3135,
+        3157,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Land human Q or W, retain the four-second Hunt and record form/R rank.",
+      "failure": "A missed spear leaves the melee item investment without safe access.",
+      "test": "Separate human spear, cougar Pounce/Swipe, Takedown and item packets at fixed R rank.",
+      "rejectedAssumption": "The retained AD statFormula flag is not permission to treat every cougar hit as ordinary physical attack damage.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "primal-relay-buffer",
+      "name": "Primal relay buffer",
+      "objective": "Use missing-health healing and attack speed to support a ranged carry between spear threats.",
+      "mechanic": "Human E supplies 0.35 AP healing increased up to twice at low health plus seven seconds of attack speed. Ardent and Staff can add ally buffs after that heal; Helia asks whether prior spear/trap damage charges can be cashed by E. Q still threatens distant opponents and traps reveal Hunted targets.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3869,
+        6620,
+        3504,
+        6616,
+        4629,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "An ally can use the seven-second buff; damage a champion before a needed E heal.",
+      "failure": "Support income and weak engage can make the personal utility too expensive.",
+      "test": "Compare ally attack count, E healing and Helia charge consumption after a spear hit.",
+      "rejectedAssumption": "Human E healing does not require cougar attacks or inherit cougar execution amplification.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Spellblade spear",
+      "reason": "Human Q is a thrown magic-damage spell; it is not documented as a Spellblade-consuming attack.",
+      "evidenceSlots": [
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Cougar tooltip coefficients reference R; retained R calculations were inspected. Takedown missing-health multiplier and helper resolution need in-game confirmation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Prowl",
+      "paths": [
+        "Characters/Nidalee/Spells/Prowl",
+        "Characters/Nidalee/Spells/NidaleePassiveHuntAbility/NidaleePassiveHunt"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Javelin Toss / Takedown",
+      "paths": [
+        "Characters/Nidalee/Spells/JavelinTossAbility/JavelinToss"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Bushwhack / Pounce",
+      "paths": [
+        "Characters/Nidalee/Spells/BushwhackAbility/Bushwhack"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Primal Surge / Swipe",
+      "paths": [
+        "Characters/Nidalee/Spells/PrimalSurgeAbility/PrimalSurge"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Aspect Of The Cougar",
+      "paths": [
+        "Characters/Nidalee/Spells/AspectOfTheCougarAbility/AspectOfTheCougar"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "nidalee-audit-hunted-mixed-stat-pounce",
+      "champion": "Nidalee",
+      "name": "Hunted mixed-stat pounce",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test an AD/AP hybrid cougar follow-up after a Hunt.",
+      "goal": "Test an AD/AP hybrid cougar follow-up after a Hunt.",
+      "hypothesis": "Aspect of the Cougar retains 0.5 AD[statFormula=2] plus 0.3 AP on Pounce and 0.7 AD[statFormula=2] plus 0.55 AP on Swipe. Trinity gives actual Takedown attacks a physical Spellblade packet; Nashor supports human E attack-speed windows. Hunt grants reach and a Pounce cooldown reduction, not unlimited jumps.",
+      "itemIds": [
+        3078,
+        3115,
+        4633,
+        3135,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Land human Q or W, retain the four-second Hunt and record form/R rank.",
+        "Separate human spear, cougar Pounce/Swipe, Takedown and item packets at fixed R rank.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A missed spear leaves the melee item investment without safe access.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The retained AD statFormula flag is not permission to treat every cougar hit as ordinary physical attack damage.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Nashor's Tooth, Riftmaker, Void Staff, Zhonya's Hourglass, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Javelin Toss / Takedown",
+          "slot": "Q",
+          "source": "Characters/Nidalee/Spells/JavelinTossAbility/JavelinToss",
+          "formula": "Human Form: Nidalee throws her javelin, dealing [70 / 90 / 110 / 130 / 150 + (0.5) × AP] magic damage, increased up to [(70 / 90 / 110 / 130 / 150 + (0.5) × AP) × (3.25)] magic damage based on distance flown."
+        },
+        {
+          "ability": "Primal Surge / Swipe",
+          "slot": "E",
+          "source": "Characters/Nidalee/Spells/PrimalSurgeAbility/PrimalSurge",
+          "formula": "Human Form: Nidalee restores [50 / 75 / 100 / 125 / 150 + (0.35) × AP] Health increased up to [(50 / 75 / 100 / 125 / 150 + (0.35) × AP) × ((1 + 1))] based on missing Health and grants them [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Attack Speed for [7] seconds."
+        },
+        {
+          "ability": "Aspect Of The Cougar",
+          "slot": "R",
+          "source": "Characters/Nidalee/Spells/AspectOfTheCougarAbility/AspectOfTheCougar",
+          "formula": "Passive: While in Human Form, applying Hunted refreshes this Ability's Cooldown.\n\nHuman Form: Nidalee transforms into Cougar Form, gaining melee Attacks and replacing her Active Abilities.\n\nCougar Form: Nidalee transforms into Human Form, gaining ranged Attacks and replacing her Active Abilities."
+        },
+        {
+          "ability": "Bushwhack / Pounce",
+          "slot": "W",
+          "source": "Characters/Nidalee/Spells/BushwhackAbility/Bushwhack",
+          "formula": "Human Form: Nidalee places an invisible trap for 2 minutes. When an enemy walks over it, they are dealt [10 / 20 / 30 / 40 / 50 + (0.05) × AP] magic damage per second for [4] seconds.\n\n[characterLevelBreakpoints(start=4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}]) + 0] traps may be active at once."
+        },
+        {
+          "ability": "Prowl",
+          "slot": "Passive",
+          "source": "Characters/Nidalee/Spells/NidaleePassiveHuntAbility/NidaleePassiveHunt",
+          "formula": "Nidalee starts with a rank in Aspect of the Cougar. \n\nNidalee gains @spell.AspectOfTheCougar:PassivePercentMS@% Move Speed for 2 seconds when entering Brush, increased to @spell.AspectOfTheCougar:PassivePercentMS*3@% Move Speed while moving toward enemy champions.\n\nHitting champions or jungle monsters with Javelin Toss or Bushwhack marks them as Hunted for 4 seconds. While an enemy is Hunted, they are revealed with True Sight and Nidalee gains @spell.AspectOfTheCougar:PassivePercentMS@% Move Speed, increased to @spell.AspectOfTheCougar:PassivePercentMS*3@% Move Speed toward the Hunted enemy."
+        }
+      ]
+    },
+    {
+      "id": "nidalee-audit-primal-relay-buffer",
+      "champion": "Nidalee",
+      "name": "Primal relay buffer",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use missing-health healing and attack speed to support a ranged carry between spear threats.",
+      "goal": "Use missing-health healing and attack speed to support a ranged carry between spear threats.",
+      "hypothesis": "Human E supplies 0.35 AP healing increased up to twice at low health plus seven seconds of attack speed. Ardent and Staff can add ally buffs after that heal; Helia asks whether prior spear/trap damage charges can be cashed by E. Q still threatens distant opponents and traps reveal Hunted targets.",
+      "itemIds": [
+        3869,
+        6620,
+        3504,
+        6616,
+        4629,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: An ally can use the seven-second buff; damage a champion before a needed E heal.",
+        "Compare ally attack count, E healing and Helia charge consumption after a spear hit.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Support income and weak engage can make the personal utility too expensive.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Human E healing does not require cougar attacks or inherit cougar execution amplification.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Echoes of Helia, Ardent Censer, Staff of Flowing Water, Cosmic Drive, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Javelin Toss / Takedown",
+          "slot": "Q",
+          "source": "Characters/Nidalee/Spells/JavelinTossAbility/JavelinToss",
+          "formula": "Human Form: Nidalee throws her javelin, dealing [70 / 90 / 110 / 130 / 150 + (0.5) × AP] magic damage, increased up to [(70 / 90 / 110 / 130 / 150 + (0.5) × AP) × (3.25)] magic damage based on distance flown."
+        },
+        {
+          "ability": "Primal Surge / Swipe",
+          "slot": "E",
+          "source": "Characters/Nidalee/Spells/PrimalSurgeAbility/PrimalSurge",
+          "formula": "Human Form: Nidalee restores [50 / 75 / 100 / 125 / 150 + (0.35) × AP] Health increased up to [(50 / 75 / 100 / 125 / 150 + (0.35) × AP) × ((1 + 1))] based on missing Health and grants them [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Attack Speed for [7] seconds."
+        },
+        {
+          "ability": "Bushwhack / Pounce",
+          "slot": "W",
+          "source": "Characters/Nidalee/Spells/BushwhackAbility/Bushwhack",
+          "formula": "Human Form: Nidalee places an invisible trap for 2 minutes. When an enemy walks over it, they are dealt [10 / 20 / 30 / 40 / 50 + (0.05) × AP] magic damage per second for [4] seconds.\n\n[characterLevelBreakpoints(start=4, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 2.0, \"__type\": \"Breakpoint\"}]) + 0] traps may be active at once."
+        }
+      ]
+    }
+  ]
+}

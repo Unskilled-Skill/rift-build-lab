@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "twitch-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "twitch-four-2",
+      "id": "twitch-audit-venom-true-finish",
       "champion": "Twitch",
-      "name": "Damage interaction: Repeated on-hit",
-      "goal": "Damage interaction for Twitch: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A stealth ambusher who builds poison before Contaminate and uses extended-range piercing attacks to pressure aligned enemies. Fix poison stacks and R piercing attack lines. AP Contaminate and attack routes are different; verify bolt/phantom poison behavior and spell/attack contact separately. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "Venom true finish",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP poison ticking into Shadowflame's low-health threshold.",
+      "goal": "Test AP poison ticking into Shadowflame's low-health threshold.",
+      "hypothesis": "Passive poison gains 0.03 AP true damage per stack per second up to six stacks; E adds 0.35 AP magic damage per stack. W's AP slow can retain targets while Nashor supplies the attacks to stack poison. Shadowflame explicitly amplifies low-health magic and true damage.",
       "itemIds": [
-        3153,
-        3124,
-        3302,
-        3091,
-        3026,
+        3115,
+        4645,
+        3089,
+        4629,
+        3135,
         3006
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Twitch: Fix poison stacks and R piercing attack lines. AP Contaminate and attack routes are different; verify bolt/phantom poison behavior and spell/attack contact separately.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Twitch becomes Camouflaged for a short duration and gains Move Speed. When leaving Camouflage, Twitch gains Attack Speed for a short duration.\n\nWhen an enemy champion with Deadly Venom dies, Ambush's cooldown is reset. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Six earned stacks, recorded remaining duration and target crosses below 40% health.",
+        "Log poison ticks and E physical/magic components above and below threshold at fixed stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Twitch's stated kit question: Fix poison stacks and R piercing attack lines. AP Contaminate and attack routes are different; verify bolt/phantom poison behavior and spell/attack contact separately.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Shielding or early E before full stacks limits the proposed finisher; AP loses ordinary R attack pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Void Staff supports E magic damage but does not penetrate poison's true damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Shadowflame, Rabadon's Deathcap, Cosmic Drive, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Ambush",
@@ -193,12 +187,6 @@
           "slot": "Passive",
           "source": "Characters/Twitch/Spells/TwitchDeadlyVenomMarkerAbility/TwitchDeadlyVenomMarker",
           "formula": "Twitch's Attacks infect his target %i:OnHit% On-Hit, dealing [characterLevelBreakpoints(start=1, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 29, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}]) + (0.03) × AP] true damage per second for [6] seconds, stacking up to [6] times. \n\nMax Damage Per Second: [(characterLevelBreakpoints(start=1, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 29, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}]) + (0.03) × AP) × (6)]"
-        },
-        {
-          "ability": "Spray and Pray",
-          "slot": "R",
-          "source": "Characters/Twitch/Spells/TwitchFullAutomaticAbility/TwitchFullAutomatic",
-          "formula": "Twitch unleashes his crossbow, gaining [300] Attack Range and [30 / 45 / 60] Attack Damage, and causing his Attacks to become piercing bolts for [6] seconds. These bolts hit all enemies they pass through, but deal [10]% less damage to subsequent targets, down to a minimum of [60]% damage."
         },
         {
           "ability": "Contaminate",
@@ -320,18 +308,20 @@
       ]
     },
     {
-      "id": "twitch-four-4",
+      "id": "twitch-audit-spray-bolt-distribution",
       "champion": "Twitch",
-      "name": "Experiment: AP attack experiment",
-      "goal": "Experiment for Twitch: test a different playstyle, with lower confidence",
-      "hypothesis": "A stealth ambusher who builds poison before Contaminate and uses extended-range piercing attacks to pressure aligned enemies. Fix poison stacks and R piercing attack lines. AP Contaminate and attack routes are different; verify bolt/phantom poison behavior and spell/attack contact separately. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Spray bolt distribution",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test extra on-hit target coverage during R instead of assuming every bolt duplicates spray.",
+      "goal": "Test extra on-hit target coverage during R instead of assuming every bolt duplicates spray.",
+      "hypothesis": "R turns attacks into piercing bolts for six seconds with attenuation on later targets. Runaan separately fires on-hit bolts, and Statikk's energized chain explicitly applies on-hits. Terminus supports mixed attack packets; Q's stealth-exit attack speed gives a finite opening to distribute poison.",
       "itemIds": [
-        3115,
-        3124,
-        3089,
-        3135,
-        3157,
+        3085,
+        3087,
+        3153,
+        3302,
+        3072,
         3006
       ],
       "runePage": [
@@ -345,15 +335,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Twitch: Fix poison stacks and R piercing attack lines. AP Contaminate and attack routes are different; verify bolt/phantom poison behavior and spell/attack contact separately.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Twitch becomes Camouflaged for a short duration and gains Move Speed. When leaving Camouflage, Twitch gains Attack Speed for a short duration.\n\nWhen an enemy champion with Deadly Venom dies, Ambush's cooldown is reset. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Several targets in controlled alignment, Q exit buff and R active; energized state recorded.",
+        "Count poison stacks and item packets on each aligned/off-axis target with Runaan and Statikk separately equipped.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Twitch's stated kit question: Fix poison stacks and R piercing attack lines. AP Contaminate and attack routes are different; verify bolt/phantom poison behavior and spell/attack contact separately.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Misalignment, dodgeable piercing attacks or short contact leaves expensive spread slots unused.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Runaan bolts are not proven to become additional full piercing R attacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Runaan's Hurricane, Statikk Shiv, Blade of The Ruined King, Terminus, Bloodthirster, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Ambush",
@@ -409,18 +391,6 @@
           "slot": "R",
           "source": "Characters/Twitch/Spells/TwitchFullAutomaticAbility/TwitchFullAutomatic",
           "formula": "Twitch unleashes his crossbow, gaining [300] Attack Range and [30 / 45 / 60] Attack Damage, and causing his Attacks to become piercing bolts for [6] seconds. These bolts hit all enemies they pass through, but deal [10]% less damage to subsequent targets, down to a minimum of [60]% damage."
-        },
-        {
-          "ability": "Contaminate",
-          "slot": "E",
-          "source": "Characters/Twitch/Spells/TwitchExpungeAbility/TwitchExpunge",
-          "formula": "Deals [20 / 30 / 40 / 50 / 60] physical damage to all nearby enemies affected by Deadly Venom, plus an additional [15 / 20 / 25 / 30 / 35 + (0.35) × AD[statFormula=2]] physical damage and [(0.35) × AP] magical damage per stack of Deadly Venom.\n\nMax Damage: [20 / 30 / 40 / 50 / 60 + (6) × (15 / 20 / 25 / 30 / 35) + ((0.35) × (6)) × AD[statFormula=2]] physical damage and [((0.35) × AP) × (6)] magical damage."
-        },
-        {
-          "ability": "Venom Cask",
-          "slot": "W",
-          "source": "Characters/Twitch/Spells/TwitchVenomCaskAbility/TwitchVenomCask",
-          "formula": "Twitch hurls a cask that adds a stack of Deadly Venom to all enemies struck and leaves behind a toxic cloud that persists for [3] seconds.\n\nEnemies that remain within the cloud are Slowed by [30 / 35 / 40 / 45 / 50 + (0.06) × AP]% and receive an additional stack of Deadly Venom each second."
         }
       ]
     }

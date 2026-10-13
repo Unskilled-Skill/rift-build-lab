@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Sylas",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "health-kingslayer-return",
+      "name": "Health Kingslayer return",
+      "objective": "Use bonus health to support a second low-health W rather than a single burst.",
+      "mechanic": "W healing includes AP and a bonus-health Stat term, doubling toward low health. Riftmaker turns bonus health into AP and Visage increases received healing; Cosmic helps stay close and Dusk rewards attacks between casts. E access and charge attacks are still necessary to maintain contact.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        4633,
+        3065,
+        4629,
+        2510,
+        3089,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "W targets a champion, current health recorded and enough time for a second W.",
+      "failure": "Grievous Wounds or burst before the second cast defeats the sustain budget.",
+      "test": "Measure W heal at above and below 40% health with matched bonus health, then record second-cast access.",
+      "rejectedAssumption": "Kingslayer's champion heal does not apply identically against minions.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "petricite-ad-ratio",
+      "name": "Petricite AD ratio",
+      "objective": "Test AD on the passive's main-target magic attack conversion.",
+      "mechanic": "Petricite Burst converts a main-target attack using 1.3 AD and 0.3 AP, while charged state gives 125% attack speed. Trinity, Titanic and Bloodmail test a health/AD attack budget; Abyssal supports nearby passive magic damage while Titanic supplies separate physical packets. Hijacked R selection remains opponent dependent.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3078,
+        3748,
+        2501,
+        3053,
+        8020,
+        3047
+      ],
+      "pageKey": "pta",
+      "requiredState": "Cast then spend passive charges instead of overflowing the charge cap, with finite bonus health.",
+      "failure": "Losing AP weakens W/Q/E and converted magic attacks gain nothing from armor penetration.",
+      "test": "Separate main-target passive magic damage, splash and item physical damage after one cast at matched total AD.",
+      "rejectedAssumption": "Passive's magic conversion does not prove it carries every ordinary attack or crit rule.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Any stolen R on demand",
+      "reason": "Hijack requires an enemy ultimate and applies a per-enemy cooldown with a minimum duration.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Petricite item/crit inheritance, W health Stat flag and stolen ultimate conversion depend on live logs and the chosen enemy."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Petricite Burst",
+      "paths": [
+        "Characters/Sylas/Spells/SylasPassiveAbility/SylasPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Chain Lash",
+      "paths": [
+        "Characters/Sylas/Spells/SylasQAbility/SylasQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Kingslayer",
+      "paths": [
+        "Characters/Sylas/Spells/SylasWAbility/SylasW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Abscond / Abduct",
+      "paths": [
+        "Characters/Sylas/Spells/SylasEAbility/SylasE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Hijack",
+      "paths": [
+        "Characters/Sylas/Spells/SylasRAbility/SylasR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "sylas-audit-health-kingslayer-return",
+      "champion": "Sylas",
+      "name": "Health Kingslayer return",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use bonus health to support a second low-health W rather than a single burst.",
+      "goal": "Use bonus health to support a second low-health W rather than a single burst.",
+      "hypothesis": "W healing includes AP and a bonus-health Stat term, doubling toward low health. Riftmaker turns bonus health into AP and Visage increases received healing; Cosmic helps stay close and Dusk rewards attacks between casts. E access and charge attacks are still necessary to maintain contact.",
+      "itemIds": [
+        4633,
+        3065,
+        4629,
+        2510,
+        3089,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: W targets a champion, current health recorded and enough time for a second W.",
+        "Measure W heal at above and below 40% health with matched bonus health, then record second-cast access.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Grievous Wounds or burst before the second cast defeats the sustain budget.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Kingslayer's champion heal does not apply identically against minions.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Spirit Visage, Cosmic Drive, Dusk and Dawn, Rabadon's Deathcap, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Petricite Burst",
+          "slot": "Passive",
+          "source": "Characters/Sylas/Spells/SylasPassiveAbility/SylasPassive",
+          "formula": "After using an Ability, Sylas gains a charge (max [rankTable[2, 3, 3, 3, 3, 3, 3]] charges). Sylas' Attacks expend a charge to whirl his chains, dealing [(1.3) × AD + (0.3) × AP] magic damage to the main target and [(0.4) × AD + (0.2) × AP] magic damage to other surrounding enemies.\n\nWhile he has at least one charge, Sylas gains [125]% Attack Speed."
+        },
+        {
+          "ability": "Kingslayer",
+          "slot": "W",
+          "source": "Characters/Sylas/Spells/SylasWAbility/SylasW",
+          "formula": "Sylas lunges at an enemy with magical force dealing [75 / 110 / 145 / 180 / 215 + (0.6) × AP] magic damage. Against champions, Sylas restores between [20 / 40 / 60 / 80 / 100 + (0.3) × AP + (0.05) × Stat(12)[statFormula=2]] and [(20 / 40 / 60 / 80 / 100 + (0.3) × AP + (0.05) × Stat(12)[statFormula=2]) × (2)] Health based on his missing Health (max healing at or below [40]% Health)."
+        },
+        {
+          "ability": "Abscond / Abduct",
+          "slot": "E",
+          "source": "Characters/Sylas/Spells/SylasEAbility/SylasE",
+          "formula": "Sylas quickly dashes, and prepares a Recast for 3.5 seconds.\n\nRecast: Sylas throws his chains, pulling himself to the first enemy hit, dealing [80 / 130 / 180 / 230 / 280 + (0.8) × AP] magic damage, and Knocking Up for [0.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "sylas-audit-petricite-ad-ratio",
+      "champion": "Sylas",
+      "name": "Petricite AD ratio",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AD on the passive's main-target magic attack conversion.",
+      "goal": "Test AD on the passive's main-target magic attack conversion.",
+      "hypothesis": "Petricite Burst converts a main-target attack using 1.3 AD and 0.3 AP, while charged state gives 125% attack speed. Trinity, Titanic and Bloodmail test a health/AD attack budget; Abyssal supports nearby passive magic damage while Titanic supplies separate physical packets. Hijacked R selection remains opponent dependent.",
+      "itemIds": [
+        3078,
+        3748,
+        2501,
+        3053,
+        8020,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Cast then spend passive charges instead of overflowing the charge cap, with finite bonus health.",
+        "Separate main-target passive magic damage, splash and item physical damage after one cast at matched total AD.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Losing AP weakens W/Q/E and converted magic attacks gain nothing from armor penetration.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Passive's magic conversion does not prove it carries every ordinary attack or crit rule.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Titanic Hydra, Overlord's Bloodmail, Sterak's Gage, Abyssal Mask, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Petricite Burst",
+          "slot": "Passive",
+          "source": "Characters/Sylas/Spells/SylasPassiveAbility/SylasPassive",
+          "formula": "After using an Ability, Sylas gains a charge (max [rankTable[2, 3, 3, 3, 3, 3, 3]] charges). Sylas' Attacks expend a charge to whirl his chains, dealing [(1.3) × AD + (0.3) × AP] magic damage to the main target and [(0.4) × AD + (0.2) × AP] magic damage to other surrounding enemies.\n\nWhile he has at least one charge, Sylas gains [125]% Attack Speed."
+        },
+        {
+          "ability": "Kingslayer",
+          "slot": "W",
+          "source": "Characters/Sylas/Spells/SylasWAbility/SylasW",
+          "formula": "Sylas lunges at an enemy with magical force dealing [75 / 110 / 145 / 180 / 215 + (0.6) × AP] magic damage. Against champions, Sylas restores between [20 / 40 / 60 / 80 / 100 + (0.3) × AP + (0.05) × Stat(12)[statFormula=2]] and [(20 / 40 / 60 / 80 / 100 + (0.3) × AP + (0.05) × Stat(12)[statFormula=2]) × (2)] Health based on his missing Health (max healing at or below [40]% Health)."
+        },
+        {
+          "ability": "Hijack",
+          "slot": "R",
+          "source": "Characters/Sylas/Spells/SylasRAbility/SylasR",
+          "formula": "Sylas hijacks an enemy champion, allowing him to cast a copy of their ultimate Ability, based on his Ultimate level and using his stats.\n\nHijacking an enemy places a Cooldown on them for [(runtimeCooldownMultiplier) × (200)]% (modified by Sylas' Ability Haste) of the enemy's ultimate's Cooldown, with a minimum of [40] seconds, during which time Sylas cannot hijack them again."
+        },
+        {
+          "ability": "Chain Lash",
+          "slot": "Q",
+          "source": "Characters/Sylas/Spells/SylasQAbility/SylasQ",
+          "formula": "Sylas lashes his chains out, dealing [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage and Slowing by [0.15 / 0.2 / 0.25 / 0.3 / 0.35] for [1.5] seconds. The place where the chains intersect explodes, dealing a further [60 / 115 / 170 / 225 / 280 + (0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Abscond / Abduct",
+          "slot": "E",
+          "source": "Characters/Sylas/Spells/SylasEAbility/SylasE",
+          "formula": "Sylas quickly dashes, and prepares a Recast for 3.5 seconds.\n\nRecast: Sylas throws his chains, pulling himself to the first enemy hit, dealing [80 / 130 / 180 / 230 / 280 + (0.8) × AP] magic damage, and Knocking Up for [0.5] seconds."
+        }
+      ]
+    }
+  ]
+}

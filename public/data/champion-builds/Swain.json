@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "swain-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "swain-four-2",
+      "id": "swain-audit-demon-attack-sustain",
       "champion": "Swain",
-      "name": "Damage interaction: AP health frontline",
-      "goal": "Damage interaction for Swain: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A sustained close-range mage who gains health from soul collection and keeps R active by draining champions. Roots and pulls create the proximity needed for repeated Q bolts and drain. Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range. Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
-      "summary": "Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
+      "name": "Demon attack sustain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test demon attack sustain against conventional damage at equal gold.",
+      "goal": "Test demon attack sustain against conventional damage at equal gold.",
+      "hypothesis": "Demonic Ascension drains while Swain remains near champions and allows repeated Demonflare casts after two seconds then every eight seconds. Nashor and Dusk and Dawn test weaving attacks between Q/E, while Riftmaker and Visage support the drain and Bloodletter improves magic kit packets.",
       "itemIds": [
+        3115,
+        2510,
         4633,
-        6653,
-        3116,
         8010,
         3065,
-        3111
+        3006
       ],
       "runePage": [
-        8010,
+        8005,
         9111,
-        9105,
-        8299,
+        9104,
+        8014,
         8444,
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Swain: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
-        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Swain unleashes several bolts of eldritch power that pierce through enemies. Enemies hit take more damage for each bolt they are struck by. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Maintain nearby champions and collect a realistic recorded soul count.",
+        "Compare attacks, drain healing and Demonflare count in twelve seconds.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
-        "The route fails Swain's stated kit question: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Attack exposure or disengage depletes Demonic Energy.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
-        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: R duration is sustained by enemy contact, not automatically infinite after activation.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Bloodletter's Curse, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Demonic Ascension",
@@ -205,12 +199,6 @@
           "slot": "Passive",
           "source": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
           "formula": "Swain collects Soul Fragments from Vision of Empire, Nevermove, and enemy champion deaths. Soul Fragments restore [characterLevelInterpolation(0.06 → 0.06; raw flags preserved)] maximum Health and permanently grant Swain [15] max Health.\n\nSoul Fragments collected: @f1@\nTotal Health gained: [(15) × BuffStacks({0dc6979e})]"
-        },
-        {
-          "ability": "Vision of Empire",
-          "slot": "W",
-          "source": "Characters/Swain/Spells/SwainWAbility/SwainW",
-          "formula": "Swain opens a demon eye, revealing a location for 1.5 seconds, then deals [70 / 115 / 160 / 205 / 250 + (0.6) × AP] magic damage and Slows by [50]% for [1.5] seconds.\n\nChampions hit grant Swain a Soul Fragment and are revealed for [6] seconds."
         }
       ]
     },
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "swain-four-4",
+      "id": "swain-audit-soul-health-aura-siege",
       "champion": "Swain",
-      "name": "Experiment: Magic tank experiment",
-      "goal": "Experiment for Swain: test a different playstyle, with lower confidence",
-      "hypothesis": "A sustained close-range mage who gains health from soul collection and keeps R active by draining champions. Roots and pulls create the proximity needed for repeated Q bolts and drain. Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range. Health-supported AP and close magic amplification trade defense for damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Health-supported AP and close magic amplification trade defense for damage.",
+      "name": "Soul health aura siege",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test soul health aura siege against conventional damage at equal gold.",
+      "goal": "Test soul health aura siege against conventional damage at equal gold.",
+      "hypothesis": "Ravenous Flock grants 15 permanent health per actual soul; Heartsteel adds separately earned health while Visage supports soul heals and R drain. Liandry and close-range Abyssal supply magic pressure; Rylai tests keeping enemies inside the drain so energy does not expire.",
       "itemIds": [
         3084,
-        4633,
         6653,
         8020,
-        3157,
+        3116,
+        3065,
         3111
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
+        8437,
+        8401,
         8444,
-        8451
+        8451,
+        9111,
+        9104
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Swain: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
-        "Start with the early core (Safe health/defense core, then Riftmaker or Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health-supported AP and close magic amplification trade defense for damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Swain unleashes several bolts of eldritch power that pierce through enemies. Enemies hit take more damage for each bolt they are struck by. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Farm actual E/W souls and reach occasional safe Heartsteel attacks.",
+        "Record soul count, Heartsteel stacks and R uptime against moving enemies.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
-        "The route fails Swain's stated kit question: Fix soul health and actual R drain contact. Tank AP must still maintain mana and threat; do not assign permanent infinite R if enemies leave drain range.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Percent-health damage and ranged disengage erase the health advantage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
-        "Full cost 16,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Soul count cannot be invented and healing source Stat(12) does not prove every scaling term.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Safe health/defense core, then Riftmaker or Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Liandry's Torment, Abyssal Mask, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Heartsteel, Liandry's Torment, Abyssal Mask, Rylai's Crystal Scepter, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Demonic Ascension",

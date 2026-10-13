@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "ksante-four-1",
@@ -110,19 +110,21 @@
       ]
     },
     {
-      "id": "ksante-four-2",
+      "id": "ksante-audit-resistance-weave-duelist",
       "champion": "KSante",
-      "name": "Damage interaction: Health to attack damage",
-      "goal": "Damage interaction for K'Sante: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A defensive melee controller who builds a pull, protects allies with dashes and isolates a target by sacrificing defenses in All Out. Compare tank and All Out states with actual lost defenses. Health/AD damage value must not silently keep defensive-form stats while calculating offensive-form output. Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Resistance weave duelist",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Invest in the resistance ratios while weaving mark-consuming attacks.",
+      "goal": "Invest in the resistance ratios while weaving mark-consuming attacks.",
+      "hypothesis": "Ntofo Strikes has 0.4 armor and 0.4 MR statFormula expressions despite physical damage; Path Maker also links percent-health damage to defenses. Iceborn delivers a separate physical Spellblade slow after Q, Jak'Sho raises bonus defenses after five seconds, and Visage supports E's received shield. All Out removes 85% bonus defenses, so the outside-R payoff must be measured separately.",
       "itemIds": [
-        3084,
-        2501,
-        3748,
-        3053,
+        6662,
+        6665,
+        2502,
         3065,
-        3047
+        3075,
+        3111
       ],
       "runePage": [
         8437,
@@ -133,17 +135,17 @@
         9104
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for K'Sante: Compare tank and All Out states with actual lost defenses. Health/AD damage value must not silently keep defensive-form stats while calculating offensive-form output.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: K'Sante strikes, damaging and slowing enemies in a short line.\n\nOn hit, grants a stack of Ntofo Strikes. At 2 stacks, K'Sante fires a shockwave that pulls enemies in.\n\nWhen All Out, cooldown is reduced. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need marks consumed by actual attacks and combat lasting until Jak'Sho's bonus applies.",
+        "Compare Q/W and mark damage before R, immediately after R and after Jak'Sho activation.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails K'Sante's stated kit question: Compare tank and All Out states with actual lost defenses. Health/AD damage value must not silently keep defensive-form stats while calculating offensive-form output.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "All Out makes the defense snapshot uncertain; late shield or W charge can miss the window.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Resistance scaling does not establish AP scaling or permanent full-defense damage during All Out.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Iceborn Gauntlet, Jak'Sho, The Protean, Unending Despair, Spirit Visage, Thornmail, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "All Out",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "ksante-four-4",
+      "id": "ksante-audit-ally-dash-shield-escort",
       "champion": "KSante",
-      "name": "Experiment: Contact fighter",
-      "goal": "Experiment for K'Sante: test a different playstyle, with lower confidence",
-      "hypothesis": "A defensive melee controller who builds a pull, protects allies with dashes and isolates a target by sacrificing defenses in All Out. Compare tank and All Out states with actual lost defenses. Health/AD damage value must not silently keep defensive-form stats while calculating offensive-form output. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "name": "Ally dash shield escort",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use Footwork's ally shield and control to protect one carry.",
+      "goal": "Use Footwork's ally shield and control to protect one carry.",
+      "hypothesis": "Footwork grants a shield with a 0.135 health-stat expression and extends dash range when targeted at an ally, shielding both. Knight's Vow and Locket support that escort pattern, Frozen Heart discourages nearby attacks, and Bandlepipes rewards Q/W control with an ally attack-speed aura. R can separate a threat but risks trading away K'Sante's defensive stats.",
       "itemIds": [
-        6631,
-        6610,
-        3053,
-        6333,
+        3190,
+        3109,
         3065,
-        3047
+        3110,
+        2524,
+        3158
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
+        8465,
+        8463,
         8444,
-        8451
+        8453,
+        8345,
+        8347
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,48 +357,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for K'Sante: Compare tank and All Out states with actual lost defenses. Health/AD damage value must not silently keep defensive-form stats while calculating offensive-form output.",
-        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: K'Sante strikes, damaging and slowing enemies in a short line.\n\nOn hit, grants a stack of Ntofo Strikes. At 2 stacks, K'Sante fires a shockwave that pulls enemies in.\n\nWhen All Out, cooldown is reduced. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need a reachable ally, E available and controlled R usage after protecting the carry.",
+        "Measure carry damage prevented, E shield size and time K'Sante remains within aura range.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
-        "The route fails K'Sante's stated kit question: Compare tank and All Out states with actual lost defenses. Health/AD damage value must not silently keep defensive-form stats while calculating offensive-form output.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Peeling with R can strand the carry; enemy range bypasses the close aura and Vow tether.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Health-stat formula flags are not proof that E scales from all total health in the displayed amount.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Locket of the Iron Solari, Knight's Vow, Spirit Visage, Frozen Heart, Bandlepipes, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "All Out",
           "slot": "R",
           "source": "Characters/KSante/Spells/KSanteRAbility/KSanteR",
           "formula": "K'Sante shatters his ntofos to Knock Back an enemy champion, dealing [80 / 115 / 150] physical damage, then dashes behind them and goes All Out for [15]s. If the enemy would hit a wall, they are Knocked Back through the wall and K'Sante strikes them again for [80 / 115 / 150 + (0.05) × Stat(12)[statFormula=2]] physical damage.\n\nWhile All Out, K'Sante's Abilities are upgraded and he gains [(0.4 / 0.6 / 0.8) × 100]% Attack Speed, [50]% Bonus Armor Penetration, and [20]% Omnivamp, but loses [35]% max Health, [85]% Bonus Armor, and [85]% Bonus Magic Resistance."
-        },
-        {
-          "ability": "Dauntless Instinct",
-          "slot": "Passive",
-          "source": "Characters/KSante/Spells/KSantePAbility/KSanteP",
-          "formula": "K'Sante's damaging Abilities mark enemies hit. Attacking a marked enemy deals [12] plus [UNRESOLVED({ee18a47b}; see calculationRaw)] max Health physical damage and consumes the mark.\n\nAll Out: K'Sante's Attacks, Abilities and Passive deal an additional [0.01 + (0.0001) × Stat(1)[statFormula=2] + (0.0001) × Stat(6)[statFormula=2]] max Health physical damage."
         },
         {
           "ability": "Footwork",

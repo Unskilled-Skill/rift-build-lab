@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Gragas",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "drunken-spellblade-tank",
+      "name": "Drunken spellblade tank",
+      "objective": "Trade one-shot burst for repeated protected empowered attacks.",
+      "mechanic": "Drunken Rage reduces damage with an AP term and empowers one attack with 0.7 AP plus 7% enemy max-health magic damage. Dusk and Dawn adds a separate attack proc, Riftmaker rewards continued combat, and Visage supports Happy Hour's 5.5% max-health heal. Body Slam's collision reduces its cooldown by 40%, helping create another W window.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        2510,
+        4633,
+        3065,
+        8020,
+        4629,
+        3111
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Need E collisions, W timing before contact and Happy Hour availability.",
+      "failure": "Missing E loses the cooldown reduction; W's short protection can expire while chasing.",
+      "test": "Compare W-hit damage, passive healing and E availability across two exchanges at equal gold.",
+      "rejectedAssumption": "W's percent-health magic bonus does not multiply separate on-hit item damage.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "fermented-barrel-displacement",
+      "name": "Fermented barrel displacement",
+      "objective": "Use a held barrel and R placement to create a larger delayed hit.",
+      "mechanic": "Barrel Roll's 0.8 AP magic damage rises up to 1.5 times as it ages over four seconds. Explosive Cask's 0.8 AP knockback can displace a target toward the prepared barrel; Rocketbelt adjusts the casting angle, while Horizon reveals qualifying long-range ability hits. This is a placement-dependent damage hypothesis rather than an automatic combo.",
+      "evidenceSlots": [
+        "Q",
+        "R",
+        "E",
+        "W"
+      ],
+      "itemIds": [
+        6655,
+        4628,
+        3152,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "first",
+      "requiredState": "Need an aged barrel, a displacement angle and safe range for setup.",
+      "failure": "A wrong R angle ejects the enemy away; detonating Q early sacrifices its multiplier.",
+      "test": "Measure aged-Q damage and successful R-into-Q catches against a moving target, logging range for Horizon.",
+      "rejectedAssumption": "Every Q detonation is not the full aged damage, and Horizon does not amplify all spells in this source.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AD belly-slam caster",
+      "reason": "Body Slam is AP magic and its collision cooldown reward does not scale from attack speed.",
+      "evidenceSlots": [
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Happy Hour internal cooldown is absent from symbolic tooltip; verify separately instead of assuming every cast heals."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Happy Hour",
+      "paths": [
+        "Characters/Gragas/Spells/GragasPassiveAbility/GragasPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Barrel Roll",
+      "paths": [
+        "Characters/Gragas/Spells/GragasQAbility/GragasQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Drunken Rage",
+      "paths": [
+        "Characters/Gragas/Spells/GragasWAbility/GragasW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Body Slam",
+      "paths": [
+        "Characters/Gragas/Spells/GragasEAbility/GragasE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Explosive Cask",
+      "paths": [
+        "Characters/Gragas/Spells/GragasRAbility/GragasR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "gragas-audit-drunken-spellblade-tank",
+      "champion": "Gragas",
+      "name": "Drunken spellblade tank",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Trade one-shot burst for repeated protected empowered attacks.",
+      "goal": "Trade one-shot burst for repeated protected empowered attacks.",
+      "hypothesis": "Drunken Rage reduces damage with an AP term and empowers one attack with 0.7 AP plus 7% enemy max-health magic damage. Dusk and Dawn adds a separate attack proc, Riftmaker rewards continued combat, and Visage supports Happy Hour's 5.5% max-health heal. Body Slam's collision reduces its cooldown by 40%, helping create another W window.",
+      "itemIds": [
+        2510,
+        4633,
+        3065,
+        8020,
+        4629,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need E collisions, W timing before contact and Happy Hour availability.",
+        "Compare W-hit damage, passive healing and E availability across two exchanges at equal gold.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Missing E loses the cooldown reduction; W's short protection can expire while chasing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W's percent-health magic bonus does not multiply separate on-hit item damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Dusk and Dawn, Riftmaker, Spirit Visage, Abyssal Mask, Cosmic Drive, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Drunken Rage",
+          "slot": "W",
+          "source": "Characters/Gragas/Spells/GragasWAbility/GragasW",
+          "formula": "Gragas samples his brew, reducing incoming damage by [(10 / 14 / 18 / 22 / 26 + (0.04) × AP) × (0.01)] for [2.5] seconds and empowering his next Attack to deal an additional [20 / 50 / 80 / 110 / 140 + (0.7) × AP] plus [7]% max Health magic damage to the target and surrounding enemies."
+        },
+        {
+          "ability": "Barrel Roll",
+          "slot": "Q",
+          "source": "Characters/Gragas/Spells/GragasQAbility/GragasQ",
+          "formula": "Gragas rolls a cask that explodes after [4] seconds, dealing between [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage and [(80 / 120 / 160 / 200 / 240 + (0.8) × AP) × (1.5)] magic damage and Slowing for between [40 / 45 / 50 / 55 / 60] and [(40 / 45 / 50 / 55 / 60) × 1.5]% for [2] seconds. The damage and Slow increase with time the cask spent before exploding. \n\nGragas can Recast to detonate the cask early."
+        },
+        {
+          "ability": "Body Slam",
+          "slot": "E",
+          "source": "Characters/Gragas/Spells/GragasEAbility/GragasE",
+          "formula": "Gragas charges forward, colliding with the first enemy, Knocking Up nearby enemies for [1] second and dealing [80 / 125 / 170 / 215 / 260 + (0.6) × AP] magic damage to them.\n\nThis Ability's Cooldown is reduced by [40]% if Gragas collides with an enemy."
+        },
+        {
+          "ability": "Explosive Cask",
+          "slot": "R",
+          "source": "Characters/Gragas/Spells/GragasRAbility/GragasR",
+          "formula": "Gragas hurls his cask, dealing [200 / 300 / 400 + (0.8) × AP] magic damage and Knocking Away enemies from the impact zone."
+        },
+        {
+          "ability": "Happy Hour",
+          "slot": "Passive",
+          "source": "Characters/Gragas/Spells/GragasPassiveAbility/GragasPassive",
+          "formula": "When Gragas uses an Ability, Gragas takes a drink, restoring [(0.055) × Stat(12)] Health."
+        }
+      ]
+    },
+    {
+      "id": "gragas-audit-fermented-barrel-displacement",
+      "champion": "Gragas",
+      "name": "Fermented barrel displacement",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use a held barrel and R placement to create a larger delayed hit.",
+      "goal": "Use a held barrel and R placement to create a larger delayed hit.",
+      "hypothesis": "Barrel Roll's 0.8 AP magic damage rises up to 1.5 times as it ages over four seconds. Explosive Cask's 0.8 AP knockback can displace a target toward the prepared barrel; Rocketbelt adjusts the casting angle, while Horizon reveals qualifying long-range ability hits. This is a placement-dependent damage hypothesis rather than an automatic combo.",
+      "itemIds": [
+        6655,
+        4628,
+        3152,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need an aged barrel, a displacement angle and safe range for setup.",
+        "Measure aged-Q damage and successful R-into-Q catches against a moving target, logging range for Horizon.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A wrong R angle ejects the enemy away; detonating Q early sacrifices its multiplier.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Every Q detonation is not the full aged damage, and Horizon does not amplify all spells in this source.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Luden's Echo, Horizon Focus, Hextech Rocketbelt, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Drunken Rage",
+          "slot": "W",
+          "source": "Characters/Gragas/Spells/GragasWAbility/GragasW",
+          "formula": "Gragas samples his brew, reducing incoming damage by [(10 / 14 / 18 / 22 / 26 + (0.04) × AP) × (0.01)] for [2.5] seconds and empowering his next Attack to deal an additional [20 / 50 / 80 / 110 / 140 + (0.7) × AP] plus [7]% max Health magic damage to the target and surrounding enemies."
+        },
+        {
+          "ability": "Barrel Roll",
+          "slot": "Q",
+          "source": "Characters/Gragas/Spells/GragasQAbility/GragasQ",
+          "formula": "Gragas rolls a cask that explodes after [4] seconds, dealing between [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage and [(80 / 120 / 160 / 200 / 240 + (0.8) × AP) × (1.5)] magic damage and Slowing for between [40 / 45 / 50 / 55 / 60] and [(40 / 45 / 50 / 55 / 60) × 1.5]% for [2] seconds. The damage and Slow increase with time the cask spent before exploding. \n\nGragas can Recast to detonate the cask early."
+        },
+        {
+          "ability": "Body Slam",
+          "slot": "E",
+          "source": "Characters/Gragas/Spells/GragasEAbility/GragasE",
+          "formula": "Gragas charges forward, colliding with the first enemy, Knocking Up nearby enemies for [1] second and dealing [80 / 125 / 170 / 215 / 260 + (0.6) × AP] magic damage to them.\n\nThis Ability's Cooldown is reduced by [40]% if Gragas collides with an enemy."
+        },
+        {
+          "ability": "Explosive Cask",
+          "slot": "R",
+          "source": "Characters/Gragas/Spells/GragasRAbility/GragasR",
+          "formula": "Gragas hurls his cask, dealing [200 / 300 / 400 + (0.8) × AP] magic damage and Knocking Away enemies from the impact zone."
+        }
+      ]
+    }
+  ]
+}

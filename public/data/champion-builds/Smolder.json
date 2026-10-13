@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "smolder-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "smolder-four-2",
+      "id": "smolder-audit-hybrid-sneeze-caster",
       "champion": "Smolder",
-      "name": "Damage interaction: Mana spell-and-attack",
-      "goal": "Damage interaction for Smolder: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged spell-scaling carry who farms Q kills and ability hits into evolving damage patterns. He uses a short terrain-ignoring flight and an ultimate heal to preserve stacking time. Fix finite passive stacks and ability evolution. Current crit/AD/HP scaling and execute eligibility matter; an AP/burn experiment must justify losing the normal physical spell route. A stacked mana item, real Spellblade attacks and haste test spell/attack cycling.",
-      "summary": "A stacked mana item, real Spellblade attacks and haste test spell/attack cycling.",
+      "name": "Hybrid sneeze caster",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test hybrid sneeze caster against conventional damage at equal gold.",
+      "goal": "Test hybrid sneeze caster against conventional damage at equal gold.",
+      "hypothesis": "Achooo's champion explosion has 0.8 AP physical damage and MMOOOMMMM has 1.0 AP physical damage plus AP healing; Gunblade retains AD for Q/E and Shojin supports basic spell casts. Earned Muramana adds physical spell damage, with Serylda supporting that physical emphasis.",
       "itemIds": [
-        3004,
-        3078,
-        6694,
+        3146,
+        3089,
         3161,
-        3026,
+        6694,
+        3042,
         3158
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
-        8444,
-        8451
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Smolder: Fix finite passive stacks and ability evolution. Current crit/AD/HP scaling and execute eligibility matter; an AP/burn experiment must justify losing the normal physical spell route.",
-        "Start with the early core (Early Tear, Trinity or Manamune by lane needs) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A stacked mana item, real Spellblade attacks and haste test spell/attack cycling. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Smolder breathes fire on an enemy. As he gains more stacks, this ability becomes more powerful. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Land champion W explosions and R center while recording real Dragon Practice stacks.",
+        "Compare W/R damage and healing at equal earned stack counts.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Manamune must stack and transform in game; no guessed transformed damage or extra Spellblade items.",
-        "The route fails Smolder's stated kit question: Fix finite passive stacks and ability evolution. Current crit/AD/HP scaling and execute eligibility matter; an AP/burn experiment must justify losing the normal physical spell route.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Weak crit/Q progression and mana demand can lose sustained damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Manamune must stack and transform in game; no guessed transformed damage or extra Spellblade items.",
-        "Full cost 16,433 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: AP scaling does not make those W/R components magic or accelerate stacks without real hits.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Early Tear, Trinity or Manamune by lane needs. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Serylda's Grudge, Spear of Shojin, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Gunblade, Rabadon's Deathcap, Spear of Shojin, Serylda's Grudge, Muramana, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Achooo!",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "smolder-four-4",
+      "id": "smolder-audit-scorcher-health-caster",
       "champion": "Smolder",
-      "name": "Experiment: Mana burn zones",
-      "goal": "Experiment for Smolder: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged spell-scaling carry who farms Q kills and ability hits into evolving damage patterns. He uses a short terrain-ignoring flight and an ultimate heal to preserve stacking time. Fix finite passive stacks and ability evolution. Current crit/AD/HP scaling and execute eligibility matter; an AP/burn experiment must justify losing the normal physical spell route. Mana and repeated ability damage may maintain burns and MR-reduction stacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "name": "Scorcher health caster",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test scorcher health caster against conventional damage at equal gold.",
+      "goal": "Test scorcher health caster against conventional damage at equal gold.",
+      "hypothesis": "Super Scorcher Breath has an explicit crit-linked physical multiplier and later a stack-gated true burn; Essence Reaver provides one physical Spellblade if Q's interaction is confirmed. Shojin and Bloodmail emphasize repeated spell damage with health, while Cleaver assists physical packets.",
       "itemIds": [
-        2503,
-        6653,
-        3116,
-        8010,
-        3157,
-        3020
+        3508,
+        3161,
+        2501,
+        3071,
+        3053,
+        3047
       ],
       "runePage": [
-        8992,
-        8226,
-        8210,
-        8236,
-        8126,
-        8106
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Smolder: Fix finite passive stacks and ability evolution. Current crit/AD/HP scaling and execute eligibility matter; an AP/burn experiment must justify losing the normal physical spell route.",
-        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Smolder breathes fire on an enemy. As he gains more stacks, this ability becomes more powerful. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Earn and record 25/125/225 stack thresholds through normal play.",
+        "Compare Q before and after each threshold, counting Spellblade separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "The route fails Smolder's stated kit question: Fix finite passive stacks and ability evolution. Current crit/AD/HP scaling and execute eligibility matter; an AP/burn experiment must justify losing the normal physical spell route.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Losing crit or reaching thresholds late ruins the damage plan.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: No free 225 stacks, and armor reduction cannot amplify the true burn or execute threshold.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Essence Reaver, Spear of Shojin, Overlord's Bloodmail, Black Cleaver, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Achooo!",
@@ -403,12 +391,6 @@
           "slot": "Q",
           "source": "Characters/Smolder/Spells/SmolderQAbility/SmolderQ",
           "formula": "Smolder belches flame, dealing [(60 / 70 / 80 / 90 / 100 + (1.3) × AD[statFormula=2]) × ((1 + ((0.75) × Stat(8)) × ((-1 + (1) × Stat(9)))))] physical damage + @spell.SmolderP:Passive_QDamageIncrease@ magic damage. If the target dies, Smolder refunds [15] Mana, once per cast.\n\nBased on stacks of Dragon Practice, this Ability evolves to gain the following effects:[25] Stacks: Damages all enemies surrounding the target.[125] Stacks: Sends [2 + (0.008) × BuffStacks({32bcea5d})] explosions beyond the target that deal [50]% of this Ability's damage.[225] Stacks: Burns the target, dealing [(0.00025) × AD[statFormula=2] + (5e-05) × BuffStacks({32bcea5d})] max Health true damage over [3] seconds. Enemy champions that drop below [(6.5) × (0.01)] total health while burning are killed instantly."
-        },
-        {
-          "ability": "MMOOOMMMM!",
-          "slot": "R",
-          "source": "Characters/Smolder/Spells/SmolderRAbility/SmolderR",
-          "formula": "Smolder's mom breathes fire from above, dealing [150 / 250 / 350 + (1) × AD[statFormula=2] + (1) × AP] physical damage. Enemies in the center take [(150 / 250 / 350 + (1) × AD[statFormula=2] + (1) × AP) × (1.5)] physical damage instead and are Slowed by [40]% for [2] seconds.\n\nSmolder's mom heals her son for [100 / 175 / 250 + (0.75) × AD[statFormula=2] + (0.75) × AP] Health if she hits him."
         },
         {
           "ability": "Flap, Flap, Flap",

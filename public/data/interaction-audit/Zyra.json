@@ -1,0 +1,312 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Zyra",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "enraged-plant-shred",
+      "name": "Enraged plant shred",
+      "objective": "Test plant-driven MR reduction while R extends their attack opportunity.",
+      "mechanic": "Q/E grow plants from finite seeds; R resets plant duration, adds health and increases plant attack damage by 50%. Bloodletter requires magic damage from abilities or passives, making plant classification a testable question. Liandry/Blackfire test sustained ability burn attribution; Cosmic helps stay safely near the controlled area.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        8010,
+        6653,
+        2503,
+        4629,
+        3089,
+        3020
+      ],
+      "pageKey": "comet",
+      "requiredState": "Recorded seed count and plants alive inside R, target remains in plant range.",
+      "failure": "Plants are killed before attacks or enemies leave, preventing shred and burn ramp.",
+      "test": "Record plant-only packets and Bloodletter stacks before/after R, then add one direct spell to separate ownership.",
+      "rejectedAssumption": "Pet magic damage is not automatically an ability/passive hit for every item proc.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "lasher-fanfare-zone",
+      "name": "Lasher Fanfare zone",
+      "objective": "Use E control and slowing plants to support nearby allied attacks.",
+      "mechanic": "E roots and grows 400-range Lashers whose slows can stack twice. Bandlepipes activates on slowing or immobilizing champions and grants nearby allies attack speed; Shurelya supports group entry while R's delayed knockup prolongs the zone. Rylai tests whether plant damage renews slow beyond native Lasher control.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2524,
+        2065,
+        3116,
+        8020,
+        3137,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "Allies within aura range, E hit or qualifying slow confirmed and finite seeds positioned before R.",
+      "failure": "Allies cannot attack or Thorn Spitters replace needed Lashers; redundancy of slows wastes gold.",
+      "test": "Measure allied attack intervals after direct E versus plant-only slow, and compare one/two Lasher slow states.",
+      "rejectedAssumption": "Bandlepipes' ally attack-speed aura does not prove it accelerates Zyra's pets.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Nashor on every plant shot",
+      "reason": "Plants have their own AP magic attack description; no text transfers Zyra's ordinary attack on-hits.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Plant proc classification, repeated target damage modifiers and R plant duration reset require live validation; empty pet helpers do not resolve inheritance."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Garden of Thorns",
+      "paths": [
+        "Characters/Zyra/Spells/ZyraPAbility/ZyraP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Deadly Spines",
+      "paths": [
+        "Characters/Zyra/Spells/ZyraQAbility/ZyraQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Rampant Growth",
+      "paths": [
+        "Characters/Zyra/Spells/ZyraWAbility/ZyraW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Grasping Roots",
+      "paths": [
+        "Characters/Zyra/Spells/ZyraEAbility/ZyraE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Stranglethorns",
+      "paths": [
+        "Characters/Zyra/Spells/ZyraRAbility/ZyraR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "zyra-audit-enraged-plant-shred",
+      "champion": "Zyra",
+      "name": "Enraged plant shred",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test plant-driven MR reduction while R extends their attack opportunity.",
+      "goal": "Test plant-driven MR reduction while R extends their attack opportunity.",
+      "hypothesis": "Q/E grow plants from finite seeds; R resets plant duration, adds health and increases plant attack damage by 50%. Bloodletter requires magic damage from abilities or passives, making plant classification a testable question. Liandry/Blackfire test sustained ability burn attribution; Cosmic helps stay safely near the controlled area.",
+      "itemIds": [
+        8010,
+        6653,
+        2503,
+        4629,
+        3089,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Recorded seed count and plants alive inside R, target remains in plant range.",
+        "Record plant-only packets and Bloodletter stacks before/after R, then add one direct spell to separate ownership.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Plants are killed before attacks or enemies leave, preventing shred and burn ramp.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Pet magic damage is not automatically an ability/passive hit for every item proc.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Bloodletter's Curse, Liandry's Torment, Blackfire Torch, Cosmic Drive, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Stranglethorns",
+          "slot": "R",
+          "source": "Characters/Zyra/Spells/ZyraRAbility/ZyraR",
+          "formula": "Zyra summons the fury of nature, growing a twisted thicket that deals [200 / 300 / 400 + (0.7) × AP] magic damage. After 2 seconds, the vines snap upwards, Knocking Up for [1] second.\n\nZyra's plants within the thicket become enraged, resetting their duration, gaining [50]% Health and Attacking for [50]% bonus damage."
+        },
+        {
+          "ability": "Rampant Growth",
+          "slot": "W",
+          "source": "Characters/Zyra/Spells/ZyraWAbility/ZyraW",
+          "formula": "Zyra plants a Seed that lasts [60] seconds. These Seeds grant True Sight of enemy champions that step on them for [2] seconds, but are still destroyed.\n\nThis Ability has 2 charges with a @AmmoRechargeTime@ second recharge time. Killing an enemy minion or monster reduces the recharge time by [35]%. Champion takedowns reduce the recharge time by [100]% instead."
+        },
+        {
+          "ability": "Deadly Spines",
+          "slot": "Q",
+          "source": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ",
+          "formula": "Zyra causes thick vines to spread and explode into spines, dealing [60 / 100 / 140 / 180 / 220 + (0.65) × AP] magic damage.\n\nIf this Ability is cast near a Seed, the Seed grows into a Thorn Spitter that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Thorn Spitters have 575 range."
+        },
+        {
+          "ability": "Grasping Roots",
+          "slot": "E",
+          "source": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+          "formula": "Zyra sends vines forward, Rooting for [1 / 1.25 / 1.5 / 1.75 / 2] second(s) and dealing [60 / 95 / 130 / 165 / 200 + (0.6) × AP] magic damage. \n\nIf this Ability passes near a Seed, the Seed grows into a Vine Lasher that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Vine Lashers have 400 range, and their Attacks Slow by [30]% for [2] seconds. The Slow from multiple Vine Lashers stacks up to [2] times."
+        },
+        {
+          "ability": "Garden of Thorns",
+          "slot": "Passive",
+          "source": "Characters/Zyra/Spells/ZyraPAbility/ZyraP",
+          "formula": "Zyra spawns Seeds around herself every [characterLevelInterpolation(13.6 → 9.05; raw flags preserved)] seconds that last 30 seconds. She can have 8 Seeds planted at once. If an enemy champion steps on a Seed, it dies. Zyra will not spawn Seeds while hiding in brush.\n\nThese Seeds are used by her other Abilities to spawn plants that deal [characterLevelInterpolation(15 → 75; raw flags preserved) + (0.2) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "zyra-audit-lasher-fanfare-zone",
+      "champion": "Zyra",
+      "name": "Lasher Fanfare zone",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use E control and slowing plants to support nearby allied attacks.",
+      "goal": "Use E control and slowing plants to support nearby allied attacks.",
+      "hypothesis": "E roots and grows 400-range Lashers whose slows can stack twice. Bandlepipes activates on slowing or immobilizing champions and grants nearby allies attack speed; Shurelya supports group entry while R's delayed knockup prolongs the zone. Rylai tests whether plant damage renews slow beyond native Lasher control.",
+      "itemIds": [
+        2524,
+        2065,
+        3116,
+        8020,
+        3137,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Allies within aura range, E hit or qualifying slow confirmed and finite seeds positioned before R.",
+        "Measure allied attack intervals after direct E versus plant-only slow, and compare one/two Lasher slow states.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Allies cannot attack or Thorn Spitters replace needed Lashers; redundancy of slows wastes gold.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Bandlepipes' ally attack-speed aura does not prove it accelerates Zyra's pets.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Bandlepipes, Shurelya's Battlesong, Rylai's Crystal Scepter, Abyssal Mask, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Stranglethorns",
+          "slot": "R",
+          "source": "Characters/Zyra/Spells/ZyraRAbility/ZyraR",
+          "formula": "Zyra summons the fury of nature, growing a twisted thicket that deals [200 / 300 / 400 + (0.7) × AP] magic damage. After 2 seconds, the vines snap upwards, Knocking Up for [1] second.\n\nZyra's plants within the thicket become enraged, resetting their duration, gaining [50]% Health and Attacking for [50]% bonus damage."
+        },
+        {
+          "ability": "Rampant Growth",
+          "slot": "W",
+          "source": "Characters/Zyra/Spells/ZyraWAbility/ZyraW",
+          "formula": "Zyra plants a Seed that lasts [60] seconds. These Seeds grant True Sight of enemy champions that step on them for [2] seconds, but are still destroyed.\n\nThis Ability has 2 charges with a @AmmoRechargeTime@ second recharge time. Killing an enemy minion or monster reduces the recharge time by [35]%. Champion takedowns reduce the recharge time by [100]% instead."
+        },
+        {
+          "ability": "Grasping Roots",
+          "slot": "E",
+          "source": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+          "formula": "Zyra sends vines forward, Rooting for [1 / 1.25 / 1.5 / 1.75 / 2] second(s) and dealing [60 / 95 / 130 / 165 / 200 + (0.6) × AP] magic damage. \n\nIf this Ability passes near a Seed, the Seed grows into a Vine Lasher that deals @spell.ZyraP:PlantDamage@ magic damage and lasts @spell.ZyraP:PlantDuration@ seconds. Vine Lashers have 400 range, and their Attacks Slow by [30]% for [2] seconds. The Slow from multiple Vine Lashers stacks up to [2] times."
+        },
+        {
+          "ability": "Garden of Thorns",
+          "slot": "Passive",
+          "source": "Characters/Zyra/Spells/ZyraPAbility/ZyraP",
+          "formula": "Zyra spawns Seeds around herself every [characterLevelInterpolation(13.6 → 9.05; raw flags preserved)] seconds that last 30 seconds. She can have 8 Seeds planted at once. If an enemy champion steps on a Seed, it dies. Zyra will not spawn Seeds while hiding in brush.\n\nThese Seeds are used by her other Abilities to spawn plants that deal [characterLevelInterpolation(15 → 75; raw flags preserved) + (0.2) × AP] magic damage."
+        }
+      ]
+    }
+  ]
+}

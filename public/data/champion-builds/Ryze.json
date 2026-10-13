@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "ryze-four-1",
@@ -110,19 +110,21 @@
       ]
     },
     {
-      "id": "ryze-four-2",
+      "id": "ryze-audit-mana-to-contact-budget",
       "champion": "Ryze",
-      "name": "Damage interaction: Spacing mage",
-      "goal": "Damage interaction for Ryze: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A short-range spell-combo mage who spreads Flux, resets Q through other spells and gains movement by sequencing runes. Record Flux spreads, Q resets and mana-supported AP interactions. Compare a single target versus waves/chains; the movement rune sequence must actually be executed. Mana and movement may convert spacing into additional spell windows.",
-      "summary": "Mana and movement may convert spacing into additional spell windows.",
+      "name": "Mana-to-contact budget",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether a second mana source keeps Flux resets productive during longer contact.",
+      "goal": "Test whether a second mana source keeps Flux resets productive during longer contact.",
+      "hypothesis": "Passive AP increases max mana and spells explicitly use bonus-mana-linked resource formulas. Actualizer supplies a limited empowered window with doubled mana costs and faster basic cooldown progress; transformed Seraph supplies finite mana/shielding. E/W reset Q and two runes grant speed; Frozen Heart is a matchup mana/armor slot.",
       "itemIds": [
+        2522,
         3040,
+        3110,
         4629,
-        3116,
-        3089,
         3135,
-        3009
+        3111
       ],
       "runePage": [
         8230,
@@ -133,17 +135,17 @@
         9105
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Ryze: Record Flux spreads, Q resets and mana-supported AP interactions. Compare a single target versus waves/chains; the movement rune sequence must actually be executed.",
-        "Start with the early core (Archangel, then Cosmic or Rylai) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and movement may convert spacing into additional spell windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Passively, Ryze's other basic abilities reset the cooldown of Overload and charge a rune. When Ryze casts Overload with 2 runes charged, he gains a brief burst of Move Speed.\n\nOn cast, Ryze throws a charge of pure energy in a line, dealing damage to the first enemy struck. If the target has Flux on it, Overload deals extra damage and bounces to nearby enemies with Flux. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Seraph earned; record AP, bonus/max mana and Actualizer resource expenditure.",
+        "Count successful E-Q/W-Q cycles and remaining mana with and without Actualizer active.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Seraph requires transformation; movement cannot compensate for missing damage or missed skillshots.",
-        "The route fails Ryze's stated kit question: Record Flux spreads, Q resets and mana-supported AP interactions. Compare a single target versus waves/chains; the movement rune sequence must actually be executed.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Empty mana or movement that loses Q hits destroys the proposed extra cast value.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Seraph requires transformation; movement cannot compensate for missing damage or missed skillshots.",
-        "Full cost 16,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: AP-mana feedback cannot be iterated to an invented infinite stat pool.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Archangel, then Cosmic or Rylai. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Rabadon's Deathcap, Void Staff are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Actualizer, Seraph's Embrace, Frozen Heart, Cosmic Drive, Void Staff, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Rune Prison",
@@ -193,12 +187,6 @@
           "slot": "Q",
           "source": "Characters/Ryze/Spells/RyzeQWrapperAbility/RyzeQWrapper",
           "formula": "Passive: {{Spell_RyzeW_Name}} and {{Spell_RyzeE_Name}} refresh this Ability's Cooldown and charge a rune for [4] seconds (max [2] runes).\n\nActive: Ryze unleashes a blast, dealing [75 / 95 / 115 / 135 / 155 + (0.55) × AP + 0.02 × AbilityResource(default, statFormula=2)] magic damage to the first enemy hit. If the target has Flux on it, it is consumed, causing this Ability to deal @Spell.RyzeR:OverloadDamageBonus@% increased damage and bounces to nearby enemies with Flux.\n\nRyze also discharges all runes, granting Ryze [28 / 32 / 36 / 40 / 44]% Move Speed for [2] seconds if [2] runes were charged."
-        },
-        {
-          "ability": "Realm Warp",
-          "slot": "R",
-          "source": "Characters/Ryze/Spells/RyzeRAbility/RyzeR",
-          "formula": "Passive: {{Spell_RyzeQWrapper_Name}} damage bonus against targets with Flux increased to [40 / 65 / 90]%.\n\nActive: Ryze opens a portal to another location. After [2] seconds, all allies near the portal are teleported to that location."
         },
         {
           "ability": "Spell Flux",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "ryze-four-4",
+      "id": "ryze-audit-flux-bound-attack-interval",
       "champion": "Ryze",
-      "name": "Experiment: Mana burn zones",
-      "goal": "Experiment for Ryze: test a different playstyle, with lower confidence",
-      "hypothesis": "A short-range spell-combo mage who spreads Flux, resets Q through other spells and gains movement by sequencing runes. Record Flux spreads, Q resets and mana-supported AP interactions. Compare a single target versus waves/chains; the movement rune sequence must actually be executed. Mana and repeated ability damage may maintain burns and MR-reduction stacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "name": "Flux-bound attack interval",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore one Spellblade attack between Flux setup and reset-Q output.",
+      "goal": "Explore one Spellblade attack between Flux setup and reset-Q output.",
+      "hypothesis": "Q is refreshed by E/W, while E supplies Flux and E-W gives a root. Lich Bane rewards an actual attack during that controlled interval; Nashor asks whether further attacks repay their animation time. Rod provides finite mana/AP/health growth and Cosmic rewards magic damage with movement.",
       "itemIds": [
-        2503,
-        6653,
-        3116,
-        8010,
-        3157,
-        3020
+        3100,
+        3115,
+        6657,
+        4629,
+        3135,
+        3009
       ],
       "runePage": [
-        8992,
-        8226,
-        8210,
-        8236,
-        8126,
-        8106
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Ryze: Record Flux spreads, Q resets and mana-supported AP interactions. Compare a single target versus waves/chains; the movement rune sequence must actually be executed.",
-        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Passively, Ryze's other basic abilities reset the cooldown of Overload and charge a rune. When Ryze casts Overload with 2 runes charged, he gains a brief burst of Move Speed.\n\nOn cast, Ryze throws a charge of pure energy in a line, dealing damage to the first enemy struck. If the target has Flux on it, Overload deals extra damage and bounces to nearby enemies with Flux. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: E-W root connected and an attack does not delay a needed Q; Rod age recorded.",
+        "Compare spell-only and one-attack root sequences at matched mana/AP, recording cast delays.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "The route fails Ryze's stated kit question: Record Flux spreads, Q resets and mana-supported AP interactions. Compare a single target versus waves/chains; the movement rune sequence must actually be executed.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Attack weaving lowers spell frequency or consumes the root window before the next Q lands.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Q reset does not reset Spellblade cooldown or turn Q into an attack.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Rod of Ages, Cosmic Drive, Void Staff, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Rune Prison",
@@ -415,12 +397,6 @@
           "slot": "E",
           "source": "Characters/Ryze/Spells/RyzeEAbility/RyzeE",
           "formula": "Ryze fires an orb, dealing [60 / 90 / 120 / 150 / 180 + (0.5) × AP + 0.02 × AbilityResource(default, statFormula=2)] magic damage and applies Flux for [4] seconds to the target and nearby enemies. Enemies already afflicted with Flux will cause it to spread further."
-        },
-        {
-          "ability": "Arcane Mastery",
-          "slot": "Passive",
-          "source": "Characters/Ryze/Spells/RyzePassiveAbility/RyzePassive",
-          "formula": "Ryze gains [((10) × AP) × (0.01)]% max Mana. His Abilities do additional damage based on his bonus Mana."
         }
       ]
     }

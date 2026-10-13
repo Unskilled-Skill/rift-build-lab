@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "bard-four-1",
@@ -164,40 +164,42 @@
       ]
     },
     {
-      "id": "bard-four-2",
+      "id": "bard-audit-finite-meep-volley",
       "champion": "Bard",
-      "name": "Damage interaction: Control and burn support",
-      "goal": "Damage interaction for Bard: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A roaming utility champion who uses chimes and portals to choose skirmishes, with meep attacks and conditional stuns controlling their start. At fixed chimes, compare meep-assisted attacks with roaming rescue value. Test meep splash/on-hit interaction and portal timing rather than assuming infinite chimes. Cheap income plus ability damage and compatible slows test offensive setup for allies.",
-      "summary": "Cheap income plus ability damage and compatible slows test offensive setup for allies.",
+      "name": "Finite Meep Volley",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure three attacks and another volley after natural refill.",
+      "goal": "Measure three attacks and another volley after natural refill.",
+      "hypothesis": "P supplies AP magic damage on attacks, with chime-gated slow/cone effects. Hail of Blades/Nashor can spend stored meeps quickly; Q enables one Lich Bane attack. Cosmic follows magic hits without assuming extra meeps from repeated on-hits.",
       "itemIds": [
-        3869,
-        6653,
-        3116,
-        4005,
-        8010,
-        3020
+        3115,
+        3100,
+        4629,
+        3089,
+        3137,
+        3006
       ],
       "runePage": [
-        8229,
-        8226,
-        8210,
-        8237,
+        9923,
         8126,
-        8106
+        8140,
+        8106,
+        8210,
+        8236
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5005,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -205,36 +207,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Bard: At fixed chimes, compare meep-assisted attacks with roaming rescue value. Test meep splash/on-hit interaction and portal timing rather than assuming infinite chimes.",
-        "Start with the early core (Support quest; Liandry/Rylai as an isolated offensive core) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Cheap income plus ability damage and compatible slows test offensive setup for allies. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Bard fires a missile which will slow the first enemy struck, and continue onward. If it strikes a wall, it will stun the initial target; if it strikes another enemy, it will stun them both. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Record chimes and stored meeps plus farmed/support income.",
+        "Measure three attacks and another volley after natural refill; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana and defense may be weak; burns do not automatically make every control effect stack.",
-        "The route fails Bard's stated kit question: At fixed chimes, compare meep-assisted attacks with roaming rescue value. Test meep splash/on-hit interaction and portal timing rather than assuming infinite chimes.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Meep stock ends before attack-speed investment pays.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana and defense may be weak; burns do not automatically make every control effect stack.",
-        "Full cost 12,400 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: On-hit repetition does not create or duplicate meeps.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest; Liandry/Rylai as an isolated offensive core. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Rylai's Crystal Scepter, Imperial Mandate, Bloodletter's Curse are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Traveler's Call",
@@ -297,28 +291,10 @@
           "formula": "Meeps: Bard attracts lesser spirits that assist with his basic attacks. These meeps gain new effects as Bard collects chimes.\n\nMeeps strike through their target in a cone, dealing @f1@ (+@f9@) magic damage and applying a @f2@% slow for @f3@ second to all enemies hit. A new meep appears every @f5@ seconds, max of @f4@.\nChimes: Ancient chimes randomly appear for Bard to collect. These grant experience, 12% of his maximum mana, and out-of-combat Move Speed stacks. Chimes remain for 10 minutes.\n\n\t@f10@ chimes collected - with @f7@ more, Bard will be able to have @f8@ more meep following at once and deal @f11@ more damage."
         },
         {
-          "ability": "Tempered Fate",
-          "slot": "R",
-          "source": "Characters/Bard/Spells/BardRAbility/BardR",
-          "formula": "Bard hurls magical protective energy to an area, placing all units and structures hit into Stasis for [2.5] seconds."
-        },
-        {
-          "ability": "Magical Journey",
-          "slot": "E",
-          "source": "Characters/Bard/Spells/BardEAbility/BardE",
-          "formula": "Bard opens a one-way portal through Terrain for [10] seconds. Any champion can enter the portal by moving onto it while near the entrance."
-        },
-        {
           "ability": "Cosmic Binding",
           "slot": "Q",
           "source": "Characters/Bard/Spells/BardQAbility/BardQ",
           "formula": "Bard fires an energy bolt, dealing [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage to the first two enemies hit. The first target hit is Slowed by [60]% for [1 / 1.2 / 1.4 / 1.6 / 1.8]s.\n\nIf the bolt hits a second enemy or a wall, any enemies hit are Stunned for [1 / 1.2 / 1.4 / 1.6 / 1.8]s."
-        },
-        {
-          "ability": "Caretaker's Shrine",
-          "slot": "W",
-          "source": "Characters/Bard/Spells/BardWAbility/BardW",
-          "formula": "Bard creates a Health shrine that grants [0.2 / 0.225 / 0.25 / 0.275 / 0.3 + (0.0006) × AP] Move Speed decaying over [1.5] seconds and restores at least [(25 / 50 / 75 / 100 / 125 + (0.4) × AP) × (1)] Health to the first ally to enter. The shrine grows to restore [(50 / 87.5 / 125 / 162.5 / 200 + (0.7) × AP) × (1)] Health after existing for [5] seconds.\n\nBard can have up to [3] shrines at once. If an enemy champion enters a shrine, it is destroyed.\n\nThis ability has [2] charges.\n\nCurrent Active Shrines: @f1@ / @f2@"
         }
       ]
     },
@@ -482,40 +458,42 @@
       ]
     },
     {
-      "id": "bard-four-4",
+      "id": "bard-audit-mature-shrine-charges",
       "champion": "Bard",
-      "name": "Experiment: AP attack experiment",
-      "goal": "Experiment for Bard: test a different playstyle, with lower confidence",
-      "hypothesis": "A roaming utility champion who uses chimes and portals to choose skirmishes, with meep attacks and conditional stuns controlling their start. At fixed chimes, compare meep-assisted attacks with roaming rescue value. Test meep splash/on-hit interaction and portal timing rather than assuming infinite chimes. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Mature Shrine Charges",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare charged shrine heal and Helia storage before collection.",
+      "goal": "Compare charged shrine heal and Helia storage before collection.",
+      "hypothesis": "W matures after five seconds from 0.4 AP to 0.7 AP healing. Q/meep champion damage may store Helia charges before an ally collects W; Staff rewards allied healing and Redemption can be timed around R stasis.",
       "itemIds": [
-        3115,
-        3124,
+        6620,
+        6616,
+        3107,
+        2065,
         3089,
-        3135,
-        3157,
-        3006
+        3158
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -523,36 +501,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Bard: At fixed chimes, compare meep-assisted attacks with roaming rescue value. Test meep splash/on-hit interaction and portal timing rather than assuming infinite chimes.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Bard fires a missile which will slow the first enemy struck, and continue onward. If it strikes a wall, it will stun the initial target; if it strikes another enemy, it will stun them both. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Mature W and damage a champion before ally collection.",
+        "Compare charged shrine heal and Helia storage before collection; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Bard's stated kit question: At fixed chimes, compare meep-assisted attacks with roaming rescue value. Test meep splash/on-hit interaction and portal timing rather than assuming infinite chimes.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Enemies destroy W or allies collect before maturation.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: R stasis is not a heal trigger.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Redemption, Shurelya's Battlesong, Rabadon's Deathcap, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Traveler's Call",
@@ -619,12 +589,6 @@
           "slot": "R",
           "source": "Characters/Bard/Spells/BardRAbility/BardR",
           "formula": "Bard hurls magical protective energy to an area, placing all units and structures hit into Stasis for [2.5] seconds."
-        },
-        {
-          "ability": "Magical Journey",
-          "slot": "E",
-          "source": "Characters/Bard/Spells/BardEAbility/BardE",
-          "formula": "Bard opens a one-way portal through Terrain for [10] seconds. Any champion can enter the portal by moving onto it while near the entrance."
         },
         {
           "ability": "Cosmic Binding",

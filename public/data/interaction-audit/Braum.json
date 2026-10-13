@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Braum",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "four-hit-self-stunner",
+      "name": "Four-hit self-stunner",
+      "objective": "Test four-hit self-stunner against the conventional damage pattern at equal gold.",
+      "mechanic": "Concussive Blows needs four stacks, with Q providing one; Hail of Blades and attack items test finishing the stun without allied attacks. Blade adds physical on-hit while the passive's post-stun magic attack damage and Terminus supply mixed pressure.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3748,
+        3065,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Q lands and Braum reaches three quick ordinary attacks.",
+      "failure": "The target becomes stack-immune after stun, sharply limiting repeat control.",
+      "test": "Record time to stun and damage during the subsequent immunity window.",
+      "rejectedAssumption": "Rageblade phantom hits must not be assumed to add Concussive stacks.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "health-spear-peel",
+      "name": "Health spear peel",
+      "objective": "Test health spear peel against the conventional damage pattern at equal gold.",
+      "mechanic": "Winter's Bite adds 2.5% of source Stat(12) as magic damage, suggesting health stacking for poke and defense; Heartsteel must be earned in melee. Bandlepipes triggers from Q slow or passive stun and grants nearby attack speed, helping allies complete Concussive Blows.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3084,
+        3742,
+        8020,
+        2524,
+        3065,
+        3111
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Stay near allies and alternate Q poke with safe Heartsteel attacks.",
+      "failure": "Health without enough resistances fails against percent-health damage.",
+      "test": "Compare Q damage and allied stun completion at recorded Heartsteel stacks.",
+      "rejectedAssumption": "The Q stat ID is not a verified formula mapping, and E only blocks the first missile completely.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Rageblade phantom hits must not be assumed to add Concussive stacks.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Item and ability proc attribution requires a controlled current-patch test; symbolic statFormula and source flags are not runtime verification."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Concussive Blows",
+      "paths": [
+        "Characters/Braum/Spells/BraumPassiveAbility/BraumPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Winter's Bite",
+      "paths": [
+        "Characters/Braum/Spells/BraumQAbility/BraumQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Stand Behind Me",
+      "paths": [
+        "Characters/Braum/Spells/BraumWAbility/BraumW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Unbreakable",
+      "paths": [
+        "Characters/Braum/Spells/BraumEAbility/BraumE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Glacial Fissure",
+      "paths": [
+        "Characters/Braum/Spells/BraumRWrapperAbility/BraumRWrapper"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "braum-audit-four-hit-self-stunner",
+      "champion": "Braum",
+      "name": "Four-hit self-stunner",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test four-hit self-stunner against the conventional damage pattern at equal gold.",
+      "goal": "Test four-hit self-stunner against the conventional damage pattern at equal gold.",
+      "hypothesis": "Concussive Blows needs four stacks, with Q providing one; Hail of Blades and attack items test finishing the stun without allied attacks. Blade adds physical on-hit while the passive's post-stun magic attack damage and Terminus supply mixed pressure.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3748,
+        3065,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Q lands and Braum reaches three quick ordinary attacks.",
+        "Record time to stun and damage during the subsequent immunity window.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "The target becomes stack-immune after stun, sharply limiting repeat control.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Rageblade phantom hits must not be assumed to add Concussive stacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blade of The Ruined King, Guinsoo's Rageblade, Terminus, Titanic Hydra, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Stand Behind Me",
+          "slot": "W",
+          "source": "Characters/Braum/Spells/BraumWAbility/BraumW",
+          "formula": "Braum leaps to an allied champion or minion. On arrival, Braum grants the target [20 / 25 / 30 / 35 / 40 + (0.12) × Stat(1)[statFormula=2]] Armor and [20 / 25 / 30 / 35 / 40 + (0.12) × Stat(6)[statFormula=2]] Magic Resist for [3] seconds. Braum grants himself [20 / 25 / 30 / 35 / 40 + (0.36) × Stat(1)[statFormula=2]] Armor and [20 / 25 / 30 / 35 / 40 + (0.36) × Stat(6)[statFormula=2]] Magic Resist for the same duration."
+        },
+        {
+          "ability": "Unbreakable",
+          "slot": "E",
+          "source": "Characters/Braum/Spells/BraumEAbility/BraumE",
+          "formula": "Braum raises his shield for [3 / 3.25 / 3.5 / 3.75 / 4] seconds, intercepting enemy missiles from the chosen direction, causing them to hit Braum and then be destroyed. The first missile Braum blocks deals no damage, and subsequent projectiles deal [35 / 40 / 45 / 50 / 55]% reduced damage.\n\nBraum gains [10]% Move Speed while his shield is raised."
+        },
+        {
+          "ability": "Winter's Bite",
+          "slot": "Q",
+          "source": "Characters/Braum/Spells/BraumQAbility/BraumQ",
+          "formula": "Braum propels freezing ice from his shield, dealing [75 / 120 / 165 / 210 / 255 + (0.025) × Stat(12)] magic damage to the first enemy hit and Slowing them by [70]% decaying over [2] seconds.\n\nApplies a stack of Concussive Blows."
+        },
+        {
+          "ability": "Concussive Blows",
+          "slot": "Passive",
+          "source": "Characters/Braum/Spells/BraumPassiveAbility/BraumPassive",
+          "formula": "Braum's Attacks apply Concussive Blows for [4] seconds. Enemies with Concussive Blows gain additional stacks from any ally's Attacks.\n\nAt [4] stacks, the target is Stunned for [characterLevelBreakpoints(start=1.25, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds and takes [characterLevelTable[16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 116, 126, 136, 146, 156, 166, 176, 186, 196, 206, 216, 226, 236, 246, 256, 266, 276, 286, 296, 306, 316]] magic damage. For the next [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -2.0, \"__type\": \"Breakpoint\"}])] seconds they don't receive stacks, but take an additional [(characterLevelTable[16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 116, 126, 136, 146, 156, 166, 176, 186, 196, 206, 216, 226, 236, 246, 256, 266, 276, 286, 296, 306, 316]) × (0.4)] magic damage from Braum's Attacks."
+        }
+      ]
+    },
+    {
+      "id": "braum-audit-health-spear-peel",
+      "champion": "Braum",
+      "name": "Health spear peel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health spear peel against the conventional damage pattern at equal gold.",
+      "goal": "Test health spear peel against the conventional damage pattern at equal gold.",
+      "hypothesis": "Winter's Bite adds 2.5% of source Stat(12) as magic damage, suggesting health stacking for poke and defense; Heartsteel must be earned in melee. Bandlepipes triggers from Q slow or passive stun and grants nearby attack speed, helping allies complete Concussive Blows.",
+      "itemIds": [
+        3084,
+        3742,
+        8020,
+        2524,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Stay near allies and alternate Q poke with safe Heartsteel attacks.",
+        "Compare Q damage and allied stun completion at recorded Heartsteel stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Health without enough resistances fails against percent-health damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The Q stat ID is not a verified formula mapping, and E only blocks the first missile completely.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Heartsteel, Dead Man's Plate, Abyssal Mask, Bandlepipes, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Stand Behind Me",
+          "slot": "W",
+          "source": "Characters/Braum/Spells/BraumWAbility/BraumW",
+          "formula": "Braum leaps to an allied champion or minion. On arrival, Braum grants the target [20 / 25 / 30 / 35 / 40 + (0.12) × Stat(1)[statFormula=2]] Armor and [20 / 25 / 30 / 35 / 40 + (0.12) × Stat(6)[statFormula=2]] Magic Resist for [3] seconds. Braum grants himself [20 / 25 / 30 / 35 / 40 + (0.36) × Stat(1)[statFormula=2]] Armor and [20 / 25 / 30 / 35 / 40 + (0.36) × Stat(6)[statFormula=2]] Magic Resist for the same duration."
+        },
+        {
+          "ability": "Unbreakable",
+          "slot": "E",
+          "source": "Characters/Braum/Spells/BraumEAbility/BraumE",
+          "formula": "Braum raises his shield for [3 / 3.25 / 3.5 / 3.75 / 4] seconds, intercepting enemy missiles from the chosen direction, causing them to hit Braum and then be destroyed. The first missile Braum blocks deals no damage, and subsequent projectiles deal [35 / 40 / 45 / 50 / 55]% reduced damage.\n\nBraum gains [10]% Move Speed while his shield is raised."
+        },
+        {
+          "ability": "Winter's Bite",
+          "slot": "Q",
+          "source": "Characters/Braum/Spells/BraumQAbility/BraumQ",
+          "formula": "Braum propels freezing ice from his shield, dealing [75 / 120 / 165 / 210 / 255 + (0.025) × Stat(12)] magic damage to the first enemy hit and Slowing them by [70]% decaying over [2] seconds.\n\nApplies a stack of Concussive Blows."
+        },
+        {
+          "ability": "Glacial Fissure",
+          "slot": "R",
+          "source": "Characters/Braum/Spells/BraumRWrapperAbility/BraumRWrapper",
+          "formula": "Braum slams the ground sending forth a fissure that Knocks Up enemies in its path and nearby Braum, and deals [150 / 250 / 350 + (0.6) × AP] magic damage. The first target hit is Knocked Up for between [0.6] and [1 / 1.5 / 2] seconds, increasing with distance from Braum. All others hit are Knocked Up for [0.6] seconds.\n\nThe fissure also creates a zone for [4] seconds, that Slows by [40 / 50 / 60]%."
+        },
+        {
+          "ability": "Concussive Blows",
+          "slot": "Passive",
+          "source": "Characters/Braum/Spells/BraumPassiveAbility/BraumPassive",
+          "formula": "Braum's Attacks apply Concussive Blows for [4] seconds. Enemies with Concussive Blows gain additional stacks from any ally's Attacks.\n\nAt [4] stacks, the target is Stunned for [characterLevelBreakpoints(start=1.25, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds and takes [characterLevelTable[16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 116, 126, 136, 146, 156, 166, 176, 186, 196, 206, 216, 226, 236, 246, 256, 266, 276, 286, 296, 306, 316]] magic damage. For the next [characterLevelBreakpoints(start=8, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -2.0, \"__type\": \"Breakpoint\"}])] seconds they don't receive stacks, but take an additional [(characterLevelTable[16, 26, 36, 46, 56, 66, 76, 86, 96, 106, 116, 126, 136, 146, 156, 166, 176, 186, 196, 206, 216, 226, 236, 246, 256, 266, 276, 286, 296, 306, 316]) × (0.4)] magic damage from Braum's Attacks."
+        }
+      ]
+    }
+  ]
+}

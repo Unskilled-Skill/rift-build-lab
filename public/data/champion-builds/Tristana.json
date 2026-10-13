@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "tristana-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "tristana-four-2",
+      "id": "tristana-audit-ap-bomb-jump-assassin",
       "champion": "Tristana",
-      "name": "Damage interaction: Critical carry",
-      "goal": "Damage interaction for Tristana: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged attack carry who rapidly stacks a bomb for burst and jump resets, with growing range supporting later safety. Jumping aggressively depends on actually completing the bomb or obtaining a takedown. Measure four bomb stacks, attack range by level and actual jump reset. AP burst is a risky bomb/ability experiment, not guaranteed crit-carry DPS. Attack cadence, crit and penetration support repeatable carry damage.",
-      "summary": "Attack cadence, crit and penetration support repeatable carry damage.",
+      "name": "AP bomb jump assassin",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test ap bomb jump assassin against conventional damage at equal gold.",
+      "goal": "Test ap bomb jump assassin against conventional damage at equal gold.",
+      "hypothesis": "Explosive Charge has 0.5 AP physical scaling before its four-hit doubling; Buster Shot has 1.0 AP magic scaling and W adds 0.5 AP magic damage. Nashor and Lich Bane support stacking E with real attacks before a max-stack detonation refreshes W.",
       "itemIds": [
-        6672,
-        3031,
-        3046,
-        3036,
-        3072,
-        3006
+        3115,
+        3100,
+        3089,
+        3135,
+        3102,
+        3020
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Tristana: Measure four bomb stacks, attack range by level and actual jump reset. AP burst is a risky bomb/ability experiment, not guaranteed crit-carry DPS.",
-        "Start with the early core (Kraken, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Attack cadence, crit and penetration support repeatable carry damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Tristana fires her weapon rapidly, increasing her Attack Speed for a short time. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Apply E, land four valid hits and reserve R knockback direction.",
+        "Measure E physical damage separately from W/R magic burst.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
-        "The route fails Tristana's stated kit question: Measure four bomb stacks, attack range by level and actual jump reset. AP burst is a risky bomb/ability experiment, not guaranteed crit-carry DPS.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Physical E resists magic penetration and failure to detonate strands W.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Crit is valuable only for effects that can crit; low defense makes positioning decisive.",
-        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: AP does not turn E magic and turret bomb detonation does not grant the champion-only W reset.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Kraken, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Phantom Dancer, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Void Staff, Banshee's Veil, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Explosive Charge",
           "slot": "E",
           "source": "Characters/Tristana/Spells/TristanaEAbility/TristanaE",
           "formula": "Passive: Tristana's Attacks that kill enemies deal [45 / 60 / 75 / 90 / 105 + (0.25) × AP] magic damage to surrounding enemies.\n\nActive: Tristana attaches a bomb to an enemy or turret that deals [(60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2] + (0.5) × AP) × ((1 + ((0.4) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage to surrounding enemies after [4] seconds. The damage is increased by [25]% each time Tristana hits an Attack or Ability (max 4 stacks).\n\nAt [4] stacks, the bomb explodes immediately (max [((60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2] + (0.5) × AP) × ((1 + ((0.4) × Stat(8)) × (((1) × Stat(9) + -1))))) × ((1 + (0.25) × (4)))] physical damage)."
-        },
-        {
-          "ability": "Draw a Bead",
-          "slot": "Passive",
-          "source": "Characters/Tristana/Spells/TristanaPassiveAbility/TristanaPassive",
-          "formula": "Tristana's Attack Range and the range of {{Spell_TristanaE_Name}} and {{Spell_TristanaR_Name}} are increased by [characterLevelInterpolation(0 → 150; raw flags preserved)]."
         },
         {
           "ability": "Buster Shot",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "tristana-four-4",
+      "id": "tristana-audit-health-bomb-reset-fighter",
       "champion": "Tristana",
-      "name": "Experiment: AP dive",
-      "goal": "Experiment for Tristana: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged attack carry who rapidly stacks a bomb for burst and jump resets, with growing range supporting later safety. Jumping aggressively depends on actually completing the bomb or obtaining a takedown. Measure four bomb stacks, attack range by level and actual jump reset. AP burst is a risky bomb/ability experiment, not guaranteed crit-carry DPS. AP, penetration and Rocketbelt access test a short committed damage window. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP, penetration and Rocketbelt access test a short committed damage window.",
+      "name": "Health bomb reset fighter",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health bomb reset fighter against conventional damage at equal gold.",
+      "goal": "Test health bomb reset fighter against conventional damage at equal gold.",
+      "hypothesis": "Rapid Fire grants up to 120% attack speed for seven seconds; Titanic and Bloodmail trade some conventional crit DPS for health and physical attacks while E stacks. Hexplate supports attacks after R and Essence Reaver supplies physical Spellblade plus mana; partial crit still improves E's documented multiplier.",
       "itemIds": [
-        3152,
-        4645,
-        3089,
-        3135,
-        3157,
-        3020
+        2501,
+        3748,
+        3073,
+        3508,
+        3031,
+        3047
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Tristana: Measure four bomb stacks, attack range by level and actual jump reset. AP burst is a risky bomb/ability experiment, not guaranteed crit-carry DPS.",
-        "Start with the early core (Rocketbelt, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP, penetration and Rocketbelt access test a short committed damage window. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Tristana fires her weapon rapidly, increasing her Attack Speed for a short time. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Connect E-stack attacks and choose R timing without knocking the target out early.",
+        "Compare time to four E stacks and health after a W-in trade.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "The route fails Tristana's stated kit question: Measure four bomb stacks, attack range by level and actual jump reset. AP burst is a risky bomb/ability experiment, not guaranteed crit-carry DPS.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low damage prevents max-stack detonation and reset before retaliation.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Ability hits can stack E, but item splash is not assumed to be four independent bomb stacks.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Rocketbelt, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Overlord's Bloodmail, Titanic Hydra, Experimental Hexplate, Essence Reaver, Infinity Edge, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Explosive Charge",

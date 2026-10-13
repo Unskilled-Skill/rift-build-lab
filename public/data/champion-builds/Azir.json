@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "azir-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "azir-four-2",
+      "id": "azir-audit-soldier-resistance-shred",
       "champion": "Azir",
-      "name": "Damage interaction: AP attack experiment",
-      "goal": "Damage interaction for Azir: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A soldier-positioning mage who deals sustained line damage while preserving escape routes and a defensive displacement ultimate. Separate soldier damage from ordinary attacks. Confirm which on-hit effects soldiers apply at the current effectiveness and count safe soldier hits rather than awarding full on-hit value. AP-supported attacks and Nashor may create a second damage route.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Soldier resistance shred",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Trade instant burst for a sustained soldier control zone.",
+      "goal": "Trade instant burst for a sustained soldier control zone.",
+      "hypothesis": "Arise soldiers deal magic damage with a rank-scaling 0.35-0.65 AP ratio; attack speed enables more commanded stabs. Bloodletter's stacks from qualifying magic abilities, Riftmaker rewards sustained combat and Nashor provides AP/attack speed even if soldier on-hit efficacy is unresolved. E shield and R wall buy continued command time.",
       "itemIds": [
         3115,
-        3124,
+        8010,
+        4633,
         3089,
-        3135,
-        3157,
-        3006
+        3137,
+        3020
       ],
       "runePage": [
-        8008,
+        8010,
         9111,
-        9104,
-        8014,
-        8429,
+        9105,
+        8299,
+        8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Azir: Separate soldier damage from ordinary attacks. Confirm which on-hit effects soldiers apply at the current effectiveness and count safe soldier hits rather than awarding full on-hit value.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Azir sends all Sand Soldiers towards a location. Sand Soldiers deal magic damage to enemies they pass through and apply a slow for 1 second. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need mana, soldiers covering the target and repeated commands before soldiers expire.",
+        "Compare stab count and MR stacks over eight seconds, with Nashor on-hit contribution logged separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Azir's stated kit question: Separate soldier damage from ordinary attacks. Confirm which on-hit effects soldiers apply at the current effectiveness and count safe soldier hits rather than awarding full on-hit value.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Soldier displacement or forced E escape can remove the damage zone; extra on-hit expectations may fail.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Sand Soldiers are not automatically full-strength ordinary attacks for every item proc.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Bloodletter's Curse, Riftmaker, Rabadon's Deathcap, Cryptbloom, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Arise!",
@@ -205,12 +199,6 @@
           "slot": "R",
           "source": "Characters/Azir/Spells/AzirRAbility/AzirR",
           "formula": "Azir summons a wall of armored soldiers that charges forward, Knocking Back enemies and dealing [200 / 400 / 600 + (0.75) × AP] magic damage. The soldiers remain, blocking enemy paths for [5] seconds."
-        },
-        {
-          "ability": "Shurima's Legacy",
-          "slot": "Passive",
-          "source": "Characters/Azir/Spells/AzirPassiveAbility/AzirPassive",
-          "formula": "Azir can summon the Sun Disc from the rubble of a turret. The Sun Disc deals [characterLevelBreakpoints(start=230, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.4) × AP] magic damage and has [characterLevelBreakpoints(start=30, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}])] Armor and Magic Resist but disintegrates over [45] seconds."
         }
       ]
     },
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "azir-four-4",
+      "id": "azir-audit-sun-disc-ambush-anchor",
       "champion": "Azir",
-      "name": "Experiment: Mana burst",
-      "goal": "Experiment for Azir: test a different playstyle, with lower confidence",
-      "hypothesis": "A soldier-positioning mage who deals sustained line damage while preserving escape routes and a defensive displacement ultimate. Separate soldier damage from ordinary attacks. Confirm which on-hit effects soldiers apply at the current effectiveness and count safe soldier hits rather than awarding full on-hit value. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Sun Disc ambush anchor",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use a reclaimed turret as a temporary high-AP fight anchor.",
+      "goal": "Use a reclaimed turret as a temporary high-AP fight anchor.",
+      "hypothesis": "Shurima's Legacy Sun Disc lasts 45 seconds, deals magic damage with 0.4 AP and has level-scaled defenses. High AP powers its documented damage plus Emperor's Divide's 0.75 AP displacement. Rocketbelt helps angle E/R near the occupied rubble; Zhonya's buys time while opponents choose whether to retreat past soldiers or contest the Disc.",
       "itemIds": [
         6655,
-        4645,
+        3152,
         3089,
-        3135,
+        4645,
         3157,
         3020
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +351,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Azir: Separate soldier damage from ordinary attacks. Confirm which on-hit effects soldiers apply at the current effectiveness and count safe soldier hits rather than awarding full on-hit value.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Azir sends all Sand Soldiers towards a location. Sand Soldiers deal magic damage to enemies they pass through and apply a slow for 1 second. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need eligible turret rubble, Disc ready and a fight within its limited lifetime.",
+        "Compare turret damage and E/R catch success with and without a prepared Disc, at equal AP.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Azir's stated kit question: Separate soldier damage from ordinary attacks. Confirm which on-hit effects soldiers apply at the current effectiveness and count safe soldier hits rather than awarding full on-hit value.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Enemies can disengage or destroy the Disc; investing in burst lowers steady soldier pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: The Disc's existence does not establish inheritance of Nashor or owner item on-hits.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Luden's Echo, Hextech Rocketbelt, Rabadon's Deathcap, Shadowflame, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Arise!",
-          "slot": "W",
-          "source": "Characters/Azir/Spells/AzirWAbility/AzirW",
-          "formula": "Azir summons a Sand Soldier for [10] seconds. When Azir Attacks an enemy near a Sand Soldier, he instead orders the soldiers to stab, dealing [50 / 65 / 80 / 95 / 110 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 8.0, \"__type\": \"Breakpoint\"}]) + (0.35 / 0.425 / 0.5 / 0.575 / 0.65) × AP] magic damage in their direction.\n\nThis Ability has @MaxAmmo@ charges."
-        },
         {
           "ability": "Conquering Sands",
           "slot": "Q",

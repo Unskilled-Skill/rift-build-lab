@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "vayne-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "vayne-four-2",
+      "id": "vayne-audit-ap-tumble-packet",
       "champion": "Vayne",
-      "name": "Damage interaction: Critical duel",
-      "goal": "Damage interaction for Vayne: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A mobile single-target marksman who repeatedly attacks one target for Silver Bolts, using tumble and terrain knockback to preserve contact. Keep Silver Bolts on one target and record real Tumble/Condemn spacing. Extra bolts/phantom effects must be verified; true damage is not multiplied by armor penetration. Crit attacks and a conditional shield test repeated duel windows.",
-      "summary": "Crit attacks and a conditional shield test repeated duel windows.",
+      "name": "AP tumble packet",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Investigate Q AP damage in an actual Spellblade attack while preserving Silver Bolts cadence.",
+      "goal": "Investigate Q AP damage in an actual Spellblade attack while preserving Silver Bolts cadence.",
+      "hypothesis": "Q next attack adds 0.5 AP but deals physical damage; Lich Bane and Nashor add separate magic attack packets. R reduces Tumble cooldown and grants one second invisibility on Q, buying a spacing window. Rageblade can be tested for Silver Bolts delivery rather than presumed to copy the third-hit counter.",
       "itemIds": [
-        6672,
-        6675,
-        3031,
-        6673,
-        3036,
+        3100,
+        3115,
+        3124,
+        3089,
+        3135,
         3006
       ],
       "runePage": [
-        8008,
+        8005,
         9111,
         9104,
         8014,
-        8429,
+        8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,49 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Vayne: Keep Silver Bolts on one target and record real Tumble/Condemn spacing. Extra bolts/phantom effects must be verified; true damage is not multiplied by armor penetration.",
-        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Vayne tumbles, maneuvering to carefully place her next shot. Her next attack deals bonus damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Same target for consecutive W actions; finite Rageblade ramp and R active.",
+        "Separate physical Q, magic item packets and true W at matched consecutive attacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
-        "The route fails Vayne's stated kit question: Keep Silver Bolts on one target and record real Tumble/Condemn spacing. Extra bolts/phantom effects must be verified; true damage is not multiplied by armor penetration.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low AD and attack commitment can lose damage before the next Silver Bolts trigger.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
-        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Magic penetration does not improve Q physical damage or W true damage.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Guinsoo's Rageblade, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Condemn",
-          "slot": "E",
-          "source": "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn",
-          "formula": "Vayne fires a bolt that Knocks Back and deals [50 / 85 / 120 / 155 / 190 + (0.5) × AD[statFormula=2]] physical damage. If the target collides with terrain, they take [(50 / 85 / 120 / 155 / 190 + (0.5) × AD[statFormula=2]) × (1.5)] bonus physical damage and become Stunned for [1.5] seconds."
-        },
-        {
-          "ability": "Night Hunter",
-          "slot": "Passive",
-          "source": "Characters/Vayne/Spells/VaynePassiveAbility/VaynePassive",
-          "formula": "Vayne ruthlessly hunts evil-doers, gaining [30] Move Speed when moving toward nearby enemy champions."
-        },
         {
           "ability": "Final Hour",
           "slot": "R",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "vayne-four-4",
+      "id": "vayne-audit-condemn-frost-pocket",
       "champion": "Vayne",
-      "name": "Experiment: Attack-led side lane",
-      "goal": "Experiment for Vayne: test a different playstyle, with lower confidence",
-      "hypothesis": "A mobile single-target marksman who repeatedly attacks one target for Silver Bolts, using tumble and terrain knockback to preserve contact. Keep Silver Bolts on one target and record real Tumble/Condemn spacing. Extra bolts/phantom effects must be verified; true damage is not multiplied by armor penetration. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Condemn frost pocket",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use Q Spellblade slowing to hold a wall angle for Condemn and three real hits.",
+      "goal": "Use Q Spellblade slowing to hold a wall angle for Condemn and three real hits.",
+      "hypothesis": "Iceborn rewards the actual post-Tumble attack with a frost field; E only gains its extra damage and stun when the target hits terrain. BotRK adds a current-health physical on-hit and three-attack slow, while Terminus supplies finite mixed penetration/resistance stacks. R/Night Hunter improve pursuit after the controlled pocket.",
       "itemIds": [
+        6662,
         3153,
-        3078,
-        3181,
-        3053,
-        6333,
-        3047
+        3302,
+        3091,
+        3026,
+        3006
       ],
       "runePage": [
-        8005,
+        8008,
         9111,
         9104,
         8014,
-        8444,
+        8429,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Vayne: Keep Silver Bolts on one target and record real Tumble/Condemn spacing. Extra bolts/phantom effects must be verified; true damage is not multiplied by armor penetration.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Vayne tumbles, maneuvering to carefully place her next shot. Her next attack deals bonus damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: A real wall behind the target and same-target attack access; item stacks start recorded.",
+        "Record E wall success and time to three same-target attacks versus a moving opponent.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Vayne's stated kit question: Keep Silver Bolts on one target and record real Tumble/Condemn spacing. Extra bolts/phantom effects must be verified; true damage is not multiplied by armor penetration.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "The frost field cannot create terrain or rescue a failed E angle; armor spending lowers carry output.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Iceborn slows do not make every Condemn a wall stun.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Iceborn Gauntlet, Blade of The Ruined King, Terminus, Wit's End, Guardian Angel, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Condemn",

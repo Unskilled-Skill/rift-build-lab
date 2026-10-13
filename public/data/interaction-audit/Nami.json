@@ -1,0 +1,282 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Nami",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "bounce-growth",
+      "name": "Bounce growth",
+      "objective": "Test AP changing which W bounce carries most value.",
+      "mechanic": "W modifies each bounce by -20 plus 0.15 AP percent, so sufficient AP reverses attenuation. Deathcap and Staff raise both heal and damage ratios; Helia asks for an enemy hit before an allied heal. Cosmic speed supports safe bounce geometry.",
+      "evidenceSlots": [
+        "P",
+        "W"
+      ],
+      "itemIds": [
+        6620,
+        6616,
+        3089,
+        4629,
+        3137,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "Three distinct champions within bounce reach, with an injured ally and recorded AP.",
+      "failure": "Broken bounce chains or farmed AP costs can lose more allied protection than they gain.",
+      "test": "Log every bounce heal/damage below and above the AP attenuation crossover, with Staff inactive and active.",
+      "rejectedAssumption": "W cannot bounce repeatedly through the same champion.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "self-blessing-volley",
+      "name": "Self-blessing volley",
+      "objective": "Spend E's finite charges through Nami's own attacks.",
+      "mechanic": "E grants three damaging attacks or abilities over six seconds. Self-casting permits direct observation of charge damage, while Nashor and Dusk add attack effects; W healing an ally can enable Censer's attack buff. AP also improves the passive movement burst.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        3504,
+        3089,
+        3137,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Self E, allied W heal and three safe attacks inside six seconds.",
+      "failure": "Short range or consuming charges on incidental spells prevents the intended volley.",
+      "test": "Count E charges and separate E, Nashor and Dusk packets in three attacks with and without allied healing.",
+      "rejectedAssumption": "Dusk repeating on-hits is not evidence that it duplicates E charge consumption or damage.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unlimited blessing attacks",
+      "reason": "E states three charges and a six-second duration.",
+      "evidenceSlots": [
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "E ownership, area modifiers and repeated on-hit interaction need live logs; empty missile helpers supply no proc proof."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Surging Tides",
+      "paths": [
+        "Characters/Nami/Spells/NamiPassiveAbility/NamiPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Aqua Prison",
+      "paths": [
+        "Characters/Nami/Spells/NamiQAbility/NamiQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Ebb and Flow",
+      "paths": [
+        "Characters/Nami/Spells/NamiWAbility/NamiW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Tidecaller's Blessing",
+      "paths": [
+        "Characters/Nami/Spells/NamiEAbility/NamiE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Tidal Wave",
+      "paths": [
+        "Characters/Nami/Spells/NamiRAbility/NamiR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "nami-audit-bounce-growth",
+      "champion": "Nami",
+      "name": "Bounce growth",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP changing which W bounce carries most value.",
+      "goal": "Test AP changing which W bounce carries most value.",
+      "hypothesis": "W modifies each bounce by -20 plus 0.15 AP percent, so sufficient AP reverses attenuation. Deathcap and Staff raise both heal and damage ratios; Helia asks for an enemy hit before an allied heal. Cosmic speed supports safe bounce geometry.",
+      "itemIds": [
+        6620,
+        6616,
+        3089,
+        4629,
+        3137,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Three distinct champions within bounce reach, with an injured ally and recorded AP.",
+        "Log every bounce heal/damage below and above the AP attenuation crossover, with Staff inactive and active.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Broken bounce chains or farmed AP costs can lose more allied protection than they gain.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W cannot bounce repeatedly through the same champion.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Rabadon's Deathcap, Cosmic Drive, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ebb and Flow",
+          "slot": "W",
+          "source": "Characters/Nami/Spells/NamiWAbility/NamiW",
+          "formula": "Nami unleashes a stream of water that bounces between allied and enemy champions. Each champion can only be hit once, and it hits up to [3] targets.Restores [55 / 80 / 105 / 130 / 155 + (0.4) × AP] Health to allies and will bounce to a nearby enemy champion. Deals [60 / 95 / 130 / 165 / 200 + (0.5) × AP] magic damage to enemies and will bounce to a nearby allied champion.\nThe damage and healing value is modified by [(-20 + (0.15) × AP) × (0.01)] each bounce."
+        },
+        {
+          "ability": "Surging Tides",
+          "slot": "Passive",
+          "source": "Characters/Nami/Spells/NamiPassiveAbility/NamiPassive",
+          "formula": "When Nami's Abilities hit allied champions, they gain [100 + (0.25) × AP] Move Speed, decaying over [1.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "nami-audit-self-blessing-volley",
+      "champion": "Nami",
+      "name": "Self-blessing volley",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Spend E's finite charges through Nami's own attacks.",
+      "goal": "Spend E's finite charges through Nami's own attacks.",
+      "hypothesis": "E grants three damaging attacks or abilities over six seconds. Self-casting permits direct observation of charge damage, while Nashor and Dusk add attack effects; W healing an ally can enable Censer's attack buff. AP also improves the passive movement burst.",
+      "itemIds": [
+        3115,
+        2510,
+        3504,
+        3089,
+        3137,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Self E, allied W heal and three safe attacks inside six seconds.",
+        "Count E charges and separate E, Nashor and Dusk packets in three attacks with and without allied healing.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Short range or consuming charges on incidental spells prevents the intended volley.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Dusk repeating on-hits is not evidence that it duplicates E charge consumption or damage.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Ardent Censer, Rabadon's Deathcap, Cryptbloom, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ebb and Flow",
+          "slot": "W",
+          "source": "Characters/Nami/Spells/NamiWAbility/NamiW",
+          "formula": "Nami unleashes a stream of water that bounces between allied and enemy champions. Each champion can only be hit once, and it hits up to [3] targets.Restores [55 / 80 / 105 / 130 / 155 + (0.4) × AP] Health to allies and will bounce to a nearby enemy champion. Deals [60 / 95 / 130 / 165 / 200 + (0.5) × AP] magic damage to enemies and will bounce to a nearby allied champion.\nThe damage and healing value is modified by [(-20 + (0.15) × AP) × (0.01)] each bounce."
+        },
+        {
+          "ability": "Tidecaller's Blessing",
+          "slot": "E",
+          "source": "Characters/Nami/Spells/NamiEAbility/NamiE",
+          "formula": "Nami empowers an allied champion's next [3] Attacks and Abilities for [6] seconds, causing them to Slow their targets by [(15 / 20 / 25 / 30 / 35 + (0.05) × AP) × (0.01)] for [1]s and deal an additional [20 / 35 / 50 / 65 / 80 + (0.2) × AP] magic damage."
+        },
+        {
+          "ability": "Surging Tides",
+          "slot": "Passive",
+          "source": "Characters/Nami/Spells/NamiPassiveAbility/NamiPassive",
+          "formula": "When Nami's Abilities hit allied champions, they gain [100 + (0.25) × AP] Move Speed, decaying over [1.5] seconds."
+        }
+      ]
+    }
+  ]
+}

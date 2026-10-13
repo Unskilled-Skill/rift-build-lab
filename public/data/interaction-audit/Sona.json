@@ -1,0 +1,291 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Sona",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "diminuendo-ap-defense",
+      "name": "Diminuendo AP defense",
+      "objective": "Test AP as prevention through the W-selected Power Chord.",
+      "mechanic": "W chord reduces the target's physical and magic output with an AP term, while W heal/shield also scale with AP. Staff and Dawncore support AP/heal budget, Helia requires champion damage before allied healing. E helps reach the attack needed to apply the chosen chord.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        6616,
+        6621,
+        6620,
+        3089,
+        3040,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "W is last basic cast before Power Chord attack; Seraph earned and ally damaged.",
+      "failure": "Casting Q/E last changes the chord or stepping into range costs more damage than prevented.",
+      "test": "Record incoming physical/magic damage during three seconds after W chord at two AP checkpoints.",
+      "rejectedAssumption": "The W chord does not state reduction of true damage.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "accelerando-attack-cycle",
+      "name": "Accelerando attack cycle",
+      "objective": "Trade utility slots for spell-and-attack chords after earned basic haste.",
+      "mechanic": "Power Chord follows three basic casts and Q-selected chord has a larger AP packet. Nashor and Lich Bane reward the required attack; Censer can activate on an allied W heal and boosts both users' attacks. Earned Accelerando reduces basic cooldowns up to its cap, enabling more chord opportunities.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W"
+      ],
+      "itemIds": [
+        3115,
+        3100,
+        3504,
+        3089,
+        3040,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Finite earned Accelerando, enough mana, Q selected last and attack range available.",
+      "failure": "Mana or exposure prevents enough casts and the attack build loses allied protection.",
+      "test": "Count chords and distinct Spellblade packets over a finite sequence at zero versus capped earned haste.",
+      "rejectedAssumption": "Accelerando is not free universal haste and does not directly grant ultimate haste before its cap.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Infinite Accelerando haste",
+      "reason": "Passive caps basic haste at 60 and redirects later successful uses to remaining R cooldown.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Chord proc classification, AP weaken caps and unresolved ultimate cooldown reduction token need live tests."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Power Chord",
+      "paths": [
+        "Characters/Sona/Spells/SonaPassiveAbility/SonaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Hymn of Valor",
+      "paths": [
+        "Characters/Sona/Spells/SonaQAbility/SonaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Aria of Perseverance",
+      "paths": [
+        "Characters/Sona/Spells/SonaWAbility/SonaW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Song of Celerity",
+      "paths": [
+        "Characters/Sona/Spells/SonaEAbility/SonaE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Crescendo",
+      "paths": [
+        "Characters/Sona/Spells/SonaRAbility/SonaR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "sona-audit-diminuendo-ap-defense",
+      "champion": "Sona",
+      "name": "Diminuendo AP defense",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP as prevention through the W-selected Power Chord.",
+      "goal": "Test AP as prevention through the W-selected Power Chord.",
+      "hypothesis": "W chord reduces the target's physical and magic output with an AP term, while W heal/shield also scale with AP. Staff and Dawncore support AP/heal budget, Helia requires champion damage before allied healing. E helps reach the attack needed to apply the chosen chord.",
+      "itemIds": [
+        6616,
+        6621,
+        6620,
+        3089,
+        3040,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: W is last basic cast before Power Chord attack; Seraph earned and ally damaged.",
+        "Record incoming physical/magic damage during three seconds after W chord at two AP checkpoints.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Casting Q/E last changes the chord or stepping into range costs more damage than prevented.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The W chord does not state reduction of true damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Staff of Flowing Water, Dawncore, Echoes of Helia, Rabadon's Deathcap, Seraph's Embrace, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Aria of Perseverance",
+          "slot": "W",
+          "source": "Characters/Sona/Spells/SonaWAbility/SonaW",
+          "formula": "Active: Sona restores [30 / 45 / 60 / 75 / 90 + (0.3) × AP] Health to herself and a nearby allied champion, prioritizing the most wounded. She then begins a new Melody.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions [25 / 45 / 65 / 85 / 105 + (0.25) × AP] Shield for [1.5] seconds.\n\nGain a stack of Accelerando whenever you heal another injured ally and every time you protect another ally from at least [25 / 45 / 65 / 85 / 105] damage with this shield.\n\nPower Chord - Diminuendo: Power Chord also reduces physical and magic damage dealt by the target by [0.25 + (0.0004) × AP] for [3] seconds."
+        },
+        {
+          "ability": "Song of Celerity",
+          "slot": "E",
+          "source": "Characters/Sona/Spells/SonaEAbility/SonaE",
+          "formula": "Active: She begins a new Melody and grants herself [0.2 + (0.0002) × AP] Move Speed for [3] seconds, extended to up to [7] seconds if she doesn't take damage. \n\nMelody: Sona gains an aura for [3] seconds that grants allied champions [0.1 / 0.12 / 0.14 / 0.16 / 0.18 + (0.0002) × AP] Move Speed for [3] seconds.\n\nPower Chord - Tempo: Power Chord also Slows the target by [0.5 + (0.0004) × AP] for [2] seconds."
+        },
+        {
+          "ability": "Power Chord",
+          "slot": "Passive",
+          "source": "Characters/Sona/Spells/SonaPassiveAbility/SonaPassive",
+          "formula": "Accelerando: Sona gains Accelerando stacks from using her Basic Abilities well. She gains +%i:scaleAH% [0.5] Basic Ability Haste permanently per stack, up to %i:scaleAH% [60] Basic Ability Haste. When she reaches %i:scaleAH% [60] Basic Ability Haste, instead of gaining further stacks her current Ultimate Ability's cooldown is reduced by @Spell.SonaPassive:AccelerandoUltCDR@ seconds.\n\nPower Chord: After using [3] basic Abilities, Sona's next Attack deals an additional [characterLevelBreakpoints(start=20, perLevel=10, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage and may have an additional effect based on the song Sona last activated.\nHymn of Valor: The Attack deals @Spell.SonaQ:TotalStaccatoDamage@ magic damage instead.Aria of Perseverance: The target deals @Spell.SonaW:TotalDiminuendoWeakenPercent@ less damage for @Spell.SonaW:DiminuendoDuration@ seconds.Song of Celerity: The target is Slowed by @Spell.SonaE:TotalTempoMoveSpeedSlow@ for @Spell.SonaE:TempoDuration@ seconds."
+        }
+      ]
+    },
+    {
+      "id": "sona-audit-accelerando-attack-cycle",
+      "champion": "Sona",
+      "name": "Accelerando attack cycle",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Trade utility slots for spell-and-attack chords after earned basic haste.",
+      "goal": "Trade utility slots for spell-and-attack chords after earned basic haste.",
+      "hypothesis": "Power Chord follows three basic casts and Q-selected chord has a larger AP packet. Nashor and Lich Bane reward the required attack; Censer can activate on an allied W heal and boosts both users' attacks. Earned Accelerando reduces basic cooldowns up to its cap, enabling more chord opportunities.",
+      "itemIds": [
+        3115,
+        3100,
+        3504,
+        3089,
+        3040,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Finite earned Accelerando, enough mana, Q selected last and attack range available.",
+        "Count chords and distinct Spellblade packets over a finite sequence at zero versus capped earned haste.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Mana or exposure prevents enough casts and the attack build loses allied protection.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Accelerando is not free universal haste and does not directly grant ultimate haste before its cap.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Ardent Censer, Rabadon's Deathcap, Seraph's Embrace, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Aria of Perseverance",
+          "slot": "W",
+          "source": "Characters/Sona/Spells/SonaWAbility/SonaW",
+          "formula": "Active: Sona restores [30 / 45 / 60 / 75 / 90 + (0.3) × AP] Health to herself and a nearby allied champion, prioritizing the most wounded. She then begins a new Melody.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions [25 / 45 / 65 / 85 / 105 + (0.25) × AP] Shield for [1.5] seconds.\n\nGain a stack of Accelerando whenever you heal another injured ally and every time you protect another ally from at least [25 / 45 / 65 / 85 / 105] damage with this shield.\n\nPower Chord - Diminuendo: Power Chord also reduces physical and magic damage dealt by the target by [0.25 + (0.0004) × AP] for [3] seconds."
+        },
+        {
+          "ability": "Hymn of Valor",
+          "slot": "Q",
+          "source": "Characters/Sona/Spells/SonaQAbility/SonaQ",
+          "formula": "Sona deals [50 / 85 / 120 / 155 / 190 + (0.4) × AP] magic damage to the nearest two enemies, prioritizing champions. She then begins a new Melody. Gain a stack of Accelerando for every champion you damage with this.\n\nMelody: Sona gains an aura for [3] seconds, granting allied champions an additional [10 / 15 / 20 / 25 / 30 + (0.1) × AP] magic damage %i:OnHit% on their next Attack within [5] seconds.\n\nPower Chord - Staccato: Power Chord bonus damage ([characterLevelBreakpoints(start=30, perLevel=15, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 22.5, \"__type\": \"Breakpoint\"}]) + (0.3) × AP] total magic damage)."
+        },
+        {
+          "ability": "Power Chord",
+          "slot": "Passive",
+          "source": "Characters/Sona/Spells/SonaPassiveAbility/SonaPassive",
+          "formula": "Accelerando: Sona gains Accelerando stacks from using her Basic Abilities well. She gains +%i:scaleAH% [0.5] Basic Ability Haste permanently per stack, up to %i:scaleAH% [60] Basic Ability Haste. When she reaches %i:scaleAH% [60] Basic Ability Haste, instead of gaining further stacks her current Ultimate Ability's cooldown is reduced by @Spell.SonaPassive:AccelerandoUltCDR@ seconds.\n\nPower Chord: After using [3] basic Abilities, Sona's next Attack deals an additional [characterLevelBreakpoints(start=20, perLevel=10, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage and may have an additional effect based on the song Sona last activated.\nHymn of Valor: The Attack deals @Spell.SonaQ:TotalStaccatoDamage@ magic damage instead.Aria of Perseverance: The target deals @Spell.SonaW:TotalDiminuendoWeakenPercent@ less damage for @Spell.SonaW:DiminuendoDuration@ seconds.Song of Celerity: The target is Slowed by @Spell.SonaE:TotalTempoMoveSpeedSlow@ for @Spell.SonaE:TempoDuration@ seconds."
+        }
+      ]
+    }
+  ]
+}

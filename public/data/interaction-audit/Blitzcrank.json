@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Blitzcrank",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "power-fist-ad-uppercut",
+      "name": "Power Fist AD uppercut",
+      "objective": "Make the doubled-AD empowered attack the primary burst.",
+      "mechanic": "Power Fist explicitly deals 2 AD plus 0.25 AP physical damage and knocks up for one second. Essence Reaver supplies a separate physical Spellblade payload; Sundered Sky can reward the first champion attack with healing. Bloodmail turns purchased health into AD, W supplies five seconds of attack speed, and Cleaver supports physical follow-up.",
+      "evidenceSlots": [
+        "E",
+        "W",
+        "Q"
+      ],
+      "itemIds": [
+        3508,
+        6610,
+        3071,
+        2501,
+        3053,
+        3111
+      ],
+      "pageKey": "hob",
+      "requiredState": "Need Q connection or melee access, E ready and W exit planned before its self-slow.",
+      "failure": "Q/R magic damage loses AP scaling, and the carry can disengage after the knockup.",
+      "test": "Log base E, Spellblade and Sundered Sky components independently before comparing a three-attack trade.",
+      "rejectedAssumption": "Do not multiply all item bonus damage by E's 2 AD coefficient or assume E crit stacking.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "mana-shield-lightning-boxer",
+      "name": "Mana-shield lightning boxer",
+      "objective": "Turn a mana reserve into a durable repeated-attack threat.",
+      "mechanic": "Mana Barrier gives a shield equal to 35% of the ability resource expression, while available R marks attacked targets for delayed magic shocks with an AP ratio and 0.02 resource expression. Seraph and Frozen Heart add mana, Nashor and Dusk and Dawn reward actual W-assisted attacks, and Visage enhances received shields. Holding R preserves lightning availability.",
+      "evidenceSlots": [
+        "P",
+        "R",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3040,
+        3110,
+        3115,
+        2510,
+        3065,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Need charged Tear, enough current resource, R unspent and time for one-second shocks.",
+      "failure": "Casting R removes the available-ultimate premise; spending mana before the shield can reduce protection.",
+      "test": "Compare shield and delayed shock damage at full versus spent mana while keeping R active unused.",
+      "rejectedAssumption": "Do not read ability resource default as unquestionably maximum mana or free permanent damage.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Lethality grab",
+      "reason": "Rocket Grab and Static Field deal magic damage; lethality only serves attacks and physical E.",
+      "evidenceSlots": [
+        "Q",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Current-versus-maximum mana interpretation, R re-mark timing and E/Sundered Sky crit treatment need live logs."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Mana Barrier",
+      "paths": [
+        "Characters/Blitzcrank/Spells/ManaBarrierIconAbility/ManaBarrierIcon"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Rocket Grab",
+      "paths": [
+        "Characters/Blitzcrank/Spells/RocketGrabAbility/RocketGrab"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Overdrive",
+      "paths": [
+        "Characters/Blitzcrank/Spells/OverdriveAbility/Overdrive"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Power Fist",
+      "paths": [
+        "Characters/Blitzcrank/Spells/PowerFistAbility/PowerFist"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Static Field",
+      "paths": [
+        "Characters/Blitzcrank/Spells/StaticFieldAbility/StaticField"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "blitzcrank-audit-power-fist-ad-uppercut",
+      "champion": "Blitzcrank",
+      "name": "Power Fist AD uppercut",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Make the doubled-AD empowered attack the primary burst.",
+      "goal": "Make the doubled-AD empowered attack the primary burst.",
+      "hypothesis": "Power Fist explicitly deals 2 AD plus 0.25 AP physical damage and knocks up for one second. Essence Reaver supplies a separate physical Spellblade payload; Sundered Sky can reward the first champion attack with healing. Bloodmail turns purchased health into AD, W supplies five seconds of attack speed, and Cleaver supports physical follow-up.",
+      "itemIds": [
+        3508,
+        6610,
+        3071,
+        2501,
+        3053,
+        3111
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need Q connection or melee access, E ready and W exit planned before its self-slow.",
+        "Log base E, Spellblade and Sundered Sky components independently before comparing a three-attack trade.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Q/R magic damage loses AP scaling, and the carry can disengage after the knockup.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Do not multiply all item bonus damage by E's 2 AD coefficient or assume E crit stacking.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Essence Reaver, Sundered Sky, Black Cleaver, Overlord's Bloodmail, Sterak's Gage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Power Fist",
+          "slot": "E",
+          "source": "Characters/Blitzcrank/Spells/PowerFistAbility/PowerFist",
+          "formula": "Blitzcrank charges up their fist, causing their next Attack to Knock Up for [1] second(s) and deal [(2) × AD + (0.25) × AP] physical damage."
+        },
+        {
+          "ability": "Rocket Grab",
+          "slot": "Q",
+          "source": "Characters/Blitzcrank/Spells/RocketGrabAbility/RocketGrab",
+          "formula": "Blitzcrank fires their right hand, Pulling the first enemy hit towards them and dealing [110 / 160 / 210 / 260 / 310 + (1.2) × AP] magic damage."
+        },
+        {
+          "ability": "Overdrive",
+          "slot": "W",
+          "source": "Characters/Blitzcrank/Spells/OverdriveAbility/Overdrive",
+          "formula": "Blitzcrank supercharges themself, gaining [(0.6 / 0.65 / 0.7 / 0.75 / 0.8) × 100]% decaying Move Speed and [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Attack Speed for [5] seconds.\n\nAfterwards, Blitzcrank is Slowed by [30]% for [1.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "blitzcrank-audit-mana-shield-lightning-boxer",
+      "champion": "Blitzcrank",
+      "name": "Mana-shield lightning boxer",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Turn a mana reserve into a durable repeated-attack threat.",
+      "goal": "Turn a mana reserve into a durable repeated-attack threat.",
+      "hypothesis": "Mana Barrier gives a shield equal to 35% of the ability resource expression, while available R marks attacked targets for delayed magic shocks with an AP ratio and 0.02 resource expression. Seraph and Frozen Heart add mana, Nashor and Dusk and Dawn reward actual W-assisted attacks, and Visage enhances received shields. Holding R preserves lightning availability.",
+      "itemIds": [
+        3040,
+        3110,
+        3115,
+        2510,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need charged Tear, enough current resource, R unspent and time for one-second shocks.",
+        "Compare shield and delayed shock damage at full versus spent mana while keeping R active unused.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Casting R removes the available-ultimate premise; spending mana before the shield can reduce protection.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Do not read ability resource default as unquestionably maximum mana or free permanent damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Seraph's Embrace, Frozen Heart, Nashor's Tooth, Dusk and Dawn, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Power Fist",
+          "slot": "E",
+          "source": "Characters/Blitzcrank/Spells/PowerFistAbility/PowerFist",
+          "formula": "Blitzcrank charges up their fist, causing their next Attack to Knock Up for [1] second(s) and deal [(2) × AD + (0.25) × AP] physical damage."
+        },
+        {
+          "ability": "Static Field",
+          "slot": "R",
+          "source": "Characters/Blitzcrank/Spells/StaticFieldAbility/StaticField",
+          "formula": "Passive: While this ability is available, lightning charges Blitzcrank's fists, marking those  Attacked. After 1 second, they are shocked for [50 / 100 / 150 + (0.3 / 0.4 / 0.5) × AP + 0.02 × AbilityResource(default, statFormula=default)] magic damage.\n\nActive: Blitzcrank overcharges, dealing [275 / 400 / 525 + (1) × AP] magic damage and Silencing nearby enemies for [0.5] seconds. Their shields are also destroyed."
+        },
+        {
+          "ability": "Overdrive",
+          "slot": "W",
+          "source": "Characters/Blitzcrank/Spells/OverdriveAbility/Overdrive",
+          "formula": "Blitzcrank supercharges themself, gaining [(0.6 / 0.65 / 0.7 / 0.75 / 0.8) × 100]% decaying Move Speed and [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Attack Speed for [5] seconds.\n\nAfterwards, Blitzcrank is Slowed by [30]% for [1.5] seconds."
+        },
+        {
+          "ability": "Mana Barrier",
+          "slot": "Passive",
+          "source": "Characters/Blitzcrank/Spells/ManaBarrierIconAbility/ManaBarrierIcon",
+          "formula": "When Blitzcrank falls below [30]% Health, they gain [0.35 × AbilityResource(default, statFormula=default)] Shield for [10] seconds."
+        }
+      ]
+    }
+  ]
+}

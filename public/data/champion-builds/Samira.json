@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "samira-four-1",
@@ -116,40 +116,42 @@
       ]
     },
     {
-      "id": "samira-four-2",
+      "id": "samira-audit-inferno-lifesteal-armor-shred",
       "champion": "Samira",
-      "name": "Damage interaction: Long-range finish",
-      "goal": "Damage interaction for Samira: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A close-range combo marksman who alternates distinct hits to reach S style, then channels a crit-capable area ultimate. Allied immobilization and dash resets help create access. Reach S style through valid distinct hits before R. Ultimate crit compatibility does not remove interruption or melee access risks; shield/defense slots can buy the only usable channel. Crit and a Rapid Firecannon attack window test safer pick damage.",
-      "summary": "Crit and a Rapid Firecannon attack window test safer pick damage.",
+      "name": "Inferno lifesteal armor shred",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test inferno lifesteal armor shred against conventional damage at equal gold.",
+      "goal": "Test inferno lifesteal armor shred against conventional damage at equal gold.",
+      "hypothesis": "Inferno Trigger explicitly applies lifesteal at 100% effectiveness and its ten physical shots can crit; Bloodthirster plus Visage tests survival during the two-second channel. Cleaver supports physical damage, while Essence Reaver keeps one Spellblade available during style-building attacks.",
       "itemIds": [
-        6676,
-        3031,
-        3094,
-        3036,
         3072,
-        3006
+        3071,
+        3065,
+        3031,
+        3508,
+        3111
       ],
       "runePage": [
-        8005,
+        8010,
         9111,
-        9104,
-        8014,
+        9105,
+        8299,
         8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -157,36 +159,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Samira: Reach S style through valid distinct hits before R. Ultimate crit compatibility does not remove interruption or melee access risks; shield/defense slots can buy the only usable channel.",
-        "Start with the early core (Collector, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Crit and a Rapid Firecannon attack window test safer pick damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Samira fires a shot or swings her sword, dealing damage. If cast during Wild Rush, strike all enemies in her path upon completion. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Build S with distinct attacks/abilities before entering R range.",
+        "Measure R healing versus one and multiple champions at equal health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "RFC does not extend every ability; its charged attack must actually be consumed.",
-        "The route fails Samira's stated kit question: Reach S style through valid distinct hits before R. Ultimate crit compatibility does not remove interruption or melee access risks; shield/defense slots can buy the only usable channel.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "CC interrupts R and missing damage prevents the E takedown reset.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "RFC does not extend every ability; its charged attack must actually be consumed.",
-        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: R lifesteal does not imply every shot applies all basic-attack on-hits.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Collector, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rapid Firecannon, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Bloodthirster, Black Cleaver, Spirit Visage, Infinity Edge, Essence Reaver, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Wild Rush",
@@ -338,40 +332,42 @@
       ]
     },
     {
-      "id": "samira-four-4",
+      "id": "samira-audit-style-health-to-ad-diver",
       "champion": "Samira",
-      "name": "Experiment: Physical pick",
-      "goal": "Experiment for Samira: test a different playstyle, with lower confidence",
-      "hypothesis": "A close-range combo marksman who alternates distinct hits to reach S style, then channels a crit-capable area ultimate. Allied immobilization and dash resets help create access. Reach S style through valid distinct hits before R. Ultimate crit compatibility does not remove interruption or melee access risks; shield/defense slots can buy the only usable channel. Lethality, approach speed and armor penetration favor short physical pick windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "name": "Style health-to-AD diver",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test style health-to-ad diver against conventional damage at equal gold.",
+      "goal": "Test style health-to-ad diver against conventional damage at equal gold.",
+      "hypothesis": "Melee Daredevil Impulse adds AD-scaled magic damage at low target health while Q/R remain largely physical; Bloodmail supplies health-linked AD and Shojin supports building style with distinct spells. Eclipse and Death's Dance help reach an actual first takedown for E reset.",
       "itemIds": [
-        3142,
-        6698,
-        3814,
-        6694,
-        3026,
-        3158
+        2501,
+        3161,
+        6692,
+        3053,
+        6333,
+        3047
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -379,36 +375,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Samira: Reach S style through valid distinct hits before R. Ultimate crit compatibility does not remove interruption or melee access risks; shield/defense slots can buy the only usable channel.",
-        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Samira fires a shot or swings her sword, dealing damage. If cast during Wild Rush, strike all enemies in her path upon completion. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Alternate distinct style inputs and fight inside melee bonus range.",
+        "Compare time to S and survival through first R against a crit build.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "The route fails Samira's stated kit question: Reach S style through valid distinct hits before R. Ultimate crit compatibility does not remove interruption or melee access risks; shield/defense slots can buy the only usable channel.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "No crit or lifesteal sharply weakens the standard R carry pattern.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Rapid repeated Q alone does not grant six distinct style grades.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Overlord's Bloodmail, Spear of Shojin, Eclipse, Sterak's Gage, Death's Dance, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Wild Rush",

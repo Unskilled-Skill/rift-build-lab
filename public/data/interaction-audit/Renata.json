@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Renata",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "leverage-paired-attacker",
+      "name": "Leverage paired attacker",
+      "objective": "Test leverage paired attacker against conventional damage at equal gold.",
+      "mechanic": "Leverage's unmarked attack and allied mark consumption each scale max-health magic damage with AP; Nashor adds owner attack pressure and Dusk and Dawn follows E shielding. This route relies on a partner consuming marks repeatedly, not on Renata attacking one marked target alone.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        3089,
+        3302,
+        3102,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "An ally damages each mark before Renata reapplies it.",
+      "failure": "Solo attacks leave a persistent mark and lose the hoped-for passive cadence.",
+      "test": "Count marks applied and consumed with an ally versus isolated attacks.",
+      "rejectedAssumption": "Rageblade-style extra hits cannot consume the mark as an allied champion.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "bailout-shield-charge-engine",
+      "name": "Bailout shield charge engine",
+      "objective": "Test bailout shield charge engine against conventional damage at equal gold.",
+      "mechanic": "Loyalty Program shields allies for three seconds while damaging champions, fitting Helia's damage-charge then ally-shield heal cycle. Handshake root fits Mandate's current vulnerability and immobilizing-ability haste; Bailout's attack/movement buff rewards keeping an ally alive for the required takedown.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6620,
+        6617,
+        3504,
+        6621,
+        4005,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "E hits both enemy and ally and W recipient can finish a victim.",
+      "failure": "Healing merely delays Bailout decay and cannot replace the takedown.",
+      "test": "Measure Helia healing and time gained during decay without a kill.",
+      "rejectedAssumption": "Bailout cannot permanently prevent death through unlimited external healing.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Rageblade-style extra hits cannot consume the mark as an allied champion.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Proc effectiveness and ordering need a controlled current-patch test; source statFormula IDs and helper records do not establish live dispatch."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Leverage",
+      "paths": [
+        "Characters/Renata/Spells/RenataPassiveAbility/RenataPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Handshake",
+      "paths": [
+        "Characters/Renata/Spells/RenataQAbility/RenataQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Bailout",
+      "paths": [
+        "Characters/Renata/Spells/RenataWAbility/RenataW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Loyalty Program",
+      "paths": [
+        "Characters/Renata/Spells/RenataEAbility/RenataE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Hostile Takeover",
+      "paths": [
+        "Characters/Renata/Spells/RenataRAbility/RenataR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "renata-audit-leverage-paired-attacker",
+      "champion": "Renata",
+      "name": "Leverage paired attacker",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test leverage paired attacker against conventional damage at equal gold.",
+      "goal": "Test leverage paired attacker against conventional damage at equal gold.",
+      "hypothesis": "Leverage's unmarked attack and allied mark consumption each scale max-health magic damage with AP; Nashor adds owner attack pressure and Dusk and Dawn follows E shielding. This route relies on a partner consuming marks repeatedly, not on Renata attacking one marked target alone.",
+      "itemIds": [
+        3115,
+        2510,
+        3089,
+        3302,
+        3102,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: An ally damages each mark before Renata reapplies it.",
+        "Count marks applied and consumed with an ally versus isolated attacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Solo attacks leave a persistent mark and lose the hoped-for passive cadence.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Rageblade-style extra hits cannot consume the mark as an allied champion.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Rabadon's Deathcap, Terminus, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Loyalty Program",
+          "slot": "E",
+          "source": "Characters/Renata/Spells/RenataEAbility/RenataE",
+          "formula": "Renata sends out a pair of chemtech missiles, dealing [65 / 95 / 125 / 155 / 185 + (0.55) × AP] magic damage and Slowing surrounding enemies and enemies hit by 30% for [2] seconds. Allies hit gain [50 / 65 / 80 / 95 / 110 + (0.5) × AP] Shield for [3] seconds."
+        },
+        {
+          "ability": "Leverage",
+          "slot": "Passive",
+          "source": "Characters/Renata/Spells/RenataPassiveAbility/RenataPassive",
+          "formula": "Renata's Attacks mark enemies for [6] seconds and deal an additional [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage if they were unmarked.\n\nAllied champions' Attacks or Abilities consume the mark, dealing [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage.\n\nRenata may only have one target marked at a time."
+        },
+        {
+          "ability": "Bailout",
+          "slot": "W",
+          "source": "Characters/Renata/Spells/RenataWAbility/RenataW",
+          "formula": "Renata infuses an ally champion, granting [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.01)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.01)] Move Speed towards enemies, increasing to [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.02)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.02)] Move Speed over [5] seconds. Takedowns refresh the duration of the buff.\n\nIf the ally would die, they instead return to full Health, which then decays over 3 seconds.\n\nIf they get a Takedown while decaying, they will be set to [20]% max Health and stop decaying.\n\nThe Champion's death can be delayed by healing or similar effects while in the decaying state, but cannot be prevented unless the Champion gets a Takedown. Champions can only delay their death once."
+        },
+        {
+          "ability": "Handshake",
+          "slot": "Q",
+          "source": "Characters/Renata/Spells/RenataQAbility/RenataQ",
+          "formula": "Renata sends out a missile from her arm, Rooting the first enemy hit for [1] second and dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage.\n\nRecast: Renata Pulls the enemy in a direction, dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage to enemies they are thrown into and Stunning for [0.5] seconds if the thrown enemy is a champion."
+        }
+      ]
+    },
+    {
+      "id": "renata-audit-bailout-shield-charge-engine",
+      "champion": "Renata",
+      "name": "Bailout shield charge engine",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bailout shield charge engine against conventional damage at equal gold.",
+      "goal": "Test bailout shield charge engine against conventional damage at equal gold.",
+      "hypothesis": "Loyalty Program shields allies for three seconds while damaging champions, fitting Helia's damage-charge then ally-shield heal cycle. Handshake root fits Mandate's current vulnerability and immobilizing-ability haste; Bailout's attack/movement buff rewards keeping an ally alive for the required takedown.",
+      "itemIds": [
+        6620,
+        6617,
+        3504,
+        6621,
+        4005,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: E hits both enemy and ally and W recipient can finish a victim.",
+        "Measure Helia healing and time gained during decay without a kill.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Healing merely delays Bailout decay and cannot replace the takedown.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Bailout cannot permanently prevent death through unlimited external healing.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Echoes of Helia, Moonstone Renewer, Ardent Censer, Dawncore, Imperial Mandate, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Hostile Takeover",
+          "slot": "R",
+          "source": "Characters/Renata/Spells/RenataRAbility/RenataR",
+          "formula": "Renata sends out a wave of chemicals, Berserking enemies for [1.25 / 1.75 / 2.25] seconds, causing them to Attack the nearest unit, prioritizing their allies.\n\nWhile Berserk, enemies gain [100]% Attack Speed."
+        },
+        {
+          "ability": "Loyalty Program",
+          "slot": "E",
+          "source": "Characters/Renata/Spells/RenataEAbility/RenataE",
+          "formula": "Renata sends out a pair of chemtech missiles, dealing [65 / 95 / 125 / 155 / 185 + (0.55) × AP] magic damage and Slowing surrounding enemies and enemies hit by 30% for [2] seconds. Allies hit gain [50 / 65 / 80 / 95 / 110 + (0.5) × AP] Shield for [3] seconds."
+        },
+        {
+          "ability": "Leverage",
+          "slot": "Passive",
+          "source": "Characters/Renata/Spells/RenataPassiveAbility/RenataPassive",
+          "formula": "Renata's Attacks mark enemies for [6] seconds and deal an additional [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage if they were unmarked.\n\nAllied champions' Attacks or Abilities consume the mark, dealing [characterLevelBreakpoints(start=0.01, perLevel=0.0012, changes=[{\"mLevel\": 6, \"mBonusPerLevelAtAndAfter\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.0013000000035390258, \"__type\": \"Breakpoint\"}]) + (0.0002) × AP] max Health magic damage.\n\nRenata may only have one target marked at a time."
+        },
+        {
+          "ability": "Bailout",
+          "slot": "W",
+          "source": "Characters/Renata/Spells/RenataWAbility/RenataW",
+          "formula": "Renata infuses an ally champion, granting [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.01)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.01)] Move Speed towards enemies, increasing to [(10 / 15 / 20 / 25 / 30 + (0.01) × AP) × (0.02)] Attack Speed and [(10 / 12.5 / 15 / 17.5 / 20 + (0.01) × AP) × (0.02)] Move Speed over [5] seconds. Takedowns refresh the duration of the buff.\n\nIf the ally would die, they instead return to full Health, which then decays over 3 seconds.\n\nIf they get a Takedown while decaying, they will be set to [20]% max Health and stop decaying.\n\nThe Champion's death can be delayed by healing or similar effects while in the decaying state, but cannot be prevented unless the Champion gets a Takedown. Champions can only delay their death once."
+        },
+        {
+          "ability": "Handshake",
+          "slot": "Q",
+          "source": "Characters/Renata/Spells/RenataQAbility/RenataQ",
+          "formula": "Renata sends out a missile from her arm, Rooting the first enemy hit for [1] second and dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage.\n\nRecast: Renata Pulls the enemy in a direction, dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage to enemies they are thrown into and Stunning for [0.5] seconds if the thrown enemy is a champion."
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "orianna-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "orianna-four-2",
+      "id": "orianna-audit-self-ball-windup",
       "champion": "Orianna",
-      "name": "Damage interaction: Mana burst",
-      "goal": "Damage interaction for Orianna: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ball-positioning control mage who layers area pressure with allied protection and a displacement ultimate. Record ball position and allied delivery rather than assuming a perfect R cluster. Support shielding sacrifices spell damage and must be judged by actual ally survival. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Self-ball windup",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Keep the ball on Orianna while ramping same-target attacks.",
+      "goal": "Keep the ball on Orianna while ramping same-target attacks.",
+      "hypothesis": "Clockwork Windup's AP magic damage increases across attacks on one target within four seconds. Self E adds shield and ball resists while W supplies escape speed. Nashor supports attacks; Dusk provides one spell-followed attack and Cosmic reacts to magic packets.",
       "itemIds": [
-        6655,
-        4645,
+        3115,
+        2510,
+        4629,
         3089,
-        3135,
-        3157,
-        3020
+        3137,
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Orianna: Record ball position and allied delivery rather than assuming a perfect R cluster. Support shielding sacrifices spell damage and must be judged by actual ally survival.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Orianna commands her Ball to fire toward a target location, dealing magic damage to targets along the way (deals less damage to subsequent targets). Her Ball remains at the target location after. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Ball attached to self, stable attack target and less than four seconds between attacks.",
+        "Measure first three passive attack packets and damage prevented by self E while alternating versus holding targets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Orianna's stated kit question: Record ball position and allied delivery rather than assuming a perfect R cluster. Support shielding sacrifices spell damage and must be judged by actual ally survival.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Attack range forces exposure or repeated target switching discards passive ramp.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Repeating an on-hit does not establish an extra Clockwork Windup stack.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Command: Protect",
@@ -199,18 +193,6 @@
           "slot": "Passive",
           "source": "Characters/Orianna/Spells/OriannaPAbility/OriannaP",
           "formula": "Orianna's Abilities originate from her Ball. Orianna's Ball automatically returns to her if she is too far away from it.\n\nOrianna's Attacks deal an additional [characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP] magic damage. Subsequent Attacks against the same target within [4] seconds deal an additional [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × (0.15)] magic damage (max of [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × ((0.15) × (2))] damage)."
-        },
-        {
-          "ability": "Command: Attack",
-          "slot": "Q",
-          "source": "Characters/Orianna/Spells/OrianaIzunaCommandAbility/OrianaIzunaCommand",
-          "formula": "Orianna commands her Ball to move to an area, dealing [60 / 90 / 120 / 150 / 180 + (0.55) × AP] magic damage to surrounding enemies and to enemies it passes through. Deals [30]% less damage to all enemies after the first."
-        },
-        {
-          "ability": "Command: Shockwave",
-          "slot": "R",
-          "source": "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand",
-          "formula": "Orianna commands her Ball to unleash a shockwave, dealing [225 / 350 / 475 + (1.1) × AP] magic damage to nearby enemies and Knocking them in the direction of the Ball."
         }
       ]
     },
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "orianna-four-4",
+      "id": "orianna-audit-protect-then-pulse",
       "champion": "Orianna",
-      "name": "Experiment: Protection specialist",
-      "goal": "Experiment for Orianna: test a different playstyle, with lower confidence",
-      "hypothesis": "A ball-positioning control mage who layers area pressure with allied protection and a displacement ultimate. Record ball position and allied delivery rather than assuming a perfect R cluster. Support shielding sacrifices spell damage and must be judged by actual ally survival. Healing/shield power and timed actives test preserving an allied carry. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Healing/shield power and timed actives test preserving an allied carry.",
+      "name": "Protect then pulse",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use an ally ball carrier to distribute utility and damage in one engagement.",
+      "goal": "Use an ally ball carrier to distribute utility and damage in one engagement.",
+      "hypothesis": "E shields and supplies attached resists; Staff rewards allied shielding with AP/haste, then W and R originate at the ally's ball. Helia requires Orianna's champion damage before the next E shield. Shurelya supports the carrier's entry; AP improves shield and pulse damage.",
       "itemIds": [
-        3869,
-        6617,
-        3107,
-        3222,
-        6621,
+        6616,
+        6620,
+        2065,
+        3089,
+        3137,
         3158
       ],
       "runePage": [
-        8465,
-        8463,
-        8444,
-        8453,
+        8214,
+        8226,
+        8210,
+        8237,
         8345,
         8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Orianna: Record ball position and allied delivery rather than assuming a perfect R cluster. Support shielding sacrifices spell damage and must be judged by actual ally survival.",
-        "Start with the early core (Support quest, Moonstone only with useful eligible heals/shields, then the needed active) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Healing/shield power and timed actives test preserving an allied carry. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Orianna commands her Ball to fire toward a target location, dealing magic damage to targets along the way (deals less damage to subsequent targets). Her Ball remains at the target location after. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: An allied diver carries the ball within tether range and E is available after champion damage.",
+        "Record ball position, shield amount and Helia consumption for E-before-damage versus damage-before-E.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "The route fails Orianna's stated kit question: Record ball position and allied delivery rather than assuming a perfect R cluster. Support shielding sacrifices spell damage and must be judged by actual ally survival.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Automatic ball return invalidates placement or the ally dies before shielding.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Ball attachment does not transfer Orianna's items to the carrier.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Moonstone only with useful eligible heals/shields, then the needed active. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Redemption, Mikael's Blessing, Dawncore are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Staff of Flowing Water, Echoes of Helia, Shurelya's Battlesong, Rabadon's Deathcap, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Command: Protect",
@@ -409,12 +385,6 @@
           "slot": "Passive",
           "source": "Characters/Orianna/Spells/OriannaPAbility/OriannaP",
           "formula": "Orianna's Abilities originate from her Ball. Orianna's Ball automatically returns to her if she is too far away from it.\n\nOrianna's Attacks deal an additional [characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP] magic damage. Subsequent Attacks against the same target within [4] seconds deal an additional [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × (0.15)] magic damage (max of [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × ((0.15) × (2))] damage)."
-        },
-        {
-          "ability": "Command: Attack",
-          "slot": "Q",
-          "source": "Characters/Orianna/Spells/OrianaIzunaCommandAbility/OrianaIzunaCommand",
-          "formula": "Orianna commands her Ball to move to an area, dealing [60 / 90 / 120 / 150 / 180 + (0.55) × AP] magic damage to surrounding enemies and to enemies it passes through. Deals [30]% less damage to all enemies after the first."
         },
         {
           "ability": "Command: Shockwave",

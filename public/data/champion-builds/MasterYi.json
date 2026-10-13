@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "masteryi-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "masteryi-four-2",
+      "id": "masteryi-audit-meditate-hybrid-survivor",
       "champion": "MasterYi",
-      "name": "Damage interaction: Attack-led side lane",
-      "goal": "Damage interaction for Master Yi: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A melee attack carry who times untargetability and damage reduction to survive until a takedown resets his chase. True-damage attacks favor uninterrupted access rather than prolonged channels. Fix Double Strike, Q on-hit effectiveness and Meditate timing. Count real attacks after Q; cooldown/reset interactions do not justify attacking through every enemy interruption. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Meditate hybrid survivor",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test meditate hybrid survivor against conventional damage at equal gold.",
+      "goal": "Test meditate hybrid survivor against conventional damage at equal gold.",
+      "hypothesis": "Meditate heals with 1.0 AP across four seconds, increased at low health; Nashor and Gunblade preserve attack damage while AP tests survival through the channel. Terminus supports mixed ordinary attacks, but W cannot deal damage and E's true damage still benefits AD.",
       "itemIds": [
-        3153,
-        3078,
-        3181,
-        3053,
-        6333,
-        3047
+        3115,
+        3146,
+        4633,
+        3065,
+        3302,
+        3006
       ],
       "runePage": [
-        8005,
+        8010,
         9111,
-        9104,
-        8014,
+        9105,
+        8299,
         8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Master Yi: Fix Double Strike, Q on-hit effectiveness and Meditate timing. Count real attacks after Q; cooldown/reset interactions do not justify attacking through every enemy interruption.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Master Yi teleports across the battlefield with blinding speed, dealing physical damage to multiple units in his path, while simultaneously becoming untargetable. Alpha Strike can critically strike and deals bonus physical damage to monsters. Basic attacks reduce Alpha Strike's cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Use W after the initial half-second damage-reduction window is relevant.",
+        "Measure healing at fixed missing health and subsequent five-second attack damage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Master Yi's stated kit question: Fix Double Strike, Q on-hit effectiveness and Meditate timing. Count real attacks after Q; cooldown/reset interactions do not justify attacking through every enemy interruption.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Interruptions or lost attacking time outweigh extra healing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Meditate is not an AP damage spell; Q has no documented AP ratio.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Hextech Gunblade, Riftmaker, Spirit Visage, Terminus, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Double Strike",
@@ -320,19 +314,21 @@
       ]
     },
     {
-      "id": "masteryi-four-4",
+      "id": "masteryi-audit-wuju-health-to-ad-reset",
       "champion": "MasterYi",
-      "name": "Experiment: Critical duel",
-      "goal": "Experiment for Master Yi: test a different playstyle, with lower confidence",
-      "hypothesis": "A melee attack carry who times untargetability and damage reduction to survive until a takedown resets his chase. True-damage attacks favor uninterrupted access rather than prolonged channels. Fix Double Strike, Q on-hit effectiveness and Meditate timing. Count real attacks after Q; cooldown/reset interactions do not justify attacking through every enemy interruption. Crit attacks and a conditional shield test repeated duel windows. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Crit attacks and a conditional shield test repeated duel windows.",
+      "name": "Wuju health-to-AD reset",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test wuju health-to-ad reset against conventional damage at equal gold.",
+      "goal": "Test wuju health-to-ad reset against conventional damage at equal gold.",
+      "hypothesis": "Wuju Style adds 0.35 AD[source modifier] true damage per attack; Bloodmail converts item health to AD while Titanic supports physical attacks. Hexplate synchronizes with Highlander for an eight-second attack window, then champion takedowns reduce basic cooldowns by 70%.",
       "itemIds": [
-        6672,
-        6675,
-        3031,
-        6673,
-        3036,
-        3006
+        2501,
+        3748,
+        3073,
+        3053,
+        6333,
+        3047
       ],
       "runePage": [
         8008,
@@ -345,15 +341,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Master Yi: Fix Double Strike, Q on-hit effectiveness and Meditate timing. Count real attacks after Q; cooldown/reset interactions do not justify attacking through every enemy interruption.",
-        "Start with the early core (Kraken, then Navori if attack-driven recycling works) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Crit attacks and a conditional shield test repeated duel windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Master Yi teleports across the battlefield with blinding speed, dealing physical damage to multiple units in his path, while simultaneously becoming untargetable. Alpha Strike can critically strike and deals bonus physical damage to monsters. Basic attacks reduce Alpha Strike's cooldown. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Enter with R and survive to an actual first takedown.",
+        "Compare E true damage and time to first kill with equal targets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
-        "The route fails Master Yi's stated kit question: Fix Double Strike, Q on-hit effectiveness and Meditate timing. Count real attacks after Q; cooldown/reset interactions do not justify attacking through every enemy interruption.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Lower attack speed and kiting can prevent the reset the build depends on.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "A Lifeline slot excludes Sterak/Maw; melee access or ranged spacing must be earned.",
-        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: No free Highlander extension or cooldown refund without champion takedowns.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Kraken, then Navori if attack-driven recycling works. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Infinity Edge, Immortal Shieldbow, Lord Dominik's Regards are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Overlord's Bloodmail, Titanic Hydra, Experimental Hexplate, Sterak's Gage, Death's Dance, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Double Strike",
@@ -403,12 +391,6 @@
           "slot": "Q",
           "source": "Characters/MasterYi/Spells/AlphaStrikeAbility/AlphaStrike",
           "formula": "Master Yi becomes Untargetable and teleports to rapidly strike enemies near his target, dealing [20 / 40 / 60 / 80 / 100 + (0.7) × AD] physical damage to all enemies hit after [4] hits. \n\nThis Ability can strike the same enemy repeatedly if there are no other targets, dealing [25]% damage for subsequent hits ([((20 / 40 / 60 / 80 / 100 + (0.7) × AD)) × (0.25)]), for a maximum single target total of [(20 / 40 / 60 / 80 / 100 + (0.7) × AD) × ((1 + (0.25) × ((-1 + 4))))] physical damage."
-        },
-        {
-          "ability": "Meditate",
-          "slot": "W",
-          "source": "Characters/MasterYi/Spells/MeditateAbility/Meditate",
-          "formula": "Master Yi channels, restoring [120 / 200 / 280 / 360 / 440 + (1) × AP] Health over [4] seconds. This healing is increased by up to [100]% based on Master Yi's missing Health.\n\nWhile channeling and for [0.5] seconds afterwards, he takes [(0.45 / 0.475 / 0.5 / 0.525 / 0.55 + 0.25 / 0.225 / 0.2 / 0.175 / 0.15)] reduced damage, decreased to [(0.45 / 0.475 / 0.5 / 0.525 / 0.55) × 100]% after the first [0.5] seconds."
         },
         {
           "ability": "Wuju Style",

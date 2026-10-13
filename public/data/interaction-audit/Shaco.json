@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Shaco",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "rear-shiv-hybrid-finish",
+      "name": "Rear-shiv hybrid finish",
+      "objective": "Test an AP attack packet before a rear-facing low-health shiv.",
+      "mechanic": "Backstab adds AP-scaled magic damage to rear E, enhanced below 30% health, and E itself has both AP and AD[statFormula=2] magic scaling. Lich Bane and Nashor supply real attack damage while Q enables the angle; Shadowflame targets the magic finish below 40%. W provides a fear window rather than assumed inherited on-hits.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3100,
+        3115,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "hob",
+      "requiredState": "Q reaches the rear, target drops below 30%, and Spellblade is ready for the actual attack.",
+      "failure": "The target turns or shields above the threshold; AP sacrifices the physical Q opening.",
+      "test": "Separate rear attack/Q, E and passive rear-E packets above/below 30% health.",
+      "rejectedAssumption": "Q forced crit follows its special formula, not an unrestricted ordinary crit multiplier.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "invisible-box-staging",
+      "name": "Invisible box staging",
+      "objective": "Keep Q invisibility while placing W and R to prepare a delayed area trap.",
+      "mechanic": "Q explicitly permits W and R without breaking invisibility. W takes two seconds to stealth and fires for five seconds once triggered; R detonation spawns mini boxes. AP supports those magic packets and Liandry/Bloodletter test burn and debuff application; Cosmic rewards confirmed magic contact for repositioning.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        2503,
+        6653,
+        8010,
+        4629,
+        3157,
+        3009
+      ],
+      "pageKey": "df",
+      "requiredState": "Record box placement, arm time, clone lifetime and target movement through a prepared area.",
+      "failure": "Enemies reveal or avoid boxes; clone dies out of range and setup time loses map pressure.",
+      "test": "Observe invisibility after W/R, then count box hits, burn refresh and MR debuff stacks.",
+      "rejectedAssumption": "Boxes and clone are not automatically carriers of every owner item effect.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Clone proc duplication certainty",
+      "reason": "R states clone damage fraction but does not establish inheritance of Spellblade, item cooldowns or all attack procs.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Pet burn/Bloodletter and clone inheritance need live logs. E/Q AD flags and Q crit conversion are retained."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Backstab",
+      "paths": [
+        "Characters/Shaco/Spells/ShacoPassiveAbility/ShacoPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Deceive",
+      "paths": [
+        "Characters/Shaco/Spells/DeceiveAbility/Deceive"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Jack In The Box",
+      "paths": [
+        "Characters/Shaco/Spells/JackInTheBoxAbility/JackInTheBox"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Two-Shiv Poison",
+      "paths": [
+        "Characters/Shaco/Spells/TwoShivPoisonAbility/TwoShivPoison"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Hallucinate",
+      "paths": [
+        "Characters/Shaco/Spells/HallucinateFullAbility/HallucinateFull"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "shaco-audit-rear-shiv-hybrid-finish",
+      "champion": "Shaco",
+      "name": "Rear-shiv hybrid finish",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test an AP attack packet before a rear-facing low-health shiv.",
+      "goal": "Test an AP attack packet before a rear-facing low-health shiv.",
+      "hypothesis": "Backstab adds AP-scaled magic damage to rear E, enhanced below 30% health, and E itself has both AP and AD[statFormula=2] magic scaling. Lich Bane and Nashor supply real attack damage while Q enables the angle; Shadowflame targets the magic finish below 40%. W provides a fear window rather than assumed inherited on-hits.",
+      "itemIds": [
+        3100,
+        3115,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Q reaches the rear, target drops below 30%, and Spellblade is ready for the actual attack.",
+        "Separate rear attack/Q, E and passive rear-E packets above/below 30% health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "The target turns or shields above the threshold; AP sacrifices the physical Q opening.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Q forced crit follows its special formula, not an unrestricted ordinary crit multiplier.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Shadowflame, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Backstab",
+          "slot": "Passive",
+          "source": "Characters/Shaco/Spells/ShacoPassiveAbility/ShacoPassive",
+          "formula": "When striking enemies that are facing away from him:Shaco's Attacks deal an additional [characterLevelInterpolation(20 → 35; raw flags preserved) + (0.2) × AD[statFormula=2]] physical damage that can critically strike.{{Spell_TwoShivPoison_Name}} deals an additional [characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP] magic damage, increased to [(characterLevelInterpolation(15 → 50; raw flags preserved) + (0.1) × AP) × (1.5)] magic damage if the target is below 30% Health."
+        },
+        {
+          "ability": "Jack In The Box",
+          "slot": "W",
+          "source": "Characters/Shaco/Spells/JackInTheBoxAbility/JackInTheBox",
+          "formula": "Shaco creates a trap that stealths itself after [2] seconds and lasts for [40 + (0.1) × AP] seconds. It activates when an enemy comes near or when revealed, Fearing nearby enemy Champions for [0.5 / 0.75 / 1 / 1.25 / 1.5] seconds, or [2] seconds for minions and jungle monsters.\n\nOnce activated, the trap fires at all nearby enemies for 5 seconds, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage, or [25 / 40 / 55 / 70 / 85 + (0.18) × AP] damage if focused on a single target.\n\nJack in the Box's attacks deal an additional [20 / 35 / 50 / 65 / 80] damage to monsters."
+        },
+        {
+          "ability": "Deceive",
+          "slot": "Q",
+          "source": "Characters/Shaco/Spells/DeceiveAbility/Deceive",
+          "formula": "Shaco teleports and becomes Invisible for [2.5 / 2.75 / 3 / 3.25 / 3.5] seconds. Using {{Spell_JackInTheBox_Name}} or {{Spell_HallucinateFull_Name}} does not break Invisibility.\n\nShaco's next Attack while Invisible deals an additional [25 / 35 / 45 / 55 / 65 + (0.6) × AD[statFormula=2]] physical damage. If striking from behind, this Attack critically strikes for [(1 + (0.6) × (((1) × Stat(9) + -1)))] damage."
+        },
+        {
+          "ability": "Two-Shiv Poison",
+          "slot": "E",
+          "source": "Characters/Shaco/Spells/TwoShivPoisonAbility/TwoShivPoison",
+          "formula": "Passive: While this Ability is off Cooldown, Shaco's Attacks Slow the target by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [2] seconds.\n\nActive: Shaco throws a shiv, dealing [70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP] magic damage and Slowing by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [3] seconds. If the target has less than [30]% Health, the shiv deals [(70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP) × (1.5)] damage instead."
+        }
+      ]
+    },
+    {
+      "id": "shaco-audit-invisible-box-staging",
+      "champion": "Shaco",
+      "name": "Invisible box staging",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Keep Q invisibility while placing W and R to prepare a delayed area trap.",
+      "goal": "Keep Q invisibility while placing W and R to prepare a delayed area trap.",
+      "hypothesis": "Q explicitly permits W and R without breaking invisibility. W takes two seconds to stealth and fires for five seconds once triggered; R detonation spawns mini boxes. AP supports those magic packets and Liandry/Bloodletter test burn and debuff application; Cosmic rewards confirmed magic contact for repositioning.",
+      "itemIds": [
+        2503,
+        6653,
+        8010,
+        4629,
+        3157,
+        3009
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record box placement, arm time, clone lifetime and target movement through a prepared area.",
+        "Observe invisibility after W/R, then count box hits, burn refresh and MR debuff stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Enemies reveal or avoid boxes; clone dies out of range and setup time loses map pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Boxes and clone are not automatically carriers of every owner item effect.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blackfire Torch, Liandry's Torment, Bloodletter's Curse, Cosmic Drive, Zhonya's Hourglass, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Hallucinate",
+          "slot": "R",
+          "source": "Characters/Shaco/Spells/HallucinateFullAbility/HallucinateFull",
+          "formula": "Shaco briefly disappears, then reappears with a clone that lasts [18] seconds and detonates when it dies, dealing [150 / 225 / 300 + (0.7) × AP] magic damage and spawning three mini Jack in the Boxes that trigger immediately. The clone deals [60]% of Shaco's damage and receives [50]% increased damage.\n\nMini Jack in the Boxes deal [10 / 20 / 30 + (0.1) × AP] magic damage, or [25 / 50 / 75 + (0.15) × AP] magic damage if firing at only one enemy, and Fear for [1] second."
+        },
+        {
+          "ability": "Jack In The Box",
+          "slot": "W",
+          "source": "Characters/Shaco/Spells/JackInTheBoxAbility/JackInTheBox",
+          "formula": "Shaco creates a trap that stealths itself after [2] seconds and lasts for [40 + (0.1) × AP] seconds. It activates when an enemy comes near or when revealed, Fearing nearby enemy Champions for [0.5 / 0.75 / 1 / 1.25 / 1.5] seconds, or [2] seconds for minions and jungle monsters.\n\nOnce activated, the trap fires at all nearby enemies for 5 seconds, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage, or [25 / 40 / 55 / 70 / 85 + (0.18) × AP] damage if focused on a single target.\n\nJack in the Box's attacks deal an additional [20 / 35 / 50 / 65 / 80] damage to monsters."
+        },
+        {
+          "ability": "Deceive",
+          "slot": "Q",
+          "source": "Characters/Shaco/Spells/DeceiveAbility/Deceive",
+          "formula": "Shaco teleports and becomes Invisible for [2.5 / 2.75 / 3 / 3.25 / 3.5] seconds. Using {{Spell_JackInTheBox_Name}} or {{Spell_HallucinateFull_Name}} does not break Invisibility.\n\nShaco's next Attack while Invisible deals an additional [25 / 35 / 45 / 55 / 65 + (0.6) × AD[statFormula=2]] physical damage. If striking from behind, this Attack critically strikes for [(1 + (0.6) × (((1) × Stat(9) + -1)))] damage."
+        }
+      ]
+    }
+  ]
+}

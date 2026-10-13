@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "annie-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "annie-four-2",
+      "id": "annie-audit-shield-retaliation-heal",
       "champion": "Annie",
-      "name": "Damage interaction: Ultimate window",
-      "goal": "Damage interaction for Annie: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A compact burst-and-control mage who prepares a stun, threatens a close-range initiation, and can protect an ally with her shield. Measure prepared-stun burst and Tibbers contact separately from a shielding support route. Do not assume pet damage triggers every item effect on every tick. Mana and ultimate-oriented item effects test repeated impactful R windows.",
-      "summary": "Mana and ultimate-oriented item effects test repeated impactful R windows.",
+      "name": "Shield Retaliation Heal",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log Helia storage and healing over two E casts.",
+      "goal": "Log Helia storage and healing over two E casts.",
+      "hypothesis": "E shields an ally and retaliates once per enemy per shield. Helia can store champion damage before a later allied shield; Staff rewards the shield. Q stun and initial R damage can fill charges without assuming Tibbers inherits items.",
       "itemIds": [
-        3118,
-        4645,
+        6620,
+        6616,
+        4005,
         3089,
-        3135,
-        3157,
-        3020
+        3107,
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Annie: Measure prepared-stun burst and Tibbers contact separately from a shielding support route. Do not assume pet damage triggers every item effect on every tick.",
-        "Start with the early core (Malignance only if the R interaction is confirmed, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and ultimate-oriented item effects test repeated impactful R windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Annie hurls a Mana infused fireball, dealing damage and refunding the Mana cost if it destroys the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Deal champion damage before shielding another ally.",
+        "Log Helia storage and healing over two E casts; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "The route fails Annie's stated kit question: Measure prepared-stun burst and Tibbers contact separately from a shielding support route. Do not assume pet damage triggers every item effect on every tick.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Shield gets consumed before useful retaliation or charges are spent too early.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "An ultimate that does not deal compatible damage cannot be granted every Malignance effect.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: One enemy cannot trigger unlimited E retaliation.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Malignance only if the R interaction is confirmed, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Echoes of Helia, Staff of Flowing Water, Imperial Mandate, Rabadon's Deathcap, Redemption, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Summon: Tibbers",
@@ -205,12 +199,6 @@
           "slot": "E",
           "source": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
           "formula": "Annie grants an ally champion [60 / 95 / 130 / 165 / 200 + (0.4) × AP] Shield for [3] seconds and [characterLevelInterpolation(0.2 → 0.5; raw flags preserved)] Decaying Move Speed for [1.5] seconds. While the shield holds, enemies who hit the shielded ally with an Attack or Ability receive [25 / 35 / 45 / 55 / 65 + (0.4) × AP] magic damage once per shield.\n\nTibbers always gains the effects of Molten Shield when summoned."
-        },
-        {
-          "ability": "Incinerate",
-          "slot": "W",
-          "source": "Characters/Annie/Spells/AnnieWAbility/AnnieW",
-          "formula": "Annie projects a wave of fire, dealing [70 / 110 / 150 / 190 / 230 + (0.8) × AP] magic damage."
         }
       ]
     },
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "annie-four-4",
+      "id": "annie-audit-enrage-control-window",
       "champion": "Annie",
-      "name": "Experiment: Protection specialist",
-      "goal": "Experiment for Annie: test a different playstyle, with lower confidence",
-      "hypothesis": "A compact burst-and-control mage who prepares a stun, threatens a close-range initiation, and can protect an ally with her shield. Measure prepared-stun burst and Tibbers contact separately from a shielding support route. Do not assume pet damage triggers every item effect on every tick. Healing/shield power and timed actives test preserving an allied carry. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Healing/shield power and timed actives test preserving an allied carry.",
+      "name": "Enrage Control Window",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Measure Tibbers time in range during summon and a later stun.",
+      "goal": "Measure Tibbers time in range during summon and a later stun.",
+      "hypothesis": "R enrages Tibbers on summon and Annie stuns. Later Pyromania Q/W can renew the attack-speed window; Rylai tests qualifying ability slow retention and Cosmic moves Annie. AP supports initial R/burn and Zhonya preserves controller survival.",
       "itemIds": [
-        3869,
-        6617,
-        3107,
-        3222,
-        6621,
-        3158
+        3116,
+        4629,
+        3157,
+        3089,
+        3137,
+        3020
       ],
       "runePage": [
-        8465,
-        8463,
-        8444,
-        8453,
-        8345,
-        8347
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Annie: Measure prepared-stun burst and Tibbers contact separately from a shielding support route. Do not assume pet damage triggers every item effect on every tick.",
-        "Start with the early core (Support quest, Moonstone only with useful eligible heals/shields, then the needed active) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Healing/shield power and timed actives test preserving an allied carry. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Annie hurls a Mana infused fireball, dealing damage and refunding the Mana cost if it destroys the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Prepare stun and manually order a live Tibbers onto a reachable target.",
+        "Measure Tibbers time in range during summon and a later stun; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "The route fails Annie's stated kit question: Measure prepared-stun burst and Tibbers contact separately from a shielding support route. Do not assume pet damage triggers every item effect on every tick.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Pet death/pathing erases sustained damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Only eligible heals/shields benefit; carrying too many actives can reduce practical value.",
-        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Tibbers does not inherit Annie's Nashor on-hit.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Moonstone only with useful eligible heals/shields, then the needed active. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Redemption, Mikael's Blessing, Dawncore are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Rylai's Crystal Scepter, Cosmic Drive, Zhonya's Hourglass, Rabadon's Deathcap, Cryptbloom, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Summon: Tibbers",
@@ -409,18 +391,6 @@
           "slot": "Q",
           "source": "Characters/Annie/Spells/AnnieQAbility/AnnieQ",
           "formula": "Annie hurls a fireball, dealing [80 / 125 / 170 / 215 / 260 + (0.8) × AP] magic damage. If the target dies, Annie refunds the Mana cost and reduces the Cooldown by 50%."
-        },
-        {
-          "ability": "Molten Shield",
-          "slot": "E",
-          "source": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
-          "formula": "Annie grants an ally champion [60 / 95 / 130 / 165 / 200 + (0.4) × AP] Shield for [3] seconds and [characterLevelInterpolation(0.2 → 0.5; raw flags preserved)] Decaying Move Speed for [1.5] seconds. While the shield holds, enemies who hit the shielded ally with an Attack or Ability receive [25 / 35 / 45 / 55 / 65 + (0.4) × AP] magic damage once per shield.\n\nTibbers always gains the effects of Molten Shield when summoned."
-        },
-        {
-          "ability": "Incinerate",
-          "slot": "W",
-          "source": "Characters/Annie/Spells/AnnieWAbility/AnnieW",
-          "formula": "Annie projects a wave of fire, dealing [70 / 110 / 150 / 190 / 230 + (0.8) × AP] magic damage."
         }
       ]
     }

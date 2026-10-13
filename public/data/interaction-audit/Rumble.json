@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Rumble",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "overheat-hand-off",
+      "name": "Overheat hand-off",
+      "objective": "Move from Danger Zone spell damage into the four-second attack phase.",
+      "mechanic": "The passive record overheats at 150 Heat, silencing casts but adding attack speed, 0.25 AP attack damage and target-health magic damage. Nashor and Rageblade test the attack hand-off; W's AP/health shield and Cosmic movement support staying in range.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        3124,
+        4633,
+        4629,
+        3089,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Recorded Heat, Q already running and W applied before overheat silences casts.",
+      "failure": "Reaching overheat before defensive setup or being kited loses the brief attack phase.",
+      "test": "Record Heat threshold and Q persistence, then passive/Nashor packets during four seconds with Rageblade ramp recorded.",
+      "rejectedAssumption": "The passive summary's 100% wording does not override the detailed record's 150 Heat threshold.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "harpoon-shred-burn",
+      "name": "Harpoon shred burn",
+      "objective": "Use two connected harpoons to increase the value of a retained burn zone.",
+      "mechanic": "E's second hit against its own slow increases MR reduction, with Danger Zone amplifying that effect. Bloodletter tests additional magic resistance reduction from ability/passive damage while Liandry and R require sustained target contact. Cosmic assists aiming and following the Q cone.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        8010,
+        6653,
+        4629,
+        3089,
+        3157,
+        3020
+      ],
+      "pageKey": "comet",
+      "requiredState": "Both E hits connect during the slow, Danger Zone state recorded and target remains on R.",
+      "failure": "Missed second harpoon or early zone escape defeats both shred and sustained burn.",
+      "test": "Measure MR and Q/R damage after zero, one and two E hits, separately recording Bloodletter stacks.",
+      "rejectedAssumption": "MR reduction and percentage penetration cannot be added as a single simple percentage.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Mana-fueled cooldown loop",
+      "reason": "Rumble uses Heat and the inspected abilities do not spend mana.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Heat summary/detail disagreement, shield duration token and passive repeated-on-hit behavior need live checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Junkyard Titan",
+      "paths": [
+        "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Flamespitter",
+      "paths": [
+        "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Scrap Shield",
+      "paths": [
+        "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Electro Harpoon",
+      "paths": [
+        "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "The Equalizer",
+      "paths": [
+        "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "rumble-audit-overheat-hand-off",
+      "champion": "Rumble",
+      "name": "Overheat hand-off",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Move from Danger Zone spell damage into the four-second attack phase.",
+      "goal": "Move from Danger Zone spell damage into the four-second attack phase.",
+      "hypothesis": "The passive record overheats at 150 Heat, silencing casts but adding attack speed, 0.25 AP attack damage and target-health magic damage. Nashor and Rageblade test the attack hand-off; W's AP/health shield and Cosmic movement support staying in range.",
+      "itemIds": [
+        3115,
+        3124,
+        4633,
+        4629,
+        3089,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Recorded Heat, Q already running and W applied before overheat silences casts.",
+        "Record Heat threshold and Q persistence, then passive/Nashor packets during four seconds with Rageblade ramp recorded.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Reaching overheat before defensive setup or being kited loses the brief attack phase.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The passive summary's 100% wording does not override the detailed record's 150 Heat threshold.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Riftmaker, Cosmic Drive, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Scrap Shield",
+          "slot": "W",
+          "source": "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield",
+          "formula": "Rumble tosses up a barrier, gaining [25 / 55 / 85 / 115 / 145 + (0.3) × AP + (0.04) × Stat(12)] Shield for @ShieldDuration.1@ seconds and [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × 100]% Move Speed for [1] second.\n\nDanger Zone: The barrier grants [(25 / 55 / 85 / 115 / 145 + (0.3) × AP + (0.04) × Stat(12)) × (1.5)] Shield and [(0.1 / 0.15 / 0.2 / 0.25 / 0.3) × (1.5)] Move Speed instead."
+        },
+        {
+          "ability": "Flamespitter",
+          "slot": "Q",
+          "source": "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower",
+          "formula": "Rumble ignites his flamethrower, dealing [50 / 75 / 100 / 125 / 150 + (1.05) × AP] plus [(0.06 / 0.065 / 0.07 / 0.075 / 0.08) × 100]% max Health magic damage over [3] seconds, reduced to [70]% against minions.\n\nDanger Zone: Damage is increased to [(50 / 75 / 100 / 125 / 150 + (1.05) × AP) × (1.5)] plus [(0.06 / 0.065 / 0.07 / 0.075 / 0.08) × (1.5)] max Health.\n\nPercent damage is limited to [characterLevelInterpolation(65 → 300; raw flags preserved)] damage on Monsters."
+        },
+        {
+          "ability": "Electro Harpoon",
+          "slot": "E",
+          "source": "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
+          "formula": "Rumble launches an electrified harpoon, dealing [55 / 80 / 105 / 130 / 155 + (0.5) × AP] magic damage, Slowing by [15 / 20 / 25 / 30 / 35]% for [2] seconds, and reducing the enemy's Magic Resist by [(0.1 / 0.12 / 0.14 / 0.16 / 0.18) × 100]% for [4] seconds.\n\nHitting an enemy who's already Slowed by this Ability increases the Slow to [30 / 40 / 50 / 60 / 70]% and reduces the enemy's Magic Resist by [(0.2 / 0.24 / 0.28 / 0.32 / 0.36) × 100]%\n\nDanger Zone: The harpoon deals [(55 / 80 / 105 / 130 / 155 + (0.5) × AP) × (1.5)] magic damage instead and the Slow and reduced Magic Resist are increased by 50%."
+        },
+        {
+          "ability": "Junkyard Titan",
+          "slot": "Passive",
+          "source": "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem",
+          "formula": "Rumble's Abilities generate Heat. While above [50] Heat, he enters the Danger Zone, causing his basic Abilities to gain bonus effects. When he reaches [150] Heat, he overheats for [4] seconds. \n\nWhile overheated, Rumble Silences himself, but gains [characterLevelInterpolation(0.3 → 1; raw flags preserved)] Attack Speed and causes his Attacks to deal an additional [characterLevelInterpolation(5 → 40; raw flags preserved) + (0.25) × AP] plus [4]% max Health magic damage.\n\nPercent damage is limited to [characterLevelInterpolation(90 → 175; raw flags preserved)] damage on Monsters."
+        }
+      ]
+    },
+    {
+      "id": "rumble-audit-harpoon-shred-burn",
+      "champion": "Rumble",
+      "name": "Harpoon shred burn",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use two connected harpoons to increase the value of a retained burn zone.",
+      "goal": "Use two connected harpoons to increase the value of a retained burn zone.",
+      "hypothesis": "E's second hit against its own slow increases MR reduction, with Danger Zone amplifying that effect. Bloodletter tests additional magic resistance reduction from ability/passive damage while Liandry and R require sustained target contact. Cosmic assists aiming and following the Q cone.",
+      "itemIds": [
+        8010,
+        6653,
+        4629,
+        3089,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8275,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Both E hits connect during the slow, Danger Zone state recorded and target remains on R.",
+        "Measure MR and Q/R damage after zero, one and two E hits, separately recording Bloodletter stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Missed second harpoon or early zone escape defeats both shred and sustained burn.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: MR reduction and percentage penetration cannot be added as a single simple percentage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Bloodletter's Curse, Liandry's Torment, Cosmic Drive, Rabadon's Deathcap, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Flamespitter",
+          "slot": "Q",
+          "source": "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower",
+          "formula": "Rumble ignites his flamethrower, dealing [50 / 75 / 100 / 125 / 150 + (1.05) × AP] plus [(0.06 / 0.065 / 0.07 / 0.075 / 0.08) × 100]% max Health magic damage over [3] seconds, reduced to [70]% against minions.\n\nDanger Zone: Damage is increased to [(50 / 75 / 100 / 125 / 150 + (1.05) × AP) × (1.5)] plus [(0.06 / 0.065 / 0.07 / 0.075 / 0.08) × (1.5)] max Health.\n\nPercent damage is limited to [characterLevelInterpolation(65 → 300; raw flags preserved)] damage on Monsters."
+        },
+        {
+          "ability": "Electro Harpoon",
+          "slot": "E",
+          "source": "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
+          "formula": "Rumble launches an electrified harpoon, dealing [55 / 80 / 105 / 130 / 155 + (0.5) × AP] magic damage, Slowing by [15 / 20 / 25 / 30 / 35]% for [2] seconds, and reducing the enemy's Magic Resist by [(0.1 / 0.12 / 0.14 / 0.16 / 0.18) × 100]% for [4] seconds.\n\nHitting an enemy who's already Slowed by this Ability increases the Slow to [30 / 40 / 50 / 60 / 70]% and reduces the enemy's Magic Resist by [(0.2 / 0.24 / 0.28 / 0.32 / 0.36) × 100]%\n\nDanger Zone: The harpoon deals [(55 / 80 / 105 / 130 / 155 + (0.5) × AP) × (1.5)] magic damage instead and the Slow and reduced Magic Resist are increased by 50%."
+        },
+        {
+          "ability": "The Equalizer",
+          "slot": "R",
+          "source": "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb",
+          "formula": "Rumble launches a line of rockets, creating a burning trail that lasts [4.5] seconds, Slowing by [35]% and dealing [120 / 200 / 280 + (0.35) × AP] magic damage per second.\n\nRumble can control the direction of the trail by clicking and dragging while casting this Ability."
+        },
+        {
+          "ability": "Junkyard Titan",
+          "slot": "Passive",
+          "source": "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem",
+          "formula": "Rumble's Abilities generate Heat. While above [50] Heat, he enters the Danger Zone, causing his basic Abilities to gain bonus effects. When he reaches [150] Heat, he overheats for [4] seconds. \n\nWhile overheated, Rumble Silences himself, but gains [characterLevelInterpolation(0.3 → 1; raw flags preserved)] Attack Speed and causes his Attacks to deal an additional [characterLevelInterpolation(5 → 40; raw flags preserved) + (0.25) × AP] plus [4]% max Health magic damage.\n\nPercent damage is limited to [characterLevelInterpolation(90 → 175; raw flags preserved)] damage on Monsters."
+        }
+      ]
+    }
+  ]
+}

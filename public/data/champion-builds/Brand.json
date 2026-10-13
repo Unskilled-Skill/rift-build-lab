@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "brand-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "brand-four-2",
+      "id": "brand-audit-detonation-ally-mark",
       "champion": "Brand",
-      "name": "Damage interaction: Mana burst",
-      "goal": "Damage interaction for Brand: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A combo mage who sequences Blaze stacks and punishes enemies clustered around burning targets. Compare Blaze detonation on isolated versus clustered targets. Burn refresh, passive explosion and R bounce geometry must be measured instead of independently stacking every tick. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Detonation Ally Mark",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log allied damage within Q mark and detonation delay.",
+      "goal": "Log allied damage within Q mark and detonation delay.",
+      "hypothesis": "Three Blaze stacks explode after two seconds and apply spell effects. Q stuns an already Ablaze target, allowing Mandate vulnerability before the delayed explosion and allied follow-up. Rylai tests retention; Blackfire benefits from actual spread.",
       "itemIds": [
-        6655,
-        4645,
+        4005,
+        3116,
+        2503,
+        3137,
         3089,
-        3135,
-        3157,
-        3020
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Brand: Compare Blaze detonation on isolated versus clustered targets. Burn refresh, passive explosion and R bounce geometry must be measured instead of independently stacking every tick.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Brand launches a ball of fire forward that deals magic damage. If the target is ablaze, Sear will stun the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Apply Blaze before Q and complete three stacks with an ally nearby.",
+        "Log allied damage within Q mark and detonation delay; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Brand's stated kit question: Compare Blaze detonation on isolated versus clustered targets. Burn refresh, passive explosion and R bounce geometry must be measured instead of independently stacking every tick.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Missed Q or spread targets prevent the overlap.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Blaze slow alone is not Mandate immobilization.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Imperial Mandate, Rylai's Crystal Scepter, Blackfire Torch, Cryptbloom, Rabadon's Deathcap, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Blaze",
           "slot": "Passive",
           "source": "Characters/Brand/Spells/BrandPassiveAbility/BrandPassive",
           "formula": "Brand's Abilities light his targets Ablaze, dealing [2]% max Health magic damage over 4 seconds. If Brand kills a unit that is Ablaze, he regains [characterLevelBreakpoints(start=20, perLevel=0, changes=[{\"mLevel\": 3, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 3.3329999446868896, \"__type\": \"Breakpoint\"}, {\"mLevel\": 18, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}])] mana. Blaze can stack up to 3 times.\n\nWhen a champion or large jungle monster reaches 3 stacks, the Blaze will detonate after 2 seconds, dealing [(characterLevelInterpolation(6 → 12; raw flags preserved) + (0.02) × AP) × (0.01)] max Health magic damage to surrounding enemies."
-        },
-        {
-          "ability": "Pillar of Flame",
-          "slot": "W",
-          "source": "Characters/Brand/Spells/BrandWAbility/BrandW",
-          "formula": "Brand creates a pillar of pure fire, dealing [75 / 120 / 165 / 210 / 255 + (0.7) × AP] magic damage.\n\nUnits that are Ablaze take [(75 / 120 / 165 / 210 / 255 + (0.7) × AP) × (1.25)] damage instead."
         },
         {
           "ability": "Conflagration",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "brand-four-4",
+      "id": "brand-audit-self-bounce-retention",
       "champion": "Brand",
-      "name": "Experiment: Control and burn support",
-      "goal": "Experiment for Brand: test a different playstyle, with lower confidence",
-      "hypothesis": "A combo mage who sequences Blaze stacks and punishes enemies clustered around burning targets. Compare Blaze detonation on isolated versus clustered targets. Burn refresh, passive explosion and R bounce geometry must be measured instead of independently stacking every tick. Cheap income plus ability damage and compatible slows test offensive setup for allies. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Cheap income plus ability damage and compatible slows test offensive setup for allies.",
+      "name": "Self Bounce Retention",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Record every R recipient while varying Brand distance.",
+      "goal": "Record every R recipient while varying Brand distance.",
+      "hypothesis": "R can bounce to Brand and prioritizes Blaze stacking; E doubles spread on Ablaze. Riftmaker can ramp through sustained combat, Cosmic repositions the bounce anchor and Zhonya tests pressure survival. Shadowflame affects qualifying low-health magic packets.",
       "itemIds": [
-        3869,
-        6653,
-        3116,
-        4005,
-        8010,
+        4633,
+        4629,
+        3157,
+        4645,
+        3089,
         3020
       ],
       "runePage": [
-        8229,
-        8226,
-        8210,
-        8237,
-        8126,
-        8106
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5005,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,48 +351,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Brand: Compare Blaze detonation on isolated versus clustered targets. Burn refresh, passive explosion and R bounce geometry must be measured instead of independently stacking every tick.",
-        "Start with the early core (Support quest; Liandry/Rylai as an isolated offensive core) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Cheap income plus ability damage and compatible slows test offensive setup for allies. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Brand launches a ball of fire forward that deals magic damage. If the target is ablaze, Sear will stun the target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Stay within bounce spacing with enough health to survive.",
+        "Record every R recipient while varying Brand distance; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana and defense may be weak; burns do not automatically make every control effect stack.",
-        "The route fails Brand's stated kit question: Compare Blaze detonation on isolated versus clustered targets. Burn refresh, passive explosion and R bounce geometry must be measured instead of independently stacking every tick.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Retreat strands bounces or stasis changes routing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana and defense may be weak; burns do not automatically make every control effect stack.",
-        "Full cost 12,400 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Five bounces are not five hits on one champion.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest; Liandry/Rylai as an isolated offensive core. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Rylai's Crystal Scepter, Imperial Mandate, Bloodletter's Curse are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Riftmaker, Cosmic Drive, Zhonya's Hourglass, Shadowflame, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Blaze",
           "slot": "Passive",
           "source": "Characters/Brand/Spells/BrandPassiveAbility/BrandPassive",
           "formula": "Brand's Abilities light his targets Ablaze, dealing [2]% max Health magic damage over 4 seconds. If Brand kills a unit that is Ablaze, he regains [characterLevelBreakpoints(start=20, perLevel=0, changes=[{\"mLevel\": 3, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 3.3329999446868896, \"__type\": \"Breakpoint\"}, {\"mLevel\": 18, \"mAdditionalBonusAtThisLevel\": 3.3299999237060547, \"__type\": \"Breakpoint\"}])] mana. Blaze can stack up to 3 times.\n\nWhen a champion or large jungle monster reaches 3 stacks, the Blaze will detonate after 2 seconds, dealing [(characterLevelInterpolation(6 → 12; raw flags preserved) + (0.02) × AP) × (0.01)] max Health magic damage to surrounding enemies."
-        },
-        {
-          "ability": "Pillar of Flame",
-          "slot": "W",
-          "source": "Characters/Brand/Spells/BrandWAbility/BrandW",
-          "formula": "Brand creates a pillar of pure fire, dealing [75 / 120 / 165 / 210 / 255 + (0.7) × AP] magic damage.\n\nUnits that are Ablaze take [(75 / 120 / 165 / 210 / 255 + (0.7) × AP) × (1.25)] damage instead."
         },
         {
           "ability": "Conflagration",
@@ -415,12 +391,6 @@
           "slot": "R",
           "source": "Characters/Brand/Spells/BrandRAbility/BrandR",
           "formula": "Brand unleashes a devastating torrent of fire that can bounce to Brand or another enemy up to 5 times, dealing [100 / 175 / 250 + (0.3) × AP] magic damage to enemies each bounce. Bounces prioritize stacking Blaze to max on champions.\n\nIf the target is Ablaze, they are briefly Slowed by [30 / 45 / 60]%."
-        },
-        {
-          "ability": "Sear",
-          "slot": "Q",
-          "source": "Characters/Brand/Spells/BrandQAbility/BrandQ",
-          "formula": "Brand launches a fireball that deals [70 / 100 / 130 / 160 / 190 + (0.65) × AP] magic damage to the first enemy hit.\n\nIf the target is Ablaze, they will be Stunned for [1.75] seconds."
         }
       ]
     }

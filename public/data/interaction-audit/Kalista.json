@@ -1,0 +1,298 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Kalista",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "ap-rend-accumulator",
+      "name": "AP Rend accumulator",
+      "objective": "Test ap rend accumulator against conventional damage at equal gold.",
+      "mechanic": "Rend has a 0.65 AP initial term and 0.5 AP per additional spear, despite dealing physical damage. Nashor creates separate magic attack damage while AP grows the spear cash-out; Terminus covers both damage types without buying magic penetration for Rend itself.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "W"
+      ],
+      "itemIds": [
+        3115,
+        3124,
+        3302,
+        3089,
+        3102,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Accumulate real spears within their four-second persistence window.",
+      "failure": "Slows reduce kiting and low AD weakens attacks before enough spears stick.",
+      "test": "Compare Rend at three, six and ten recorded spears.",
+      "rejectedAssumption": "Rageblade phantom hits are not assumed to create extra Rend spears.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "pierce-transfer-execution",
+      "name": "Pierce transfer execution",
+      "objective": "Test pierce transfer execution against conventional damage at equal gold.",
+      "mechanic": "Pierce deals 1.05 total AD physical damage and transfers stored spears only when it kills the first target; Shojin supports Q/E spell trades while Cleaver helps repeated physical cash-outs; Death's Dance protects the exit. Earned Muramana supports poke but the route sacrifices normal attack speed.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3042,
+        3161,
+        3071,
+        6333,
+        3814,
+        3158
+      ],
+      "pageKey": "comet",
+      "requiredState": "Prepare a killable minion carrying measured spears in front of the champion.",
+      "failure": "A surviving first target blocks the transfer and leaves weak sustained attacks.",
+      "test": "Measure transfer success and E reset on champion versus minion kills.",
+      "rejectedAssumption": "No spear transfer through a target that survives Q, and R requires an Oathsworn. Black Cleaver and Last Whisper upgrades cannot be combined.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Rageblade phantom hits are not assumed to create extra Rend spears.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Controlled current-patch proc testing remains necessary; source helper/statFormula expressions are evidence, not confirmed runtime behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Martial Poise",
+      "paths": [
+        "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Pierce",
+      "paths": [
+        "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Sentinel",
+      "paths": [
+        "Characters/Kalista/Spells/KalistaWAbility/KalistaW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Rend",
+      "paths": [
+        "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Fate's Call",
+      "paths": [
+        "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "kalista-audit-ap-rend-accumulator",
+      "champion": "Kalista",
+      "name": "AP Rend accumulator",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test ap rend accumulator against conventional damage at equal gold.",
+      "goal": "Test ap rend accumulator against conventional damage at equal gold.",
+      "hypothesis": "Rend has a 0.65 AP initial term and 0.5 AP per additional spear, despite dealing physical damage. Nashor creates separate magic attack damage while AP grows the spear cash-out; Terminus covers both damage types without buying magic penetration for Rend itself.",
+      "itemIds": [
+        3115,
+        3124,
+        3302,
+        3089,
+        3102,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Accumulate real spears within their four-second persistence window.",
+        "Compare Rend at three, six and ten recorded spears.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Slows reduce kiting and low AD weakens attacks before enough spears stick.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Rageblade phantom hits are not assumed to create extra Rend spears.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Terminus, Rabadon's Deathcap, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Sentinel",
+          "slot": "W",
+          "source": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+          "formula": "Passive: When Kalista and her Oathsworn both Attack the same target, she deals [(0.1 / 0.12 / 0.14 / 0.16 / 0.18) × 100]% max Health magic damage. This effect has a [10] second Cooldown per target and a cap of [100 / 125 / 150 / 175 / 200] to non-champions.\n\nActive: Kalista sends a ghost to patrol an area for three laps. Champions spotted are revealed for 4 seconds. This ability has 2 charges ([90 / 80 / 70 / 60 / 50] second refresh)."
+        },
+        {
+          "ability": "Pierce",
+          "slot": "Q",
+          "source": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+          "formula": "Kalista hurls a spear, dealing [10 / 75 / 140 / 205 / 270 + (1.05) × AD] physical damage to the first target hit. If this kills the target, the spear continues onward, carrying any {{Spell_KalistaExpungeWrapper_Name}} stacks to the next target hit.\n\nKalista can dash after using this Ability using {{Spell_KalistaPassiveBuff_Name}}."
+        },
+        {
+          "ability": "Rend",
+          "slot": "E",
+          "source": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+          "formula": "Passive: Kalista's spears linger in their target for 4 seconds, stacking any number of times.\n\nActive: Kalista rips the spears from nearby enemies, dealing [5 / 15 / 25 / 35 / 45 + (0.7) × AD + (0.65) × AP] plus [7 / 14 / 21 / 28 / 35 + (0.2 / 0.275 / 0.35 / 0.425 / 0.5) × AD + (0.5) × AP] physical damage per spear beyond the first. Slows enemies hit by [0.1 / 0.18 / 0.26 / 0.34 / 0.42 + (0.0005) × AP] for [2] seconds.\n\nIf this Ability kills at least one target, its Cooldown is refreshed and it refunds [10 / 15 / 20 / 25 / 30] Mana."
+        }
+      ]
+    },
+    {
+      "id": "kalista-audit-pierce-transfer-execution",
+      "champion": "Kalista",
+      "name": "Pierce transfer execution",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test pierce transfer execution against conventional damage at equal gold.",
+      "goal": "Test pierce transfer execution against conventional damage at equal gold.",
+      "hypothesis": "Pierce deals 1.05 total AD physical damage and transfers stored spears only when it kills the first target; Shojin supports Q/E spell trades while Cleaver helps repeated physical cash-outs; Death's Dance protects the exit. Earned Muramana supports poke but the route sacrifices normal attack speed.",
+      "itemIds": [
+        3042,
+        3161,
+        3071,
+        6333,
+        3814,
+        3158
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Prepare a killable minion carrying measured spears in front of the champion.",
+        "Measure transfer success and E reset on champion versus minion kills.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A surviving first target blocks the transfer and leaves weak sustained attacks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: No spear transfer through a target that survives Q, and R requires an Oathsworn. Black Cleaver and Last Whisper upgrades cannot be combined.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Muramana, Spear of Shojin, Black Cleaver, Death's Dance, Edge of Night, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Fate's Call",
+          "slot": "R",
+          "source": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx",
+          "formula": "Kalista puts her Oathsworn into Stasis and draws them to herself for up to 4 seconds. The Oathsworn can click to launch themselves, stopping at the first champion hit and Knocking Back all nearby enemies. If the Oathsworn hits a champion, they are placed at their maximum attack range from it."
+        },
+        {
+          "ability": "Martial Poise",
+          "slot": "Passive",
+          "source": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff",
+          "formula": "{{Spell_KalistaP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Pierce",
+          "slot": "Q",
+          "source": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+          "formula": "Kalista hurls a spear, dealing [10 / 75 / 140 / 205 / 270 + (1.05) × AD] physical damage to the first target hit. If this kills the target, the spear continues onward, carrying any {{Spell_KalistaExpungeWrapper_Name}} stacks to the next target hit.\n\nKalista can dash after using this Ability using {{Spell_KalistaPassiveBuff_Name}}."
+        },
+        {
+          "ability": "Rend",
+          "slot": "E",
+          "source": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+          "formula": "Passive: Kalista's spears linger in their target for 4 seconds, stacking any number of times.\n\nActive: Kalista rips the spears from nearby enemies, dealing [5 / 15 / 25 / 35 / 45 + (0.7) × AD + (0.65) × AP] plus [7 / 14 / 21 / 28 / 35 + (0.2 / 0.275 / 0.35 / 0.425 / 0.5) × AD + (0.5) × AP] physical damage per spear beyond the first. Slows enemies hit by [0.1 / 0.18 / 0.26 / 0.34 / 0.42 + (0.0005) × AP] for [2] seconds.\n\nIf this Ability kills at least one target, its Cooldown is refreshed and it refunds [10 / 15 / 20 / 25 / 30] Mana."
+        }
+      ]
+    }
+  ]
+}

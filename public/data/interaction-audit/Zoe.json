@@ -1,0 +1,321 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Zoe",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "sparkles-attack-jump",
+      "name": "Sparkles attack jump",
+      "objective": "Test sparkles attack jump against conventional damage at equal gold.",
+      "mechanic": "More Sparkles adds 0.2 AP magic damage after each cast; Portal Jump grants one second to attack before forced return. Nashor and Lich Bane test that safe-looking attack window with a second spell to refresh passive, while bubble controls the target and Terminus fits mixed normal attacks.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3302,
+        3102,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Land E and choose an R destination with safe return position.",
+      "failure": "One-second immobility and fixed return can expose Zoe; low spell burst loses picks.",
+      "test": "Compare R-window attacks and incoming damage against a long-distance Q.",
+      "rejectedAssumption": "The passive is refreshed by casts, not permanently added to every attack during R.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "bubble-repeat-control-siege",
+      "name": "Bubble repeat control siege",
+      "objective": "Test bubble repeat control siege against conventional damage at equal gold.",
+      "mechanic": "Sleepy Trouble Bubble refunds 16-30% of its cooldown when bubble/trap hits a champion; terrain extends reach and sleep reduces MR for two seconds. Torch and Liandry test persistent magic pressure while Horizon reveals long-range hits, but burn timing must preserve the intended Q wakeup.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2503,
+        6653,
+        4628,
+        8010,
+        3135,
+        3158
+      ],
+      "pageKey": "comet",
+      "requiredState": "Hit E through terrain then deliver one well-timed long Q.",
+      "failure": "Burn or allied damage might wake early; trap misses provide no refund.",
+      "test": "Record E cooldown and first wake packet with and without burns.",
+      "rejectedAssumption": "Sleep bonus has a damage cap and cannot double every damage-over-time tick.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "The passive is refreshed by casts, not permanently added to every attack during R.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Current-patch proc ordering/effectiveness is untested; symbolic source stats and helper form/pet records are not runtime dispatch proof."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "More Sparkles!",
+      "paths": [
+        "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Paddle Star!",
+      "paths": [
+        "Characters/Zoe/Spells/ZoeQAbility/ZoeQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Spell Thief",
+      "paths": [
+        "Characters/Zoe/Spells/ZoeWAbility/ZoeW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Sleepy Trouble Bubble",
+      "paths": [
+        "Characters/Zoe/Spells/ZoeEAbility/ZoeE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Portal Jump",
+      "paths": [
+        "Characters/Zoe/Spells/ZoeRAbility/ZoeR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "zoe-audit-sparkles-attack-jump",
+      "champion": "Zoe",
+      "name": "Sparkles attack jump",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test sparkles attack jump against conventional damage at equal gold.",
+      "goal": "Test sparkles attack jump against conventional damage at equal gold.",
+      "hypothesis": "More Sparkles adds 0.2 AP magic damage after each cast; Portal Jump grants one second to attack before forced return. Nashor and Lich Bane test that safe-looking attack window with a second spell to refresh passive, while bubble controls the target and Terminus fits mixed normal attacks.",
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3302,
+        3102,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Land E and choose an R destination with safe return position.",
+        "Compare R-window attacks and incoming damage against a long-distance Q.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "One-second immobility and fixed return can expose Zoe; low spell burst loses picks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The passive is refreshed by casts, not permanently added to every attack during R.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Terminus, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Sleepy Trouble Bubble",
+          "slot": "E",
+          "source": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+          "formula": "Zoe dropkicks a bubble that deals [70 / 110 / 150 / 190 / 230 + (0.45) × AP] magic damage, lingering as a trap if it hits nothing. The bubble's range is extended when flying over terrain.\n\nIf either the bubble or trap hits an enemy champion she refreshes [(0.16 / 0.195 / 0.23 / 0.265 / 0.3) × 100]% of her cooldown.\n\nAfter a delay, the victim falls Asleep and have their Magic Resist reduced by [30]% for 2 seconds. Attacks and Ability hits wake them up but deal double damage, up to [70 / 110 / 150 / 190 / 230 + (0.45) × AP] true damage."
+        },
+        {
+          "ability": "Spell Thief",
+          "slot": "W",
+          "source": "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+          "formula": "Passive: Enemies drop spell shards when casting a Summoner Spell or using an Active Item. Specific minions also drop a spell shard when Zoe or a nearby ally kills them. Zoe can pick up this shard to cast that ability once.\n\nPassive: When Zoe casts this Ability or any Summoner Spell, she gains [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Move Speed for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and tosses 3 missiles at the target she Attacked most recently. These missiles deal [15 / 25 / 35 / 45 / 55 + (0.1) × AP] magic damage each.\n\nActive: Cast the Ability from a spell shard Zoe has picked up."
+        },
+        {
+          "ability": "Paddle Star!",
+          "slot": "Q",
+          "source": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+          "formula": "Zoe fires a star that deals increasing damage the further it travels to the first enemy hit and surrounding enemies -- between [50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] to [(50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP) × (2.5)] magic damage.\n\nZoe can Recast this Ability to redirect the missile to a new position near Zoe."
+        },
+        {
+          "ability": "More Sparkles!",
+          "slot": "Passive",
+          "source": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+          "formula": "After using an Ability, Zoe's next Attack deals an additional [characterLevelBreakpoints(start=16, perLevel=4, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 8.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage."
+        },
+        {
+          "ability": "Portal Jump",
+          "slot": "R",
+          "source": "Characters/Zoe/Spells/ZoeRAbility/ZoeR",
+          "formula": "Zoe teleports to a nearby position for 1 second. Afterwards, she teleports back. Zoe can use Abilities and Attack, but can't move during this time."
+        }
+      ]
+    },
+    {
+      "id": "zoe-audit-bubble-repeat-control-siege",
+      "champion": "Zoe",
+      "name": "Bubble repeat control siege",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bubble repeat control siege against conventional damage at equal gold.",
+      "goal": "Test bubble repeat control siege against conventional damage at equal gold.",
+      "hypothesis": "Sleepy Trouble Bubble refunds 16-30% of its cooldown when bubble/trap hits a champion; terrain extends reach and sleep reduces MR for two seconds. Torch and Liandry test persistent magic pressure while Horizon reveals long-range hits, but burn timing must preserve the intended Q wakeup.",
+      "itemIds": [
+        2503,
+        6653,
+        4628,
+        8010,
+        3135,
+        3158
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Hit E through terrain then deliver one well-timed long Q.",
+        "Record E cooldown and first wake packet with and without burns.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Burn or allied damage might wake early; trap misses provide no refund.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Sleep bonus has a damage cap and cannot double every damage-over-time tick.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blackfire Torch, Liandry's Torment, Horizon Focus, Bloodletter's Curse, Void Staff, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Sleepy Trouble Bubble",
+          "slot": "E",
+          "source": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+          "formula": "Zoe dropkicks a bubble that deals [70 / 110 / 150 / 190 / 230 + (0.45) × AP] magic damage, lingering as a trap if it hits nothing. The bubble's range is extended when flying over terrain.\n\nIf either the bubble or trap hits an enemy champion she refreshes [(0.16 / 0.195 / 0.23 / 0.265 / 0.3) × 100]% of her cooldown.\n\nAfter a delay, the victim falls Asleep and have their Magic Resist reduced by [30]% for 2 seconds. Attacks and Ability hits wake them up but deal double damage, up to [70 / 110 / 150 / 190 / 230 + (0.45) × AP] true damage."
+        },
+        {
+          "ability": "Spell Thief",
+          "slot": "W",
+          "source": "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+          "formula": "Passive: Enemies drop spell shards when casting a Summoner Spell or using an Active Item. Specific minions also drop a spell shard when Zoe or a nearby ally kills them. Zoe can pick up this shard to cast that ability once.\n\nPassive: When Zoe casts this Ability or any Summoner Spell, she gains [(0.3 / 0.4 / 0.5 / 0.6 / 0.7) × 100]% Move Speed for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and tosses 3 missiles at the target she Attacked most recently. These missiles deal [15 / 25 / 35 / 45 / 55 + (0.1) × AP] magic damage each.\n\nActive: Cast the Ability from a spell shard Zoe has picked up."
+        },
+        {
+          "ability": "Paddle Star!",
+          "slot": "Q",
+          "source": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+          "formula": "Zoe fires a star that deals increasing damage the further it travels to the first enemy hit and surrounding enemies -- between [50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] to [(50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP) × (2.5)] magic damage.\n\nZoe can Recast this Ability to redirect the missile to a new position near Zoe."
+        },
+        {
+          "ability": "More Sparkles!",
+          "slot": "Passive",
+          "source": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+          "formula": "After using an Ability, Zoe's next Attack deals an additional [characterLevelBreakpoints(start=16, perLevel=4, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 8.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.2) × AP] magic damage."
+        },
+        {
+          "ability": "Portal Jump",
+          "slot": "R",
+          "source": "Characters/Zoe/Spells/ZoeRAbility/ZoeR",
+          "formula": "Zoe teleports to a nearby position for 1 second. Afterwards, she teleports back. Zoe can use Abilities and Attack, but can't move during this time."
+        }
+      ]
+    }
+  ]
+}

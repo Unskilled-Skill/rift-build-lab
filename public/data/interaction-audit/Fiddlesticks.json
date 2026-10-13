@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Fiddlesticks",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "unbroken-harvest-frontliner",
+      "name": "Unbroken harvest frontliner",
+      "objective": "Test unbroken harvest frontliner against the conventional damage pattern at equal gold.",
+      "mechanic": "Bountiful Harvest heals for damage dealt and refunds 60% remaining cooldown only when its two-second channel finishes. Aftershock from fear buys a short resistance window; Visage and Riftmaker support draining while Liandry supplies magic pressure.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        6653,
+        8020,
+        3065,
+        3135,
+        3111
+      ],
+      "pageKey": "after",
+      "requiredState": "Fear or silence available to protect the entire channel.",
+      "failure": "A single interruption loses final missing-health damage and the refund.",
+      "test": "Compare complete and interrupted channels, recording healing and next-W timing.",
+      "rejectedAssumption": "Durability does not make the channel unstoppable.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "effigy-lane-ambush-cadence",
+      "name": "Effigy lane ambush cadence",
+      "objective": "Test effigy lane ambush cadence against the conventional damage pattern at equal gold.",
+      "mechanic": "Terrify's passive activates from unseen/out-of-combat or effigy impersonation; stationary setup plus distant Reap can start First Strike before Crowstorm. Malignance supports ultimate magic damage and haste, while Horizon reveals the long-range opening target.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3118,
+        4628,
+        6655,
+        3089,
+        3135,
+        3158
+      ],
+      "pageKey": "first",
+      "requiredState": "Hide or impersonate for two seconds and establish the first damage packet.",
+      "failure": "Enemy vision or incidental damage removes the planned fear and First Strike.",
+      "test": "Test seen versus unseen E-to-R entries and record fear separately.",
+      "rejectedAssumption": "Effigies do not deal substitute champion damage or create unlimited fears.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Durability does not make the channel unstoppable.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Item and ability proc attribution requires a controlled current-patch test; symbolic statFormula and source flags are not runtime verification."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "A Harmless Scarecrow",
+      "paths": [
+        "Characters/Fiddlesticks/Spells/FiddleSticksPassiveAbility/FiddleSticksPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Terrify",
+      "paths": [
+        "Characters/Fiddlesticks/Spells/FiddleSticksQAbility/FiddleSticksQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Bountiful Harvest",
+      "paths": [
+        "Characters/Fiddlesticks/Spells/FiddleSticksWAbility/FiddleSticksW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Reap",
+      "paths": [
+        "Characters/Fiddlesticks/Spells/FiddleSticksEAbility/FiddleSticksE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Crowstorm",
+      "paths": [
+        "Characters/Fiddlesticks/Spells/FiddleSticksRAbility/FiddleSticksR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "fiddlesticks-audit-unbroken-harvest-frontliner",
+      "champion": "Fiddlesticks",
+      "name": "Unbroken harvest frontliner",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test unbroken harvest frontliner against the conventional damage pattern at equal gold.",
+      "goal": "Test unbroken harvest frontliner against the conventional damage pattern at equal gold.",
+      "hypothesis": "Bountiful Harvest heals for damage dealt and refunds 60% remaining cooldown only when its two-second channel finishes. Aftershock from fear buys a short resistance window; Visage and Riftmaker support draining while Liandry supplies magic pressure.",
+      "itemIds": [
+        4633,
+        6653,
+        8020,
+        3065,
+        3135,
+        3111
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Fear or silence available to protect the entire channel.",
+        "Compare complete and interrupted channels, recording healing and next-W timing.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A single interruption loses final missing-health damage and the refund.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Durability does not make the channel unstoppable.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Liandry's Torment, Abyssal Mask, Spirit Visage, Void Staff, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bountiful Harvest",
+          "slot": "W",
+          "source": "Characters/Fiddlesticks/Spells/FiddleSticksWAbility/FiddleSticksW",
+          "formula": "Fiddlesticks channels and drains the souls of nearby enemies, dealing [60 / 90 / 120 / 150 / 180 + (0.45) × AP] magic damage per second for 2 seconds, plus [12 / 14.5 / 17 / 19.5 / 22]% missing Health magic damage at the end. Fiddlesticks restores [25 / 32.5 / 40 / 47.5 / 55]% of damage as Health.\n\nIf Fiddlesticks ends the channel without interruption, the remaining Cooldown is reduced by 60%."
+        },
+        {
+          "ability": "Terrify",
+          "slot": "Q",
+          "source": "Characters/Fiddlesticks/Spells/FiddleSticksQAbility/FiddleSticksQ",
+          "formula": "Passive: While unseen and out of combat or impersonating an Effigy, damaging an enemy with an ability Fears them for [1.2 / 1.4 / 1.6 / 1.8 / 2] second(s).\n\nActive: Fear an enemy for [1.2 / 1.4 / 1.6 / 1.8 / 2] second(s) and deal [0.04 / 0.045 / 0.05 / 0.055 / 0.06 + (0.0003) × AP] current Health magic damage. If the target has recently been Feared by Fiddlesticks, instead deal [(0.04 / 0.045 / 0.05 / 0.055 / 0.06 + (0.0003) × AP) × (2)] current Health magic damage."
+        },
+        {
+          "ability": "Crowstorm",
+          "slot": "R",
+          "source": "Characters/Fiddlesticks/Spells/FiddleSticksRAbility/FiddleSticksR",
+          "formula": "Fiddlesticks channels for [1.5] seconds, then teleports and unleashes a murder of crows, dealing [(150 / 250 / 350 + (0.5) × AP) × (5)] magic damage over [5] seconds."
+        },
+        {
+          "ability": "Reap",
+          "slot": "E",
+          "source": "Characters/Fiddlesticks/Spells/FiddleSticksEAbility/FiddleSticksE",
+          "formula": "Fiddlesticks unleashes dark magic, dealing [70 / 105 / 140 / 175 / 210 + (0.5) × AP] magic damage and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [1.25] seconds. Enemies in the center are also Silenced for the duration."
+        }
+      ]
+    },
+    {
+      "id": "fiddlesticks-audit-effigy-lane-ambush-cadence",
+      "champion": "Fiddlesticks",
+      "name": "Effigy lane ambush cadence",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test effigy lane ambush cadence against the conventional damage pattern at equal gold.",
+      "goal": "Test effigy lane ambush cadence against the conventional damage pattern at equal gold.",
+      "hypothesis": "Terrify's passive activates from unseen/out-of-combat or effigy impersonation; stationary setup plus distant Reap can start First Strike before Crowstorm. Malignance supports ultimate magic damage and haste, while Horizon reveals the long-range opening target.",
+      "itemIds": [
+        3118,
+        4628,
+        6655,
+        3089,
+        3135,
+        3158
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Hide or impersonate for two seconds and establish the first damage packet.",
+        "Test seen versus unseen E-to-R entries and record fear separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Enemy vision or incidental damage removes the planned fear and First Strike.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Effigies do not deal substitute champion damage or create unlimited fears.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Malignance, Horizon Focus, Luden's Echo, Rabadon's Deathcap, Void Staff, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "A Harmless Scarecrow",
+          "slot": "Passive",
+          "source": "Characters/Fiddlesticks/Spells/FiddleSticksPassiveAbility/FiddleSticksPassive",
+          "formula": "Fiddlesticks' trinket is replaced by Scarecrow Effigies. When discovered by enemies, Effigies briefly impersonate Fiddlesticks. If Fiddlesticks does not move for 2 seconds, he will impersonate an Effigy. At level six Effigies reveal nearby wards for 6 seconds."
+        },
+        {
+          "ability": "Terrify",
+          "slot": "Q",
+          "source": "Characters/Fiddlesticks/Spells/FiddleSticksQAbility/FiddleSticksQ",
+          "formula": "Passive: While unseen and out of combat or impersonating an Effigy, damaging an enemy with an ability Fears them for [1.2 / 1.4 / 1.6 / 1.8 / 2] second(s).\n\nActive: Fear an enemy for [1.2 / 1.4 / 1.6 / 1.8 / 2] second(s) and deal [0.04 / 0.045 / 0.05 / 0.055 / 0.06 + (0.0003) × AP] current Health magic damage. If the target has recently been Feared by Fiddlesticks, instead deal [(0.04 / 0.045 / 0.05 / 0.055 / 0.06 + (0.0003) × AP) × (2)] current Health magic damage."
+        },
+        {
+          "ability": "Crowstorm",
+          "slot": "R",
+          "source": "Characters/Fiddlesticks/Spells/FiddleSticksRAbility/FiddleSticksR",
+          "formula": "Fiddlesticks channels for [1.5] seconds, then teleports and unleashes a murder of crows, dealing [(150 / 250 / 350 + (0.5) × AP) × (5)] magic damage over [5] seconds."
+        },
+        {
+          "ability": "Reap",
+          "slot": "E",
+          "source": "Characters/Fiddlesticks/Spells/FiddleSticksEAbility/FiddleSticksE",
+          "formula": "Fiddlesticks unleashes dark magic, dealing [70 / 105 / 140 / 175 / 210 + (0.5) × AP] magic damage and Slowing by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [1.25] seconds. Enemies in the center are also Silenced for the duration."
+        }
+      ]
+    }
+  ]
+}

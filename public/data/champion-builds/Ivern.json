@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "ivern-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "ivern-four-2",
+      "id": "ivern-audit-brush-personal-carry",
       "champion": "Ivern",
-      "name": "Damage interaction: Attack-carry facilitator",
-      "goal": "Damage interaction for Ivern: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A jungle facilitator who frees camps and uses roots, shields and Daisy to create allied fighting space. Brush attacks provide a secondary offensive angle rather than changing his camp-clearing mechanic. Measure Daisy, shield timing and allied follow-up before testing brush-enhanced real attacks. AP/attack speed do not change the free-camp jungle mechanic into ordinary attack clearing. Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
-      "summary": "Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
+      "name": "Brush personal carry",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test brush personal carry against conventional damage at equal gold.",
+      "goal": "Test brush personal carry against conventional damage at equal gold.",
+      "hypothesis": "Brushmaker grants Ivern's own attacks 0.2 AP magic damage for three seconds after leaving brush; Nashor and Dusk and Dawn emphasize that window. Rootcaller enables attack access and Triggerseed protects the approach; Daisy's independent slam supplies control rather than invented owner-item inheritance.",
       "itemIds": [
-        3869,
-        6620,
-        3504,
-        6616,
-        3107,
-        3158
+        3115,
+        2510,
+        3124,
+        3302,
+        3102,
+        3006
       ],
       "runePage": [
-        8214,
-        8226,
-        8210,
-        8237,
-        8345,
-        8347
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5005,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Ivern: Measure Daisy, shield timing and allied follow-up before testing brush-enhanced real attacks. AP/attack speed do not change the free-camp jungle mechanic into ordinary attack clearing.",
-        "Start with the early core (Support quest, Helia if it can be triggered, then an ally-appropriate buff item) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Eligible healing/shielding may deliver ally buffs and repeated supportive value. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Ivern conjures a vine, dealing damage and rooting enemy targets hit. Ivern's allies can dash to the rooted target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Keep brush access and root a target before personal attacks.",
+        "Compare Ivern-only attack damage with Daisy commanded away.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
-        "The route fails Ivern's stated kit question: Measure Daisy, shield timing and allied follow-up before testing brush-enhanced real attacks. AP/attack speed do not change the free-camp jungle mechanic into ordinary attack clearing.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Ivern's jungle passive cannot make this a normal monster-attack farming build.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
-        "Full cost 10,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Daisy is not assumed to carry Nashor, Rageblade or Spellblade from Ivern.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Helia if it can be triggered, then an ally-appropriate buff item. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Ardent Censer, Staff of Flowing Water, Redemption are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Guinsoo's Rageblade, Terminus, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Brushmaker",
           "slot": "W",
           "source": "Characters/Ivern/Spells/IvernWAbility/IvernW",
           "formula": "Passive: While in brush and for [3] seconds after leaving, Ivern's Attacks deal an additional [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × AP] magic damage. Nearby allies will gain this effect for [1.5] seconds and deal [10 / 15 / 20 / 25 / 30 + (0.1) × AP] magic damage.\n\nActive: Ivern grows a patch of Brush, revealing the area for [8] seconds. The Brush persists until Ivern's team loses vision within it, or up to [45] seconds."
-        },
-        {
-          "ability": "Friend of the Forest",
-          "slot": "Passive",
-          "source": "Characters/Ivern/Spells/IvernPAbility/IvernP",
-          "formula": "Ivern will not hurt non-epic monsters. Instead, Ivern can right click a monster to grow a Grove that costs [(characterLevelBreakpoints(start=15, perLevel=-0.882, changes=[])) × ((0.01) × Stat(12)[statFormula=1])] Health and [(characterLevelBreakpoints(start=20, perLevel=-1.175, changes=[])) × (0.01 × AbilityResource(default, statFormula=1))] Mana.\n\nGroves: Grow over [(characterLevelBreakpoints(start=40, perLevel=-2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mBonusPerLevelAtAndAfter\": -2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"__type\": \"Breakpoint\"}])) × (1)] second(s) Once fully grown, Ivern can harvest them, freeing the camp and earning gold and experience Ivern can also Smite the Groves to instantly grow and free the camp, earning gold and experience@SpellModifierDescriptionAppend@"
         },
         {
           "ability": "Daisy!",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "ivern-four-4",
+      "id": "ivern-audit-daisy-siege-amplifier",
       "champion": "Ivern",
-      "name": "Experiment: AP attack experiment",
-      "goal": "Experiment for Ivern: test a different playstyle, with lower confidence",
-      "hypothesis": "A jungle facilitator who frees camps and uses roots, shields and Daisy to create allied fighting space. Brush attacks provide a secondary offensive angle rather than changing his camp-clearing mechanic. Measure Daisy, shield timing and allied follow-up before testing brush-enhanced real attacks. AP/attack speed do not change the free-camp jungle mechanic into ordinary attack clearing. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Daisy siege amplifier",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test daisy siege amplifier against conventional damage at equal gold.",
+      "goal": "Test daisy siege amplifier against conventional damage at equal gold.",
+      "hypothesis": "Daisy's third consecutive attack on one champion/epic monster creates a 0.5 AP magic shockwave with a three-second limit; Triggerseed bursts for 0.8 AP. AP and Bloodletter support those magic packets, while Cosmic Drive helps Ivern stay close enough to command and shield her.",
       "itemIds": [
-        3115,
-        3124,
+        6653,
+        8010,
+        4629,
         3089,
         3135,
-        3157,
-        3006
+        3158
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,48 +351,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Ivern: Measure Daisy, shield timing and allied follow-up before testing brush-enhanced real attacks. AP/attack speed do not change the free-camp jungle mechanic into ordinary attack clearing.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Ivern conjures a vine, dealing damage and rooting enemy targets hit. Ivern's allies can dash to the rooted target. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Daisy alive with a reachable repeated target and E available.",
+        "Log Daisy attack/slam damage separately from E bursts and burn attribution.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Ivern's stated kit question: Measure Daisy, shield timing and allied follow-up before testing brush-enhanced real attacks. AP/attack speed do not change the free-camp jungle mechanic into ordinary attack clearing.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Pet kiting or target switches prevent the third-hit shockwave.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Liandry and Bloodletter pet attribution need testing; helper data cannot establish every proc.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Liandry's Torment, Bloodletter's Curse, Cosmic Drive, Rabadon's Deathcap, Void Staff, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Brushmaker",
           "slot": "W",
           "source": "Characters/Ivern/Spells/IvernWAbility/IvernW",
           "formula": "Passive: While in brush and for [3] seconds after leaving, Ivern's Attacks deal an additional [20 / 27.5 / 35 / 42.5 / 50 + (0.2) × AP] magic damage. Nearby allies will gain this effect for [1.5] seconds and deal [10 / 15 / 20 / 25 / 30 + (0.1) × AP] magic damage.\n\nActive: Ivern grows a patch of Brush, revealing the area for [8] seconds. The Brush persists until Ivern's team loses vision within it, or up to [45] seconds."
-        },
-        {
-          "ability": "Friend of the Forest",
-          "slot": "Passive",
-          "source": "Characters/Ivern/Spells/IvernPAbility/IvernP",
-          "formula": "Ivern will not hurt non-epic monsters. Instead, Ivern can right click a monster to grow a Grove that costs [(characterLevelBreakpoints(start=15, perLevel=-0.882, changes=[])) × ((0.01) × Stat(12)[statFormula=1])] Health and [(characterLevelBreakpoints(start=20, perLevel=-1.175, changes=[])) × (0.01 × AbilityResource(default, statFormula=1))] Mana.\n\nGroves: Grow over [(characterLevelBreakpoints(start=40, perLevel=-2, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": -4.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mBonusPerLevelAtAndAfter\": -2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"__type\": \"Breakpoint\"}])) × (1)] second(s) Once fully grown, Ivern can harvest them, freeing the camp and earning gold and experience Ivern can also Smite the Groves to instantly grow and free the camp, earning gold and experience@SpellModifierDescriptionAppend@"
         },
         {
           "ability": "Daisy!",

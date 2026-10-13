@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "zoe-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "zoe-four-2",
+      "id": "zoe-audit-sparkles-attack-jump",
       "champion": "Zoe",
-      "name": "Damage interaction: Mana burst",
-      "goal": "Damage interaction for Zoe: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged pick mage who uses terrain-extended sleep and long-travel Q for burst, then returns from a brief portal. Spell shards offer opportunistic movement and damage rather than a guaranteed loadout. Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Sparkles attack jump",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test sparkles attack jump against conventional damage at equal gold.",
+      "goal": "Test sparkles attack jump against conventional damage at equal gold.",
+      "hypothesis": "More Sparkles adds 0.2 AP magic damage after each cast; Portal Jump grants one second to attack before forced return. Nashor and Lich Bane test that safe-looking attack window with a second spell to refresh passive, while bubble controls the target and Terminus fits mixed normal attacks.",
       "itemIds": [
-        6655,
-        4645,
+        3115,
+        3100,
         3089,
-        3135,
-        3157,
-        3020
+        3302,
+        3102,
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
+        9923,
+        8126,
         8140,
         8106,
-        8233,
-        8237
+        8210,
+        8236
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Zoe: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Zoe fires a missile that she can redirect in flight. Deals more damage the longer it flies in a straight line. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Land E and choose an R destination with safe return position.",
+        "Compare R-window attacks and incoming damage against a long-distance Q.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Zoe's stated kit question: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "One-second immobility and fixed return can expose Zoe; low spell burst loses picks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: The passive is refreshed by casts, not permanently added to every attack during R.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Terminus, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Sleepy Trouble Bubble",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "zoe-four-4",
+      "id": "zoe-audit-bubble-repeat-control-siege",
       "champion": "Zoe",
-      "name": "Experiment: Spell-and-attack",
-      "goal": "Experiment for Zoe: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged pick mage who uses terrain-extended sleep and long-travel Q for burst, then returns from a brief portal. Spell shards offer opportunistic movement and damage rather than a guaranteed loadout. Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "name": "Bubble repeat control siege",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bubble repeat control siege against conventional damage at equal gold.",
+      "goal": "Test bubble repeat control siege against conventional damage at equal gold.",
+      "hypothesis": "Sleepy Trouble Bubble refunds 16-30% of its cooldown when bubble/trap hits a champion; terrain extends reach and sleep reduces MR for two seconds. Torch and Liandry test persistent magic pressure while Horizon reveals long-range hits, but burn timing must preserve the intended Q wakeup.",
       "itemIds": [
-        3100,
-        3115,
-        3089,
+        2503,
+        6653,
+        4628,
+        8010,
         3135,
-        3157,
-        3020
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Zoe: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
-        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Zoe fires a missile that she can redirect in flight. Deals more damage the longer it flies in a straight line. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Hit E through terrain then deliver one well-timed long Q.",
+        "Record E cooldown and first wake packet with and without burns.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "The route fails Zoe's stated kit question: Fix Q travel distance, Sleep state and the spell shard actually available. Lich Bane needs a real attack; Portal returns to a known point and cannot be treated as a permanent escape.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Burn or allied damage might wake early; trap misses provide no refund.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Sleep bonus has a damage cap and cannot double every damage-over-time tick.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Blackfire Torch, Liandry's Torment, Horizon Focus, Bloodletter's Curse, Void Staff, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Sleepy Trouble Bubble",

@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "hecarim-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "hecarim-four-2",
+      "id": "hecarim-audit-warpath-speed-conversion",
       "champion": "Hecarim",
-      "name": "Damage interaction: Contact fighter",
-      "goal": "Damage interaction for Hecarim: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A momentum-based diver who maintains Rampage stacks, enters with speed and heals while dealing damage in a clustered fight. Fix Rampage stacks and approach speed, then measure AD conversion and W recovery. Movement-only spending must improve real engagement damage instead of just the movement-speed display. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
-      "summary": "Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "name": "Warpath speed conversion",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Turn a timed movement burst into physical charge and cleave damage.",
+      "goal": "Turn a timed movement burst into physical charge and cleave damage.",
+      "hypothesis": "Warpath converts a level-dependent portion of bonus speed to AD; Devastating Charge increases speed from 25% to 65% and its physical damage depends on distance traveled. Youmuu and Dead Man's Plate create a timed entry, Trinity rewards the charge attack, and Shojin supports stacked Rampage afterward. W healing rewards damage actually dealt nearby.",
       "itemIds": [
-        6631,
-        6610,
-        3053,
+        3142,
+        3742,
+        3078,
+        3161,
         6333,
-        3065,
-        3047
+        3009
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
-        8444,
-        8451
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Hecarim: Fix Rampage stacks and approach speed, then measure AD conversion and W recovery. Movement-only spending must improve real engagement damage instead of just the movement-speed display.",
-        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Hecarim cleaves nearby enemies dealing physical damage. If Hecarim damages at least one enemy, he increases the damage and lowers the cooldown of subsequent Rampages. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need a long entry path, movement effects active and a target reachable before E ends.",
+        "Compare E and three-stack Q damage with speed effects active versus expired, recording actual bonus AD.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
-        "The route fails Hecarim's stated kit question: Fix Rampage stacks and approach speed, then measure AD conversion and W recovery. Movement-only spending must improve real engagement damage instead of just the movement-speed display.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "CC or cramped paths cut distance; speed items without health make the first impact fragile.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Movement-speed soft caps and decay prevent treating listed percentages as unlimited additive AD.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Youmuu's Ghostblade, Dead Man's Plate, Trinity Force, Spear of Shojin, Death's Dance, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Devastating Charge",
@@ -193,12 +187,6 @@
           "slot": "Q",
           "source": "Characters/Hecarim/Spells/HecarimRapidSlashAbility/HecarimRapidSlash",
           "formula": "Hecarim cleaves nearby enemies for [60 / 90 / 120 / 150 / 180 + (0.9) × AD[statFormula=2]] physical damage. If this Ability hits, he gains a stack that decreases its Cooldown by [0.75] seconds and increases its damage by [3 + (0.03) × AD[statFormula=2]]% for [8] seconds. Stacks up to [3] times."
-        },
-        {
-          "ability": "Onslaught of Shadows",
-          "slot": "R",
-          "source": "Characters/Hecarim/Spells/HecarimUltAbility/HecarimUlt",
-          "formula": "Hecarim summons spectral riders and charges forward, dealing [150 / 250 / 350 + (1) × AP] magic damage. Hecarim unleashes a shockwave at the end of the charge that Fears for between [0.75] to [1.5] seconds, increased by charge distance."
         },
         {
           "ability": "Spirit of Dread",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "hecarim-four-4",
+      "id": "hecarim-audit-spectral-ap-drain-dive",
       "champion": "Hecarim",
-      "name": "Experiment: Movement frontline",
-      "goal": "Experiment for Hecarim: test a different playstyle, with lower confidence",
-      "hypothesis": "A momentum-based diver who maintains Rampage stacks, enters with speed and heals while dealing damage in a clustered fight. Fix Rampage stacks and approach speed, then measure AD conversion and W recovery. Movement-only spending must improve real engagement damage instead of just the movement-speed display. Movement and matchup resistances test reaching a useful control angle and resetting afterward. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Movement and matchup resistances test reaching a useful control angle and resetting afterward.",
+      "name": "Spectral AP drain dive",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test magic R/W damage while preserving the drain window.",
+      "goal": "Test magic R/W damage while preserving the drain window.",
+      "hypothesis": "Onslaught of Shadows has 1 AP magic damage and distance-scaled fear; Spirit of Dread has 0.8 AP over four seconds and heals from Hecarim and nearby allied damage. Liandry and Abyssal support magic pressure, Visage supports received healing, and Rocketbelt helps keep W in contact after the entry. Rampage retains only its native AD loop.",
       "itemIds": [
-        3742,
-        4401,
-        3083,
-        6665,
-        2502,
-        3009
+        3152,
+        4633,
+        6653,
+        3065,
+        8020,
+        3020
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8010,
         9111,
-        9104
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Hecarim: Fix Rampage stacks and approach speed, then measure AD conversion and W recovery. Movement-only spending must improve real engagement damage instead of just the movement-speed display.",
-        "Start with the early core (Matchup defense and boots; movement slots only if they improve contact) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Movement and matchup resistances test reaching a useful control angle and resetting afterward. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Hecarim cleaves nearby enemies dealing physical damage. If Hecarim damages at least one enemy, he increases the damage and lowers the cooldown of subsequent Rampages. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need grouped nearby targets and allies damaging enemies inside W's four-second window.",
+        "Compare R/W damage and healing separately from Q over one dive with and without allied follow-up.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Limited direct damage; Warmog thresholds and out-of-combat timing must be verified.",
-        "The route fails Hecarim's stated kit question: Fix Rampage stacks and approach speed, then measure AD conversion and W recovery. Movement-only spending must improve real engagement damage instead of just the movement-speed display.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low Q damage and short W duration can lose an extended duel; enemies scatter after fear.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Limited direct damage; Warmog thresholds and out-of-combat timing must be verified.",
-        "Full cost 15,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: AP does not directly strengthen Rampage; W does not heal from allies damaging remote enemies.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Matchup defense and boots; movement slots only if they improve contact. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Warmog's Armor, Jak'Sho, The Protean, Unending Despair are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Rocketbelt, Riftmaker, Liandry's Torment, Spirit Visage, Abyssal Mask, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Devastating Charge",
@@ -415,12 +397,6 @@
           "slot": "W",
           "source": "Characters/Hecarim/Spells/HecarimWAbility/HecarimW",
           "formula": "Hecarim deals [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage over [4] seconds to nearby enemies. \n\nHecarim gains [5 / 10 / 15 / 20 / 25] Armor and Magic Resist and heals for [25]% of damage nearby enemies take from Hecarim and [(25) × (0.5)]% of damage taken from his allies."
-        },
-        {
-          "ability": "Warpath",
-          "slot": "Passive",
-          "source": "Characters/Hecarim/Spells/HecarimPassiveAbility/HecarimPassive",
-          "formula": "Hecarim gains [(characterLevelBreakpoints(start=0.12, perLevel=0, changes=[{\"mLevel\": 3, \"mAdditionalBonusAtThisLevel\": 0.019999999552965164, \"__type\": \"Breakpoint\"}, {\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.019999999552965164, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.019999999552965164, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 0.019999999552965164, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 0.019999999552965164, \"__type\": \"Breakpoint\"}, {\"mLevel\": 18, \"mAdditionalBonusAtThisLevel\": 0.019999999552965164, \"__type\": \"Breakpoint\"}])) × Stat(7)[statFormula=2]] Attack Damage, increasing based on level."
         }
       ]
     }

@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "khazix-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "khazix-four-2",
+      "id": "khazix-audit-unseen-return-strike",
       "champion": "Khazix",
-      "name": "Damage interaction: Physical spell burst",
-      "goal": "Damage interaction for Kha'Zix: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "An isolation hunter who selects separated targets and uses invisibility to refresh an empowered opening attack. Record isolation and evolution choices. An attack-led route must earn sustained contact; do not grant isolated Q damage against clustered enemies. High AD and penetration test ability-first trades with a conditional anti-magic slot.",
-      "summary": "High AD and penetration test ability-first trades with a conditional anti-magic slot.",
+      "name": "Unseen Return Strike",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Count P packets after each verified unseen interval.",
+      "goal": "Count P packets after each verified unseen interval.",
+      "hypothesis": "P refreshes when unseen and adds AD-scaled magic damage plus slow to the next champion attack. R primary description grants invisibility and explicitly triggers P; Trinity/Sundered Sky support one real return attack, Stridebreaker assists leaving vision and re-entering. No resolved R duration is assumed.",
       "itemIds": [
+        3078,
+        6610,
+        6631,
         6692,
-        6698,
-        6694,
-        3814,
-        3156,
-        3158
+        6333,
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,60 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kha'Zix: Record isolation and evolution choices. An attack-led route must earn sustained contact; do not grant isolated Q damage against clustered enemies.",
-        "Start with the early core (Eclipse, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: High AD and penetration test ability-first trades with a conditional anti-magic slot. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Deals physical damage to the target. Damage increased on Isolated targets. If he chooses to Evolve Reaper Claws, this refunds a percent of it's cooldown against Isolated targets. Kha'Zix also gains increased range on his basic attacks and Taste Their Fear. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Record actual R evolution/casts and whether enemy vision truly loses Khazix.",
+        "Count P packets after each verified unseen interval; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
-        "The route fails Kha'Zix's stated kit question: Record isolation and evolution choices. An attack-led route must earn sustained contact; do not grant isolated Q damage against clustered enemies.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Detection or kiting denies P refresh and access.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Every R cast is not automatically a fresh attack or a ready Spellblade proc.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Serylda's Grudge, Edge of Night, Maw of Malmortius are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Trinity Force, Sundered Sky, Stridebreaker, Eclipse, Death's Dance, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Taste Their Fear",
-          "slot": "Q",
-          "source": "Characters/Khazix/Spells/KhazixQAbility/KhazixQ",
-          "formula": "{{Spell_KhazixQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
-        },
         {
           "ability": "Void Assault",
           "slot": "R",
           "source": "Characters/Khazix/Spells/KhazixRAbility/KhazixR",
           "formula": "{{Spell_KhazixR_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}\n\n{{Spell_KhazixR_Tooltip_P}}"
-        },
-        {
-          "ability": "Leap",
-          "slot": "E",
-          "source": "Characters/Khazix/Spells/KhazixEAbility/KhazixE",
-          "formula": "{{Spell_KhazixE_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
-        },
-        {
-          "ability": "Void Spike",
-          "slot": "W",
-          "source": "Characters/Khazix/Spells/KhazixWAbility/KhazixW",
-          "formula": "{{Spell_KhazixW_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
         },
         {
           "ability": "Unseen Threat",
@@ -320,40 +296,42 @@
       ]
     },
     {
-      "id": "khazix-four-4",
+      "id": "khazix-audit-isolated-claw-repeat",
       "champion": "Khazix",
-      "name": "Experiment: Attack-led side lane",
-      "goal": "Experiment for Kha'Zix: test a different playstyle, with lower confidence",
-      "hypothesis": "An isolation hunter who selects separated targets and uses invisibility to refresh an empowered opening attack. Record isolation and evolution choices. An attack-led route must earn sustained contact; do not grant isolated Q damage against clustered enemies. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Isolated Claw Repeat",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare Q count while isolated versus beside an ally.",
+      "goal": "Compare Q count while isolated versus beside an ally.",
+      "hypothesis": "Q primary description grants increased physical damage against Isolated targets and evolved-Q cooldown refund. Shojin and AD support repeated physical casts; Eclipse tests two separate hit windows and Cleaver supports repeated physical damage. R escape preserves isolation rather than assuming it persists.",
       "itemIds": [
-        3153,
-        3078,
-        3181,
+        3161,
+        6692,
+        3071,
         3053,
         6333,
-        3047
+        3158
       ],
       "runePage": [
-        8005,
+        8010,
         9111,
-        9104,
-        8014,
+        9105,
+        8299,
         8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +339,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kha'Zix: Record isolation and evolution choices. An attack-led route must earn sustained contact; do not grant isolated Q damage against clustered enemies.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Deals physical damage to the target. Damage increased on Isolated targets. If he chooses to Evolve Reaper Claws, this refunds a percent of it's cooldown against Isolated targets. Kha'Zix also gains increased range on his basic attacks and Taste Their Fear. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Choose Q evolution and keep target separated from allies; confirm live cooldown refund.",
+        "Compare Q count while isolated versus beside an ally; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Kha'Zix's stated kit question: Record isolation and evolution choices. An attack-led route must earn sustained contact; do not grant isolated Q damage against clustered enemies.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "An ally/minion joining invalidates isolation or unresolved coefficients change damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Isolation and evolved Q are conditional, not free permanent multipliers.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Spear of Shojin, Eclipse, Black Cleaver, Sterak's Gage, Death's Dance, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Taste Their Fear",
@@ -409,12 +379,6 @@
           "slot": "E",
           "source": "Characters/Khazix/Spells/KhazixEAbility/KhazixE",
           "formula": "{{Spell_KhazixE_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
-        },
-        {
-          "ability": "Void Spike",
-          "slot": "W",
-          "source": "Characters/Khazix/Spells/KhazixWAbility/KhazixW",
-          "formula": "{{Spell_KhazixW_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
         },
         {
           "ability": "Unseen Threat",

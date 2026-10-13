@@ -35,3 +35,11 @@ Unofficial fan tool; League of Legends belongs to Riot Games.
 Blitzcrank now has four independently authored objectives: hook/peel support control, AD/crit single-E ceiling, mana-shield repeated-E boxing, and an AP attack/lightning timing experiment. The AD route is a candidate to test, not a proven mathematical maximum. Its conditions distinguish E attack damage, critical strikes, Spellblade and rune packets.
 
 Full authored overrides live in `scripts/champion-build-overrides/{alias}.json`. `npm run champion-builds` preserves these rather than replacing them with generic recipes. Blitzcrank uses new build IDs so historical feedback on the earlier proposals is not assigned to the new routes. Thresh, Warwick, Jax, Varus, Malzahar and Leona also have complete individual collections. Other champions retain the previous first-pass packages and need the same individual kit-focused revision. `BUILD_AUTHORING.md` records the kit-first standard; copied requests carry it forward.
+
+## Roster interaction audit
+
+`npm run interaction-audit` validates the individually authored research groups, publishes a per-champion interaction notebook, and regenerates the four-build collections. All champions are covered by two researched hypotheses plus rejected assumptions and source/proc uncertainties. These are not exhaustive proofs or game-verified results.
+
+Open **Champion kit → Kit interactions to investigate** to review the mechanism, required state, candidate six items, falsification and a manual test. **Test this interaction** loads its exact proposal. Audited objectives deliberately use manual tests, including for Cassiopeia/Sett when the objective is outside their numerical adapters. Existing seven fully authored collections remain intact; elsewhere, two generic routes are replaced by the individually audited candidates.
+
+The source snapshot is patch 26.20. Penetration/Spellblade family guards reject competing purchases; source shop flags still cannot establish every live availability condition. Published exclusions are documented in Riot’s [14.10 notes](https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-10-notes/) and [14.16 notes](https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-16-notes/); retained conditional source records remain explicit research caveats.

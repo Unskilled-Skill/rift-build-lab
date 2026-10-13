@@ -1,6 +1,6 @@
-import type {Champion,Item,RuneTree,Scenario} from './types';
+import type {Catalog,Champion,Item,RuneTree,Scenario} from './types';
 import {defaultScenario,legalBuild} from './engine';
-export interface Save {version:1;patch:'26.20';scenario:Scenario;items:number[];notes?:string}
+export interface Save {version:1;patch:'26.20';scenario:Scenario;items:number[];notes?:string;requiresManualTest?:boolean}
 export function validRunePage(ids:number[],trees:RuneTree[]){if(ids.length!==6||new Set(ids).size!==6)return false;const primary=trees.find(t=>t.slots[0].runes.some(r=>r.id===ids[0]));if(!primary||!ids.slice(0,4).every((id,n)=>primary.slots[n].runes.some(r=>r.id===id)))return false;const secondary=trees.find(t=>t.id!==primary.id&&t.slots.slice(1).some(slot=>slot.runes.some(r=>r.id===ids[4])));if(!secondary)return false;const rows=ids.slice(4).map(id=>secondary.slots.findIndex(slot=>slot.runes.some(r=>r.id===id)));return rows.every(n=>n>0)&&rows[0]!==rows[1];}
 export function parseSave(text:string,champions:Champion[],items:Item[]):Save{
  if(text.length>100000)throw new Error('Import is too large.');const input=JSON.parse(text);
@@ -17,6 +17,14 @@ export function parseSave(text:string,champions:Champion[],items:Item[]):Save{
  if(!Array.isArray(s.runePage)||s.runePage.length!==6||s.runePage.some((id:number)=>!Number.isInteger(id)))throw new Error('Invalid rune page.');
  const selected=input.items.map((id:number)=>items.find(i=>i.id===id));
  if(selected.some((i:Item|undefined)=>!i)||!legalBuild(selected,s.budget,s.slots,s.champion))throw new Error('Unknown or illegal items for this budget and slot count.');
+ if(input.requiresManualTest!==undefined&&typeof input.requiresManualTest!=='boolean')throw new Error('Invalid model coverage flag.');
  if(input.notes!==undefined&&typeof input.notes!=='string')throw new Error('Notes must be text.');
- return {version:1,patch:'26.20',scenario:{...defaultScenario(s.champion),...Object.fromEntries(Object.keys(defaultScenario()).map(k=>[k,s[k]]))},items:[...input.items],notes:input.notes?.slice(0,2000)};
+ return {version:1,patch:'26.20',scenario:{...defaultScenario(s.champion),...Object.fromEntries(Object.keys(defaultScenario()).map(k=>[k,s[k]]))},items:[...input.items],notes:input.notes?.slice(0,2000),...(input.requiresManualTest===undefined?{}:{requiresManualTest:input.requiresManualTest})};
+}
+
+export function partitionSavedHistory(input:unknown,data:Catalog):{valid:Save[];rejected:unknown[]}{
+ if(!Array.isArray(input))throw new Error('Expected saved scenario list.');
+ const valid:Save[]=[],rejected:unknown[]=[];
+ for(const entry of input){try{const save=parseSave(JSON.stringify(entry),data.champions,data.items);if(!validRunePage(save.scenario.runePage,data.trees))throw new Error('Invalid rune page.');valid.push(save)}catch{rejected.push(entry)}}
+ return {valid:valid.slice(0,20),rejected};
 }

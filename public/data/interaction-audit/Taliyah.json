@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Taliyah",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "worked-ground-active",
+      "name": "Worked ground active",
+      "objective": "Spend Actualizer's short window on reduced-cost boulder cycles.",
+      "mechanic": "Q on worked ground costs ten mana, halves cooldown and consumes the ground for a stronger boulder. Actualizer increases spell cost while speeding basic cooldown progress; Cosmic helps reposition across created patches. E/W control can buy the time to land those boulders.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        2522,
+        4629,
+        3089,
+        3137,
+        3157,
+        3158
+      ],
+      "pageKey": "df",
+      "requiredState": "Precreated finite worked-ground patches, Actualizer ready and mana recorded.",
+      "failure": "Ground consumed too quickly or moving opponents force ordinary volleys and higher costs.",
+      "test": "Compare cast count and mana spent in eight seconds on prepared ground with the active on versus off.",
+      "rejectedAssumption": "Five rocks do not deal five full first-hit packets to one target.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "stonefield-displacement",
+      "name": "Stonefield displacement",
+      "objective": "Make a forced movement through E the decisive damage event.",
+      "mechanic": "E stones detonate on dashes or knock-through movement; W supplies directed displacement without a listed damage packet. Rocketbelt helps choose W angle, Rylai tests retention after Q and Bloodletter can reduce MR on qualifying magic ability damage before E detonations.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3152,
+        3116,
+        8010,
+        3089,
+        3157,
+        3020
+      ],
+      "pageKey": "comet",
+      "requiredState": "W direction crosses a prepared E field; R travel setup occurs before recent damage locks R.",
+      "failure": "W misses or opponents cross outside stones; spending on slows adds little to existing control.",
+      "test": "Log E placement and detonation packets from W knock-through versus an enemy dash, with stacks recorded.",
+      "rejectedAssumption": "W and R cannot be assigned AP damage merely because other spells scale with AP.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Combat wall escape on demand",
+      "reason": "R cannot cast after recent champion/structure damage and its ride ends on movement or immobilization.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "E per-target detonation limits and Actualizer cooldown/mana behavior need live testing; raw wall-speed breakpoints are not extrapolated."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Rock Surfing",
+      "paths": [
+        "Characters/Taliyah/Spells/TaliyahPassiveAbility/TaliyahPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Threaded Volley",
+      "paths": [
+        "Characters/Taliyah/Spells/TaliyahQAbility/TaliyahQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Seismic Shove",
+      "paths": [
+        "Characters/Taliyah/Spells/TaliyahWVCAbility/TaliyahWVC"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Unraveled Earth",
+      "paths": [
+        "Characters/Taliyah/Spells/TaliyahEAbility/TaliyahE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Weaver's Wall",
+      "paths": [
+        "Characters/Taliyah/Spells/TaliyahRAbility/TaliyahR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "taliyah-audit-worked-ground-active",
+      "champion": "Taliyah",
+      "name": "Worked ground active",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Spend Actualizer's short window on reduced-cost boulder cycles.",
+      "goal": "Spend Actualizer's short window on reduced-cost boulder cycles.",
+      "hypothesis": "Q on worked ground costs ten mana, halves cooldown and consumes the ground for a stronger boulder. Actualizer increases spell cost while speeding basic cooldown progress; Cosmic helps reposition across created patches. E/W control can buy the time to land those boulders.",
+      "itemIds": [
+        2522,
+        4629,
+        3089,
+        3137,
+        3157,
+        3158
+      ],
+      "runePage": [
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Precreated finite worked-ground patches, Actualizer ready and mana recorded.",
+        "Compare cast count and mana spent in eight seconds on prepared ground with the active on versus off.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Ground consumed too quickly or moving opponents force ordinary volleys and higher costs.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Five rocks do not deal five full first-hit packets to one target.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Actualizer, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Zhonya's Hourglass, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Unraveled Earth",
+          "slot": "E",
+          "source": "Characters/Taliyah/Spells/TaliyahEAbility/TaliyahE",
+          "formula": "Taliyah scatters loose stones in an area, Slowing enemies hit by [20]% and dealing [60 / 105 / 150 / 195 / 240 + (0.6) × AP] magic damage. The stones detonate when enemies dash or are Knocked through them, Stunning for the remaining movement duration + [0.75] seconds and dealing [25 / 40 / 55 / 70 / 85 + (0.3) × AP] magic damage."
+        },
+        {
+          "ability": "Threaded Volley",
+          "slot": "Q",
+          "source": "Characters/Taliyah/Spells/TaliyahQAbility/TaliyahQ",
+          "formula": "Taliyah hurls 5 rocks, each dealing [55 / 72.5 / 90 / 107.5 / 125 + (0.5) × AP] magic damage in an area around the first enemy hit while creating Worked Ground at that area. Subsequent hits against the same enemy deal [60]% less damage.\n\nCasts on worked ground cost [10] Mana and have [50]% less Cooldown, consume the Worked Ground, and hurl a boulder that Slows enemies it hits by [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% for [1.5] seconds, dealing [(55 / 72.5 / 90 / 107.5 / 125 + (0.5) × AP) × (1.8 / 1.8 / 1.8 / 1.8 / 1.8)] magic damage to the primary target. Monsters hit by the boulder are Stunned for [3] seconds."
+        },
+        {
+          "ability": "Seismic Shove",
+          "slot": "W",
+          "source": "Characters/Taliyah/Spells/TaliyahWVCAbility/TaliyahWVC",
+          "formula": "Taliyah quakes the earth, Knocking enemies in an area in the chosen direction."
+        }
+      ]
+    },
+    {
+      "id": "taliyah-audit-stonefield-displacement",
+      "champion": "Taliyah",
+      "name": "Stonefield displacement",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Make a forced movement through E the decisive damage event.",
+      "goal": "Make a forced movement through E the decisive damage event.",
+      "hypothesis": "E stones detonate on dashes or knock-through movement; W supplies directed displacement without a listed damage packet. Rocketbelt helps choose W angle, Rylai tests retention after Q and Bloodletter can reduce MR on qualifying magic ability damage before E detonations.",
+      "itemIds": [
+        3152,
+        3116,
+        8010,
+        3089,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: W direction crosses a prepared E field; R travel setup occurs before recent damage locks R.",
+        "Log E placement and detonation packets from W knock-through versus an enemy dash, with stacks recorded.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "W misses or opponents cross outside stones; spending on slows adds little to existing control.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W and R cannot be assigned AP damage merely because other spells scale with AP.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Rocketbelt, Rylai's Crystal Scepter, Bloodletter's Curse, Rabadon's Deathcap, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Unraveled Earth",
+          "slot": "E",
+          "source": "Characters/Taliyah/Spells/TaliyahEAbility/TaliyahE",
+          "formula": "Taliyah scatters loose stones in an area, Slowing enemies hit by [20]% and dealing [60 / 105 / 150 / 195 / 240 + (0.6) × AP] magic damage. The stones detonate when enemies dash or are Knocked through them, Stunning for the remaining movement duration + [0.75] seconds and dealing [25 / 40 / 55 / 70 / 85 + (0.3) × AP] magic damage."
+        },
+        {
+          "ability": "Threaded Volley",
+          "slot": "Q",
+          "source": "Characters/Taliyah/Spells/TaliyahQAbility/TaliyahQ",
+          "formula": "Taliyah hurls 5 rocks, each dealing [55 / 72.5 / 90 / 107.5 / 125 + (0.5) × AP] magic damage in an area around the first enemy hit while creating Worked Ground at that area. Subsequent hits against the same enemy deal [60]% less damage.\n\nCasts on worked ground cost [10] Mana and have [50]% less Cooldown, consume the Worked Ground, and hurl a boulder that Slows enemies it hits by [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × 100]% for [1.5] seconds, dealing [(55 / 72.5 / 90 / 107.5 / 125 + (0.5) × AP) × (1.8 / 1.8 / 1.8 / 1.8 / 1.8)] magic damage to the primary target. Monsters hit by the boulder are Stunned for [3] seconds."
+        },
+        {
+          "ability": "Weaver's Wall",
+          "slot": "R",
+          "source": "Characters/Taliyah/Spells/TaliyahRAbility/TaliyahR",
+          "formula": "Taliyah creates a massive earthen wall for [4] seconds. If she immediately Recasts, she will ride along the wall as it unravels. Moving or being immobilized will end the ride.\n\nThis ability cannot be cast if Taliyah has taken damage from Champions or structures within the last [3] seconds."
+        },
+        {
+          "ability": "Rock Surfing",
+          "slot": "Passive",
+          "source": "Characters/Taliyah/Spells/TaliyahPassiveAbility/TaliyahPassive",
+          "formula": "Taliyah gains [characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 0.15000000596046448, \"__type\": \"Breakpoint\"}, {\"mLevel\": 27, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 0.30000001192092896, \"__type\": \"Breakpoint\"}])] Move Speed while out of combat if she has been near a wall within the last [3] seconds."
+        },
+        {
+          "ability": "Seismic Shove",
+          "slot": "W",
+          "source": "Characters/Taliyah/Spells/TaliyahWVCAbility/TaliyahWVC",
+          "formula": "Taliyah quakes the earth, Knocking enemies in an area in the chosen direction."
+        }
+      ]
+    }
+  ]
+}

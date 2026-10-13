@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "kindred-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "kindred-four-2",
+      "id": "kindred-audit-wolf-ap-territory",
       "champion": "Kindred",
-      "name": "Damage interaction: Repeated on-hit",
-      "goal": "Damage interaction for Kindred: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A mobile ranged hunter who uses a defined Wolf zone for repeated short dashes and attacks. Marks increase future reach and ability effectiveness, while R requires careful end-of-zone timing. Fix mark count, W zone and E execute setup. R can protect the opponent too; judge damage and health at zone expiry rather than an immortal target dummy. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "Wolf AP territory",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test wolf ap territory against conventional damage at equal gold.",
+      "goal": "Test wolf ap territory against conventional damage at equal gold.",
+      "hypothesis": "Wolf's Frenzy bites include 0.2 AP magic damage and marks add current-health damage; Nashor supports Lamb's actual attacks while Gunblade retains AD for Q/E. Bloodletter fits W magic pressure only if wolf attribution is confirmed; territory makes frequent Q repositioning possible.",
       "itemIds": [
-        3153,
-        3124,
-        3302,
-        3091,
-        3026,
+        3115,
+        3146,
+        8010,
+        4633,
+        3102,
         3006
       ],
       "runePage": [
-        8008,
+        8005,
         9111,
         9104,
         8014,
-        8429,
+        8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kindred: Fix mark count, W zone and E execute setup. R can protect the opponent too; judge damage and health at zone expiry rather than an immortal target dummy.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kindred tumbles and shoots up to three arrows at nearby targets. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Use a recorded realistic mark count and keep enemies inside W.",
+        "Compare Wolf-only damage and Lamb attacks across one territory.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Kindred's stated kit question: Fix mark count, W zone and E execute setup. R can protect the opponent too; judge damage and health at zone expiry rather than an immortal target dummy.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Wolf uptime and low AD may lose the E execute despite stronger W.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Wolf cannot be assumed to inherit Nashor on-hits or owner attack speed.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Hextech Gunblade, Bloodletter's Curse, Riftmaker, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Dance of Arrows",
@@ -199,12 +193,6 @@
           "slot": "Passive",
           "source": "Characters/Kindred/Spells/KindredPassiveManagerAbility/KindredPassiveManager",
           "formula": "Kindred can designate a champion to hunt by clicking their portrait above their inventory. They also designate certain jungle monsters to hunt with an icon on the minimap automatically.\n\nGetting a takedown on a hunted target grants Kindred a Mark, empowering them. After [4] Marks, Kindred gains [(25) × (3)] Attack Range. Every [3] Marks after the fourth grants a further [25] Attack Range.\n\nMarks empower Kindred's basic Abilities:{{Spell_KindredQ_Name}} grants an additional [(0.05) × BuffStacks({64290302})] Attack Speed{{Spell_KindredW_Name}} deal an additional [(0.01) × BuffStacks({64290302})] current Health damage.{{Spell_KindredEWrapper_Name}} deal an additional [(0.005) × BuffStacks({64290302})] missing Health damage."
-        },
-        {
-          "ability": "Lamb's Respite",
-          "slot": "R",
-          "source": "Characters/Kindred/Spells/KindredRAbility/KindredR",
-          "formula": "Kindred blesses the ground for [4] seconds, allowing no unit, ally, enemy, or neutral to die while inside. Upon reaching 10% Health, units can't be damaged or healed while still inside the zone.\n\nWhen the blessing ends, all units inside heal for [225 / 300 / 375] Health."
         },
         {
           "ability": "Mounting Dread",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "kindred-four-4",
+      "id": "kindred-audit-respite-spell-duelist",
       "champion": "Kindred",
-      "name": "Experiment: Multi-target carry",
-      "goal": "Experiment for Kindred: test a different playstyle, with lower confidence",
-      "hypothesis": "A mobile ranged hunter who uses a defined Wolf zone for repeated short dashes and attacks. Marks increase future reach and ability effectiveness, while R requires careful end-of-zone timing. Fix mark count, W zone and E execute setup. R can protect the opponent too; judge damage and health at zone expiry rather than an immortal target dummy. Runaan asks whether real multi-target attacks improve teamfight output. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Runaan asks whether real multi-target attacks improve teamfight output.",
+      "name": "Respite spell duelist",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test respite spell duelist against conventional damage at equal gold.",
+      "goal": "Test respite spell duelist against conventional damage at equal gold.",
+      "hypothesis": "Inside Wolf's Frenzy, Dance of Arrows cooldown falls to two seconds at max rank; Essence Reaver gives physical Spellblade between Qs. Hexplate supports attacks after Lamb's Respite, while crit improves E's documented source expression; Shojin rewards repeated physical ability use.",
       "itemIds": [
-        3032,
-        3085,
+        3508,
+        3161,
+        3071,
+        3073,
         3031,
-        3036,
-        3072,
-        3006
+        3111
       ],
       "runePage": [
-        8008,
+        8010,
         9111,
-        9104,
-        8014,
-        8429,
+        9105,
+        8299,
+        8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kindred: Fix mark count, W zone and E execute setup. R can protect the opponent too; judge damage and health at zone expiry rather than an immortal target dummy.",
-        "Start with the early core (Yun Tal, then Runaan) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Runaan asks whether real multi-target attacks improve teamfight output. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kindred tumbles and shoots up to three arrows at nearby targets. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Time Q and E so damage lands after Respite's four-second protection.",
+        "Record Q attacks, E finish and health after both sides exit R.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
-        "The route fails Kindred's stated kit question: Fix mark count, W zone and E execute setup. R can protect the opponent too; judge damage and health at zone expiry rather than an immortal target dummy.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Enemies share R healing and can win the exit exchange.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
-        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Respite is not a one-sided invulnerability and cannot heal units stuck at the ten-percent floor.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Yun Tal, then Runaan. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Infinity Edge, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Essence Reaver, Spear of Shojin, Black Cleaver, Experimental Hexplate, Infinity Edge, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Dance of Arrows",
@@ -403,12 +385,6 @@
           "slot": "W",
           "source": "Characters/Kindred/Spells/KindredWAbility/KindredW",
           "formula": "Passive: Kindred gains stacks as they move and attack. At 100 stacks, Kindred's next Attack restores up to [characterLevelBreakpoints(start=47, perLevel=2, changes=[])] Health based on their missing Health.\n\nActive: Kindred claims a territory, ordering Wolf to bite at the last enemy Lamb Attacked. Wolf's bites deal [25 / 30 / 35 / 40 / 45 + (0.2) × AD[statFormula=2] + (0.2) × AP] plus [0.015 + (0.01) × BuffStacks({64290302})] current Health magic damage."
-        },
-        {
-          "ability": "Mark of the Kindred",
-          "slot": "Passive",
-          "source": "Characters/Kindred/Spells/KindredPassiveManagerAbility/KindredPassiveManager",
-          "formula": "Kindred can designate a champion to hunt by clicking their portrait above their inventory. They also designate certain jungle monsters to hunt with an icon on the minimap automatically.\n\nGetting a takedown on a hunted target grants Kindred a Mark, empowering them. After [4] Marks, Kindred gains [(25) × (3)] Attack Range. Every [3] Marks after the fourth grants a further [25] Attack Range.\n\nMarks empower Kindred's basic Abilities:{{Spell_KindredQ_Name}} grants an additional [(0.05) × BuffStacks({64290302})] Attack Speed{{Spell_KindredW_Name}} deal an additional [(0.01) × BuffStacks({64290302})] current Health damage.{{Spell_KindredEWrapper_Name}} deal an additional [(0.005) × BuffStacks({64290302})] missing Health damage."
         },
         {
           "ability": "Lamb's Respite",

@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "neeko-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "neeko-four-2",
+      "id": "neeko-audit-third-hit-control",
       "champion": "Neeko",
-      "name": "Damage interaction: AP dive",
-      "goal": "Damage interaction for Neeko: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A deceptive pick mage who combines disguises and clones with root setup and a delayed area engage. Compare disguise/R access with empowered W attacks. Record actual attack cadence and passive effects; an AP attack route cannot assume every hit is empowered. AP, penetration and Rocketbelt access test a short committed damage window.",
-      "summary": "AP, penetration and Rocketbelt access test a short committed damage window.",
+      "name": "Third-hit control",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use W's third attack as the payoff of a controlled attack window.",
+      "goal": "Use W's third attack as the payoff of a controlled attack window.",
+      "hypothesis": "W's every-third-attack magic packet has 0.6 AP and grants speed. Nashor plus Rageblade tests attack cadence; Terminus supports mixed ordinary attack and W damage after ramp. E's empowered root can provide the time to deliver the third attack.",
       "itemIds": [
-        3152,
-        4645,
+        3115,
+        3124,
+        3302,
         3089,
-        3135,
         3157,
-        3020
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,60 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Neeko: Compare disguise/R access with empowered W attacks. Record actual attack cadence and passive effects; an AP attack route cannot assume every hit is empowered.",
-        "Start with the early core (Rocketbelt, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP, penetration and Rocketbelt access test a short committed damage window. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Neeko throws a seed dealing magic damage. The seed blooms again on hitting champions or killing units. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Recorded W counter and enough contact to ramp Rageblade and Terminus.",
+        "Count actual attacks between W packets with Rageblade off and fully stacked, then repeat after target switching.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "The route fails Neeko's stated kit question: Compare disguise/R access with empowered W attacks. Record actual attack cadence and passive effects; an AP attack route cannot assume every hit is empowered.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "A target switch or disengage removes the third-hit payoff and defensive ramp.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Phantom hits are not automatically extra W attack-counter increments.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Rocketbelt, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Terminus, Rabadon's Deathcap, Zhonya's Hourglass, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Shapesplitter",
           "slot": "W",
           "source": "Characters/Neeko/Spells/NeekoWAbility/NeekoW",
           "formula": "Passive: Every 3rd Attack deals an additional [30 / 65 / 100 / 135 / 170 + (0.6) × AP] bonus magic damage and increases Neeko's Move Speed by [10 / 17.5 / 25 / 32.5 / 40]% for [1] second.\n\nActive: Neeko becomes invisible for [0.5 / 0.5 / 0.5 / 0.5 / 0.5] seconds and projects a clone that lasts [3] seconds. Neeko and the clone gain [20 / 25 / 30 / 35 / 40]% Move Speed for [3] seconds. \n\nThe clone can be controlled using the Move Pet Click hotkey or by Recasting this Ability.\nThe clone mirrors her spellcasts, emotes, and recall."
-        },
-        {
-          "ability": "Pop Blossom",
-          "slot": "R",
-          "source": "Characters/Neeko/Spells/NeekoRAbility/NeekoR",
-          "formula": "After a delay Neeko leaps into the air, Knocking Up all nearby enemies for [0.6 / 0.6 / 0.6] seconds. She then crashes down, dealing [150 / 350 / 550 + (1.2) × AP] magic damage to all nearby enemies and Stunning them for [0.75 / 0.75 / 0.75] seconds.\n\nThis Ability can be prepared in secret if Neeko is disguised. [0.5] seconds after casting this ability Neeko breaks her disguise."
-        },
-        {
-          "ability": "Blooming Burst",
-          "slot": "Q",
-          "source": "Characters/Neeko/Spells/NeekoQAbility/NeekoQ",
-          "formula": "Neeko throws a seed that blooms to deal [60 / 110 / 160 / 210 / 260 + (0.6) × AP] magic damage. If it kills a unit or hits a champion or large monster, it will bloom again, dealing [35 / 60 / 85 / 110 / 135 + (0.25) × AP] magic damage. Max 2 extra blooms."
-        },
-        {
-          "ability": "Inherent Glamour",
-          "slot": "Passive",
-          "source": "Characters/Neeko/Spells/NeekoPassiveAbility/NeekoPassive",
-          "formula": "Neeko can disguise herself as other units on the map. At any time she can disguise as an allied champion, or Neeko can stand next to any allied or neutral unit to store their Sho'ma and be able to transform into it. Your disguise will break upon receiving immobilizing crowd control, casting a damaging spell, damaging enemy towers as a non-champion, or your disguise taking damage equal to its healthbar. \n\nNeeko gains many of the properties of the units she turns into, negative and positive."
         },
         {
           "ability": "Tangle-Barbs",
@@ -320,40 +296,42 @@
       ]
     },
     {
-      "id": "neeko-four-4",
+      "id": "neeko-audit-hidden-ult-aura",
       "champion": "Neeko",
-      "name": "Experiment: AP attack experiment",
-      "goal": "Experiment for Neeko: test a different playstyle, with lower confidence",
-      "hypothesis": "A deceptive pick mage who combines disguises and clones with root setup and a delayed area engage. Compare disguise/R access with empowered W attacks. Record actual attack cadence and passive effects; an AP attack route cannot assume every hit is empowered. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Hidden ultimate aura",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert a disguised approach into a brief contact damage window.",
+      "goal": "Convert a disguised approach into a brief contact damage window.",
+      "hypothesis": "Disguise hides part of R preparation but breaks 0.5 seconds after cast. R's knockup and stun can hold targets near Zeke's ultimate-triggered storm; Rocketbelt helps approach and Abyssal increases nearby magic damage. Zhonya offers survival after the committed entrance.",
       "itemIds": [
-        3115,
-        3124,
+        3152,
+        3050,
+        8020,
         3089,
-        3135,
         3157,
-        3006
+        3020
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,54 +339,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Neeko: Compare disguise/R access with empowered W attacks. Record actual attack cadence and passive effects; an AP attack route cannot assume every hit is empowered.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Neeko throws a seed dealing magic damage. The seed blooms again on hitting champions or killing units. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: A credible disguise, R ready and enemies inside the landing radius.",
+        "Measure R hit count, storm contact seconds and survival for visible versus disguised approach.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Neeko's stated kit question: Compare disguise/R access with empowered W attacks. Record actual attack cadence and passive effects; an AP attack route cannot assume every hit is empowered.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Early crowd control breaks disguise or displacement leaves the aura without targets.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: The W clone mirrors casts without proving it deals their damage or carries items.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Rocketbelt, Zeke's Convergence, Abyssal Mask, Rabadon's Deathcap, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Shapesplitter",
-          "slot": "W",
-          "source": "Characters/Neeko/Spells/NeekoWAbility/NeekoW",
-          "formula": "Passive: Every 3rd Attack deals an additional [30 / 65 / 100 / 135 / 170 + (0.6) × AP] bonus magic damage and increases Neeko's Move Speed by [10 / 17.5 / 25 / 32.5 / 40]% for [1] second.\n\nActive: Neeko becomes invisible for [0.5 / 0.5 / 0.5 / 0.5 / 0.5] seconds and projects a clone that lasts [3] seconds. Neeko and the clone gain [20 / 25 / 30 / 35 / 40]% Move Speed for [3] seconds. \n\nThe clone can be controlled using the Move Pet Click hotkey or by Recasting this Ability.\nThe clone mirrors her spellcasts, emotes, and recall."
-        },
         {
           "ability": "Pop Blossom",
           "slot": "R",
           "source": "Characters/Neeko/Spells/NeekoRAbility/NeekoR",
           "formula": "After a delay Neeko leaps into the air, Knocking Up all nearby enemies for [0.6 / 0.6 / 0.6] seconds. She then crashes down, dealing [150 / 350 / 550 + (1.2) × AP] magic damage to all nearby enemies and Stunning them for [0.75 / 0.75 / 0.75] seconds.\n\nThis Ability can be prepared in secret if Neeko is disguised. [0.5] seconds after casting this ability Neeko breaks her disguise."
-        },
-        {
-          "ability": "Blooming Burst",
-          "slot": "Q",
-          "source": "Characters/Neeko/Spells/NeekoQAbility/NeekoQ",
-          "formula": "Neeko throws a seed that blooms to deal [60 / 110 / 160 / 210 / 260 + (0.6) × AP] magic damage. If it kills a unit or hits a champion or large monster, it will bloom again, dealing [35 / 60 / 85 / 110 / 135 + (0.25) × AP] magic damage. Max 2 extra blooms."
         },
         {
           "ability": "Inherent Glamour",

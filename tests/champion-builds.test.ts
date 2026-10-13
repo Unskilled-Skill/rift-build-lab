@@ -30,3 +30,11 @@ it('does not buy mana or select Manaflow for champions without mana',()=>{
   for(const b of builds){expect(b.runePage).not.toContain(8226);for(const id of b.itemIds){const item=catalog.items.find(i=>i.id===id)!;expect(item.baseStats.some(s=>s.name==='Mana'&&s.value>0)).toBe(false)}}
  }
 });
+
+it('preserves individually authored collections when roster interactions are regenerated',()=>{
+ for(const file of fs.readdirSync('scripts/champion-build-overrides')){
+  const authored=JSON.parse(fs.readFileSync(`scripts/champion-build-overrides/${file}`,'utf8'));
+  const published=JSON.parse(fs.readFileSync(`public/data/champion-builds/${file}`,'utf8'));
+  expect(published.builds).toEqual(authored.builds);
+ }
+});

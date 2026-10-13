@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "viktor-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "viktor-four-2",
+      "id": "viktor-audit-siphon-movement-attack",
       "champion": "Viktor",
-      "name": "Damage interaction: Mana burst",
-      "goal": "Damage interaction for Viktor: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A scaling control mage who earns ability augments, uses shielded Q attacks to trade and controls paths through laser, gravity field and a following storm. Fix ability augments, Q shield/empowered attack and storm contact. Spellblade needs a real Q attack; the defensive shield does not make all incoming damage irrelevant. AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
-      "summary": "AP and penetration support a short spell sequence; Luden supplies mana/proc pressure.",
+      "name": "Siphon movement attack",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore repeated attack contact during the augmented Q shield and speed window.",
+      "goal": "Explore repeated attack contact during the augmented Q shield and speed window.",
+      "hypothesis": "Q grants an AP shield and a next attack dealing magic damage with 0.5 AP plus AD; augmentation multiplies shield by 1.6 and grants 30% move speed. Dusk and Dawn and Nashor supply item attack packets while Cosmic adds magic-contact movement. W provides a delayed stun only if the victim remains inside 1.25 seconds.",
       "itemIds": [
-        6655,
-        4645,
-        3089,
+        2510,
+        3115,
+        4629,
+        4633,
         3135,
-        3157,
-        3020
+        3009
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Viktor: Fix ability augments, Q shield/empowered attack and storm contact. Spellblade needs a real Q attack; the defensive shield does not make all incoming damage irrelevant.",
-        "Start with the early core (Luden, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP and penetration support a short spell sequence; Luden supplies mana/proc pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Viktor blasts an enemy unit with magic damage, which grants him a shield and empowers his next basic attack.\n\nAugment: Siphon Power's shield is increased by 60% and Viktor gains bonus move speed after casting the Ability. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Earn Q augment through finite fragments and complete the attack within four seconds.",
+        "Separate Q cast, empowered magic attack and item packets while measuring shield duration/attack uptime.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "The route fails Viktor's stated kit question: Fix ability augments, Q shield/empowered attack and storm contact. Spellblade needs a real Q attack; the defensive shield does not make all incoming damage irrelevant.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Extra attacks leave W zone or expose Viktor after the 2.5-second shield expires.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mana is wasted on resource-free champions; target health and proc readiness change burst.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Repeated on-hits do not mean two Q empowerment consumptions.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Luden, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Dusk and Dawn, Nashor's Tooth, Cosmic Drive, Riftmaker, Void Staff, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Glorious Evolution",
@@ -189,22 +183,10 @@
           "formula": "Viktor gains Hex Fragments whenever he kills an enemy. Every [100] Hex Fragments Viktor obtains will permanently upgrade an active Ability. After upgrading all of his basic Abilities, Viktor can upgrade his Ultimate Ability.\n\nKilling minions grants [1] Hex Fragment.\nKilling cannon minions grants [10] Hex Fragments.\nChampion takedowns grant [20] Hex Fragments."
         },
         {
-          "ability": "Hextech Ray",
-          "slot": "E",
-          "source": "Characters/Viktor/Spells/ViktorEAbility/ViktorE",
-          "formula": "Viktor fires a hextech ray in a chosen direction, dealing [70 / 110 / 150 / 190 / 230 + (0.5) × AP] magic damage to any enemies it hits.\n\nUpgraded: An aftershock follows Hextech Ray, dealing [20 / 50 / 80 / 110 / 140 + (0.8) × AP] magic damage."
-        },
-        {
           "ability": "Gravity Field",
           "slot": "W",
           "source": "Characters/Viktor/Spells/ViktorWAbility/ViktorW",
           "formula": "Viktor deploys a gravitational imprisonment device for [4] seconds, Slowing enemies inside it by [(-33 / -36 / -39 / -42 / -45) × -1]%. Enemies who remain within its radius for 1.25 seconds are Stunned for [1.5] seconds.\n\nUpgraded Passive: Viktor's Abilities Slow by [20]% for 1 second."
-        },
-        {
-          "ability": "Arcane Storm",
-          "slot": "R",
-          "source": "Characters/Viktor/Spells/ViktorRAbility/ViktorR",
-          "formula": "Viktor conjures an Arcane Storm in an area for [6.5] seconds, which instantly deals [100 / 175 / 250 + (0.5) × AP] magic damage followed by [65 / 105 / 145 + (0.35) × AP] magic damage per second to surrounding enemies. The storm automatically follows champions it has recently damaged.\n\nRecast: Viktor can manually move the storm.\n\nUpgraded: The storm moves [25]% faster. If a champion that the storm has damaged dies, the storm increases its size and its duration by [3] seconds (up to [6] times)."
         },
         {
           "ability": "Siphon Power",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "viktor-four-4",
+      "id": "viktor-audit-growing-storm-cleanup",
       "champion": "Viktor",
-      "name": "Experiment: Spell-and-attack",
-      "goal": "Experiment for Viktor: test a different playstyle, with lower confidence",
-      "hypothesis": "A scaling control mage who earns ability augments, uses shielded Q attacks to trade and controls paths through laser, gravity field and a following storm. Fix ability augments, Q shield/empowered attack and storm contact. Spellblade needs a real Q attack; the defensive shield does not make all incoming damage irrelevant. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "name": "Growing storm cleanup",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test continued magic debuff contact as an upgraded storm grows after finite takedowns.",
+      "goal": "Test continued magic debuff contact as an upgraded storm grows after finite takedowns.",
+      "hypothesis": "R lasts 6.5 seconds, deals initial plus per-second AP magic damage, and its upgrade extends size/duration three seconds per damaged-champion death up to six times. Bloodletter and Liandry reward confirmed damage contact while Malignance tests ultimate-ground interaction. Cosmic supports manual storm shepherding and E aftershock if augmented.",
       "itemIds": [
-        3100,
-        3115,
-        3089,
-        3135,
+        3118,
+        6653,
+        8010,
+        4629,
         3157,
         3020
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Viktor: Fix ability augments, Q shield/empowered attack and storm contact. Spellblade needs a real Q attack; the defensive shield does not make all incoming damage irrelevant.",
-        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Viktor blasts an enemy unit with magic damage, which grants him a shield and empowers his next basic attack.\n\nAugment: Siphon Power's shield is increased by 60% and Viktor gains bonus move speed after casting the Ability. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Record earned R upgrade, target path and actual takedowns/extension count.",
+        "Count R ticks and extension events at zero versus two takedowns, isolating Hatefog refresh.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "The route fails Viktor's stated kit question: Fix ability augments, Q shield/empowered attack and storm contact. Spellblade needs a real Q attack; the defensive shield does not make all incoming damage irrelevant.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Storm leaves targets or no deaths occur; the supposed cleanup ramp never starts.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: A six-extension cap does not grant all six extensions at fight start.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Malignance, Liandry's Torment, Bloodletter's Curse, Cosmic Drive, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Glorious Evolution",
@@ -405,22 +381,10 @@
           "formula": "Viktor fires a hextech ray in a chosen direction, dealing [70 / 110 / 150 / 190 / 230 + (0.5) × AP] magic damage to any enemies it hits.\n\nUpgraded: An aftershock follows Hextech Ray, dealing [20 / 50 / 80 / 110 / 140 + (0.8) × AP] magic damage."
         },
         {
-          "ability": "Gravity Field",
-          "slot": "W",
-          "source": "Characters/Viktor/Spells/ViktorWAbility/ViktorW",
-          "formula": "Viktor deploys a gravitational imprisonment device for [4] seconds, Slowing enemies inside it by [(-33 / -36 / -39 / -42 / -45) × -1]%. Enemies who remain within its radius for 1.25 seconds are Stunned for [1.5] seconds.\n\nUpgraded Passive: Viktor's Abilities Slow by [20]% for 1 second."
-        },
-        {
           "ability": "Arcane Storm",
           "slot": "R",
           "source": "Characters/Viktor/Spells/ViktorRAbility/ViktorR",
           "formula": "Viktor conjures an Arcane Storm in an area for [6.5] seconds, which instantly deals [100 / 175 / 250 + (0.5) × AP] magic damage followed by [65 / 105 / 145 + (0.35) × AP] magic damage per second to surrounding enemies. The storm automatically follows champions it has recently damaged.\n\nRecast: Viktor can manually move the storm.\n\nUpgraded: The storm moves [25]% faster. If a champion that the storm has damaged dies, the storm increases its size and its duration by [3] seconds (up to [6] times)."
-        },
-        {
-          "ability": "Siphon Power",
-          "slot": "Q",
-          "source": "Characters/Viktor/Spells/ViktorQAbility/ViktorQ",
-          "formula": "Viktor blasts an enemy, dealing [60 / 75 / 90 / 105 / 120 + (0.4) × AP] magic damage and granting Viktor [characterLevelInterpolation(40 → 140; raw flags preserved) + (0.25) × AP] Shield for [2.5] seconds.\n\nViktor's next Attack within 4 seconds deals [20 / 45 / 70 / 95 / 120 + (0.5) × AP + (1) × AD] magic damage.\n\nUpgraded: Grants [(characterLevelInterpolation(40 → 140; raw flags preserved) + (0.25) × AP) × (1.6)] Shield and Viktor additionally gains [30]% Move Speed for [2.5] seconds."
         }
       ]
     }

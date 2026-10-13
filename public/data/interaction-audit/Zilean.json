@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Zilean",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "rewind-attack-interlude",
+      "name": "Rewind attack interlude",
+      "objective": "Test one Spellblade attack between a first bomb and the rewind-assisted second bomb.",
+      "mechanic": "Q waits three seconds unless a second bomb on the same unit detonates it and stuns. W removes ten seconds from other basic cooldowns; Lich Bane rewards an actual attack between the casts, and Nashor tests continued attacks during the double-bomb stun. E controls the approach while AP powers bombs and R revival healing.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3100,
+        3115,
+        3040,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "electro",
+      "requiredState": "First bomb attached, W ready and the attack cannot delay second Q past detonation.",
+      "failure": "The attack makes the second bomb miss or expire, losing the stun and burst.",
+      "test": "Compare Q-W-Q with Q-attack-W-Q at the same Q cooldown, tracking stun and item packets.",
+      "rejectedAssumption": "W does not reset Spellblade item cooldown or the ultimate.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "chronoshift-recovery-escort",
+      "name": "Chronoshift recovery escort",
+      "objective": "Test movement and ally-heal delivery around an actual triggered revival.",
+      "mechanic": "E gives up to 99% movement speed or slow for 2.5 seconds. R marks an ally for five seconds and on lethal damage revives after three seconds stasis with 2 AP healing; Staff/Moonstone can be tested for eligibility on that heal. Shurelya helps the revived ally exit, while Mikael addresses eligible control.",
+      "evidenceSlots": [
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3869,
+        2065,
+        6616,
+        6617,
+        3222,
+        3158
+      ],
+      "pageKey": "guard",
+      "requiredState": "R actually triggers on the intended ally, and allies remain nearby after the three-second stasis.",
+      "failure": "No lethal trigger yields no revive heal; a waiting enemy immediately kills the returning ally.",
+      "test": "Record revive heal and Staff/Moonstone activation, then escape distance with timed E/Shurelya.",
+      "rejectedAssumption": "Casting Chronoshift is not an immediate heal or shield and cannot immediately trigger every heal item.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Basic haste resets Chronoshift via W",
+      "reason": "W only reduces other basic ability cooldowns by ten seconds, excluding R.",
+      "evidenceSlots": [
+        "W",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive tooltip is an unresolved localization token; passive summary only establishes experience transfer. Revive-heal item eligibility and double-bomb Spellblade timing need live tests."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Time In A Bottle",
+      "paths": [
+        "Characters/Zilean/Spells/HeightenedLearningAbility/HeightenedLearning"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Time Bomb",
+      "paths": [
+        "Characters/Zilean/Spells/ZileanQAbility/ZileanQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Rewind",
+      "paths": [
+        "Characters/Zilean/Spells/ZileanWAbility/ZileanW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Time Warp",
+      "paths": [
+        "Characters/Zilean/Spells/TimeWarpAbility/TimeWarp"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Chronoshift",
+      "paths": [
+        "Characters/Zilean/Spells/ChronoShiftAbility/ChronoShift"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "zilean-audit-rewind-attack-interlude",
+      "champion": "Zilean",
+      "name": "Rewind attack interlude",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test one Spellblade attack between a first bomb and the rewind-assisted second bomb.",
+      "goal": "Test one Spellblade attack between a first bomb and the rewind-assisted second bomb.",
+      "hypothesis": "Q waits three seconds unless a second bomb on the same unit detonates it and stuns. W removes ten seconds from other basic cooldowns; Lich Bane rewards an actual attack between the casts, and Nashor tests continued attacks during the double-bomb stun. E controls the approach while AP powers bombs and R revival healing.",
+      "itemIds": [
+        3100,
+        3115,
+        3040,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: First bomb attached, W ready and the attack cannot delay second Q past detonation.",
+        "Compare Q-W-Q with Q-attack-W-Q at the same Q cooldown, tracking stun and item packets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "The attack makes the second bomb miss or expire, losing the stun and burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W does not reset Spellblade item cooldown or the ultimate.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Seraph's Embrace, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Time Bomb",
+          "slot": "Q",
+          "source": "Characters/Zilean/Spells/ZileanQAbility/ZileanQ",
+          "formula": "Zilean tosses a time-delayed bomb that sticks to the first unit which comes within a small area around it. After [3] seconds it detonates, dealing [75 / 115 / 165 / 230 / 300 + (0.9) × AP] magic damage.\n\nPlacing a second bomb on a unit that already has one detonates the first bomb immediately and Stuns enemies in the blast for [1.1 / 1.2 / 1.3 / 1.4 / 1.5] seconds."
+        },
+        {
+          "ability": "Chronoshift",
+          "slot": "R",
+          "source": "Characters/Zilean/Spells/ChronoShiftAbility/ChronoShift",
+          "formula": "Zilean grants a protective time rune to an allied champion for [5] seconds. If the target would die, the rune rewinds their timeline, putting them into Stasis for [3] seconds, then reviving them and restoring [600 / 850 / 1100 + (2) × AP] Health."
+        },
+        {
+          "ability": "Rewind",
+          "slot": "W",
+          "source": "Characters/Zilean/Spells/ZileanWAbility/ZileanW",
+          "formula": "Zilean turns time, reducing his other basic Ability Cooldowns by [10] seconds."
+        },
+        {
+          "ability": "Time Warp",
+          "slot": "E",
+          "source": "Characters/Zilean/Spells/TimeWarpAbility/TimeWarp",
+          "formula": "Zilean Slows an enemy champion by [40 / 55 / 70 / 85 / 99]% or grants an allied champion [40 / 55 / 70 / 85 / 99]% Move Speed for [2.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "zilean-audit-chronoshift-recovery-escort",
+      "champion": "Zilean",
+      "name": "Chronoshift recovery escort",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test movement and ally-heal delivery around an actual triggered revival.",
+      "goal": "Test movement and ally-heal delivery around an actual triggered revival.",
+      "hypothesis": "E gives up to 99% movement speed or slow for 2.5 seconds. R marks an ally for five seconds and on lethal damage revives after three seconds stasis with 2 AP healing; Staff/Moonstone can be tested for eligibility on that heal. Shurelya helps the revived ally exit, while Mikael addresses eligible control.",
+      "itemIds": [
+        3869,
+        2065,
+        6616,
+        6617,
+        3222,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R actually triggers on the intended ally, and allies remain nearby after the three-second stasis.",
+        "Record revive heal and Staff/Moonstone activation, then escape distance with timed E/Shurelya.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "No lethal trigger yields no revive heal; a waiting enemy immediately kills the returning ally.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Casting Chronoshift is not an immediate heal or shield and cannot immediately trigger every heal item.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Shurelya's Battlesong, Staff of Flowing Water, Moonstone Renewer, Mikael's Blessing, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Chronoshift",
+          "slot": "R",
+          "source": "Characters/Zilean/Spells/ChronoShiftAbility/ChronoShift",
+          "formula": "Zilean grants a protective time rune to an allied champion for [5] seconds. If the target would die, the rune rewinds their timeline, putting them into Stasis for [3] seconds, then reviving them and restoring [600 / 850 / 1100 + (2) × AP] Health."
+        },
+        {
+          "ability": "Time Warp",
+          "slot": "E",
+          "source": "Characters/Zilean/Spells/TimeWarpAbility/TimeWarp",
+          "formula": "Zilean Slows an enemy champion by [40 / 55 / 70 / 85 / 99]% or grants an allied champion [40 / 55 / 70 / 85 / 99]% Move Speed for [2.5] seconds."
+        }
+      ]
+    }
+  ]
+}

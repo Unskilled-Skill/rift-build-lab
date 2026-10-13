@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Illaoi",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "spirit-transfer-health-bruiser",
+      "name": "Spirit transfer health bruiser",
+      "objective": "Turn health investment into real spirit-transfer pressure.",
+      "mechanic": "Test of Spirit echoes a fraction of spirit damage with a 0.0008 AD expression; Harsh Lesson has AD-linked percent-health physical damage and directs nearby tentacle slams. Bloodmail converts health to AD, Cleaver supports physical hits, and Visage enhances tentacle missing-health heals. Sundered Sky is reserved for Illaoi's actual attack, with spirit classification deliberately unproved.",
+      "evidenceSlots": [
+        "E",
+        "W",
+        "P",
+        "R"
+      ],
+      "itemIds": [
+        2501,
+        3071,
+        6610,
+        3065,
+        3053,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Need E connected, usable terrain tentacles and enemies remaining near the spirit.",
+      "failure": "Kiting or destroying tentacles denies the loop; spirit transfer cannot replace direct target access forever.",
+      "test": "Compare owner health lost with spirit-only damage versus owner-plus-spirit overlap, logging individual hits.",
+      "rejectedAssumption": "Spirit damage and echoed damage are not automatically two independent item procs against the owner.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "ultimate-lesson-clock",
+      "name": "Ultimate lesson clock",
+      "objective": "Test more attack-and-slam cycles inside Leap of Faith.",
+      "mechanic": "Leap of Faith grants an eight-second window where tentacles slam 50% faster and W cooldown changes. Trinity adds one physical Spellblade to a real W attack; Blade rewards direct attacks and Shojin raises ability/passive damage after qualifying hits. The aim is repeated directed slams rather than expecting attack speed to make tentacles independently attack faster.",
+      "evidenceSlots": [
+        "W",
+        "R",
+        "E",
+        "Q"
+      ],
+      "itemIds": [
+        3078,
+        3153,
+        3161,
+        6333,
+        3053,
+        3047
+      ],
+      "pageKey": "pta",
+      "requiredState": "Need R hitting multiple champions, tentacles placed and W targets in range.",
+      "failure": "Enemies disengage during R, or mana runs out; offensive purchases expose Illaoi before setup.",
+      "test": "Count W casts and actual tentacle slams within eight seconds at identical terrain placement.",
+      "rejectedAssumption": "Attack speed does not directly reduce the tentacles' autonomous spirit/marked-target timer.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Automatic pet on-hits",
+      "reason": "Tentacle slam tooltips do not establish inheritance of Blade or Trinity attack procs.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Tentacle damage expression and R W-cooldown token are unresolved; spirit item/rune target classification needs live logs."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Prophet of an Elder God",
+      "paths": [
+        "Characters/Illaoi/Spells/IllaoiPassiveAbility/IllaoiPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Tentacle Smash",
+      "paths": [
+        "Characters/Illaoi/Spells/IllaoiQAbility/IllaoiQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Harsh Lesson",
+      "paths": [
+        "Characters/Illaoi/Spells/IllaoiWAbility/IllaoiW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Test of Spirit",
+      "paths": [
+        "Characters/Illaoi/Spells/IllaoiEAbility/IllaoiE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Leap of Faith",
+      "paths": [
+        "Characters/Illaoi/Spells/IllaoiRAbility/IllaoiR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "illaoi-audit-spirit-transfer-health-bruiser",
+      "champion": "Illaoi",
+      "name": "Spirit transfer health bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Turn health investment into real spirit-transfer pressure.",
+      "goal": "Turn health investment into real spirit-transfer pressure.",
+      "hypothesis": "Test of Spirit echoes a fraction of spirit damage with a 0.0008 AD expression; Harsh Lesson has AD-linked percent-health physical damage and directs nearby tentacle slams. Bloodmail converts health to AD, Cleaver supports physical hits, and Visage enhances tentacle missing-health heals. Sundered Sky is reserved for Illaoi's actual attack, with spirit classification deliberately unproved.",
+      "itemIds": [
+        2501,
+        3071,
+        6610,
+        3065,
+        3053,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need E connected, usable terrain tentacles and enemies remaining near the spirit.",
+        "Compare owner health lost with spirit-only damage versus owner-plus-spirit overlap, logging individual hits.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Kiting or destroying tentacles denies the loop; spirit transfer cannot replace direct target access forever.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Spirit damage and echoed damage are not automatically two independent item procs against the owner.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Black Cleaver, Sundered Sky, Spirit Visage, Sterak's Gage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Test of Spirit",
+          "slot": "E",
+          "source": "Characters/Illaoi/Spells/IllaoiEAbility/IllaoiE",
+          "formula": "Illaoi pulls the spirit from an enemy champion for [7] seconds. The spirit can be damaged like a champion, with [0.25 / 0.3 / 0.35 / 0.4 / 0.45 + (0.0008) × AD] of that damage echoing to its owner.\n\nIf the spirit dies or the target leaves its range, the target becomes marked for [4] seconds and is Slowed by [80]% for [1.5] seconds. Marked enemies spawn Tentacles if possible.\n\nTentacles will automatically Slam at spirits and marked enemies once every [characterLevelBreakpoints(start=4, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}])] seconds."
+        },
+        {
+          "ability": "Prophet of an Elder God",
+          "slot": "Passive",
+          "source": "Characters/Illaoi/Spells/IllaoiPassiveAbility/IllaoiPassive",
+          "formula": "Illaoi draws the presence of her god, spawning a Tentacle on nearby terrain if no other Tentacles are nearby ([characterLevelInterpolation(18 → 7; raw flags preserved)] second cooldown). Tentacles will not attack on their own, but can be made to Slam by Illaoi's Abilities.\n\nSlam deals @spell.IllaoiQ:TentacleDamageTotal@ physical damage. Hitting at least one enemy champion restores [5]% missing Health to Illaoi."
+        },
+        {
+          "ability": "Harsh Lesson",
+          "slot": "W",
+          "source": "Characters/Illaoi/Spells/IllaoiWAbility/IllaoiW",
+          "formula": "Illaoi's next Attack causes her to leap at the target, dealing an additional [(3 / 3.5 / 4 / 4.5 / 5 + (0.035) × AD) × (0.01)] max Health physical damage. When she strikes, nearby Tentacles will Slam at the target."
+        },
+        {
+          "ability": "Leap of Faith",
+          "slot": "R",
+          "source": "Characters/Illaoi/Spells/IllaoiRAbility/IllaoiR",
+          "formula": "Illaoi smashes her idol into the ground, dealing [150 / 250 / 350 + (0.5) × AD[statFormula=2]] physical damage to nearby enemies and spawning a Tentacle for each enemy champion hit.\n\nFor the next [8] seconds, Tentacles are untargetable and Slam 50% faster, and Harsh Lesson has a @spell.IllaoiW:CooldownDuringR@ second cooldown."
+        }
+      ]
+    },
+    {
+      "id": "illaoi-audit-ultimate-lesson-clock",
+      "champion": "Illaoi",
+      "name": "Ultimate lesson clock",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test more attack-and-slam cycles inside Leap of Faith.",
+      "goal": "Test more attack-and-slam cycles inside Leap of Faith.",
+      "hypothesis": "Leap of Faith grants an eight-second window where tentacles slam 50% faster and W cooldown changes. Trinity adds one physical Spellblade to a real W attack; Blade rewards direct attacks and Shojin raises ability/passive damage after qualifying hits. The aim is repeated directed slams rather than expecting attack speed to make tentacles independently attack faster.",
+      "itemIds": [
+        3078,
+        3153,
+        3161,
+        6333,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need R hitting multiple champions, tentacles placed and W targets in range.",
+        "Count W casts and actual tentacle slams within eight seconds at identical terrain placement.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Enemies disengage during R, or mana runs out; offensive purchases expose Illaoi before setup.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Attack speed does not directly reduce the tentacles' autonomous spirit/marked-target timer.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Blade of The Ruined King, Spear of Shojin, Death's Dance, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Test of Spirit",
+          "slot": "E",
+          "source": "Characters/Illaoi/Spells/IllaoiEAbility/IllaoiE",
+          "formula": "Illaoi pulls the spirit from an enemy champion for [7] seconds. The spirit can be damaged like a champion, with [0.25 / 0.3 / 0.35 / 0.4 / 0.45 + (0.0008) × AD] of that damage echoing to its owner.\n\nIf the spirit dies or the target leaves its range, the target becomes marked for [4] seconds and is Slowed by [80]% for [1.5] seconds. Marked enemies spawn Tentacles if possible.\n\nTentacles will automatically Slam at spirits and marked enemies once every [characterLevelBreakpoints(start=4, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -0.5, \"__type\": \"Breakpoint\"}])] seconds."
+        },
+        {
+          "ability": "Tentacle Smash",
+          "slot": "Q",
+          "source": "Characters/Illaoi/Spells/IllaoiQAbility/IllaoiQ",
+          "formula": "Passive: Slam damage is increased by @spell.IllaoiQ:TentacleDamageAmp*100@% (currently @spell.IllaoiQ:TentacleDamageTotal@ physical damage).\n\nActive: Illaoi swings her idol, causing a Tentacle to Slam forward."
+        },
+        {
+          "ability": "Harsh Lesson",
+          "slot": "W",
+          "source": "Characters/Illaoi/Spells/IllaoiWAbility/IllaoiW",
+          "formula": "Illaoi's next Attack causes her to leap at the target, dealing an additional [(3 / 3.5 / 4 / 4.5 / 5 + (0.035) × AD) × (0.01)] max Health physical damage. When she strikes, nearby Tentacles will Slam at the target."
+        },
+        {
+          "ability": "Leap of Faith",
+          "slot": "R",
+          "source": "Characters/Illaoi/Spells/IllaoiRAbility/IllaoiR",
+          "formula": "Illaoi smashes her idol into the ground, dealing [150 / 250 / 350 + (0.5) × AD[statFormula=2]] physical damage to nearby enemies and spawning a Tentacle for each enemy champion hit.\n\nFor the next [8] seconds, Tentacles are untargetable and Slam 50% faster, and Harsh Lesson has a @spell.IllaoiW:CooldownDuringR@ second cooldown."
+        }
+      ]
+    }
+  ]
+}

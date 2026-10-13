@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "senna-four-1",
@@ -110,19 +110,21 @@
       ]
     },
     {
-      "id": "senna-four-2",
+      "id": "senna-audit-mist-fed-healer-cadence",
       "champion": "Senna",
-      "name": "Damage interaction: Tempo and pursuit",
-      "goal": "Damage interaction for Senna: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A ranged support-carry hybrid who builds Mist through nearby deaths and repeated champion interactions, mixing attacks with piercing healing. Fix Mist stacks and role income, then compare Q healing/attacks with utility. Attack-speed scaling and earned range differ from ordinary marksmen; support routes retain the quest slot. Movement tools and compatible control marks test coordinated pursuit or escape.",
-      "summary": "Movement tools and compatible control marks test coordinated pursuit or escape.",
+      "name": "Mist-fed healer cadence",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether attacks reduce Q cooldown enough to deliver repeated ally heals and buffs.",
+      "goal": "Test whether attacks reduce Q cooldown enough to deliver repeated ally heals and buffs.",
+      "hypothesis": "Q heals with 0.35 AP and 0.4 AD[statFormula=2] and attacks reduce its cooldown by one second. Mist adds finite AD; Nashor and Ardent support real attack cadence while Helia can consume prior damage charges on Q healing. Staff supplies a caster ally buff and haste for the next Q.",
       "itemIds": [
         3869,
-        2065,
-        4005,
-        3107,
-        3222,
-        3009
+        3115,
+        6620,
+        3504,
+        6616,
+        3158
       ],
       "runePage": [
         8214,
@@ -133,17 +135,17 @@
         8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,60 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Senna: Fix Mist stacks and role income, then compare Q healing/attacks with utility. Attack-speed scaling and earned range differ from ordinary marksmen; support routes retain the quest slot.",
-        "Start with the early core (Support quest, Shurelya or Mandate according to the kit) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Movement tools and compatible control marks test coordinated pursuit or escape. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: From the twin barrels of her Relic Cannon, Senna fires a unified beam of light and shadow through a target, healing allies and damaging enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Finite Mist stacks; safe attacks and an ally lie on the Q line.",
+        "Measure Q interval, attacks completed and ally healing/buff uptime at fixed Mist.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
-        "The route fails Senna's stated kit question: Fix Mist stacks and role income, then compare Q healing/attacks with utility. Attack-speed scaling and earned range differ from ordinary marksmen; support routes retain the quest slot.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Senna long attack windups or unsafe targeting defeat the cooldown gain.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Mandate needs eligible control and allied follow-up; speed is not guaranteed damage.",
-        "Full cost 10,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Attack speed does not remove Senna special attack windup or make all Q hits ordinary attacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Shurelya or Mandate according to the kit. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Imperial Mandate, Redemption, Mikael's Blessing are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Nashor's Tooth, Echoes of Helia, Ardent Censer, Staff of Flowing Water, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Dawning Shadow",
-          "slot": "R",
-          "source": "Characters/Senna/Spells/SennaRAbility/SennaR",
-          "formula": "Senna fires a beam of light that deals [250 / 400 / 550 + (0.7) × AP + (1.15) × AD[statFormula=2]] physical damage to all enemy champions hit. Allied champions hit in a wider area receive [120 / 160 / 200 + (0.5) × AP + (1.5) × BuffStacks({e88568f8})] Shield for [3] seconds."
-        },
-        {
-          "ability": "Curse of the Black Mist",
-          "slot": "E",
-          "source": "Characters/Senna/Spells/SennaEAbility/SennaE",
-          "formula": "Senna dissolves into a cloud of Black Mist for [6 / 6.5 / 7 / 7.5 / 8] seconds, becoming a Wraith. Allied champions who enter the Mist are Camouflaged and become Wraiths when they leave. Wraiths gain [0.2 + (0.0005) × AP] Move Speed, are Unselectable, and hide their identities as long as no enemy champions are nearby."
-        },
         {
           "ability": "Piercing Darkness",
           "slot": "Q",
           "source": "Characters/Senna/Spells/SennaQAbility/SennaQ",
           "formula": "Senna shoots a bolt of piercing shadow through an ally or enemy, dealing [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage to enemies and Slowing them by [0.15 + (0.0007) × AP + (0.0015) × AD[statFormula=2]] for [1 / 1.25 / 1.5 / 1.75 / 2] second(s). Restores [40 / 60 / 80 / 100 / 120 + (0.35) × AP + (0.4) × AD[statFormula=2]] Health to allied champions. \n\nAttacks reduce this Ability's Cooldown by [1] second."
-        },
-        {
-          "ability": "Last Embrace",
-          "slot": "W",
-          "source": "Characters/Senna/Spells/SennaWAbility/SennaW",
-          "formula": "Senna sends forth the Black Mist, dealing [70 / 110 / 150 / 190 / 230 + (0.9) × AD[statFormula=2]] physical damage to the first enemy hit. After a [1 / 1 / 1 / 1 / 1] second delay the target and other nearby enemies are Rooted for [1.25 / 1.5 / 1.75 / 2 / 2.25] second(s)."
         },
         {
           "ability": "Absolution",
@@ -320,40 +296,42 @@
       ]
     },
     {
-      "id": "senna-four-4",
+      "id": "senna-audit-ap-mist-procession",
       "champion": "Senna",
-      "name": "Experiment: Repeated on-hit",
-      "goal": "Experiment for Senna: test a different playstyle, with lower confidence",
-      "hypothesis": "A ranged support-carry hybrid who builds Mist through nearby deaths and repeated champion interactions, mixing attacks with piercing healing. Fix Mist stacks and role income, then compare Q healing/attacks with utility. Attack-speed scaling and earned range differ from ordinary marksmen; support routes retain the quest slot. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "AP mist procession",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use AP for team movement and large shields while retaining ranged attack follow-up.",
+      "goal": "Use AP for team movement and large shields while retaining ranged attack follow-up.",
+      "hypothesis": "E wraith speed has 0.0005 AP, R shield 0.5 AP plus finite Mist, and Q slow 0.0007 AP. Shurelya helps the team move through E while Lich Bane supports a real follow-up attack. Cryptbloom offers a conditional takedown heal; R remains physical despite its AP damage ratio.",
       "itemIds": [
-        3153,
-        3124,
-        3302,
-        3091,
-        3026,
-        3006
+        3869,
+        2065,
+        3100,
+        3089,
+        3137,
+        3009
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +339,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Senna: Fix Mist stacks and role income, then compare Q healing/attacks with utility. Attack-speed scaling and earned range differ from ordinary marksmen; support routes retain the quest slot.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: From the twin barrels of her Relic Cannon, Senna fires a unified beam of light and shadow through a target, healing allies and damaging enemies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Allies need E escape/approach and line up for R shielding; use finite Mist.",
+        "Log E movement, R shielding and one attack packet; record physical R damage separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Senna's stated kit question: Fix Mist stacks and role income, then compare Q healing/attacks with utility. Attack-speed scaling and earned range differ from ordinary marksmen; support routes retain the quest slot.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "The expensive AP route loses attack damage and may shield allies after the threat has ended.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: AP scaling does not convert R physical damage to magic or make magic penetration improve it.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Shurelya's Battlesong, Lich Bane, Rabadon's Deathcap, Cryptbloom, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Dawning Shadow",
@@ -409,18 +379,6 @@
           "slot": "Q",
           "source": "Characters/Senna/Spells/SennaQAbility/SennaQ",
           "formula": "Senna shoots a bolt of piercing shadow through an ally or enemy, dealing [30 / 55 / 80 / 105 / 130 + (0.6) × AD[statFormula=2]] physical damage to enemies and Slowing them by [0.15 + (0.0007) × AP + (0.0015) × AD[statFormula=2]] for [1 / 1.25 / 1.5 / 1.75 / 2] second(s). Restores [40 / 60 / 80 / 100 / 120 + (0.35) × AP + (0.4) × AD[statFormula=2]] Health to allied champions. \n\nAttacks reduce this Ability's Cooldown by [1] second."
-        },
-        {
-          "ability": "Last Embrace",
-          "slot": "W",
-          "source": "Characters/Senna/Spells/SennaWAbility/SennaW",
-          "formula": "Senna sends forth the Black Mist, dealing [70 / 110 / 150 / 190 / 230 + (0.9) × AD[statFormula=2]] physical damage to the first enemy hit. After a [1 / 1 / 1 / 1 / 1] second delay the target and other nearby enemies are Rooted for [1.25 / 1.5 / 1.75 / 2 / 2.25] second(s)."
-        },
-        {
-          "ability": "Absolution",
-          "slot": "Passive",
-          "source": "Characters/Senna/Spells/SennaPassiveAbility/SennaPassive",
-          "formula": "Senna can attack souls that spawn from dead enemies to absorb their Mist. She can also siphon Mist from enemy champions she hits with Attacks or Abilities twice, dealing an additional [characterLevelBreakpoints(start=1, perLevel=1, changes=[{\"mLevel\": 11, \"__type\": \"Breakpoint\"}])]% current Health physical damage.\n\nEach stack of Mist grants [0.75] Attack Damage. Every [20] stacks grant [20] Attack Range and [10]% Critical Strike Chance but she only has [(1) × Stat(9)] Critical Strike Damage. [35]% of excess Critical Strike Chance is converted into Lifesteal.\n\nSenna's Attacks take extra time to fire, deal an additional [(0.2) × AD] physical damage, and briefly grant her [characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] of the target's Move Speed."
         }
       ]
     }

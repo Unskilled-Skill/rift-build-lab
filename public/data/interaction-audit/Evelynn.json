@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Evelynn",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "shade-reset-whiplash-skirmisher",
+      "name": "Shade-reset whiplash skirmisher",
+      "objective": "Re-enter Shade to refresh empowered Whiplash instead of committing once.",
+      "mechanic": "Demon Shade activates after four seconds without attacks/casts and empowered E refreshes through entering Shade. Whiplash has AP-based percent-max-health magic damage and a dash; Dusk and Dawn rewards an actual attack after the reset and Gunblade slows for the follow-up. Riftmaker is experimental because disengaging can sacrifice its combat ramp.",
+      "evidenceSlots": [
+        "P",
+        "E",
+        "W",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        3146,
+        2510,
+        4633,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "conq",
+      "requiredState": "Need a safe disengage, level-six camouflage and another empowered E target.",
+      "failure": "Reveal effects, damage or forced combat prevent Shade; sustained items lose immediate assassination power.",
+      "test": "Time a retreat and second empowered E, logging Shade timing and healing threshold with fixed AP.",
+      "rejectedAssumption": "E's refreshed state is not an unrestricted reset while Evelynn keeps attacking.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "execute-threshold-ap-dive",
+      "name": "Execute threshold AP dive",
+      "objective": "Push targets across the two separate finishing thresholds.",
+      "mechanic": "Allure after 2.5 seconds removes 35-45% MR, and Q's marked-target bonuses plus E percent health can prepare Last Caress. R's 0.75 AP damage multiplies by 2.4 below 30% health; Shadowflame boosts magic damage below 40%. Rocketbelt improves access, and Banshee helps protect the initial approach.",
+      "evidenceSlots": [
+        "W",
+        "Q",
+        "E",
+        "R",
+        "P"
+      ],
+      "itemIds": [
+        3152,
+        4645,
+        3089,
+        3135,
+        3102,
+        3020
+      ],
+      "pageKey": "electro",
+      "requiredState": "Need full charm preparation and health below 30% before R damage resolves.",
+      "failure": "Telegraphing W permits escape; shields or mistimed R produce the weaker damage case.",
+      "test": "Measure R at 29%, 31% and 41% target health with the same MR and AP.",
+      "rejectedAssumption": "Shadowflame's 40% threshold does not by itself activate R's separate 30% multiplier.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Lethality whiplash",
+      "reason": "E and R are magic damage even when delivered in melee range.",
+      "evidenceSlots": [
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Whiplash item on-hit applicability is not proved by the tooltip; routes depend on logged ordinary attacks instead."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Demon Shade",
+      "paths": [
+        "Characters/Evelynn/Spells/EvelynnPassiveAbility/EvelynnPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Hate Spike",
+      "paths": [
+        "Characters/Evelynn/Spells/EvelynnQAbility/EvelynnQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Allure",
+      "paths": [
+        "Characters/Evelynn/Spells/EvelynnWAbility/EvelynnW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Whiplash",
+      "paths": [
+        "Characters/Evelynn/Spells/EvelynnEAbility/EvelynnE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Last Caress",
+      "paths": [
+        "Characters/Evelynn/Spells/EvelynnRAbility/EvelynnR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "evelynn-audit-shade-reset-whiplash-skirmisher",
+      "champion": "Evelynn",
+      "name": "Shade-reset whiplash skirmisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Re-enter Shade to refresh empowered Whiplash instead of committing once.",
+      "goal": "Re-enter Shade to refresh empowered Whiplash instead of committing once.",
+      "hypothesis": "Demon Shade activates after four seconds without attacks/casts and empowered E refreshes through entering Shade. Whiplash has AP-based percent-max-health magic damage and a dash; Dusk and Dawn rewards an actual attack after the reset and Gunblade slows for the follow-up. Riftmaker is experimental because disengaging can sacrifice its combat ramp.",
+      "itemIds": [
+        3146,
+        2510,
+        4633,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need a safe disengage, level-six camouflage and another empowered E target.",
+        "Time a retreat and second empowered E, logging Shade timing and healing threshold with fixed AP.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Reveal effects, damage or forced combat prevent Shade; sustained items lose immediate assassination power.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: E's refreshed state is not an unrestricted reset while Evelynn keeps attacking.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Gunblade, Dusk and Dawn, Riftmaker, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Hate Spike",
+          "slot": "Q",
+          "source": "Characters/Evelynn/Spells/EvelynnQAbility/EvelynnQ",
+          "formula": "Evelynn strikes with her Lasher, dealing [25 / 30 / 35 / 40 / 45 + (0.25) × AP] magic damage to the first enemy hit and causing Evelynn's next 3 Attacks or Abilities on that unit to deal an additional [15 / 25 / 35 / 45 / 55 + (0.25) × AP] magic damage. Evelynn can Recast this Ability up to [3] times.\n\nRecast: Evelynn fires spikes through the nearest enemy, dealing [25 / 30 / 35 / 40 / 45 + (0.25) × AP] magic damage to all enemies hit."
+        },
+        {
+          "ability": "Allure",
+          "slot": "W",
+          "source": "Characters/Evelynn/Spells/EvelynnWAbility/EvelynnW",
+          "formula": "Evelynn marks a champion or monster for 5 seconds. If Evelynn hits the target with an Attack or Ability, she will expunge the mark, refund its cost, and Slow the target by [45]% for [0.75] seconds.\n\nIf the mark lasts at least 2.5 seconds, expunging it has extra effects:Against champions: Charms them for [1.25 / 1.5 / 1.75 / 2 / 2.25] second(s) and removes [(0.35 / 0.375 / 0.4 / 0.425 / 0.45) × 100]% Magic Resist for [4] seconds.Against monsters: Charms them for [3 / 3.25 / 3.5 / 3.75 / 4] seconds and deals [250 / 300 / 350 / 400 / 450 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Last Caress",
+          "slot": "R",
+          "source": "Characters/Evelynn/Spells/EvelynnRAbility/EvelynnR",
+          "formula": "Evelynn unleashes her demonic energy, dealing heavy damage, becoming Untargetable and teleporting backwards. She deals [125 / 250 / 375 + (0.75) × AP] magic damage, increased to [(125 / 250 / 375 + (0.75) × AP) × (2.4)] against enemies below 30% Health. Upon cast, set Demon Shade to a 1.25 second cooldown."
+        },
+        {
+          "ability": "Demon Shade",
+          "slot": "Passive",
+          "source": "Characters/Evelynn/Spells/EvelynnPassiveAbility/EvelynnPassive",
+          "formula": "Evelynn enshrouds herself in her Demon Shade after [4] seconds of not Attacking or using Abilities. Demon Shade restores [characterLevelInterpolation(15 → 150; raw flags preserved)] Health per second while below [characterLevelBreakpoints(start=250, perLevel=20, changes=[]) + (2.5) × AP] Health. From level 6 onward, it also grants Camouflage.\n\nTaking damage from champions or towers removes Demon Shade for [1.5] seconds."
+        },
+        {
+          "ability": "Whiplash",
+          "slot": "E",
+          "source": "Characters/Evelynn/Spells/EvelynnEAbility/EvelynnE",
+          "formula": "Evelynn whips an enemy, dealing [60 / 90 / 120 / 150 / 180] plus [(3 + (0.015) × AP) × (0.01)] max Health magic damage. Evelynn gains [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% Move Speed for [2] seconds.\n\nEntering Demon Shade refreshes this Ability's cooldown and empowers it. When this Ability is empowered, Evelynn dashes to the target and deals [80 / 120 / 160 / 200 / 240] plus [(4 + (0.025) × AP) × (0.01)] max Health magic damage to her target and everyone she passes through instead."
+        }
+      ]
+    },
+    {
+      "id": "evelynn-audit-execute-threshold-ap-dive",
+      "champion": "Evelynn",
+      "name": "Execute threshold AP dive",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Push targets across the two separate finishing thresholds.",
+      "goal": "Push targets across the two separate finishing thresholds.",
+      "hypothesis": "Allure after 2.5 seconds removes 35-45% MR, and Q's marked-target bonuses plus E percent health can prepare Last Caress. R's 0.75 AP damage multiplies by 2.4 below 30% health; Shadowflame boosts magic damage below 40%. Rocketbelt improves access, and Banshee helps protect the initial approach.",
+      "itemIds": [
+        3152,
+        4645,
+        3089,
+        3135,
+        3102,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need full charm preparation and health below 30% before R damage resolves.",
+        "Measure R at 29%, 31% and 41% target health with the same MR and AP.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Telegraphing W permits escape; shields or mistimed R produce the weaker damage case.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Shadowflame's 40% threshold does not by itself activate R's separate 30% multiplier.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Rocketbelt, Shadowflame, Rabadon's Deathcap, Void Staff, Banshee's Veil, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Hate Spike",
+          "slot": "Q",
+          "source": "Characters/Evelynn/Spells/EvelynnQAbility/EvelynnQ",
+          "formula": "Evelynn strikes with her Lasher, dealing [25 / 30 / 35 / 40 / 45 + (0.25) × AP] magic damage to the first enemy hit and causing Evelynn's next 3 Attacks or Abilities on that unit to deal an additional [15 / 25 / 35 / 45 / 55 + (0.25) × AP] magic damage. Evelynn can Recast this Ability up to [3] times.\n\nRecast: Evelynn fires spikes through the nearest enemy, dealing [25 / 30 / 35 / 40 / 45 + (0.25) × AP] magic damage to all enemies hit."
+        },
+        {
+          "ability": "Allure",
+          "slot": "W",
+          "source": "Characters/Evelynn/Spells/EvelynnWAbility/EvelynnW",
+          "formula": "Evelynn marks a champion or monster for 5 seconds. If Evelynn hits the target with an Attack or Ability, she will expunge the mark, refund its cost, and Slow the target by [45]% for [0.75] seconds.\n\nIf the mark lasts at least 2.5 seconds, expunging it has extra effects:Against champions: Charms them for [1.25 / 1.5 / 1.75 / 2 / 2.25] second(s) and removes [(0.35 / 0.375 / 0.4 / 0.425 / 0.45) × 100]% Magic Resist for [4] seconds.Against monsters: Charms them for [3 / 3.25 / 3.5 / 3.75 / 4] seconds and deals [250 / 300 / 350 / 400 / 450 + (0.6) × AP] magic damage."
+        },
+        {
+          "ability": "Last Caress",
+          "slot": "R",
+          "source": "Characters/Evelynn/Spells/EvelynnRAbility/EvelynnR",
+          "formula": "Evelynn unleashes her demonic energy, dealing heavy damage, becoming Untargetable and teleporting backwards. She deals [125 / 250 / 375 + (0.75) × AP] magic damage, increased to [(125 / 250 / 375 + (0.75) × AP) × (2.4)] against enemies below 30% Health. Upon cast, set Demon Shade to a 1.25 second cooldown."
+        },
+        {
+          "ability": "Demon Shade",
+          "slot": "Passive",
+          "source": "Characters/Evelynn/Spells/EvelynnPassiveAbility/EvelynnPassive",
+          "formula": "Evelynn enshrouds herself in her Demon Shade after [4] seconds of not Attacking or using Abilities. Demon Shade restores [characterLevelInterpolation(15 → 150; raw flags preserved)] Health per second while below [characterLevelBreakpoints(start=250, perLevel=20, changes=[]) + (2.5) × AP] Health. From level 6 onward, it also grants Camouflage.\n\nTaking damage from champions or towers removes Demon Shade for [1.5] seconds."
+        },
+        {
+          "ability": "Whiplash",
+          "slot": "E",
+          "source": "Characters/Evelynn/Spells/EvelynnEAbility/EvelynnE",
+          "formula": "Evelynn whips an enemy, dealing [60 / 90 / 120 / 150 / 180] plus [(3 + (0.015) × AP) × (0.01)] max Health magic damage. Evelynn gains [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% Move Speed for [2] seconds.\n\nEntering Demon Shade refreshes this Ability's cooldown and empowers it. When this Ability is empowered, Evelynn dashes to the target and deals [80 / 120 / 160 / 200 / 240] plus [(4 + (0.025) × AP) × (0.01)] max Health magic damage to her target and everyone she passes through instead."
+        }
+      ]
+    }
+  ]
+}

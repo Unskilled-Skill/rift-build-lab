@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "katarina-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "katarina-four-2",
+      "id": "katarina-audit-mixed-death-lotus-channel",
       "champion": "Katarina",
-      "name": "Damage interaction: Spell-and-attack",
-      "goal": "Damage interaction for Katarina: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A reset-driven melee assassin who positions around daggers and enters after enemy interruption tools are spent. Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
-      "summary": "Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "name": "Mixed Death Lotus channel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore Lotus's explicit attack-speed-linked physical term.",
+      "goal": "Explore Lotus's explicit attack-speed-linked physical term.",
+      "hypothesis": "Death Lotus knives have 0.19 AP magic damage and an AD statFormula expression multiplied by an attack-speed-stat term. Gunblade and Nashor supply mixed/AP offense while Rageblade supplies attack speed; Blade and Terminus serve real attacks woven before the channel. Any R item on-hit delivery is a separate unverified component, so this route first tests documented knife scaling.",
       "itemIds": [
-        3100,
+        3153,
         3115,
-        3089,
-        3135,
-        3157,
-        3020
+        3124,
+        3302,
+        3146,
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Katarina: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
-        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Katarina throws a Dagger at the target that then bounces to nearby enemies before ricocheting onto the ground. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need safe preparation attacks, enemy interrupt tools spent and an uninterrupted 2.5-second channel.",
+        "Compare Lotus physical/magic totals at two attack-speed values, with all item procs logged separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "The route fails Katarina's stated kit question: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Interrupts erase most value; mixed penetration needs attacks before R and magic Q loses raw AP.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Fifteen knives are not fifteen full-strength ordinary on-hit attacks for every item.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Blade of The Ruined King, Nashor's Tooth, Guinsoo's Rageblade, Terminus, Hextech Gunblade, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "None",
       "kitEvidence": [
         {
           "ability": "Death Lotus",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "katarina-four-4",
+      "id": "katarina-audit-dagger-corridor-burn-skirmisher",
       "champion": "Katarina",
-      "name": "Experiment: Repeated on-hit",
-      "goal": "Experiment for Katarina: test a different playstyle, with lower confidence",
-      "hypothesis": "A reset-driven melee assassin who positions around daggers and enters after enemy interruption tools are spent. Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "Dagger corridor burn skirmisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Reward repeated dagger pickups while buying survival through a reset.",
+      "goal": "Reward repeated dagger pickups while buying survival through a reset.",
+      "hypothesis": "Voracity dagger pickup deals magic damage with AD and level-varying AP terms; pickups reduce Shunpo cooldown and takedowns reduce all abilities by 15 seconds. Rylai may keep enemies near dropped daggers, while Liandry/Riftmaker reward actual repeated magic contact. Visage supports received omnivamp healing once Riftmaker ramps, rather than inventing an innate dagger heal.",
       "itemIds": [
-        3153,
-        3124,
-        3302,
-        3091,
-        3026,
-        3006
+        6653,
+        4633,
+        3116,
+        3065,
+        3089,
+        3020
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8992,
+        8275,
+        8210,
+        8236,
+        8126,
+        8106
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Katarina: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Katarina throws a Dagger at the target that then bounces to nearby enemies before ricocheting onto the ground. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need accessible daggers, continued combat and a qualifying takedown for the next full cycle.",
+        "Count pickups, E cooldown reductions and post-ramp healing across a moving-target eight-second skirmish.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Katarina's stated kit question: Fix dagger pickup and R duration, and verify each ability's current on-hit effectiveness. Reset opportunities and enemy interrupts matter more than a fully channeled stationary target.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Targets move away from daggers; waiting for sustained effects may sacrifice the first reset.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: A pickup cooldown reduction does not mean unconditional instant E resets at every level.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: None. Do not treat mana regeneration as None recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Liandry's Torment, Riftmaker, Rylai's Crystal Scepter, Spirit Visage, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "None",
       "kitEvidence": [
         {
           "ability": "Death Lotus",

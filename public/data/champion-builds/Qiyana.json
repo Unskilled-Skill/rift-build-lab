@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "qiyana-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "qiyana-four-2",
+      "id": "qiyana-audit-enchanted-ap-attacker",
       "champion": "Qiyana",
-      "name": "Damage interaction: Physical spell burst",
-      "goal": "Damage interaction for Qiyana: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A terrain-dependent combo assassin who resets Q and passive damage by changing enchantments. Brush stealth and river roots can create another attack or spell window. Change enchantments deliberately to refresh passive/Q opportunities. Wall/river/brush access and ultimate terrain contact cannot be assumed on every target. High AD and penetration test ability-first trades with a conditional anti-magic slot.",
-      "summary": "High AD and penetration test ability-first trades with a conditional anti-magic slot.",
+      "name": "Enchanted AP attacker",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test enchanted ap attacker against conventional damage at equal gold.",
+      "goal": "Test enchanted ap attacker against conventional damage at equal gold.",
+      "hypothesis": "Terrashape grants 15-35% attack speed and enchanted attacks add 0.45 AP magic damage; Nashor and Dusk and Dawn reward retaining enchantment for attacks. Royal Privilege also has 0.3 AP but stays physical, so Gunblade retains AD for the physical rest of her kit.",
       "itemIds": [
-        6692,
-        6698,
-        6694,
-        3814,
-        3156,
-        3158
+        3115,
+        2510,
+        3146,
+        3302,
+        3102,
+        3006
       ],
       "runePage": [
-        8112,
-        8139,
+        9923,
+        8126,
         8140,
         8106,
-        8233,
-        8237
+        8210,
+        8236
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Qiyana: Change enchantments deliberately to refresh passive/Q opportunities. Wall/river/brush access and ultimate terrain contact cannot be assumed on every target.",
-        "Start with the early core (Eclipse, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: High AD and penetration test ability-first trades with a conditional anti-magic slot. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Qiyana swings her weapon, dealing damage with a bonus effect based on her element. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Choose an element, attack, then change element to reset passive.",
+        "Compare three enchanted attacks with a normal Q-W-Q trade.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
-        "The route fails Qiyana's stated kit question: Change enchantments deliberately to refresh passive/Q opportunities. Wall/river/brush access and ultimate terrain contact cannot be assumed on every target.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Q consumes the attack enchantment and standard burst is severely reduced.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: AP does not make Royal Privilege magic or let lethality improve W's magic packet.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Serylda's Grudge, Edge of Night, Maw of Malmortius are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Hextech Gunblade, Terminus, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Terrashape",
           "slot": "W",
           "source": "Characters/Qiyana/Spells/QiyanaWAbility/QiyanaW",
           "formula": "Passive: While Qiyana's weapon is Enchanted, she gains [(0.15 / 0.2 / 0.25 / 0.3 / 0.35) × 100]% Attack Speed and her Attacks deal an additional [8 / 16 / 24 / 32 / 40 + (0.45) × AP + (0.2) × AD[statFormula=2]] magic damage. She also gains [(0.03 / 0.05 / 0.07 / 0.09 / 0.11) × 100]% Move Speed while out of combat near the corresponding terrain type.\n\nActive: Qiyana dashes towards a nearby brush, terrain, or river and Enchants her weapon with that particular terrain type. This refreshes {{Spell_QiyanaQv2_Name}}'s Cooldown."
-        },
-        {
-          "ability": "Supreme Display of Talent",
-          "slot": "R",
-          "source": "Characters/Qiyana/Spells/QiyanaRAbility/QiyanaR",
-          "formula": "Qiyana launches a shockwave that Knocks Back enemies and detonates when it hits terrain. The explosion follows the entire edge of the terrain, Stunning for between 0.5 and [1] seconds and dealing [100 / 200 / 300 + (1.25) × AD[statFormula=2]] plus [0.1] max Health physical damage. Stun duration scales down with distance the shockwave has travelled.\n\nAny river or brush the shockwave passes through also explode after a delay for the same damage and Stun."
         },
         {
           "ability": "Elemental Wrath / Edge of Ixtal",
@@ -320,19 +308,21 @@
       ]
     },
     {
-      "id": "qiyana-four-4",
+      "id": "qiyana-audit-element-health-spell-cycler",
       "champion": "Qiyana",
-      "name": "Experiment: Contact fighter",
-      "goal": "Experiment for Qiyana: test a different playstyle, with lower confidence",
-      "hypothesis": "A terrain-dependent combo assassin who resets Q and passive damage by changing enchantments. Brush stealth and river roots can create another attack or spell window. Change enchantments deliberately to refresh passive/Q opportunities. Wall/river/brush access and ultimate terrain contact cannot be assumed on every target. Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage.",
+      "name": "Element health spell cycler",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test element health spell cycler against conventional damage at equal gold.",
+      "goal": "Test element health spell cycler against conventional damage at equal gold.",
+      "hypothesis": "Terrashape refreshes Q and changing element resets Royal Privilege's per-target cooldown; Shojin supports repeated physical spell cycles while Cleaver builds armor reduction. Bloodmail adds AD from health and Eclipse shields separate hits, trading one-shot speed for more grass/river cycles.",
       "itemIds": [
-        6631,
-        6610,
+        3161,
+        3071,
+        6692,
+        2501,
         3053,
-        6333,
-        3065,
-        3047
+        3111
       ],
       "runePage": [
         8010,
@@ -345,15 +335,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Qiyana: Change enchantments deliberately to refresh passive/Q opportunities. Wall/river/brush access and ultimate terrain contact cannot be assumed on every target.",
-        "Start with the early core (Stridebreaker, then Sundered Sky) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Stridebreaker access and conditional Sundered Sky sustain may buy time for repeated kit damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Qiyana swings her weapon, dealing damage with a bonus effect based on her element. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Available distinct terrain elements and enough time between stealth trades.",
+        "Count element resets and physical damage across two full rotations.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
-        "The route fails Qiyana's stated kit question: Change enchantments deliberately to refresh passive/Q opportunities. Wall/river/brush access and ultimate terrain contact cannot be assumed on every target.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Open terrain and burst opponents eliminate the control advantage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Physical pressure or sustained contact must justify these purchases; MR and healing slots are matchup dependent.",
-        "Full cost 16,800 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Repeatedly choosing the same element does not grant a fresh passive reset.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Stridebreaker, then Sundered Sky. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Sterak's Gage, Death's Dance, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Spear of Shojin, Black Cleaver, Eclipse, Overlord's Bloodmail, Sterak's Gage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Terrashape",

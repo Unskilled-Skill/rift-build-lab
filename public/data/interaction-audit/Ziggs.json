@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Ziggs",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "short-fuse-siege-cycle",
+      "name": "Short Fuse siege cycle",
+      "objective": "Reduce passive cooldown through casts and deliver repeated structure attacks.",
+      "mechanic": "Short Fuse's AP magic packet is multiplied against structures and casts reduce its cooldown. Lich Bane tests spell-followed structure attacks; Nashor supports actual attack cadence while Hullbreaker rewards fifth attacks and nearby siege minions. W destroys towers only after the specified health threshold.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3100,
+        3115,
+        3181,
+        3089,
+        3157,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "A reachable tower, tracked passive/Spellblade cooldowns, wave present and W threshold recorded.",
+      "failure": "Defenders force retreat before attacks and delaying mana or penetration loses wave control.",
+      "test": "Log tower damage after spaced casts and every fifth attack, separating Short Fuse, Lich Bane and Hullbreaker.",
+      "rejectedAssumption": "Short Fuse's structure multiplier is not automatically applied to item damage.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "satchel-mine-path",
+      "name": "Satchel mine path",
+      "objective": "Force a mine crossing before landing the center of R.",
+      "mechanic": "W knocks enemies away and E mines slow for a finite ten-second area. Directed W can move a target across E and delay escape from R's center, which deals more than its edge. Bloodletter tests magic damage ramp, Cosmic supports repositioning and Liandry asks for retained damage contact.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R",
+        "Q"
+      ],
+      "itemIds": [
+        2503,
+        6653,
+        8010,
+        4629,
+        3089,
+        3020
+      ],
+      "pageKey": "comet",
+      "requiredState": "Mines placed on the expected knockback path and R center aimed at the resulting position.",
+      "failure": "Incorrect W direction clears the target away from mines or R delay permits escape.",
+      "test": "Count mine damage packets and center/edge R hits with W knockback through versus away from E.",
+      "rejectedAssumption": "E primary description states successive mine detonations on one target deal reduced damage, so do not sum full packets.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Tower execute at any health",
+      "reason": "W's destruction requires the tower to be below its rank-dependent health percentage.",
+      "evidenceSlots": [
+        "W"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive base cooldown token, mine repeat-hit attenuation and structure item inheritance need measured checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Short Fuse",
+      "paths": [
+        "Characters/Ziggs/Spells/ZiggsPassiveBuffAbility/ZiggsPassiveBuff"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Bouncing Bomb",
+      "paths": [
+        "Characters/Ziggs/Spells/ZiggsQAbility/ZiggsQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Satchel Charge",
+      "paths": [
+        "Characters/Ziggs/Spells/ZiggsWAbility/ZiggsW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Hexplosive Minefield",
+      "paths": [
+        "Characters/Ziggs/Spells/ZiggsEAbility/ZiggsE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Mega Inferno Bomb",
+      "paths": [
+        "Characters/Ziggs/Spells/ZiggsRAbility/ZiggsR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "ziggs-audit-short-fuse-siege-cycle",
+      "champion": "Ziggs",
+      "name": "Short Fuse siege cycle",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Reduce passive cooldown through casts and deliver repeated structure attacks.",
+      "goal": "Reduce passive cooldown through casts and deliver repeated structure attacks.",
+      "hypothesis": "Short Fuse's AP magic packet is multiplied against structures and casts reduce its cooldown. Lich Bane tests spell-followed structure attacks; Nashor supports actual attack cadence while Hullbreaker rewards fifth attacks and nearby siege minions. W destroys towers only after the specified health threshold.",
+      "itemIds": [
+        3100,
+        3115,
+        3181,
+        3089,
+        3157,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: A reachable tower, tracked passive/Spellblade cooldowns, wave present and W threshold recorded.",
+        "Log tower damage after spaced casts and every fifth attack, separating Short Fuse, Lich Bane and Hullbreaker.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Defenders force retreat before attacks and delaying mana or penetration loses wave control.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Short Fuse's structure multiplier is not automatically applied to item damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Hullbreaker, Rabadon's Deathcap, Zhonya's Hourglass, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bouncing Bomb",
+          "slot": "Q",
+          "source": "Characters/Ziggs/Spells/ZiggsQAbility/ZiggsQ",
+          "formula": "Ziggs throws a bouncing bomb that deals [80 / 130 / 180 / 230 / 280 + (0.6 / 0.65 / 0.7 / 0.75 / 0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Hexplosive Minefield",
+          "slot": "E",
+          "source": "Characters/Ziggs/Spells/ZiggsEAbility/ZiggsE",
+          "formula": "Ziggs scatters proximity mines that detonate on enemy contact, dealing [30 / 70 / 110 / 150 / 190 + (0.25 / 0.3 / 0.35 / 0.4 / 0.45) × AP] magic damage and Slows by [(-0.1 / -0.2 / -0.3 / -0.4 / -0.5) × -100]% for [1.5] seconds. Mines last [10] seconds."
+        },
+        {
+          "ability": "Satchel Charge",
+          "slot": "W",
+          "source": "Characters/Ziggs/Spells/ZiggsWAbility/ZiggsW",
+          "formula": "Ziggs flings an explosive charge that detonates after [4] seconds, or when this ability is Recast. It deals [70 / 105 / 140 / 175 / 210 + (0.5) × AP] magic damage to enemies and Knocks them Back. Ziggs is also knocked away, but takes no damage.\n\nSatchel Charge will automatically destroy towers below [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × 100]% of their Health."
+        },
+        {
+          "ability": "Short Fuse",
+          "slot": "Passive",
+          "source": "Characters/Ziggs/Spells/ZiggsPassiveBuffAbility/ZiggsPassiveBuff",
+          "formula": "Every @Cooldown@ seconds, Ziggs' next Attack deals an additional [characterLevelBreakpoints(start=20, perLevel=4, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 8.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 12.0, \"__type\": \"Breakpoint\"}]) + (0.5) × AP] magic damage. It deals [(characterLevelBreakpoints(start=20, perLevel=4, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 8.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 12.0, \"__type\": \"Breakpoint\"}]) + (0.5) × AP) × (1.75)] damage instead to structures. \n\nZiggs' abilities reduce this Cooldown by [characterLevelBreakpoints(start=4, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}])] seconds."
+        }
+      ]
+    },
+    {
+      "id": "ziggs-audit-satchel-mine-path",
+      "champion": "Ziggs",
+      "name": "Satchel mine path",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Force a mine crossing before landing the center of R.",
+      "goal": "Force a mine crossing before landing the center of R.",
+      "hypothesis": "W knocks enemies away and E mines slow for a finite ten-second area. Directed W can move a target across E and delay escape from R's center, which deals more than its edge. Bloodletter tests magic damage ramp, Cosmic supports repositioning and Liandry asks for retained damage contact.",
+      "itemIds": [
+        2503,
+        6653,
+        8010,
+        4629,
+        3089,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Mines placed on the expected knockback path and R center aimed at the resulting position.",
+        "Count mine damage packets and center/edge R hits with W knockback through versus away from E.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Incorrect W direction clears the target away from mines or R delay permits escape.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: E primary description states successive mine detonations on one target deal reduced damage, so do not sum full packets.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blackfire Torch, Liandry's Torment, Bloodletter's Curse, Cosmic Drive, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bouncing Bomb",
+          "slot": "Q",
+          "source": "Characters/Ziggs/Spells/ZiggsQAbility/ZiggsQ",
+          "formula": "Ziggs throws a bouncing bomb that deals [80 / 130 / 180 / 230 / 280 + (0.6 / 0.65 / 0.7 / 0.75 / 0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Mega Inferno Bomb",
+          "slot": "R",
+          "source": "Characters/Ziggs/Spells/ZiggsRAbility/ZiggsR",
+          "formula": "Ziggs hurls his ultimate creation, dealing [300 / 500 / 700 + (1) × AP] magic damage in the center of the blast radius, or [(300 / 500 / 700 + (1) × AP) × (0.65)] magic damage at the edge."
+        },
+        {
+          "ability": "Hexplosive Minefield",
+          "slot": "E",
+          "source": "Characters/Ziggs/Spells/ZiggsEAbility/ZiggsE",
+          "formula": "Ziggs scatters proximity mines that detonate on enemy contact, dealing [30 / 70 / 110 / 150 / 190 + (0.25 / 0.3 / 0.35 / 0.4 / 0.45) × AP] magic damage and Slows by [(-0.1 / -0.2 / -0.3 / -0.4 / -0.5) × -100]% for [1.5] seconds. Mines last [10] seconds."
+        },
+        {
+          "ability": "Satchel Charge",
+          "slot": "W",
+          "source": "Characters/Ziggs/Spells/ZiggsWAbility/ZiggsW",
+          "formula": "Ziggs flings an explosive charge that detonates after [4] seconds, or when this ability is Recast. It deals [70 / 105 / 140 / 175 / 210 + (0.5) × AP] magic damage to enemies and Knocks them Back. Ziggs is also knocked away, but takes no damage.\n\nSatchel Charge will automatically destroy towers below [(0.25 / 0.275 / 0.3 / 0.325 / 0.35) × 100]% of their Health."
+        }
+      ]
+    }
+  ]
+}

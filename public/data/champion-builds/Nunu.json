@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "nunu-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "nunu-four-2",
+      "id": "nunu-audit-bite-backed-shield-channel",
       "champion": "Nunu",
-      "name": "Damage interaction: AP dive",
-      "goal": "Damage interaction for Nunu & Willump: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A roaming engage tank who turns snowball momentum into layered control and uses Consume for sustain or objective securing. Compare Q recovery and snowball/R delivery. Maximum R channel is not guaranteed; record interruption, jungle objective access and whether AP loss of defenses prevents casting. AP, penetration and Rocketbelt access test a short committed damage window.",
-      "summary": "AP, penetration and Rocketbelt access test a short committed damage window.",
+      "name": "Bite-backed shield channel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Trade some tank resistance for AP that supports Consume and a protected R channel.",
+      "goal": "Trade some tank resistance for AP that supports Consume and a protected R channel.",
+      "hypothesis": "Consume has 0.9 AP non-champion healing and reduced champion healing, enhanced below half health. R has 1.5 AP shielding and up to 3 AP damage; Visage boosts self shielding/healing while Riftmaker requires a real combat ramp. E root can buy channel time and Abyssal only helps nearby magic damage.",
       "itemIds": [
-        3152,
-        4645,
-        3089,
-        3135,
+        4633,
+        6653,
+        3065,
+        8020,
         3157,
-        3020
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,49 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Nunu & Willump: Compare Q recovery and snowball/R delivery. Maximum R channel is not guaranteed; record interruption, jungle objective access and whether AP loss of defenses prevents casting.",
-        "Start with the early core (Rocketbelt, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP, penetration and Rocketbelt access test a short committed damage window. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Willump takes a bite out of a minion, monster, or enemy champion, dealing damage and healing himself. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: An accessible bite target and E root exist; record actual R channel length.",
+        "Record Consume target type, healing, R shield and damage for short versus full channels.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "The route fails Nunu & Willump's stated kit question: Compare Q recovery and snowball/R delivery. Maximum R channel is not guaranteed; record interruption, jungle objective access and whether AP loss of defenses prevents casting.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Hard interruption ends the damage window; a monster heal cannot be assumed in a champion duel.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Stat(12)[statFormula=2] in Q/R is retained and should not be silently read as total health.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Rocketbelt, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Riftmaker, Liandry's Torment, Spirit Visage, Abyssal Mask, Zhonya's Hourglass, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Biggest Snowball Ever!",
-          "slot": "W",
-          "source": "Characters/Nunu/Spells/NunuWAbility/NunuW",
-          "formula": "Nunu and Willump create a snowball that grows in size and speed as they roll it. They turn slower while rolling it, but can increase turning speed by holding the turn.\n\nThe snowball does between [(180 / 225 / 270 / 315 / 360 + (1.5) × AP) × (0.333)] and [180 / 225 / 270 / 315 / 360 + (1.5) × AP] magic damage, and Knocks Up for between [0.5] and [0.5 + 0.75] seconds when it collides with a champion, large monster or wall. These values scale up with distance rolled.\n\nNunu and Willump can Recast to let the snowball go early."
-        },
-        {
-          "ability": "Call of the Freljord",
-          "slot": "Passive",
-          "source": "Characters/Nunu/Spells/NunuPassiveAbility/NunuPassive",
-          "formula": "When Nunu and Willump deal damage to champions, large jungle monsters, or structures, they and a nearby ally gain [20]% Attack Speed and [10]% Move Speed for 4 seconds.\n\nWillump's Attacks deal an additional [(0.3) × AD] physical damage to other nearby enemies while he has this buff."
-        },
         {
           "ability": "Snowball Barrage",
           "slot": "E",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "nunu-four-4",
+      "id": "nunu-audit-snowball-root-relay",
       "champion": "Nunu",
-      "name": "Experiment: AP health frontline",
-      "goal": "Experiment for Nunu & Willump: test a different playstyle, with lower confidence",
-      "hypothesis": "A roaming engage tank who turns snowball momentum into layered control and uses Consume for sustain or objective securing. Compare Q recovery and snowball/R delivery. Maximum R channel is not guaranteed; record interruption, jungle objective access and whether AP loss of defenses prevents casting. Health/AP may sustain close spell pressure and debuff targets for allied magic damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Health/AP may sustain close spell pressure and debuff targets for allied magic damage.",
+      "name": "Snowball root relay",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Turn the collision and delayed E root into an ally-focused vulnerability window.",
+      "goal": "Turn the collision and delayed E root into an ally-focused vulnerability window.",
+      "hypothesis": "W collision knocks up, then E only roots snowball-slowed nearby enemies after three seconds. Current Mandate triggers on immobilization, while Bandlepipes can trigger on slows or immobilization. Shurelya supports the follow-through and R slow/channel threatens a second zone.",
       "itemIds": [
-        4633,
-        6653,
-        3116,
-        8010,
-        3065,
-        3111
+        3869,
+        4005,
+        2524,
+        2065,
+        3190,
+        3009
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
-        8444,
-        8451
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,48 +345,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Nunu & Willump: Compare Q recovery and snowball/R delivery. Maximum R channel is not guaranteed; record interruption, jungle objective access and whether AP loss of defenses prevents casting.",
-        "Start with the early core (Riftmaker or Liandry, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP may sustain close spell pressure and debuff targets for allied magic damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Willump takes a bite out of a minion, monster, or enemy champion, dealing damage and healing himself. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Team can follow the W collision and remain near Nunu for E resolution.",
+        "Time W impact, E root, Mandate mark and allied damage within the four-second mark window.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
-        "The route fails Nunu & Willump's stated kit question: Compare Q recovery and snowball/R delivery. Maximum R channel is not guaranteed; record interruption, jungle objective access and whether AP loss of defenses prevents casting.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "An escaped E target or poor W steering wastes the ally items.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Visage improves healing/shields received by its owner, not every ally shield; no free healing is assumed.",
-        "Full cost 15,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: An E snowball hit alone is not the delayed root.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Riftmaker or Liandry, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Imperial Mandate, Bandlepipes, Shurelya's Battlesong, Locket of the Iron Solari, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Biggest Snowball Ever!",
           "slot": "W",
           "source": "Characters/Nunu/Spells/NunuWAbility/NunuW",
           "formula": "Nunu and Willump create a snowball that grows in size and speed as they roll it. They turn slower while rolling it, but can increase turning speed by holding the turn.\n\nThe snowball does between [(180 / 225 / 270 / 315 / 360 + (1.5) × AP) × (0.333)] and [180 / 225 / 270 / 315 / 360 + (1.5) × AP] magic damage, and Knocks Up for between [0.5] and [0.5 + 0.75] seconds when it collides with a champion, large monster or wall. These values scale up with distance rolled.\n\nNunu and Willump can Recast to let the snowball go early."
-        },
-        {
-          "ability": "Call of the Freljord",
-          "slot": "Passive",
-          "source": "Characters/Nunu/Spells/NunuPassiveAbility/NunuPassive",
-          "formula": "When Nunu and Willump deal damage to champions, large jungle monsters, or structures, they and a nearby ally gain [20]% Attack Speed and [10]% Move Speed for 4 seconds.\n\nWillump's Attacks deal an additional [(0.3) × AD] physical damage to other nearby enemies while he has this buff."
         },
         {
           "ability": "Snowball Barrage",
@@ -415,12 +385,6 @@
           "slot": "R",
           "source": "Characters/Nunu/Spells/NunuRAbility/NunuR",
           "formula": "Nunu and Willump channel a powerful blizzard for up to [3] seconds. Enemies inside are Slowed by [50]%, increasing to [95]% over the duration. Nunu and Willump also gain [65 / 75 / 85 + (0.3 / 0.4 / 0.5) × Stat(12)[statFormula=2] + (1.5) × AP] Shield for the duration before decaying over [3] seconds afterwards.\n\nWhen the blizzard ends, it detonates, dealing up to [625 / 925 / 1275 + (3) × AP] magic damage based on channel time. Nunu and Willump can Recast to end the blizzard early."
-        },
-        {
-          "ability": "Consume",
-          "slot": "Q",
-          "source": "Characters/Nunu/Spells/NunuQAbility/NunuQ",
-          "formula": "Nunu asks Willump to take a bite of an enemy, dealing [400 / 600 / 800 / 1000 / 1200] true damage and restoring [65 / 95 / 125 / 155 / 185 + (0.1) × Stat(12)[statFormula=2] + (0.9) × AP] Health when used against a minion or jungle monster. Against a champion, it instead deals [60 / 100 / 140 / 180 / 220 + (0.05) × Stat(12)[statFormula=2] + (0.65) × AP] magic damage and restores [(65 / 95 / 125 / 155 / 185 + (0.1) × Stat(12)[statFormula=2] + (0.9) × AP) × (0.6)] Health.\n\nThe healing is increased by [50]% when Nunu and Willump are below [50]% Health."
         }
       ]
     }

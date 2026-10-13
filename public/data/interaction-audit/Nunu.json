@@ -1,0 +1,289 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Nunu",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "bite-backed-shield-channel",
+      "name": "Bite-backed shield channel",
+      "objective": "Trade some tank resistance for AP that supports Consume and a protected R channel.",
+      "mechanic": "Consume has 0.9 AP non-champion healing and reduced champion healing, enhanced below half health. R has 1.5 AP shielding and up to 3 AP damage; Visage boosts self shielding/healing while Riftmaker requires a real combat ramp. E root can buy channel time and Abyssal only helps nearby magic damage.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        6653,
+        3065,
+        8020,
+        3157,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "An accessible bite target and E root exist; record actual R channel length.",
+      "failure": "Hard interruption ends the damage window; a monster heal cannot be assumed in a champion duel.",
+      "test": "Record Consume target type, healing, R shield and damage for short versus full channels.",
+      "rejectedAssumption": "Stat(12)[statFormula=2] in Q/R is retained and should not be silently read as total health.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "snowball-root-relay",
+      "name": "Snowball root relay",
+      "objective": "Turn the collision and delayed E root into an ally-focused vulnerability window.",
+      "mechanic": "W collision knocks up, then E only roots snowball-slowed nearby enemies after three seconds. Current Mandate triggers on immobilization, while Bandlepipes can trigger on slows or immobilization. Shurelya supports the follow-through and R slow/channel threatens a second zone.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3869,
+        4005,
+        2524,
+        2065,
+        3190,
+        3009
+      ],
+      "pageKey": "after",
+      "requiredState": "Team can follow the W collision and remain near Nunu for E resolution.",
+      "failure": "An escaped E target or poor W steering wastes the ally items.",
+      "test": "Time W impact, E root, Mandate mark and allied damage within the four-second mark window.",
+      "rejectedAssumption": "An E snowball hit alone is not the delayed root.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Champion true-damage bite",
+      "reason": "Q specifies true damage only for minions/monsters; champion Consume is magic damage.",
+      "evidenceSlots": [
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "R/Q health formulas retain statFormula=2; R interruption and item timing need live logs. Passive splash does not establish inherited item on-hits."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Call of the Freljord",
+      "paths": [
+        "Characters/Nunu/Spells/NunuPassiveAbility/NunuPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Consume",
+      "paths": [
+        "Characters/Nunu/Spells/NunuQAbility/NunuQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Biggest Snowball Ever!",
+      "paths": [
+        "Characters/Nunu/Spells/NunuWAbility/NunuW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Snowball Barrage",
+      "paths": [
+        "Characters/Nunu/Spells/NunuEAbility/NunuE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Absolute Zero",
+      "paths": [
+        "Characters/Nunu/Spells/NunuRAbility/NunuR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "nunu-audit-bite-backed-shield-channel",
+      "champion": "Nunu",
+      "name": "Bite-backed shield channel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Trade some tank resistance for AP that supports Consume and a protected R channel.",
+      "goal": "Trade some tank resistance for AP that supports Consume and a protected R channel.",
+      "hypothesis": "Consume has 0.9 AP non-champion healing and reduced champion healing, enhanced below half health. R has 1.5 AP shielding and up to 3 AP damage; Visage boosts self shielding/healing while Riftmaker requires a real combat ramp. E root can buy channel time and Abyssal only helps nearby magic damage.",
+      "itemIds": [
+        4633,
+        6653,
+        3065,
+        8020,
+        3157,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: An accessible bite target and E root exist; record actual R channel length.",
+        "Record Consume target type, healing, R shield and damage for short versus full channels.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Hard interruption ends the damage window; a monster heal cannot be assumed in a champion duel.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Stat(12)[statFormula=2] in Q/R is retained and should not be silently read as total health.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Liandry's Torment, Spirit Visage, Abyssal Mask, Zhonya's Hourglass, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Snowball Barrage",
+          "slot": "E",
+          "source": "Characters/Nunu/Spells/NunuEAbility/NunuE",
+          "formula": "Nunu throws three snowballs, dealing [15 / 22.5 / 30 / 37.5 / 45 + (0.12) × AP] magic damage per snowball and Slowing enemies hit by all three by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [1] second. Nunu can Recast this up to twice more.\n\nAfter [3] seconds, Nunu Roots all nearby enemies that had been Slowed by the snowballs for [characterLevelInterpolation(0.5 → 1.5; raw flags preserved)] seconds and deals an additional [20 / 30 / 40 / 50 / 60 + (0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Absolute Zero",
+          "slot": "R",
+          "source": "Characters/Nunu/Spells/NunuRAbility/NunuR",
+          "formula": "Nunu and Willump channel a powerful blizzard for up to [3] seconds. Enemies inside are Slowed by [50]%, increasing to [95]% over the duration. Nunu and Willump also gain [65 / 75 / 85 + (0.3 / 0.4 / 0.5) × Stat(12)[statFormula=2] + (1.5) × AP] Shield for the duration before decaying over [3] seconds afterwards.\n\nWhen the blizzard ends, it detonates, dealing up to [625 / 925 / 1275 + (3) × AP] magic damage based on channel time. Nunu and Willump can Recast to end the blizzard early."
+        },
+        {
+          "ability": "Consume",
+          "slot": "Q",
+          "source": "Characters/Nunu/Spells/NunuQAbility/NunuQ",
+          "formula": "Nunu asks Willump to take a bite of an enemy, dealing [400 / 600 / 800 / 1000 / 1200] true damage and restoring [65 / 95 / 125 / 155 / 185 + (0.1) × Stat(12)[statFormula=2] + (0.9) × AP] Health when used against a minion or jungle monster. Against a champion, it instead deals [60 / 100 / 140 / 180 / 220 + (0.05) × Stat(12)[statFormula=2] + (0.65) × AP] magic damage and restores [(65 / 95 / 125 / 155 / 185 + (0.1) × Stat(12)[statFormula=2] + (0.9) × AP) × (0.6)] Health.\n\nThe healing is increased by [50]% when Nunu and Willump are below [50]% Health."
+        }
+      ]
+    },
+    {
+      "id": "nunu-audit-snowball-root-relay",
+      "champion": "Nunu",
+      "name": "Snowball root relay",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Turn the collision and delayed E root into an ally-focused vulnerability window.",
+      "goal": "Turn the collision and delayed E root into an ally-focused vulnerability window.",
+      "hypothesis": "W collision knocks up, then E only roots snowball-slowed nearby enemies after three seconds. Current Mandate triggers on immobilization, while Bandlepipes can trigger on slows or immobilization. Shurelya supports the follow-through and R slow/channel threatens a second zone.",
+      "itemIds": [
+        3869,
+        4005,
+        2524,
+        2065,
+        3190,
+        3009
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Team can follow the W collision and remain near Nunu for E resolution.",
+        "Time W impact, E root, Mandate mark and allied damage within the four-second mark window.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "An escaped E target or poor W steering wastes the ally items.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: An E snowball hit alone is not the delayed root.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Celestial Opposition, Imperial Mandate, Bandlepipes, Shurelya's Battlesong, Locket of the Iron Solari, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Biggest Snowball Ever!",
+          "slot": "W",
+          "source": "Characters/Nunu/Spells/NunuWAbility/NunuW",
+          "formula": "Nunu and Willump create a snowball that grows in size and speed as they roll it. They turn slower while rolling it, but can increase turning speed by holding the turn.\n\nThe snowball does between [(180 / 225 / 270 / 315 / 360 + (1.5) × AP) × (0.333)] and [180 / 225 / 270 / 315 / 360 + (1.5) × AP] magic damage, and Knocks Up for between [0.5] and [0.5 + 0.75] seconds when it collides with a champion, large monster or wall. These values scale up with distance rolled.\n\nNunu and Willump can Recast to let the snowball go early."
+        },
+        {
+          "ability": "Snowball Barrage",
+          "slot": "E",
+          "source": "Characters/Nunu/Spells/NunuEAbility/NunuE",
+          "formula": "Nunu throws three snowballs, dealing [15 / 22.5 / 30 / 37.5 / 45 + (0.12) × AP] magic damage per snowball and Slowing enemies hit by all three by [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% for [1] second. Nunu can Recast this up to twice more.\n\nAfter [3] seconds, Nunu Roots all nearby enemies that had been Slowed by the snowballs for [characterLevelInterpolation(0.5 → 1.5; raw flags preserved)] seconds and deals an additional [20 / 30 / 40 / 50 / 60 + (0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Absolute Zero",
+          "slot": "R",
+          "source": "Characters/Nunu/Spells/NunuRAbility/NunuR",
+          "formula": "Nunu and Willump channel a powerful blizzard for up to [3] seconds. Enemies inside are Slowed by [50]%, increasing to [95]% over the duration. Nunu and Willump also gain [65 / 75 / 85 + (0.3 / 0.4 / 0.5) × Stat(12)[statFormula=2] + (1.5) × AP] Shield for the duration before decaying over [3] seconds afterwards.\n\nWhen the blizzard ends, it detonates, dealing up to [625 / 925 / 1275 + (3) × AP] magic damage based on channel time. Nunu and Willump can Recast to end the blizzard early."
+        }
+      ]
+    }
+  ]
+}

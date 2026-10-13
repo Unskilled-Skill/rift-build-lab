@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Zed",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "marked-attack-filler",
+      "name": "Marked attack filler",
+      "objective": "Test one real attack between shadow abilities and Death Mark expiry.",
+      "mechanic": "R records a three-second damage window; Q/shadows supply physical hits and W returns energy when matching abilities hit. Trinity supports one actual post-cast attack, BotRK adds a current-health packet and passive adds conditional magic damage below half health. The mark repeat must be logged without assuming every proc counts.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        3078,
+        3153,
+        6694,
+        3814,
+        3026,
+        3158
+      ],
+      "pageKey": "pta",
+      "requiredState": "R mark active, finite energy, target below half for passive and Spellblade ready.",
+      "failure": "The attack delays a multi-shuriken hit or exposes Zed before escape.",
+      "test": "Compare R-Q-E versus the same sequence plus one attack, isolating passive/item and final mark packets.",
+      "rejectedAssumption": "W shadow Q casts do not themselves consume attack Spellblade.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "slash-driven-shadow-recycle",
+      "name": "Slash-driven shadow recycle",
+      "objective": "Use actual Zed E champion contact to shorten W and produce a second escape/attack angle.",
+      "mechanic": "E by Zed reduces W cooldown three seconds per champion hit; shadow E adds slow but overlapping slashes deal no extra damage. Shojin haste and physical Cleaver pressure test a longer exchange, with Eclipse and Deaths Dance supporting survival. E contact and W energy refund must be earned, not assumed from every shadow.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3161,
+        3071,
+        6692,
+        6333,
+        3053,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Record energy and W state; Zed own E reaches one or more champions safely.",
+      "failure": "Only the shadow reaches the target, so the planned W cooldown reduction fails.",
+      "test": "Log W timer after Zed E versus shadow-only E and count energy refunds for matched Q hits.",
+      "rejectedAssumption": "Overlapping E slashes do not each deal full damage or each independently grant the own-E W refund.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AP passive scaling invented",
+      "reason": "Passive retained percent-health magic damage is conditional/unresolved, with no documented AP ratio to support an AP Zed kit claim.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Passive GameCalculationConditional is unresolved; Death Mark item/pet damage ledger and AD statFormula=2 need live reconciliation. No mana pools on Energy."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Contempt for the Weak",
+      "paths": [
+        "Characters/Zed/Spells/ZedPassiveAbility/ZedPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Razor Shuriken",
+      "paths": [
+        "Characters/Zed/Spells/ZedQAbility/ZedQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Living Shadow",
+      "paths": [
+        "Characters/Zed/Spells/ZedWAbility/ZedW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Shadow Slash",
+      "paths": [
+        "Characters/Zed/Spells/ZedEAbility/ZedE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Death Mark",
+      "paths": [
+        "Characters/Zed/Spells/ZedRAbility/ZedR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "zed-audit-marked-attack-filler",
+      "champion": "Zed",
+      "name": "Marked attack filler",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test one real attack between shadow abilities and Death Mark expiry.",
+      "goal": "Test one real attack between shadow abilities and Death Mark expiry.",
+      "hypothesis": "R records a three-second damage window; Q/shadows supply physical hits and W returns energy when matching abilities hit. Trinity supports one actual post-cast attack, BotRK adds a current-health packet and passive adds conditional magic damage below half health. The mark repeat must be logged without assuming every proc counts.",
+      "itemIds": [
+        3078,
+        3153,
+        6694,
+        3814,
+        3026,
+        3158
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R mark active, finite energy, target below half for passive and Spellblade ready.",
+        "Compare R-Q-E versus the same sequence plus one attack, isolating passive/item and final mark packets.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "The attack delays a multi-shuriken hit or exposes Zed before escape.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: W shadow Q casts do not themselves consume attack Spellblade.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Blade of The Ruined King, Serylda's Grudge, Edge of Night, Guardian Angel, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Contempt for the Weak",
+          "slot": "Passive",
+          "source": "Characters/Zed/Spells/ZedPassiveAbility/ZedPassive",
+          "formula": "Whenever Zed Attacks an enemy below [50]% Health, he deals an additional [UNRESOLVED(GameCalculationConditional; see calculationRaw)] max Health magic damage. Enemy champions can only be hit once every [10] seconds."
+        },
+        {
+          "ability": "Living Shadow",
+          "slot": "W",
+          "source": "Characters/Zed/Spells/ZedWAbility/ZedW",
+          "formula": "Passive: Zed gains [30 / 35 / 40 / 45 / 50] Energy whenever he and his Shadows strike an enemy with the same Ability.\n\nActive: Zed's Shadow dashes forward, remaining in place for [5] seconds. Recasting this Ability will cause Zed to switch positions with this Shadow."
+        },
+        {
+          "ability": "Death Mark",
+          "slot": "R",
+          "source": "Characters/Zed/Spells/ZedRAbility/ZedR",
+          "formula": "Zed becomes Untargetable and dashes to an enemy champion, marking them. After [3] seconds, the mark triggers, dealing [(1) × AD] physical damage and repeating [(0.25 / 0.4 / 0.55) × 100]% of all damage dealt to the target by Zed while the mark was active.\n\nThe dash leaves a Shadow behind for [7.5] seconds. Zed can Recast this Ability to switch positions with this Shadow."
+        },
+        {
+          "ability": "Razor Shuriken",
+          "slot": "Q",
+          "source": "Characters/Zed/Spells/ZedQAbility/ZedQ",
+          "formula": "Zed and his Shadows throw their shurikens, each dealing [80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2]] physical damage to the first enemy they pass through, and [(80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2]) × (0.6)] physical damage to each additional enemy."
+        }
+      ]
+    },
+    {
+      "id": "zed-audit-slash-driven-shadow-recycle",
+      "champion": "Zed",
+      "name": "Slash-driven shadow recycle",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use actual Zed E champion contact to shorten W and produce a second escape/attack angle.",
+      "goal": "Use actual Zed E champion contact to shorten W and produce a second escape/attack angle.",
+      "hypothesis": "E by Zed reduces W cooldown three seconds per champion hit; shadow E adds slow but overlapping slashes deal no extra damage. Shojin haste and physical Cleaver pressure test a longer exchange, with Eclipse and Deaths Dance supporting survival. E contact and W energy refund must be earned, not assumed from every shadow.",
+      "itemIds": [
+        3161,
+        3071,
+        6692,
+        6333,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record energy and W state; Zed own E reaches one or more champions safely.",
+        "Log W timer after Zed E versus shadow-only E and count energy refunds for matched Q hits.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Only the shadow reaches the target, so the planned W cooldown reduction fails.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Overlapping E slashes do not each deal full damage or each independently grant the own-E W refund.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Spear of Shojin, Black Cleaver, Eclipse, Death's Dance, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Living Shadow",
+          "slot": "W",
+          "source": "Characters/Zed/Spells/ZedWAbility/ZedW",
+          "formula": "Passive: Zed gains [30 / 35 / 40 / 45 / 50] Energy whenever he and his Shadows strike an enemy with the same Ability.\n\nActive: Zed's Shadow dashes forward, remaining in place for [5] seconds. Recasting this Ability will cause Zed to switch positions with this Shadow."
+        },
+        {
+          "ability": "Razor Shuriken",
+          "slot": "Q",
+          "source": "Characters/Zed/Spells/ZedQAbility/ZedQ",
+          "formula": "Zed and his Shadows throw their shurikens, each dealing [80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2]] physical damage to the first enemy they pass through, and [(80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2]) × (0.6)] physical damage to each additional enemy."
+        },
+        {
+          "ability": "Shadow Slash",
+          "slot": "E",
+          "source": "Characters/Zed/Spells/ZedEAbility/ZedE",
+          "formula": "Zed and his Shadows slash, dealing [70 / 92.5 / 115 / 137.5 / 160 + (0.7) × AD[statFormula=2]] physical damage to nearby enemies.\n\nEach enemy champion hit by Zed's slash reduces Living Shadow's Cooldown by [3] seconds.\n\nEnemies hit by a Shadow's slash are Slowed by [(-0.2 / -0.25 / -0.3 / -0.35 / -0.4) × -100]% for [1.5] seconds. Enemies hit by multiple slashes take no additional damage but are Slowed by [(-0.3 / -0.375 / -0.45 / -0.525 / -0.6) × -100]% instead."
+        }
+      ]
+    }
+  ]
+}

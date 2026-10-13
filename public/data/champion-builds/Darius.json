@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "darius-four-1",
@@ -110,18 +110,20 @@
       ]
     },
     {
-      "id": "darius-four-2",
+      "id": "darius-audit-noxian-health-to-ad-ceiling",
       "champion": "Darius",
-      "name": "Damage interaction: AD spell pressure",
-      "goal": "Damage interaction for Darius: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A melee execution fighter who needs contact long enough to build bleed stacks, then spreads empowered damage and chains kills. Time five bleed stacks and empowered R chains. Do attack purchases improve stack access enough to justify losing Q-edge healing/AD? Do not give immediate full bleed stacks. AD, haste and Black Cleaver may reward repeated physical ability hits.",
-      "summary": "AD, haste and Black Cleaver may reward repeated physical ability hits.",
+      "name": "Noxian health-to-AD ceiling",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert bounded health growth into amplified execute pressure.",
+      "goal": "Convert bounded health growth into amplified execute pressure.",
+      "hypothesis": "Hemorrhage reaches five stacks before granting Noxian Might's temporary AD; Guillotine has an AD statFormula expression and doubles damage at five bleeds. Heartsteel and Bloodmail provide a health-to-AD route, Visage supports Q's missing-health edge heal, and Stridebreaker helps remain at axe-edge distance rather than replacing required stack setup.",
       "itemIds": [
-        6692,
-        3161,
-        3071,
-        6333,
+        3084,
+        2501,
+        3065,
         3053,
+        6631,
         3047
       ],
       "runePage": [
@@ -133,17 +135,17 @@
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Darius: Time five bleed stacks and empowered R chains. Do attack purchases improve stack access enough to justify losing Q-edge healing/AD? Do not give immediate full bleed stacks.",
-        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Darius winds up and swings his axe in a wide circle. Enemies struck by the blade take more damage than those struck by the handle. Darius heals based on enemy champions and large monsters hit by the blade. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need actual Heartsteel procs, five bleed stacks and a landed outer Q.",
+        "Compare full-stack R damage and time to Might at fixed Heartsteel stacks, then versus disengage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "The route fails Darius's stated kit question: Time five bleed stacks and empowered R chains. Do attack purchases improve stack access enough to justify losing Q-edge healing/AD? Do not give immediate full bleed stacks.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Low early attack speed and kiting prevent Might; burst can kill before Q healing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: True damage execute gains nothing from armor penetration and its reset needs an actual kill.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Heartsteel, Overlord's Bloodmail, Spirit Visage, Sterak's Gage, Stridebreaker, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Crippling Strike",
@@ -199,12 +193,6 @@
           "slot": "Q",
           "source": "Characters/Darius/Spells/DariusCleaveAbility/DariusCleave",
           "formula": "Darius hefts his axe then swings it around, dealing [50 / 80 / 110 / 140 / 170 + ((100 / 110 / 120 / 130 / 140) × (0.01)) × AD] physical damage with the edge and [(50 / 80 / 110 / 140 / 170 + ((100 / 110 / 120 / 130 / 140) × (0.01)) × AD) × (0.35)] damage with the handle. Enemies hit with the handle do not take a Hemorrhage stack.\n\nDarius restores [17]% missing Health per enemy champion and large jungle monster hit with the edge, up to a max of [51]%."
-        },
-        {
-          "ability": "Apprehend",
-          "slot": "E",
-          "source": "Characters/Darius/Spells/DariusAxeGrabConeAbility/DariusAxeGrabCone",
-          "formula": "Passive: Darius gains [20 / 25 / 30 / 35 / 40]% Armor Penetration.\n\nActive: Darius hooks with his axe, Pulling, and Knocking Up and Slowing by [40]% for [1] second."
         },
         {
           "ability": "Noxian Guillotine",
@@ -320,19 +308,21 @@
       ]
     },
     {
-      "id": "darius-four-4",
+      "id": "darius-audit-crippling-attack-reset-duel",
       "champion": "Darius",
-      "name": "Experiment: Attack-led side lane",
-      "goal": "Experiment for Darius: test a different playstyle, with lower confidence",
-      "hypothesis": "A melee execution fighter who needs contact long enough to build bleed stacks, then spreads empowered damage and chains kills. Time five bleed stacks and empowered R chains. Do attack purchases improve stack access enough to justify losing Q-edge healing/AD? Do not give immediate full bleed stacks. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Crippling attack reset duel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use the 90% slow to compress a three-attack trade.",
+      "goal": "Use the 90% slow to compress a three-attack trade.",
+      "hypothesis": "Crippling Strike's empowered attack reaches 1.6 AD and slows 90% for one second. Trinity supplies one physical Spellblade, Blade of the Ruined King rewards real attacks and Sundered Sky provides first-hit sustain. E pull makes the short window possible, while Cleaver complements the physical bleed/attack portion rather than R's true damage.",
       "itemIds": [
-        3153,
         3078,
-        3181,
-        3053,
+        3153,
+        6610,
+        3071,
         6333,
-        3047
+        3111
       ],
       "runePage": [
         8005,
@@ -345,15 +335,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Darius: Time five bleed stacks and empowered R chains. Do attack purchases improve stack access enough to justify losing Q-edge healing/AD? Do not give immediate full bleed stacks.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Darius winds up and swings his axe in a wide circle. Enemies struck by the blade take more damage than those struck by the handle. Darius heals based on enemy champions and large monsters hit by the blade. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need attack-W-attack spacing and the pulled target within melee reach.",
+        "Measure attacks and bleed stacks before slow expiry, with E pull versus an open chase.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Darius's stated kit question: Time five bleed stacks and empowered R chains. Do attack purchases improve stack access enough to justify losing Q-edge healing/AD? Do not give immediate full bleed stacks.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Extra offense sacrifices durability; Q's handle hit adds no bleed and can ruin the follow-up.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: On-hit item damage is separate from W's AD multiplier and is not guaranteed to crit with Sundered Sky.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Trinity Force, Blade of The Ruined King, Sundered Sky, Black Cleaver, Death's Dance, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Crippling Strike",
@@ -415,12 +397,6 @@
           "slot": "E",
           "source": "Characters/Darius/Spells/DariusAxeGrabConeAbility/DariusAxeGrabCone",
           "formula": "Passive: Darius gains [20 / 25 / 30 / 35 / 40]% Armor Penetration.\n\nActive: Darius hooks with his axe, Pulling, and Knocking Up and Slowing by [40]% for [1] second."
-        },
-        {
-          "ability": "Noxian Guillotine",
-          "slot": "R",
-          "source": "Characters/Darius/Spells/DariusExecuteAbility/DariusExecute",
-          "formula": "Darius leaps to an enemy and strikes a lethal blow, dealing [125 / 250 / 375 + (0.75) × AD[statFormula=2]] true damage. For each Hemorrhage on the target, this Ability deals an additional [20]% damage, up to a max of [(125 / 250 / 375 + (0.75) × AD[statFormula=2]) × (2)] damage.\n\nIf this kills the target, Darius may Recast this Ability once within [20] seconds. At rank 3, this Ability has no Mana cost and kills refresh the Cooldown completely."
         }
       ]
     }

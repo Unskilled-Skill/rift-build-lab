@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Renekton",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "triple-strike-item-log",
+      "name": "Triple-strike item log",
+      "objective": "Test empowered W as a compact delivery window for attack effects.",
+      "mechanic": "Empowered W destroys shields, strikes three times and stuns for 1.5 seconds. BotRK and Titanic offer attack damage packets to examine; Cleaver benefits confirmed physical damage. Q and Dominus supply recovery and Fury needed for another controlled trade.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        3153,
+        3748,
+        3071,
+        6610,
+        3053,
+        3047
+      ],
+      "pageKey": "pta",
+      "requiredState": "At least 50 Fury reserved for W, active Titanic ready and target shield state recorded.",
+      "failure": "Spending Fury on Q/E first or being peeled before W eliminates the three-hit window.",
+      "test": "Log W's three strikes, BotRK/Titanic packets and PTA state versus ordinary W at matched health.",
+      "rejectedAssumption": "Three described strikes do not prove three full copies of every item or rune proc.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "dominus-contact-ap",
+      "name": "Dominus contact AP",
+      "objective": "Test an AP and resistance budget for extended Dominus contact.",
+      "mechanic": "R grants health, 20 immediate Fury and five Fury per second over fifteen seconds, with an AP magic damage term. Riftmaker rewards elapsed combat and health, Abyssal boosts nearby magic damage, while Cosmic responds to R magic packets. Q's healing remains AD-dependent.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        4629,
+        8020,
+        3050,
+        3065,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "R active and repeated proximity for a recorded number of seconds.",
+      "failure": "Kiting wastes the aura and reduced AD loses Q recovery and W pressure.",
+      "test": "Measure R magic ticks and contact uptime separately from attacks, before and after Riftmaker ramp.",
+      "rejectedAssumption": "The source's R damage expression does not establish its exact tick frequency.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AP Cull healing",
+      "reason": "Q healing exposes AD statFormula terms, not AP.",
+      "evidenceSlots": [
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "R tick cadence, W proc inheritance and raw bonus-stat flags need live validation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Reign of Anger",
+      "paths": [
+        "Characters/Renekton/Spells/RenektonPredatorAbility/RenektonPredator"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Cull the Meek",
+      "paths": [
+        "Characters/Renekton/Spells/RenektonCleaveAbility/RenektonCleave"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Ruthless Predator",
+      "paths": [
+        "Characters/Renekton/Spells/RenektonPreExecuteAbility/RenektonPreExecute"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Slice and Dice",
+      "paths": [
+        "Characters/Renekton/Spells/RenektonSliceAndDiceAbility/RenektonSliceAndDice"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Dominus",
+      "paths": [
+        "Characters/Renekton/Spells/RenektonReignOfTheTyrantAbility/RenektonReignOfTheTyrant"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "renekton-audit-triple-strike-item-log",
+      "champion": "Renekton",
+      "name": "Triple-strike item log",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test empowered W as a compact delivery window for attack effects.",
+      "goal": "Test empowered W as a compact delivery window for attack effects.",
+      "hypothesis": "Empowered W destroys shields, strikes three times and stuns for 1.5 seconds. BotRK and Titanic offer attack damage packets to examine; Cleaver benefits confirmed physical damage. Q and Dominus supply recovery and Fury needed for another controlled trade.",
+      "itemIds": [
+        3153,
+        3748,
+        3071,
+        6610,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: At least 50 Fury reserved for W, active Titanic ready and target shield state recorded.",
+        "Log W's three strikes, BotRK/Titanic packets and PTA state versus ordinary W at matched health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Spending Fury on Q/E first or being peeled before W eliminates the three-hit window.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Three described strikes do not prove three full copies of every item or rune proc.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blade of The Ruined King, Titanic Hydra, Black Cleaver, Sundered Sky, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ruthless Predator",
+          "slot": "W",
+          "source": "Characters/Renekton/Spells/RenektonPreExecuteAbility/RenektonPreExecute",
+          "formula": "Renekton's next Attack strikes twice, Stunning for [0.75] seconds and dealing a total of [(5 / 20 / 35 / 50 / 65 + (0.75) × AD) × (2)] physical damage. Hitting a champion generates an additional [10] Fury.\n\nFury Bonus: Renekton Attacks 3 times instead, destroying Shields before dealing [(5 / 20 / 35 / 50 / 65 + (0.75) × AD) × (3)] physical damage and Stunning for [1.5] seconds. Does not generate any Fury."
+        },
+        {
+          "ability": "Reign of Anger",
+          "slot": "Passive",
+          "source": "Characters/Renekton/Spells/RenektonPredatorAbility/RenektonPredator",
+          "formula": "Renekton gains [5] Fury per Attack. While above [50] Fury, his next Ability spends it to become empowered. Fury decays while out of combat.\n\nWhile below [50]% Health, Renekton gains [50]% increased Fury."
+        },
+        {
+          "ability": "Cull the Meek",
+          "slot": "Q",
+          "source": "Characters/Renekton/Spells/RenektonCleaveAbility/RenektonCleave",
+          "formula": "Renekton swings his blade, dealing [60 / 90 / 120 / 150 / 180 + (1) × AD[statFormula=2]] physical damage and restoring [2 / 3 / 4 / 5 / 6 + (0.02) × AD[statFormula=2]] Health per non-champion and [12 / 20 / 28 / 36 / 44 + (0.17) × AD[statFormula=2]] per champion hit. He also generates [2.5] Fury per non-champion and [10] Fury per champion.\n\nFury Bonus: Damage is increased to [90 / 135 / 180 / 225 / 270 + (1.4) × AD[statFormula=2]] physical damage and healing is increased to [(2 / 3 / 4 / 5 / 6 + (0.02) × AD[statFormula=2]) × (3)] Health against non-champions and [(12 / 20 / 28 / 36 / 44 + (0.17) × AD[statFormula=2]) × (3)] Health against champions. Does not generate any Fury."
+        },
+        {
+          "ability": "Dominus",
+          "slot": "R",
+          "source": "Characters/Renekton/Spells/RenektonReignOfTheTyrantAbility/RenektonReignOfTheTyrant",
+          "formula": "Renekton surrounds himself with dark energies for [15] seconds, gaining [300 / 500 / 700] max Health and [20] Fury. While active, he deals [60 / 150 / 240 + (0.1) × AP + (0.1) × AD[statFormula=2]] magic damage and gains [5] Fury per second."
+        }
+      ]
+    },
+    {
+      "id": "renekton-audit-dominus-contact-ap",
+      "champion": "Renekton",
+      "name": "Dominus contact AP",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test an AP and resistance budget for extended Dominus contact.",
+      "goal": "Test an AP and resistance budget for extended Dominus contact.",
+      "hypothesis": "R grants health, 20 immediate Fury and five Fury per second over fifteen seconds, with an AP magic damage term. Riftmaker rewards elapsed combat and health, Abyssal boosts nearby magic damage, while Cosmic responds to R magic packets. Q's healing remains AD-dependent.",
+      "itemIds": [
+        4633,
+        4629,
+        8020,
+        3050,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R active and repeated proximity for a recorded number of seconds.",
+        "Measure R magic ticks and contact uptime separately from attacks, before and after Riftmaker ramp.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Kiting wastes the aura and reduced AD loses Q recovery and W pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The source's R damage expression does not establish its exact tick frequency.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Cosmic Drive, Abyssal Mask, Zeke's Convergence, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Slice and Dice",
+          "slot": "E",
+          "source": "Characters/Renekton/Spells/RenektonSliceAndDiceAbility/RenektonSliceAndDice",
+          "formula": "Renekton dashes, dealing [40 / 70 / 100 / 130 / 160 + (0.9) × AD[statFormula=2]] physical damage. He generates [2] Fury per non-champion and [10] Fury per champion hit. Hitting at least one enemy allows Renekton to Recast this Ability once for [4] seconds. \n\nFury Bonus: The Recast dash deals [70 / 115 / 160 / 205 / 250 + (1.35) × AD[statFormula=2]] physical damage instead and removes [25 / 27.5 / 30 / 32.5 / 35]% Armor for [4] seconds. Does not generate Fury."
+        },
+        {
+          "ability": "Cull the Meek",
+          "slot": "Q",
+          "source": "Characters/Renekton/Spells/RenektonCleaveAbility/RenektonCleave",
+          "formula": "Renekton swings his blade, dealing [60 / 90 / 120 / 150 / 180 + (1) × AD[statFormula=2]] physical damage and restoring [2 / 3 / 4 / 5 / 6 + (0.02) × AD[statFormula=2]] Health per non-champion and [12 / 20 / 28 / 36 / 44 + (0.17) × AD[statFormula=2]] per champion hit. He also generates [2.5] Fury per non-champion and [10] Fury per champion.\n\nFury Bonus: Damage is increased to [90 / 135 / 180 / 225 / 270 + (1.4) × AD[statFormula=2]] physical damage and healing is increased to [(2 / 3 / 4 / 5 / 6 + (0.02) × AD[statFormula=2]) × (3)] Health against non-champions and [(12 / 20 / 28 / 36 / 44 + (0.17) × AD[statFormula=2]) × (3)] Health against champions. Does not generate any Fury."
+        },
+        {
+          "ability": "Dominus",
+          "slot": "R",
+          "source": "Characters/Renekton/Spells/RenektonReignOfTheTyrantAbility/RenektonReignOfTheTyrant",
+          "formula": "Renekton surrounds himself with dark energies for [15] seconds, gaining [300 / 500 / 700] max Health and [20] Fury. While active, he deals [60 / 150 / 240 + (0.1) × AP + (0.1) × AD[statFormula=2]] magic damage and gains [5] Fury per second."
+        }
+      ]
+    }
+  ]
+}

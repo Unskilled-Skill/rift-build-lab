@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "rakan-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "rakan-four-2",
+      "id": "rakan-audit-quill-charge-rescue",
       "champion": "Rakan",
-      "name": "Damage interaction: AP support gamble",
-      "goal": "Damage interaction for Rakan: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A mobile engager and protector who enters with knock-up or charm, then returns to allies through shielding dashes. Compare knockup/charm entry with shielding return to an ally. A melee Spellblade experiment needs a real attack without losing the escape and rescue timing. A quest slot retained alongside AP tests whether personal spell damage repays reduced utility.",
-      "summary": "A quest slot retained alongside AP tests whether personal spell damage repays reduced utility.",
+      "name": "Quill-charge rescue",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Cash champion damage into Helia while using two E shields as staggered delivery windows.",
+      "goal": "Cash champion damage into Helia while using two E shields as staggered delivery windows.",
+      "hypothesis": "Q has 0.7 AP damage and 0.55 AP ally healing triggered after three seconds or on ally contact. E has 0.7 AP shields and a second cast within five seconds. Helia charges from champion damage, then ally healing/shielding consumes them; Staff may improve the next W/Q and allied caster window.",
       "itemIds": [
         3869,
-        6655,
-        3089,
-        3135,
-        3157,
-        3020
+        6620,
+        6616,
+        6617,
+        2065,
+        3158
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5008,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rakan: Compare knockup/charm entry with shielding return to an ally. A melee Spellblade experiment needs a real attack without losing the escape and rescue timing.",
-        "Start with the early core (Support quest, affordable AP/mana core before expensive scaling) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: A quest slot retained alongside AP tests whether personal spell damage repays reduced utility. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Flings a magical feather that deals magic damage. Striking a champion or epic monster enables Rakan to heal his allies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Q connects and the intended ally is accessible; spread E casts around real incoming damage.",
+        "Log Q damage/heal timing and both E shields, Helia consumption and ally shield waste.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "The route fails Rakan's stated kit question: Compare knockup/charm entry with shielding return to an ally. A melee Spellblade experiment needs a real attack without losing the escape and rescue timing.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Burst before Q healing or a missed Q leaves empty Helia charges.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Expensive on support income; still buy vision and judge ally survival.",
-        "Full cost 14,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Two E casts do not cash the same Helia charges twice.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, affordable AP/mana core before expensive scaling. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Echoes of Helia, Staff of Flowing Water, Moonstone Renewer, Shurelya's Battlesong, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Grand Entrance",
@@ -199,18 +193,6 @@
           "slot": "E",
           "source": "Characters/Rakan/Spells/RakanEAbility/RakanE",
           "formula": "Rakan dashes to an allied champion, granting them [50 / 75 / 100 / 125 / 150 + (0.7) × AP] Shield for [3] seconds.\n\nRakan can Recast this Ability once within [5] seconds."
-        },
-        {
-          "ability": "Fey Feathers",
-          "slot": "Passive",
-          "source": "Characters/Rakan/Spells/RakanPassiveAbility/RakanPassive",
-          "formula": "Every [characterLevelBreakpoints(start=40, perLevel=-1.5, changes=[{\"mLevel\": 19, \"mBonusPerLevelAtAndAfter\": -0.875, \"__type\": \"Breakpoint\"}])] seconds, Rakan gains [characterLevelInterpolation(30 → 225; raw flags preserved) + (0.95) × AP] Shield. Rakan's Attacks and Abilities against enemy champions reduce this Cooldown by [1] second.\n\nLover's Leap - Xayah and Rakan can recall together."
-        },
-        {
-          "ability": "The Quickness",
-          "slot": "R",
-          "source": "Characters/Rakan/Spells/RakanRAbility/RakanR",
-          "formula": "Rakan gains [75]% Move Speed for [4] seconds. Rakan deals [100 / 200 / 300 + (0.5) × AP] magic damage and Charms enemies for [1 / 1.25 / 1.5] second(s) the first time he touches them. The first champion touched grants Rakan [150]% decaying Move Speed."
         }
       ]
     },
@@ -320,17 +302,19 @@
       ]
     },
     {
-      "id": "rakan-four-4",
+      "id": "rakan-audit-feather-recharge-skirmish",
       "champion": "Rakan",
-      "name": "Experiment: Dusk and Dawn",
-      "goal": "Experiment for Rakan: test a different playstyle, with lower confidence",
-      "hypothesis": "A mobile engager and protector who enters with knock-up or charm, then returns to allies through shielding dashes. Compare knockup/charm entry with shielding return to an ally. A melee Spellblade experiment needs a real attack without losing the escape and rescue timing. Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern.",
+      "name": "Feather recharge skirmish",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test sustained AP attack contact as a way to regain the large passive shield.",
+      "goal": "Test sustained AP attack contact as a way to regain the large passive shield.",
+      "hypothesis": "Fey Feathers has 0.95 AP shielding and each attack or ability against champions removes one second from its cooldown. Nashor and Dusk and Dawn support real attacks between W and E exits; AP also powers Q healing and E shielding. Visage increases Rakan self shields, while R charm gives a short access window.",
       "itemIds": [
         2510,
-        4633,
         3115,
-        3089,
+        4633,
+        3065,
         3157,
         3111
       ],
@@ -345,15 +329,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rakan: Compare knockup/charm entry with shielding return to an ally. A melee Spellblade experiment needs a real attack without losing the escape and rescue timing.",
-        "Start with the early core (Dusk and Dawn, then Riftmaker) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP and a repeated-on-hit Spellblade attack test an attack-weaving melee pattern. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Flings a magical feather that deals magic damage. Striking a champion or epic monster enables Rakan to heal his allies. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: A safe farmed-income skirmish permits actual attacks and a cooldown cycle.",
+        "Count passive cooldown reductions per attack/cast and shields regained in a fixed moving fight.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
-        "The route fails Rakan's stated kit question: Compare knockup/charm entry with shielding return to an ally. A melee Spellblade experiment needs a real attack without losing the escape and rescue timing.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Melee time kills Rakan before recharge and sacrifices support actives.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Only one Spellblade item; repeated damage does not prove repeated passive stacks.",
-        "Full cost 17,100 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Duplicated on-hit packets are not additional attacks or automatic extra passive cooldown reductions.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Dusk and Dawn, then Riftmaker. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Nashor's Tooth, Rabadon's Deathcap, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Dusk and Dawn, Nashor's Tooth, Riftmaker, Spirit Visage, Zhonya's Hourglass, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Grand Entrance",

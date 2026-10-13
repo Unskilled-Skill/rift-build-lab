@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Velkoz",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "researched-true-ray",
+      "name": "Researched true ray",
+      "objective": "Prepare Deconstruction before R and test the true-damage finish threshold.",
+      "mechanic": "Three ability stacks trigger AP-scaled true damage and cause R to deal true damage to a recently deconstructed target. Shadowflame explicitly boosts low-health true damage; Cosmic reacts to true/magic damage and can help positioning before channeling. Mana and AP support the preparatory W/E/Q sequence.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        4629,
+        3157,
+        3020
+      ],
+      "pageKey": "first",
+      "requiredState": "Passive proc confirmed before R, target within beam and channel protected.",
+      "failure": "Missed setup or interruption converts the expected payoff into a short magic channel.",
+      "test": "Record R damage type after zero versus three setup stacks and above versus below 40% target health.",
+      "rejectedAssumption": "Magic penetration cannot increase the researched beam's true damage.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "attack-refresh-stack",
+      "name": "Attack refresh stack",
+      "objective": "Preserve partial Deconstruction with an occasional safer attack before the next spell.",
+      "mechanic": "Attacks refresh the passive's seven-second duration without adding stacks. RFC offers a charged attack range window and Lich Bane rewards a preceding cast; Q's slow and split geometry can keep a delayed follow-up spell accessible. The expensive attack slot must repay stacks that otherwise expire.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3094,
+        3100,
+        4629,
+        3089,
+        3137,
+        3158
+      ],
+      "pageKey": "storm",
+      "requiredState": "One or two partial stacks about to expire, RFC ready and safe attack range.",
+      "failure": "The attack exposes Vel'Koz to engage or an ordinary spell could have refreshed stacks more safely.",
+      "test": "Delay follow-up beyond seven seconds with versus without one attack and inspect refresh, proc and exposure.",
+      "rejectedAssumption": "An attack refresh is not a new Deconstruction stack, including repeated on-hits.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Three attacks deconstruct",
+      "reason": "Passive explicitly says attacks refresh but do not add new stacks.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "RFC refresh delivery and researched-state duration must be observed; W charge recharge token remains unresolved."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Organic Deconstruction",
+      "paths": [
+        "Characters/Velkoz/Spells/VelkozPassiveAbility/VelkozPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Plasma Fission",
+      "paths": [
+        "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Void Rift",
+      "paths": [
+        "Characters/Velkoz/Spells/VelkozWAbility/VelkozW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Tectonic Disruption",
+      "paths": [
+        "Characters/Velkoz/Spells/VelkozEAbility/VelkozE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Life Form Disintegration Ray",
+      "paths": [
+        "Characters/Velkoz/Spells/VelkozRAbility/VelkozR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "velkoz-audit-researched-true-ray",
+      "champion": "Velkoz",
+      "name": "Researched true ray",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Prepare Deconstruction before R and test the true-damage finish threshold.",
+      "goal": "Prepare Deconstruction before R and test the true-damage finish threshold.",
+      "hypothesis": "Three ability stacks trigger AP-scaled true damage and cause R to deal true damage to a recently deconstructed target. Shadowflame explicitly boosts low-health true damage; Cosmic reacts to true/magic damage and can help positioning before channeling. Mana and AP support the preparatory W/E/Q sequence.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        4629,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Passive proc confirmed before R, target within beam and channel protected.",
+        "Record R damage type after zero versus three setup stacks and above versus below 40% target health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Missed setup or interruption converts the expected payoff into a short magic channel.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Magic penetration cannot increase the researched beam's true damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Luden's Echo, Shadowflame, Rabadon's Deathcap, Cosmic Drive, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Plasma Fission",
+          "slot": "Q",
+          "source": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+          "formula": "Vel'Koz shoots a plasma bolt that deals [80 / 120 / 160 / 200 / 240 + (0.9) × AP] magic damage and Slows by [70]% decaying over [1 / 1.4 / 1.8 / 2.2 / 2.6] second(s). At the end of its range, on hitting a target, or on Recasting, the bolt splits and fires two new bolts at a 90 degree angle.\n\nKilling a unit with this restores [20 / 22.5 / 25 / 27.5 / 30] Mana."
+        },
+        {
+          "ability": "Tectonic Disruption",
+          "slot": "E",
+          "source": "Characters/Velkoz/Spells/VelkozEAbility/VelkozE",
+          "formula": "Vel'Koz disrupts a nearby area, causing it to explode, Knocking Up for [0.75] seconds and dealing [70 / 100 / 130 / 160 / 190 + (0.3) × AP] magic damage. Enemies close to Vel'Koz will be Knocked Back instead of Knocked Up."
+        },
+        {
+          "ability": "Void Rift",
+          "slot": "W",
+          "source": "Characters/Velkoz/Spells/VelkozWAbility/VelkozW",
+          "formula": "Vel'Koz opens a rift to the void, dealing [30 / 50 / 70 / 90 / 110 + (0.2) × AP] magic damage. The rift then erupts, dealing [45 / 75 / 105 / 135 / 165 + (0.25) × AP] magic damage.\n\nThis Ability has 2 charges (@AmmoRechargeTime@ second refresh)."
+        },
+        {
+          "ability": "Life Form Disintegration Ray",
+          "slot": "R",
+          "source": "Characters/Velkoz/Spells/VelkozRAbility/VelkozR",
+          "formula": "Vel'Koz channels a ray of energy that follows the cursor, dealing a total of [450 / 700 / 925 + (1.25) × AP] magic damage over 2.5 seconds and Slowing by [20 / 20 / 20]%. Deals true damage instead to enemies recently damaged by {{Spell_VelkozPassive_Name}}.\n\nEnemies gain stacks of Deconstruction periodically while in the beam."
+        },
+        {
+          "ability": "Organic Deconstruction",
+          "slot": "Passive",
+          "source": "Characters/Velkoz/Spells/VelkozPassiveAbility/VelkozPassive",
+          "formula": "Vel'Koz's Abilities apply a stack of Deconstruction for [7] seconds. Enemies with 3 stacks consume them and take [(0.6) × AP + characterLevelInterpolation(35 → 180; raw flags preserved)] true damage.\n\nVel'Koz's Attacks refresh the duration of Deconstruction, but won't add new stacks."
+        }
+      ]
+    },
+    {
+      "id": "velkoz-audit-attack-refresh-stack",
+      "champion": "Velkoz",
+      "name": "Attack refresh stack",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Preserve partial Deconstruction with an occasional safer attack before the next spell.",
+      "goal": "Preserve partial Deconstruction with an occasional safer attack before the next spell.",
+      "hypothesis": "Attacks refresh the passive's seven-second duration without adding stacks. RFC offers a charged attack range window and Lich Bane rewards a preceding cast; Q's slow and split geometry can keep a delayed follow-up spell accessible. The expensive attack slot must repay stacks that otherwise expire.",
+      "itemIds": [
+        3094,
+        3100,
+        4629,
+        3089,
+        3137,
+        3158
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: One or two partial stacks about to expire, RFC ready and safe attack range.",
+        "Delay follow-up beyond seven seconds with versus without one attack and inspect refresh, proc and exposure.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "The attack exposes Vel'Koz to engage or an ordinary spell could have refreshed stacks more safely.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: An attack refresh is not a new Deconstruction stack, including repeated on-hits.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Rapid Firecannon, Lich Bane, Cosmic Drive, Rabadon's Deathcap, Cryptbloom, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Plasma Fission",
+          "slot": "Q",
+          "source": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+          "formula": "Vel'Koz shoots a plasma bolt that deals [80 / 120 / 160 / 200 / 240 + (0.9) × AP] magic damage and Slows by [70]% decaying over [1 / 1.4 / 1.8 / 2.2 / 2.6] second(s). At the end of its range, on hitting a target, or on Recasting, the bolt splits and fires two new bolts at a 90 degree angle.\n\nKilling a unit with this restores [20 / 22.5 / 25 / 27.5 / 30] Mana."
+        },
+        {
+          "ability": "Tectonic Disruption",
+          "slot": "E",
+          "source": "Characters/Velkoz/Spells/VelkozEAbility/VelkozE",
+          "formula": "Vel'Koz disrupts a nearby area, causing it to explode, Knocking Up for [0.75] seconds and dealing [70 / 100 / 130 / 160 / 190 + (0.3) × AP] magic damage. Enemies close to Vel'Koz will be Knocked Back instead of Knocked Up."
+        },
+        {
+          "ability": "Void Rift",
+          "slot": "W",
+          "source": "Characters/Velkoz/Spells/VelkozWAbility/VelkozW",
+          "formula": "Vel'Koz opens a rift to the void, dealing [30 / 50 / 70 / 90 / 110 + (0.2) × AP] magic damage. The rift then erupts, dealing [45 / 75 / 105 / 135 / 165 + (0.25) × AP] magic damage.\n\nThis Ability has 2 charges (@AmmoRechargeTime@ second refresh)."
+        },
+        {
+          "ability": "Organic Deconstruction",
+          "slot": "Passive",
+          "source": "Characters/Velkoz/Spells/VelkozPassiveAbility/VelkozPassive",
+          "formula": "Vel'Koz's Abilities apply a stack of Deconstruction for [7] seconds. Enemies with 3 stacks consume them and take [(0.6) × AP + characterLevelInterpolation(35 → 180; raw flags preserved)] true damage.\n\nVel'Koz's Attacks refresh the duration of Deconstruction, but won't add new stacks."
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "aatrox-four-1",
@@ -110,17 +110,19 @@
       ]
     },
     {
-      "id": "aatrox-four-2",
+      "id": "aatrox-audit-bloodmail-edge-sustain",
       "champion": "Aatrox",
-      "name": "Damage interaction: AD spell pressure",
-      "goal": "Damage interaction for Aatrox: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A spell-driven melee fighter who controls spacing with repeated knockups and sustains through champion damage. Weaving the periodic empowered attack matters alongside landing Q edges. Do Q sweet spots and the periodic empowered attack repay an AD/haste core before health-to-AD purchases become worthwhile? Record healing under Grievous Wounds and missed Q edges. AD, haste and Black Cleaver may reward repeated physical ability hits.",
-      "summary": "AD, haste and Black Cleaver may reward repeated physical ability hits.",
+      "name": "Bloodmail edge sustain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bloodmail edge sustain against the conventional damage pattern at equal gold.",
+      "goal": "Test bloodmail edge sustain against the conventional damage pattern at equal gold.",
+      "hypothesis": "The Darkin Blade's 0.6-0.9 AD ratio and 75% edge bonus let Bloodmail's health-to-AD feed spell damage; World Ender amplifies AD and self-healing, while Sundered Sky rewards the attack between casts.",
       "itemIds": [
-        6692,
-        3161,
+        2501,
+        6610,
         3071,
-        6333,
+        3065,
         3053,
         3047
       ],
@@ -133,17 +135,17 @@
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Aatrox: Do Q sweet spots and the periodic empowered attack repay an AD/haste core before health-to-AD purchases become worthwhile? Record healing under Grievous Wounds and missed Q edges.",
-        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Blood Well. Do not treat mana regeneration as Blood Well recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Aatrox slams his greatsword down, dealing physical damage. He can swing three times, each with a different area of effect. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Land Q edges and one attack before disengaging.",
+        "Compare three edge hits and healing over ten seconds at equal gold.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "The route fails Aatrox's stated kit question: Do Q sweet spots and the periodic empowered attack repay an AD/haste core before health-to-AD purchases become worthwhile? Record healing under Grievous Wounds and missed Q edges.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "W escape and healing reduction break the loop.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Health never grants unlimited healing; E Stat(12)[statFormula=2] needs mapping.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Blood Well. Do not treat mana regeneration as Blood Well recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Overlord's Bloodmail, Sundered Sky, Black Cleaver, Spirit Visage, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Blood Well",
       "kitEvidence": [
         {
           "ability": "World Ender",
@@ -193,18 +187,6 @@
           "slot": "Q",
           "source": "Characters/Aatrox/Spells/AatroxQAbility/AatroxQ",
           "formula": "Aatrox slams his greatsword, dealing [10 / 25 / 40 / 55 / 70 + (0.6 / 0.675 / 0.75 / 0.825 / 0.9) × AD] physical damage. If they are hit on the edge, they are briefly Knocked Up and they take [(10 / 25 / 40 / 55 / 70 + (0.6 / 0.675 / 0.75 / 0.825 / 0.9) × AD) × ((1 + 0.75))] instead. This Ability can be Recast twice, each one changing shape and dealing 25% more damage than the previous one."
-        },
-        {
-          "ability": "Deathbringer Stance",
-          "slot": "Passive",
-          "source": "Characters/Aatrox/Spells/AatroxPassiveAbility/AatroxPassive",
-          "formula": "Aatrox's Attacks deal an additional [characterLevelInterpolation(0.04 → 0.1; raw flags preserved)] max Health magic damage and restore [100]% of damage dealt as Health, reduced to [25]% against minions. This effect has a [characterLevelInterpolation(22 → 10; raw flags preserved)] second cooldown.\n\nAttack and Ability hits against champions and large jungle monsters reduce this effect's cooldown by 2 seconds. Hits with the edge of The Darkin Blade reduce it by 4 seconds instead."
-        },
-        {
-          "ability": "Infernal Chains",
-          "slot": "W",
-          "source": "Characters/Aatrox/Spells/AatroxWAbility/AatroxW",
-          "formula": "Aatrox fires a chain, Slowing the first enemy hit by [(-0.25 / -0.275 / -0.3 / -0.325 / -0.35) × -100]% for [1.5] seconds and dealing [30 / 40 / 50 / 60 / 70 + (0.4) × AD] physical damage. Champions and large jungle monsters have [1.5] seconds to leave the impact area or be Pulled back to the center and damaged again for the same amount."
         },
         {
           "ability": "Umbral Dash",
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "aatrox-four-4",
+      "id": "aatrox-audit-passive-double-strike-window",
       "champion": "Aatrox",
-      "name": "Experiment: Health to attack damage",
-      "goal": "Experiment for Aatrox: test a different playstyle, with lower confidence",
-      "hypothesis": "A spell-driven melee fighter who controls spacing with repeated knockups and sustains through champion damage. Weaving the periodic empowered attack matters alongside landing Q edges. Do Q sweet spots and the periodic empowered attack repay an AD/haste core before health-to-AD purchases become worthwhile? Record healing under Grievous Wounds and missed Q edges. Bloodmail converts bonus health to AD while Titanic asks for actual attacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Passive double-strike window",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test passive double-strike window against the conventional damage pattern at equal gold.",
+      "goal": "Test passive double-strike window against the conventional damage pattern at equal gold.",
+      "hypothesis": "Deathbringer Stance deals max-health physical damage and attacks reduce its cooldown by two seconds; Trinity supplies Spellblade on the attack after E, while Blade of the Ruined King adds independent attack damage. Q edges still refund more passive cooldown than normal attacks.",
       "itemIds": [
-        3084,
-        2501,
-        3748,
-        3053,
+        3078,
+        3153,
+        3071,
+        6333,
         3065,
-        3047
+        3006
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8005,
         9111,
-        9104
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Aatrox: Do Q sweet spots and the periodic empowered attack repay an AD/haste core before health-to-AD purchases become worthwhile? Record healing under Grievous Wounds and missed Q edges.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Blood Well. Do not treat mana regeneration as Blood Well recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Aatrox slams his greatsword down, dealing physical damage. He can swing three times, each with a different area of effect. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Fight inside attack range and weave Q edges.",
+        "Count passive activations across twelve seconds versus the spell build.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails Aatrox's stated kit question: Do Q sweet spots and the periodic empowered attack repay an AD/haste core before health-to-AD purchases become worthwhile? Record healing under Grievous Wounds and missed Q edges.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Attack purchases weaken the normal Q burst and expose him to kiting.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Spellblade and Blade damage are separate packets, not doubled by Q edges.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Blood Well. Do not treat mana regeneration as Blood Well recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Trinity Force, Blade of The Ruined King, Black Cleaver, Death's Dance, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Blood Well",
       "kitEvidence": [
         {
           "ability": "World Ender",
@@ -409,12 +385,6 @@
           "slot": "Passive",
           "source": "Characters/Aatrox/Spells/AatroxPassiveAbility/AatroxPassive",
           "formula": "Aatrox's Attacks deal an additional [characterLevelInterpolation(0.04 → 0.1; raw flags preserved)] max Health magic damage and restore [100]% of damage dealt as Health, reduced to [25]% against minions. This effect has a [characterLevelInterpolation(22 → 10; raw flags preserved)] second cooldown.\n\nAttack and Ability hits against champions and large jungle monsters reduce this effect's cooldown by 2 seconds. Hits with the edge of The Darkin Blade reduce it by 4 seconds instead."
-        },
-        {
-          "ability": "Infernal Chains",
-          "slot": "W",
-          "source": "Characters/Aatrox/Spells/AatroxWAbility/AatroxW",
-          "formula": "Aatrox fires a chain, Slowing the first enemy hit by [(-0.25 / -0.275 / -0.3 / -0.325 / -0.35) × -100]% for [1.5] seconds and dealing [30 / 40 / 50 / 60 / 70 + (0.4) × AD] physical damage. Champions and large jungle monsters have [1.5] seconds to leave the impact area or be Pulled back to the center and damaged again for the same amount."
         },
         {
           "ability": "Umbral Dash",

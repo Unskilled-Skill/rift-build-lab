@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Xerath",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "mana-surge-stun-attack",
+      "name": "Mana-surge stun attack",
+      "objective": "Test a deliberate energized attack after E stun as a resource-positive trade.",
+      "mechanic": "Mana Surge restores twice the non-champion amount on a champion attack, on a sixteen-second clock reduced by kills. E stuns up to 2.25 seconds depending on flight distance; RFC extends one attack and Lich Bane adds a separate magic packet after a cast. AP still strengthens Q/W, while Cosmic can support retreat after the hit.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3094,
+        3100,
+        6655,
+        4629,
+        3135,
+        3020
+      ],
+      "pageKey": "first",
+      "requiredState": "Passive and energized attack ready; E connects and attacker can reach within the stun.",
+      "failure": "Approaching to attack forfeits artillery safety and wastes the low-AD crit slot.",
+      "test": "Compare E-one-attack-Q with spell-only poke, logging mana restored, attack range and damage taken.",
+      "rejectedAssumption": "RFC extends the charged attack, not Xerath Q/E cast range.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "artillery-hit-ladder",
+      "name": "Artillery hit ladder",
+      "objective": "Preserve R hit accuracy while testing debuffs around its per-hit damage growth.",
+      "mechanic": "R fires four to six times and adds AP-scaled damage per champion hit, so later shots depend on actual earlier connections. Horizon reveals targets struck from at least 600 range; Malignance can test Hatefog/MR reduction for R damage and Bloodletter tests debuff ramp. W center slow and E stun help prepare the channel rather than assuming every shot lands.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3118,
+        4628,
+        8010,
+        3089,
+        3157,
+        3020
+      ],
+      "pageKey": "comet",
+      "requiredState": "Record R rank, shot count, hits and distance; a safe ten-second channel is possible.",
+      "failure": "An interrupted channel or moving target causes misses and removes the claimed shot ladder.",
+      "test": "Measure shot-by-shot damage and MR debuff after a miss versus a connected opening hit.",
+      "rejectedAssumption": "Horizon current catalog is a reveal effect, not an assumed generic damage amplification.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Passive restores mana on every attack",
+      "reason": "Mana Surge has a sixteen-second cooldown with kill reductions; repeated attacks alone do not reset it.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "R hit-ladder scope across different victims and Hatefog refresh need live validation; charged-attack item set is a narrow experiment."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Mana Surge",
+      "paths": [
+        "Characters/Xerath/Spells/XerathAscended2Ability/XerathAscended2"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Arcanopulse",
+      "paths": [
+        "Characters/Xerath/Spells/XerathArcanopulseChargeUpAbility/XerathArcanopulseChargeUp"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Eye of Destruction",
+      "paths": [
+        "Characters/Xerath/Spells/XerathArcaneBarrage2Ability/XerathArcaneBarrage2"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Shocking Orb",
+      "paths": [
+        "Characters/Xerath/Spells/XerathMageSpearAbility/XerathMageSpear"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Rite of the Arcane",
+      "paths": [
+        "Characters/Xerath/Spells/XerathLocusOfPower2Ability/XerathLocusOfPower2"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "xerath-audit-mana-surge-stun-attack",
+      "champion": "Xerath",
+      "name": "Mana-surge stun attack",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test a deliberate energized attack after E stun as a resource-positive trade.",
+      "goal": "Test a deliberate energized attack after E stun as a resource-positive trade.",
+      "hypothesis": "Mana Surge restores twice the non-champion amount on a champion attack, on a sixteen-second clock reduced by kills. E stuns up to 2.25 seconds depending on flight distance; RFC extends one attack and Lich Bane adds a separate magic packet after a cast. AP still strengthens Q/W, while Cosmic can support retreat after the hit.",
+      "itemIds": [
+        3094,
+        3100,
+        6655,
+        4629,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Passive and energized attack ready; E connects and attacker can reach within the stun.",
+        "Compare E-one-attack-Q with spell-only poke, logging mana restored, attack range and damage taken.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Approaching to attack forfeits artillery safety and wastes the low-AD crit slot.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: RFC extends the charged attack, not Xerath Q/E cast range.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Rapid Firecannon, Lich Bane, Luden's Echo, Cosmic Drive, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Arcanopulse",
+          "slot": "Q",
+          "source": "Characters/Xerath/Spells/XerathArcanopulseChargeUpAbility/XerathArcanopulseChargeUp",
+          "formula": "Begin Charging: Xerath begins charging an arcane beam, Slowing himself gradually up to 50%. \n\nRelease: Xerath fires the beam, dealing [70 / 110 / 150 / 190 / 230 + (0.9) × AP] magic damage. The range increases with time charged."
+        },
+        {
+          "ability": "Shocking Orb",
+          "slot": "E",
+          "source": "Characters/Xerath/Spells/XerathMageSpearAbility/XerathMageSpear",
+          "formula": "Xerath fires an orb of raw magic, Stunning the first enemy hit for up to [2.25] seconds based on distance travelled, and dealing [70 / 100 / 130 / 160 / 190 + (0.45) × AP] magic damage."
+        },
+        {
+          "ability": "Mana Surge",
+          "slot": "Passive",
+          "source": "Characters/Xerath/Spells/XerathAscended2Ability/XerathAscended2",
+          "formula": "Every 16 seconds Xerath's next Attack against a champion restores [(characterLevelBreakpoints(start=30, perLevel=3, changes=[{\"mLevel\": 4, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 9.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 12.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}])) × (2)] Mana. It restores [characterLevelBreakpoints(start=30, perLevel=3, changes=[{\"mLevel\": 4, \"mBonusPerLevelAtAndAfter\": 6.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 9.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 12.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}])] Mana if attacking minions, jungle monsters or structures.\n\nWhenever Xerath kills a unit, this cooldown is reduced by [3.5] seconds."
+        },
+        {
+          "ability": "Eye of Destruction",
+          "slot": "W",
+          "source": "Characters/Xerath/Spells/XerathArcaneBarrage2Ability/XerathArcaneBarrage2",
+          "formula": "Xerath calls down a blast of arcane energy, dealing [50 / 85 / 120 / 155 / 190 + (0.65) × AP] magic damage and Slowing them by [25]% for [2.5] seconds. Enemies in the center take [(50 / 85 / 120 / 155 / 190 + (0.65) × AP) × (1.667)] magic damage instead and are Slowed by [(0.6 / 0.65 / 0.7 / 0.75 / 0.8) × 100]%, decaying over [2.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "xerath-audit-artillery-hit-ladder",
+      "champion": "Xerath",
+      "name": "Artillery hit ladder",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Preserve R hit accuracy while testing debuffs around its per-hit damage growth.",
+      "goal": "Preserve R hit accuracy while testing debuffs around its per-hit damage growth.",
+      "hypothesis": "R fires four to six times and adds AP-scaled damage per champion hit, so later shots depend on actual earlier connections. Horizon reveals targets struck from at least 600 range; Malignance can test Hatefog/MR reduction for R damage and Bloodletter tests debuff ramp. W center slow and E stun help prepare the channel rather than assuming every shot lands.",
+      "itemIds": [
+        3118,
+        4628,
+        8010,
+        3089,
+        3157,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record R rank, shot count, hits and distance; a safe ten-second channel is possible.",
+        "Measure shot-by-shot damage and MR debuff after a miss versus a connected opening hit.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "An interrupted channel or moving target causes misses and removes the claimed shot ladder.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Horizon current catalog is a reveal effect, not an assumed generic damage amplification.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Malignance, Horizon Focus, Bloodletter's Curse, Rabadon's Deathcap, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Rite of the Arcane",
+          "slot": "R",
+          "source": "Characters/Xerath/Spells/XerathLocusOfPower2Ability/XerathLocusOfPower2",
+          "formula": "Xerath ascends to his true form and channels for [10] seconds. During this time he may Recast up to [4 / 5 / 6] times.\n\nRecast: Xerath launches a magical artillery, dealing [170 / 220 / 270 + (0.45) × AP] magic damage. For each champion hit, the artillery deals an additional [20 / 25 / 30 + (0.05) × AP] magic damage."
+        },
+        {
+          "ability": "Arcanopulse",
+          "slot": "Q",
+          "source": "Characters/Xerath/Spells/XerathArcanopulseChargeUpAbility/XerathArcanopulseChargeUp",
+          "formula": "Begin Charging: Xerath begins charging an arcane beam, Slowing himself gradually up to 50%. \n\nRelease: Xerath fires the beam, dealing [70 / 110 / 150 / 190 / 230 + (0.9) × AP] magic damage. The range increases with time charged."
+        },
+        {
+          "ability": "Shocking Orb",
+          "slot": "E",
+          "source": "Characters/Xerath/Spells/XerathMageSpearAbility/XerathMageSpear",
+          "formula": "Xerath fires an orb of raw magic, Stunning the first enemy hit for up to [2.25] seconds based on distance travelled, and dealing [70 / 100 / 130 / 160 / 190 + (0.45) × AP] magic damage."
+        },
+        {
+          "ability": "Eye of Destruction",
+          "slot": "W",
+          "source": "Characters/Xerath/Spells/XerathArcaneBarrage2Ability/XerathArcaneBarrage2",
+          "formula": "Xerath calls down a blast of arcane energy, dealing [50 / 85 / 120 / 155 / 190 + (0.65) × AP] magic damage and Slowing them by [25]% for [2.5] seconds. Enemies in the center take [(50 / 85 / 120 / 155 / 190 + (0.65) × AP) × (1.667)] magic damage instead and are Slowed by [(0.6 / 0.65 / 0.7 / 0.75 / 0.8) × 100]%, decaying over [2.5] seconds."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Caitlyn",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "trap-full-pierce",
+      "name": "Trap Full Pierce",
+      "objective": "Compare rear-target Q with and without trap reveal.",
+      "mechanic": "Q loses damage after the front target unless the rear enemy is W revealed. W also gives stronger long-range Headshot. AD/crit support P/R documented scaling; Shojin tests more trap/Q access without treating Q as ordinary crit.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        3161,
+        3031,
+        6676,
+        3036,
+        3508,
+        3158
+      ],
+      "pageKey": "first",
+      "requiredState": "Trap a rear target behind a front unit before Q passes through.",
+      "failure": "Trap avoidance or movement loses full Q exception.",
+      "test": "Compare rear-target Q with and without trap reveal; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Headshot crit scaling does not make Q an ordinary critical attack.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "net-magic-retreat",
+      "name": "Net Magic Retreat",
+      "objective": "Separate net, Headshot and Spellblade damage during retreat.",
+      "mechanic": "E has 0.8 AP magic damage and grants Headshot access. Rocketbelt adds movement, Lich Bane a separate attack after E, and Cosmic follows the magic hit. P/Headshot remains physical, so the AP escape trade sacrifices Q/R AD output.",
+      "evidenceSlots": [
+        "P",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3152,
+        3100,
+        4629,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "electro",
+      "requiredState": "Land E and use Headshot access before retreating.",
+      "failure": "Net interception or low physical damage outweighs the E gain.",
+      "test": "Separate net, Headshot and Spellblade damage during retreat; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "E AP scaling does not convert Headshot to magic.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Ordinary crit Q",
+      "reason": "Q lacks a crit multiplier; P/R crit rules are explicitly separate.",
+      "evidenceSlots": [
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Stat(8)/Stat(9) crit interpretation needs verification; no undocumented headshot reset chain is assumed.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Headshot",
+      "paths": [
+        "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Piltover Peacemaker",
+      "paths": [
+        "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Yordle Snap Trap",
+      "paths": [
+        "Characters/Caitlyn/Spells/CaitlynWAbility/CaitlynW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "90 Caliber Net",
+      "paths": [
+        "Characters/Caitlyn/Spells/CaitlynEAbility/CaitlynE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Ace in the Hole",
+      "paths": [
+        "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "caitlyn-audit-trap-full-pierce",
+      "champion": "Caitlyn",
+      "name": "Trap Full Pierce",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare rear-target Q with and without trap reveal.",
+      "goal": "Compare rear-target Q with and without trap reveal.",
+      "hypothesis": "Q loses damage after the front target unless the rear enemy is W revealed. W also gives stronger long-range Headshot. AD/crit support P/R documented scaling; Shojin tests more trap/Q access without treating Q as ordinary crit.",
+      "itemIds": [
+        3161,
+        3031,
+        6676,
+        3036,
+        3508,
+        3158
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Trap a rear target behind a front unit before Q passes through.",
+        "Compare rear-target Q with and without trap reveal; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Trap avoidance or movement loses full Q exception.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Headshot crit scaling does not make Q an ordinary critical attack.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Spear of Shojin, Infinity Edge, The Collector, Lord Dominik's Regards, Essence Reaver, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Headshot",
+          "slot": "Passive",
+          "source": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive",
+          "formula": "Every [5] Attacks, Caitlyn fires a Headshot. Attacks while in brush count as [(1 + 1)] for building towards a Headshot.\n\nHeadshots deal an additional [((characterLevelBreakpoints(start=0.6, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.20000000298023224, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.20000000298023224, \"__type\": \"Breakpoint\"}]) + ((1) × Stat(8)) × (((1) × Stat(9) + -1)))) × AD] physical damage. They have double range against enemies affected by {{Spell_CaitlynEntrapment_Name}} and {{Spell_CaitlynYordleTrap_Name}}. Headshots against enemies hit by {{Spell_CaitlynYordleTrap_Name}} deal a further @spell.CaitlynW:HeadshotBonusDamage@ physical damage."
+        },
+        {
+          "ability": "Yordle Snap Trap",
+          "slot": "W",
+          "source": "Characters/Caitlyn/Spells/CaitlynWAbility/CaitlynW",
+          "formula": "Caitlyn sets a trap that Roots the first champion that steps on it for [1.5] seconds and granting True Sight of them for 3 seconds. Traps last for [30 / 35 / 40 / 45 / 50] seconds, and [3 / 3 / 4 / 4 / 5] traps may be active at once. This Ability has [3 / 3 / 4 / 4 / 5] charges (@AmmoRechargeTime@ second refresh).\n\nTargets rooted by this Ability take an additional [35 / 80 / 125 / 170 / 215 + (0.3) × AD[statFormula=2]] physical damage from Headshot."
+        },
+        {
+          "ability": "Ace in the Hole",
+          "slot": "R",
+          "source": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR",
+          "formula": "Caitlyn takes a moment to channel and line up the perfect shot, then she fires, dealing [(300 / 475 / 650 + (1) × AD[statFormula=2]) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage, but other enemy champions can intercept it. This Ability grants True Sight of the target during the channel.\n\nDamage scales with Caitlyn's Critical Strike chance and Critical Strike Damage."
+        },
+        {
+          "ability": "Piltover Peacemaker",
+          "slot": "Q",
+          "source": "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ",
+          "formula": "Caitlyn revs her rifle to fire a piercing shot dealing [50 / 90 / 130 / 170 / 210 + (1.25 / 1.45 / 1.65 / 1.85 / 2.05) × AD] physical damage. After the bolt strikes the first target, it opens into a wider shot that deals [(50 / 90 / 130 / 170 / 210 + (1.25 / 1.45 / 1.65 / 1.85 / 2.05) × AD) × (0.6)] physical damage.\n\nEnemies revealed by {{Spell_CaitlynYordleTrap_Name}} always take full damage."
+        }
+      ]
+    },
+    {
+      "id": "caitlyn-audit-net-magic-retreat",
+      "champion": "Caitlyn",
+      "name": "Net Magic Retreat",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Separate net, Headshot and Spellblade damage during retreat.",
+      "goal": "Separate net, Headshot and Spellblade damage during retreat.",
+      "hypothesis": "E has 0.8 AP magic damage and grants Headshot access. Rocketbelt adds movement, Lich Bane a separate attack after E, and Cosmic follows the magic hit. P/Headshot remains physical, so the AP escape trade sacrifices Q/R AD output.",
+      "itemIds": [
+        3152,
+        3100,
+        4629,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Land E and use Headshot access before retreating.",
+        "Separate net, Headshot and Spellblade damage during retreat; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Net interception or low physical damage outweighs the E gain.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: E AP scaling does not convert Headshot to magic.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Hextech Rocketbelt, Lich Bane, Cosmic Drive, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Headshot",
+          "slot": "Passive",
+          "source": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive",
+          "formula": "Every [5] Attacks, Caitlyn fires a Headshot. Attacks while in brush count as [(1 + 1)] for building towards a Headshot.\n\nHeadshots deal an additional [((characterLevelBreakpoints(start=0.6, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.20000000298023224, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.20000000298023224, \"__type\": \"Breakpoint\"}]) + ((1) × Stat(8)) × (((1) × Stat(9) + -1)))) × AD] physical damage. They have double range against enemies affected by {{Spell_CaitlynEntrapment_Name}} and {{Spell_CaitlynYordleTrap_Name}}. Headshots against enemies hit by {{Spell_CaitlynYordleTrap_Name}} deal a further @spell.CaitlynW:HeadshotBonusDamage@ physical damage."
+        },
+        {
+          "ability": "90 Caliber Net",
+          "slot": "E",
+          "source": "Characters/Caitlyn/Spells/CaitlynEAbility/CaitlynE",
+          "formula": "Caitlyn fires a net, pushing her backwards. The net Slows the first target hit by [50]% for [1] second and deals [80 / 130 / 180 / 230 / 280 + (0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Ace in the Hole",
+          "slot": "R",
+          "source": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR",
+          "formula": "Caitlyn takes a moment to channel and line up the perfect shot, then she fires, dealing [(300 / 475 / 650 + (1) × AD[statFormula=2]) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage, but other enemy champions can intercept it. This Ability grants True Sight of the target during the channel.\n\nDamage scales with Caitlyn's Critical Strike chance and Critical Strike Damage."
+        }
+      ]
+    }
+  ]
+}

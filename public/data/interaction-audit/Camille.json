@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Camille",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "ultimatum-on-hit-lock",
+      "name": "Ultimatum on-hit lock",
+      "objective": "Test ultimatum on-hit lock against the conventional damage pattern at equal gold.",
+      "mechanic": "Hextech Ultimatum adds current-health magic damage to Camille's attacks for 2.5-4 seconds; Hookshot grants five seconds of attack speed. Blade and Terminus reward attacking inside that short isolation window rather than maximizing one delayed Q.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3748,
+        3053,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Hit E and R, then stay in attack range through the trap.",
+      "failure": "Short R duration and outside peel prevent stacking attack effects.",
+      "test": "Count ordinary attacks and R magic packets during a full rank-three cage.",
+      "rejectedAssumption": "Q2 true conversion cannot be assumed to convert all purchased on-hit packets.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "sweep-shield-sustain",
+      "name": "Sweep shield sustain",
+      "objective": "Test sweep shield sustain against the conventional damage pattern at equal gold.",
+      "mechanic": "Tactical Sweep's outer hit heals from bonus max-health physical damage, while Adaptive Defenses shields from Camille's max health. Bloodmail and Trinity add AD and a separate Spellblade attack; Visage supports shields and healing between spaced Q casts.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        6610,
+        2501,
+        3078,
+        3065,
+        3071,
+        3047
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Keep enemies at W outer edge and delay Q2 at least 1.5 seconds.",
+      "failure": "Point-blank dives lose W healing and mismatched damage can bypass the passive shield.",
+      "test": "Compare shield size and healing after two outer-W trades.",
+      "rejectedAssumption": "No claim that Sundered Sky's forced crit multiplies Q2's converted true component.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Q2 true conversion cannot be assumed to convert all purchased on-hit packets.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Item and ability proc attribution requires a controlled current-patch test; symbolic statFormula and source flags are not runtime verification."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Adaptive Defenses",
+      "paths": [
+        "Characters/Camille/Spells/CamillePassiveAbility/CamillePassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Precision Protocol",
+      "paths": [
+        "Characters/Camille/Spells/CamilleQAbility/CamilleQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Tactical Sweep",
+      "paths": [
+        "Characters/Camille/Spells/CamilleWAbility/CamilleW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Hookshot",
+      "paths": [
+        "Characters/Camille/Spells/CamilleEAbility/CamilleE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "The Hextech Ultimatum",
+      "paths": [
+        "Characters/Camille/Spells/CamilleRAbility/CamilleR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "camille-audit-ultimatum-on-hit-lock",
+      "champion": "Camille",
+      "name": "Ultimatum on-hit lock",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test ultimatum on-hit lock against the conventional damage pattern at equal gold.",
+      "goal": "Test ultimatum on-hit lock against the conventional damage pattern at equal gold.",
+      "hypothesis": "Hextech Ultimatum adds current-health magic damage to Camille's attacks for 2.5-4 seconds; Hookshot grants five seconds of attack speed. Blade and Terminus reward attacking inside that short isolation window rather than maximizing one delayed Q.",
+      "itemIds": [
+        3153,
+        3124,
+        3302,
+        3748,
+        3053,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Hit E and R, then stay in attack range through the trap.",
+        "Count ordinary attacks and R magic packets during a full rank-three cage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Short R duration and outside peel prevent stacking attack effects.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Q2 true conversion cannot be assumed to convert all purchased on-hit packets.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Blade of The Ruined King, Guinsoo's Rageblade, Terminus, Titanic Hydra, Sterak's Gage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Adaptive Defenses",
+          "slot": "Passive",
+          "source": "Characters/Camille/Spells/CamillePassiveAbility/CamillePassive",
+          "formula": "Camille's Attacks on champions grant [(characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])) × Stat(12)] Shield against their damage type (Physical or Magic) for [2] seconds. This effect has a [characterLevelBreakpoints(start=14, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}])] second Cooldown."
+        },
+        {
+          "ability": "Hookshot",
+          "slot": "E",
+          "source": "Characters/Camille/Spells/CamilleEAbility/CamilleE",
+          "formula": "Camille fires a hookshot that attaches to terrain, pulling her to it for 1 second and allowing this Ability to be Recast.\n\nRecast: Camille dashes from the wall, colliding with the first enemy champion hit. Upon landing, she gains [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% Attack Speed for [5] seconds, deals [60 / 90 / 120 / 150 / 180 + (0.75) × AD[statFormula=2]] physical damage to nearby enemies, and Stuns enemy champions for [0.75] seconds. Dashes towards enemy champions travel twice as far."
+        },
+        {
+          "ability": "Precision Protocol",
+          "slot": "Q",
+          "source": "Characters/Camille/Spells/CamilleQAbility/CamilleQ",
+          "formula": "Camille's next Attack deals an additional [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × AD] physical damage and grants her [(0.25 / 0.3 / 0.35 / 0.4 / 0.45) × 100]% Move Speed for [1] second. This ability can be Recast in the next [3.5] seconds.\n\nIf the Recast Attack hits at least [1.5] seconds after the first, the bonus damage is increased to [((0.2 / 0.25 / 0.3 / 0.35 / 0.4) × AD) × (2)] and [characterLevelBreakpoints(start=0.4, perLevel=0.04, changes=[{\"mLevel\": 17, \"__type\": \"Breakpoint\"}])] of the Attack's damage is converted into true damage.\n\n{{ buff_desc_SpellEffects }}"
+        },
+        {
+          "ability": "The Hextech Ultimatum",
+          "slot": "R",
+          "source": "Characters/Camille/Spells/CamilleRAbility/CamilleR",
+          "formula": "Camille briefly becomes Untargetable and leaps onto an enemy champion, interrupting channels and locking them into an area they cannot escape by any means for [2.5 / 3.25 / 4] seconds. Other nearby enemies are Knocked Away. Her Attacks against the trapped enemy deal an additional [4 / 6 / 8]% current Health magic damage."
+        }
+      ]
+    },
+    {
+      "id": "camille-audit-sweep-shield-sustain",
+      "champion": "Camille",
+      "name": "Sweep shield sustain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test sweep shield sustain against the conventional damage pattern at equal gold.",
+      "goal": "Test sweep shield sustain against the conventional damage pattern at equal gold.",
+      "hypothesis": "Tactical Sweep's outer hit heals from bonus max-health physical damage, while Adaptive Defenses shields from Camille's max health. Bloodmail and Trinity add AD and a separate Spellblade attack; Visage supports shields and healing between spaced Q casts.",
+      "itemIds": [
+        6610,
+        2501,
+        3078,
+        3065,
+        3071,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Keep enemies at W outer edge and delay Q2 at least 1.5 seconds.",
+        "Compare shield size and healing after two outer-W trades.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Point-blank dives lose W healing and mismatched damage can bypass the passive shield.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: No claim that Sundered Sky's forced crit multiplies Q2's converted true component.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Sundered Sky, Overlord's Bloodmail, Trinity Force, Spirit Visage, Black Cleaver, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Adaptive Defenses",
+          "slot": "Passive",
+          "source": "Characters/Camille/Spells/CamillePassiveAbility/CamillePassive",
+          "formula": "Camille's Attacks on champions grant [(characterLevelBreakpoints(start=0.1, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])) × Stat(12)] Shield against their damage type (Physical or Magic) for [2] seconds. This effect has a [characterLevelBreakpoints(start=14, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}])] second Cooldown."
+        },
+        {
+          "ability": "Hookshot",
+          "slot": "E",
+          "source": "Characters/Camille/Spells/CamilleEAbility/CamilleE",
+          "formula": "Camille fires a hookshot that attaches to terrain, pulling her to it for 1 second and allowing this Ability to be Recast.\n\nRecast: Camille dashes from the wall, colliding with the first enemy champion hit. Upon landing, she gains [(0.4 / 0.45 / 0.5 / 0.55 / 0.6) × 100]% Attack Speed for [5] seconds, deals [60 / 90 / 120 / 150 / 180 + (0.75) × AD[statFormula=2]] physical damage to nearby enemies, and Stuns enemy champions for [0.75] seconds. Dashes towards enemy champions travel twice as far."
+        },
+        {
+          "ability": "Precision Protocol",
+          "slot": "Q",
+          "source": "Characters/Camille/Spells/CamilleQAbility/CamilleQ",
+          "formula": "Camille's next Attack deals an additional [(0.2 / 0.25 / 0.3 / 0.35 / 0.4) × AD] physical damage and grants her [(0.25 / 0.3 / 0.35 / 0.4 / 0.45) × 100]% Move Speed for [1] second. This ability can be Recast in the next [3.5] seconds.\n\nIf the Recast Attack hits at least [1.5] seconds after the first, the bonus damage is increased to [((0.2 / 0.25 / 0.3 / 0.35 / 0.4) × AD) × (2)] and [characterLevelBreakpoints(start=0.4, perLevel=0.04, changes=[{\"mLevel\": 17, \"__type\": \"Breakpoint\"}])] of the Attack's damage is converted into true damage.\n\n{{ buff_desc_SpellEffects }}"
+        },
+        {
+          "ability": "Tactical Sweep",
+          "slot": "W",
+          "source": "Characters/Camille/Spells/CamilleWAbility/CamilleW",
+          "formula": "Camille winds up and slices, dealing [60 / 85 / 110 / 135 / 160 + (0.6) × AD[statFormula=2]] physical damage.\n\nEnemies hit by the outer half are Slowed by [80]% decaying over [2] seconds, and they take an additional [0.07 / 0.075 / 0.08 / 0.085 / 0.09 + (0.00025) × AD[statFormula=2]] max Health physical damage. Camille restores [100]% of the bonus damage dealt to champions as Health."
+        }
+      ]
+    }
+  ]
+}

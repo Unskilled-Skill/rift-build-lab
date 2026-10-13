@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "renata-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "renata-four-2",
+      "id": "renata-audit-leverage-paired-attacker",
       "champion": "Renata",
-      "name": "Damage interaction: Attack-carry facilitator",
-      "goal": "Damage interaction for Renata Glasc: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A protective controller who coordinates attack marks and keeps an ally fighting through Bailout's takedown condition. Her R turns enemy attack strength into disruption. Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up. Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
-      "summary": "Eligible healing/shielding may deliver ally buffs and repeated supportive value.",
+      "name": "Leverage paired attacker",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test leverage paired attacker against conventional damage at equal gold.",
+      "goal": "Test leverage paired attacker against conventional damage at equal gold.",
+      "hypothesis": "Leverage's unmarked attack and allied mark consumption each scale max-health magic damage with AP; Nashor adds owner attack pressure and Dusk and Dawn follows E shielding. This route relies on a partner consuming marks repeatedly, not on Renata attacking one marked target alone.",
       "itemIds": [
-        3869,
-        6620,
-        3504,
-        6616,
-        3107,
-        3158
+        3115,
+        2510,
+        3089,
+        3302,
+        3102,
+        3006
       ],
       "runePage": [
-        8214,
-        8226,
-        8210,
-        8237,
-        8345,
-        8347
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
-        5001,
-        5001
+        5005,
+        5008,
+        5011
       ],
       "conditions": {
-        "level": 16,
+        "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,43 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Renata Glasc: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
-        "Start with the early core (Support quest, Helia if it can be triggered, then an ally-appropriate buff item) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use real support income and keep the quest/vision slot.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Eligible healing/shielding may deliver ally buffs and repeated supportive value. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Renata sends out a missile rooting the first enemy hit, and can recast the ability to throw the unit in a direction. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: An ally damages each mark before Renata reapplies it.",
+        "Count marks applied and consumed with an ally versus isolated attacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
-        "The route fails Renata Glasc's stated kit question: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. Also record allies lost while spending on personal damage."
+        "Solo attacks leave a persistent mark and lose the hoped-for passive cadence.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Verify Helia charge/heal interaction and choose buffs for the actual ally rather than assume universal value.",
-        "Full cost 10,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Rageblade-style extra hits cannot consume the mark as an allied champion.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Support quest, Helia if it can be triggered, then an ally-appropriate buff item. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Begin with the actual support quest item; Celestial Opposition is earned by transformation, not directly bought as a 400-gold legendary. Keep buying vision.",
-        "Ardent Censer, Staff of Flowing Water, Redemption are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Rabadon's Deathcap, Terminus, Banshee's Veil, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Hostile Takeover",
-          "slot": "R",
-          "source": "Characters/Renata/Spells/RenataRAbility/RenataR",
-          "formula": "Renata sends out a wave of chemicals, Berserking enemies for [1.25 / 1.75 / 2.25] seconds, causing them to Attack the nearest unit, prioritizing their allies.\n\nWhile Berserk, enemies gain [100]% Attack Speed."
-        },
         {
           "ability": "Loyalty Program",
           "slot": "E",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "renata-four-4",
+      "id": "renata-audit-bailout-shield-charge-engine",
       "champion": "Renata",
-      "name": "Experiment: AP attack experiment",
-      "goal": "Experiment for Renata Glasc: test a different playstyle, with lower confidence",
-      "hypothesis": "A protective controller who coordinates attack marks and keeps an ally fighting through Bailout's takedown condition. Her R turns enemy attack strength into disruption. Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up. AP-supported attacks and Nashor may create a second damage route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP-supported attacks and Nashor may create a second damage route.",
+      "name": "Bailout shield charge engine",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bailout shield charge engine against conventional damage at equal gold.",
+      "goal": "Test bailout shield charge engine against conventional damage at equal gold.",
+      "hypothesis": "Loyalty Program shields allies for three seconds while damaging champions, fitting Helia's damage-charge then ally-shield heal cycle. Handshake root fits Mandate's current vulnerability and immobilizing-ability haste; Bailout's attack/movement buff rewards keeping an ally alive for the required takedown.",
       "itemIds": [
-        3115,
-        3124,
-        3089,
-        3135,
-        3157,
-        3006
+        6620,
+        6617,
+        3504,
+        6621,
+        4005,
+        3158
       ],
       "runePage": [
-        8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Renata Glasc: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
-        "Start with the early core (Nashor, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP-supported attacks and Nashor may create a second damage route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Renata sends out a missile rooting the first enemy hit, and can recast the ability to throw the unit in a direction. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: E hits both enemy and ally and W recipient can finish a victim.",
+        "Measure Helia healing and time gained during decay without a kill.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "The route fails Renata Glasc's stated kit question: Measure passive marks with an ally consuming them and Bailout takedown timing. Enemy attacks during R depend on real enemy builds; an attack experiment cannot invent allied follow-up.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Healing merely delays Bailout decay and cannot replace the takedown.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Lower physical attack damage and limited health; verify the kit's AP/on-hit behavior first.",
-        "Full cost 16,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Bailout cannot permanently prevent death through unlimited external healing.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Nashor, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Echoes of Helia, Moonstone Renewer, Ardent Censer, Dawncore, Imperial Mandate, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Hostile Takeover",

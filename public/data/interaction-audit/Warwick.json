@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Warwick",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "magic-bite-recovery",
+      "name": "Magic bite recovery",
+      "objective": "Test AP and magic penetration as a direct way to improve Q damage-based healing.",
+      "mechanic": "Q deals 1 AP plus 1.2 AD and max-health magic damage, healing for a rank-scaled fraction dealt. Passive adds AP/AD magic on-hit and heals below half health; Visage enhances that self recovery. Nashor supports actual attacks and R has three channel attacks with full damage-based healing, whose item inheritance is separately tested.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        4633,
+        3135,
+        3089,
+        3065,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Actual MR, health threshold and Q rank fixed; E covers exposure before low-health recovery.",
+      "failure": "Healing reduction, burst above the threshold or missed R prevents the intended recovery.",
+      "test": "Log Q damage/heal versus MR, passive heals above/below 50% and R item packets separately.",
+      "rejectedAssumption": "AD scaling on Q/R does not make their documented damage physical.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "blood-hunt-launch-angle",
+      "name": "Blood-hunt launch angle",
+      "objective": "Use conditional movement to extend R reach while retaining a protected fear exit.",
+      "mechanic": "R leap distance scales with movement speed; W gains approach speed toward low-health champions and an active hunt can apply the passive toward the nearest champion. Stridebreaker supplies a short access tool; Dead Man and Swifties test approach speed, while E damage reduction and fear support a survivable landing. BotRK and Sundered Sky reward subsequent actual attacks.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3742,
+        6631,
+        3153,
+        6610,
+        3065,
+        3009
+      ],
+      "pageKey": "pta",
+      "requiredState": "Record W active/target health, direction and actual movement speed at R launch.",
+      "failure": "W direction restrictions or frontline collision sends R into the wrong target.",
+      "test": "Measure R range and first collision at identical target paths with W inactive, active and below-half target.",
+      "rejectedAssumption": "Out-of-combat or hunt movement is not guaranteed during every combat direction.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Triple passive healing assumed",
+      "reason": "Passive summary says triples below 25%, but retained tooltip states 250%; the conflict prevents asserting an exact triple heal.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Eternal Hunger low-health multiplier conflicts between summary and symbolic tooltip. R attacks and Q proc inheritance require packet logs; AD statFormula=2 is retained."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Eternal Hunger",
+      "paths": [
+        "Characters/Warwick/Spells/WarwickPAbility/WarwickP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Jaws of the Beast",
+      "paths": [
+        "Characters/Warwick/Spells/WarwickQAbility/WarwickQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Blood Hunt",
+      "paths": [
+        "Characters/Warwick/Spells/WarwickWAbility/WarwickW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Primal Howl",
+      "paths": [
+        "Characters/Warwick/Spells/WarwickEAbility/WarwickE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Infinite Duress",
+      "paths": [
+        "Characters/Warwick/Spells/WarwickRAbility/WarwickR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "warwick-audit-magic-bite-recovery",
+      "champion": "Warwick",
+      "name": "Magic bite recovery",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP and magic penetration as a direct way to improve Q damage-based healing.",
+      "goal": "Test AP and magic penetration as a direct way to improve Q damage-based healing.",
+      "hypothesis": "Q deals 1 AP plus 1.2 AD and max-health magic damage, healing for a rank-scaled fraction dealt. Passive adds AP/AD magic on-hit and heals below half health; Visage enhances that self recovery. Nashor supports actual attacks and R has three channel attacks with full damage-based healing, whose item inheritance is separately tested.",
+      "itemIds": [
+        3115,
+        4633,
+        3135,
+        3089,
+        3065,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Actual MR, health threshold and Q rank fixed; E covers exposure before low-health recovery.",
+        "Log Q damage/heal versus MR, passive heals above/below 50% and R item packets separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Healing reduction, burst above the threshold or missed R prevents the intended recovery.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: AD scaling on Q/R does not make their documented damage physical.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Riftmaker, Void Staff, Rabadon's Deathcap, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Eternal Hunger",
+          "slot": "Passive",
+          "source": "Characters/Warwick/Spells/WarwickPAbility/WarwickP",
+          "formula": "Warwick's Attacks deal an additional [characterLevelInterpolation(6 → 55; raw flags preserved) + (0.15) × AD[statFormula=2] + (0.1) × AP] magic damage On-Hit.\n\nIf Warwick is below [50]% Health, he also heals for [100]% of the damage dealt by Eternal Hunger. If Warwick is below [25]% health, the healing is increased to [250]% of the damage dealt."
+        },
+        {
+          "ability": "Infinite Duress",
+          "slot": "R",
+          "source": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+          "formula": "Warwick leaps a huge distance that scales with his Move Speed, Suppressing the first champion he collides with while he channels for [1.5] seconds. He attacks that champion 3 times over the duration, dealing [175 / 350 / 525 + (1.67) × AD[statFormula=2]] magic damage. Warwick heals for 100% of all damage dealt during the channel."
+        },
+        {
+          "ability": "Jaws of the Beast",
+          "slot": "Q",
+          "source": "Characters/Warwick/Spells/WarwickQAbility/WarwickQ",
+          "formula": "Tap: Warwick lunges forward and bites, dealing [(1.2) × AD + (1) × AP] plus [6 / 7 / 8 / 9 / 10]% max Health magic damage and healing for [25 / 37.5 / 50 / 62.5 / 75]% of the damage dealt.\n\nHold: Warwick lunges and clamps his jaws on the target, leaping behind them. While clamped, Warwick follows all movement of the target. After releasing his hold, he does the same damage and healing."
+        }
+      ]
+    },
+    {
+      "id": "warwick-audit-blood-hunt-launch-angle",
+      "champion": "Warwick",
+      "name": "Blood-hunt launch angle",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use conditional movement to extend R reach while retaining a protected fear exit.",
+      "goal": "Use conditional movement to extend R reach while retaining a protected fear exit.",
+      "hypothesis": "R leap distance scales with movement speed; W gains approach speed toward low-health champions and an active hunt can apply the passive toward the nearest champion. Stridebreaker supplies a short access tool; Dead Man and Swifties test approach speed, while E damage reduction and fear support a survivable landing. BotRK and Sundered Sky reward subsequent actual attacks.",
+      "itemIds": [
+        3742,
+        6631,
+        3153,
+        6610,
+        3065,
+        3009
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record W active/target health, direction and actual movement speed at R launch.",
+        "Measure R range and first collision at identical target paths with W inactive, active and below-half target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "W direction restrictions or frontline collision sends R into the wrong target.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Out-of-combat or hunt movement is not guaranteed during every combat direction.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Dead Man's Plate, Stridebreaker, Blade of The Ruined King, Sundered Sky, Spirit Visage, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Primal Howl",
+          "slot": "E",
+          "source": "Characters/Warwick/Spells/WarwickEAbility/WarwickE",
+          "formula": "Warwick gains [35 / 40 / 45 / 50 / 55]% damage reduction for [2.75] seconds. After it ends, Warwick howls, Fearing nearby enemies for [1] second. Warwick can Recast to end the Ability early."
+        },
+        {
+          "ability": "Blood Hunt",
+          "slot": "W",
+          "source": "Characters/Warwick/Spells/WarwickWAbility/WarwickW",
+          "formula": "Passive: Warwick can sense champions below 50% Health, gaining [35 / 42.5 / 50 / 57.5 / 65]% Move Speed towards them. Spells and attacks against enemies below 50% Health grant [70 / 80 / 90 / 100 / 110]% Attack Speed. These effects are increased by 200% against enemies below 25% Health. \n\nActive: Warwick can briefly sense all enemies, and gains this Ability's passive effect against the closest champion for 8 seconds, regardless of Health. If no champions are found, this Ability's cooldown is reduced by 30%."
+        },
+        {
+          "ability": "Infinite Duress",
+          "slot": "R",
+          "source": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+          "formula": "Warwick leaps a huge distance that scales with his Move Speed, Suppressing the first champion he collides with while he channels for [1.5] seconds. He attacks that champion 3 times over the duration, dealing [175 / 350 / 525 + (1.67) × AD[statFormula=2]] magic damage. Warwick heals for 100% of all damage dealt during the channel."
+        },
+        {
+          "ability": "Jaws of the Beast",
+          "slot": "Q",
+          "source": "Characters/Warwick/Spells/WarwickQAbility/WarwickQ",
+          "formula": "Tap: Warwick lunges forward and bites, dealing [(1.2) × AD + (1) × AP] plus [6 / 7 / 8 / 9 / 10]% max Health magic damage and healing for [25 / 37.5 / 50 / 62.5 / 75]% of the damage dealt.\n\nHold: Warwick lunges and clamps his jaws on the target, leaping behind them. While clamped, Warwick follows all movement of the target. After releasing his hold, he does the same damage and healing."
+        }
+      ]
+    }
+  ]
+}

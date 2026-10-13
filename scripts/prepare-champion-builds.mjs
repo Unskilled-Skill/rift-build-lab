@@ -7,7 +7,7 @@ const intents=new Map(fs.readFileSync('scripts/champion-build-intents.txt','utf8
 if(intents.size!==catalog.champions.length)throw new Error('Intent table must match the exact roster.');
 const out='public/data/champion-builds';fs.mkdirSync(out,{recursive:true});
 const types=['Reference','Damage interaction','Situational adaptation','Experiment'];
-const index={version:1,patch:catalog.patch,authoredAt:'2026-10-12',author:'ChatGPT',method:'Per-champion curated intents and shared candidate packages; unvalidated hypotheses.',champions:[]};
+const index={version:1,patch:catalog.patch,authoredAt:'2026-10-13',author:'ChatGPT',method:'Individually reviewed kit-interaction candidates plus reference/matchup packages; full authored overrides preserved; unvalidated hypotheses.',champions:[]};
 const item=id=>{const i=catalog.items.find(i=>i.id===id);if(!i)throw new Error(`Unknown item ${id}`);return i};
 for(const champion of catalog.champions){
  const intent=intents.get(champion.alias);if(!intent||intent.length!==5)throw new Error(`${champion.alias}: expected four packages and an individual question.`);
@@ -19,7 +19,7 @@ for(const champion of catalog.champions){
  const overridePath=path.join('scripts/champion-build-overrides',champion.alias+'.json');
  const override=fs.existsSync(overridePath)?JSON.parse(fs.readFileSync(overridePath,'utf8')):null;
  if(override&&(override.version!==1||override.patch!==catalog.patch||!Array.isArray(override.builds)||override.builds.length!==4||override.builds.some(b=>b.champion!==champion.alias)))throw new Error(`${champion.alias}: invalid authored override.`);
- const builds=override?.builds||[reference,damage,situational,experiment].map((key,n)=>{
+ let builds=override?.builds||[reference,damage,situational,experiment].map((key,n)=>{
   const recipe=recipes[key];if(!recipe)throw new Error(`${champion.alias}: missing package ${key}`);
   const items=recipe.items.map(item);
   const page=[...pages[recipe.page]];if(resource!=='Mana')for(let k=0;k<page.length;k++)if(page[k]===8226)page[k]=8275;
@@ -50,7 +50,17 @@ for(const champion of catalog.champions){
    author:'ChatGPT',category:prefix,resourceType:resource,kitEvidence:evidence
   };
  });
- fs.writeFileSync(path.join(out,champion.alias+'.json'),JSON.stringify({version:1,patch:catalog.patch,author:'ChatGPT',authoredAt:'2026-10-12',...(override?.method?{method:override.method}:{}),builds},null,2)+'\n');
+ const auditPath=path.join('public/data/interaction-audit',champion.alias+'.json');
+ if(!override&&fs.existsSync(auditPath)){
+  const audit=JSON.parse(fs.readFileSync(auditPath,'utf8'));
+  if(audit.patch!==catalog.patch||audit.champion!==champion.alias||audit.builds.length!==2)throw new Error(`${champion.alias}: invalid interaction builds.`);
+  const selected=[...audit.builds];
+  const signature=b=>[...b.itemIds].sort((a,b)=>a-b).join(',');
+  for(const original of [builds[0],builds[2],builds[1],builds[3]])if(selected.length<4&&!selected.some(b=>signature(b)===signature(original)))selected.push(original);
+  if(selected.length!==4)throw new Error(`${champion.alias}: four distinct routes unavailable.`);
+  builds=[selected[2],selected[0],selected[3],selected[1]];
+ }
+ fs.writeFileSync(path.join(out,champion.alias+'.json'),JSON.stringify({version:1,patch:catalog.patch,author:'ChatGPT',authoredAt:override?.authoredAt||'2026-10-13',...(override?.method?{method:override.method}:{}),builds},null,2)+'\n');
  index.champions.push({alias:champion.alias,name:champion.name,count:4});
  console.log(`${index.champions.length}/${catalog.champions.length} ${champion.name}: four proposals`);
 }

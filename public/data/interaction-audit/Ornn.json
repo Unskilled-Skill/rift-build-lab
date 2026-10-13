@@ -1,0 +1,304 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Ornn",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "brittle-proximity-amplifier",
+      "name": "Brittle proximity amplifier",
+      "objective": "Protect close access to amplify Brittle magic packets without claiming AP scales them.",
+      "mechanic": "W deals target-max-health magic damage and Brittle triggers an additional level-scaled max-health magic packet on immobilization or an attack knockback. Abyssal rewards that close range; Iceborn asks for an attack after W and Visage/Unending Despair provide conditional recovery. Q pillar sets an E collision.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6662,
+        8020,
+        2502,
+        3065,
+        6665,
+        3047
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Land final W flame, then consume Brittle within three seconds while aura is in range.",
+      "failure": "Spacing mistakes lose the Brittle trigger and sacrifice ordinary tank utility.",
+      "test": "Separate W flames, Brittle proc and item packets with and without nearby Abyssal.",
+      "rejectedAssumption": "AP on R does not imply W/Brittle have AP ratios.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "forge-resistance-collision",
+      "name": "Forge-resistance collision",
+      "objective": "Explore resistance purchases as both E support and a second engage window.",
+      "mechanic": "E retains 0.4 Stat(1)[statFormula=2] and 0.4 Stat(6)[statFormula=2] physical scalings. Living Forge description says bonus armor/MR are increased; Q creates four seconds of collision terrain. JakSho and mixed defenses are tested for E output as well as survival, with Zeke adding a local storm after R.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6665,
+        3143,
+        4401,
+        3050,
+        2502,
+        3111
+      ],
+      "pageKey": "after",
+      "requiredState": "Record actual bonus resistances, combat ramp and a Q-pillar E impact.",
+      "failure": "Expensive resistances can add less E damage than access and team support would.",
+      "test": "Measure E dash-only versus pillar impact at fixed observed armor/MR; log forge item state.",
+      "rejectedAssumption": "The engine flags do not justify treating total defenses or forged stats as known coefficients.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Double E impact damage",
+      "reason": "E says shockwave damage applies to enemies not hit by the charge, so one victim should not receive both full packets.",
+      "evidenceSlots": [
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Living Forge passive is an unresolved localization token; forged stat magnitude is unverified. E defense flags require raw/live reconciliation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Living Forge",
+      "paths": [
+        "Characters/Ornn/Spells/OrnnPAbility/OrnnP",
+        "Characters/Ornn/Spells/OrnnPAbility/OrnnPAllyItemGive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Volcanic Rupture",
+      "paths": [
+        "Characters/Ornn/Spells/OrnnQAbility/OrnnQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Bellows Breath",
+      "paths": [
+        "Characters/Ornn/Spells/OrnnWAbility/OrnnW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Searing Charge",
+      "paths": [
+        "Characters/Ornn/Spells/OrnnEAbility/OrnnE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Call of the Forge God",
+      "paths": [
+        "Characters/Ornn/Spells/OrnnRAbility/OrnnR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "ornn-audit-brittle-proximity-amplifier",
+      "champion": "Ornn",
+      "name": "Brittle proximity amplifier",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Protect close access to amplify Brittle magic packets without claiming AP scales them.",
+      "goal": "Protect close access to amplify Brittle magic packets without claiming AP scales them.",
+      "hypothesis": "W deals target-max-health magic damage and Brittle triggers an additional level-scaled max-health magic packet on immobilization or an attack knockback. Abyssal rewards that close range; Iceborn asks for an attack after W and Visage/Unending Despair provide conditional recovery. Q pillar sets an E collision.",
+      "itemIds": [
+        6662,
+        8020,
+        2502,
+        3065,
+        6665,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Land final W flame, then consume Brittle within three seconds while aura is in range.",
+        "Separate W flames, Brittle proc and item packets with and without nearby Abyssal.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Spacing mistakes lose the Brittle trigger and sacrifice ordinary tank utility.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: AP on R does not imply W/Brittle have AP ratios.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Iceborn Gauntlet, Abyssal Mask, Unending Despair, Spirit Visage, Jak'Sho, The Protean, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bellows Breath",
+          "slot": "W",
+          "source": "Characters/Ornn/Spells/OrnnWAbility/OrnnW",
+          "formula": "Ornn stomps forward Unstoppably while breathing fire, dealing [12 / 13 / 14 / 15 / 16]% max Health magic damage over [0.75] seconds. Enemies hit by the final bout of flame become Brittle for [3] seconds.\n\nImmobilizing effects on Brittle targets have their duration increased by 30% and deal an additional [characterLevelInterpolation(0.09 → 0.17; raw flags preserved)] max Health magic damage. Ornn's Attacks against Brittle targets Knock them Back, dealing the additional damage."
+        },
+        {
+          "ability": "Call of the Forge God",
+          "slot": "R",
+          "source": "Characters/Ornn/Spells/OrnnRAbility/OrnnR",
+          "formula": "Ornn summons a massive lava elemental, which stampedes towards him, dealing [125 / 175 / 225 + (0.2) × AP] magic damage, applying Brittle to, and Slowing enemies hit by [40 / 50 / 60]% for [3] seconds.\n\nOrnn can Recast to dash with a headbutt. If he dashes into the elemental, he redirects and empowers it, causing it to Knock Up the first champion for [1] second and subsequent champions for [(1) × (0.5)] seconds. The elemental also deals [125 / 175 / 225 + (0.2) × AP] magic damage and reapplies Brittle."
+        },
+        {
+          "ability": "Volcanic Rupture",
+          "slot": "Q",
+          "source": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ",
+          "formula": "Ornn slams the ground, creating a fissure dealing [20 / 45 / 70 / 95 / 120 + (1.1) × AD] physical damage and Slowing by [40]% for [2] seconds. A pillar of rock forms at the fissure's end for [4] seconds."
+        },
+        {
+          "ability": "Searing Charge",
+          "slot": "E",
+          "source": "Characters/Ornn/Spells/OrnnEAbility/OrnnE",
+          "formula": "Ornn charges, dealing [80 / 125 / 170 / 215 / 260 + (0.4) × Stat(1)[statFormula=2] + (0.4) × Stat(6)[statFormula=2]] physical damage. If Ornn rams into terrain, he creates a shockwave that Knocks Up enemies for [1.25] seconds and applies the same damage to those not hit by the charge.\n\nOrnn's charge destroys magma pillars and terrain created by enemies."
+        }
+      ]
+    },
+    {
+      "id": "ornn-audit-forge-resistance-collision",
+      "champion": "Ornn",
+      "name": "Forge-resistance collision",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore resistance purchases as both E support and a second engage window.",
+      "goal": "Explore resistance purchases as both E support and a second engage window.",
+      "hypothesis": "E retains 0.4 Stat(1)[statFormula=2] and 0.4 Stat(6)[statFormula=2] physical scalings. Living Forge description says bonus armor/MR are increased; Q creates four seconds of collision terrain. JakSho and mixed defenses are tested for E output as well as survival, with Zeke adding a local storm after R.",
+      "itemIds": [
+        6665,
+        3143,
+        4401,
+        3050,
+        2502,
+        3111
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record actual bonus resistances, combat ramp and a Q-pillar E impact.",
+        "Measure E dash-only versus pillar impact at fixed observed armor/MR; log forge item state.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Expensive resistances can add less E damage than access and team support would.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The engine flags do not justify treating total defenses or forged stats as known coefficients.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Jak'Sho, The Protean, Randuin's Omen, Force of Nature, Zeke's Convergence, Unending Despair, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Call of the Forge God",
+          "slot": "R",
+          "source": "Characters/Ornn/Spells/OrnnRAbility/OrnnR",
+          "formula": "Ornn summons a massive lava elemental, which stampedes towards him, dealing [125 / 175 / 225 + (0.2) × AP] magic damage, applying Brittle to, and Slowing enemies hit by [40 / 50 / 60]% for [3] seconds.\n\nOrnn can Recast to dash with a headbutt. If he dashes into the elemental, he redirects and empowers it, causing it to Knock Up the first champion for [1] second and subsequent champions for [(1) × (0.5)] seconds. The elemental also deals [125 / 175 / 225 + (0.2) × AP] magic damage and reapplies Brittle."
+        },
+        {
+          "ability": "Living Forge",
+          "slot": "Passive",
+          "source": "Characters/Ornn/Spells/OrnnPAbility/OrnnP",
+          "formula": "{{Spell_OrnnP_Tooltip_[1]}}"
+        },
+        {
+          "ability": "Volcanic Rupture",
+          "slot": "Q",
+          "source": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ",
+          "formula": "Ornn slams the ground, creating a fissure dealing [20 / 45 / 70 / 95 / 120 + (1.1) × AD] physical damage and Slowing by [40]% for [2] seconds. A pillar of rock forms at the fissure's end for [4] seconds."
+        },
+        {
+          "ability": "Searing Charge",
+          "slot": "E",
+          "source": "Characters/Ornn/Spells/OrnnEAbility/OrnnE",
+          "formula": "Ornn charges, dealing [80 / 125 / 170 / 215 / 260 + (0.4) × Stat(1)[statFormula=2] + (0.4) × Stat(6)[statFormula=2]] physical damage. If Ornn rams into terrain, he creates a shockwave that Knocks Up enemies for [1.25] seconds and applies the same damage to those not hit by the charge.\n\nOrnn's charge destroys magma pillars and terrain created by enemies."
+        }
+      ]
+    }
+  ]
+}

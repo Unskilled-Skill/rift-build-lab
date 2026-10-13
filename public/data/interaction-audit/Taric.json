@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Taric",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "bravado-armor-boxer",
+      "name": "Bravado armor boxer",
+      "objective": "Test bravado armor boxer against conventional damage at equal gold.",
+      "mechanic": "Bravado grants two rapid attacks after a spell, with bonus magic damage scaling from source armor; Dazzle also has a 0.5 source-armor term. Iceborn adds a physical Spellblade and slow while Q gains charges from actual Bravado attacks, supporting a mixed-damage melee loop.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        6662,
+        3110,
+        3302,
+        3065,
+        3748,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Have enough mana and an attackable target through Dazzle's one-second delay.",
+      "failure": "Kiting prevents attack refunds and Frozen Heart's mana cannot fix poor access.",
+      "test": "Count Q charges, E casts and personal attacks over ten seconds.",
+      "rejectedAssumption": "Attack speed does not itself generate free Bravado charges without spell casts.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "damage-charge-heal-conductor",
+      "name": "Damage charge heal conductor",
+      "objective": "Test damage charge heal conductor against conventional damage at equal gold.",
+      "mechanic": "Bravado attacks supply damage and Q charges; Q heals each stack with AP and health terms, creating a repeated Helia damage-to-heal cycle. Bastion duplicates spell origins around the tethered ally, while armor and mana from Frozen Heart help Taric keep attacking through the delayed R protection.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6620,
+        6617,
+        3504,
+        6621,
+        3110,
+        3158
+      ],
+      "pageKey": "aery",
+      "requiredState": "A nearby Bastion ally and enemies in personal attack reach.",
+      "failure": "Mana starvation, severed tether range or burst before R's 2.5-second delay loses the loop.",
+      "test": "Measure Helia charges and allied healing for two-stack Q cycles.",
+      "rejectedAssumption": "Duplicated Bastion origins do not imply the same ally receives two full copies of every heal.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Attack speed does not itself generate free Bravado charges without spell casts.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Current-patch proc ordering/effectiveness is untested; symbolic source stats and helper form/pet records are not runtime dispatch proof."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Bravado",
+      "paths": [
+        "Characters/Taric/Spells/TaricPassiveAbility/TaricPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Starlight's Touch",
+      "paths": [
+        "Characters/Taric/Spells/TaricQAbility/TaricQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Bastion",
+      "paths": [
+        "Characters/Taric/Spells/TaricWAbility/TaricW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Dazzle",
+      "paths": [
+        "Characters/Taric/Spells/TaricEAbility/TaricE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Cosmic Radiance",
+      "paths": [
+        "Characters/Taric/Spells/TaricRAbility/TaricR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "taric-audit-bravado-armor-boxer",
+      "champion": "Taric",
+      "name": "Bravado armor boxer",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test bravado armor boxer against conventional damage at equal gold.",
+      "goal": "Test bravado armor boxer against conventional damage at equal gold.",
+      "hypothesis": "Bravado grants two rapid attacks after a spell, with bonus magic damage scaling from source armor; Dazzle also has a 0.5 source-armor term. Iceborn adds a physical Spellblade and slow while Q gains charges from actual Bravado attacks, supporting a mixed-damage melee loop.",
+      "itemIds": [
+        6662,
+        3110,
+        3302,
+        3065,
+        3748,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Have enough mana and an attackable target through Dazzle's one-second delay.",
+        "Count Q charges, E casts and personal attacks over ten seconds.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Kiting prevents attack refunds and Frozen Heart's mana cannot fix poor access.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Attack speed does not itself generate free Bravado charges without spell casts.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Iceborn Gauntlet, Frozen Heart, Terminus, Spirit Visage, Titanic Hydra, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bravado",
+          "slot": "Passive",
+          "source": "Characters/Taric/Spells/TaricPassiveAbility/TaricPassive",
+          "formula": "After using an Ability, Taric's next 2 Attacks within [5] seconds gain 100% Attack Speed, deal an additional [(characterLevelInterpolation(25 → 93; raw flags preserved)) × (1) + (0.15) × Stat(1)[statFormula=2]] magic damage, and reduce his basic Ability Cooldowns by [(1 + (1 + (runtimeCooldownMultiplier) × (-1)))] second."
+        },
+        {
+          "ability": "Bastion",
+          "slot": "W",
+          "source": "Characters/Taric/Spells/TaricWAbility/TaricW",
+          "formula": "Passive: Taric gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and forms a tether between him and the ally bound by this Ability. As long as they are near each other, the ally gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and Taric casts all his Abilities from both himself and his linked ally.\n\nActive: Taric binds to an ally champion, granting a [7 / 8 / 9 / 10 / 11]% max Health Shield for [2.5] seconds."
+        },
+        {
+          "ability": "Starlight's Touch",
+          "slot": "Q",
+          "source": "Characters/Taric/Spells/TaricQAbility/TaricQ",
+          "formula": "Passive: Gain a stack (max [1 / 2 / 3 / 4 / 5]) every [15] seconds and when hitting a Bravado Attack.\n\nActive: Consume all stacks to restore [25 + (0.15) × AP + (0.01) × Stat(12)] Health per stack to nearby ally champions ([(25 + (0.15) × AP + (0.01) × Stat(12)) × (1 / 2 / 3 / 4 / 5)] at [1 / 2 / 3 / 4 / 5] stacks)."
+        },
+        {
+          "ability": "Dazzle",
+          "slot": "E",
+          "source": "Characters/Taric/Spells/TaricEAbility/TaricE",
+          "formula": "Taric projects a beam of starlight, bursting after [1] second to deal [90 / 130 / 170 / 210 / 250 + (0.5) × AP + (0.5) × Stat(1)[statFormula=2]] magic damage and Stun enemies for [1.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "taric-audit-damage-charge-heal-conductor",
+      "champion": "Taric",
+      "name": "Damage charge heal conductor",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test damage charge heal conductor against conventional damage at equal gold.",
+      "goal": "Test damage charge heal conductor against conventional damage at equal gold.",
+      "hypothesis": "Bravado attacks supply damage and Q charges; Q heals each stack with AP and health terms, creating a repeated Helia damage-to-heal cycle. Bastion duplicates spell origins around the tethered ally, while armor and mana from Frozen Heart help Taric keep attacking through the delayed R protection.",
+      "itemIds": [
+        6620,
+        6617,
+        3504,
+        6621,
+        3110,
+        3158
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8237,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: A nearby Bastion ally and enemies in personal attack reach.",
+        "Measure Helia charges and allied healing for two-stack Q cycles.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Mana starvation, severed tether range or burst before R's 2.5-second delay loses the loop.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Duplicated Bastion origins do not imply the same ally receives two full copies of every heal.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Echoes of Helia, Moonstone Renewer, Ardent Censer, Dawncore, Frozen Heart, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bravado",
+          "slot": "Passive",
+          "source": "Characters/Taric/Spells/TaricPassiveAbility/TaricPassive",
+          "formula": "After using an Ability, Taric's next 2 Attacks within [5] seconds gain 100% Attack Speed, deal an additional [(characterLevelInterpolation(25 → 93; raw flags preserved)) × (1) + (0.15) × Stat(1)[statFormula=2]] magic damage, and reduce his basic Ability Cooldowns by [(1 + (1 + (runtimeCooldownMultiplier) × (-1)))] second."
+        },
+        {
+          "ability": "Bastion",
+          "slot": "W",
+          "source": "Characters/Taric/Spells/TaricWAbility/TaricW",
+          "formula": "Passive: Taric gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and forms a tether between him and the ally bound by this Ability. As long as they are near each other, the ally gains [(0.06 / 0.07 / 0.08 / 0.09 / 0.1) × Stat(1)] Armor and Taric casts all his Abilities from both himself and his linked ally.\n\nActive: Taric binds to an ally champion, granting a [7 / 8 / 9 / 10 / 11]% max Health Shield for [2.5] seconds."
+        },
+        {
+          "ability": "Cosmic Radiance",
+          "slot": "R",
+          "source": "Characters/Taric/Spells/TaricRAbility/TaricR",
+          "formula": "Taric calls down protection from the heavens. After [2.5] seconds, nearby ally champions become invulnerable for [2.5] seconds."
+        },
+        {
+          "ability": "Starlight's Touch",
+          "slot": "Q",
+          "source": "Characters/Taric/Spells/TaricQAbility/TaricQ",
+          "formula": "Passive: Gain a stack (max [1 / 2 / 3 / 4 / 5]) every [15] seconds and when hitting a Bravado Attack.\n\nActive: Consume all stacks to restore [25 + (0.15) × AP + (0.01) × Stat(12)] Health per stack to nearby ally champions ([(25 + (0.15) × AP + (0.01) × Stat(12)) × (1 / 2 / 3 / 4 / 5)] at [1 / 2 / 3 / 4 / 5] stacks)."
+        },
+        {
+          "ability": "Dazzle",
+          "slot": "E",
+          "source": "Characters/Taric/Spells/TaricEAbility/TaricE",
+          "formula": "Taric projects a beam of starlight, bursting after [1] second to deal [90 / 130 / 170 / 210 / 250 + (0.5) × AP + (0.5) × Stat(1)[statFormula=2]] magic damage and Stun enemies for [1.5] seconds."
+        }
+      ]
+    }
+  ]
+}

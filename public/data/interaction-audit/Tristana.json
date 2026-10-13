@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Tristana",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "ap-bomb-jump-assassin",
+      "name": "AP bomb jump assassin",
+      "objective": "Test ap bomb jump assassin against conventional damage at equal gold.",
+      "mechanic": "Explosive Charge has 0.5 AP physical scaling before its four-hit doubling; Buster Shot has 1.0 AP magic scaling and W adds 0.5 AP magic damage. Nashor and Lich Bane support stacking E with real attacks before a max-stack detonation refreshes W.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3135,
+        3102,
+        3020
+      ],
+      "pageKey": "hob",
+      "requiredState": "Apply E, land four valid hits and reserve R knockback direction.",
+      "failure": "Physical E resists magic penetration and failure to detonate strands W.",
+      "test": "Measure E physical damage separately from W/R magic burst.",
+      "rejectedAssumption": "AP does not turn E magic and turret bomb detonation does not grant the champion-only W reset.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "health-bomb-reset-fighter",
+      "name": "Health bomb reset fighter",
+      "objective": "Test health bomb reset fighter against conventional damage at equal gold.",
+      "mechanic": "Rapid Fire grants up to 120% attack speed for seven seconds; Titanic and Bloodmail trade some conventional crit DPS for health and physical attacks while E stacks. Hexplate supports attacks after R and Essence Reaver supplies physical Spellblade plus mana; partial crit still improves E's documented multiplier.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2501,
+        3748,
+        3073,
+        3508,
+        3031,
+        3047
+      ],
+      "pageKey": "pta",
+      "requiredState": "Connect E-stack attacks and choose R timing without knocking the target out early.",
+      "failure": "Low damage prevents max-stack detonation and reset before retaliation.",
+      "test": "Compare time to four E stacks and health after a W-in trade.",
+      "rejectedAssumption": "Ability hits can stack E, but item splash is not assumed to be four independent bomb stacks.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "AP does not turn E magic and turret bomb detonation does not grant the champion-only W reset.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Current-patch proc ordering/effectiveness is untested; symbolic source stats and helper form/pet records are not runtime dispatch proof."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Draw a Bead",
+      "paths": [
+        "Characters/Tristana/Spells/TristanaPassiveAbility/TristanaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Rapid Fire",
+      "paths": [
+        "Characters/Tristana/Spells/TristanaQAbility/TristanaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Rocket Jump",
+      "paths": [
+        "Characters/Tristana/Spells/TristanaWAbility/TristanaW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Explosive Charge",
+      "paths": [
+        "Characters/Tristana/Spells/TristanaEAbility/TristanaE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Buster Shot",
+      "paths": [
+        "Characters/Tristana/Spells/TristanaRAbility/TristanaR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "tristana-audit-ap-bomb-jump-assassin",
+      "champion": "Tristana",
+      "name": "AP bomb jump assassin",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test ap bomb jump assassin against conventional damage at equal gold.",
+      "goal": "Test ap bomb jump assassin against conventional damage at equal gold.",
+      "hypothesis": "Explosive Charge has 0.5 AP physical scaling before its four-hit doubling; Buster Shot has 1.0 AP magic scaling and W adds 0.5 AP magic damage. Nashor and Lich Bane support stacking E with real attacks before a max-stack detonation refreshes W.",
+      "itemIds": [
+        3115,
+        3100,
+        3089,
+        3135,
+        3102,
+        3020
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Apply E, land four valid hits and reserve R knockback direction.",
+        "Measure E physical damage separately from W/R magic burst.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Physical E resists magic penetration and failure to detonate strands W.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: AP does not turn E magic and turret bomb detonation does not grant the champion-only W reset.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Rabadon's Deathcap, Void Staff, Banshee's Veil, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Explosive Charge",
+          "slot": "E",
+          "source": "Characters/Tristana/Spells/TristanaEAbility/TristanaE",
+          "formula": "Passive: Tristana's Attacks that kill enemies deal [45 / 60 / 75 / 90 / 105 + (0.25) × AP] magic damage to surrounding enemies.\n\nActive: Tristana attaches a bomb to an enemy or turret that deals [(60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2] + (0.5) × AP) × ((1 + ((0.4) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage to surrounding enemies after [4] seconds. The damage is increased by [25]% each time Tristana hits an Attack or Ability (max 4 stacks).\n\nAt [4] stacks, the bomb explodes immediately (max [((60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2] + (0.5) × AP) × ((1 + ((0.4) × Stat(8)) × (((1) × Stat(9) + -1))))) × ((1 + (0.25) × (4)))] physical damage)."
+        },
+        {
+          "ability": "Buster Shot",
+          "slot": "R",
+          "source": "Characters/Tristana/Spells/TristanaRAbility/TristanaR",
+          "formula": "Tristana fires a massive cannonball, dealing [225 / 275 / 325 + (0.7) × AD[statFormula=2] + (1) × AP] magic damage to the target, Knocking Back and Stunning them and surrounding enemies for [0.4 / 0.55 / 0.7] seconds."
+        },
+        {
+          "ability": "Rapid Fire",
+          "slot": "Q",
+          "source": "Characters/Tristana/Spells/TristanaQAbility/TristanaQ",
+          "formula": "Tristana goes full-auto, gaining [(0.6 / 0.75 / 0.9 / 1.05 / 1.2) × 100]% Attack Speed for [7] seconds."
+        },
+        {
+          "ability": "Rocket Jump",
+          "slot": "W",
+          "source": "Characters/Tristana/Spells/TristanaWAbility/TristanaW",
+          "formula": "Tristana launches herself, dealing [70 / 105 / 140 / 175 / 210 + (1) × AD[statFormula=2] + (0.5) × AP] magic damage and Slowing by [40]% for [2] seconds upon landing.\n\nChampion takedowns and max stack {{Spell_TristanaE_Name}} detonations on champions refresh this Ability's Cooldown."
+        }
+      ]
+    },
+    {
+      "id": "tristana-audit-health-bomb-reset-fighter",
+      "champion": "Tristana",
+      "name": "Health bomb reset fighter",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health bomb reset fighter against conventional damage at equal gold.",
+      "goal": "Test health bomb reset fighter against conventional damage at equal gold.",
+      "hypothesis": "Rapid Fire grants up to 120% attack speed for seven seconds; Titanic and Bloodmail trade some conventional crit DPS for health and physical attacks while E stacks. Hexplate supports attacks after R and Essence Reaver supplies physical Spellblade plus mana; partial crit still improves E's documented multiplier.",
+      "itemIds": [
+        2501,
+        3748,
+        3073,
+        3508,
+        3031,
+        3047
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Connect E-stack attacks and choose R timing without knocking the target out early.",
+        "Compare time to four E stacks and health after a W-in trade.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low damage prevents max-stack detonation and reset before retaliation.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Ability hits can stack E, but item splash is not assumed to be four independent bomb stacks.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Titanic Hydra, Experimental Hexplate, Essence Reaver, Infinity Edge, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Explosive Charge",
+          "slot": "E",
+          "source": "Characters/Tristana/Spells/TristanaEAbility/TristanaE",
+          "formula": "Passive: Tristana's Attacks that kill enemies deal [45 / 60 / 75 / 90 / 105 + (0.25) × AP] magic damage to surrounding enemies.\n\nActive: Tristana attaches a bomb to an enemy or turret that deals [(60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2] + (0.5) × AP) × ((1 + ((0.4) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage to surrounding enemies after [4] seconds. The damage is increased by [25]% each time Tristana hits an Attack or Ability (max 4 stacks).\n\nAt [4] stacks, the bomb explodes immediately (max [((60 / 85 / 110 / 135 / 160 + (0.8) × AD[statFormula=2] + (0.5) × AP) × ((1 + ((0.4) × Stat(8)) × (((1) × Stat(9) + -1))))) × ((1 + (0.25) × (4)))] physical damage)."
+        },
+        {
+          "ability": "Draw a Bead",
+          "slot": "Passive",
+          "source": "Characters/Tristana/Spells/TristanaPassiveAbility/TristanaPassive",
+          "formula": "Tristana's Attack Range and the range of {{Spell_TristanaE_Name}} and {{Spell_TristanaR_Name}} are increased by [characterLevelInterpolation(0 → 150; raw flags preserved)]."
+        },
+        {
+          "ability": "Buster Shot",
+          "slot": "R",
+          "source": "Characters/Tristana/Spells/TristanaRAbility/TristanaR",
+          "formula": "Tristana fires a massive cannonball, dealing [225 / 275 / 325 + (0.7) × AD[statFormula=2] + (1) × AP] magic damage to the target, Knocking Back and Stunning them and surrounding enemies for [0.4 / 0.55 / 0.7] seconds."
+        },
+        {
+          "ability": "Rapid Fire",
+          "slot": "Q",
+          "source": "Characters/Tristana/Spells/TristanaQAbility/TristanaQ",
+          "formula": "Tristana goes full-auto, gaining [(0.6 / 0.75 / 0.9 / 1.05 / 1.2) × 100]% Attack Speed for [7] seconds."
+        },
+        {
+          "ability": "Rocket Jump",
+          "slot": "W",
+          "source": "Characters/Tristana/Spells/TristanaWAbility/TristanaW",
+          "formula": "Tristana launches herself, dealing [70 / 105 / 140 / 175 / 210 + (1) × AD[statFormula=2] + (0.5) × AP] magic damage and Slowing by [40]% for [2] seconds upon landing.\n\nChampion takedowns and max stack {{Spell_TristanaE_Name}} detonations on champions refresh this Ability's Cooldown."
+        }
+      ]
+    }
+  ]
+}

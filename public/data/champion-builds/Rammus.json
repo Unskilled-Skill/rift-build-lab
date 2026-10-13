@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "rammus-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "rammus-four-2",
+      "id": "rammus-audit-resistance-ad-shell-boxer",
       "champion": "Rammus",
-      "name": "Damage interaction: Magic matchup",
-      "goal": "Damage interaction for Rammus: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A resistance-scaling disruptor who reaches a target with Powerball and induces attacks through taunt. The current passive converts both armor and MR to AD, while W returns magic damage. Current passive converts both armor and MR into AD; measure W defenses, reflected damage and real attacks. Do not reuse an old armor-only magic-on-hit formula. MR and nearby magic amplification test durable contact against magic pressure.",
-      "summary": "MR and nearby magic amplification test durable contact against magic pressure.",
+      "name": "Resistance AD shell boxer",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test resistance ad shell boxer against conventional damage at equal gold.",
+      "goal": "Test resistance ad shell boxer against conventional damage at equal gold.",
+      "hypothesis": "Spiked Shell currently grants AD equal to 15% armor plus 15% MR, rather than the historical magic on-hit passive; Defensive Ball Curl raises both resistances for seven seconds. Jak'Sho and dual resistances therefore support own physical attacks, while Blade and Terminus add mixed packets.",
       "itemIds": [
-        3084,
-        6664,
-        8020,
-        3065,
         6665,
-        3111
+        3153,
+        3302,
+        3143,
+        4401,
+        3006
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8005,
         9111,
-        9104
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rammus: Current passive converts both armor and MR into AD; measure W defenses, reflected damage and real attacks. Do not reuse an old armor-only magic-on-hit formula.",
-        "Start with the early core (Hollow Radiance or other MR first when justified) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: MR and nearby magic amplification test durable contact against magic pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Rammus accelerates in a ball towards his enemies, dealing damage and slowing targets affected by the impact. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: W active with a target forced to attack by E.",
+        "Record AD before W, during W and after Jak'Sho then measure three attacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
-        "The route fails Rammus's stated kit question: Current passive converts both armor and MR into AD; measure W defenses, reflected damage and real attacks. Do not reuse an old armor-only magic-on-hit formula.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Without attack speed from old E assumptions, target access limits the damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "MR is wasted against the wrong threat; nearby aura range and healing eligibility matter.",
-        "Full cost 15,600 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: The old armor-to-magic-attack premise is contradicted by this passive record.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Hollow Radiance or other MR first when justified. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Abyssal Mask, Spirit Visage, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Jak'Sho, The Protean, Blade of The Ruined King, Terminus, Randuin's Omen, Force of Nature, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Defensive Ball Curl",
@@ -193,12 +187,6 @@
           "slot": "Q",
           "source": "Characters/Rammus/Spells/PowerBallAbility/PowerBall",
           "formula": "Rammus curls into a ball, gaining [(characterLevelInterpolation(0.25 → 0.391; raw flags preserved)) × (1)] Move Speed, accelerating up to [((characterLevelInterpolation(0.25 → 0.391; raw flags preserved)) × (1)) × (6)] Move Speed over [6] seconds. Rammus stops after colliding with an enemy, dealing [80 / 120 / 160 / 200 / 240 + (1) × AP] magic damage, Knocking Back, and Slowing nearby enemies by [40 / 50 / 60 / 70 / 80]% for [1] second.\n\nRecast: Rammus ends this Ability early."
-        },
-        {
-          "ability": "Soaring Slam",
-          "slot": "R",
-          "source": "Characters/Rammus/Spells/Tremors2Ability/Tremors2",
-          "formula": "Rammus hops into the air and slams down in an area, dealing [150 / 250 / 350 + (0.6) × AP] magic damage and Slowing by [(0.3 / 0.4 / 0.5) × 100]% for [1.5] seconds. If used during Powerball, enemies in the center take an additional @spell.PowerBall:PowerBallDamage@ magic damage and are Knocked Up for [0.75] seconds.\n\nRammus then creates [3] aftershocks in the area over [3.5] seconds, repeating the Slow.\n\nThe range of this Ability is increased by Rammus's Move Speed."
         },
         {
           "ability": "Frenzying Taunt",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "rammus-four-4",
+      "id": "rammus-audit-powerball-ap-dive",
       "champion": "Rammus",
-      "name": "Experiment: Attack-led side lane",
-      "goal": "Experiment for Rammus: test a different playstyle, with lower confidence",
-      "hypothesis": "A resistance-scaling disruptor who reaches a target with Powerball and induces attacks through taunt. The current passive converts both armor and MR to AD, while W returns magic damage. Current passive converts both armor and MR into AD; measure W defenses, reflected damage and real attacks. Do not reuse an old armor-only magic-on-hit formula. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Powerball AP dive",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test powerball ap dive against conventional damage at equal gold.",
+      "goal": "Test powerball ap dive against conventional damage at equal gold.",
+      "hypothesis": "Powerball carries 1.0 AP magic damage and Soaring Slam 0.6 AP; casting R during Q adds the Powerball hit at center. Rocketbelt supports arrival angle while Abyssal improves nearby magic damage taken, but E's 0.7 AP damage is explicitly monster-only.",
       "itemIds": [
-        3153,
-        3078,
-        3181,
-        3053,
-        6333,
-        3047
+        3152,
+        3089,
+        3135,
+        8020,
+        3102,
+        3020
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
-        8444,
-        8451
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rammus: Current passive converts both armor and MR into AD; measure W defenses, reflected damage and real attacks. Do not reuse an old armor-only magic-on-hit formula.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Rammus accelerates in a ball towards his enemies, dealing damage and slowing targets affected by the impact. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Land the R center while Q is active.",
+        "Compare plain R versus Q-assisted centered R on a champion.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Rammus's stated kit question: Current passive converts both armor and MR into AD; measure W defenses, reflected damage and real attacks. Do not reuse an old armor-only magic-on-hit formula.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Missing tank resistances leaves Rammus fragile after the short burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: E does not become champion AP damage merely because its monster damage has an AP ratio.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Hextech Rocketbelt, Rabadon's Deathcap, Void Staff, Abyssal Mask, Banshee's Veil, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Defensive Ball Curl",
@@ -415,12 +397,6 @@
           "slot": "E",
           "source": "Characters/Rammus/Spells/PuncturingTauntAbility/PuncturingTaunt",
           "formula": "Rammus Taunts an enemy champion or monster for [1.2 / 1.4 / 1.6 / 1.8 / 2] seconds. Monsters are dealt [80 / 100 / 120 / 140 / 160 + (0.7) × AP] magic damage."
-        },
-        {
-          "ability": "Spiked Shell",
-          "slot": "Passive",
-          "source": "Characters/Rammus/Spells/RammusPAbility/RammusP",
-          "formula": "Rammus gains [(0.15) × Stat(1) + (0.15) × Stat(6)] Attack Damage."
         }
       ]
     }

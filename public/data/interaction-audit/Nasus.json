@@ -1,0 +1,296 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Nasus",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "sandstorm-orbit",
+      "name": "Sandstorm orbit",
+      "objective": "Keep the AP-scaled storm touching a durable target while Q remains a threat.",
+      "mechanic": "R deals target-max-health magic damage with an AP ratio each second; E has 0.6 AP upfront and 0.12 AP per tick. Cosmic Drive can turn this magic contact into movement while Liandry and Bloodletter reward ability damage. W restricts escape; this is an AP contact experiment rather than a claim that E armor shred helps the storm.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        6653,
+        4629,
+        8010,
+        4633,
+        3065,
+        3009
+      ],
+      "pageKey": "storm",
+      "requiredState": "R ready; target remains inside its radius and E for a measured interval.",
+      "failure": "Kiting outside the storm or losing Q pressure can outweigh all burn damage.",
+      "test": "Measure R contact seconds and E ticks against a moving high-health target; repeat without Cosmic.",
+      "rejectedAssumption": "E armor reduction does not amplify E or R magic damage.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "finite-stack-siphon-recovery",
+      "name": "Finite-stack siphon recovery",
+      "objective": "Test whether a protected Q cadence replenishes enough health to survive a duel.",
+      "mechanic": "Soul Eater supplies lifesteal and Q is explicitly an attack with a recorded finite stack contribution. R halves Q cooldown; Iceborn supplies a Spellblade attack and a local slow between Wither windows. Visage increases healing received and Sundered Sky adds a conditional first-attack heal.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        6662,
+        6610,
+        3074,
+        3065,
+        3053,
+        3047
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Fix Q stacks, target defenses and first-hit item readiness; use R and actual Q attacks.",
+      "failure": "Anti-heal, disengage or excessive armor makes recovery insufficient.",
+      "test": "Log healing per Q and Q attacks landed over one R at two finite stack counts.",
+      "rejectedAssumption": "The source CritDamage calculation leaves stack damage outside the crit multiplier; do not multiply all stacks by Sundered Sky.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Stack-wide crit multiplication",
+      "reason": "Q CritDamage preserves BuffStacks separately from the crit-multiplied AD/base expression.",
+      "evidenceSlots": [
+        "Q"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Soul Eater tooltip is cross-referenced; inspected calculation has level breakpoints. Sundered Sky Q packet and lifesteal eligibility need live checks."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Soul Eater",
+      "paths": [
+        "Characters/Nasus/Spells/NasusPassiveAbility/NasusPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Siphoning Strike",
+      "paths": [
+        "Characters/Nasus/Spells/NasusQAbility/NasusQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Wither",
+      "paths": [
+        "Characters/Nasus/Spells/NasusWAbility/NasusW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Spirit Fire",
+      "paths": [
+        "Characters/Nasus/Spells/NasusEAbility/NasusE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Fury of the Sands",
+      "paths": [
+        "Characters/Nasus/Spells/NasusRAbility/NasusR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "nasus-audit-sandstorm-orbit",
+      "champion": "Nasus",
+      "name": "Sandstorm orbit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Keep the AP-scaled storm touching a durable target while Q remains a threat.",
+      "goal": "Keep the AP-scaled storm touching a durable target while Q remains a threat.",
+      "hypothesis": "R deals target-max-health magic damage with an AP ratio each second; E has 0.6 AP upfront and 0.12 AP per tick. Cosmic Drive can turn this magic contact into movement while Liandry and Bloodletter reward ability damage. W restricts escape; this is an AP contact experiment rather than a claim that E armor shred helps the storm.",
+      "itemIds": [
+        6653,
+        4629,
+        8010,
+        4633,
+        3065,
+        3009
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R ready; target remains inside its radius and E for a measured interval.",
+        "Measure R contact seconds and E ticks against a moving high-health target; repeat without Cosmic.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Kiting outside the storm or losing Q pressure can outweigh all burn damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: E armor reduction does not amplify E or R magic damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Liandry's Torment, Cosmic Drive, Bloodletter's Curse, Riftmaker, Spirit Visage, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Spirit Fire",
+          "slot": "E",
+          "source": "Characters/Nasus/Spells/NasusEAbility/NasusE",
+          "formula": "Nasus ignites a spirit flame, dealing [50 / 80 / 110 / 140 / 170 + (0.6) × AP] magic damage. Enemies in the area lose [(-0.3 / -0.35 / -0.4 / -0.45 / -0.5) × -100]% Armor and take [(10 / 16 / 22 / 28 / 34 + (0.12) × AP) × (5)] magic damage over [5] seconds."
+        },
+        {
+          "ability": "Fury of the Sands",
+          "slot": "R",
+          "source": "Characters/Nasus/Spells/NasusRAbility/NasusR",
+          "formula": "Nasus becomes empowered in the sandstorm for 15 seconds, increasing his maximum Health by [300 / 450 / 600] and Armor and Magic Resistance by [40 / 55 / 70].\n\nWhile the storm rages, nearby enemies take [0.03 / 0.04 / 0.05 + (0.0001) × AP] of their maximum Health as magic damage each second and Siphoning Strike has a [50]% reduced Cooldown."
+        },
+        {
+          "ability": "Wither",
+          "slot": "W",
+          "source": "Characters/Nasus/Spells/NasusWAbility/NasusW",
+          "formula": "Nasus ages a champion, Slowing them by [35]%, increasing to [47 / 59 / 71 / 83 / 95]% over [5] seconds. Their Attack Speed is also reduced by [75]% of the Slow."
+        }
+      ]
+    },
+    {
+      "id": "nasus-audit-finite-stack-siphon-recovery",
+      "champion": "Nasus",
+      "name": "Finite-stack siphon recovery",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test whether a protected Q cadence replenishes enough health to survive a duel.",
+      "goal": "Test whether a protected Q cadence replenishes enough health to survive a duel.",
+      "hypothesis": "Soul Eater supplies lifesteal and Q is explicitly an attack with a recorded finite stack contribution. R halves Q cooldown; Iceborn supplies a Spellblade attack and a local slow between Wither windows. Visage increases healing received and Sundered Sky adds a conditional first-attack heal.",
+      "itemIds": [
+        6662,
+        6610,
+        3074,
+        3065,
+        3053,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Fix Q stacks, target defenses and first-hit item readiness; use R and actual Q attacks.",
+        "Log healing per Q and Q attacks landed over one R at two finite stack counts.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Anti-heal, disengage or excessive armor makes recovery insufficient.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The source CritDamage calculation leaves stack damage outside the crit multiplier; do not multiply all stacks by Sundered Sky.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Iceborn Gauntlet, Sundered Sky, Ravenous Hydra, Spirit Visage, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Soul Eater",
+          "slot": "Passive",
+          "source": "Characters/Nasus/Spells/NasusPassiveAbility/NasusPassive",
+          "formula": "Nasus has an additional @Spell.NasusPassive:LifestealTooltip@% Life Steal."
+        },
+        {
+          "ability": "Siphoning Strike",
+          "slot": "Q",
+          "source": "Characters/Nasus/Spells/NasusQAbility/NasusQ",
+          "formula": "Nasus' next Attack deals [30 / 50 / 70 / 90 / 110 + (1) × AD + (1) × BuffStacks({1b1d7345})] physical damage. Killing an enemy with this Attack permanently increases its damage by [4], increased to [10] against champions, large minions and large jungle monsters."
+        },
+        {
+          "ability": "Fury of the Sands",
+          "slot": "R",
+          "source": "Characters/Nasus/Spells/NasusRAbility/NasusR",
+          "formula": "Nasus becomes empowered in the sandstorm for 15 seconds, increasing his maximum Health by [300 / 450 / 600] and Armor and Magic Resistance by [40 / 55 / 70].\n\nWhile the storm rages, nearby enemies take [0.03 / 0.04 / 0.05 + (0.0001) × AP] of their maximum Health as magic damage each second and Siphoning Strike has a [50]% reduced Cooldown."
+        },
+        {
+          "ability": "Wither",
+          "slot": "W",
+          "source": "Characters/Nasus/Spells/NasusWAbility/NasusW",
+          "formula": "Nasus ages a champion, Slowing them by [35]%, increasing to [47 / 59 / 71 / 83 / 95]% over [5] seconds. Their Attack Speed is also reduced by [75]% of the Slow."
+        }
+      ]
+    }
+  ]
+}

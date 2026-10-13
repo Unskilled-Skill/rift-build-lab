@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Alistar",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "trample-spellblade-brawler",
+      "name": "Trample spellblade brawler",
+      "objective": "Make the delayed Trample stun a damage delivery window.",
+      "mechanic": "Trample deals 0.7 AP magic damage over five seconds and requires five champion-damaging pulses before the stunning attack. Dusk and Dawn gives that actual attack a magic Spellblade payload; Riftmaker rewards staying in combat and R's seven-second reduction helps survive the wait. Rylai's slow may keep enemies near E.",
+      "evidenceSlots": [
+        "E",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        2510,
+        4633,
+        3116,
+        3065,
+        8020,
+        3111
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Need close contact for five E stacks, R available and an attack after the charge.",
+      "failure": "Headbutting the target away or being kited interrupts E stacking; low spell ranks limit damage.",
+      "test": "Record time to stun and damage over an E cycle against a moving target.",
+      "rejectedAssumption": "The E stun's bonus damage has a level expression, not an AP ratio.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "roar-health-battery",
+      "name": "Roar health battery",
+      "objective": "Convert accumulated health into repeated team healing.",
+      "mechanic": "Triumphant Roar restores 5% max health to Alistar and 1.4 times that to nearby allies at seven stacks. Heartsteel health increases the documented base heal, while Moonstone chains allied healing and Redemption supports the clustered formation. Q/W disruptions and nearby deaths provide real stacks, rather than attack speed directly accelerating Roar.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        3084,
+        6617,
+        3107,
+        3065,
+        3190,
+        3158
+      ],
+      "pageKey": "guard",
+      "requiredState": "Need nearby allies, actual CC/death stacks and bounded Heartsteel procs accumulated before the fight.",
+      "failure": "Healing triggers can arrive too late and health without resistances becomes vulnerable outside R.",
+      "test": "Compare allied health restored per Roar and survival during then after R, with fixed Heartsteel stacks.",
+      "rejectedAssumption": "Moonstone's allied chain excludes self and does not multiply R damage reduction.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AD trample scaling",
+      "reason": "E's damage is AP magic; attack AD only helps ordinary attacks, not every pulse.",
+      "evidenceSlots": [
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Verify whether the extracted Roar healing is affected by heal power and Moonstone without double-counting self healing."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Triumphant Roar",
+      "paths": [
+        "Characters/Alistar/Spells/AlistarPassiveAbility/AlistarPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Pulverize",
+      "paths": [
+        "Characters/Alistar/Spells/PulverizeAbility/Pulverize"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Headbutt",
+      "paths": [
+        "Characters/Alistar/Spells/HeadbuttAbility/Headbutt"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Trample",
+      "paths": [
+        "Characters/Alistar/Spells/AlistarEAbility/AlistarE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Unbreakable Will",
+      "paths": [
+        "Characters/Alistar/Spells/FerociousHowlAbility/FerociousHowl"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "alistar-audit-trample-spellblade-brawler",
+      "champion": "Alistar",
+      "name": "Trample spellblade brawler",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Make the delayed Trample stun a damage delivery window.",
+      "goal": "Make the delayed Trample stun a damage delivery window.",
+      "hypothesis": "Trample deals 0.7 AP magic damage over five seconds and requires five champion-damaging pulses before the stunning attack. Dusk and Dawn gives that actual attack a magic Spellblade payload; Riftmaker rewards staying in combat and R's seven-second reduction helps survive the wait. Rylai's slow may keep enemies near E.",
+      "itemIds": [
+        2510,
+        4633,
+        3116,
+        3065,
+        8020,
+        3111
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need close contact for five E stacks, R available and an attack after the charge.",
+        "Record time to stun and damage over an E cycle against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Headbutting the target away or being kited interrupts E stacking; low spell ranks limit damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The E stun's bonus damage has a level expression, not an AP ratio.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Dusk and Dawn, Riftmaker, Rylai's Crystal Scepter, Spirit Visage, Abyssal Mask, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Unbreakable Will",
+          "slot": "R",
+          "source": "Characters/Alistar/Spells/FerociousHowlAbility/FerociousHowl",
+          "formula": "Alistar immediately cleanses all Disabling effects and takes [55 / 65 / 75]% reduced damage for [7] seconds."
+        },
+        {
+          "ability": "Trample",
+          "slot": "E",
+          "source": "Characters/Alistar/Spells/AlistarEAbility/AlistarE",
+          "formula": "Alistar begins trampling the ground, becoming Ghosted and dealing [80 / 110 / 140 / 170 / 200 + (0.7) × AP] magic damage over [5] seconds to nearby enemies. Each pulse that damages a champion grants a stack.\n\nAt [5] stacks, Alistar's next Attack against champions Stuns for [1] second and deals an additional [characterLevelBreakpoints(start=20, perLevel=15, changes=[])] magic damage."
+        },
+        {
+          "ability": "Pulverize",
+          "slot": "Q",
+          "source": "Characters/Alistar/Spells/PulverizeAbility/Pulverize",
+          "formula": "Alistar smashes the ground, Knocking Up enemies for [1] second and dealing [60 / 100 / 140 / 180 / 220 + (0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Headbutt",
+          "slot": "W",
+          "source": "Characters/Alistar/Spells/HeadbuttAbility/Headbutt",
+          "formula": "Alistar rams into an enemy, Knocking them Back and dealing [55 / 110 / 165 / 220 / 275 + (1) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "alistar-audit-roar-health-battery",
+      "champion": "Alistar",
+      "name": "Roar health battery",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert accumulated health into repeated team healing.",
+      "goal": "Convert accumulated health into repeated team healing.",
+      "hypothesis": "Triumphant Roar restores 5% max health to Alistar and 1.4 times that to nearby allies at seven stacks. Heartsteel health increases the documented base heal, while Moonstone chains allied healing and Redemption supports the clustered formation. Q/W disruptions and nearby deaths provide real stacks, rather than attack speed directly accelerating Roar.",
+      "itemIds": [
+        3084,
+        6617,
+        3107,
+        3065,
+        3190,
+        3158
+      ],
+      "runePage": [
+        8465,
+        8463,
+        8444,
+        8453,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need nearby allies, actual CC/death stacks and bounded Heartsteel procs accumulated before the fight.",
+        "Compare allied health restored per Roar and survival during then after R, with fixed Heartsteel stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Healing triggers can arrive too late and health without resistances becomes vulnerable outside R.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Moonstone's allied chain excludes self and does not multiply R damage reduction.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Heartsteel, Moonstone Renewer, Redemption, Spirit Visage, Locket of the Iron Solari, Ionian Boots of Lucidity. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Triumphant Roar",
+          "slot": "Passive",
+          "source": "Characters/Alistar/Spells/AlistarPassiveAbility/AlistarPassive",
+          "formula": "Alistar gains a stack whenever he Stuns or Knocks an enemy champion, or whenever an enemy dies. At [7] stacks, Alistar roars, restoring [(0.05) × Stat(12)] Health to himself and [((0.05) × Stat(12)) × (1.4)] Health to nearby allied champions.\n\nEnemy champion and epic jungle monster deaths fully charge this Ability."
+        },
+        {
+          "ability": "Unbreakable Will",
+          "slot": "R",
+          "source": "Characters/Alistar/Spells/FerociousHowlAbility/FerociousHowl",
+          "formula": "Alistar immediately cleanses all Disabling effects and takes [55 / 65 / 75]% reduced damage for [7] seconds."
+        },
+        {
+          "ability": "Pulverize",
+          "slot": "Q",
+          "source": "Characters/Alistar/Spells/PulverizeAbility/Pulverize",
+          "formula": "Alistar smashes the ground, Knocking Up enemies for [1] second and dealing [60 / 100 / 140 / 180 / 220 + (0.8) × AP] magic damage."
+        },
+        {
+          "ability": "Headbutt",
+          "slot": "W",
+          "source": "Characters/Alistar/Spells/HeadbuttAbility/Headbutt",
+          "formula": "Alistar rams into an enemy, Knocking them Back and dealing [55 / 110 / 165 / 220 / 275 + (1) × AP] magic damage."
+        }
+      ]
+    }
+  ]
+}

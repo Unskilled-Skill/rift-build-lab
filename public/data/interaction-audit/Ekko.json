@@ -1,0 +1,289 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Ekko",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "sub-thirty-strikes",
+      "name": "Sub Thirty Strikes",
+      "objective": "Compare W packets at 31% and 29% with Dusk ready/unready.",
+      "mechanic": "W attacks add AP missing-health magic only below 30%. E grants attack access; Nashor/Dusk add personal on-hits and Shadowflame has a broader below-40% threshold. P speed enables withdrawal but retains its four-second same-target lock.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4645,
+        3089,
+        3135,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "Target below 30% with safe E access.",
+      "failure": "Cannot reach threshold or dies while adding attacks.",
+      "test": "Compare W packets at 31% and 29% with Dusk ready/unready; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Repeated on-hits do not prove duplicate P stacks.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "four-second-return",
+      "name": "Four Second Return",
+      "objective": "Compare healing under different recent-damage timings.",
+      "mechanic": "R heals from AP and health lost in the previous four seconds and returns to a historical position. W AP shield can delay retreat; Riftmaker supports prolonged combat while Cosmic guides the path to an offensive return.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        4629,
+        3157,
+        3089,
+        3137,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Record recent health loss and four-second position.",
+      "failure": "Dies before R or returns outside useful range.",
+      "test": "Compare healing under different recent-damage timings; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Lifetime damage does not count as recent-four-second loss.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Rapid repeated P burst",
+      "reason": "P has a four-second lock on each enemy.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "W/P on-hit repetition and historical healing bookkeeping need live logs."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Z-Drive Resonance",
+      "paths": [
+        "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Timewinder",
+      "paths": [
+        "Characters/Ekko/Spells/EkkoQAbility/EkkoQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Parallel Convergence",
+      "paths": [
+        "Characters/Ekko/Spells/EkkoWAbility/EkkoW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Phase Dive",
+      "paths": [
+        "Characters/Ekko/Spells/EkkoEAbility/EkkoE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Chronobreak",
+      "paths": [
+        "Characters/Ekko/Spells/EkkoRAbility/EkkoR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "ekko-audit-sub-thirty-strikes",
+      "champion": "Ekko",
+      "name": "Sub Thirty Strikes",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare W packets at 31% and 29% with Dusk ready/unready.",
+      "goal": "Compare W packets at 31% and 29% with Dusk ready/unready.",
+      "hypothesis": "W attacks add AP missing-health magic only below 30%. E grants attack access; Nashor/Dusk add personal on-hits and Shadowflame has a broader below-40% threshold. P speed enables withdrawal but retains its four-second same-target lock.",
+      "itemIds": [
+        3115,
+        2510,
+        4645,
+        3089,
+        3135,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Target below 30% with safe E access.",
+        "Compare W packets at 31% and 29% with Dusk ready/unready; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Cannot reach threshold or dies while adding attacks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Repeated on-hits do not prove duplicate P stacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Shadowflame, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Z-Drive Resonance",
+          "slot": "Passive",
+          "source": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+          "formula": "Every third Attack or damaging Ability on the same target deals an additional [(characterLevelBreakpoints(start=30, perLevel=10, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AP) × (1)] magic damage. If the target is a champion, Ekko gains [characterLevelBreakpoints(start=0.5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed for [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}])] seconds. This effect can't trigger on the same enemy more than once every [4] seconds."
+        },
+        {
+          "ability": "Parallel Convergence",
+          "slot": "W",
+          "source": "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+          "formula": "Passive: Ekko's Attacks against enemies below [30]% Health deal [(3 + (0.03) × AP) × (0.01)] missing Health magic damage.\n\nActive: Ekko launches a chronosphere lasting [1.5] seconds after a delay that Slows enemies inside by [40]%. If Ekko enters the sphere, he detonates it, Stunning for [2.25] seconds and gaining [100 / 120 / 140 / 160 / 180 + (1.5) × AP] Shield."
+        },
+        {
+          "ability": "Phase Dive",
+          "slot": "E",
+          "source": "Characters/Ekko/Spells/EkkoEAbility/EkkoE",
+          "formula": "Ekko dashes and empowers his next Attack to have bonus range, teleport him to his target, and deal an additional [50 / 75 / 100 / 125 / 150 + (0.4) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "ekko-audit-four-second-return",
+      "champion": "Ekko",
+      "name": "Four Second Return",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare healing under different recent-damage timings.",
+      "goal": "Compare healing under different recent-damage timings.",
+      "hypothesis": "R heals from AP and health lost in the previous four seconds and returns to a historical position. W AP shield can delay retreat; Riftmaker supports prolonged combat while Cosmic guides the path to an offensive return.",
+      "itemIds": [
+        4633,
+        4629,
+        3157,
+        3089,
+        3137,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Record recent health loss and four-second position.",
+        "Compare healing under different recent-damage timings; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Dies before R or returns outside useful range.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Lifetime damage does not count as recent-four-second loss.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Cosmic Drive, Zhonya's Hourglass, Rabadon's Deathcap, Cryptbloom, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Z-Drive Resonance",
+          "slot": "Passive",
+          "source": "Characters/Ekko/Spells/EkkoPassiveAbility/EkkoPassive",
+          "formula": "Every third Attack or damaging Ability on the same target deals an additional [(characterLevelBreakpoints(start=30, perLevel=10, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 5.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AP) × (1)] magic damage. If the target is a champion, Ekko gains [characterLevelBreakpoints(start=0.5, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])] Move Speed for [characterLevelBreakpoints(start=2, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.5, \"__type\": \"Breakpoint\"}])] seconds. This effect can't trigger on the same enemy more than once every [4] seconds."
+        },
+        {
+          "ability": "Chronobreak",
+          "slot": "R",
+          "source": "Characters/Ekko/Spells/EkkoRAbility/EkkoR",
+          "formula": "Ekko turns back time, entering Stasis while teleporting to where he was 4 seconds ago and dealing [200 / 350 / 500 + (1.75) × AP] magic damage to nearby enemies. In addition, Ekko restores [100 / 150 / 200 + (0.6) × AP] Health, increased by [3]% for each 1% Health he lost in last 4 seconds."
+        },
+        {
+          "ability": "Parallel Convergence",
+          "slot": "W",
+          "source": "Characters/Ekko/Spells/EkkoWAbility/EkkoW",
+          "formula": "Passive: Ekko's Attacks against enemies below [30]% Health deal [(3 + (0.03) × AP) × (0.01)] missing Health magic damage.\n\nActive: Ekko launches a chronosphere lasting [1.5] seconds after a delay that Slows enemies inside by [40]%. If Ekko enters the sphere, he detonates it, Stunning for [2.25] seconds and gaining [100 / 120 / 140 / 160 / 180 + (1.5) × AP] Shield."
+        }
+      ]
+    }
+  ]
+}

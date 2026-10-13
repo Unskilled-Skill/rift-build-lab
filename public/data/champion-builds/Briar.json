@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "briar-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "briar-four-2",
+      "id": "briar-audit-wall-scream-mage",
       "champion": "Briar",
-      "name": "Damage interaction: Attack-led side lane",
-      "goal": "Damage interaction for Briar: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A committed melee pursuer who converts bleed and bite damage into healing, with a scream as her principal control release. Measure bleed/bite healing and attacks during frenzy, then whether E releases control in time. A high damage ceiling cannot excuse uncontrollable target access or deaths. Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
-      "summary": "Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure.",
+      "name": "Wall scream mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use Head Rush to line up an AP wall collision.",
+      "goal": "Use Head Rush to line up an AP wall collision.",
+      "hypothesis": "Chilling Scream has 1 AP magic damage on release and 2.4 AP magic wall-hit damage when fully charged; Certain Death landing adds 1.3 AP magic. Rocketbelt helps create the wall angle, Gunblade offers mixed stats and a slowing active, and magic penetration serves E/R. Q's AP term deals physical damage, so it is secondary here.",
       "itemIds": [
-        3153,
-        3078,
-        3181,
-        3053,
-        6333,
-        3047
+        3146,
+        3152,
+        3089,
+        4645,
+        3135,
+        3020
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
-        8444,
-        8451
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Briar: Measure bleed/bite healing and attacks during frenzy, then whether E releases control in time. A high damage ceiling cannot excuse uncontrollable target access or deaths.",
-        "Start with the early core (BotRK or Trinity, then the other) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Real attacks can exploit BotRK and Spellblade while Hullbreaker asks for side-lane pressure. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Briar leaps to a unit and hits enemies with The Heel Wheel (of Pain), stunning them and breaking their Armor. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need a nearby wall, uninterrupted full E charge and a planned frenzy cancellation.",
+        "Measure release versus wall bonus separately, then compare realistic Q-to-wall sequences against a dodging target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "The route fails Briar's stated kit question: Measure bleed/bite healing and attacks during frenzy, then whether E releases control in time. A high damage ceiling cannot excuse uncontrollable target access or deaths.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Charging gives targets time to sidestep; weak physical sustained damage makes a failed wall hit costly.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Attack access and waves are necessary; attack items do not automatically empower every spell.",
-        "Full cost 17,233 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: AP does not strengthen W's main AD attack loop or make Q magic damage.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK or Trinity, then the other. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Hullbreaker, Sterak's Gage, Death's Dance are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Hextech Gunblade, Hextech Rocketbelt, Rabadon's Deathcap, Shadowflame, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Fury",
       "kitEvidence": [
         {
           "ability": "Blood Frenzy / Snack Attack",
@@ -193,12 +187,6 @@
           "slot": "Q",
           "source": "Characters/Briar/Spells/BriarQAbility/BriarQ",
           "formula": "Briar leaps to a target, Stunning it for [0.85] seconds, dealing [60 / 85 / 110 / 135 / 160 + (0.6) × AP + (0.8) × AD[statFormula=2]] physical damage and reducing [(0.1 / 0.125 / 0.15 / 0.175 / 0.2) × 100]% Armor and Magic Resist for [5] seconds.\n\nBriar will stop prioritizing champions if she casts this Ability on a minion or monster during Blood Frenzy."
-        },
-        {
-          "ability": "Crimson Curse",
-          "slot": "Passive",
-          "source": "Characters/Briar/Spells/BriarPAbility/BriarP",
-          "formula": "Briar's Attacks and Abilities apply a bleed for [5] seconds, stacking up to [5] times. The bleed deals [(characterLevelInterpolation(2 → 10; raw flags preserved) + (0.1) × AD[statFormula=2]) × (5)] to [(characterLevelInterpolation(2 → 10; raw flags preserved) + (0.1) × AD[statFormula=2]) × ((5) × (2))] physical damage based on stacks, and Heals Briar for [25]% of the pre-mitigation damage.\n\nBriar gains up to [(0.4 + (0.00025) × Stat(12)[statFormula=2]) × (100)]% increased Healing based on her missing Health. She has no Base Health Regeneration and her Abilities cost [5]% current Health to cast."
         },
         {
           "ability": "Certain Death",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "briar-four-4",
+      "id": "briar-audit-bleed-health-conversion",
       "champion": "Briar",
-      "name": "Experiment: Physical spell burst",
-      "goal": "Experiment for Briar: test a different playstyle, with lower confidence",
-      "hypothesis": "A committed melee pursuer who converts bleed and bite damage into healing, with a scream as her principal control release. Measure bleed/bite healing and attacks during frenzy, then whether E releases control in time. A high damage ceiling cannot excuse uncontrollable target access or deaths. High AD and penetration test ability-first trades with a conditional anti-magic slot. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "High AD and penetration test ability-first trades with a conditional anti-magic slot.",
+      "name": "Bleed health conversion",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert actual healing windows and health into physical pressure.",
+      "goal": "Convert actual healing windows and health into physical pressure.",
+      "hypothesis": "Crimson Curse stacks physical bleed to five and heals from pre-mitigation bleed; W recast restores health from its damage and a max-health term. Bloodmail converts bonus health to AD, Visage enhances self healing, and Cleaver targets the physical loop. E's max-health heal and reduction can stabilize a dangerous low-health recast before Death's Dance requires a real takedown.",
       "itemIds": [
-        6692,
-        6698,
-        6694,
-        3814,
-        3156,
-        3158
+        2501,
+        6610,
+        3065,
+        3071,
+        6333,
+        3047
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,48 +351,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Briar: Measure bleed/bite healing and attacks during frenzy, then whether E releases control in time. A high damage ceiling cannot excuse uncontrollable target access or deaths.",
-        "Start with the early core (Eclipse, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: High AD and penetration test ability-first trades with a conditional anti-magic slot. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Briar leaps to a unit and hits enemies with The Heel Wheel (of Pain), stunning them and breaking their Armor. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Need controlled W access, an E escape and a living target for bleed ticks.",
+        "Compare healing and survival over one W/E cycle, with and without healing reduction and fixed health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
-        "The route fails Briar's stated kit question: Measure bleed/bite healing and attacks during frenzy, then whether E releases control in time. A high damage ceiling cannot excuse uncontrollable target access or deaths.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Anti-heal, forced target selection and instant burst can prevent the expected sustain.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Maw is matchup-specific; this does not inherit a full tank build's survival.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Bleed stacks are capped; self-taunt is a positioning liability, not free permanent uptime.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Serylda's Grudge, Edge of Night, Maw of Malmortius are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Fury. Do not treat mana regeneration as Fury recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Overlord's Bloodmail, Sundered Sky, Spirit Visage, Black Cleaver, Death's Dance, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Fury",
       "kitEvidence": [
         {
           "ability": "Blood Frenzy / Snack Attack",
           "slot": "W",
           "source": "Characters/Briar/Spells/BriarWAbility/BriarW",
           "formula": "Briar leaps and enters a Blood Frenzy, self-taunting to the nearest enemy for [5] seconds, prioritizing Champions. While in Blood Frenzy she gains [(0.55 / 0.65 / 0.75 / 0.85 / 0.95) × 100]% Attack Speed and [(0.24 / 0.33 / 0.42 / 0.51 / 0.6) × 100]% Move Speed, and her Attacks deal [(0.6 / 0.7 / 0.8 / 0.9 / 1) × AD] physical damage to enemies surrounding her target.\n\nBriar can Recast this Ability to empower her next Attack. It deals [5 / 20 / 35 / 50 / 65 + (1.05) × AD] + [9 + (0.025) × AD[statFormula=2]]% missing Health physical damage and heals Briar for [(0.05) × Stat(12)] + [(0.24 / 0.28 / 0.32 / 0.36 / 0.4) × 100]% of the damage dealt."
-        },
-        {
-          "ability": "Head Rush",
-          "slot": "Q",
-          "source": "Characters/Briar/Spells/BriarQAbility/BriarQ",
-          "formula": "Briar leaps to a target, Stunning it for [0.85] seconds, dealing [60 / 85 / 110 / 135 / 160 + (0.6) × AP + (0.8) × AD[statFormula=2]] physical damage and reducing [(0.1 / 0.125 / 0.15 / 0.175 / 0.2) × 100]% Armor and Magic Resist for [5] seconds.\n\nBriar will stop prioritizing champions if she casts this Ability on a minion or monster during Blood Frenzy."
         },
         {
           "ability": "Crimson Curse",

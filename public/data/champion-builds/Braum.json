@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "braum-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "braum-four-2",
+      "id": "braum-audit-four-hit-self-stunner",
       "champion": "Braum",
-      "name": "Damage interaction: Health/AP attack hybrid",
-      "goal": "Damage interaction for Braum: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A protective frontline support who initiates a shared four-hit stun and blocks incoming projectiles. He is strongest when teammates can immediately attack his marked target. Can attack speed finish a four-hit passive stun faster than an allied attacker already would? Record ally contribution and projectile blocking before judging offensive slots. Health plus AP and repeated on-hits test a hybrid attack route.",
-      "summary": "Health plus AP and repeated on-hits test a hybrid attack route.",
+      "name": "Four-hit self-stunner",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test four-hit self-stunner against the conventional damage pattern at equal gold.",
+      "goal": "Test four-hit self-stunner against the conventional damage pattern at equal gold.",
+      "hypothesis": "Concussive Blows needs four stacks, with Q providing one; Hail of Blades and attack items test finishing the stun without allied attacks. Blade adds physical on-hit while the passive's post-stun magic attack damage and Terminus supply mixed pressure.",
       "itemIds": [
-        3084,
-        2510,
-        4633,
-        3115,
-        6665,
-        3111
+        3153,
+        3124,
+        3302,
+        3748,
+        3065,
+        3006
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
-        8444,
-        8451
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Braum: Can attack speed finish a four-hit passive stun faster than an allied attacker already would? Record ally contribution and projectile blocking before judging offensive slots.",
-        "Start with the early core (Health/defense as needed, then Dusk and Dawn as the isolated test) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health plus AP and repeated on-hits test a hybrid attack route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Braum propels freezing ice from his shield, slowing and dealing magic damage.\n\nApplies a stack of Concussive Blows. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Q lands and Braum reaches three quick ordinary attacks.",
+        "Record time to stun and damage during the subsequent immunity window.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "The route fails Braum's stated kit question: Can attack speed finish a four-hit passive stun faster than an allied attacker already would? Record ally contribution and projectile blocking before judging offensive slots.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "The target becomes stack-immune after stun, sharply limiting repeat control.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Rageblade phantom hits must not be assumed to add Concussive stacks.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Health/defense as needed, then Dusk and Dawn as the isolated test. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Riftmaker, Nashor's Tooth, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Blade of The Ruined King, Guinsoo's Rageblade, Terminus, Titanic Hydra, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Stand Behind Me",
@@ -199,12 +193,6 @@
           "slot": "Q",
           "source": "Characters/Braum/Spells/BraumQAbility/BraumQ",
           "formula": "Braum propels freezing ice from his shield, dealing [75 / 120 / 165 / 210 / 255 + (0.025) × Stat(12)] magic damage to the first enemy hit and Slowing them by [70]% decaying over [2] seconds.\n\nApplies a stack of Concussive Blows."
-        },
-        {
-          "ability": "Glacial Fissure",
-          "slot": "R",
-          "source": "Characters/Braum/Spells/BraumRWrapperAbility/BraumRWrapper",
-          "formula": "Braum slams the ground sending forth a fissure that Knocks Up enemies in its path and nearby Braum, and deals [150 / 250 / 350 + (0.6) × AP] magic damage. The first target hit is Knocked Up for between [0.6] and [1 / 1.5 / 2] seconds, increasing with distance from Braum. All others hit are Knocked Up for [0.6] seconds.\n\nThe fissure also creates a zone for [4] seconds, that Slows by [40 / 50 / 60]%."
         },
         {
           "ability": "Concussive Blows",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "braum-four-4",
+      "id": "braum-audit-health-spear-peel",
       "champion": "Braum",
-      "name": "Experiment: Repeated on-hit",
-      "goal": "Experiment for Braum: test a different playstyle, with lower confidence",
-      "hypothesis": "A protective frontline support who initiates a shared four-hit stun and blocks incoming projectiles. He is strongest when teammates can immediately attack his marked target. Can attack speed finish a four-hit passive stun faster than an allied attacker already would? Record ally contribution and projectile blocking before judging offensive slots. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "Health spear peel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health spear peel against the conventional damage pattern at equal gold.",
+      "goal": "Test health spear peel against the conventional damage pattern at equal gold.",
+      "hypothesis": "Winter's Bite adds 2.5% of source Stat(12) as magic damage, suggesting health stacking for poke and defense; Heartsteel must be earned in melee. Bandlepipes triggers from Q slow or passive stun and grants nearby attack speed, helping allies complete Concussive Blows.",
       "itemIds": [
-        3153,
-        3124,
-        3302,
-        3091,
-        3026,
-        3006
+        3084,
+        3742,
+        8020,
+        2524,
+        3065,
+        3111
       ],
       "runePage": [
-        8008,
+        8437,
+        8401,
+        8444,
+        8451,
         9111,
-        9104,
-        8014,
-        8429,
-        8451
+        9104
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Braum: Can attack speed finish a four-hit passive stun faster than an allied attacker already would? Record ally contribution and projectile blocking before judging offensive slots.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Braum propels freezing ice from his shield, slowing and dealing magic damage.\n\nApplies a stack of Concussive Blows. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Stay near allies and alternate Q poke with safe Heartsteel attacks.",
+        "Compare Q damage and allied stun completion at recorded Heartsteel stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Braum's stated kit question: Can attack speed finish a four-hit passive stun faster than an allied attacker already would? Record ally contribution and projectile blocking before judging offensive slots.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Health without enough resistances fails against percent-health damage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: The Q stat ID is not a verified formula mapping, and E only blocks the first missile completely.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Heartsteel, Dead Man's Plate, Abyssal Mask, Bandlepipes, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Stand Behind Me",

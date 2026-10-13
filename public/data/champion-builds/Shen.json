@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "shen-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "shen-four-2",
+      "id": "shen-audit-spirit-blade-ap-attacker",
       "champion": "Shen",
-      "name": "Damage interaction: Health to attack damage",
-      "goal": "Damage interaction for Shen: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A protective melee duelist who positions his spirit blade for stronger Q attacks and uses taunt to hold enemies nearby. His global shield allows a side-lane trade to become an allied rescue. Record spirit-blade drag, empowered Q attacks and passive shields. Side-lane damage must be weighed against R rescue timing; repeated on-hits do not prove extra Q charges. Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
-      "summary": "Bloodmail converts bonus health to AD while Titanic asks for actual attacks.",
+      "name": "Spirit blade AP attacker",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test spirit blade ap attacker against conventional damage at equal gold.",
+      "goal": "Test spirit blade ap attacker against conventional damage at equal gold.",
+      "hypothesis": "A champion-crossing Twilight Assault increases the three empowered attacks' max-health magic damage and grants 50% attack speed; AP increases that percentage. Nashor plus Dusk and Dawn adds separate magic on-hits, while Visage supports Ki Barrier and the build retains a large AP-scaled global R shield.",
       "itemIds": [
-        3084,
-        2501,
-        3748,
-        3053,
+        3115,
+        2510,
+        4633,
+        3089,
         3065,
-        3047
+        3006
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8005,
         9111,
-        9104
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Shen: Record spirit-blade drag, empowered Q attacks and passive shields. Side-lane damage must be weighed against R rescue timing; repeated on-hits do not prove extra Q charges.",
-        "Start with the early core (Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Bloodmail converts bonus health to AD while Titanic asks for actual attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Shen recalls his spirit blade to attack with it, dealing damage based on the target's max health. The attacks are greatly empowered if it collides with an enemy champion, and all collided enemies are slowed while running away from Shen. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Drag the blade through a champion and land all three attacks.",
+        "Compare crossed and uncrossed Q attacks and R shield size.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "The route fails Shen's stated kit question: Record spirit-blade drag, empowered Q attacks and passive shields. Side-lane damage must be weighed against R rescue timing; repeated on-hits do not prove extra Q charges.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Bad blade positioning leaves weaker Q and the energy budget limits repeated E.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "No arbitrary Heartsteel stacks or missing-health AD; physical defense may be insufficient.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Three empowered attacks are a finite charge budget, not a permanent AP on-hit buff.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Heartsteel conditional; Titanic for attacks/waves, Bloodmail after health. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Titanic Hydra, Sterak's Gage, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Rabadon's Deathcap, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Energy",
       "kitEvidence": [
         {
           "ability": "Twilight Assault",
@@ -320,40 +314,42 @@
       ]
     },
     {
-      "id": "shen-four-4",
+      "id": "shen-audit-health-physical-blade-bruiser",
       "champion": "Shen",
-      "name": "Experiment: Health/AP attack hybrid",
-      "goal": "Experiment for Shen: test a different playstyle, with lower confidence",
-      "hypothesis": "A protective melee duelist who positions his spirit blade for stronger Q attacks and uses taunt to hold enemies nearby. His global shield allows a side-lane trade to become an allied rescue. Record spirit-blade drag, empowered Q attacks and passive shields. Side-lane damage must be weighed against R rescue timing; repeated on-hits do not prove extra Q charges. Health plus AP and repeated on-hits test a hybrid attack route. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Health plus AP and repeated on-hits test a hybrid attack route.",
+      "name": "Health physical blade bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health physical blade bruiser against conventional damage at equal gold.",
+      "goal": "Test health physical blade bruiser against conventional damage at equal gold.",
+      "hypothesis": "Shadow Dash deals physical damage with a source-health term; Titanic and Bloodmail turn purchased/earned health into attack pressure and AD. Q still supplies magic percent-health damage, while Visage supports shields and Heartsteel must be earned through close champion contact.",
       "itemIds": [
         3084,
-        2510,
-        4633,
-        3115,
-        6665,
-        3111
+        3748,
+        2501,
+        3071,
+        3065,
+        3047
       ],
       "runePage": [
-        8005,
-        9111,
-        9104,
-        8014,
+        8437,
+        8401,
         8444,
-        8451
+        8451,
+        9111,
+        9104
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +357,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Shen: Record spirit-blade drag, empowered Q attacks and passive shields. Side-lane damage must be weighed against R rescue timing; repeated on-hits do not prove extra Q charges.",
-        "Start with the early core (Health/defense as needed, then Dusk and Dawn as the isolated test) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Health plus AP and repeated on-hits test a hybrid attack route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Shen recalls his spirit blade to attack with it, dealing damage based on the target's max health. The attacks are greatly empowered if it collides with an enemy champion, and all collided enemies are slowed while running away from Shen. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Record realistic Heartsteel stacks and maintain Q energy restoration.",
+        "Compare E physical damage and three Q attacks at matched stacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "The route fails Shen's stated kit question: Record spirit-blade drag, empowered Q attacks and passive shields. Side-lane damage must be weighed against R rescue timing; repeated on-hits do not prove extra Q charges.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "No attack-speed purchase or spell haste can lose extended trades.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Shen uses energy; mana items and Manaflow cannot solve his resource limits.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Health/defense as needed, then Dusk and Dawn as the isolated test. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Riftmaker, Nashor's Tooth, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Energy. Do not treat mana regeneration as Energy recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Heartsteel, Titanic Hydra, Overlord's Bloodmail, Black Cleaver, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Energy",
       "kitEvidence": [
         {
           "ability": "Twilight Assault",
@@ -415,12 +403,6 @@
           "slot": "R",
           "source": "Characters/Shen/Spells/ShenRAbility/ShenR",
           "formula": "Shen grants an allied champion anywhere on the map between [120 / 220 / 320 + (0.15) × Stat(12)[statFormula=2] + (1.35) × AP] and [(120 / 220 / 320 + (0.15) × Stat(12)[statFormula=2] + (1.35) × AP) × (1.6)] Shield based on their missing Health for [5] seconds (max Shield at 60% missing Health). After channeling for [3] seconds, Shen teleports to his ally's location with his Spirit Blade."
-        },
-        {
-          "ability": "Spirit's Refuge",
-          "slot": "W",
-          "source": "Characters/Shen/Spells/ShenWAbility/ShenW",
-          "formula": "Shen creates a defensive zone at his Spirit Blade for [1.75] seconds. Attacks against allied champions in the zone are blocked. \n\nIf there are no champions to protect in the zone when it starts, it will wait for up to [2] seconds."
         }
       ]
     }

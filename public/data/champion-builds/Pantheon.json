@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "pantheon-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "pantheon-four-2",
+      "id": "pantheon-audit-empowered-vault-on-hit",
       "champion": "Pantheon",
-      "name": "Damage interaction: AD spell pressure",
-      "goal": "Damage interaction for Pantheon: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A melee pick fighter who stages empowered abilities, stuns a target and blocks directional retaliation. He seeks decisive ability windows with attacks preparing the next empowerment. Fix Mortal Will and empowered W attack sequence. Check current on-hit effectiveness and crit compatibility; empowered E defense is a timed window, not permanent immunity. AD, haste and Black Cleaver may reward repeated physical ability hits.",
-      "summary": "AD, haste and Black Cleaver may reward repeated physical ability hits.",
+      "name": "Empowered vault on-hit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test empowered vault on-hit against conventional damage at equal gold.",
+      "goal": "Test empowered vault on-hit against conventional damage at equal gold.",
+      "hypothesis": "Mortal Will's Shield Vault empowers the next attack to strike three times; Blade and Terminus test physical/magic item pressure in that contact window. Trinity supplies one independent physical Spellblade after W, while E provides directional protection after the triple hit. Death's Dance replaces the incompatible Cleaver slot to protect the attack window.",
       "itemIds": [
-        6692,
-        3161,
-        3071,
+        3153,
+        3078,
+        3302,
         6333,
         3053,
-        3047
+        3006
       ],
       "runePage": [
-        8010,
+        8005,
         9111,
-        9105,
-        8299,
+        9104,
+        8014,
         8444,
         8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Pantheon: Fix Mortal Will and empowered W attack sequence. Check current on-hit effectiveness and crit compatibility; empowered E defense is a timed window, not permanent immunity.",
-        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Pantheon either thrusts his spear or throws his spear in the chosen direction. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Prepare five passive stacks before W and attack immediately.",
+        "Measure each empowered attack packet and PTA proc against an unempowered W.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "The route fails Pantheon's stated kit question: Fix Mortal Will and empowered W attack sequence. Check current on-hit effectiveness and crit compatibility; empowered E defense is a timed window, not permanent immunity.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Peel between W and the attack or low spell AD loses the burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Three strikes do not imply three Spellblade activations or full unrestricted on-hit effectiveness.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Blade of The Ruined King, Trinity Force, Terminus, Death's Dance, Sterak's Gage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Mortal Will",
@@ -205,12 +199,6 @@
           "slot": "E",
           "source": "Characters/Pantheon/Spells/PantheonEAbility/PantheonE",
           "formula": "Pantheon braces his shield and engages enemies in a chosen direction for [1.5] seconds, becoming immune to non-tower damage from that direction and dealing [(1) × AD] physical damage over the duration. After channeling Pantheon slams with his shield, dealing [55 / 105 / 155 / 205 / 255 + (1.5) × AD[statFormula=2]] physical damage.\n\nMortal Will Bonus: When Pantheon slams his shield he gains [characterLevelInterpolation(5 → 30; raw flags preserved) + (0.025) × Stat(12)[statFormula=2]] Armor and [characterLevelInterpolation(5 → 30; raw flags preserved) + (0.025) × Stat(12)[statFormula=2]] Magic Resist for [4] seconds, and [60]% Move Speed for [1.5] seconds."
-        },
-        {
-          "ability": "Grand Starfall",
-          "slot": "R",
-          "source": "Characters/Pantheon/Spells/PantheonRAbility/PantheonR",
-          "formula": "Passive: Pantheon gains [(0.1 / 0.2 / 0.3) × 100]% Armor Penetration.\n\nActive: Pantheon gathers his strength to leap high into the air. He throws his spear from above which in a small area deals @spell.PantheonQ:HoldDamageCalc@ physical damage and Slows by [50]% for [2] seconds. \n\nPantheon then crashes down as a meteor at the target area. Deals up to [300 / 500 / 700 + (1) × AP] magic damage to enemies in a line (decreased by up to [50]% at the edges of the area).\n\nThis Ability instantly readies Mortal Will."
         }
       ]
     },
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "pantheon-four-4",
+      "id": "pantheon-audit-health-empowered-shield-bruiser",
       "champion": "Pantheon",
-      "name": "Experiment: Crit opening experiment",
-      "goal": "Experiment for Pantheon: test a different playstyle, with lower confidence",
-      "hypothesis": "A melee pick fighter who stages empowered abilities, stuns a target and blocks directional retaliation. He seeks decisive ability windows with attacks preparing the next empowerment. Fix Mortal Will and empowered W attack sequence. Check current on-hit effectiveness and crit compatibility; empowered E defense is a timed window, not permanent immunity. Crit, AD and an opening attack window test burst from compatible empowered attacks. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Crit, AD and an opening attack window test burst from compatible empowered attacks.",
+      "name": "Health empowered shield bruiser",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health empowered shield bruiser against conventional damage at equal gold.",
+      "goal": "Test health empowered shield bruiser against conventional damage at equal gold.",
+      "hypothesis": "Shield Vault's current record scales max-health physical damage with source health and AP terms; empowered E grants resistance terms from health after the shield slam. Bloodmail converts purchased health to AD for Q/E, while Sundered Sky rewards one owner attack and Visage its heal.",
       "itemIds": [
-        6676,
-        3031,
-        3508,
-        3036,
-        3026,
-        3006
+        2501,
+        3161,
+        6610,
+        3071,
+        3065,
+        3111
       ],
       "runePage": [
-        8005,
+        8010,
         9111,
-        9104,
-        8014,
+        9105,
+        8299,
         8444,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Pantheon: Fix Mortal Will and empowered W attack sequence. Check current on-hit effectiveness and crit compatibility; empowered E defense is a timed window, not permanent immunity.",
-        "Start with the early core (Collector or Essence Reaver, then Infinity Edge) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Crit, AD and an opening attack window test burst from compatible empowered attacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Pantheon either thrusts his spear or throws his spear in the chosen direction. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Use empowered E after the damage trade and preserve correct shield facing.",
+        "Measure post-E resistances and W damage at matched AD and different health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
-        "The route fails Pantheon's stated kit question: Fix Mortal Will and empowered W attack sequence. Check current on-hit effectiveness and crit compatibility; empowered E defense is a timed window, not permanent immunity.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Rear damage bypasses E and fewer offensive items miss Q's execute window.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Crit does not multiply spells unless the kit says so; weaker sustained defense.",
-        "Full cost 17,150 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Source Stat(12)[statFormula=2] is not a verified bonus-health mapping.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Collector or Essence Reaver, then Infinity Edge. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Essence Reaver, Lord Dominik's Regards, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Overlord's Bloodmail, Spear of Shojin, Sundered Sky, Black Cleaver, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Mortal Will",

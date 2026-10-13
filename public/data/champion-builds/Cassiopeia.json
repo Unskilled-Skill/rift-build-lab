@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "cassiopeia-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "cassiopeia-four-2",
+      "id": "cassiopeia-audit-poison-stride-engine",
       "champion": "Cassiopeia",
-      "name": "Damage interaction: Mana burn zones",
-      "goal": "Damage interaction for Cassiopeia: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A sustained spell duelist who keeps targets poisoned for repeated Twin Fang damage and uses grounding to punish mobility. Keep poison uptime, finite available mana and landed E casts explicit. E is not a basic attack: Lich Bane requires a real attack and may lose more E uptime than it adds. Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
-      "summary": "Mana and repeated ability damage may maintain burns and MR-reduction stacks.",
+      "name": "Poison stride engine",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use amplified move bonuses to maintain poisoned Twin Fang range.",
+      "goal": "Use amplified move bonuses to maintain poisoned Twin Fang range.",
+      "hypothesis": "Primary Serpentine Grace amplifies movement bonuses and Q grants 30-50% decaying speed on a champion hit. Cosmic Drive triggers on magic damage; repeated poisoned Twin Fang gains an additional 0.45 AP damage and AP healing. Bloodletter rewards the sustained magic sequence, while Rod/Seraph address mana. Swiftness is conditional on the primary passive being authoritative.",
       "itemIds": [
-        2503,
-        6653,
-        3116,
+        6657,
+        3040,
+        4629,
         8010,
-        3157,
-        3020
+        3089,
+        3009
       ],
       "runePage": [
-        8992,
-        8226,
-        8210,
-        8236,
-        8126,
-        8106
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "sequence",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Cassiopeia: Keep poison uptime, finite available mana and landed E casts explicit. E is not a basic attack: Lich Bane requires a real attack and may lose more E uptime than it adds.",
-        "Start with the early core (Blackfire Torch, then Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Mana and repeated ability damage may maintain burns and MR-reduction stacks. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Cassiopeia blasts an area with Poison after a brief delay, granting her increased Move Speed if she hits an enemy champion. Keep finite champion/item/rune stacks explicit. For Q/E use real poison uptime and available mana."
+        "Required state: Need maintained poison and legal boots access; replace boots with Visage if the helper restriction applies.",
+        "Test boot purchase first, then E hits, healing and distance maintained during a moving poison duel.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "The route fails Cassiopeia's stated kit question: Keep poison uptime, finite available mana and landed E casts explicit. E is not a basic attack: Lich Bane requires a real attack and may lose more E uptime than it adds.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "A missed Q removes both speed and enhanced E, and silence or mana pressure breaks the chase.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Burn refresh is not unlimited independent stacking; measure target contact and debuff ramp.",
-        "Full cost 15,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Rylai or item burns are not poison merely because they deal damage over time.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Blackfire Torch, then Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Rod of Ages, Seraph's Embrace, Cosmic Drive, Bloodletter's Curse, Rabadon's Deathcap, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "Only the existing Cassio Q/E or Sett W adapter is numerical. Item/rune effects and attack/utility objectives outside that adapter require manual tests.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Serpentine Grace",
@@ -205,12 +199,6 @@
           "slot": "W",
           "source": "Characters/Cassiopeia/Spells/CassiopeiaWAbility/CassiopeiaW",
           "formula": "Cassiopeia spews venom, leaving toxic clouds for [5] seconds. Enemies in the clouds take [20 / 25 / 30 / 35 / 40 + (0.1) × AP] magic damage per second, are Poisoned, Grounded, and Slowed by [40 / 50 / 60 / 70 / 80]%."
-        },
-        {
-          "ability": "Petrifying Gaze",
-          "slot": "R",
-          "source": "Characters/Cassiopeia/Spells/CassiopeiaRAbility/CassiopeiaR",
-          "formula": "Cassiopeia unleashes a petrifying gaze, dealing [125 / 225 / 325 + (0.75) × AP] magic damage and Stunning enemies facing her for [2] seconds. Enemies facing away are Slowed by [40]% decaying over the same duration instead."
         }
       ]
     },
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "cassiopeia-four-4",
+      "id": "cassiopeia-audit-miasma-sustain-bunker",
       "champion": "Cassiopeia",
-      "name": "Experiment: Spell-and-attack",
-      "goal": "Experiment for Cassiopeia: test a different playstyle, with lower confidence",
-      "hypothesis": "A sustained spell duelist who keeps targets poisoned for repeated Twin Fang damage and uses grounding to punish mobility. Keep poison uptime, finite available mana and landed E casts explicit. E is not a basic attack: Lich Bane requires a real attack and may lose more E uptime than it adds. Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Real empowered attacks may cash Lich Bane while AP strengthens compatible spells.",
+      "name": "Miasma sustain bunker",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Hold a grounded zone long enough for healing to matter.",
+      "goal": "Hold a grounded zone long enough for healing to matter.",
+      "hypothesis": "Miasma persists five seconds, poisons and grounds enemies, permitting enhanced E without another Q hit. Liandry and Riftmaker reward continued magic combat; Visage increases received healing and health contributes to Riftmaker AP. Petrifying Gaze can extend the zone against facing targets, but turned enemies only receive the slow. Boots remain source-conflict dependent.",
       "itemIds": [
-        3100,
-        3115,
-        3089,
-        3135,
-        3157,
-        3020
+        6657,
+        3040,
+        6653,
+        4633,
+        3065,
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8992,
+        8226,
+        8210,
+        8236,
+        8126,
+        8106
       ],
       "shards": [
-        5005,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "sequence",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +351,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Cassiopeia: Keep poison uptime, finite available mana and landed E casts explicit. E is not a basic attack: Lich Bane requires a real attack and may lose more E uptime than it adds.",
-        "Start with the early core (Lich Bane, then Nashor only if attacks pay off) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Real empowered attacks may cash Lich Bane while AP strengthens compatible spells. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Cassiopeia blasts an area with Poison after a brief delay, granting her increased Move Speed if she hits an enemy champion. Keep finite champion/item/rune stacks explicit. For Q/E use real poison uptime and available mana."
+        "Required state: Need targets inside W, charged Tear and sufficient mana for repeated E casts.",
+        "Compare ten-second mana use, healing and burn damage versus a mobile opponent; verify boots legality separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "The route fails Cassiopeia's stated kit question: Keep poison uptime, finite available mana and landed E casts explicit. E is not a basic attack: Lich Bane requires a real attack and may lose more E uptime than it adds.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Walking out, long-range poke and anti-heal can defeat the bunker before sustained effects mature.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Spells without on-hit delivery do not consume Spellblade; stepping into attack range costs uptime.",
-        "Full cost 16,650 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: The separate Triumphant passive record cannot be assumed to grant free level AP or forbid boots live.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Lich Bane, then Nashor only if attacks pay off. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Rod of Ages, Seraph's Embrace, Liandry's Torment, Riftmaker, Spirit Visage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "Only the existing Cassio Q/E or Sett W adapter is numerical. Item/rune effects and attack/utility objectives outside that adapter require manual tests.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Serpentine Grace",
-          "slot": "Passive",
-          "source": "Characters/Cassiopeia/Spells/CassiopeiaPassiveAbility/CassiopeiaPassive",
-          "formula": "Cassiopeia increases the effectiveness of all Move Speed bonuses by [characterLevelBreakpoints(start=0.05, perLevel=0.018, changes=[])]."
-        },
         {
           "ability": "Noxious Blast",
           "slot": "Q",

@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Nautilus",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "titan-wrath-attack-mage",
+      "name": "Titan wrath attack mage",
+      "objective": "Test titan wrath attack mage against conventional damage at equal gold.",
+      "mechanic": "Titan's Wrath gives attacks 0.4 AP magic damage over two seconds while its six-second shield survives; Nashor and Dusk and Dawn supply distinct immediate magic packets. Visage supports shield persistence and Bloodletter supports magic kit damage, with Staggering Blow providing the first root.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        8010,
+        3065,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "W shield remains intact and target stays in melee after Q.",
+      "failure": "Shield removal shuts off W damage and repeated DoT attacks may merely refresh.",
+      "test": "Compare W at one, three and six attacks with shield intact.",
+      "rejectedAssumption": "Do not sum a fresh full two-second W DoT per overlapping attack without testing refresh behavior.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "health-shield-lane-engine",
+      "name": "Health shield lane engine",
+      "objective": "Test health shield lane engine against conventional damage at equal gold.",
+      "mechanic": "Titan's Wrath scales its shield with 8-12% health; Heartsteel's earned health increases defensive uptime, while Iceborn follows the first rooted attack with physical Spellblade. Sunfire and Abyssal provide close-range magic pressure when his slow and root chain holds the victim.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3084,
+        6662,
+        3068,
+        8020,
+        3065,
+        3047
+      ],
+      "pageKey": "grasp",
+      "requiredState": "Get a safe Heartsteel attack and keep W intact.",
+      "failure": "Percent-health damage destroys the shield before sustained item pressure.",
+      "test": "Measure shield duration, Heartsteel opportunities and total damage in eight seconds.",
+      "rejectedAssumption": "The per-target passive root is not refreshed on every attack.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Do not sum a fresh full two-second W DoT per overlapping attack without testing refresh behavior.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Proc effectiveness and ordering need a controlled current-patch test; source statFormula IDs and helper records do not establish live dispatch."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Staggering Blow",
+      "paths": [
+        "Characters/Nautilus/Spells/NautilusPassiveAbility/NautilusPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Dredge Line",
+      "paths": [
+        "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Titan's Wrath",
+      "paths": [
+        "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Riptide",
+      "paths": [
+        "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Depth Charge",
+      "paths": [
+        "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "nautilus-audit-titan-wrath-attack-mage",
+      "champion": "Nautilus",
+      "name": "Titan wrath attack mage",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test titan wrath attack mage against conventional damage at equal gold.",
+      "goal": "Test titan wrath attack mage against conventional damage at equal gold.",
+      "hypothesis": "Titan's Wrath gives attacks 0.4 AP magic damage over two seconds while its six-second shield survives; Nashor and Dusk and Dawn supply distinct immediate magic packets. Visage supports shield persistence and Bloodletter supports magic kit damage, with Staggering Blow providing the first root.",
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        8010,
+        3065,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: W shield remains intact and target stays in melee after Q.",
+        "Compare W at one, three and six attacks with shield intact.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Shield removal shuts off W damage and repeated DoT attacks may merely refresh.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Do not sum a fresh full two-second W DoT per overlapping attack without testing refresh behavior.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Bloodletter's Curse, Spirit Visage, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Titan's Wrath",
+          "slot": "W",
+          "source": "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze",
+          "formula": "Nautilus gains a [50 / 60 / 70 / 80 / 90 + (0.08 / 0.09 / 0.1 / 0.11 / 0.12) × Stat(12)] Shield for [6] seconds. While the Shield persists, Nautilus' Attacks deal an additional [30 / 40 / 50 / 60 / 70 + (0.4) × AP] magic damage over 2 seconds to his target and all surrounding enemies."
+        },
+        {
+          "ability": "Riptide",
+          "slot": "E",
+          "source": "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone",
+          "formula": "Nautilus creates three exploding waves around himself, each dealing [55 / 90 / 125 / 160 / 195 + (0.5) × AP] magic damage to enemies in the area and Slows them by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% decaying over [1.25] seconds."
+        },
+        {
+          "ability": "Dredge Line",
+          "slot": "Q",
+          "source": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag",
+          "formula": "Nautilus hurls his anchor forward. If it hits an enemy, Nautilus drags himself and the target together, dealing [85 / 125 / 165 / 205 / 245 + (0.9) × AP] magic damage and Stunning them briefly. If the anchor hits terrain, Nautilus will drag himself towards it."
+        },
+        {
+          "ability": "Staggering Blow",
+          "slot": "Passive",
+          "source": "Characters/Nautilus/Spells/NautilusPassiveAbility/NautilusPassive",
+          "formula": "Nautilus' first Attack against a target deals [characterLevelTable[8, 14, 20, 26, 32, 38, 44, 50, 56, 62, 68, 74, 80, 86, 92, 98, 104, 110, 116, 122, 128, 134, 140, 146, 152, 158, 164, 170, 176, 182, 188] + (1) × AD] physical damage and Roots them for [characterLevelBreakpoints(start=0.75, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 26, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds."
+        }
+      ]
+    },
+    {
+      "id": "nautilus-audit-health-shield-lane-engine",
+      "champion": "Nautilus",
+      "name": "Health shield lane engine",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health shield lane engine against conventional damage at equal gold.",
+      "goal": "Test health shield lane engine against conventional damage at equal gold.",
+      "hypothesis": "Titan's Wrath scales its shield with 8-12% health; Heartsteel's earned health increases defensive uptime, while Iceborn follows the first rooted attack with physical Spellblade. Sunfire and Abyssal provide close-range magic pressure when his slow and root chain holds the victim.",
+      "itemIds": [
+        3084,
+        6662,
+        3068,
+        8020,
+        3065,
+        3047
+      ],
+      "runePage": [
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Get a safe Heartsteel attack and keep W intact.",
+        "Measure shield duration, Heartsteel opportunities and total damage in eight seconds.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Percent-health damage destroys the shield before sustained item pressure.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: The per-target passive root is not refreshed on every attack.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Heartsteel, Iceborn Gauntlet, Sunfire Aegis, Abyssal Mask, Spirit Visage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Titan's Wrath",
+          "slot": "W",
+          "source": "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze",
+          "formula": "Nautilus gains a [50 / 60 / 70 / 80 / 90 + (0.08 / 0.09 / 0.1 / 0.11 / 0.12) × Stat(12)] Shield for [6] seconds. While the Shield persists, Nautilus' Attacks deal an additional [30 / 40 / 50 / 60 / 70 + (0.4) × AP] magic damage over 2 seconds to his target and all surrounding enemies."
+        },
+        {
+          "ability": "Riptide",
+          "slot": "E",
+          "source": "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone",
+          "formula": "Nautilus creates three exploding waves around himself, each dealing [55 / 90 / 125 / 160 / 195 + (0.5) × AP] magic damage to enemies in the area and Slows them by [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% decaying over [1.25] seconds."
+        },
+        {
+          "ability": "Dredge Line",
+          "slot": "Q",
+          "source": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag",
+          "formula": "Nautilus hurls his anchor forward. If it hits an enemy, Nautilus drags himself and the target together, dealing [85 / 125 / 165 / 205 / 245 + (0.9) × AP] magic damage and Stunning them briefly. If the anchor hits terrain, Nautilus will drag himself towards it."
+        },
+        {
+          "ability": "Depth Charge",
+          "slot": "R",
+          "source": "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine",
+          "formula": "Nautilus fires a shockwave that chases an enemy champion, dealing [150 / 275 / 400 + (0.8) × AP] magic damage, Knocking them Up and Stunning them for [1 / 1.5 / 2] seconds. Other enemies hit by the shockwave are also Knocked Up and Stunned and take [125 / 175 / 225 + (0.4) × AP] magic damage."
+        },
+        {
+          "ability": "Staggering Blow",
+          "slot": "Passive",
+          "source": "Characters/Nautilus/Spells/NautilusPassiveAbility/NautilusPassive",
+          "formula": "Nautilus' first Attack against a target deals [characterLevelTable[8, 14, 20, 26, 32, 38, 44, 50, 56, 62, 68, 74, 80, 86, 92, 98, 104, 110, 116, 122, 128, 134, 140, 146, 152, 158, 164, 170, 176, 182, 188] + (1) × AD] physical damage and Roots them for [characterLevelBreakpoints(start=0.75, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}, {\"mLevel\": 26, \"mAdditionalBonusAtThisLevel\": 0.25, \"__type\": \"Breakpoint\"}])] seconds."
+        }
+      ]
+    }
+  ]
+}

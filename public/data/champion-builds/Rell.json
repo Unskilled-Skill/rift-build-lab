@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "rell-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "rell-four-2",
+      "id": "rell-audit-stolen-resistance-attack-weave",
       "champion": "Rell",
-      "name": "Damage interaction: Armor and control",
-      "goal": "Damage interaction for Rell: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A frontline engager who breaks shields and steals defenses, clustering enemies for allied follow-up through mounting and dragging control. Record shield breaking, defense stealing and actual R clustering. AP output must repay reduced support durability; allies still supply most follow-up damage. Armor and a real Spellblade attack may preserve close fighting windows.",
-      "summary": "Armor and a real Spellblade attack may preserve close fighting windows.",
+      "name": "Stolen-resistance attack weave",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore actual attacks while dismounted to use stolen defenses offensively.",
+      "goal": "Explore actual attacks while dismounted to use stolen defenses offensively.",
+      "hypothesis": "Break the Mold steals armor/MR through attacks and abilities and attacks add 0.05 armor plus 0.05 MR magic damage. Dismounted W explicitly grants increased attack speed and defenses. Nashor and Dusk and Dawn test an attack component; Abyssal helps close magic damage and E or remount supplies access.",
       "itemIds": [
-        6662,
-        2502,
-        3075,
-        3143,
-        3065,
-        3047
+        3869,
+        2510,
+        3115,
+        8020,
+        6665,
+        3111
       ],
       "runePage": [
-        8437,
-        8401,
-        8444,
-        8451,
+        8005,
         9111,
-        9104
+        9104,
+        8014,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rell: Record shield breaking, defense stealing and actual R clustering. AP output must repay reduced support durability; allies still supply most follow-up damage.",
-        "Start with the early core (Iceborn if attack access is useful, otherwise matchup armor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Armor and a real Spellblade attack may preserve close fighting windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Rell deals magic damage to units in a line, breaking their shields and stunning them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: W dismounted state and finite stolen-resistance stacks are recorded; attacks can reach champions.",
+        "Log stolen stats, passive damage and Dusk packets for identical dismounted attack counts.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Do not add another Spellblade item; Thornmail and Randuin are conditional purchases.",
-        "The route fails Rell's stated kit question: Record shield breaking, defense stealing and actual R clustering. AP output must repay reduced support durability; allies still supply most follow-up damage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Delayed protective items and weak attack uptime can erase this offensive support gamble.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Do not add another Spellblade item; Thornmail and Randuin are conditional purchases.",
-        "Full cost 14,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Repeating on-hits need not repeat resistance-steal stacks; never grant unlimited theft.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Iceborn if attack access is useful, otherwise matchup armor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Thornmail, Randuin's Omen, Spirit Visage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Dusk and Dawn, Nashor's Tooth, Abyssal Mask, Jak'Sho, The Protean, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Break the Mold",
@@ -199,18 +193,6 @@
           "slot": "E",
           "source": "Characters/Rell/Spells/RellEAbility/RellE",
           "formula": "Rell and an ally charge, gaining [15]% Move Speed, increased to [30]% when facing enemy champions or each other for [3] seconds. Rell's next Attack or {{Spell_RellQ_Name}} explodes in an area for [0.05 / 0.055 / 0.06 / 0.065 / 0.07 + (0.0003) × AP] max Health magic damage."
-        },
-        {
-          "ability": "Shattering Strike",
-          "slot": "Q",
-          "source": "Characters/Rell/Spells/RellQAbility/RellQ",
-          "formula": "Rell thrusts her lance, Stunning targets for [0.65] seconds, destroying all Shields, and dealing [60 / 100 / 140 / 180 / 220 + (0.6) × AP] magic damage."
-        },
-        {
-          "ability": "Magnet Storm",
-          "slot": "R",
-          "source": "Characters/Rell/Spells/RellRAbility/RellR",
-          "formula": "Rell explodes in a magnetic fury, violently Pulling nearby enemies towards herself. Then Rell constantly Drags nearby enemies towards herself and deals [(75 / 125 / 175 + (0.55) × AP) × (2)] magic damage over the next [2] seconds."
         }
       ]
     },
@@ -320,40 +302,42 @@
       ]
     },
     {
-      "id": "rell-four-4",
+      "id": "rell-audit-shield-break-full-tilt-burst",
       "champion": "Rell",
-      "name": "Experiment: Magic tank experiment",
-      "goal": "Experiment for Rell: test a different playstyle, with lower confidence",
-      "hypothesis": "A frontline engager who breaks shields and steals defenses, clustering enemies for allied follow-up through mounting and dragging control. Record shield breaking, defense stealing and actual R clustering. AP output must repay reduced support durability; allies still supply most follow-up damage. Health-supported AP and close magic amplification trade defense for damage. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Health-supported AP and close magic amplification trade defense for damage.",
+      "name": "Shield-break full-tilt burst",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use Q shield destruction before the AP-scaled max-health E explosion.",
+      "goal": "Use Q shield destruction before the AP-scaled max-health E explosion.",
+      "hypothesis": "Q destroys shields and stuns, with 0.6 AP damage. E next attack or Q explodes for max-health magic damage with an AP coefficient; R supplies two seconds of AP-scaled magic contact. Bloodletter and Liandry test sustained follow-up while Mandate requires Q/W immobilization rather than mere E speed.",
       "itemIds": [
-        3084,
-        4633,
+        3869,
+        4005,
         6653,
-        8020,
+        8010,
         3157,
-        3111
+        3020
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
-        8444,
-        8451
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,43 +345,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Rell: Record shield breaking, defense stealing and actual R clustering. AP output must repay reduced support durability; allies still supply most follow-up damage.",
-        "Start with the early core (Safe health/defense core, then Riftmaker or Liandry) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health-supported AP and close magic amplification trade defense for damage. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Rell deals magic damage to units in a line, breaking their shields and stunning them. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Shielded durable target; arm E and hit Q before committing R/W.",
+        "Compare Q shield removal, E explosion and R ticks at fixed target health and shields.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
-        "The route fails Rell's stated kit question: Record shield breaking, defense stealing and actual R clustering. AP output must repay reduced support durability; allies still supply most follow-up damage.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Failing to land Q leaves the shield intact and the expensive AP package exposed.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Riftmaker/AP need confirmed damage scalings; survivability and contact can fall sharply.",
-        "Full cost 16,250 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Shield destruction is not extra damage equal to the removed shield.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Safe health/defense core, then Riftmaker or Liandry. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Liandry's Torment, Abyssal Mask, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Celestial Opposition, Imperial Mandate, Liandry's Torment, Bloodletter's Curse, Zhonya's Hourglass, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Break the Mold",
-          "slot": "Passive",
-          "source": "Characters/Rell/Spells/RellPAbility/RellP",
-          "formula": "Rell's Attacks and Abilities steal [3]% Armor and [3]% Magic Resist for [5] seconds. Max: [15]%. Basic attacks deal [(0.05) × Stat(1) + (0.05) × Stat(6)] magic damage on-hit."
-        },
         {
           "ability": "Ferromancy: Crash Down",
           "slot": "W",

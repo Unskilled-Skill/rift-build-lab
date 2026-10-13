@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Singed",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "fling-and-strike-pass",
+      "name": "Fling-and-strike pass",
+      "objective": "Explore one AP Spellblade attack as Fling changes target position.",
+      "mechanic": "E has 0.55 AP plus max-health magic damage and places the enemy behind Singed. Lich Bane and Nashor reward an actual nearby attack; Q continues magic damage while Cosmic supplies movement and R gives AP/defenses for a bounded 25 seconds. This route asks whether the attack fits a run-by rather than assuming Fling applies on-hits.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3100,
+        3115,
+        4629,
+        4633,
+        3135,
+        3009
+      ],
+      "pageKey": "storm",
+      "requiredState": "A Fling target is in attack reach and poison contact continues during the attack animation.",
+      "failure": "Standing to attack sacrifices Slipstream movement and exposes Singed to control.",
+      "test": "Compare a moving Fling pass with and without one attack, recording poison uptime and incoming damage.",
+      "rejectedAssumption": "Fling itself does not consume Spellblade or apply Nashor.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "adhesive-vulnerability-turn",
+      "name": "Adhesive vulnerability turn",
+      "objective": "Use the Fling-into-W root as the trigger for ally amplification.",
+      "mechanic": "W grounds and slows; E roots only when the victim lands in adhesive. Current Mandate needs immobilization, so E-W root is the concrete trigger. Bandlepipes can use the initial slow; Abyssal rewards close magic pressure from Q/E and R keeps Singed mobile during the escort.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4005,
+        2524,
+        8020,
+        6653,
+        2065,
+        3009
+      ],
+      "pageKey": "after",
+      "requiredState": "Adhesive is placed where Fling will land and allies can hit during the four-second vulnerability.",
+      "failure": "A misplaced W gives only slow/grounding and loses Mandate marking.",
+      "test": "Time root, Mandate vulnerability, ally follow-up and poison contact after the same Fling placement.",
+      "rejectedAssumption": "Grounding or a slow is not automatically Mandate immobilization.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "R poison anti-heal stacking",
+      "reason": "R adds 40% Grievous Wounds to poison; buying another 40% source does not establish an additive 80% reduction.",
+      "evidenceSlots": [
+        "Q",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Mandate mark versus grounding eligibility must be observed; poison item refresh and Fling attack timing are unverified."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Noxious Slipstream",
+      "paths": [
+        "Characters/Singed/Spells/SingedPAbility/SingedP"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Poison Trail",
+      "paths": [
+        "Characters/Singed/Spells/PoisonTrailAbility/PoisonTrail"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Mega Adhesive",
+      "paths": [
+        "Characters/Singed/Spells/MegaAdhesiveAbility/MegaAdhesive"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Fling",
+      "paths": [
+        "Characters/Singed/Spells/FlingAbility/Fling"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Insanity Potion",
+      "paths": [
+        "Characters/Singed/Spells/InsanityPotionAbility/InsanityPotion"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "singed-audit-fling-and-strike-pass",
+      "champion": "Singed",
+      "name": "Fling-and-strike pass",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Explore one AP Spellblade attack as Fling changes target position.",
+      "goal": "Explore one AP Spellblade attack as Fling changes target position.",
+      "hypothesis": "E has 0.55 AP plus max-health magic damage and places the enemy behind Singed. Lich Bane and Nashor reward an actual nearby attack; Q continues magic damage while Cosmic supplies movement and R gives AP/defenses for a bounded 25 seconds. This route asks whether the attack fits a run-by rather than assuming Fling applies on-hits.",
+      "itemIds": [
+        3100,
+        3115,
+        4629,
+        4633,
+        3135,
+        3009
+      ],
+      "runePage": [
+        8230,
+        8226,
+        8234,
+        8236,
+        8009,
+        9105
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: A Fling target is in attack reach and poison contact continues during the attack animation.",
+        "Compare a moving Fling pass with and without one attack, recording poison uptime and incoming damage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Standing to attack sacrifices Slipstream movement and exposes Singed to control.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Fling itself does not consume Spellblade or apply Nashor.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Lich Bane, Nashor's Tooth, Cosmic Drive, Riftmaker, Void Staff, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Poison Trail",
+          "slot": "Q",
+          "source": "Characters/Singed/Spells/PoisonTrailAbility/PoisonTrail",
+          "formula": "Toggle: Singed lays a poisonous trail that deals [20 / 30 / 40 / 50 / 60 + (0.425) × AP] magic damage per second."
+        },
+        {
+          "ability": "Fling",
+          "slot": "E",
+          "source": "Characters/Singed/Spells/FlingAbility/Fling",
+          "formula": "Singed flings an enemy over his shoulder, dealing [50 / 60 / 70 / 80 / 90 + (0.55) × AP] plus [6 / 6.5 / 7 / 7.5 / 8]% max Health magic damage.\n\nIf Singed flings a target into his {{Spell_MegaAdhesive_Name}}, they are Rooted for [1 / 1.25 / 1.5 / 1.75 / 2] seconds."
+        },
+        {
+          "ability": "Insanity Potion",
+          "slot": "R",
+          "source": "Characters/Singed/Spells/InsanityPotionAbility/InsanityPotion",
+          "formula": "Singed drinks a potent brew of chemicals, granting him [25 / 55 / 85] Ability Power, Armor, Magic Resist, Move Speed, Health Regen, and Mana Regen for [25] seconds. During this effect, Singed's Poison Trail also applies [40]% Grievous Wounds for [1] second."
+        }
+      ]
+    },
+    {
+      "id": "singed-audit-adhesive-vulnerability-turn",
+      "champion": "Singed",
+      "name": "Adhesive vulnerability turn",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use the Fling-into-W root as the trigger for ally amplification.",
+      "goal": "Use the Fling-into-W root as the trigger for ally amplification.",
+      "hypothesis": "W grounds and slows; E roots only when the victim lands in adhesive. Current Mandate needs immobilization, so E-W root is the concrete trigger. Bandlepipes can use the initial slow; Abyssal rewards close magic pressure from Q/E and R keeps Singed mobile during the escort.",
+      "itemIds": [
+        4005,
+        2524,
+        8020,
+        6653,
+        2065,
+        3009
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Adhesive is placed where Fling will land and allies can hit during the four-second vulnerability.",
+        "Time root, Mandate vulnerability, ally follow-up and poison contact after the same Fling placement.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "A misplaced W gives only slow/grounding and loses Mandate marking.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Grounding or a slow is not automatically Mandate immobilization.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Imperial Mandate, Bandlepipes, Abyssal Mask, Liandry's Torment, Shurelya's Battlesong, Boots of Swiftness. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Poison Trail",
+          "slot": "Q",
+          "source": "Characters/Singed/Spells/PoisonTrailAbility/PoisonTrail",
+          "formula": "Toggle: Singed lays a poisonous trail that deals [20 / 30 / 40 / 50 / 60 + (0.425) × AP] magic damage per second."
+        },
+        {
+          "ability": "Fling",
+          "slot": "E",
+          "source": "Characters/Singed/Spells/FlingAbility/Fling",
+          "formula": "Singed flings an enemy over his shoulder, dealing [50 / 60 / 70 / 80 / 90 + (0.55) × AP] plus [6 / 6.5 / 7 / 7.5 / 8]% max Health magic damage.\n\nIf Singed flings a target into his {{Spell_MegaAdhesive_Name}}, they are Rooted for [1 / 1.25 / 1.5 / 1.75 / 2] seconds."
+        },
+        {
+          "ability": "Insanity Potion",
+          "slot": "R",
+          "source": "Characters/Singed/Spells/InsanityPotionAbility/InsanityPotion",
+          "formula": "Singed drinks a potent brew of chemicals, granting him [25 / 55 / 85] Ability Power, Armor, Magic Resist, Move Speed, Health Regen, and Mana Regen for [25] seconds. During this effect, Singed's Poison Trail also applies [40]% Grievous Wounds for [1] second."
+        },
+        {
+          "ability": "Mega Adhesive",
+          "slot": "W",
+          "source": "Characters/Singed/Spells/MegaAdhesiveAbility/MegaAdhesive",
+          "formula": "Singed hurls a cask of sticky liquid, Grounding and Slowing enemies in the area by [50 / 55 / 60 / 65 / 70]% for [3] seconds."
+        }
+      ]
+    }
+  ]
+}

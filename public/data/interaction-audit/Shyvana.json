@@ -1,0 +1,289 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Shyvana",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "dragon-third-bite",
+      "name": "Dragon third bite",
+      "objective": "Use the inspected reworked dragon Q's extra recast as a mixed-damage finish.",
+      "mechanic": "Q attacks reduce its cooldown and carry a health-based magic on-hit. The active can recast, and dragon form adds a third bite with a 1.5 multiplier and true damage. Nashor, Dusk and Terminus test real attack delivery while R's finite Fury constrains form duration.",
+      "evidenceSlots": [
+        "Q",
+        "R",
+        "P"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        3302,
+        4633,
+        3089,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Dragon form with recorded Fury and passive stacks; all three Q attacks connect.",
+      "failure": "Form expires before the bite or kiting prevents cooldown-reducing attacks.",
+      "test": "Separate first, second and dragon-only third Q packets, then test Dusk repeat without assuming active duplication.",
+      "rejectedAssumption": "Legacy twin-bite or burnout interactions do not describe this Emberstrike/Inferno Aegis kit.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "aegis-crowd-recovery",
+      "name": "Aegis crowd recovery",
+      "objective": "Convert nearby champions into a larger shield and a timed dragon detonation heal.",
+      "mechanic": "W shield includes a bonus-health Stat term and increases per nearby champion; dragon W heals on champion detonation using missing health. Visage supports both shield and heal, Riftmaker converts health to AP and Abyssal boosts nearby magic damage from W/E. R adds finite bonus health.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        4633,
+        3065,
+        8020,
+        4629,
+        2502,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Dragon form, nearby champion count and missing health recorded before W recast.",
+      "failure": "Enemies leave before detonation or burst breaks the shield while the heal cannot connect.",
+      "test": "Measure shield and heal with one versus three nearby champions at matched missing health, then compare human form.",
+      "rejectedAssumption": "Human W does not inherit the dragon-only detonation heal.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Free permanent defenses",
+      "reason": "Scalemail requires actual takedowns; choose finite stacks instead of granting unbounded Armor/MR.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Reworked Q active on-hit delivery, dragon Fury area reduction and W health Stat flag need live confirmation."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Scalemail",
+      "paths": [
+        "Characters/Shyvana/Spells/ShyvanaPassiveAbility/ShyvanaPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Emberstrike",
+      "paths": [
+        "Characters/Shyvana/Spells/ShyvanaQAbility/ShyvanaQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Inferno Aegis",
+      "paths": [
+        "Characters/Shyvana/Spells/ShyvanaWAbility/ShyvanaW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Molten Burst",
+      "paths": [
+        "Characters/Shyvana/Spells/ShyvanaEAbility/ShyvanaE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Dragon's Descent",
+      "paths": [
+        "Characters/Shyvana/Spells/ShyvanaRAbility/ShyvanaR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "shyvana-audit-dragon-third-bite",
+      "champion": "Shyvana",
+      "name": "Dragon third bite",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use the inspected reworked dragon Q's extra recast as a mixed-damage finish.",
+      "goal": "Use the inspected reworked dragon Q's extra recast as a mixed-damage finish.",
+      "hypothesis": "Q attacks reduce its cooldown and carry a health-based magic on-hit. The active can recast, and dragon form adds a third bite with a 1.5 multiplier and true damage. Nashor, Dusk and Terminus test real attack delivery while R's finite Fury constrains form duration.",
+      "itemIds": [
+        3115,
+        2510,
+        3302,
+        4633,
+        3089,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Dragon form with recorded Fury and passive stacks; all three Q attacks connect.",
+        "Separate first, second and dragon-only third Q packets, then test Dusk repeat without assuming active duplication.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Form expires before the bite or kiting prevents cooldown-reducing attacks.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Legacy twin-bite or burnout interactions do not describe this Emberstrike/Inferno Aegis kit.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Terminus, Riftmaker, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Dragon's Descent",
+          "slot": "R",
+          "source": "Characters/Shyvana/Spells/ShyvanaRAbility/ShyvanaR",
+          "formula": "Passive: Shyvana generates [1.25] Dragon Fury by striking enemies with Attacks and Abilities, increased by [3 + -1] while in Dragon Form, and reduced [1 + (-1) × (0.25)] by when striking in an area against non-champions.\n\nActive: Shyvana transforms into her Dragon Form, becoming Unstoppable, and flying to the target location breathing fire on enemies below dealing [150 / 250 / 350 + (1) × AP] magic damage and causing them Flee for [0.75] seconds.\n\nWhile transformed, Shyvana's basic Abilities are upgraded, she gains [150 / 250 / 350] bonus Health, size, and Attack Range. Shyvana loses Dragon Fury over time and her transformation ends when she has no Dragon Fury remaining."
+        },
+        {
+          "ability": "Emberstrike",
+          "slot": "Q",
+          "source": "Characters/Shyvana/Spells/ShyvanaQAbility/ShyvanaQ",
+          "formula": "Passive: Shyvana's Attacks deal [0.01 + (0.00011) × AD[statFormula=2]] max Health magic damage %i:OnHit% On-Hit and reduce this Ability's Cooldown by [0.5] seconds.\n\nActive: Shyvana's next Attack strikes the target and the surrounding area dealing [10 / 15 / 20 / 25 / 30 + (1.1) × AD + (0.3) × AP] physical damage. This Ability may be Recast after an Attack or short delay within the next [4] seconds.\n\nDragon Form: Shyvana gains an additional Recast, causing her to bite the target of her next Attack dealing [(10 / 15 / 20 / 25 / 30 + (1.1) × AD + (0.3) × AP) × (1.5)] true damage."
+        },
+        {
+          "ability": "Scalemail",
+          "slot": "Passive",
+          "source": "Characters/Shyvana/Spells/ShyvanaPassiveAbility/ShyvanaPassive",
+          "formula": "Takedowns on champions, large minions, and monsters earn Shyvana stacks of {{Spell_Shyvana_Passive_Name}} %i:Shyvana%, each stack grants Shyvana permanent [0.3] Armor and [0.3] Magic Resist.\n\nBonus Armor: [(0.3) × BuffStacks({bba88b2a})]\nBonus Magic Resist: [(0.3) × BuffStacks({bba88b2a})]"
+        }
+      ]
+    },
+    {
+      "id": "shyvana-audit-aegis-crowd-recovery",
+      "champion": "Shyvana",
+      "name": "Aegis crowd recovery",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert nearby champions into a larger shield and a timed dragon detonation heal.",
+      "goal": "Convert nearby champions into a larger shield and a timed dragon detonation heal.",
+      "hypothesis": "W shield includes a bonus-health Stat term and increases per nearby champion; dragon W heals on champion detonation using missing health. Visage supports both shield and heal, Riftmaker converts health to AP and Abyssal boosts nearby magic damage from W/E. R adds finite bonus health.",
+      "itemIds": [
+        4633,
+        3065,
+        8020,
+        4629,
+        2502,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Dragon form, nearby champion count and missing health recorded before W recast.",
+        "Measure shield and heal with one versus three nearby champions at matched missing health, then compare human form.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Enemies leave before detonation or burst breaks the shield while the heal cannot connect.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Human W does not inherit the dragon-only detonation heal.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Riftmaker, Spirit Visage, Abyssal Mask, Cosmic Drive, Unending Despair, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Dragon's Descent",
+          "slot": "R",
+          "source": "Characters/Shyvana/Spells/ShyvanaRAbility/ShyvanaR",
+          "formula": "Passive: Shyvana generates [1.25] Dragon Fury by striking enemies with Attacks and Abilities, increased by [3 + -1] while in Dragon Form, and reduced [1 + (-1) × (0.25)] by when striking in an area against non-champions.\n\nActive: Shyvana transforms into her Dragon Form, becoming Unstoppable, and flying to the target location breathing fire on enemies below dealing [150 / 250 / 350 + (1) × AP] magic damage and causing them Flee for [0.75] seconds.\n\nWhile transformed, Shyvana's basic Abilities are upgraded, she gains [150 / 250 / 350] bonus Health, size, and Attack Range. Shyvana loses Dragon Fury over time and her transformation ends when she has no Dragon Fury remaining."
+        },
+        {
+          "ability": "Molten Burst",
+          "slot": "E",
+          "source": "Characters/Shyvana/Spells/ShyvanaEAbility/ShyvanaE",
+          "formula": "Shyvana launches a fireball at the target location dealing [50 / 65 / 80 / 95 / 110 + (0.6 / 0.65 / 0.7 / 0.75 / 0.8) × AP] + [0.05] Max health magic damage and Slowing by [0.3] for [2] seconds. It explodes upon striking an enemy or reaching its terminus.\n\nDragon Form: Shyvana's fireball is larger and pierces through enemies. Upon striking a champion, large monster, or reaching its terminus it triggers a pulse of fire that deals [(50 / 65 / 80 / 95 / 110 + (0.6 / 0.65 / 0.7 / 0.75 / 0.8) × AP) × (1.25)]  + [(0.05) × (1.25)] Max Health magic damage and Slows by [(0.3) × (1)] for [2] seconds. The fireball leaves behind a trail for [2] seconds that deals [characterLevelBreakpoints(start=15, perLevel=0, changes=[{\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 5.0, \"__type\": \"Breakpoint\"}]) + (0.05) × AP] magic damage per second."
+        },
+        {
+          "ability": "Inferno Aegis",
+          "slot": "W",
+          "source": "Characters/Shyvana/Spells/ShyvanaWAbility/ShyvanaW",
+          "formula": "Shyvana wraps herself in flames for [2.5] seconds, gaining [60 / 80 / 100 / 120 / 140 + (0.12) × Stat(12)[statFormula=2]] Shield, increased by [(60 / 80 / 100 / 120 / 140 + (0.12) × Stat(12)[statFormula=2]) × (0.3)] per nearby enemy champion and [0.25] Move Speed, increased to [(0.25) × (1.75)] when moving towards enemy champions.\n\nWhen the effect ends, the Shield is broken, or upon Recast the area around her detonates, dealing [80 / 100 / 120 / 140 / 160 + (0.65) × AP] magic damage.\n\nDragon Form: If the detonation hits an enemy champion Shyvana heals for  [characterLevelInterpolation(60 → 100; raw flags preserved)] + [characterLevelInterpolation(0.04 → 0.08; raw flags preserved)] Missing Health."
+        }
+      ]
+    }
+  ]
+}

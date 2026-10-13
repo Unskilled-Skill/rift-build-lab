@@ -1,0 +1,306 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Kayn",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "rhaast-health-drain-conversion",
+      "name": "Rhaast health drain conversion",
+      "objective": "Test rhaast health drain conversion against conventional damage at equal gold.",
+      "mechanic": "Rhaast Q's helpers combine total-AD physical damage and max-health damage with an AD[source modifier] term; Bloodmail adds AD from health, while Visage supports Darkin spell healing and R exit healing. Shojin favors repeated Q cycles, with E used to recover between fights.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2501,
+        3161,
+        3071,
+        3065,
+        3053,
+        3111
+      ],
+      "pageKey": "conq",
+      "requiredState": "Select Darkin form and reach repeated Q hit opportunities.",
+      "failure": "Healing reduction and wall exit restrictions prevent recovery.",
+      "test": "Compare Q/R damage and healing at matched health with and without Bloodmail.",
+      "rejectedAssumption": "Primary form tooltips are unresolved; exact helper dispatch and Stat(12) healing mapping stay uncertain.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "shadow-attack-weave-finisher",
+      "name": "Shadow attack weave finisher",
+      "objective": "Test shadow attack weave finisher against conventional damage at equal gold.",
+      "mechanic": "Shadow Assassin's helper data describes a short opening damage window; Trinity and Sundered Sky test inserting one physical attack between W/Q and Umbral Trespass. Eclipse adds short trade protection while Cleaver helps physical spells if the fight survives beyond the initial ambush.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3078,
+        6610,
+        6692,
+        3814,
+        3071,
+        3111
+      ],
+      "pageKey": "electro",
+      "requiredState": "Select Shadow form and enter unseen with an immediate attack opportunity.",
+      "failure": "Attack windup can lose the normal mobile assassination advantage.",
+      "test": "Compare spell-only entry against one woven attack, recording the passive separately.",
+      "rejectedAssumption": "No claim that R automatically multiplies item damage; shadow passive calculation remains unresolved.",
+      "confidence": "speculative"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Unconditional interaction shortcut",
+      "reason": "Primary form tooltips are unresolved; exact helper dispatch and Stat(12) healing mapping stay uncertain.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "E",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Controlled current-patch proc testing remains necessary; source helper/statFormula expressions are evidence, not confirmed runtime behavior."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "The Darkin Scythe",
+      "paths": [
+        "Characters/Kayn/Spells/KaynPassiveAbility/KaynPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Reaping Slash",
+      "paths": [
+        "Characters/Kayn/Spells/KaynQAbility/KaynQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Blade's Reach",
+      "paths": [
+        "Characters/Kayn/Spells/KaynWAbility/KaynW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Shadow Step",
+      "paths": [
+        "Characters/Kayn/Spells/KaynEAbility/KaynE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Umbral Trespass",
+      "paths": [
+        "Characters/Kayn/Spells/KaynRAbility/KaynR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "kayn-audit-rhaast-health-drain-conversion",
+      "champion": "Kayn",
+      "name": "Rhaast health drain conversion",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test rhaast health drain conversion against conventional damage at equal gold.",
+      "goal": "Test rhaast health drain conversion against conventional damage at equal gold.",
+      "hypothesis": "Rhaast Q's helpers combine total-AD physical damage and max-health damage with an AD[source modifier] term; Bloodmail adds AD from health, while Visage supports Darkin spell healing and R exit healing. Shojin favors repeated Q cycles, with E used to recover between fights.",
+      "itemIds": [
+        2501,
+        3161,
+        3071,
+        3065,
+        3053,
+        3111
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Select Darkin form and reach repeated Q hit opportunities.",
+        "Compare Q/R damage and healing at matched health with and without Bloodmail.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Healing reduction and wall exit restrictions prevent recovery.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Primary form tooltips are unresolved; exact helper dispatch and Stat(12) healing mapping stay uncertain.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Overlord's Bloodmail, Spear of Shojin, Black Cleaver, Spirit Visage, Sterak's Gage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Step",
+          "slot": "E",
+          "source": "Characters/Kayn/Spells/KaynEAbility/KaynE",
+          "formula": "{{ game_spell_Kayn_E_main_@f1@ }}"
+        },
+        {
+          "ability": "Umbral Trespass",
+          "slot": "R",
+          "source": "Characters/Kayn/Spells/KaynRAbility/KaynR",
+          "formula": "{{ spell_Kayn_R_main_@f1@ }}"
+        },
+        {
+          "ability": "Reaping Slash",
+          "slot": "Q",
+          "source": "Characters/Kayn/Spells/KaynQAbility/KaynQ",
+          "formula": "{{ game_spell_Kayn_Q_main_@f1@ }}"
+        },
+        {
+          "ability": "The Darkin Scythe",
+          "slot": "Passive",
+          "source": "Characters/Kayn/Spells/KaynPassiveAbility/KaynPassive",
+          "formula": "{{ game_spell_Kayn_P_main_@f1@ }}"
+        }
+      ]
+    },
+    {
+      "id": "kayn-audit-shadow-attack-weave-finisher",
+      "champion": "Kayn",
+      "name": "Shadow attack weave finisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test shadow attack weave finisher against conventional damage at equal gold.",
+      "goal": "Test shadow attack weave finisher against conventional damage at equal gold.",
+      "hypothesis": "Shadow Assassin's helper data describes a short opening damage window; Trinity and Sundered Sky test inserting one physical attack between W/Q and Umbral Trespass. Eclipse adds short trade protection while Cleaver helps physical spells if the fight survives beyond the initial ambush.",
+      "itemIds": [
+        3078,
+        6610,
+        6692,
+        3814,
+        3071,
+        3111
+      ],
+      "runePage": [
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Select Shadow form and enter unseen with an immediate attack opportunity.",
+        "Compare spell-only entry against one woven attack, recording the passive separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Attack windup can lose the normal mobile assassination advantage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: No claim that R automatically multiplies item damage; shadow passive calculation remains unresolved.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Sundered Sky, Eclipse, Edge of Night, Black Cleaver, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Shadow Step",
+          "slot": "E",
+          "source": "Characters/Kayn/Spells/KaynEAbility/KaynE",
+          "formula": "{{ game_spell_Kayn_E_main_@f1@ }}"
+        },
+        {
+          "ability": "Umbral Trespass",
+          "slot": "R",
+          "source": "Characters/Kayn/Spells/KaynRAbility/KaynR",
+          "formula": "{{ spell_Kayn_R_main_@f1@ }}"
+        },
+        {
+          "ability": "Reaping Slash",
+          "slot": "Q",
+          "source": "Characters/Kayn/Spells/KaynQAbility/KaynQ",
+          "formula": "{{ game_spell_Kayn_Q_main_@f1@ }}"
+        },
+        {
+          "ability": "The Darkin Scythe",
+          "slot": "Passive",
+          "source": "Characters/Kayn/Spells/KaynPassiveAbility/KaynPassive",
+          "formula": "{{ game_spell_Kayn_P_main_@f1@ }}"
+        }
+      ]
+    }
+  ]
+}

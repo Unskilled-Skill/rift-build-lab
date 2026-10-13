@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "vladimir-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "vladimir-four-2",
+      "id": "vladimir-audit-health-ap-conversion-drain",
       "champion": "Vladimir",
-      "name": "Damage interaction: AP dive",
-      "goal": "Damage interaction for Vladimir: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A health/AP-converting sustain mage who times empowered Q and a charged area burst, using Pool to avoid retaliation. His health costs make offensive and defensive timing inseparable. Record empowered Q readiness, E health cost and Pool timing. His health/AP conversion does not recursively generate infinite stats; compare real survival and burst windows. AP, penetration and Rocketbelt access test a short committed damage window.",
-      "summary": "AP, penetration and Rocketbelt access test a short committed damage window.",
+      "name": "Health AP conversion drain",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test health ap conversion drain against conventional damage at equal gold.",
+      "goal": "Test health ap conversion drain against conventional damage at equal gold.",
+      "hypothesis": "Crimson Pact converts purchased bonus health to AP and AP to health without self-recursion; Heartsteel's earned health supports that conversion and E's max-health term. Riftmaker plus Visage rewards repeated Q/R healing, but health costs and weak wave pressure remain real.",
       "itemIds": [
-        3152,
-        4645,
+        3084,
+        4633,
         3089,
+        3065,
         3135,
-        3157,
-        3020
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8437,
+        8401,
+        8444,
+        8451,
+        9111,
+        9104
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,36 +153,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Vladimir: Record empowered Q readiness, E health cost and Pool timing. His health/AP conversion does not recursively generate infinite stats; compare real survival and burst windows.",
-        "Start with the early core (Rocketbelt, then Shadowflame) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Crimson Rush. Do not treat mana regeneration as Crimson Rush recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: AP, penetration and Rocketbelt access test a short committed damage window. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Vladimir steals life from the target enemy. When Vladimir's resource is full, Transfusion will benefit from massively increased damage and healing for a brief time. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Earn measured Heartsteel stacks safely and preserve empowered Q timing.",
+        "Compare E damage and Q healing at recorded stacks and fixed missing health.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "The route fails Vladimir's stated kit question: Record empowered Q readiness, E health cost and Pool timing. His health/AP conversion does not recursively generate infinite stats; compare real survival and burst windows.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Melee stack attempts expose Vladimir and delay normal burst AP.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "The active cannot replace every mobility tool; minimal sustained durability.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Crimson Pact explicitly does not stack with itself; no infinite health/AP feedback loop.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Rocketbelt, then Shadowflame. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Crimson Rush. Do not treat mana regeneration as Crimson Rush recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Heartsteel, Riftmaker, Rabadon's Deathcap, Spirit Visage, Void Staff, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Crimson Rush",
       "kitEvidence": [
         {
           "ability": "Tides of Blood",
@@ -199,12 +193,6 @@
           "slot": "R",
           "source": "Characters/Vladimir/Spells/VladimirHemoplagueAbility/VladimirHemoplague",
           "formula": "Vladimir creates a virulent plague, causing its victims to take [10]% increased damage from all sources for [4 / 4 / 4] seconds. After it expires, Vladimir deals [150 / 250 / 350 + (0.7) × AP] magic damage to all infected targets. Vladimir restores [150 / 250 / 350 + (0.7) × AP] Health if he hits a champion, and restores an additional [(150 / 250 / 350 + (0.7) × AP) × (0.4)] Health for each champion beyond the first."
-        },
-        {
-          "ability": "Sanguine Pool",
-          "slot": "W",
-          "source": "Characters/Vladimir/Spells/VladimirSanguinePoolAbility/VladimirSanguinePool",
-          "formula": "Vladimir sinks into a pool of blood for 2 seconds, gaining [37.5]% decaying Move Speed for [1] second and becoming Untargetable and Ghosted while Slowing enemies in the pool by [40]%.\n\nVladimir deals [80 / 135 / 190 / 245 / 300 + (0.15) × Stat(12)[statFormula=2]] magic damage and restores [(80 / 135 / 190 / 245 / 300 + (0.15) × Stat(12)[statFormula=2]) × (0.3)] Health per enemy over the duration."
         },
         {
           "ability": "Transfusion",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "vladimir-four-4",
+      "id": "vladimir-audit-empowered-q-attack-weave",
       "champion": "Vladimir",
-      "name": "Experiment: Health burn zones",
-      "goal": "Experiment for Vladimir: test a different playstyle, with lower confidence",
-      "hypothesis": "A health/AP-converting sustain mage who times empowered Q and a charged area burst, using Pool to avoid retaliation. His health costs make offensive and defensive timing inseparable. Record empowered Q readiness, E health cost and Pool timing. His health/AP conversion does not recursively generate infinite stats; compare real survival and burst windows. Health/AP and repeated damage test longer contact without buying mana. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "Health/AP and repeated damage test longer contact without buying mana.",
+      "name": "Empowered Q attack weave",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test empowered q attack weave against conventional damage at equal gold.",
+      "goal": "Test empowered q attack weave against conventional damage at equal gold.",
+      "hypothesis": "Empowered Transfusion multiplies Q damage by 1.85 during a 2.5-second window; Lich Bane adds one separate magic attack after Q while Nashor supports opportunistic attacks between cooldowns. Cosmic Drive helps reach and retreat from the attack without treating Pool as a damage shield.",
       "itemIds": [
-        6653,
-        4633,
-        3116,
-        8010,
-        3157,
+        3115,
+        3100,
+        4629,
+        3089,
+        3135,
         3020
       ],
       "runePage": [
-        8992,
-        8275,
-        8210,
-        8236,
-        8126,
-        8106
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +351,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Vladimir: Record empowered Q readiness, E health cost and Pool timing. His health/AP conversion does not recursively generate infinite stats; compare real survival and burst windows.",
-        "Start with the early core (Liandry, then Riftmaker) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Resource: Crimson Rush. Do not treat mana regeneration as Crimson Rush recovery; Nimbus replaces Manaflow when that Sorcery row is used.",
-        "Measure the actual interaction before granting item/rune procs: Health/AP and repeated damage test longer contact without buying mana. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Vladimir steals life from the target enemy. When Vladimir's resource is full, Transfusion will benefit from massively increased damage and healing for a brief time. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Arrive with empowered Q and a safe post-Q attack before pooling.",
+        "Compare Q-plus-one-attack trades and damage taken against spell-only trades.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Rylai does not stack additively with every existing slow; Riftmaker needs combat ramp.",
-        "The route fails Vladimir's stated kit question: Record empowered Q readiness, E health cost and Pool timing. His health/AP conversion does not recursively generate infinite stats; compare real survival and burst windows.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Auto windup exposes Vladimir and weakens his normal E-R burst.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Rylai does not stack additively with every existing slow; Riftmaker needs combat ramp.",
-        "Full cost 15,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: Q is an ability heal and cannot apply lifesteal or ordinary on-hit items by itself.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Liandry, then Riftmaker. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rylai's Crystal Scepter, Bloodletter's Curse, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Resource: Crimson Rush. Do not treat mana regeneration as Crimson Rush recovery; Nimbus replaces Manaflow when that Sorcery row is used."
+        "Candidate six slots: Nashor's Tooth, Lich Bane, Cosmic Drive, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Crimson Rush",
       "kitEvidence": [
         {
           "ability": "Tides of Blood",

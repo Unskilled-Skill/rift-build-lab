@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Viego",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "mist-ap-second-hit",
+      "name": "Mist AP second hit",
+      "objective": "Test AP supporting mist access, W control and ability-marked follow-up attacks.",
+      "mechanic": "W has 1 AP magic damage, E's movement speed scales with AP and Q's marked second attack includes 0.15 AP physical damage plus a heal. Nashor and Dusk support direct attacks during mist, while AP also enters possession healing. The first possession replaces Viego's current items with the victim's items.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        4629,
+        3089,
+        3006
+      ],
+      "pageKey": "pta",
+      "requiredState": "Ability mark present, mist contact and target attackable; test pre-possession first.",
+      "failure": "Low AD weakens normal Q/R threat and possession interrupts the planned item budget.",
+      "test": "Separate W, first attack, Q follow-up and healing with AP varied; repeat before and during a specified possession.",
+      "rejectedAssumption": "Viego's six owned items are not continuously retained during possession.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "heartbreaker-crit-window",
+      "name": "Heartbreaker crit window",
+      "objective": "Test source-explicit crit-stat scaling on Q and R before cashing an ultimate attack volley.",
+      "mechanic": "Q and R expose distinct crit-stat multiplier expressions; R also adds missing-health physical damage. Fiendhunter grants enhanced basic attacks after ultimate use and E supplies attack speed. Infinity Edge/Collector emphasize the opening, with armor penetration supporting confirmed physical packets.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        2512,
+        3031,
+        6676,
+        3036,
+        3072,
+        3006
+      ],
+      "pageKey": "hob",
+      "requiredState": "R ready, specified crit stats, target health recorded and no possession item replacement during baseline.",
+      "failure": "R targets a different lowest-percent-health champion or the burst fails to secure the next soul.",
+      "test": "Vary crit chance/damage independently and log Q/R packets plus three post-R basic attacks.",
+      "rejectedAssumption": "A crit-stat multiplier does not prove Q/R randomly crit or duplicate every attack effect.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Retain victim ultimate",
+      "reason": "Possession replaces the victim's ultimate with a free cast of Viego's own R.",
+      "evidenceSlots": [
+        "P",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Q second-hit item inheritance, R attack delivery and crit-stat semantics require logs; possession tests must name the victim and item state."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Sovereign's Domination",
+      "paths": [
+        "Characters/Viego/Spells/ViegoPassiveAbility/ViegoPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Blade of the Ruined King",
+      "paths": [
+        "Characters/Viego/Spells/ViegoQAbility/ViegoQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Spectral Maw",
+      "paths": [
+        "Characters/Viego/Spells/ViegoWAbility/ViegoW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Harrowed Path",
+      "paths": [
+        "Characters/Viego/Spells/ViegoEAbility/ViegoE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Heartbreaker",
+      "paths": [
+        "Characters/Viego/Spells/ViegoRAbility/ViegoR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "viego-audit-mist-ap-second-hit",
+      "champion": "Viego",
+      "name": "Mist AP second hit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test AP supporting mist access, W control and ability-marked follow-up attacks.",
+      "goal": "Test AP supporting mist access, W control and ability-marked follow-up attacks.",
+      "hypothesis": "W has 1 AP magic damage, E's movement speed scales with AP and Q's marked second attack includes 0.15 AP physical damage plus a heal. Nashor and Dusk support direct attacks during mist, while AP also enters possession healing. The first possession replaces Viego's current items with the victim's items.",
+      "itemIds": [
+        3115,
+        2510,
+        4633,
+        4629,
+        3089,
+        3006
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Ability mark present, mist contact and target attackable; test pre-possession first.",
+        "Separate W, first attack, Q follow-up and healing with AP varied; repeat before and during a specified possession.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low AD weakens normal Q/R threat and possession interrupts the planned item budget.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Viego's six owned items are not continuously retained during possession.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Riftmaker, Cosmic Drive, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Harrowed Path",
+          "slot": "E",
+          "source": "Characters/Viego/Spells/ViegoEAbility/ViegoE",
+          "formula": "Viego sends forth a spectre to haunt the first terrain hit, surrounding it with Mist for [8] seconds. Viego gains Camouflage, [0.25 / 0.275 / 0.3 / 0.325 / 0.35 + (0.0004) × AP] Move Speed, and [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% Attack Speed while inside the Mist."
+        },
+        {
+          "ability": "Sovereign's Domination",
+          "slot": "Passive",
+          "source": "Characters/Viego/Spells/ViegoPassiveAbility/ViegoPassive",
+          "formula": "The souls of enemy champions that die within [3] seconds of being hit by Viego become wraiths. Viego can Attack wraiths to Possess them, restoring [2 + (0.025) × AD[statFormula=2] + (0.02) × AP + (5) × Stat(4)[statFormula=2] + (0.004) × Stat(12)[statFormula=2]]% of enemy's max Health and gaining access to their non-ultimate Abilities, Attacks, and items for [10] seconds. During this time he replaces their Ultimate with a free cast of his own and gains [10]% Move Speed towards enemy champions."
+        },
+        {
+          "ability": "Spectral Maw",
+          "slot": "W",
+          "source": "Characters/Viego/Spells/ViegoWAbility/ViegoW",
+          "formula": "Begin Charging: Viego begins gathering Mist, Slowing himself by [10]%.\n\nRelease: Viego dashes forward and hurls the gathered Mist. Deals [80 / 135 / 190 / 245 / 300 + (1) × AP] magic damage and Stuns the first enemy hit for [0.25] to [1.25] seconds based on charge time."
+        },
+        {
+          "ability": "Blade of the Ruined King",
+          "slot": "Q",
+          "source": "Characters/Viego/Spells/ViegoQAbility/ViegoQ",
+          "formula": "Passive: Viego's Attacks deal an additional [(2 / 3 / 4 / 5 / 6) × (0.01)] current Health physical damage. His first Attack against an enemy he has recently damaged with an Ability hits a second time, dealing [(0.2) × AD + (0.15) × AP] physical damage and restoring [150]% of damage dealt as Health. These bonuses are kept during Possession.\n\nActive: Viego stabs forward, dealing [(25 / 40 / 55 / 70 / 85 + (0.7) × AD) × ((1 + ((0.6) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage."
+        }
+      ]
+    },
+    {
+      "id": "viego-audit-heartbreaker-crit-window",
+      "champion": "Viego",
+      "name": "Heartbreaker crit window",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test source-explicit crit-stat scaling on Q and R before cashing an ultimate attack volley.",
+      "goal": "Test source-explicit crit-stat scaling on Q and R before cashing an ultimate attack volley.",
+      "hypothesis": "Q and R expose distinct crit-stat multiplier expressions; R also adds missing-health physical damage. Fiendhunter grants enhanced basic attacks after ultimate use and E supplies attack speed. Infinity Edge/Collector emphasize the opening, with armor penetration supporting confirmed physical packets.",
+      "itemIds": [
+        2512,
+        3031,
+        6676,
+        3036,
+        3072,
+        3006
+      ],
+      "runePage": [
+        9923,
+        8126,
+        8140,
+        8106,
+        8210,
+        8236
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: R ready, specified crit stats, target health recorded and no possession item replacement during baseline.",
+        "Vary crit chance/damage independently and log Q/R packets plus three post-R basic attacks.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "R targets a different lowest-percent-health champion or the burst fails to secure the next soul.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: A crit-stat multiplier does not prove Q/R randomly crit or duplicate every attack effect.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Fiendhunter Bolts, Infinity Edge, The Collector, Lord Dominik's Regards, Bloodthirster, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Harrowed Path",
+          "slot": "E",
+          "source": "Characters/Viego/Spells/ViegoEAbility/ViegoE",
+          "formula": "Viego sends forth a spectre to haunt the first terrain hit, surrounding it with Mist for [8] seconds. Viego gains Camouflage, [0.25 / 0.275 / 0.3 / 0.325 / 0.35 + (0.0004) × AP] Move Speed, and [(0.3 / 0.35 / 0.4 / 0.45 / 0.5) × 100]% Attack Speed while inside the Mist."
+        },
+        {
+          "ability": "Heartbreaker",
+          "slot": "R",
+          "source": "Characters/Viego/Spells/ViegoRAbility/ViegoR",
+          "formula": "Viego discards any souls he is currently Possessing and teleports. On arrival he Attacks the champion with the lowest percent Health, briefly Slowing them by [99]% and dealing [((1.2) × AD) × ((1 + ((0.7) × Stat(8)) × (((1) × Stat(9) + -1))))] + [12 / 16 / 20 + (0.05) × AD[statFormula=2]]% missing Health physical damage. Other nearby enemies are Knocked Back and take [((1.2) × AD) × ((1 + ((0.7) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage."
+        },
+        {
+          "ability": "Blade of the Ruined King",
+          "slot": "Q",
+          "source": "Characters/Viego/Spells/ViegoQAbility/ViegoQ",
+          "formula": "Passive: Viego's Attacks deal an additional [(2 / 3 / 4 / 5 / 6) × (0.01)] current Health physical damage. His first Attack against an enemy he has recently damaged with an Ability hits a second time, dealing [(0.2) × AD + (0.15) × AP] physical damage and restoring [150]% of damage dealt as Health. These bonuses are kept during Possession.\n\nActive: Viego stabs forward, dealing [(25 / 40 / 55 / 70 / 85 + (0.7) × AD) × ((1 + ((0.6) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage."
+        }
+      ]
+    }
+  ]
+}

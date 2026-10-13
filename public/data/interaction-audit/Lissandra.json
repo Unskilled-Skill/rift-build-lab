@@ -1,0 +1,317 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Lissandra",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "tomb-drain-frontliner",
+      "name": "Tomb drain frontliner",
+      "objective": "Use self-Tomb as a timed healing pivot inside sustained combat.",
+      "mechanic": "Self-cast Frozen Tomb creates 2.5 seconds of stasis and an AP heal increased with missing health; it still emits magic dark ice. Rod and Riftmaker support health/AP, Visage enhances received healing and Abyssal serves close magic contact. Ring of Frost and E access create the entry, while Zhonya's can extend safety if used as a separate planned window.",
+      "evidenceSlots": [
+        "R",
+        "W",
+        "E",
+        "P",
+        "Q"
+      ],
+      "itemIds": [
+        6657,
+        4633,
+        3065,
+        3157,
+        8020,
+        3111
+      ],
+      "pageKey": "after",
+      "requiredState": "Need self R ready, nearby enemies held and missing health without lethal pre-cast damage.",
+      "failure": "Stasis alone does not protect allies; enemies can wait beyond the ice and punish the exit.",
+      "test": "Compare healing, damage and escape after a W-self-R sequence at two starting health values.",
+      "rejectedAssumption": "Enemy-cast Tomb supplies stun rather than the documented self heal/stasis package.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "frozen-zombie-chain-finisher",
+      "name": "Frozen zombie chain finisher",
+      "objective": "Seek a first death that turns into delayed area cleanup.",
+      "mechanic": "Iceborn Subjugation creates zombies on nearby champion deaths; they slow, then shatter after four seconds for level damage plus 0.5 AP magic. Shadowflame can improve low-health magic hits and Cryptbloom adds a heal nova on qualifying deaths. Malignance supplies R pressure for the initial victim, with high AP retaining the delayed zombie threat.",
+      "evidenceSlots": [
+        "P",
+        "R",
+        "W",
+        "Q",
+        "E"
+      ],
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3137,
+        3118,
+        3020
+      ],
+      "pageKey": "first",
+      "requiredState": "Need a genuine nearby death and living enemies still close when the zombie shatters.",
+      "failure": "No first death means no passive damage; surviving enemies spread before the delay expires.",
+      "test": "Measure first-victim burst and zombie damage separately, including failed chain cases with enemy disengage.",
+      "rejectedAssumption": "Zombies are not normal attacking pets and cannot be assigned owner attack on-hits without evidence.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Attack-speed zombie army",
+      "reason": "Passive damage is a delayed shatter with an AP term, not attack frequency scaling.",
+      "evidenceSlots": [
+        "P"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Zombie item-proc ownership and self-R missing-health multiplier timing require live logs."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Iceborn Subjugation",
+      "paths": [
+        "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Ice Shard",
+      "paths": [
+        "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Ring of Frost",
+      "paths": [
+        "Characters/Lissandra/Spells/LissandraWAbility/LissandraW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Glacial Path",
+      "paths": [
+        "Characters/Lissandra/Spells/LissandraEAbility/LissandraE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Frozen Tomb",
+      "paths": [
+        "Characters/Lissandra/Spells/LissandraRAbility/LissandraR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "lissandra-audit-tomb-drain-frontliner",
+      "champion": "Lissandra",
+      "name": "Tomb drain frontliner",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use self-Tomb as a timed healing pivot inside sustained combat.",
+      "goal": "Use self-Tomb as a timed healing pivot inside sustained combat.",
+      "hypothesis": "Self-cast Frozen Tomb creates 2.5 seconds of stasis and an AP heal increased with missing health; it still emits magic dark ice. Rod and Riftmaker support health/AP, Visage enhances received healing and Abyssal serves close magic contact. Ring of Frost and E access create the entry, while Zhonya's can extend safety if used as a separate planned window.",
+      "itemIds": [
+        6657,
+        4633,
+        3065,
+        3157,
+        8020,
+        3111
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need self R ready, nearby enemies held and missing health without lethal pre-cast damage.",
+        "Compare healing, damage and escape after a W-self-R sequence at two starting health values.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Stasis alone does not protect allies; enemies can wait beyond the ice and punish the exit.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Enemy-cast Tomb supplies stun rather than the documented self heal/stasis package.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Rod of Ages, Riftmaker, Spirit Visage, Zhonya's Hourglass, Abyssal Mask, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ring of Frost",
+          "slot": "W",
+          "source": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+          "formula": "Lissandra creates an ice field, Rooting nearby enemies for [1.25 / 1.35 / 1.45 / 1.55 / 1.65] seconds and dealing [70 / 105 / 140 / 175 / 210 + (0.7) × AP] magic damage."
+        },
+        {
+          "ability": "Frozen Tomb",
+          "slot": "R",
+          "source": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+          "formula": "Lissandra encases herself or an enemy champion in ice. Enemies are Stunned for [1.5] seconds. When self cast, Lissandra enters Stasis for [2.5] seconds and restores [100 / 150 / 200 + (0.55) × AP] Health, increased by [1]% for each [1]% missing Health.\n\nIn either case, dark ice eminates from the target, dealing [150 / 250 / 350 + (0.75) × AP] magic damage. The ice persists for [3] seconds, Slowing enemies by [(-0.45 / -0.6 / -0.75) × -100]%."
+        },
+        {
+          "ability": "Glacial Path",
+          "slot": "E",
+          "source": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+          "formula": "Lissandra casts forth an ice claw that deals [70 / 105 / 140 / 175 / 210 + (0.6) × AP] magic damage. Lissandra can Recast while the claw travels to teleport to its location."
+        },
+        {
+          "ability": "Ice Shard",
+          "slot": "Q",
+          "source": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+          "formula": "Lissandra throws a spear of ice that shatters on the first enemy hit, dealing [80 / 115 / 150 / 185 / 220 + (0.75) × AP] magic damage, Slowing them by [(-0.2 / -0.24 / -0.28 / -0.32 / -0.36) × -100]% for [1.5] seconds, and also damaging and slowing the enemies behind them."
+        },
+        {
+          "ability": "Iceborn Subjugation",
+          "slot": "Passive",
+          "source": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+          "formula": "When an enemy champion dies near Lissandra they become a frozen zombie that seeks out living enemies. Enemies near these zombies are Slowed by [25]%. After [4] seconds, frozen zombies shatter, dealing [characterLevelBreakpoints(start=120, perLevel=20, changes=[{\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}]) + (0.5) × AP] magic damage."
+        }
+      ]
+    },
+    {
+      "id": "lissandra-audit-frozen-zombie-chain-finisher",
+      "champion": "Lissandra",
+      "name": "Frozen zombie chain finisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Seek a first death that turns into delayed area cleanup.",
+      "goal": "Seek a first death that turns into delayed area cleanup.",
+      "hypothesis": "Iceborn Subjugation creates zombies on nearby champion deaths; they slow, then shatter after four seconds for level damage plus 0.5 AP magic. Shadowflame can improve low-health magic hits and Cryptbloom adds a heal nova on qualifying deaths. Malignance supplies R pressure for the initial victim, with high AP retaining the delayed zombie threat.",
+      "itemIds": [
+        6655,
+        4645,
+        3089,
+        3137,
+        3118,
+        3020
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8226,
+        8233
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need a genuine nearby death and living enemies still close when the zombie shatters.",
+        "Measure first-victim burst and zombie damage separately, including failed chain cases with enemy disengage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "No first death means no passive damage; surviving enemies spread before the delay expires.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Zombies are not normal attacking pets and cannot be assigned owner attack on-hits without evidence.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Luden's Echo, Shadowflame, Rabadon's Deathcap, Cryptbloom, Malignance, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Ring of Frost",
+          "slot": "W",
+          "source": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+          "formula": "Lissandra creates an ice field, Rooting nearby enemies for [1.25 / 1.35 / 1.45 / 1.55 / 1.65] seconds and dealing [70 / 105 / 140 / 175 / 210 + (0.7) × AP] magic damage."
+        },
+        {
+          "ability": "Frozen Tomb",
+          "slot": "R",
+          "source": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+          "formula": "Lissandra encases herself or an enemy champion in ice. Enemies are Stunned for [1.5] seconds. When self cast, Lissandra enters Stasis for [2.5] seconds and restores [100 / 150 / 200 + (0.55) × AP] Health, increased by [1]% for each [1]% missing Health.\n\nIn either case, dark ice eminates from the target, dealing [150 / 250 / 350 + (0.75) × AP] magic damage. The ice persists for [3] seconds, Slowing enemies by [(-0.45 / -0.6 / -0.75) × -100]%."
+        },
+        {
+          "ability": "Glacial Path",
+          "slot": "E",
+          "source": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+          "formula": "Lissandra casts forth an ice claw that deals [70 / 105 / 140 / 175 / 210 + (0.6) × AP] magic damage. Lissandra can Recast while the claw travels to teleport to its location."
+        },
+        {
+          "ability": "Ice Shard",
+          "slot": "Q",
+          "source": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+          "formula": "Lissandra throws a spear of ice that shatters on the first enemy hit, dealing [80 / 115 / 150 / 185 / 220 + (0.75) × AP] magic damage, Slowing them by [(-0.2 / -0.24 / -0.28 / -0.32 / -0.36) × -100]% for [1.5] seconds, and also damaging and slowing the enemies behind them."
+        },
+        {
+          "ability": "Iceborn Subjugation",
+          "slot": "Passive",
+          "source": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+          "formula": "When an enemy champion dies near Lissandra they become a frozen zombie that seeks out living enemies. Enemies near these zombies are Slowed by [25]%. After [4] seconds, frozen zombies shatter, dealing [characterLevelBreakpoints(start=120, perLevel=20, changes=[{\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}]) + (0.5) × AP] magic damage."
+        }
+      ]
+    }
+  ]
+}

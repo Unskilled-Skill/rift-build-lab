@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "kayn-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "kayn-four-2",
+      "id": "kayn-audit-rhaast-health-drain-conversion",
       "champion": "Kayn",
-      "name": "Damage interaction: Physical pick",
-      "goal": "Damage interaction for Kayn: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A form-dependent mobile fighter: Darkin favors sustained spell healing, while Shadow Assassin favors early combat burst. Terrain access and the chosen form should be considered before judging a single core. Choose Darkin for the reference/situational sustained routes and Shadow Assassin for the pick route. Record form and orb timing; never mix both forms' healing and burst bonuses. Lethality, approach speed and armor penetration favor short physical pick windows.",
-      "summary": "Lethality, approach speed and armor penetration favor short physical pick windows.",
+      "name": "Rhaast health drain conversion",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test rhaast health drain conversion against conventional damage at equal gold.",
+      "goal": "Test rhaast health drain conversion against conventional damage at equal gold.",
+      "hypothesis": "Rhaast Q's helpers combine total-AD physical damage and max-health damage with an AD[source modifier] term; Bloodmail adds AD from health, while Visage supports Darkin spell healing and R exit healing. Shojin favors repeated Q cycles, with E used to recover between fights.",
       "itemIds": [
-        3142,
-        6698,
-        3814,
-        6694,
-        3026,
-        3158
+        2501,
+        3161,
+        3071,
+        3065,
+        3053,
+        3111
       ],
       "runePage": [
-        8112,
-        8139,
-        8140,
-        8106,
-        8233,
-        8237
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
       ],
       "shards": [
-        5007,
+        5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,48 +153,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kayn: Choose Darkin for the reference/situational sustained routes and Shadow Assassin for the pick route. Record form and orb timing; never mix both forms' healing and burst bonuses.",
-        "Start with the early core (Youmuu, then Profane Hydra) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Lethality, approach speed and armor penetration favor short physical pick windows. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kayn dashes, then slashes. Both deal damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Select Darkin form and reach repeated Q hit opportunities.",
+        "Compare Q/R damage and healing at matched health with and without Bloodmail.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "The route fails Kayn's stated kit question: Choose Darkin for the reference/situational sustained routes and Shadow Assassin for the pick route. Record form and orb timing; never mix both forms' healing and burst bonuses.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Healing reduction and wall exit restrictions prevent recovery.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Low health and defense; spell shields/proc cooldowns must be reset between tests.",
-        "Full cost 15,750 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Primary form tooltips are unresolved; exact helper dispatch and Stat(12) healing mapping stay uncertain.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Youmuu, then Profane Hydra. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Edge of Night, Serylda's Grudge, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Overlord's Bloodmail, Spear of Shojin, Black Cleaver, Spirit Visage, Sterak's Gage, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Shadow Step",
           "slot": "E",
           "source": "Characters/Kayn/Spells/KaynEAbility/KaynE",
           "formula": "{{ game_spell_Kayn_E_main_@f1@ }}"
-        },
-        {
-          "ability": "Blade's Reach",
-          "slot": "W",
-          "source": "Characters/Kayn/Spells/KaynWAbility/KaynW",
-          "formula": "{{ game_spell_Kayn_W_maintext_@f1@ }}"
         },
         {
           "ability": "Umbral Trespass",
@@ -320,40 +308,42 @@
       ]
     },
     {
-      "id": "kayn-four-4",
+      "id": "kayn-audit-shadow-attack-weave-finisher",
       "champion": "Kayn",
-      "name": "Experiment: AD spell pressure",
-      "goal": "Experiment for Kayn: test a different playstyle, with lower confidence",
-      "hypothesis": "A form-dependent mobile fighter: Darkin favors sustained spell healing, while Shadow Assassin favors early combat burst. Terrain access and the chosen form should be considered before judging a single core. Choose Darkin for the reference/situational sustained routes and Shadow Assassin for the pick route. Record form and orb timing; never mix both forms' healing and burst bonuses. AD, haste and Black Cleaver may reward repeated physical ability hits. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AD, haste and Black Cleaver may reward repeated physical ability hits.",
+      "name": "Shadow attack weave finisher",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Test shadow attack weave finisher against conventional damage at equal gold.",
+      "goal": "Test shadow attack weave finisher against conventional damage at equal gold.",
+      "hypothesis": "Shadow Assassin's helper data describes a short opening damage window; Trinity and Sundered Sky test inserting one physical attack between W/Q and Umbral Trespass. Eclipse adds short trade protection while Cleaver helps physical spells if the fight survives beyond the initial ambush.",
       "itemIds": [
+        3078,
+        6610,
         6692,
-        3161,
+        3814,
         3071,
-        6333,
-        3053,
-        3047
+        3111
       ],
       "runePage": [
-        8010,
-        9111,
-        9105,
-        8299,
-        8444,
-        8451
+        8112,
+        8139,
+        8140,
+        8106,
+        8233,
+        8237
       ],
       "shards": [
-        5007,
         5008,
-        5001
+        5008,
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,48 +351,34 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Kayn: Choose Darkin for the reference/situational sustained routes and Shadow Assassin for the pick route. Record form and orb timing; never mix both forms' healing and burst bonuses.",
-        "Start with the early core (Eclipse, then Shojin) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AD, haste and Black Cleaver may reward repeated physical ability hits. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kayn dashes, then slashes. Both deal damage. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Select Shadow form and enter unseen with an immediate attack opportunity.",
+        "Compare spell-only entry against one woven attack, recording the passive separately.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "The route fails Kayn's stated kit question: Choose Darkin for the reference/situational sustained routes and Shadow Assassin for the pick route. Record form and orb timing; never mix both forms' healing and burst bonuses.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Attack windup can lose the normal mobile assassination advantage.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Cleaver needs physical damage and ramp; no assumed benefit to true damage.",
-        "Full cost 16,700 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: No claim that R automatically multiplies item damage; shadow passive calculation remains unresolved.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Eclipse, then Shojin. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Black Cleaver, Death's Dance, Sterak's Gage are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Trinity Force, Sundered Sky, Eclipse, Edge of Night, Black Cleaver, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Shadow Step",
           "slot": "E",
           "source": "Characters/Kayn/Spells/KaynEAbility/KaynE",
           "formula": "{{ game_spell_Kayn_E_main_@f1@ }}"
-        },
-        {
-          "ability": "Blade's Reach",
-          "slot": "W",
-          "source": "Characters/Kayn/Spells/KaynWAbility/KaynW",
-          "formula": "{{ game_spell_Kayn_W_maintext_@f1@ }}"
         },
         {
           "ability": "Umbral Trespass",

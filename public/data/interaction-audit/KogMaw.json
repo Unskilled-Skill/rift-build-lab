@@ -1,0 +1,285 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "KogMaw",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "ap-barrage-repeat",
+      "name": "Ap Barrage Repeat",
+      "objective": "Log W on-hit packets during Dusk and fully stacked Rageblade.",
+      "mechanic": "W supplies eight seconds of AP-scaled max-health magic On-Hit and extra range; Q removes both resists. Nashor/Dusk/Rageblade tests a personal on-hit attack window with AP scaling and Phantom Hit, without assigning passive death damage to attacks.",
+      "evidenceSlots": [
+        "Q",
+        "W"
+      ],
+      "itemIds": [
+        3115,
+        2510,
+        3124,
+        3089,
+        3135,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "W active and Q shred lands; record Rageblade ramp and Dusk availability.",
+      "failure": "Low defense or delayed attacks wastes the eight-second duration.",
+      "test": "Log W on-hit packets during Dusk and fully stacked Rageblade; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "Repeated on-hits do not grant extra W duration or attack range.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "artillery-threshold-reveal",
+      "name": "Artillery Threshold Reveal",
+      "objective": "Compare R damage at 41% versus 39% while recording cast costs.",
+      "mechanic": "R doubles its base packet below 40% target health and Shadowflame uses the same threshold for magic damage. E slow and Q shred improve a follow-up artillery aim; Seraph provides finite mana and Horizon adds long-range reveal for subsequent shots.",
+      "evidenceSlots": [
+        "Q",
+        "E",
+        "R"
+      ],
+      "itemIds": [
+        3040,
+        4628,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "pageKey": "comet",
+      "requiredState": "Enemy below 40%; track R casts within eight seconds and actual mana. Earn Seraph transformation through recorded Tear stacks before using this six-slot state.",
+      "failure": "Escalating R cost reaches 400 and misses exhaust mana.",
+      "test": "Compare R damage at 41% versus 39% while recording cast costs; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+      "rejectedAssumption": "R missing-health ramp and below-40% doubled branch are not freely multiplied together.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Infinite cheap artillery",
+      "reason": "R increases mana cost on repeated shots within eight seconds up to 400.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Retained death-passive records disagree on base damage and final movement speed; no version is selected for a death-bomb route.",
+    "StatFormula annotations remain symbolic; verify the affected stat basis before numerical comparison."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Icathian Surprise",
+      "paths": [
+        "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurprise",
+        "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianDisplay",
+        "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurpriseReady"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Caustic Spittle",
+      "paths": [
+        "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Bio-Arcane Barrage",
+      "paths": [
+        "Characters/KogMaw/Spells/KogMawBioArcaneBarrageAbility/KogMawBioArcaneBarrage"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Void Ooze",
+      "paths": [
+        "Characters/KogMaw/Spells/KogMawVoidOozeAbility/KogMawVoidOoze"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Living Artillery",
+      "paths": [
+        "Characters/KogMaw/Spells/KogMawLivingArtilleryAbility/KogMawLivingArtillery"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "kogmaw-audit-ap-barrage-repeat",
+      "champion": "KogMaw",
+      "name": "Ap Barrage Repeat",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Log W on-hit packets during Dusk and fully stacked Rageblade.",
+      "goal": "Log W on-hit packets during Dusk and fully stacked Rageblade.",
+      "hypothesis": "W supplies eight seconds of AP-scaled max-health magic On-Hit and extra range; Q removes both resists. Nashor/Dusk/Rageblade tests a personal on-hit attack window with AP scaling and Phantom Hit, without assigning passive death damage to attacks.",
+      "itemIds": [
+        3115,
+        2510,
+        3124,
+        3089,
+        3135,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: W active and Q shred lands; record Rageblade ramp and Dusk availability.",
+        "Log W on-hit packets during Dusk and fully stacked Rageblade; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low defense or delayed attacks wastes the eight-second duration.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Repeated on-hits do not grant extra W duration or attack range.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Nashor's Tooth, Dusk and Dawn, Guinsoo's Rageblade, Rabadon's Deathcap, Void Staff, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bio-Arcane Barrage",
+          "slot": "W",
+          "source": "Characters/KogMaw/Spells/KogMawBioArcaneBarrageAbility/KogMawBioArcaneBarrage",
+          "formula": "Kog'Maw gains [130 / 150 / 170 / 190 / 210] Attack Range and his Attacks deal an additional [(3 / 3.75 / 4.5 / 5.25 / 6 + (0.015) × AP) × (0.01)] max Health magic damage %i:OnHit% On-Hit for [8] seconds."
+        },
+        {
+          "ability": "Caustic Spittle",
+          "slot": "Q",
+          "source": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+          "formula": "Passive: Kog'Maw gains [(0.05 / 0.1 / 0.15 / 0.2 / 0.25) × 100]% Attack Speed.\n\nActive: Kog'Maw vomits a corrosive projectile that deals [80 / 125 / 170 / 215 / 260 + (0.9) × AP] magic damage to the first enemy hit and shreds [16 / 20 / 24 / 28 / 32]% Armor and Magic Resist for [4] seconds."
+        }
+      ]
+    },
+    {
+      "id": "kogmaw-audit-artillery-threshold-reveal",
+      "champion": "KogMaw",
+      "name": "Artillery Threshold Reveal",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Compare R damage at 41% versus 39% while recording cast costs.",
+      "goal": "Compare R damage at 41% versus 39% while recording cast costs.",
+      "hypothesis": "R doubles its base packet below 40% target health and Shadowflame uses the same threshold for magic damage. E slow and Q shred improve a follow-up artillery aim; Seraph provides finite mana and Horizon adds long-range reveal for subsequent shots.",
+      "itemIds": [
+        3040,
+        4628,
+        4645,
+        3089,
+        3135,
+        3020
+      ],
+      "runePage": [
+        8229,
+        8226,
+        8210,
+        8237,
+        8126,
+        8106
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Enemy below 40%; track R casts within eight seconds and actual mana. Earn Seraph transformation through recorded Tear stacks before using this six-slot state.",
+        "Compare R damage at 41% versus 39% while recording cast costs; repeat at equal gold, finite stacks, same ranks and defenses against a moving target.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Escalating R cost reaches 400 and misses exhaust mana.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: R missing-health ramp and below-40% doubled branch are not freely multiplied together.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Seraph's Embrace, Horizon Focus, Shadowflame, Rabadon's Deathcap, Void Staff, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Living Artillery",
+          "slot": "R",
+          "source": "Characters/KogMaw/Spells/KogMawLivingArtilleryAbility/KogMawLivingArtillery",
+          "formula": "Kog'Maw shoots acid at an area, dealing [100 / 140 / 180 + (0.35 / 0.4 / 0.45) × AP + (0.75) × AD[statFormula=2]] plus [0.83333]% per 1% missing Health magic damage and revealing enemies hit for 2 seconds. Enemies below 40% Health instead take [(100 / 140 / 180 + (0.35 / 0.4 / 0.45) × AP + (0.75) × AD[statFormula=2]) × (2)] magic damage.\n\nSubsequent shots within [8] seconds cost an additional [40] Mana (max: [400] Mana)."
+        },
+        {
+          "ability": "Caustic Spittle",
+          "slot": "Q",
+          "source": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+          "formula": "Passive: Kog'Maw gains [(0.05 / 0.1 / 0.15 / 0.2 / 0.25) × 100]% Attack Speed.\n\nActive: Kog'Maw vomits a corrosive projectile that deals [80 / 125 / 170 / 215 / 260 + (0.9) × AP] magic damage to the first enemy hit and shreds [16 / 20 / 24 / 28 / 32]% Armor and Magic Resist for [4] seconds."
+        },
+        {
+          "ability": "Void Ooze",
+          "slot": "E",
+          "source": "Characters/KogMaw/Spells/KogMawVoidOozeAbility/KogMawVoidOoze",
+          "formula": "Kog'Maw spits bile, dealing [70 / 110 / 150 / 190 / 230 + (0.65) × AP] magic damage and leaving a trail of ooze for [3] seconds. Enemies in the ooze are Slowed by [40 / 45 / 50 / 55 / 60]%."
+        }
+      ]
+    }
+  ]
+}

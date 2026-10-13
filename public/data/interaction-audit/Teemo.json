@@ -1,0 +1,289 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Teemo",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "ambush-hybrid-poison",
+      "name": "Ambush hybrid poison",
+      "objective": "Use the five-second stealth-exit attack buff with E's inspected AD and AP terms.",
+      "mechanic": "E's initial on-hit and four-second poison include both AP and AD statFormula terms. Statikk supplies both stats, Nashor adds attack magic damage and Rageblade tests repeated initial on-hits. Passive grants a finite attack-speed burst after stealth and W maintains attack distance.",
+      "evidenceSlots": [
+        "P",
+        "W",
+        "E"
+      ],
+      "itemIds": [
+        3087,
+        3115,
+        3124,
+        3302,
+        3157,
+        3006
+      ],
+      "pageKey": "lt",
+      "requiredState": "Stealth achieved before opening; one target kept in range during the five-second buff.",
+      "failure": "Detection or early peel loses the attack-speed window and poison refresh wastes duration.",
+      "test": "Separate initial E damage from poison ticks under normal and phantom hits, then vary AD and AP independently.",
+      "rejectedAssumption": "Repeated attacks do not prove independent stacking four-second poison damage streams.",
+      "confidence": "speculative"
+    },
+    {
+      "key": "trap-into-blind-contact",
+      "name": "Trap into blind contact",
+      "objective": "Use a preplaced trap to start sustained combat before a protected attack trade.",
+      "mechanic": "R deals AP magic damage over four seconds and reveals enemies; Q blinds attacks and W's active keeps speed when hit. Liandry and Riftmaker test a burn-to-contact hand-off, while Cosmic responds to magic damage and Nashor rewards attacks during the blind window.",
+      "evidenceSlots": [
+        "Q",
+        "W",
+        "R"
+      ],
+      "itemIds": [
+        6653,
+        4633,
+        4629,
+        3115,
+        3089,
+        3020
+      ],
+      "pageKey": "pta",
+      "requiredState": "Trap actually triggers shortly before Q and attack access; finite traps and cooldowns recorded.",
+      "failure": "Sweeping or bypassing traps prevents ramp and spell damage still threatens through blind.",
+      "test": "Record combat ramp at trap activation and total attacks landed during Q blind versus a Q-only opening.",
+      "rejectedAssumption": "Blind blocks ordinary attacks, not all incoming abilities or item damage.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "Infinite mushroom damage budget",
+      "reason": "R has finite charges/recharge and traps expire after five minutes.",
+      "evidenceSlots": [
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Poison refresh/phantom-hit rules, Statikk on-hit propagation and unresolved R charge recharge need live logs."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Guerrilla Warfare",
+      "paths": [
+        "Characters/Teemo/Spells/TeemoPassiveAbility/TeemoPassive"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Blinding Dart",
+      "paths": [
+        "Characters/Teemo/Spells/TeemoQAbility/TeemoQ"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Move Quick",
+      "paths": [
+        "Characters/Teemo/Spells/TeemoWAbility/TeemoW"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Toxic Shot",
+      "paths": [
+        "Characters/Teemo/Spells/TeemoEAbility/TeemoE"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Noxious Trap",
+      "paths": [
+        "Characters/Teemo/Spells/TeemoRAbility/TeemoR"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "teemo-audit-ambush-hybrid-poison",
+      "champion": "Teemo",
+      "name": "Ambush hybrid poison",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use the five-second stealth-exit attack buff with E's inspected AD and AP terms.",
+      "goal": "Use the five-second stealth-exit attack buff with E's inspected AD and AP terms.",
+      "hypothesis": "E's initial on-hit and four-second poison include both AP and AD statFormula terms. Statikk supplies both stats, Nashor adds attack magic damage and Rageblade tests repeated initial on-hits. Passive grants a finite attack-speed burst after stealth and W maintains attack distance.",
+      "itemIds": [
+        3087,
+        3115,
+        3124,
+        3302,
+        3157,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Stealth achieved before opening; one target kept in range during the five-second buff.",
+        "Separate initial E damage from poison ticks under normal and phantom hits, then vary AD and AP independently.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Detection or early peel loses the attack-speed window and poison refresh wastes duration.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Repeated attacks do not prove independent stacking four-second poison damage streams.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Statikk Shiv, Nashor's Tooth, Guinsoo's Rageblade, Terminus, Zhonya's Hourglass, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Move Quick",
+          "slot": "W",
+          "source": "Characters/Teemo/Spells/TeemoWAbility/TeemoW",
+          "formula": "Passive: Teemo gains [(0.12 / 0.16 / 0.2 / 0.24 / 0.28) × 100]% Move Speed while he hasn't been damaged by a champion or turret in the last [5] seconds.\n\nActive: Teemo sprints, gaining [(0.24 / 0.32 / 0.4 / 0.48 / 0.56) × 100]% Move Speed that is not lost when struck for [3] seconds."
+        },
+        {
+          "ability": "Toxic Shot",
+          "slot": "E",
+          "source": "Characters/Teemo/Spells/TeemoEAbility/TeemoE",
+          "formula": "Passive: Teemo's Attacks apply poison %i:OnHit% On-Hit, dealing an additional [9 / 23 / 37 / 51 / 65 + (0.3) × AP + (0.05) × AD[statFormula=2]] magic damage plus [(6 / 12 / 18 / 24 / 30 + (0.1) × AP + (0.025) × AD[statFormula=2]) × (4)] magic damage over [4] seconds."
+        },
+        {
+          "ability": "Guerrilla Warfare",
+          "slot": "Passive",
+          "source": "Characters/Teemo/Spells/TeemoPassiveAbility/TeemoPassive",
+          "formula": "If Teemo stands still for [1.5] seconds without being damaged, he becomes Invisible until he moves. While in a brush, he can maintain Invisibility while moving.\n\nUpon exiting this Invisibility, Teemo gains [characterLevelBreakpoints(start=0.2, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 0.20000000298023224, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mAdditionalBonusAtThisLevel\": 0.20000000298023224, \"__type\": \"Breakpoint\"}, {\"mLevel\": 15, \"mAdditionalBonusAtThisLevel\": 0.20000000298023224, \"__type\": \"Breakpoint\"}])] Attack Speed for [5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "teemo-audit-trap-into-blind-contact",
+      "champion": "Teemo",
+      "name": "Trap into blind contact",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use a preplaced trap to start sustained combat before a protected attack trade.",
+      "goal": "Use a preplaced trap to start sustained combat before a protected attack trade.",
+      "hypothesis": "R deals AP magic damage over four seconds and reveals enemies; Q blinds attacks and W's active keeps speed when hit. Liandry and Riftmaker test a burn-to-contact hand-off, while Cosmic responds to magic damage and Nashor rewards attacks during the blind window.",
+      "itemIds": [
+        6653,
+        4633,
+        4629,
+        3115,
+        3089,
+        3020
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Trap actually triggers shortly before Q and attack access; finite traps and cooldowns recorded.",
+        "Record combat ramp at trap activation and total attacks landed during Q blind versus a Q-only opening.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Sweeping or bypassing traps prevents ramp and spell damage still threatens through blind.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: Blind blocks ordinary attacks, not all incoming abilities or item damage.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Liandry's Torment, Riftmaker, Cosmic Drive, Nashor's Tooth, Rabadon's Deathcap, Sorcerer's Shoes. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Move Quick",
+          "slot": "W",
+          "source": "Characters/Teemo/Spells/TeemoWAbility/TeemoW",
+          "formula": "Passive: Teemo gains [(0.12 / 0.16 / 0.2 / 0.24 / 0.28) × 100]% Move Speed while he hasn't been damaged by a champion or turret in the last [5] seconds.\n\nActive: Teemo sprints, gaining [(0.24 / 0.32 / 0.4 / 0.48 / 0.56) × 100]% Move Speed that is not lost when struck for [3] seconds."
+        },
+        {
+          "ability": "Noxious Trap",
+          "slot": "R",
+          "source": "Characters/Teemo/Spells/TeemoRAbility/TeemoR",
+          "formula": "Teemo tosses a mushroom trap that detonates when stepped on. The traps Slow by [30 / 40 / 50]% and deal [200 / 325 / 450 + (0.5) × AP] magic damage over [4] seconds. Enemies are revealed for the same duration.\n\nTraps last [5] minutes and are stealthed. A mushroom tossed onto another mushroom bounces before landing at its position. This Ability has [3 / 4 / 5] charges (@AmmoRechargeTime@ second refresh)."
+        },
+        {
+          "ability": "Blinding Dart",
+          "slot": "Q",
+          "source": "Characters/Teemo/Spells/TeemoQAbility/TeemoQ",
+          "formula": "Teemo fires a dart, Blinding the target for [2 / 2.25 / 2.5 / 2.75 / 3] seconds and dealing [80 / 125 / 170 / 215 / 260 + (0.7) × AP] magic damage."
+        }
+      ]
+    }
+  ]
+}

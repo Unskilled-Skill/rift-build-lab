@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Darius",
+  "reviewedSlots": [
+    "P",
+    "Q",
+    "W",
+    "E",
+    "R"
+  ],
+  "opportunities": [
+    {
+      "key": "noxian-health-to-ad-ceiling",
+      "name": "Noxian health-to-AD ceiling",
+      "objective": "Convert bounded health growth into amplified execute pressure.",
+      "mechanic": "Hemorrhage reaches five stacks before granting Noxian Might's temporary AD; Guillotine has an AD statFormula expression and doubles damage at five bleeds. Heartsteel and Bloodmail provide a health-to-AD route, Visage supports Q's missing-health edge heal, and Stridebreaker helps remain at axe-edge distance rather than replacing required stack setup.",
+      "evidenceSlots": [
+        "P",
+        "Q",
+        "R",
+        "W"
+      ],
+      "itemIds": [
+        3084,
+        2501,
+        3065,
+        3053,
+        6631,
+        3047
+      ],
+      "pageKey": "conq",
+      "requiredState": "Need actual Heartsteel procs, five bleed stacks and a landed outer Q.",
+      "failure": "Low early attack speed and kiting prevent Might; burst can kill before Q healing.",
+      "test": "Compare full-stack R damage and time to Might at fixed Heartsteel stacks, then versus disengage.",
+      "rejectedAssumption": "True damage execute gains nothing from armor penetration and its reset needs an actual kill.",
+      "confidence": "plausible"
+    },
+    {
+      "key": "crippling-attack-reset-duel",
+      "name": "Crippling attack reset duel",
+      "objective": "Use the 90% slow to compress a three-attack trade.",
+      "mechanic": "Crippling Strike's empowered attack reaches 1.6 AD and slows 90% for one second. Trinity supplies one physical Spellblade, Blade of the Ruined King rewards real attacks and Sundered Sky provides first-hit sustain. E pull makes the short window possible, while Cleaver complements the physical bleed/attack portion rather than R's true damage.",
+      "evidenceSlots": [
+        "W",
+        "E",
+        "Q",
+        "P"
+      ],
+      "itemIds": [
+        3078,
+        3153,
+        6610,
+        3071,
+        6333,
+        3111
+      ],
+      "pageKey": "pta",
+      "requiredState": "Need attack-W-attack spacing and the pulled target within melee reach.",
+      "failure": "Extra offense sacrifices durability; Q's handle hit adds no bleed and can ruin the follow-up.",
+      "test": "Measure attacks and bleed stacks before slow expiry, with E pull versus an open chase.",
+      "rejectedAssumption": "On-hit item damage is separate from W's AD multiplier and is not guaranteed to crit with Sundered Sky.",
+      "confidence": "plausible"
+    }
+  ],
+  "ruledOut": [
+    {
+      "idea": "AP decimate",
+      "reason": "Q and bleed are physical AD, while R is AD-linked true damage; no useful AP kit ratio appears.",
+      "evidenceSlots": [
+        "Q",
+        "P",
+        "R"
+      ]
+    }
+  ],
+  "unknowns": [
+    "Raw AD statFormula flags and empowered-attack crit interactions require live damage breakdowns."
+  ],
+  "sourceCoverage": [
+    {
+      "slot": "P",
+      "name": "Hemorrhage",
+      "paths": [
+        "Characters/Darius/Spells/DariusHemoMarkerAbility/DariusHemoMarker"
+      ]
+    },
+    {
+      "slot": "Q",
+      "name": "Decimate",
+      "paths": [
+        "Characters/Darius/Spells/DariusCleaveAbility/DariusCleave"
+      ]
+    },
+    {
+      "slot": "W",
+      "name": "Crippling Strike",
+      "paths": [
+        "Characters/Darius/Spells/DariusNoxianTacticsONHAbility/DariusNoxianTacticsONH"
+      ]
+    },
+    {
+      "slot": "E",
+      "name": "Apprehend",
+      "paths": [
+        "Characters/Darius/Spells/DariusAxeGrabConeAbility/DariusAxeGrabCone"
+      ]
+    },
+    {
+      "slot": "R",
+      "name": "Noxian Guillotine",
+      "paths": [
+        "Characters/Darius/Spells/DariusExecuteAbility/DariusExecute"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "id": "darius-audit-noxian-health-to-ad-ceiling",
+      "champion": "Darius",
+      "name": "Noxian health-to-AD ceiling",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Convert bounded health growth into amplified execute pressure.",
+      "goal": "Convert bounded health growth into amplified execute pressure.",
+      "hypothesis": "Hemorrhage reaches five stacks before granting Noxian Might's temporary AD; Guillotine has an AD statFormula expression and doubles damage at five bleeds. Heartsteel and Bloodmail provide a health-to-AD route, Visage supports Q's missing-health edge heal, and Stridebreaker helps remain at axe-edge distance rather than replacing required stack setup.",
+      "itemIds": [
+        3084,
+        2501,
+        3065,
+        3053,
+        6631,
+        3047
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need actual Heartsteel procs, five bleed stacks and a landed outer Q.",
+        "Compare full-stack R damage and time to Might at fixed Heartsteel stacks, then versus disengage.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Low early attack speed and kiting prevent Might; burst can kill before Q healing.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: True damage execute gains nothing from armor penetration and its reset needs an actual kill.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Heartsteel, Overlord's Bloodmail, Spirit Visage, Sterak's Gage, Stridebreaker, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Crippling Strike",
+          "slot": "W",
+          "source": "Characters/Darius/Spells/DariusNoxianTacticsONHAbility/DariusNoxianTacticsONH",
+          "formula": "Darius' next Attack deals [(1.4 / 1.45 / 1.5 / 1.55 / 1.6) × AD] physical damage and Slows by [90]% for [1] second.\n\nThis Ability refunds its Mana cost and reduces its Cooldown by [50]% if it kills the target.\n\n{{ buff_desc_SpellEffects }}"
+        },
+        {
+          "ability": "Hemorrhage",
+          "slot": "Passive",
+          "source": "Characters/Darius/Spells/DariusHemoMarkerAbility/DariusHemoMarker",
+          "formula": "Darius' Attacks and damaging Abilities cause the target to Hemorrhage, dealing [characterLevelInterpolation(13 → 30; raw flags preserved) + (0.3) × AD[statFormula=2]] physical damage over [5] seconds, stacking up to [5] times.\n\nWhen an enemy reaches max stacks or is killed by {{Spell_DariusR_Name}}, Darius gains an additional [characterLevelBreakpoints(start=30, perLevel=5, changes=[{\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 25.0, \"__type\": \"Breakpoint\"}])] Attack Damage and applies [5] Hemorrhage stacks on all Attack or damaging Ability hits for [5] seconds."
+        },
+        {
+          "ability": "Decimate",
+          "slot": "Q",
+          "source": "Characters/Darius/Spells/DariusCleaveAbility/DariusCleave",
+          "formula": "Darius hefts his axe then swings it around, dealing [50 / 80 / 110 / 140 / 170 + ((100 / 110 / 120 / 130 / 140) × (0.01)) × AD] physical damage with the edge and [(50 / 80 / 110 / 140 / 170 + ((100 / 110 / 120 / 130 / 140) × (0.01)) × AD) × (0.35)] damage with the handle. Enemies hit with the handle do not take a Hemorrhage stack.\n\nDarius restores [17]% missing Health per enemy champion and large jungle monster hit with the edge, up to a max of [51]%."
+        },
+        {
+          "ability": "Noxian Guillotine",
+          "slot": "R",
+          "source": "Characters/Darius/Spells/DariusExecuteAbility/DariusExecute",
+          "formula": "Darius leaps to an enemy and strikes a lethal blow, dealing [125 / 250 / 375 + (0.75) × AD[statFormula=2]] true damage. For each Hemorrhage on the target, this Ability deals an additional [20]% damage, up to a max of [(125 / 250 / 375 + (0.75) × AD[statFormula=2]) × (2)] damage.\n\nIf this kills the target, Darius may Recast this Ability once within [20] seconds. At rank 3, this Ability has no Mana cost and kills refresh the Cooldown completely."
+        }
+      ]
+    },
+    {
+      "id": "darius-audit-crippling-attack-reset-duel",
+      "champion": "Darius",
+      "name": "Crippling attack reset duel",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Use the 90% slow to compress a three-attack trade.",
+      "goal": "Use the 90% slow to compress a three-attack trade.",
+      "hypothesis": "Crippling Strike's empowered attack reaches 1.6 AD and slows 90% for one second. Trinity supplies one physical Spellblade, Blade of the Ruined King rewards real attacks and Sundered Sky provides first-hit sustain. E pull makes the short window possible, while Cleaver complements the physical bleed/attack portion rather than R's true damage.",
+      "itemIds": [
+        3078,
+        3153,
+        6610,
+        3071,
+        6333,
+        3111
+      ],
+      "runePage": [
+        8005,
+        9111,
+        9104,
+        8014,
+        8444,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "duration": 10,
+        "mana": 1500,
+        "armor": 100,
+        "mr": 50,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "testPlan": [
+        "Required state: Need attack-W-attack spacing and the pulled target within melee reach.",
+        "Measure attacks and bleed stacks before slow expiry, with E pull versus an open chase.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
+      ],
+      "failureConditions": [
+        "Extra offense sacrifices durability; Q's handle hit adds no bleed and can ruin the follow-up.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
+      ],
+      "tradeoffs": [
+        "Rejected assumption: On-hit item damage is separate from W's AD multiplier and is not guaranteed to crit with Sundered Sky.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
+      ],
+      "buyOrder": [
+        "Candidate six slots: Trinity Force, Blade of The Ruined King, Sundered Sky, Black Cleaver, Death's Dance, Mercury's Treads. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
+      ],
+      "coverageNotes": [
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Crippling Strike",
+          "slot": "W",
+          "source": "Characters/Darius/Spells/DariusNoxianTacticsONHAbility/DariusNoxianTacticsONH",
+          "formula": "Darius' next Attack deals [(1.4 / 1.45 / 1.5 / 1.55 / 1.6) × AD] physical damage and Slows by [90]% for [1] second.\n\nThis Ability refunds its Mana cost and reduces its Cooldown by [50]% if it kills the target.\n\n{{ buff_desc_SpellEffects }}"
+        },
+        {
+          "ability": "Hemorrhage",
+          "slot": "Passive",
+          "source": "Characters/Darius/Spells/DariusHemoMarkerAbility/DariusHemoMarker",
+          "formula": "Darius' Attacks and damaging Abilities cause the target to Hemorrhage, dealing [characterLevelInterpolation(13 → 30; raw flags preserved) + (0.3) × AD[statFormula=2]] physical damage over [5] seconds, stacking up to [5] times.\n\nWhen an enemy reaches max stacks or is killed by {{Spell_DariusR_Name}}, Darius gains an additional [characterLevelBreakpoints(start=30, perLevel=5, changes=[{\"mLevel\": 11, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 25.0, \"__type\": \"Breakpoint\"}])] Attack Damage and applies [5] Hemorrhage stacks on all Attack or damaging Ability hits for [5] seconds."
+        },
+        {
+          "ability": "Decimate",
+          "slot": "Q",
+          "source": "Characters/Darius/Spells/DariusCleaveAbility/DariusCleave",
+          "formula": "Darius hefts his axe then swings it around, dealing [50 / 80 / 110 / 140 / 170 + ((100 / 110 / 120 / 130 / 140) × (0.01)) × AD] physical damage with the edge and [(50 / 80 / 110 / 140 / 170 + ((100 / 110 / 120 / 130 / 140) × (0.01)) × AD) × (0.35)] damage with the handle. Enemies hit with the handle do not take a Hemorrhage stack.\n\nDarius restores [17]% missing Health per enemy champion and large jungle monster hit with the edge, up to a max of [51]%."
+        },
+        {
+          "ability": "Apprehend",
+          "slot": "E",
+          "source": "Characters/Darius/Spells/DariusAxeGrabConeAbility/DariusAxeGrabCone",
+          "formula": "Passive: Darius gains [20 / 25 / 30 / 35 / 40]% Armor Penetration.\n\nActive: Darius hooks with his axe, Pulling, and Knocking Up and Slowing by [40]% for [1] second."
+        }
+      ]
+    }
+  ]
+}

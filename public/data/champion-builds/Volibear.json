@@ -2,7 +2,7 @@
   "version": 1,
   "patch": "26.20",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-12",
+  "authoredAt": "2026-10-13",
   "builds": [
     {
       "id": "volibear-four-1",
@@ -110,40 +110,42 @@
       ]
     },
     {
-      "id": "volibear-four-2",
+      "id": "volibear-audit-lightning-ap-ramp",
       "champion": "Volibear",
-      "name": "Damage interaction: Health/AP attack hybrid",
-      "goal": "Damage interaction for Volibear: test the relevant damage interaction, not an unverified maximum",
-      "hypothesis": "A pursuing melee bruiser who stuns to set up a delayed shield zone and stays on one marked target for healing. Keep the same W-marked target for the healing recast, and land E's delayed shield. AP/attack speed may reward passive hits but cannot guarantee lightning chains or permanent W recovery. Health plus AP and repeated on-hits test a hybrid attack route.",
-      "summary": "Health plus AP and repeated on-hits test a hybrid attack route.",
+      "name": "Lightning AP ramp",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Turn AP into passive attack cadence as well as lightning damage.",
+      "goal": "Turn AP into passive attack cadence as well as lightning damage.",
+      "hypothesis": "Each passive stack grants attack speed with an AP term, up to five stacks, then attacks add AP-scaled chain lightning. Nashor and Rageblade test the attack phase; E has an AP/health shield for staying close, and Riftmaker rewards extended contact. Terminus supports mixed physical/magic attacks after ramp.",
       "itemIds": [
-        3084,
-        2510,
-        4633,
         3115,
-        6665,
-        3111
+        3124,
+        3302,
+        4633,
+        3089,
+        3006
       ],
       "runePage": [
-        8005,
+        8008,
         9111,
         9104,
         8014,
-        8444,
+        8429,
         8451
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -151,43 +153,29 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Volibear: Keep the same W-marked target for the healing recast, and land E's delayed shield. AP/attack speed may reward passive hits but cannot guarantee lightning chains or permanent W recovery.",
-        "Start with the early core (Health/defense as needed, then Dusk and Dawn as the isolated test) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Health plus AP and repeated on-hits test a hybrid attack route. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Volibear gains speed towards enemies, Stunning and damaging the first one he Attacks. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Five earned passive stacks and attack access; Rageblade/Terminus ramps recorded separately.",
+        "Count passive stacks, attack intervals and lightning packets before and after five stacks, with phantom hits isolated.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "The route fails Volibear's stated kit question: Keep the same W-marked target for the healing recast, and land E's delayed shield. AP/attack speed may reward passive hits but cannot guarantee lightning chains or permanent W recovery.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Stacks expire during kiting or low durability prevents reaching full attack ramp.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Confirm Spellblade/passive interactions; offensive items delay resistances.",
-        "Full cost 16,550 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
+        "Rejected assumption: Chain lightning does not prove extra targets receive Nashor or every on-hit effect.",
+        "Confidence: speculative. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Health/defense as needed, then Dusk and Dawn as the isolated test. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Riftmaker, Nashor's Tooth, Jak'Sho, The Protean are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Nashor's Tooth, Guinsoo's Rageblade, Terminus, Riftmaker, Rabadon's Deathcap, Berserker's Greaves. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Damage interaction",
-      "resourceType": "Mana",
       "kitEvidence": [
-        {
-          "ability": "Stormbringer",
-          "slot": "R",
-          "source": "Characters/Volibear/Spells/VolibearRAbility/VolibearR",
-          "formula": "Volibear transforms and leaps, gaining [175 / 350 / 525] Health and [50] Attack Range for the next [12] seconds.\n\nUpon landing, Volibear cracks the earth, Disabling nearby towers for [2 / 3 / 4] seconds and dealing [300 / 500 / 700 + (1.25) × AP + (2.5) × AD[statFormula=2]] physical damage to them. Nearby enemies are Slowed by [50]%, decaying over 1 second. Enemies directly underneath Volibear suffer [300 / 500 / 700 + (1.25) × AP + (2.5) × AD[statFormula=2]] physical damage."
-        },
         {
           "ability": "Thundering Smash",
           "slot": "Q",
@@ -199,12 +187,6 @@
           "slot": "Passive",
           "source": "Characters/Volibear/Spells/VolibearPAbility/VolibearP",
           "formula": "Volibear gains [0.05 + (0.0004) × AP] Attack Speed for [6] seconds whenever he deals damage with an Ability or Attack, stacking up to 5 times.\n\nAt 5 stacks, Volibear's claws ignite with lightning, causing his Attacks to deal an additional [characterLevelBreakpoints(start=11, perLevel=1, changes=[{\"mLevel\": 4, \"mBonusPerLevelAtAndAfter\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.45) × AP + (0.2) × AD[statFormula=2]] magic damage to the target and 4 closest enemies."
-        },
-        {
-          "ability": "Frenzied Maul",
-          "slot": "W",
-          "source": "Characters/Volibear/Spells/VolibearWAbility/VolibearW",
-          "formula": "Volibear mauls an enemy, dealing [5 / 30 / 55 / 80 / 105 + (1.1) × AD + (0.06) × Stat(12)[statFormula=2]] physical damage and marking them for [8] seconds.\n\nIf this Ability is used on a marked target, its damage is increased to [(5 / 30 / 55 / 80 / 105 + (1.1) × AD + (0.06) × Stat(12)[statFormula=2]) × ((1.5 + (0.0025) × AD[statFormula=2]))] and Volibear restores [20 / 35 / 50 / 65 / 80] plus [0.08 / 0.11 / 0.14 / 0.17 / 0.2] missing Health."
         },
         {
           "ability": "Sky Splitter",
@@ -320,19 +302,21 @@
       ]
     },
     {
-      "id": "volibear-four-4",
+      "id": "volibear-audit-wounded-mark-revisit",
       "champion": "Volibear",
-      "name": "Experiment: AP sustained duel",
-      "goal": "Experiment for Volibear: test a different playstyle, with lower confidence",
-      "hypothesis": "A pursuing melee bruiser who stuns to set up a delayed shield zone and stays on one marked target for healing. Keep the same W-marked target for the healing recast, and land E's delayed shield. AP/attack speed may reward passive hits but cannot guarantee lightning chains or permanent W recovery. AP plus real attack cadence tests sustained contact and later penetration. This is intentionally experimental; abandon it if its lost utility or durability exceeds the damage/access gained.",
-      "summary": "AP plus real attack cadence tests sustained contact and later penetration.",
+      "name": "Wounded mark revisit",
+      "category": "Kit interaction",
+      "requiresManualTest": true,
+      "summary": "Prioritize reaching a second W on the same marked target.",
+      "goal": "Prioritize reaching a second W on the same marked target.",
+      "hypothesis": "W's mark lasts eight seconds; recast gains a damage multiplier involving AD and heals missing health. Shojin basic haste and Trinity spell-followed attacks support repeat contact, Bloodmail supplies health-derived AD and Visage strengthens W healing/E shielding. Q stun buys time for the initial setup.",
       "itemIds": [
-        4633,
-        3115,
-        3089,
-        3135,
-        3157,
-        3111
+        3161,
+        3078,
+        2501,
+        3065,
+        3053,
+        3047
       ],
       "runePage": [
         8010,
@@ -345,15 +329,15 @@
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
       "conditions": {
         "level": 18,
         "rank": 5,
         "eRank": 5,
-        "mode": "qe",
         "duration": 10,
         "mana": 1500,
+        "armor": 100,
         "mr": 50,
         "targetHP": 3000,
         "heartsteelHP": 0,
@@ -361,36 +345,28 @@
         "combatSeconds": 0
       },
       "testPlan": [
-        "Kit question for Volibear: Keep the same W-marked target for the healing recast, and land E's delayed shield. AP/attack speed may reward passive hits but cannot guarantee lightning chains or permanent W recovery.",
-        "Start with the early core (Riftmaker, then Nashor) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Compare against the reference route at the same level, gold spent, finite stacks and opponent setup. Record unused gold; isolate an item change before changing runes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: AP plus real attack cadence tests sustained contact and later penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Volibear gains speed towards enemies, Stunning and damaging the first one he Attacks. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
+        "Required state: Same target remains marked, current health/AD recorded and W returns before mark expiry.",
+        "Log first versus marked W damage/heal at matched missing health and changing AD; measure actual revisit time.",
+        "Run three trials at matched level, ranks, gold and target defenses. Repeat against a moving opponent with a fixed incoming damage pattern. Record damage packets, missed actions, resource cost and survival separately.",
+        "Keep souls, health/mana, form, item/rune stacks, transformations and game time finite and explicitly recorded. No free full ramp or infinite scaling."
       ],
       "failureConditions": [
-        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
-        "The route fails Volibear's stated kit question: Keep the same W-marked target for the healing recast, and land E's delayed shield. AP/attack speed may reward passive hits but cannot guarantee lightning chains or permanent W recovery.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
+        "Target swapping forfeits the heal or crowd control denies the second cast.",
+        "The narrow damage gain does not repay lost access, survival, wave control or allied utility."
       ],
       "tradeoffs": [
-        "Nashor needs actual attacks; little health/resistance makes CC and burst dangerous.",
-        "Full cost 17,000 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "Experimental package: plausible mechanics are not proof of strength or novelty."
+        "Rejected assumption: The helper labeled Thundering Smash containing R text is not a second Q or R damage source.",
+        "Confidence: plausible. Source-compatible reasoning is not in-game validation or proof of novelty/optimality."
       ],
       "buyOrder": [
-        "Riftmaker, then Nashor. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Rabadon's Deathcap, Void Staff, Zhonya's Hourglass are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
+        "Candidate six slots: Spear of Shojin, Trinity Force, Overlord's Bloodmail, Spirit Visage, Sterak's Gage, Plated Steelcaps. Compare two-item checkpoints before the final six-slot test; this list is not a lane shopping order.",
+        "Keep role-appropriate starters, boots and support quest/vision obligations. If the full candidate assumes farmed income, compare it separately from support income."
       ],
       "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
+        "Only Cassiopeia Q/E and Sett W have numerical adapters. Even there, these other objectives and item/rune interactions may fall outside the model.",
+        "Proc inheritance, crit, pet hits and conditional helpers remain uncertain until observed. No completed mathematical maximum is claimed."
       ],
       "author": "ChatGPT",
-      "category": "Experiment",
-      "resourceType": "Mana",
       "kitEvidence": [
         {
           "ability": "Stormbringer",
@@ -403,12 +379,6 @@
           "slot": "Q",
           "source": "Characters/Volibear/Spells/VolibearQAbility/VolibearQ",
           "formula": "Volibear gains [0.12 / 0.155 / 0.19 / 0.225 / 0.26] Move Speed, doubled to [0.24 / 0.31 / 0.38 / 0.45 / 0.52] towards enemy champions for the next [4] seconds. While active, Volibear's next Attack deals [10 / 20 / 30 / 40 / 50 + (1) × AD + (1.6) × AD[statFormula=2]] physical damage and Stuns the target for [1] second.\n\nVolibear becomes enraged if an enemy Immobilizes him before he Stuns a target, ending the Ability early but refreshing its Cooldown."
-        },
-        {
-          "ability": "The Relentless Storm",
-          "slot": "Passive",
-          "source": "Characters/Volibear/Spells/VolibearPAbility/VolibearP",
-          "formula": "Volibear gains [0.05 + (0.0004) × AP] Attack Speed for [6] seconds whenever he deals damage with an Ability or Attack, stacking up to 5 times.\n\nAt 5 stacks, Volibear's claws ignite with lightning, causing his Attacks to deal an additional [characterLevelBreakpoints(start=11, perLevel=1, changes=[{\"mLevel\": 4, \"mBonusPerLevelAtAndAfter\": 2.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.45) × AP + (0.2) × AD[statFormula=2]] magic damage to the target and 4 closest enemies."
         },
         {
           "ability": "Frenzied Maul",

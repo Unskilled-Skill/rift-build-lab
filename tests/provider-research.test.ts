@@ -1,6 +1,6 @@
 import {it,expect} from 'vitest';
 import catalog from '../public/data/catalog.json';
-import {parseProviderResearch} from '../src/provider-research';
+import {parseProviderResearch,parseProviderIndex} from '../src/provider-research';
 import type {Catalog} from '../src/types';
 const data=catalog as unknown as Catalog;
 const source={champion:'Aatrox',role:'top',provider:'opgg',status:'available',sourceURL:'https://op.gg/open-source/opgg-mcp',sourcePatch:'16.20',checkedAt:'2026-10-13',selection:'Returned core',observedCoreItemIds:[6692,6610,6333],observedRunePage:[8010,9111,9105,8299,8453,8473],coreBuildMatches:100,matches:1000,limits:'No region filter'};
@@ -8,3 +8,4 @@ const payload=(entry:any=source)=>JSON.stringify({version:1,patch:'26.20',champi
 it('keeps provider cohorts and selections separate',()=>{const r=parseProviderResearch(payload(),data,'Aatrox');expect(r).toHaveLength(2);expect(r[0].coreBuildMatches).toBe(100);expect(r[0].matches).toBe(1000);expect(r[1].selection).toBe('Highest Win Build')});
 it('rejects mismatched champion, unknown identifiers and unsafe source links',()=>{for(const change of [{champion:'Ahri'},{observedCoreItemIds:[999999]},{observedRunePage:[8010,9111,9105,8299,8453,8453]},{sourceURL:'https://evil.example/'},{coreBuildMatches:-1}])expect(()=>parseProviderResearch(payload({...source,...change}),data,'Aatrox')).toThrow()});
 it('preserves explicit unavailable status without fabricated counts',()=>{const unavailable={champion:'Aatrox',role:'top',provider:'opgg',status:'unavailable',sourceURL:source.sourceURL,checkedAt:'2026-10-13',limits:'No validated data.',error:'Provider returned no core'};const r=parseProviderResearch(payload(unavailable),data,'Aatrox');expect(r[0].status).toBe('unavailable');expect(r[0].coreBuildMatches).toBeUndefined()});
+it('accepts only a confined immutable snapshot directory',()=>{const index={version:1,patch:'26.20',championCount:data.champions.length,checkedAt:'2026-10-14',recordsDirectory:'versions/550e8400-e29b-41d4-a716-446655440000'};expect(parseProviderIndex(index,data).recordsDirectory).toBe(index.recordsDirectory);for(const recordsDirectory of ['../private','https://other.example','versions/../../private'])expect(()=>parseProviderIndex({...index,recordsDirectory},data)).toThrow()});

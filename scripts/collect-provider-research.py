@@ -1,4 +1,4 @@
-import json,re,ast,time,threading,urllib.request,concurrent.futures,argparse,datetime
+import json,re,ast,time,threading,urllib.request,concurrent.futures,argparse,datetime,tempfile,os
 from pathlib import Path
 from bs4 import BeautifulSoup
 ROOT=Path(__file__).resolve().parent.parent
@@ -10,6 +10,7 @@ def request(url,body=None):
  for attempt in range(3):
   try:
    h={'User-Agent':'Mozilla/5.0','Accept':'application/json, text/event-stream' if body else 'text/html'}
+   if REFRESH:h.update({'Cache-Control':'no-cache, no-store','Pragma':'no-cache'})
    if body:h['Content-Type']='application/json'
    with urllib.request.urlopen(urllib.request.Request(url,data=json.dumps(body).encode() if body else None,headers=h),timeout=35) as r:return r.read().decode()
   except Exception:
@@ -71,7 +72,7 @@ def opgg(c,role):
    j=json.loads(raw);r=j['result']
    if r.get('isError'):raise ValueError(str(r)[:250])
    parsed=compact('\n'.join(t['text'] for t in r['content'] if t.get('type')=='text'));d=parsed['data'];core=d['core_items'];runes=d['runes'];ids=core['ids'];rs=runes['primary_rune_ids']+runes['secondary_rune_ids'];trend=d['trends']['win']
-   if not ids or len(rs)!=6 or parsed['position'].lower()!=role:raise ValueError('Missing or mismatched core/runes/role')
+   if not ids or len(rs)!=6 or parsed['position'].lower()!=role or parsed['champion']!=key:raise ValueError('Missing or mismatched champion/core/runes/role')
    if not cache.exists() or REFRESH:cache.write_text(raw,encoding='utf-8')
    return dict(champion=alias,role=role,provider='opgg',status='available',sourceURL='https://op.gg/open-source/opgg-mcp',sourcePatch=trend['version'],checkedAt=DATE,selection='Returned OP.GG core; provider definition',observedCoreItemIds=ids,observedRunePage=rs,coreBuildMatches=core['play'],coreBuildWins=core['win'],matches=d['summary']['average_stats']['play'],bootsId=(d.get('boots') or {}).get('ids',[None])[0],sourceUpdatedAt=trend['created_at'],requestChampion=key,limits='Ranked, Emerald+. Public MCP has no region or patch input; patch is from returned trend, region unverified. Provider core may include components/transformed items and is not a complete six-slot inventory. Rune and item sample selections are separate; no causal superiority claim.')
   except Exception as e:last=e
@@ -85,19 +86,48 @@ def collect(c):
  try:o=opgg(c,role)
  except Exception as e:o=failure(c,'opgg',role,e)
  return l,o
-if __name__=='__main__':
- parser=argparse.ArgumentParser(description='Collect dated OP.GG and Lolalytics references for the local roster.');parser.add_argument('--refresh',action='store_true',help='Read providers again instead of resuming cached responses.');parser.add_argument('--checked-at',default=DATE,help='Source check date YYYY-MM-DD.');args=parser.parse_args();datetime.date.fromisoformat(args.checked_at);DATE=args.checked_at;REFRESH=args.refresh
+def write_collection(results, output_dir):
+ # Prepare every file before touching the prior authored snapshot. Keep backups
+ # outside public and retain them rather than recursively deleting directories.
+ transaction=Path(tempfile.mkdtemp(prefix='collect-',dir=ROOT/'data/provider-refresh/runs'))
+ staged=transaction/'snapshot';staged.mkdir()
+ for p in ['opgg','lolalytics']:
+  records=sorted([r for r in results if r['provider']==p],key=lambda r:r['champion'])
+  (staged/f'{p}.json').write_text(json.dumps(records,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+ # output-dir can contain acquisition caches and pending files. Move only the two
+ # authored source files; rollback both if either replacement fails.
+ output_dir.mkdir(parents=True,exist_ok=True);moved=[];written=[]
+ try:
+  for p in ['opgg','lolalytics']:
+   target=output_dir/f'{p}.json'
+   if target.exists():os.replace(target,transaction/f'{p}.previous.json');moved.append(p)
+   os.replace(staged/f'{p}.json',target);written.append(p)
+ except Exception:
+  for p in written:os.replace(output_dir/f'{p}.json',transaction/f'{p}.failed.json')
+  for p in moved:os.replace(transaction/f'{p}.previous.json',output_dir/f'{p}.json')
+  raise
+
+def main(argv=None):
+ global DATE,REFRESH,CACHE,OUT
+ parser=argparse.ArgumentParser(description='Collect dated OP.GG and Lolalytics references for the local roster.');parser.add_argument('--refresh',action='store_true',help='Read providers again instead of resuming cached responses.');parser.add_argument('--checked-at',default='2026-10-13',help='Source check date YYYY-MM-DD.');parser.add_argument('--output-dir',type=Path,default=ROOT/'scripts/provider-research',help='Isolated output directory for both provider source files.');args=parser.parse_args(argv);datetime.date.fromisoformat(args.checked_at);DATE=args.checked_at;REFRESH=args.refresh
  if args.checked_at!='2026-10-13' and not REFRESH:parser.error('A new check date requires --refresh; cached responses cannot be relabelled as fresh.')
+ OUT=args.output_dir.resolve()
+ if OUT!=(ROOT/'scripts/provider-research').resolve():CACHE=OUT/'acquisition-cache'
+ CACHE.mkdir(parents=True,exist_ok=True)
+ (ROOT/'data/provider-refresh/runs').mkdir(parents=True,exist_ok=True)
  results=[]
  with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
   futures={pool.submit(collect,c):c for c in CAT['champions']}
   for f in concurrent.futures.as_completed(futures):
    l,o=f.result();results.extend([l,o]);
    for p in ['opgg','lolalytics']:(CACHE/f'{p}.pending.json').write_text(json.dumps(sorted([r for r in results if r['provider']==p],key=lambda r:r['champion']),ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-   print(f'{len(results)//2}/173 {l["champion"]}: lol={l["status"]} opgg={o["status"]}',flush=True)
+   print(f'{len(results)//2}/{len(CAT["champions"])} {l["champion"]}: lol={l["status"]} opgg={o["status"]}',flush=True)
  if any(r['status']!='available' for r in results):
-  print('Incomplete provider acquisition; prior authored and published snapshots retained. Review data/provider-research/*.pending.json.',flush=True);raise SystemExit(1)
+  print(f'Incomplete provider acquisition; prior authored and published snapshots retained. Review {CACHE}/*.pending.json.',flush=True);raise SystemExit(1)
  knownItems={i['id'] for i in CAT['items']};knownRunes={r['id'] for r in CAT['runes']}
- if any(any(id not in knownItems for id in r['observedCoreItemIds']) or any(id not in knownRunes for id in r['observedRunePage']) for r in results):raise ValueError('Provider IDs differ from local catalog; previous snapshot retained.')
- for p in ['opgg','lolalytics']:(OUT/f'{p}.json').write_text(json.dumps(sorted([r for r in results if r['provider']==p],key=lambda r:r['champion']),ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+ if any(any(id not in knownItems for id in r['observedCoreItemIds']) or any(id not in knownRunes for id in r['observedRunePage']) or (r.get('bootsId') is not None and r['bootsId'] not in knownItems) for r in results):raise ValueError('Provider IDs differ from local catalog; previous snapshot retained.')
+ for r in results:r['context']=dict(gameMode='ranked',tier='emerald_plus',queue='solo_duo',region='global' if r['provider']=='lolalytics' else 'unverified')
+ write_collection(results,OUT)
  print('COMPLETE', {p:sum(r['status']=='available' for r in results if r['provider']==p) for p in ['opgg','lolalytics']},flush=True)
+
+if __name__=='__main__':main()

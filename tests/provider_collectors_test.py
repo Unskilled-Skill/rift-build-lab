@@ -1,4 +1,5 @@
-import unittest,importlib.util,tempfile,json
+import unittest,importlib.util,tempfile,json,io,contextlib,os
+from unittest.mock import patch
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('provider_collector',Path(__file__).resolve().parents[1]/'scripts/collect-provider-research.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 class Collectors(unittest.TestCase):
@@ -18,4 +19,47 @@ class Collectors(unittest.TestCase):
   m.CACHE=original
  def test_unavailable_wukong_retains_the_real_provider_url(self):
   self.assertEqual(m.failure({'alias':'MonkeyKing'},'lolalytics',None,ValueError('No data'))['sourceURL'],'https://lolalytics.com/lol/wukong/build/')
+ def test_refresh_cli_isolates_sources_and_reports_actual_roster_progress(self):
+  with tempfile.TemporaryDirectory() as folder:
+   root=Path(folder);output=root/'data/provider-refresh/runs/job';authored=root/'scripts/provider-research';authored.mkdir(parents=True)
+   (authored/'opgg.json').write_text('previous authored snapshot')
+   records=[json.loads((m.ROOT/f'scripts/provider-research/{p}.json').read_text())[0] for p in ['lolalytics','opgg']]
+   for record in records:record['checkedAt']='2026-10-14'
+   catalog=dict(m.CAT,champions=m.CAT['champions'][:1]);log=io.StringIO()
+   with patch.multiple(m,ROOT=root,CAT=catalog,CACHE=root/'cache',OUT=authored,DATE=m.DATE,REFRESH=False),patch.object(m,'collect',return_value=records),contextlib.redirect_stdout(log):
+    m.main(['--refresh','--checked-at','2026-10-14','--output-dir',str(output)])
+   self.assertEqual((authored/'opgg.json').read_text(),'previous authored snapshot')
+   self.assertIn('1/1 Aatrox',log.getvalue())
+   self.assertTrue((output/'acquisition-cache/opgg.pending.json').exists())
+   self.assertEqual(json.loads((output/'opgg.json').read_text())[0]['context']['region'],'unverified')
+ def test_unknown_ids_fail_without_overwriting_sources(self):
+  with tempfile.TemporaryDirectory() as folder:
+   root=Path(folder);output=root/'incoming';output.mkdir();(output/'opgg.json').write_text('previous')
+   records=[json.loads((m.ROOT/f'scripts/provider-research/{p}.json').read_text())[0] for p in ['lolalytics','opgg']]
+   records[0]['observedCoreItemIds']=[-1];catalog=dict(m.CAT,champions=m.CAT['champions'][:1])
+   with patch.multiple(m,ROOT=root,CAT=catalog,CACHE=root/'cache',OUT=output,DATE=m.DATE,REFRESH=False),patch.object(m,'collect',return_value=records),contextlib.redirect_stdout(io.StringIO()):
+    with self.assertRaisesRegex(ValueError,'IDs differ'):m.main(['--refresh','--output-dir',str(output)])
+   self.assertEqual((output/'opgg.json').read_text(),'previous')
+ def test_acquisition_failure_retains_both_sources(self):
+  with tempfile.TemporaryDirectory() as folder:
+   root=Path(folder);output=root/'incoming';output.mkdir()
+   for p in ['opgg','lolalytics']:(output/f'{p}.json').write_text('previous '+p)
+   c=m.CAT['champions'][0];records=[m.failure(c,p,'top','test failure') for p in ['lolalytics','opgg']]
+   with patch.multiple(m,ROOT=root,CAT=dict(m.CAT,champions=[c]),CACHE=root/'cache',OUT=output,DATE=m.DATE,REFRESH=False),patch.object(m,'collect',return_value=records),contextlib.redirect_stdout(io.StringIO()):
+    with self.assertRaises(SystemExit):m.main(['--refresh','--output-dir',str(output)])
+   for p in ['opgg','lolalytics']:self.assertEqual((output/f'{p}.json').read_text(),'previous '+p)
+ def test_new_date_cannot_relabel_cached_acquisition(self):
+  with patch.multiple(m,DATE=m.DATE,REFRESH=False),contextlib.redirect_stderr(io.StringIO()):
+   with self.assertRaises(SystemExit):m.main(['--checked-at','2026-10-14'])
+ def test_second_source_replace_failure_rolls_back_first_source(self):
+  with tempfile.TemporaryDirectory() as folder:
+   root=Path(folder);(root/'data/provider-refresh/runs').mkdir(parents=True);output=root/'incoming';output.mkdir()
+   for p in ['opgg','lolalytics']:(output/f'{p}.json').write_text('previous '+p)
+   records=[dict(champion='Aatrox',provider=p) for p in ['opgg','lolalytics']];replace=os.replace
+   def fail_second(source,target):
+    if Path(source).parent.name=='snapshot' and Path(source).name=='lolalytics.json':raise OSError('simulated swap failure')
+    return replace(source,target)
+   with patch.object(m,'ROOT',root),patch.object(m.os,'replace',side_effect=fail_second):
+    with self.assertRaisesRegex(OSError,'swap failure'):m.write_collection(records,output)
+   for p in ['opgg','lolalytics']:self.assertEqual((output/f'{p}.json').read_text(),'previous '+p)
 if __name__=='__main__':unittest.main()

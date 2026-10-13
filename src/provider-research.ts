@@ -22,3 +22,10 @@ export function parseProviderResearch(text:string,data:Catalog,champion:string):
   if(s.bootsId!==undefined&&s.bootsId!==null&&!data.items.some(i=>i.id===s.bootsId))throw new Error('Unknown boots.');return s;
  });
 }
+export interface ProviderIndex{version:1;patch:string;championCount:number;checkedAt:string;updatedAt?:string;recordsDirectory?:string}
+export function parseProviderIndex(value:unknown,data:Catalog):ProviderIndex{
+ if(!value||typeof value!=='object')throw new Error('Missing provider index.');const index=value as ProviderIndex;
+ if(index.version!==1||index.patch!==data.patch||index.championCount!==data.champions.length||typeof index.checkedAt!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(index.checkedAt))throw new Error('Provider index does not match this catalog.');
+ if(index.updatedAt!==undefined&&(typeof index.updatedAt!=='string'||!Number.isFinite(Date.parse(index.updatedAt))))throw new Error('Invalid publication timestamp.');
+ if(index.recordsDirectory!==undefined&&(typeof index.recordsDirectory!=='string'||!/^versions\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(index.recordsDirectory)))throw new Error('Invalid snapshot directory.');return index;
+}

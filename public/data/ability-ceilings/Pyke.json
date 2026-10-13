@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Pyke",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-13",
+  "builds": [
+    {
+      "id": "pyke-ceiling-ceiling-r-execute-threshold",
+      "champion": "Pyke",
+      "name": "Death from Below threshold ceiling",
+      "category": "Ability ceiling",
+      "summary": "Seek the highest execute HP threshold from Death from Below threshold within the finite benchmark; candidate, not proof of a mathematical maximum.",
+      "goal": "Seek the highest execute HP threshold from Death from Below threshold within the finite benchmark; candidate, not proof of a mathematical maximum.",
+      "hypothesis": "R threshold is source level-breakpoint base+0.8 bonusAD+1.5 lethality(Stat29). AD/lethality directly raise HP threshold; passive converts Edge health to AD. Bloodthirster adds80AD; Hubris has exactly10 kills. Profane/Youmuu/Edge/Axiom Arc supply lethality; EdgeHP becomes AD through passive. Item crit/armor penetration never multiply threshold. 30min Gathering Storm adaptive stats fixed; Absolute Focus requires ownerabove70%HP. First Strike ready but separate proc reported outside target packet; compare inactive.",
+      "itemIds": [
+        3072,
+        6697,
+        6698,
+        3142,
+        3814,
+        6696
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "Death from Below threshold",
+        "metric": "execute-threshold",
+        "damageType": "none",
+        "finiteState": "Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Level18;10 Hubris kills active; one cast. Hubris exactly10 credited kills, buff active90s; unbounded kills/time have no finite global maximum.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Level18;10 Hubris kills active; one cast. Hubris exactly10 credited kills, buff active90s; unbounded kills/time have no finite global maximum.",
+        "Same-patch practice/custom test with exact state: record Death from Below threshold tooltip, observed AP/AD/HP/mana/resists, per-packet damage/protection and final targetHP. Compare one legal item swap at a time, separating setup damage, rune/item procs and ordinary attack. Verify raw helper/statFormula mappings and conditional multipliers before treating result as established.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The initial form fields are editable defaults (level18, target3000HP/100armor/50MR); adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Threshold not damage; above-threshold physical hit50% threshold; no crit/armorpen multiplier; uncapped Hubris/time has no finite global max. Raw statFormula=2/Stat identifiers remain source evidence until runtime mapping confirmed; no unspecified stats/stacks granted."
+      ],
+      "tradeoffs": [
+        "Six final items explicitly replace late-game boots; slower access/escape, extreme cost and setup dependence. Raw-number candidate sacrifices practical positioning and does not prove a global maximum.",
+        "Confidence: plausible. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Existing Cassiopeia Q/E and Sett W numeric adapters cannot certify these whole loadouts, omitted item/rune effects or global maxima.",
+        "Threshold not damage; above-threshold physical hit50% threshold; no crit/armorpen multiplier; uncapped Hubris/time has no finite global max. Raw statFormula=2/Stat identifiers remain source evidence until runtime mapping confirmed; no unspecified stats/stacks granted.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Death From Below",
+          "slot": "R",
+          "source": "Characters/Pyke/Spells/PykeRAbility/PykeR",
+          "formula": "Pyke strikes all enemy champions in an X, teleporting to and executing targets below [characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)] Health. Champions above the threshold and non-champions instead take physical damage equal to [50]% of that amount ([(characterLevelBreakpoints(start=250, perLevel=0, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 40.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 20.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (0.8) × AD[statFormula=2] + (1.5) × Stat(29)) × (0.5)]). \n\nWhen an enemy champion dies inside the X, Pyke can Recast this Ability for free within [20] seconds. If he executed that champion, the last assisting ally will also get kill gold. If he did not, he will still get kill gold as if he did."
+        }
+      ]
+    }
+  ]
+}

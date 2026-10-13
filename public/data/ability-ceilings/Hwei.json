@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Hwei",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-13",
+  "builds": [
+    {
+      "id": "hwei-ceiling-ability-ceiling-q",
+      "champion": "Hwei",
+      "name": "Severing Bolt ceiling",
+      "category": "Ability ceiling",
+      "summary": "Find a high-number candidate for Severing Bolt in the specified finite setup; compare the competing stat package.",
+      "goal": "Find a high-number candidate for Severing Bolt in the specified finite setup; compare the competing stat package.",
+      "hypothesis": "QW5 reaches3.5*(160+0.3 AP)=560+1.05 AP on isolated/immobilized lowHP target. QQ adds7% maxHP instead, so targetHP changes ranking. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies40% MR penetration; Banshee/Zhonya supply105 AP each; Riftmaker supplies HP-to-AP and verified8% combat ramp.",
+      "itemIds": [
+        3089,
+        4645,
+        3135,
+        3102,
+        3157,
+        4633
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "Severing Bolt",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. Isolated target1% HP; no passive mark. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. Isolated target1% HP; no passive mark. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged.",
+        "Measure QW with/without isolation and across HP; compare QQ on same maxHP and split item procs.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The initial form fields are editable defaults (level18, target3000HP/100armor/50MR); adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "High-number candidate, not proof of mathematical maximum. Ability-only result separate from item/rune procs; unresolved raw statFormula/helper flags require live verification. First Strike separately logged only in actual window; Absolute Focus needs above70% casterHP, inactive in lowHP tests; Gathering Storm fixed30min. "
+      ],
+      "tradeoffs": [
+        "Six completed items model a late-game boots swap. Reaching range and surviving preparation become harder; expensive specialized stats sacrifice ordinary pacing and utility.",
+        "Confidence: plausible. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Existing Cassiopeia Q/E and Sett W numeric adapters cannot certify these whole loadouts, omitted item/rune effects or global maxima.",
+        "High-number candidate, not proof of mathematical maximum. Ability-only result separate from item/rune procs; unresolved raw statFormula/helper flags require live verification. First Strike separately logged only in actual window; Absolute Focus needs above70% casterHP, inactive in lowHP tests; Gathering Storm fixed30min. ",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Subject: Disaster",
+          "slot": "Q",
+          "source": "Characters/Hwei/Spells/HweiQAbility/HweiQ",
+          "formula": "Hwei paints visions of disaster that deal large damage to enemies.\n\n{{Spell_HweiQQ_Name}}\nHwei launches a blazing fast fireball that explodes on the first enemy hit, dealing [50 / 80 / 110 / 140 / 170 + (0.8) × AP] plus [3 / 4 / 5 / 6 / 7]% max health magic damage.\n\n{{Spell_HweiQW_Name}}\nHwei strikes over far distances with a delayed lightning bolt, dealing [60 / 85 / 110 / 135 / 160 + (0.3) × AP] magic damage. Hitting an Isolated or Immobilized target increases the damage up to [(60 / 85 / 110 / 135 / 160 + (0.3) × AP) × (2 / 2.375 / 2.75 / 3.125 / 3.5)] magic damage, based on the target's missing health.\n\n{{Spell_HweiQE_Name}}\nHwei unleashes a path of eruptions, dealing [20 / 35 / 50 / 65 / 80 + (0.3) × AP] magic damage in an area and leaving behind pools of lava that Slow enemies by @spell.HweiQE:SlowPercent@% and deal [20 / 35 / 50 / 65 / 80 + (0.24) × AP] magic damage per second for @spell.HweiQE:Duration@ seconds."
+        }
+      ]
+    }
+  ]
+}

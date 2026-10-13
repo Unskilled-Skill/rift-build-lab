@@ -5,20 +5,21 @@ export function validateRequest(input,catalog){
  if(typeof input.goal!=='string'||!input.goal.trim()||input.goal.length>4000)throw new Error('Enter a build goal of 1–4000 characters.');
  if(!input.scenario||typeof input.scenario!=='object'||Array.isArray(input.scenario)||input.scenario.champion!==input.champion)throw new Error('Scenario does not match the champion.');
  if(!Array.isArray(input.items)||input.items.length>6||input.items.some(id=>!Number.isInteger(id)||!catalog.items.some(i=>i.id===id)))throw new Error('Invalid item references.');
- const collection=input.collection??'earlier';if(!['four','earlier'].includes(collection))throw new Error('Choose a known build collection.');
- const outputPath=collection==='four'?`public/data/champion-builds/${input.champion}.json`:'public/data/chatgpt-builds.json';
- return {version:1,patch:'26.20',createdAt:new Date().toISOString(),champion:input.champion,goal:input.goal.trim(),scenario:input.scenario,items:input.items,collection,outputPath,instruction:`Author ${collection==='four'?'exactly four full builds for this champion':'full builds preserving other champions'} using the current local champion/item/rune sources. Write validated proposals to ${outputPath}. Include test conditions, failure cases and limits; do not claim proven live-game optimality.`};
+ const collection=input.collection??'earlier';if(!['four','earlier','ceilings','meta'].includes(collection))throw new Error('Choose a known build collection.');
+ const outputPath=collection==='meta'?'public/data/meta-baselines.json':collection==='ceilings'?`public/data/ability-ceilings/${input.champion}.json`:collection==='four'?`public/data/champion-builds/${input.champion}.json`:'public/data/chatgpt-builds.json';
+ return {version:1,patch:'26.20',createdAt:new Date().toISOString(),champion:input.champion,goal:input.goal.trim(),scenario:input.scenario,items:input.items,collection,outputPath,instruction:`Author ${collection==='ceilings'?'finite-condition ability ceiling candidates, preserving the other targets':collection==='four'?'exactly four full builds for this champion':'full builds preserving other champions'} using the current local champion/item/rune sources. Write validated proposals to ${outputPath}. ${collection==='ceilings'?'Preserve authored revisions in scripts/ability-ceilings/group-*.json before regenerating.':collection==='meta'?'Preserve authored revisions in scripts/meta-baselines.json before regenerating; verify source provenance and inferred substitutions.':collection==='four'?`Preserve scripts/champion-build-overrides/${input.champion}.json before regenerating.`:''} Include test conditions, failure cases and limits; do not claim proven live-game optimality.`};
 }
 export function resolveBuildInboxPath(route,catalog){
+ if(route==='/data/meta-baselines.json')return 'public/data/meta-baselines.json';
  if(route==='/data/chatgpt-builds.json')return 'public/data/chatgpt-builds.json';
- const match=route?.match(/^\/data\/champion-builds\/([A-Za-z0-9]+)\.json$/);
- if(!match||!catalog.champions.some(c=>c.alias===match[1]))return null;
- return `public/data/champion-builds/${match[1]}.json`;
+ const match=route?.match(/^\/data\/(champion-builds|ability-ceilings)\/([A-Za-z0-9]+)\.json$/);
+ if(!match||!catalog.champions.some(c=>c.alias===match[2]))return null;
+ return `public/data/${match[1]}/${match[2]}.json`;
 }
 export function buildRequestMiddleware(root){return async(req,res,next)=>{
- const route=req.url?.split('?')[0];if(route!=='/api/build-request'&&route!=='/data/chatgpt-builds.json'&&!route?.startsWith('/data/champion-builds/'))return next();
+ const route=req.url?.split('?')[0];if(route!=='/api/build-request'&&route!=='/data/chatgpt-builds.json'&&route!=='/data/meta-baselines.json'&&!route?.startsWith('/data/champion-builds/')&&!route?.startsWith('/data/ability-ceilings/'))return next();
  const send=(status,obj)=>{res.statusCode=status;res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify(obj));};
- if(route!=='/api/build-request'){if(req.method!=='GET')return send(405,{error:'Use GET for the build inbox.'});try{const catalog=JSON.parse(fs.readFileSync(path.join(root,'public/data/catalog.json'),'utf8'));const file=resolveBuildInboxPath(route,catalog);if(!file){if(route==='/data/champion-builds/index.json')return next();return send(404,{error:'Unknown champion inbox.'});}return send(200,JSON.parse(fs.readFileSync(path.join(root,file),'utf8')));}catch{return send(404,{error:'No valid build inbox is available.'});}}
+ if(route!=='/api/build-request'){if(req.method!=='GET')return send(405,{error:'Use GET for the build inbox.'});try{const catalog=JSON.parse(fs.readFileSync(path.join(root,'public/data/catalog.json'),'utf8'));const file=resolveBuildInboxPath(route,catalog);if(!file){if(['/data/champion-builds/index.json','/data/ability-ceilings/index.json'].includes(route))return next();return send(404,{error:'Unknown champion inbox.'});}return send(200,JSON.parse(fs.readFileSync(path.join(root,file),'utf8')));}catch{return send(404,{error:'No valid build inbox is available.'});}}
  if(req.method!=='POST')return send(405,{error:'Use POST to prepare a request.'});
  if(req.headers.origin&&req.headers.origin!==`http://${req.headers.host}`)return send(403,{error:'Requests must come from this local app.'});
  if(!req.headers['content-type']?.startsWith('application/json'))return send(415,{error:'Expected JSON.'});

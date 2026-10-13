@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Tryndamere",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-13",
+  "builds": [
+    {
+      "id": "tryndamere-ceiling-ceiling-q-heal",
+      "champion": "Tryndamere",
+      "name": "100-Fury Bloodlust heal ceiling",
+      "category": "Ability ceiling",
+      "summary": "Seek the highest restored health from 100-Fury Bloodlust heal within the finite benchmark; candidate, not proof of a mathematical maximum.",
+      "goal": "Seek the highest restored health from 100-Fury Bloodlust heal within the finite benchmark; candidate, not proof of a mathematical maximum.",
+      "hypothesis": "Q5 with100Fury is70+0.3AP+100*(2.3+0.012AP)=300+1.5AP. Mana-free AP and Visage amplify unusually large self-heal ratio. Deathcap/Zhonya/Banshee/Lich Bane supply mana-freeAP; Riftmaker converts finite bonusHP intoAP. Visage amplifies received self-healing25%; Lich Bane proc/Rift damage amplifier excluded from heal. 30min Gathering Storm adaptive stats fixed; Absolute Focus requires ownerabove70%HP. First Strike ready but separate proc reported outside target packet; compare inactive.",
+      "itemIds": [
+        3089,
+        3157,
+        3102,
+        4633,
+        3065,
+        3100
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "100-Fury Bloodlust heal",
+        "metric": "heal",
+        "damageType": "none",
+        "finiteState": "Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Exactly100Fury; enough missingHP for full heal.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Exactly100Fury; enough missingHP for full heal.",
+        "Same-patch practice/custom test with exact state: record 100-Fury Bloodlust heal tooltip, observed AP/AD/HP/mana/resists, per-packet damage/protection and final targetHP. Compare one legal item swap at a time, separating setup damage, rune/item procs and ordinary attack. Verify raw helper/statFormula mappings and conditional multipliers before treating result as established.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The initial form fields are editable defaults (level18, target3000HP/100armor/50MR); adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Consumes Fury/crit advantage; Absolute Focus inactive when ownerbelow70%HP; damage amplifiers do not increase heal. Raw statFormula=2/Stat identifiers remain source evidence until runtime mapping confirmed; no unspecified stats/stacks granted."
+      ],
+      "tradeoffs": [
+        "Six final items explicitly replace late-game boots; slower access/escape, extreme cost and setup dependence. Raw-number candidate sacrifices practical positioning and does not prove a global maximum.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Existing Cassiopeia Q/E and Sett W numeric adapters cannot certify these whole loadouts, omitted item/rune effects or global maxima.",
+        "Consumes Fury/crit advantage; Absolute Focus inactive when ownerbelow70%HP; damage amplifiers do not increase heal. Raw statFormula=2/Stat identifiers remain source evidence until runtime mapping confirmed; no unspecified stats/stacks granted.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bloodlust",
+          "slot": "Q",
+          "source": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+          "formula": "Passive: Tryndamere thirsts for blood, gaining up to [20 / 35 / 50 / 65 / 80] Attack Damage based on his missing Health.\n\nActive: Tryndamere consumes his Fury, restoring [30 / 40 / 50 / 60 / 70 + (0.3) × AP] plus [0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP] Health per Fury (max: [30 / 40 / 50 / 60 / 70 + (0.3) × AP + (1 × AbilityResource(4, statFormula=default)) × ((0.5 / 0.95 / 1.4 / 1.85 / 2.3 + (0.012) × AP))])."
+        }
+      ]
+    }
+  ]
+}

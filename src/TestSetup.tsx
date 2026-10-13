@@ -15,7 +15,7 @@ export function BuildItems({data,scenario,ids,legal,onAdd,onRemove,update,onPin}
  </section>;
 }
 export function ManualTestSetup(props:Props){const {scenario,update}=props;return <section className="manual-setup" id="test-setup"><div className="panel-heading"><h2>Check your setup</h2><span>Manual game test</span></div><p className="muted">These conditions are saved with your result. Damage and survival must be measured in game.</p><div className="manual-setup-grid"><div className="fields">
- <NumberField label="Champion level" value={scenario.level} min={1} max={18} onChange={v=>update('level',v)}/><NumberField label="Main ability rank" value={scenario.rank} min={1} max={5} onChange={v=>update('rank',v)}/>
+ <NumberField label="Champion level" value={scenario.level} min={1} max={18} onChange={v=>update('level',v)}/><NumberField label="Main ability rank" value={scenario.rank} min={1} max={['Jayce','Udyr'].includes(scenario.champion)?6:5} onChange={v=>update('rank',v)}/>
  <NumberField label="Test duration (sec)" value={scenario.duration} min={.25} max={60} step={.25} onChange={v=>update('duration',v)}/><NumberField label="Target maximum HP" value={scenario.targetHP} min={1} max={100000} onChange={v=>update('targetHP',v)}/>
  <NumberField label="Target armor" value={scenario.armor} min={-1000} max={10000} onChange={v=>update('armor',v)}/><NumberField label="Target magic resist" value={scenario.mr} min={-1000} max={10000} onChange={v=>update('mr',v)}/>
  <NumberField label="Available resource" value={scenario.mana} max={100000} onChange={v=>update('mana',v)}/><NumberField label="Heartsteel earned HP" value={scenario.heartsteelHP} max={10000} onChange={v=>update('heartsteelHP',v)}/>

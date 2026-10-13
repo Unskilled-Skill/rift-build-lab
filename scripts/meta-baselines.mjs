@@ -1,0 +1,18 @@
+import {validateCeilings,ceilingBuild} from './ability-ceilings.mjs';
+export function validateMeta(entries,catalog,resources){
+ if(!Array.isArray(entries)||!entries.length)throw new Error('Expected meta references.');const seen=new Set();
+ for(const e of entries){
+  if(seen.has(e.champion))throw new Error('Duplicate meta champion.');seen.add(e.champion);
+  for(const k of ['role','sourceURL','sourceTitle','sourceScope','idea','whyItems','ceilingTradeoff','test','limits'])if(typeof e[k]!=='string'||!e[k].trim()||e[k].length>2000)throw new Error(`Invalid meta ${k}.`);
+  if(!/^https:\/\/mobalytics\.gg\/lol\/champions\/[a-z]+\/build(?:\/[a-z]+)?$/.test(e.sourceURL)||e.sourcePatch!=='16.20'||e.checkedAt!=='2026-10-13'||!Number.isInteger(e.matches)||e.matches<1)throw new Error('Invalid source provenance.');
+  for(const k of ['observedCoreItemIds','observedFullItemIds','inferredItemIds'])if(!Array.isArray(e[k])||new Set(e[k]).size!==e[k].length||e[k].some(id=>!catalog.items.some(i=>i.id===id)))throw new Error('Invalid observed item references.');
+  if(e.observedCoreItemIds.length!==2||!e.observedFullItemIds.includes(e.bootsId)||e.observedCoreItemIds.some(id=>!e.itemIds.includes(id)||!e.observedFullItemIds.includes(id))||e.inferredItemIds.some(id=>!e.itemIds.includes(id)||e.observedFullItemIds.includes(id))||e.itemIds.some(id=>e.inferredItemIds.includes(id)!==!e.observedFullItemIds.includes(id)))throw new Error('Observed/inferred provenance disagrees.');
+  if(!Array.isArray(e.observedRunePage)||e.observedRunePage.length!==6||e.observedRunePage[0]!==e.observedKeystoneId||e.observedRunePage.some(id=>!catalog.runes.some(r=>r.id===id)))throw new Error('Invalid observed runes.');
+  validateCeilings([{...e,key:'meta-reference',name:e.idea,targetSlot:'Q',targetName:'Reference',metric:'full-window',damageType:'mixed',objective:e.idea,mechanic:e.whyItems,finiteState:'Matched gold, level and target; finite stacks.',tradeoff:e.ceilingTradeoff,confidence:'plausible'}],catalog,resources,false);
+ }return entries;
+}
+export function metaBuild(e,kit,catalog,resources){
+ const b=ceilingBuild({...e,key:'meta-reference',name:`${e.role.toUpperCase()} reference: ${e.idea}`,objective:e.idea,mechanic:e.whyItems,targetSlot:'Q',targetName:'Reference',metric:'full-window',damageType:'mixed',finiteState:'Matched gold, level, role income and target; finite stacks.',tradeoff:e.ceilingTradeoff,confidence:'plausible'},kit,catalog,resources);
+ delete b.ceiling;b.id=`${e.champion.toLowerCase()}-meta-${e.role}`;b.category='Current meta reference';b.runePage=e.observedRunePage;b.meta={role:e.role,sourceURL:e.sourceURL,sourceTitle:e.sourceTitle,sourcePatch:e.sourcePatch,checkedAt:e.checkedAt,sourceScope:e.sourceScope,matches:e.matches,observedCoreItemIds:e.observedCoreItemIds,observedFullItemIds:e.observedFullItemIds,inferredItemIds:e.inferredItemIds,bootsId:e.bootsId};
+ b.testPlan=[e.test,'Compare the creative build and this reference at equal gold, level, target defenses, finite earned stacks and role income. Record landed actions, mana remaining, survival and access—not only one-hit damage.','Repeat at two-item core and late completion; do not use champion cohort statistics as a six-item build win rate.'];b.buyOrder=['Observed early core: '+e.observedCoreItemIds.map(id=>catalog.items.find(i=>i.id===id).name).join(' → '),'Boot timing, upgrades and late order depend on matchup and income. The representative six-slot completion is not a universal shopping sequence.'];b.coverageNotes=[e.limits,'The source supplies observed items and rune identities. Our explanation of the kit, intended playstyle and comparison tradeoffs is an inference. This manual reference does not establish that an experiment is stronger.'];return b;
+}

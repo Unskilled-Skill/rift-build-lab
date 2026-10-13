@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Sett",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-13",
+  "builds": [
+    {
+      "id": "sett-ceiling-ability-ceiling-sett-w",
+      "champion": "Sett",
+      "name": "Haymaker ceiling",
+      "category": "Ability ceiling",
+      "summary": "Center Haymaker deals 160+(.25+.0025 AD[statFormula=2])*Grit. Grit cap is 50% max HP; Bloodmail converts health into AD, multiplying both axes. Armor penetration cannot help center true damage.",
+      "goal": "Center Haymaker deals 160+(.25+.0025 AD[statFormula=2])*Grit. Grit cap is 50% max HP; Bloodmail converts health into AD, multiplying both axes. Armor penetration cannot help center true damage.",
+      "hypothesis": "Passive: Sett stores [100]% of damage taken as Grit, up to [(0.5) × Stat(12)]. Grit decays quickly [4] seconds after the damage was taken.\n\nActive: Sett consumes all Grit, gaining a [100]% Grit consumed Shield decaying over [3] seconds. Sett then delivers a massive punch, dealing [80 / 100 / 120 / 140 / 160] plus [0.25 + (0.0025) × AD[statFormula=2]] Grit consumed true damage to enemies in the center (max @f1@ damage). Enemies not in the center instead take physical damage.\nHeartsteel/Warmog/Titanic/Sterak/Shojin supply health; Bloodmail converts bonus HP and missing-health state into AD. Titanic is one Cleave family item. First Strike adds a separately measured initiation bonus; Absolute Focus supplies adaptive stat only above its health threshold; Gathering Storm is fixed to 30min. Cash Back/Biscuit/Cosmic are economy/sustain/utility, not assumed direct damage multipliers.",
+      "itemIds": [
+        3084,
+        3083,
+        2501,
+        3053,
+        3748,
+        3161
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "Haymaker",
+        "metric": "single-hit",
+        "damageType": "true",
+        "finiteState": "Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready.",
+        "Earn exactly 500 Heartsteel HP by minute 30, set 10% self HP, fill Grit to cap then center W before decay. Log raw kit packet(s), post-mitigation damage and separate item/rune packets; repeat at 100% target HP and swap one item at a time. First Strike must be ready and champion initiates; compare eligible bonus separately.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The initial form fields are editable defaults (level18, target3000HP/100armor/50MR); adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Highest-number candidate, not proof of mathematical maximum. Stored helper/statFormula or symbolic fields remain unresolved: validate live stat meanings/tick rules, do not silently infer. Unbounded earned stacks imply no finite global maximum; this entry uses the stated finite benchmark. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs."
+      ],
+      "tradeoffs": [
+        "Six completed items assume late boots sell/swap; movement and practical survival/access are sacrificed for the number. Heartsteel, Warmog's Armor, Overlord's Bloodmail, Sterak's Gage, Titanic Hydra, Spear of Shojin. Required setup damage is excluded from scored ability. Defensive or attack-speed replacements may win real fights despite a lower isolated packet.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Existing Cassiopeia Q/E and Sett W numeric adapters cannot certify these whole loadouts, omitted item/rune effects or global maxima.",
+        "Highest-number candidate, not proof of mathematical maximum. Stored helper/statFormula or symbolic fields remain unresolved: validate live stat meanings/tick rules, do not silently infer. Unbounded earned stacks imply no finite global maximum; this entry uses the stated finite benchmark. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Haymaker",
+          "slot": "W",
+          "source": "Characters/Sett/Spells/SettWAbility/SettW",
+          "formula": "Passive: Sett stores [100]% of damage taken as Grit, up to [(0.5) × Stat(12)]. Grit decays quickly [4] seconds after the damage was taken.\n\nActive: Sett consumes all Grit, gaining a [100]% Grit consumed Shield decaying over [3] seconds. Sett then delivers a massive punch, dealing [80 / 100 / 120 / 140 / 160] plus [0.25 + (0.0025) × AD[statFormula=2]] Grit consumed true damage to enemies in the center (max @f1@ damage). Enemies not in the center instead take physical damage."
+        }
+      ]
+    }
+  ]
+}

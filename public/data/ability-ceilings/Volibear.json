@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "patch": "26.20",
+  "champion": "Volibear",
+  "author": "ChatGPT",
+  "authoredAt": "2026-10-13",
+  "builds": [
+    {
+      "id": "volibear-ceiling-ability-ceiling-volibear-r",
+      "champion": "Volibear",
+      "name": "Stormbringer ceiling",
+      "category": "Ability ceiling",
+      "summary": "Center landing is 700+2.5 AD[statFormula=2]+1.25 AP physical damage. High AD coefficient and armor penetration serve entire packet including AP-derived damage.",
+      "goal": "Center landing is 700+2.5 AD[statFormula=2]+1.25 AP physical damage. High AD coefficient and armor penetration serve entire packet including AP-derived damage.",
+      "hypothesis": "Volibear transforms and leaps, gaining [175 / 350 / 525] Health and [50] Attack Range for the next [12] seconds.\n\nUpon landing, Volibear cracks the earth, Disabling nearby towers for [2 / 3 / 4] seconds and dealing [300 / 500 / 700 + (1.25) × AP + (2.5) × AD[statFormula=2]] physical damage to them. Nearby enemies are Slowed by [50]%, decaying over 1 second. Enemies directly underneath Volibear suffer [300 / 500 / 700 + (1.25) × AP + (2.5) × AD[statFormula=2]] physical damage.\nBloodthirster/Infinity Edge/Eclipse provide high AD; Grudge supplies armor penetration; Profane/Youmuu supply AD and lethality. Infinity Edge crit is not assumed to multiply this spell. First Strike adds a separately measured initiation bonus; Absolute Focus supplies adaptive stat only above its health threshold; Gathering Storm is fixed to 30min. Cash Back/Biscuit/Cosmic are economy/sustain/utility, not assumed direct damage multipliers.",
+      "itemIds": [
+        3072,
+        3031,
+        6694,
+        6698,
+        3142,
+        6692
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "Stormbringer",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready.",
+        "Target directly under landing center; compare AP-for-AD swap and exclude E/lightning. Log raw kit packet(s), post-mitigation damage and separate item/rune packets; repeat at 100% target HP and swap one item at a time. First Strike must be ready and champion initiates; compare eligible bonus separately.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The initial form fields are editable defaults (level18, target3000HP/100armor/50MR); adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Highest-number candidate, not proof of mathematical maximum. Stored helper/statFormula or symbolic fields remain unresolved: validate live stat meanings/tick rules, do not silently infer. Unlimited game time changes Gathering Storm; no finite global maximum over unrestricted time. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs."
+      ],
+      "tradeoffs": [
+        "Six completed items assume late boots sell/swap; movement and practical survival/access are sacrificed for the number. Bloodthirster, Infinity Edge, Serylda's Grudge, Profane Hydra, Youmuu's Ghostblade, Eclipse. Required setup damage is excluded from scored ability. Defensive or attack-speed replacements may win real fights despite a lower isolated packet.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Existing Cassiopeia Q/E and Sett W numeric adapters cannot certify these whole loadouts, omitted item/rune effects or global maxima.",
+        "Highest-number candidate, not proof of mathematical maximum. Stored helper/statFormula or symbolic fields remain unresolved: validate live stat meanings/tick rules, do not silently infer. Unlimited game time changes Gathering Storm; no finite global maximum over unrestricted time. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Stormbringer",
+          "slot": "R",
+          "source": "Characters/Volibear/Spells/VolibearRAbility/VolibearR",
+          "formula": "Volibear transforms and leaps, gaining [175 / 350 / 525] Health and [50] Attack Range for the next [12] seconds.\n\nUpon landing, Volibear cracks the earth, Disabling nearby towers for [2 / 3 / 4] seconds and dealing [300 / 500 / 700 + (1.25) × AP + (2.5) × AD[statFormula=2]] physical damage to them. Nearby enemies are Slowed by [50]%, decaying over 1 second. Enemies directly underneath Volibear suffer [300 / 500 / 700 + (1.25) × AP + (2.5) × AD[statFormula=2]] physical damage."
+        }
+      ]
+    }
+  ]
+}

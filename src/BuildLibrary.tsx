@@ -1,5 +1,6 @@
 import {appPath,localServicesEnabled} from './hosting';
 import {useEffect,useRef,useState} from 'react';
+import LeagueImportActions from './LeagueImportActions';
 import ProviderReferences from './ProviderReferences';
 import {ArrowRight,Check,Copy,Download,RefreshCw,Save,X} from 'lucide-react';
 import type {Catalog,Champion,Scenario} from './types';
@@ -52,6 +53,7 @@ export default function BuildLibrary({data,champion,scenario,items,activeBuildId
    {b.champion==='Cassiopeia'&&b.itemIds.some(id=>data.items.find(i=>i.id===id)?.tags.includes('Boots'))&&<p className="warning">Boots are eligible after the 26.1 passive rework. Their movement benefit is outside this damage model.</p>}
    <div className="build-facts"><strong>{data.runes.find(r=>r.id===b.runePage[0])?.name}</strong><span>{b.itemIds.reduce((n,id)=>n+data.items.find(i=>i.id===id)!.gold.total,0).toLocaleString()}g</span></div>
    <details className="build-details"><summary>Why it could work & how to test</summary><h4>The hypothesis</h4><p>{b.hypothesis}</p><h4>Full rune page</h4><p>{b.runePage.map(id=>data.runes.find(r=>r.id===id)?.name).join(' · ')}</p><p>Shards: {b.shards.map(id=>data.runes.find(r=>r.id===id)?.name).join(' / ')}</p><h4>Test plan</h4><ol>{b.testPlan.map((step,n)=><li key={n}>{step}</li>)}</ol><h4>What would disprove it?</h4><ul>{b.failureConditions.map((f,n)=><li key={n}>{f}</li>)}</ul><h4>Tradeoffs</h4><ul>{b.tradeoffs.map((t,n)=><li key={n}>{t}</li>)}</ul><h4>Purchase priorities</h4><ul>{b.buyOrder.map((t,n)=><li key={n}>{t}</li>)}</ul><h4>Calculator limits</h4><ul>{b.coverageNotes.map((t,n)=><li key={n}>{t}</li>)}</ul><p>Starting conditions: {Object.entries(b.conditions).map(([k,v])=>`${k}: ${v}`).join(' · ')}</p></details>
+   <LeagueImportActions data={data} setup={{champion:b.champion,name:b.name,itemIds:b.itemIds,runePage:b.runePage,shards:b.shards}}/>
    <div className="authored-actions"><div className="build-state">{activeBuildId===b.id?<span className="active-label"><Check size={14} aria-hidden="true"/>Active build</span>:<span>Six-item proposal</span>}{counts[b.id]>0&&<span>{counts[b.id]} recorded {counts[b.id]===1?'test':'tests'}</span>}</div><button className="primary" onClick={()=>onTest(b)}>{activeBuildId===b.id?'Continue test':'Load into test bench'}<ArrowRight size={16} aria-hidden="true"/></button></div>
   </article>)}</div>}
  </section>;

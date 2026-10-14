@@ -8,7 +8,7 @@ export interface MetaPlan {
  traits:{damage:'physical'|'magic'|'mixed'|'true-heavy';attackBased:boolean;heals:boolean;shields:boolean;hardCC:boolean;dive:boolean;poke:boolean;frontline:boolean;armorStacking:boolean;attackSpeedThreat:boolean};notes:string[];
 }
 export interface FullMetaBuild {
- champion:string;role:string;itemIds:number[];runePage:number[];shards:number[];buyOrder:number[];
+ champion:string;role:string;referenceItemIds?:number[];itemIds:number[];runePage:number[];shards:number[];buyOrder:number[];
  observedCoreItemIds:number[];coreCompletionItemIds?:number[];inferredItemIds:number[];sourceOptionItemIds:number[];
  reasons:Array<{itemId:number;reason:string;kind:'observed-core'|'provider-option'|'kit-completion'|'composition-swap'}>;
  warnings:string[];sourceProvider:string;sourcePatch:string;checkedAt:string;sourceURL:string;summary:string;
@@ -74,7 +74,7 @@ export function recommendForComp(data:Catalog,base:FullMetaBuild,plan:MetaPlan,p
  if(!comp||!Array.isArray(comp.allies)||!Array.isArray(comp.enemies)||comp.allies.length>4||comp.enemies.length>5||[...comp.allies,...comp.enemies].some(alias=>alias===base.champion||!data.champions.some(c=>c.alias===alias))||new Set([...comp.allies,...comp.enemies]).size!==comp.allies.length+comp.enemies.length||['enemyArmor','enemyMR','enemyHealing','enemyShields'].some(k=>comp[k as keyof Composition]!==undefined&&typeof comp[k as keyof Composition]!=='boolean'))throw new MetaRecommendationError('invalid-composition','Choose at most four allies and five enemies; each known champion must appear once, excluding your champion.');
  if((comp.priority!==undefined&&!['balanced','damage','survival'].includes(comp.priority))||[comp.mainThreat,comp.laneOpponent].some(c=>c!==undefined&&!comp.enemies.includes(c))||(comp.lockedItemIds!==undefined&&(!Array.isArray(comp.lockedItemIds)||comp.lockedItemIds.length>6||new Set(comp.lockedItemIds).size!==comp.lockedItemIds.length||comp.lockedItemIds.some(id=>!base.itemIds.includes(id)))))throw new MetaRecommendationError('invalid-composition','Choose threats from the enemy team and lock only equipped items.');
  if(base.champion!==plan.champion||base.itemIds.length!==6||!legal(data,base.itemIds,base.champion))throw new MetaRecommendationError('invalid-composition','Select a legal six-item base build for this champion first.');
- const build:FullMetaBuild={...base,itemIds:[...base.itemIds],buyOrder:[...base.buyOrder],observedCoreItemIds:[...base.observedCoreItemIds],inferredItemIds:[...base.inferredItemIds],sourceOptionItemIds:[...base.sourceOptionItemIds],reasons:base.reasons.map(r=>({...r})),warnings:[...base.warnings]};
+ const build:FullMetaBuild={...base,referenceItemIds:[...base.itemIds],itemIds:[...base.itemIds],buyOrder:[...base.buyOrder],observedCoreItemIds:[...base.observedCoreItemIds],inferredItemIds:[...base.inferredItemIds],sourceOptionItemIds:[...base.sourceOptionItemIds],reasons:base.reasons.map(r=>({...r})),warnings:[...base.warnings]};
  const priorities:Array<{title:string;reason:string}>=[],changes:Array<{removed:number;added:number;reason:string}>=[],warnings=['Composition advice is qualitative; it does not predict win rate or calculate a complete fight.'];
  const lookup=(alias:string)=>plans.find(p=>p.champion===alias);
  const enemies=comp.enemies.map(lookup).filter((p):p is MetaPlan=>!!p),allies=comp.allies.map(lookup).filter((p):p is MetaPlan=>!!p);

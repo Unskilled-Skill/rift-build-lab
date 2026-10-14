@@ -58,3 +58,7 @@ it('protects a finished version of a sourced Tear core during composition swaps'
 it('adapts Tahm optional armor and defensive boots against a magic-heavy team even with Visage already owned',()=>{
  const {p,b}=shippedBuild('TahmKench');const r=recommendForComp(data,b,p,shippedPlans,{allies:[],enemies:['Annie','Lux','Veigar']});expect(r.build.itemIds).toContain(2504);expect(r.build.itemIds).toContain(3111);expect(r.build.itemIds).not.toContain(3143);expect(r.build.observedCoreItemIds).toEqual(b.observedCoreItemIds);
 });
+
+it('keeps AP utility purchases available for a spell build with conditional true damage',()=>{
+ const p={...plan,champion:'Velkoz',traits:{...traits,damage:'true-heavy' as const}};const b=buildFullMeta(data,'Velkoz',[{...source,champion:'Velkoz'}],p);expect(recommendForComp(data,b,p,[p],{allies:[],enemies:[],enemyHealing:true}).build.itemIds).toContain(3165);
+});

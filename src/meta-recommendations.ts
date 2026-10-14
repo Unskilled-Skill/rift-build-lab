@@ -92,7 +92,7 @@ export function recommendForComp(data:Catalog,base:FullMetaBuild,plan:MetaPlan,p
  const offensiveAD=hasStat('Attack Damage')&&plan.traits.damage!=='magic';
  const utilitySupport=plan.role==='support'&&(plan.traits.heals||plan.traits.shields)&&base.itemIds.some(id=>get(data,id)!.baseStats.some(s=>s.name.includes('Heal and Shield')&&s.value>0));
  const statTotal=(name:string)=>base.itemIds.reduce((total,id)=>total+get(data,id)!.baseStats.filter(s=>s.name===name).reduce((sum,s)=>sum+s.value,0),0);
- const offensiveAP=hasStat('Ability Power')&&!attackCarry&&!utilitySupport&&(plan.traits.damage==='magic'||plan.traits.damage==='mixed'&&statTotal('Ability Power')*.6>statTotal('Attack Damage'));
+ const offensiveAP=hasStat('Ability Power')&&!attackCarry&&!utilitySupport&&(plan.traits.damage==='magic'||['mixed','true-heavy'].includes(plan.traits.damage)&&statTotal('Ability Power')*.6>statTotal('Attack Damage'));
  const names=(ps:MetaPlan[])=>ps.map(p=>data.champions.find(c=>c.alias===p.champion)?.name||p.champion).join(', ');
  warnings.push('Damage profiles describe typical kit threats, not confirmed enemy builds. Check actual items, damage patterns and who is ahead.');
  if(comp.enemyHealing||enemies.some(p=>p.traits.heals&&knownHealers.has(p.champion))||enemies.filter(p=>p.traits.heals).length>=2){

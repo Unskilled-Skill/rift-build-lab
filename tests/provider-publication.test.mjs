@@ -40,6 +40,11 @@ for (const [name, change] of [
   ['unavailable source', records => { records[0].status = 'unavailable'; }],
   ['unknown item', records => { records[0].observedCoreItemIds[0] = -1; }],
   ['unknown boots', records => { records[0].bootsId = -1; }],
+  ['unknown marginal item', records => { records[0].observedItemOptions = [{slot:4,items:[{id:-1}]}]; }],
+  ['invalid marginal slot', records => { records[0].observedItemOptions = [{slot:7,items:[{id:3089}]}]; }],
+  ['invalid marginal rate', records => { records[0].observedItemOptions = [{slot:4,items:[{id:3089,winRate:101}]}]; }],
+  ['invalid marginal count', records => { records[0].observedItemOptions = [{slot:4,items:[{id:3089,matches:1.5}]}]; }],
+  ['illegal shards', records => { records[0].observedShards = [5011,5010,5005]; }],
   ['illegal rune page', records => { records[0].observedRunePage[1] = records[0].observedRunePage[0]; }],
   ['invalid date', records => { records[0].checkedAt = '2026-02-30'; }],
   ['mismatched date', records => { records[0].checkedAt = '2026-10-12'; }],
@@ -87,6 +92,17 @@ test('complete publish replaces whole directory and records actual publication t
   }
   const transactions = fs.readdirSync(path.join(f.root, 'data/provider-refresh/runs'));
   assert.equal(fs.readFileSync(path.join(f.root, 'data/provider-refresh/runs', transactions[0], 'previous/old.json'), 'utf8'), 'previous snapshot');
+});
+
+test('versioned publication preserves marginal options and selected shards in its committed records', t => {
+  const f = fixture(t);
+  mutate(f, records => { records[0].observedItemOptions = [{slot:4,items:[{id:3089,matches:20,winRate:60}]}]; records[0].observedShards = [5005,5010,5011]; });
+  const summary = publishProviderResearchVersioned(f);
+  const catalog = JSON.parse(fs.readFileSync(path.join(f.root, 'public/data/catalog.json')));
+  const record = JSON.parse(fs.readFileSync(path.join(f.inputDir, 'opgg.json')))[0];
+  const parsed = parseProviderResearch(fs.readFileSync(path.join(f.target, summary.recordsDirectory, `${record.champion}.json`), 'utf8'), catalog, record.champion);
+  assert.deepEqual(parsed[0].observedItemOptions, [{slot:4,items:[{id:3089,matches:20,winRate:60}]}]);
+  assert.deepEqual(parsed[0].observedShards, [5005,5010,5011]);
 });
 
 test('staging write failure preserves previous directory', t => {

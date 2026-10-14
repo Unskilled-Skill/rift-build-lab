@@ -1,7 +1,7 @@
 import type {Item,Kit,Scenario} from './types';
 import {legalBuild} from './engine';
 import {itemFamilies} from './item-families.mjs';
-const earned=(id:number)=>[3040,3042].includes(id);
+const earned=(id:number)=>[3040,3042,3121,2530].includes(id);
 const starterIds=new Set([1054,1055,1056,1082,1083,1086,1120,1101,1102,1103,1105,1106,1107,3865]);
 const sourceEligible=(item:Item)=>Boolean(item.name&&item.maps['11']&&(item.shopListedBySource||earned(item.id))&&!/^(66|32)\d{4}$/.test(String(item.id)));
 export function pickerItems(items:Item[],category:'completed'|'components'|'all',query:string):Item[]{

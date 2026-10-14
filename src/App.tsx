@@ -4,6 +4,7 @@ import type {Baseline} from './workspace-draft';
 import type {ProviderSource} from './provider-research';
 import BaselineComparison from './BaselineComparison';
 import DataFreshness from './DataFreshness';
+import ProviderReferences from './ProviderReferences';
 import {modeledChampions,objectiveSupport} from './model-support';
 import {useEffect,useRef,useState} from 'react';
 import InteractionAudit from './InteractionAudit';
@@ -20,7 +21,7 @@ const clean=(s:string='')=>s.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').repla
 const number=(n:number)=>n.toLocaleString(undefined,{maximumFractionDigits:1});
 const sourceNumber=(n:number)=>Number(n.toPrecision(7)).toString();
 const icon=(alias:string)=>`https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/${alias}.png`;
-const tabs=['Builds','Test bench','Champion kit','Items','Runes','Data & coverage'] as const;
+const tabs=['Builds','Meta & teams','Test bench','Champion kit','Items','Runes','Data & coverage'] as const;
 type Tab=typeof tabs[number];
 function ItemIcon({item}:{item:Item}){return <img width={40} height={40} className="item-icon" src={item.iconUrl} alt="" loading="lazy" onError={e=>e.currentTarget.style.visibility='hidden'}/>}
 function App(){
@@ -67,6 +68,7 @@ function App(){
   {notice&&<div className="notice" role="status"><span>{notice}</span><button className="icon-button" aria-label="Dismiss message" onClick={()=>setNotice('')}><X size={16}/></button></div>}
   <section className="champion-heading"><img width={64} height={64} src={icon(alias)} alt=""/><div><h1>{champion.name}</h1><p>{champion.title} <span className="champion-meta">{champion.roles.join(' / ')} · {supported?'Partial damage model':'Manual testing'}</span></p></div><button className="text-button" onClick={()=>setTab(tab==='Champion kit'?'Test bench':'Champion kit')}><BookOpen size={16}/> {tab==='Champion kit'?'Back to test bench':'Explore the kit'}<ArrowRight size={15}/></button></section>
   {alias==='Cassiopeia'&&<p className="source-conflict">Cassiopeia can buy boots after her 26.1 passive rework. Movement amplification is outside the damage model. <a href="https://www.leagueoflegends.com/en-us/news/game-updates/patch-26-1-notes/" target="_blank" rel="noreferrer">Riot source</a></p>}
+  {tab==='Meta & teams'&&<ProviderReferences data={data} champion={alias} onBaseline={chooseBaseline} onTest={testAuthoredBuild}/>}
   {tab==='Builds'&&<ChatBuildInbox data={data} champion={champion} scenario={scenario} items={ids} activeBuildId={chatTest?.id} onTest={testAuthoredBuild} onBaseline={chooseBaseline}/>}
   {tab==='Test bench'&&<>
 

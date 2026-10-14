@@ -17,6 +17,44 @@ def request(url,body=None):
    if attempt==2:raise
    time.sleep(2*(attempt+1))
 def number(s):return int(s.replace(',',''))
+SHARD_ROWS=[[5005,5007,5008],[5008,5010,5001],[5011,5013,5001]]
+def legal_shards(ids):return isinstance(ids,list) and len(ids)==3 and all(id in SHARD_ROWS[n] for n,id in enumerate(ids))
+def lol_item_options(soup):
+ options=[]
+ for slot in [4,5,6]:
+  label=soup.find(string=lambda t:t and t.strip()==f'Item {slot}')
+  if not label:continue
+  block=label.parent.parent;items=[]
+  for img in block.find_all('img'):
+   match=re.search(r'/item\d+/(\d+)\.',img.get('src',''))
+   if not match:continue
+   row=img.parent
+   while row and row is not block:
+    stat=re.search(r'(\d+(?:\.\d+)?)\s*%\s*([\d,]+)$',row.get_text(' ',strip=True))
+    if stat and len(row.find_all('img'))==1:
+     items.append(dict(id=int(match[1]),matches=number(stat[2]),winRate=float(stat[1])));break
+    row=row.parent
+  if items:options.append(dict(slot=slot,items=items))
+ return options
+def lol_shards(soup):
+ label=soup.find(string=lambda t:t and t.strip()=='Stat Mods')
+ if not label:return None
+ rows=[row for row in label.parent.parent.find_all('div',recursive=False) if row.find('img',src=lambda t:t and '/statmod' in t)]
+ selected=[]
+ for row in rows:
+  ids=[int(re.search(r'/statmod\d+/(\d+)\.',i['src'])[1]) for i in row.find_all('img') if re.search(r'/statmod\d+/(\d+)\.',i.get('src','')) and 'grayscale' not in i.get('class',[])]
+  if len(ids)!=1:return None
+  selected.extend(ids)
+ return selected if legal_shards(selected) else None
+def opgg_item_options(data):
+ options=[]
+ for slot,key in [(4,'fourth_items'),(5,'fifth_items'),(6,'sixth_items')]:
+  items=[]
+  for row in data.get(key) or []:
+   if len(row.get('ids',[]))==1 and isinstance(row.get('play'),int) and row['play']>0 and isinstance(row.get('win'),int) and 0<=row['win']<=row['play']:
+    items.append(dict(id=row['ids'][0],matches=row['play'],winRate=round(100*row['win']/row['play'],4)))
+  if items:options.append(dict(slot=slot,items=items))
+ return options
 def lol(c):
  alias=c['alias'];role=OVERRIDES.get(alias);slug='wukong' if alias=='MonkeyKing' else alias.lower();url=f'https://lolalytics.com/lol/{slug}/build/'+(f'?lane={dict(mid="middle",adc="bottom").get(role,role)}' if role else '')
  cache=CACHE/f'lol-{alias}.html'
@@ -47,7 +85,7 @@ def lol(c):
  while parent and 'Win Rate' not in parent.get_text(' ',strip=True):parent=parent.parent
  runeStat=re.search(r'([\d.]+)\s*%\s*Win Rate\s*([\d,]+)\s*Games',parent.get_text(' ',strip=True) if parent else '')
  if not cache.exists() or REFRESH:cache.write_text(html,encoding='utf-8')
- return dict(champion=alias,role=role,provider='lolalytics',status='available',sourceURL=url,sourcePatch=patch[1],checkedAt=DATE,selection=selection,observedCoreItemIds=ids,observedRunePage=runes,coreBuildMatches=number(m[2]),coreBuildWinRate=float(m[1]),keystoneMatches=number(runeStat[2]) if runeStat else None,keystoneWinRate=float(runeStat[1]) if runeStat else None,matches=number(games[1]) if games else None,limits='Emerald+, GLOBAL, Ranked Solo/Duo. Selected Highest Win Build, not Most Common. Core includes boots/quest items where shown. Core sample differs from champion-role cohort. Displayed rune statistics describe the primary keystone, not the entire rune page; rune and core samples are separate. High observed win rate is affected by sample size, matchup and item completion; it does not prove build superiority.')
+ return dict(champion=alias,role=role,provider='lolalytics',status='available',sourceURL=url,sourcePatch=patch[1],checkedAt=DATE,selection=selection,observedCoreItemIds=ids,observedRunePage=runes,observedItemOptions=lol_item_options(soup),**({'observedShards':lol_shards(soup)} if lol_shards(soup) else {}),coreBuildMatches=number(m[2]),coreBuildWinRate=float(m[1]),keystoneMatches=number(runeStat[2]) if runeStat else None,keystoneWinRate=float(runeStat[1]) if runeStat else None,matches=number(games[1]) if games else None,limits='Emerald+, GLOBAL, Ranked Solo/Duo. Selected Highest Win Build, not Most Common. Core includes boots/quest items where shown. Core sample differs from champion-role cohort. Item 4/5/6 options are marginal purchase-slot statistics, not an observed complete inventory or joint six-item cohort. Stat Mods describe selected rows separately from the rune-page sample. Displayed rune statistics describe the primary keystone, not the entire rune page; rune and core samples are separate. High observed win rate is affected by sample size, matchup and item completion; it does not prove build superiority.')
 def compact(text):
  schemas={m[1]:m[2].split(',') for m in re.finditer(r'^class (\w+): ([\w,]+)$',text,re.M)}
  expr=text.split('\n\n')[-1].strip();tree=ast.parse(expr,mode='eval')
@@ -60,7 +98,7 @@ def compact(text):
    return dict(zip(fields,[walk(x) for x in n.args]))
   raise ValueError('Unexpected compact data expression')
  return walk(tree.body)
-FIELDS=['champion','position','data.core_items.{ids[],play,win}','data.boots.{ids[],play,win}','data.runes.{primary_rune_ids[],secondary_rune_ids[]}','data.trends.win.{version,created_at}','data.summary.average_stats.{play}']
+FIELDS=['data.fourth_items[].{ids[],play,win}','data.fifth_items[].{ids[],play,win}','data.sixth_items[].{ids[],play,win}','champion','position','data.core_items.{ids[],play,win}','data.boots.{ids[],play,win}','data.runes.{primary_rune_ids[],secondary_rune_ids[],stat_mod_ids[]}','data.trends.win.{version,created_at}','data.summary.average_stats.{play}']
 def opgg(c,role):
  alias=c['alias'];key=re.sub(r'([a-z])([A-Z])',r'\1_\2',alias).upper();alternates=[key,re.sub(r'[^A-Z0-9]+','_',c['name'].upper()).strip('_'),alias.upper()]
  for key in dict.fromkeys(alternates):
@@ -74,7 +112,7 @@ def opgg(c,role):
    parsed=compact('\n'.join(t['text'] for t in r['content'] if t.get('type')=='text'));d=parsed['data'];core=d['core_items'];runes=d['runes'];ids=core['ids'];rs=runes['primary_rune_ids']+runes['secondary_rune_ids'];trend=d['trends']['win']
    if not ids or len(rs)!=6 or parsed['position'].lower()!=role or parsed['champion']!=key:raise ValueError('Missing or mismatched champion/core/runes/role')
    if not cache.exists() or REFRESH:cache.write_text(raw,encoding='utf-8')
-   return dict(champion=alias,role=role,provider='opgg',status='available',sourceURL='https://op.gg/open-source/opgg-mcp',sourcePatch=trend['version'],checkedAt=DATE,selection='Returned OP.GG core; provider definition',observedCoreItemIds=ids,observedRunePage=rs,coreBuildMatches=core['play'],coreBuildWins=core['win'],matches=d['summary']['average_stats']['play'],bootsId=(d.get('boots') or {}).get('ids',[None])[0],sourceUpdatedAt=trend['created_at'],requestChampion=key,limits='Ranked, Emerald+. Public MCP has no region or patch input; patch is from returned trend, region unverified. Provider core may include components/transformed items and is not a complete six-slot inventory. Rune and item sample selections are separate; no causal superiority claim.')
+   return dict(champion=alias,role=role,provider='opgg',status='available',sourceURL='https://op.gg/open-source/opgg-mcp',sourcePatch=trend['version'],checkedAt=DATE,selection='Returned OP.GG core; provider definition',observedCoreItemIds=ids,observedRunePage=rs,observedItemOptions=opgg_item_options(d),**({'observedShards':runes['stat_mod_ids']} if legal_shards(runes.get('stat_mod_ids')) else {}),coreBuildMatches=core['play'],coreBuildWins=core['win'],matches=d['summary']['average_stats']['play'],bootsId=(d.get('boots') or {}).get('ids',[None])[0],sourceUpdatedAt=trend['created_at'],requestChampion=key,limits='Ranked, Emerald+. Public MCP has no region or patch input; patch is from returned trend, region unverified. Provider core may include components/transformed items and is not a complete six-slot inventory. Fourth/fifth/sixth item options are marginal purchase-slot statistics, not an observed complete inventory or joint six-item cohort. Rune and item sample selections are separate; no causal superiority claim.')
   except Exception as e:last=e
  raise ValueError(str(last))
 def failure(c,p,role,e):return dict(champion=c['alias'],role=role or 'unknown',provider=p,status='unavailable',checkedAt=DATE,sourceURL='https://op.gg/open-source/opgg-mcp' if p=='opgg' else f'https://lolalytics.com/lol/{"wukong" if c["alias"]=="MonkeyKing" else c["alias"].lower()}/build/',error=str(e)[:500],limits='No validated data was published; do not infer missing IDs or samples.')
@@ -126,6 +164,9 @@ def main(argv=None):
   print(f'Incomplete provider acquisition; prior authored and published snapshots retained. Review {CACHE}/*.pending.json.',flush=True);raise SystemExit(1)
  knownItems={i['id'] for i in CAT['items']};knownRunes={r['id'] for r in CAT['runes']}
  if any(any(id not in knownItems for id in r['observedCoreItemIds']) or any(id not in knownRunes for id in r['observedRunePage']) or (r.get('bootsId') is not None and r['bootsId'] not in knownItems) for r in results):raise ValueError('Provider IDs differ from local catalog; previous snapshot retained.')
+ for r in results:
+  if any(i['id'] not in knownItems or not isinstance(i.get('matches'),int) or not 1<=i['matches']<=100000000 or not 0<=i.get('winRate',-1)<=100 for row in r.get('observedItemOptions',[]) for i in row['items']):raise ValueError('Optional provider item IDs or samples differ from catalog; previous snapshot retained.')
+  if r.get('observedShards') is not None and not legal_shards(r['observedShards']):raise ValueError('Invalid provider shard rows; previous snapshot retained.')
  for r in results:r['context']=dict(gameMode='ranked',tier='emerald_plus',queue='solo_duo',region='global' if r['provider']=='lolalytics' else 'unverified')
  write_collection(results,OUT)
  print('COMPLETE', {p:sum(r['status']=='available' for r in results if r['provider']==p) for p in ['opgg','lolalytics']},flush=True)

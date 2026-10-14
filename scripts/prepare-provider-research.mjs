@@ -26,6 +26,12 @@ export function validateSources(catalog, providers, baselines = []) {
       if (s.sourceURL !== expected && !(n === 1 && ['top', 'middle', 'bottom', 'support', 'jungle'].some(role => s.sourceURL === `${expected}?lane=${role}`))) fail('Invalid provider URL.');
       if (s.context && (s.context.tier !== 'emerald_plus' || s.context.gameMode !== 'ranked' || s.context.queue !== 'solo_duo' || s.context.region !== (n === 0 ? 'unverified' : 'global'))) fail('Source context differs from requested scope.');
       if (!Array.isArray(s.observedCoreItemIds) || !s.observedCoreItemIds.length || s.observedCoreItemIds.length > 8 || new Set(s.observedCoreItemIds).size !== s.observedCoreItemIds.length || s.observedCoreItemIds.some(id => !Number.isInteger(id) || !items.has(id)) || (s.bootsId != null && !items.has(s.bootsId))) fail('Unknown or invalid local item IDs.');
+      if (s.observedItemOptions !== undefined) {
+        const rows = s.observedItemOptions;
+        if (!Array.isArray(rows) || rows.length > 3 || new Set(rows.map(r => r?.slot)).size !== rows.length || rows.some(r => !r || ![4,5,6].includes(r.slot) || !Array.isArray(r.items) || !r.items.length || r.items.length > 50 || new Set(r.items.map(i => i?.id)).size !== r.items.length || r.items.some(i => !i || !Number.isInteger(i.id) || !items.has(i.id) || (i.matches !== undefined && (!Number.isInteger(i.matches) || i.matches < 1 || i.matches > 100000000)) || (i.winRate !== undefined && (!Number.isFinite(i.winRate) || i.winRate < 0 || i.winRate > 100))))) fail('Invalid marginal item options.');
+      }
+      const shardRows = [[5005,5007,5008],[5008,5010,5001],[5011,5013,5001]];
+      if (s.observedShards !== undefined && (!Array.isArray(s.observedShards) || s.observedShards.length !== 3 || s.observedShards.some((id,n) => !shardRows[n].includes(id)))) fail('Invalid observed shard rows.');
       const page = s.observedRunePage;
       if (!Array.isArray(page) || page.length !== 6 || new Set(page).size !== 6 || page.some(id => !Number.isInteger(id) || !runes.has(id))) fail('Incomplete rune page.');
       const primary = catalog.trees.find(t => t.slots[0].runes.some(r => r.id === page[0]));

@@ -20,7 +20,7 @@ export function providerBaseline(source:ProviderSource,data:Catalog):Baseline{
 }
 export function parseWorkspaceDraft(text:string,data:Catalog):WorkspaceDraft{
  if(text.length>150000)throw new Error('Working draft is too large.');
- const input=JSON.parse(text);if(input.version!==1||!['Builds','Test bench','Champion kit','Items','Runes','Data & coverage'].includes(input.tab))throw new Error('Invalid working draft.');
+ const input=JSON.parse(text);if(input.version!==1||!['Builds','Meta & teams','Test bench','Champion kit','Items','Runes','Data & coverage'].includes(input.tab))throw new Error('Invalid working draft.');
  const save=parseSave(JSON.stringify(input.save),data.champions,data.items);if(!validRunePage(save.scenario.runePage,data.trees))throw new Error('Invalid draft rune page.');
  if(input.manualOnly!==undefined&&typeof input.manualOnly!=='boolean')throw new Error('Invalid working model selection.');
  let activeBuild:ChatBuild|undefined;

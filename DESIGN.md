@@ -8,3 +8,6 @@ Builds lead the workspace. Cards show the question, six items, keystone and cost
 Motion is limited to 120ms color feedback on pointer interactions. Navigation, keyboard focus, loading placeholders and result updates are immediate. Reduced motion removes transitions. No animated numerical counters or decorative entrances.
 
 The bench shows baseline provenance, shared conditions, cost and item counts alongside partial damage estimates. Unsupported comparisons stay explicit. Item selection uses inline search, category filters and disabled entries with reasons. Manual objectives derive ranks and forms from the selected champion kit. Repeated-trial summaries show mean, range and spread without suggesting proven gameplay strength. At 600px and below, champion selection collapses into a named chooser; controls aim for 44px touch targets. Working-draft recovery and model boundaries are visible near their actions.
+
+
+Meta & teams leads with the six-item recommendation, source/date/role and per-item evidence labels. Purchase order and detailed reasoning are disclosed on demand. Two labeled team fields stack on mobile; confirmed threat flags stay in a disclosure. Composition results name each swap and its reason, with a direct handoff to manual testing. Raw provider observations remain accessible below without duplicating the primary workflow.

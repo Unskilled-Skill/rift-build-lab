@@ -3,6 +3,22 @@ from unittest.mock import patch
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('provider_collector',Path(__file__).resolve().parents[1]/'scripts/collect-provider-research.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 class Collectors(unittest.TestCase):
+ def test_lolalytics_slot_options_exclude_unlabelled_item_tables(self):
+  from bs4 import BeautifulSoup
+  soup=BeautifulSoup('<div><div>Item 4</div><div><article><img src="https://cdn5.lolalytics.com/item64/3089.webp"><span>58.4 %</span><span>18,230</span></article><article><img src="https://cdn5.lolalytics.com/item64/3041.webp"><span>78.09 %</span><span>4,597</span></article></div></div><div><h2>All Items</h2><img src="https://cdn5.lolalytics.com/item64/3157.webp">99 % 200</div>','html.parser')
+  for img in soup.find_all('img')[:2]:img.insert_after(soup.new_tag('q:template'));img.next_sibling.string='Loading...'
+  self.assertEqual(m.lol_item_options(soup),[{'slot':4,'items':[{'id':3089,'matches':18230,'winRate':58.4},{'id':3041,'matches':4597,'winRate':78.09}]}])
+ def test_opgg_options_convert_wins_and_ignore_combinations_or_empty_samples(self):
+  self.assertEqual(m.opgg_item_options({'fourth_items':[{'ids':[3089],'play':20,'win':12},{'ids':[3041,3157],'play':10,'win':9}],'sixth_items':[{'ids':[3157],'play':0,'win':0}]}),[{'slot':4,'items':[{'id':3089,'matches':20,'winRate':60.0}]}])
+ def test_lol_shards_require_exactly_one_selected_icon_per_legal_row(self):
+  from bs4 import BeautifulSoup
+  html='<div><div>Stat Mods</div>'
+  for row,selected in [([5008,5005,5007],5005),([5008,5010,5001],5010),([5011,5013,5001],5011)]:
+   html+='<div>'+''.join(f'<img class="{"grayscale" if id!=selected else ""}" src="https://cdn5.lolalytics.com/statmod32/{id}.webp">' for id in row)+'</div>'
+  soup=BeautifulSoup(html+'</div>','html.parser')
+  self.assertEqual(m.lol_shards(soup),[5005,5010,5011])
+  soup.find('img')['class']=[]
+  self.assertIsNone(m.lol_shards(soup))
  def test_compact_schema_names_define_order_without_execution(self):
   text='class Result: data\nclass Data: ids,play\n\nResult(Data([6657,3040],123))'
   self.assertEqual(m.compact(text),{'data':{'ids':[6657,3040],'play':123}})

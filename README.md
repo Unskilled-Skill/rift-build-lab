@@ -73,3 +73,13 @@ Meta refreshes do not change the champion/item/rune formula catalog or rewrite a
 The public app is published from `main` through `.github/workflows/pages.yml`. Assets and data use the repository base path. Pushes and the daily workflow fetch fresh provider data before deploying. A failed refresh stops deployment and retains the existing live site and its check date. The workflow can also be run manually; opting out of Refresh data deliberately publishes the checked-in snapshot.
 
 GitHub Pages supports the static app: champion research, builds, partial numerical models, saved browser tests and exports. Local request-saving and instant provider refresh controls are available in `npm run dev`; the published site uses Copy request and checks the published provider index periodically. Game formulas and authored experiments retain their documented patch coverage.
+
+## Full meta plans and team compositions
+
+Open **Meta & teams**, select a champion, and enter up to four allies and five enemies, separated by commas. Partial teams work. Confirm actual enemy armor/MR purchases or healing/shield threats when known, then choose **Recommend for this composition**. Each swap explains the reason. **Load full plan into test bench** preserves the teams, threats, items, runes and source notes with the manual test proposal. Team drafts save per champion on this device.
+
+All 173 champions have a reviewed six-item starting plan for their configured provider role. Current OP.GG cores are preferred, with validated Lolalytics fallback. Adequately sampled individual fourth/fifth/sixth-slot options and champion-specific completions fill the remaining slots. These are full recommendations, not observed joint six-item win rates. Observed cores, source options, inferred completions and matchup swaps are labeled separately. Earned item transformations require their in-game conditions. Six conventional slots include boots; extra role quest inventory is outside the bench model.
+
+Composition advice runs locally from kit traits and explicit rules; it is not live AI or a fight simulation. It preserves the source core and its earned completions, checks item-family conflicts, and adapts optional items and defensive boots. Champion identity suggests typical damage/utility; actual purchases and who is ahead still matter. Daily provider refreshes rebuild the recommendations, and deployment checks all 173 completions before publication. Formula-patch mismatches fail closed for full plans.
+
+The reviewed authoring table is `scripts/champion-meta-plans.json`; run `node scripts/prepare-champion-meta-plans.mjs` after editing it. The earlier 30 authored meta cards remain available as historical interpretations.

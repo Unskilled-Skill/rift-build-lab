@@ -44,6 +44,7 @@ jobs:
           python -m pip install -r scripts/requirements-provider-research.txt
           python scripts/collect-provider-research.py --refresh --checked-at "$(TZ=Europe/Amsterdam date +%F)" --output-dir data/provider-refresh/pages
           node scripts/prepare-provider-research.mjs --input-dir data/provider-refresh/pages
+          npx vitest run tests/meta-plans.test.ts tests/meta-recommendations.test.ts tests/meta-test-build.test.ts
       - name: Retain the existing live site if providers are unavailable
         if: steps.refresh.outcome == 'failure'
         run: |

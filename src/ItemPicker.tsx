@@ -21,7 +21,7 @@ export function ItemPicker({items,selected,scenario,onAdd}:{items:Item[];selecte
    const reason=itemBlockReason(item,selected,scenario),coverage=modeled?([3078,3508].includes(item.id)&&scenario.champion==='Blitzcrank'?'Ready Spellblade modeled separately; current proc rules need a game check':effectCoverage[item.id]):undefined;
    return <li key={item.id}><button type="button" disabled={Boolean(reason)} onClick={()=>onAdd(item.id)} aria-label={`Add ${item.name}${reason?`: ${reason}`:''}`} title={reason||`Add ${item.name}`}>
     <img src={item.iconUrl} className="item-icon" width={32} height={32} alt="" loading="lazy"/>
-    <span className="item-picker-info"><strong>{item.name}</strong><small>{item.gold.total.toLocaleString()}g · #{item.id}{[3040,3042].includes(item.id)?' · Earned transformation':''}</small><span className="item-picker-support">{modeled?(coverage?`Selected effects modeled · ${coverage}`:'Stats only · passive and active effects omitted'):'Manual test · stats and effects require in-game measurement'}</span>{reason&&<span className="item-picker-reason">{reason}</span>}</span>
+    <span className="item-picker-info"><strong>{item.name}</strong><small>{item.gold.total.toLocaleString()}g · #{item.id}{[3040,3042,3121,2530].includes(item.id)?' · Earned transformation':''}</small><span className="item-picker-support">{modeled?(coverage?`Selected effects modeled · ${coverage}`:'Stats only · passive and active effects omitted'):'Manual test · stats and effects require in-game measurement'}</span>{reason&&<span className="item-picker-reason">{reason}</span>}</span>
     {!reason&&<Plus size={16} aria-hidden="true"/>}
    </button></li>;
   })}</ul>

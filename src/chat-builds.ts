@@ -11,7 +11,8 @@ export const measuredValue=(r:TestRecord)=>r.measuredValue??r.measuredDamage;
 export interface MetaCrosscheck{provider:string;sourceURL:string;sourcePatch:string;selection:string;observedCoreItemIds:number[];observedRunePage:number[];coreBuildMatches:number;checkedAt:string;limits:string}
 export interface MetaInfo{crosschecks?:MetaCrosscheck[];role:string;sourceURL:string;sourceTitle:string;sourcePatch:string;checkedAt:string;sourceScope:string;matches:number;observedCoreItemIds:number[];observedFullItemIds:number[];inferredItemIds:number[];bootsId:number}
 export interface ChatBuild {id:string;champion:string;name:string;goal:string;hypothesis:string;summary?:string;category?:string;requiresManualTest?:boolean;ceiling?:CeilingInfo;meta?:MetaInfo;itemIds:number[];runePage:number[];shards:number[];conditions:Partial<Scenario>;testPlan:string[];failureConditions:string[];tradeoffs:string[];buyOrder:string[];coverageNotes:string[]}
-export interface TestRecord{buildId:string;champion:string;name:string;date:string;outcome:string;measuredDamage:number|null;measuredValue?:number|null;metric?:string;observations:string;scenario:Scenario;itemIds:number[];trialValues?:number[];baselineMeasured?:number;targetSlot?:string;sequence?:string;procReadiness?:string;targetState?:string}
+export function snapshotTestProposal(build:ChatBuild):ChatBuild{return structuredClone(build)}
+export interface TestRecord{proposal?:ChatBuild;buildId:string;champion:string;name:string;date:string;outcome:string;measuredDamage:number|null;measuredValue?:number|null;metric?:string;observations:string;scenario:Scenario;itemIds:number[];trialValues?:number[];baselineMeasured?:number;targetSlot?:string;sequence?:string;procReadiness?:string;targetState?:string}
 export function parseTestRecords(text:string,data:Catalog):{records:TestRecord[];rejected:number}{
  if(text.length>2000000)throw new Error('Test history is too large.');const input=JSON.parse(text);if(!Array.isArray(input))throw new Error('Expected a test history list.');let rejected=0;
  const records=input.filter(r=>{try{
@@ -25,6 +26,7 @@ export function parseTestRecords(text:string,data:Catalog):{records:TestRecord[]
   if(r.trialValues!==undefined){if(!Array.isArray(r.trialValues)||!r.trialValues.length||r.trialValues.length>100||r.trialValues.some((n:unknown)=>typeof n!=='number'||!Number.isFinite(n)||n<0||n>10000000))throw new Error('Invalid trials.');const mean=trialSummary(r.trialValues)!.mean;if(measuredValue(r)!==mean)throw new Error('Trial mean disagrees with measured value.');}
   if(r.targetSlot!==undefined&&(typeof r.targetSlot!=='string'||!/^([PQWER](?::[0-9])?|combo)$/.test(r.targetSlot)))throw new Error('Invalid test objective.');
   for(const k of ['sequence','procReadiness','targetState'])if(r[k]!==undefined&&(typeof r[k]!=='string'||r[k].length>1000))throw new Error('Invalid trial conditions.');
+  if(r.proposal!==undefined){const proposal=parseChatBuilds(JSON.stringify({version:1,patch:data.patch,builds:[r.proposal]}),data)[0];if(proposal.id!==r.buildId||proposal.champion!==r.champion)throw new Error('Historical proposal does not match this result.');}
   if(!Array.isArray(r.itemIds)||!r.scenario||r.champion!==r.scenario.champion)throw new Error('Invalid test setup.');
   const s=parseSave(JSON.stringify({version:1,patch:'26.20',scenario:r.scenario,items:r.itemIds}),data.champions,data.items);if(!validRunePage(s.scenario.runePage,data.trees))throw new Error('Invalid rune page.');return true;
  }catch{rejected++;return false;}}).slice(0,100);return {records,rejected};

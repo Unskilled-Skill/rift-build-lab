@@ -3,7 +3,7 @@ import {useEffect,useRef,useState} from 'react';
 import ProviderReferences from './ProviderReferences';
 import {ArrowRight,Check,Copy,Download,RefreshCw,Save,X} from 'lucide-react';
 import type {Catalog,Champion,Scenario} from './types';
-import {parseChatBuilds,parseChampionBuilds,parseTestRecords,metricLabels,isDamageMetric,measuredValue} from './chat-builds';
+import {parseChatBuilds,parseChampionBuilds,parseTestRecords,snapshotTestProposal,metricLabels,isDamageMetric,measuredValue} from './chat-builds';
 import type {ChatBuild,TestRecord} from './chat-builds';
 import {emptyDraft,feedbackBrief,isModifiedSetup,parseTestDraft,parseTrialValues,trialSummary} from './workflow';
 import type {TestDraft} from './workflow';
@@ -74,7 +74,7 @@ export function ChatTestSheet({build,data,scenario,items,onClose,onBack}:{build:
   if(baseline!==undefined&&(!Number.isFinite(baseline)||baseline<0||baseline>10000000)){fail('Enter the baseline value between 0 and 10,000,000.');return}
   if(damage!==null&&(!Number.isFinite(damage)||damage<0||damage>10000000)){fail('Enter the measured value between 0 and 10,000,000.');damageRef.current?.focus();return}
   if(!draft.observations.trim()){fail('Describe the setup and what happened before saving.');observationRef.current?.focus();return}
-  const record:TestRecord={buildId:build.id,champion:build.champion,name:build.name,date:new Date().toISOString(),outcome:draft.outcome,metric,measuredValue:damage,measuredDamage:isDamageMetric(metric)?damage:null,observations:draft.observations,scenario:{...scenario},itemIds:[...items],...(trials.length?{trialValues:trials}:{}),...(baseline!==undefined?{baselineMeasured:baseline}:{}),...(targetSlot?{targetSlot}:{}),...(draft.sequence?{sequence:draft.sequence}:{}),...(draft.procReadiness?{procReadiness:draft.procReadiness}:{}),...(draft.targetState?{targetState:draft.targetState}:{})};
+  const record:TestRecord={proposal:snapshotTestProposal(build),buildId:build.id,champion:build.champion,name:build.name,date:new Date().toISOString(),outcome:draft.outcome,metric,measuredValue:damage,measuredDamage:isDamageMetric(metric)?damage:null,observations:draft.observations,scenario:{...scenario},itemIds:[...items],...(trials.length?{trialValues:trials}:{}),...(baseline!==undefined?{baselineMeasured:baseline}:{}),...(targetSlot?{targetSlot}:{}),...(draft.sequence?{sequence:draft.sequence}:{}),...(draft.procReadiness?{procReadiness:draft.procReadiness}:{}),...(draft.targetState?{targetState:draft.targetState}:{})};
   if(!parseTestRecords(JSON.stringify([record]),data).records.length){fail('Fix the equipped items, budget, slot limit or rune page above, then save again.');return}
   const next=[record,...records].slice(0,100);
   try{localStorage.setItem('rift-chat-test-results',JSON.stringify(next));setUndo({records,draft});setRecords(next);changeDraft(emptyDraft());setMessageKind('success');setMessage('Result saved. Copy it for this chat to request a revised build.');window.dispatchEvent(new Event('rift-test-recorded'))}catch{fail('Browser storage could not save this result. A backup has been downloaded.');download([record],'build-test-result.json')}
@@ -90,6 +90,6 @@ export function ChatTestSheet({build,data,scenario,items,onClose,onBack}:{build:
   {message&&<p id="test-feedback-message" role={messageKind==='error'?'alert':'status'} className={`request-message ${messageKind==='error'?'is-error':''}`}>{message}</p>}
   {undo&&<button className="quiet" onClick={undoSave}>Undo last save</button>}
   {latest&&<div className="latest-result"><div><strong>Latest result: {latest.outcome==='not-sure'?'not enough evidence':latest.outcome}</strong><p>{evidenceSummary(latest)} · {new Date(latest.date).toLocaleString()}</p></div><div className="request-actions"><button className="secondary" onClick={()=>void copyResult(latest)}><Copy size={16} aria-hidden="true"/>Copy result for chat</button><button className="quiet" onClick={()=>download(matching,'build-test-results.json')}><Download size={16} aria-hidden="true"/>Export this build’s tests</button></div></div>}
-  {matching.length>0&&<details className="test-history"><summary>{matching.length} recorded {matching.length===1?'test':'tests'}</summary>{matching.map((r,n)=><article key={`${r.date}-${n}`}><strong>{r.outcome} · {evidenceSummary(r)}</strong><small>{new Date(r.date).toLocaleString()} · {r.itemIds.map(id=>data.items.find(i=>i.id===id)?.name||id).join(' / ')}</small><p>{r.observations}</p></article>)}</details>}
+  {matching.length>0&&<details className="test-history"><summary>{matching.length} recorded {matching.length===1?'test':'tests'}</summary>{matching.map((r,n)=><article key={`${r.date}-${n}`}><strong>{r.outcome} · {evidenceSummary(r)}</strong><small>{new Date(r.date).toLocaleString()} · {r.itemIds.map(id=>data.items.find(i=>i.id===id)?.name||id).join(' / ')}</small><p>{r.observations}</p>{r.proposal&&<details><summary>Original proposal, teams & source</summary><p>{r.proposal.hypothesis}</p><ul>{r.proposal.coverageNotes.map((note,n)=><li key={n}>{note}</li>)}</ul></details>}</article>)}</details>}
  </section>;
 }

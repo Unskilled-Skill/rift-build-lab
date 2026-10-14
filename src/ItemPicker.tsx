@@ -1,0 +1,30 @@
+import {useId,useMemo,useState} from 'react';
+import {Search,Plus} from 'lucide-react';
+import type {Item,Scenario} from './types';
+import {itemBlockReason,pickerItems} from './item-selection';
+import {objectiveSupport} from './model-support';
+
+const effectCoverage:Record<number,string>={3089:'AP multiplier modeled',3083:'Bonus item health modeled; healing omitted',3084:'Entered earned HP modeled; attack proc omitted',6657:'Entered stacks modeled',3161:'Basic ability haste modeled; damage amplification omitted',2501:'HP conversion and entered AD bonus modeled; missing-health curve omitted',4633:'HP conversion and applicable timed amplification modeled',3042:'Mana-to-AD conversion modeled; Shock proc omitted'};
+export function ItemPicker({items,selected,scenario,onAdd}:{items:Item[];selected:Item[];scenario:Scenario;onAdd:(id:number)=>void}){
+ const [query,setQuery]=useState(''),[category,setCategory]=useState<'completed'|'components'|'all'>('completed');
+ const searchId=useId(),helpId=useId();
+ const results=useMemo(()=>pickerItems(items,category,query),[items,category,query]);
+ const modeled=objectiveSupport(scenario.champion,scenario.mode).supported;
+ return <div className="item-picker">
+  <label htmlFor={searchId} className="item-picker-label">Add an item</label>
+  <div className="item-picker-tools"><div className="item-picker-search"><Search size={16} aria-hidden="true"/><input id={searchId} type="search" autoComplete="off" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search names, stats or effects" aria-describedby={helpId}/></div>
+   <select aria-label="Item category" value={category} onChange={e=>setCategory(e.target.value as typeof category)}><option value="completed">Completed items</option><option value="components">Components & other purchases</option><option value="all">All eligible source items</option></select>
+  </div>
+  <p id={helpId} className="item-picker-source">Source SR shop flags, with 32/66 mode variants excluded. Remaining entries may include upgrades or retained items; confirm availability in game. Earned transformations are labeled.</p>
+  <p className="item-picker-count" role="status">{results.length} matching {results.length===1?'item':'items'}</p>
+  <ul className="item-picker-results" aria-label="Matching items">{results.map(item=>{
+   const reason=itemBlockReason(item,selected,scenario),coverage=modeled?([3078,3508].includes(item.id)&&scenario.champion==='Blitzcrank'?'Ready Spellblade modeled separately; current proc rules need a game check':effectCoverage[item.id]):undefined;
+   return <li key={item.id}><button type="button" disabled={Boolean(reason)} onClick={()=>onAdd(item.id)} aria-label={`Add ${item.name}${reason?`: ${reason}`:''}`} title={reason||`Add ${item.name}`}>
+    <img src={item.iconUrl} className="item-icon" width={32} height={32} alt="" loading="lazy"/>
+    <span className="item-picker-info"><strong>{item.name}</strong><small>{item.gold.total.toLocaleString()}g · #{item.id}{[3040,3042].includes(item.id)?' · Earned transformation':''}</small><span className="item-picker-support">{modeled?(coverage?`Selected effects modeled · ${coverage}`:'Stats only · passive and active effects omitted'):'Manual test · stats and effects require in-game measurement'}</span>{reason&&<span className="item-picker-reason">{reason}</span>}</span>
+    {!reason&&<Plus size={16} aria-hidden="true"/>}
+   </button></li>;
+  })}</ul>
+  {!results.length&&<p className="item-picker-empty">No matching items. Try a shorter search or choose all eligible source items.</p>}
+ </div>;
+}

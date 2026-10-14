@@ -2,6 +2,7 @@ import type {Catalog,Scenario} from './types';
 import type {Save} from './storage';
 import {defaultScenario} from './engine';
 import {parseSave,validRunePage} from './storage';
+import {trialSummary} from './workflow';
 export type CeilingMetric='single-hit'|'full-window'|'shield'|'heal'|'execute-threshold'|'stat';
 export interface CeilingInfo{targetSlot:string;targetName:string;metric:CeilingMetric;damageType:string;finiteState:string;verification:'candidate'}
 export const metricLabels:Record<string,string>={damage:'damage','single-hit':'single-hit damage','full-window':'full-window damage',shield:'shield',heal:'healing','execute-threshold':'execute threshold',stat:'stat value'};
@@ -10,7 +11,7 @@ export const measuredValue=(r:TestRecord)=>r.measuredValue??r.measuredDamage;
 export interface MetaCrosscheck{provider:string;sourceURL:string;sourcePatch:string;selection:string;observedCoreItemIds:number[];observedRunePage:number[];coreBuildMatches:number;checkedAt:string;limits:string}
 export interface MetaInfo{crosschecks?:MetaCrosscheck[];role:string;sourceURL:string;sourceTitle:string;sourcePatch:string;checkedAt:string;sourceScope:string;matches:number;observedCoreItemIds:number[];observedFullItemIds:number[];inferredItemIds:number[];bootsId:number}
 export interface ChatBuild {id:string;champion:string;name:string;goal:string;hypothesis:string;summary?:string;category?:string;requiresManualTest?:boolean;ceiling?:CeilingInfo;meta?:MetaInfo;itemIds:number[];runePage:number[];shards:number[];conditions:Partial<Scenario>;testPlan:string[];failureConditions:string[];tradeoffs:string[];buyOrder:string[];coverageNotes:string[]}
-export interface TestRecord{buildId:string;champion:string;name:string;date:string;outcome:string;measuredDamage:number|null;measuredValue?:number|null;metric?:string;observations:string;scenario:Scenario;itemIds:number[]}
+export interface TestRecord{buildId:string;champion:string;name:string;date:string;outcome:string;measuredDamage:number|null;measuredValue?:number|null;metric?:string;observations:string;scenario:Scenario;itemIds:number[];trialValues?:number[];baselineMeasured?:number;targetSlot?:string;sequence?:string;procReadiness?:string;targetState?:string}
 export function parseTestRecords(text:string,data:Catalog):{records:TestRecord[];rejected:number}{
  if(text.length>2000000)throw new Error('Test history is too large.');const input=JSON.parse(text);if(!Array.isArray(input))throw new Error('Expected a test history list.');let rejected=0;
  const records=input.filter(r=>{try{
@@ -20,6 +21,10 @@ export function parseTestRecords(text:string,data:Catalog):{records:TestRecord[]
   if(r.measuredValue!==undefined&&r.measuredValue!==null&&(typeof r.measuredValue!=='number'||!Number.isFinite(r.measuredValue)||r.measuredValue<0||r.measuredValue>10000000))throw new Error('Invalid measured value.');
   if(r.metric!==undefined&&!isDamageMetric(r.metric)&&r.measuredDamage!==null)throw new Error('Non-damage metric cannot be recorded as damage.');
   if(r.metric!==undefined&&isDamageMetric(r.metric)&&r.measuredValue!==undefined&&r.measuredValue!==r.measuredDamage)throw new Error('Damage measurements disagree.');
+  if(r.baselineMeasured!==undefined&&(typeof r.baselineMeasured!=='number'||!Number.isFinite(r.baselineMeasured)||r.baselineMeasured<0||r.baselineMeasured>10000000))throw new Error('Invalid baseline measurement.');
+  if(r.trialValues!==undefined){if(!Array.isArray(r.trialValues)||!r.trialValues.length||r.trialValues.length>100||r.trialValues.some((n:unknown)=>typeof n!=='number'||!Number.isFinite(n)||n<0||n>10000000))throw new Error('Invalid trials.');const mean=trialSummary(r.trialValues)!.mean;if(measuredValue(r)!==mean)throw new Error('Trial mean disagrees with measured value.');}
+  if(r.targetSlot!==undefined&&(typeof r.targetSlot!=='string'||!/^([PQWER](?::[0-9])?|combo)$/.test(r.targetSlot)))throw new Error('Invalid test objective.');
+  for(const k of ['sequence','procReadiness','targetState'])if(r[k]!==undefined&&(typeof r[k]!=='string'||r[k].length>1000))throw new Error('Invalid trial conditions.');
   if(!Array.isArray(r.itemIds)||!r.scenario||r.champion!==r.scenario.champion)throw new Error('Invalid test setup.');
   const s=parseSave(JSON.stringify({version:1,patch:'26.20',scenario:r.scenario,items:r.itemIds}),data.champions,data.items);if(!validRunePage(s.scenario.runePage,data.trees))throw new Error('Invalid rune page.');return true;
  }catch{rejected++;return false;}}).slice(0,100);return {records,rejected};
@@ -44,7 +49,7 @@ export function parseChatBuilds(text:string,data:Catalog):ChatBuild[]{
   for(const key of ['testPlan','failureConditions','tradeoffs','buyOrder','coverageNotes'] as const){if(!Array.isArray(b[key])||!b[key].length||b[key].length>12||b[key].some(v=>typeof v!=='string'||!v.trim()||v.length>2000))throw new Error(`Invalid ${key}.`);}
   if(!Array.isArray(b.itemIds)||b.itemIds.length!==6||b.itemIds.some(id=>!Number.isInteger(id)))throw new Error('An authored build must contain six distinct item IDs.');
   if(!b.conditions||typeof b.conditions!=='object'||Array.isArray(b.conditions))throw new Error('Missing test conditions.');
-  const allowed=Object.keys(defaultScenario()).filter(k=>!['champion','budget','slots','shards','runePage'].includes(k));
+  const allowed=[...Object.keys(defaultScenario()),'objectiveSlot','critMode','spellbladeReady','targetHealthPercent','procReady','gatheringMinutes','firstStrikeReady'].filter(k=>!['champion','budget','slots','shards','runePage'].includes(k));
   if(Object.keys(b.conditions).some(k=>!allowed.includes(k)))throw new Error('Unexpected scenario condition.');
   toTestSave(b,data);return b;
  });

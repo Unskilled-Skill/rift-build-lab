@@ -1,0 +1,61 @@
+name: Publish Rift Build Lab
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      refresh_data:
+        description: Fetch the latest OP.GG and Lolalytics references
+        type: boolean
+        default: true
+  schedule:
+    - cron: '23 4 * * *'
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - uses: actions/setup-python@v6
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_data)
+        with:
+          python-version: '3.13'
+      - name: Fetch latest meta references
+        id: refresh
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_data)
+        continue-on-error: true
+        run: |
+          python -m pip install -r scripts/requirements-provider-research.txt
+          python scripts/collect-provider-research.py --refresh --checked-at "$(TZ=Europe/Amsterdam date +%F)" --output-dir data/provider-refresh/pages
+          node scripts/prepare-provider-research.mjs --input-dir data/provider-refresh/pages
+      - name: Keep validated snapshot if providers are unavailable
+        if: steps.refresh.outcome == 'failure'
+        run: echo "::warning::Meta refresh failed. Publishing the last validated snapshot; its check date remains visible."
+      - name: Build project site
+        run: npm run build
+        env:
+          GITHUB_PAGES_BASE: /${{ github.event.repository.name }}/
+          VITE_GITHUB_PAGES: 'true'
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+        with:
+          path: dist
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5

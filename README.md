@@ -67,3 +67,9 @@ The local app checks OP.GG and Lolalytics automatically when its last successful
 Each run downloads into an isolated folder, validates both providers for the complete local roster, then publishes immutable `versions/UUID` records and atomically changes the index pointer. Failed acquisition, validation, record writes or index replacement leave the previous snapshot intact. Old versions are retained. The client follows the validated pointer so cards switch together after completion, including on Windows where directory watcher locks prevent folder replacement.
 
 Meta refreshes do not change the champion/item/rune formula catalog or rewrite authored experimental builds. If a provider reports a newer patch, cards flag the difference from the local formula snapshot. New item/rune identifiers require updating the base catalog before they can pass validation. OP.GG still controls its latest returned patch and does not expose a region/patch filter.
+
+## GitHub Pages
+
+The public app is published from `main` through `.github/workflows/pages.yml`. Assets and data use the repository base path. Pushes deploy the checked snapshot; the daily workflow fetches fresh provider data before deploying, with a visible check date and the previous snapshot retained if a provider fails. The workflow can also be run manually with Refresh data enabled.
+
+GitHub Pages supports the static app: champion research, builds, partial numerical models, saved browser tests and exports. Local request-saving and instant provider refresh controls are available in `npm run dev`; the published site uses Copy request and checks the published provider index periodically. Game formulas and authored experiments retain their documented patch coverage.

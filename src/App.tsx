@@ -1,3 +1,4 @@
+import {appPath} from './hosting';
 import {useEffect,useRef,useState} from 'react';
 import InteractionAudit from './InteractionAudit';
 import ChatBuildInbox,{ChatTestSheet} from './BuildLibrary';
@@ -24,8 +25,8 @@ function App(){
  const [manualOnly,setManualOnly]=useState(false);
  const [chatTest,setChatTest]=useState<ChatBuild|null>(null);
  const worker=useRef<Worker|null>(null),importRef=useRef<HTMLInputElement>(null);
- useEffect(()=>{const controller=new AbortController();fetch('/data/catalog.json',{signal:controller.signal}).then(r=>{if(!r.ok)throw new Error('Cannot load data bundle. Run npm run data, then refresh.');return r.json()}).then(setData).catch(e=>{if(e.name!=='AbortError')setError(e.message)});return()=>controller.abort()},[]);
- useEffect(()=>{const controller=new AbortController();setKit(null);setKitError('');fetch(`/data/champions/${alias}.json`,{signal:controller.signal}).then(r=>{if(!r.ok)throw new Error('Champion formula data could not be loaded.');return r.json()}).then(setKit).catch(e=>{if(e.name!=='AbortError')setKitError(e.message)});return()=>controller.abort()},[alias]);
+ useEffect(()=>{const controller=new AbortController();fetch(appPath('/data/catalog.json'),{signal:controller.signal}).then(r=>{if(!r.ok)throw new Error('Cannot load data bundle. Run npm run data, then refresh.');return r.json()}).then(setData).catch(e=>{if(e.name!=='AbortError')setError(e.message)});return()=>controller.abort()},[]);
+ useEffect(()=>{const controller=new AbortController();setKit(null);setKitError('');fetch(appPath(`/data/champions/${alias}.json`),{signal:controller.signal}).then(r=>{if(!r.ok)throw new Error('Champion formula data could not be loaded.');return r.json()}).then(setKit).catch(e=>{if(e.name!=='AbortError')setKitError(e.message)});return()=>controller.abort()},[alias]);
  useEffect(()=>()=>worker.current?.terminate(),[]);
  useEffect(()=>{if(tab==='Test bench')document.getElementById('bench-heading')?.focus()},[tab,chatTest?.id]);
  useEffect(()=>{worker.current?.terminate();worker.current=null;setRunning(false);setResults([]);setSearchInfo('');},[locks,excluded]);

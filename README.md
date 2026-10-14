@@ -70,6 +70,6 @@ Meta refreshes do not change the champion/item/rune formula catalog or rewrite a
 
 ## GitHub Pages
 
-The public app is published from `main` through `.github/workflows/pages.yml`. Assets and data use the repository base path. Pushes deploy the checked snapshot; the daily workflow fetches fresh provider data before deploying, with a visible check date and the previous snapshot retained if a provider fails. The workflow can also be run manually with Refresh data enabled.
+The public app is published from `main` through `.github/workflows/pages.yml`. Assets and data use the repository base path. Pushes and the daily workflow fetch fresh provider data before deploying. A failed refresh stops deployment and retains the existing live site and its check date. The workflow can also be run manually; opting out of Refresh data deliberately publishes the checked-in snapshot.
 
 GitHub Pages supports the static app: champion research, builds, partial numerical models, saved browser tests and exports. Local request-saving and instant provider refresh controls are available in `npm run dev`; the published site uses Copy request and checks the published provider index periodically. Game formulas and authored experiments retain their documented patch coverage.

@@ -33,20 +33,22 @@ jobs:
       - run: npm ci
       - run: npm test
       - uses: actions/setup-python@v6
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_data)
+        if: github.event_name != 'workflow_dispatch' || inputs.refresh_data
         with:
           python-version: '3.13'
       - name: Fetch latest meta references
         id: refresh
-        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.refresh_data)
+        if: github.event_name != 'workflow_dispatch' || inputs.refresh_data
         continue-on-error: true
         run: |
           python -m pip install -r scripts/requirements-provider-research.txt
           python scripts/collect-provider-research.py --refresh --checked-at "$(TZ=Europe/Amsterdam date +%F)" --output-dir data/provider-refresh/pages
           node scripts/prepare-provider-research.mjs --input-dir data/provider-refresh/pages
-      - name: Keep validated snapshot if providers are unavailable
+      - name: Retain the existing live site if providers are unavailable
         if: steps.refresh.outcome == 'failure'
-        run: echo "::warning::Meta refresh failed. Publishing the last validated snapshot; its check date remains visible."
+        run: |
+          echo "::error::Meta refresh failed. The existing live site and its validated data remain unchanged."
+          exit 1
       - name: Build project site
         run: npm run build
         env:

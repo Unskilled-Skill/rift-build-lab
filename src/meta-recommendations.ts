@@ -68,10 +68,11 @@ export function buildFullMeta(data:Catalog,champion:string,sources:ProviderSourc
  throw new MetaRecommendationError('no-current-core','No validated current-patch provider core is available. Refresh provider references; an authored experiment cannot replace observed meta data.');
 }
 
-export interface Composition {allies:string[];enemies:string[];enemyArmor?:boolean;enemyMR?:boolean;enemyHealing?:boolean;enemyShields?:boolean}
+export interface Composition {allies:string[];enemies:string[];enemyArmor?:boolean;enemyMR?:boolean;enemyHealing?:boolean;enemyShields?:boolean;priority?:'balanced'|'damage'|'survival';mainThreat?:string;laneOpponent?:string;lockedItemIds?:number[]}
 export function recommendForComp(data:Catalog,base:FullMetaBuild,plan:MetaPlan,plans:MetaPlan[],comp:Composition):{build:FullMetaBuild;priorities:Array<{title:string;reason:string}>;changes:Array<{removed:number;added:number;reason:string}>;warnings:string[]} {
  validatePlan(plan,data);
  if(!comp||!Array.isArray(comp.allies)||!Array.isArray(comp.enemies)||comp.allies.length>4||comp.enemies.length>5||[...comp.allies,...comp.enemies].some(alias=>alias===base.champion||!data.champions.some(c=>c.alias===alias))||new Set([...comp.allies,...comp.enemies]).size!==comp.allies.length+comp.enemies.length||['enemyArmor','enemyMR','enemyHealing','enemyShields'].some(k=>comp[k as keyof Composition]!==undefined&&typeof comp[k as keyof Composition]!=='boolean'))throw new MetaRecommendationError('invalid-composition','Choose at most four allies and five enemies; each known champion must appear once, excluding your champion.');
+ if((comp.priority!==undefined&&!['balanced','damage','survival'].includes(comp.priority))||[comp.mainThreat,comp.laneOpponent].some(c=>c!==undefined&&!comp.enemies.includes(c))||(comp.lockedItemIds!==undefined&&(!Array.isArray(comp.lockedItemIds)||comp.lockedItemIds.length>6||new Set(comp.lockedItemIds).size!==comp.lockedItemIds.length||comp.lockedItemIds.some(id=>!base.itemIds.includes(id)))))throw new MetaRecommendationError('invalid-composition','Choose threats from the enemy team and lock only equipped items.');
  if(base.champion!==plan.champion||base.itemIds.length!==6||!legal(data,base.itemIds,base.champion))throw new MetaRecommendationError('invalid-composition','Select a legal six-item base build for this champion first.');
  const build:FullMetaBuild={...base,itemIds:[...base.itemIds],buyOrder:[...base.buyOrder],observedCoreItemIds:[...base.observedCoreItemIds],inferredItemIds:[...base.inferredItemIds],sourceOptionItemIds:[...base.sourceOptionItemIds],reasons:base.reasons.map(r=>({...r})),warnings:[...base.warnings]};
  const priorities:Array<{title:string;reason:string}>=[],changes:Array<{removed:number;added:number;reason:string}>=[],warnings=['Composition advice is qualitative; it does not predict win rate or calculate a complete fight.'];
@@ -80,13 +81,21 @@ export function recommendForComp(data:Catalog,base:FullMetaBuild,plan:MetaPlan,p
  if(enemies.length<comp.enemies.length||allies.length<comp.allies.length)warnings.push('Some selected champions lack kit traits; recommendations for them are limited.');
  const priority=(title:string,reason:string)=>priorities.push({title,reason});
  const used=new Set<number>();
- const swap=(id:number,reason:string,quiet=false,bootOnly=false)=>{
-  const candidate=get(data,id);if(!candidate||!complete(candidate))return false;if(build.itemIds.includes(id))return true;
-  for(let n=build.itemIds.length-1;n>=0;n--){const old=build.itemIds[n],item=get(data,old)!;if(base.observedCoreItemIds.includes(old)||base.coreCompletionItemIds?.includes(old)||(bootOnly?!boots(item):boots(item))||quests.includes(old)||used.has(old))continue;
+ const applySwap=(id:number,reason:string,quiet=false,bootOnly=false)=>{
+  const candidate=get(data,id);if(!candidate||!complete(candidate))return false;if(build.itemIds.includes(id)){used.add(id);return true;}
+  for(let n=build.itemIds.length-1;n>=0;n--){const old=build.itemIds[n],item=get(data,old)!;if(comp.lockedItemIds?.includes(old)||base.observedCoreItemIds.includes(old)||base.coreCompletionItemIds?.includes(old)||(bootOnly?!boots(item):boots(item))||quests.includes(old)||used.has(old))continue;
    const next=[...build.itemIds];next[n]=id;if(!legal(data,next,base.champion))continue;
    build.itemIds=next;build.buyOrder=[...next];build.inferredItemIds=build.inferredItemIds.filter(x=>x!==old);build.inferredItemIds.push(id);build.sourceOptionItemIds=build.sourceOptionItemIds.filter(x=>x!==old);build.reasons=build.reasons.filter(r=>r.itemId!==old);build.reasons.push({itemId:id,reason,kind:'composition-swap'});changes.push({removed:old,added:id,reason});used.add(id);return true;
   }if(!quiet)warnings.push(`Keep the observed core: ${candidate.name} has no compatible optional slot. Consider a separate matchup variant.`);return false;
  };
+ let need='healing';
+ const pending:Array<{id:number;reason:string;bootOnly:boolean;group:string;score:number;order:number}>=[];
+ const score=(group:string)=>{const defense=group.includes('defense')||group==='dive';return defense?(comp.priority==='survival'?120:comp.priority==='damage'?50:85):group==='penetration'?(comp.priority==='damage'?120:comp.priority==='survival'?70:95):group==='healing'?(comp.enemyHealing?95:75):comp.enemyShields?90:60;};
+ const swap=(id:number,reason:string,_quiet=false,bootOnly=false)=>{pending.push({id,reason,bootOnly,group:need+(bootOnly?'-boots':''),score:score(need),order:pending.length});return false;};
+ if(comp.priority)warnings.push(`Recommendation priority: ${comp.priority}. Higher-priority compatible answers retain their slots before lower-priority requests.`);
+ if(comp.mainThreat)priority('Focus the main threat',`${namesFor(comp.mainThreat)} is your selected main threat; its typical damage profile receives extra defensive weight.`);
+ if(comp.laneOpponent)priority('Plan the lane first',`Lane opponent: ${namesFor(comp.laneOpponent)}. Use the purchase checkpoints for lane timing; this does not infer their actual items.`);
+ function namesFor(alias:string){return data.champions.find(c=>c.alias===alias)?.name||alias}
  const hasStat=(name:string)=>base.itemIds.some(id=>get(data,id)!.baseStats.some(s=>s.name===name&&s.value>0));
  const attackCarry=plan.role==='adc'&&plan.traits.attackBased&&hasStat('Attack Damage');
  const offensiveAD=hasStat('Attack Damage')&&plan.traits.damage!=='magic';
@@ -99,26 +108,38 @@ export function recommendForComp(data:Catalog,base:FullMetaBuild,plan:MetaPlan,p
   const reason=`Enemy sustain${enemies.some(p=>p.traits.heals)?` from ${names(enemies.filter(p=>p.traits.heals))}`:''}: apply Grievous Wounds reliably and coordinate coverage with allies.`;priority('Cover enemy healing',reason);
   if(utilitySupport)warnings.push('Your build centers on ally utility. Coordinate healing reduction with a reliable damage dealer rather than automatically replacing utility with a mage damage item.');else if(attackCarry){if(!swap(3033,reason,true))swap(6609,reason);}else if(offensiveAD)swap(6609,reason);else if(offensiveAP)swap(3165,reason);else warnings.push('Healing reduction needs a reliable applicator. Thornmail requires enemies to attack you; do not rely on it against spell-only healing.');
  }
+ need='shields';
  if(comp.enemyShields||enemies.some(p=>p.traits.shields)){
   priority('Plan around enemy shields','Delay burst or coordinate shield breaking; evaluate how frequently the shield protects your actual target.');
   if(assassinAliases.has(plan.champion)&&plan.traits.damage==='physical')swap(6695,'AD assassin shield breaking with Serpent’s Fang.');else warnings.push('No compatible shield-reduction purchase is recommended for this kit. Shadowflame is not an anti-shield item.');
  }
+ need='penetration';
  if(comp.enemyMR&&offensiveAP){priority('Answer confirmed magic resistance','The selected enemy MR flag represents observed purchases, rather than an assumption from champion identity.');swap(3135,'Confirmed enemy magic resistance: percentage magic penetration.');}
  else if(!comp.enemyMR&&offensiveAP&&enemies.some(p=>p.traits.frontline))priority('Check actual magic resistance','A frontline kit does not prove an MR purchase. Consider percentage magic penetration once target MR is confirmed.');
  if(comp.enemyArmor&&plan.traits.damage==='physical'){priority('Answer confirmed armor','Choose penetration or team armor reduction compatible with your attack pattern.');swap(plan.traits.attackBased&&plan.role==='adc'?3036:plan.traits.frontline?3071:6694,'Confirmed enemy armor: compatible armor penetration or reduction.');}
  else if(!comp.enemyArmor&&plan.traits.damage==='physical'&&enemies.some(p=>p.traits.armorStacking))priority('Check actual armor','The enemy kit can benefit from armor; confirm purchases before changing optional damage slots.');
  if(enemies.some(p=>p.traits.damage==='true-heavy')){priority('Respect true-damage threats','Use positioning, peel and appropriate health/sustain; resistance alone will not protect against true damage.');warnings.push('Armor and magic resistance do not reduce true damage; percentage-health true damage also limits health stacking.');}
+ need='dive';
  const divers=enemies.filter(p=>p.traits.dive).length;
  if(divers){priority('Survive the first engage',`Dive threats${enemies.some(p=>p.traits.dive)?` including ${names(enemies.filter(p=>p.traits.dive))}`:''} make access and escape timing more valuable than another damage proc.`);if(utilitySupport)priority('Protect the carry through utility','Keep shields, healing and disengage available for the threatened ally; a mage stasis purchase is not the default response for this utility build.');else if(offensiveAP)swap(3157,'Enemy dive: stasis creates time for allies to peel; account for cooldown and timing.');else if(plan.traits.frontline)priority('Keep the carry reachable','Hold crowd control for enemy divers when your allies need peel.');}
  const magicThreats=enemies.filter(p=>p.traits.damage==='magic'),physicalThreats=enemies.filter(p=>p.traits.damage==='physical');
- if(magicThreats.length>=3){const reason=`The typical kits of ${names(magicThreats)} lean toward magic damage. Confirm actual builds and which threat is ahead before spending on defense.`;priority('Consider magic defense',reason);if(plan.traits.frontline)swap((plan.traits.heals||plan.traits.shields)&&!build.itemIds.includes(3065)?3065:2504,reason);else if(utilitySupport)swap(3190,'Magic-heavy pressure: Locket adds team shielding and resists while preserving a utility role.');else if(offensiveAD)swap(3156,'Magic-heavy pressure: Maw preserves AD while adding magic defense; Lifeline conflicts still apply.');else if(offensiveAP)swap(3102,'Magic-heavy pressure: spell shield and magic resistance, with AP retained.');}
- if(magicThreats.length>=3&&build.itemIds.includes(3047))swap(3111,'Magic-heavy pressure: replace armor boots with magic resistance; tenacity only helps reducible control.',true,true);
- if(physicalThreats.length>=3){const reason=`The typical kits of ${names(physicalThreats)} lean toward physical damage. Armor does not answer their true-damage packets.`;priority('Consider physical defense',reason);if(plan.traits.frontline)swap(3143,'Physical-heavy pressure: an armor and health slot; extra crit reduction matters only if enemies actually crit.');else if(utilitySupport)swap(3109,'Physical-heavy pressure: Knight’s Vow supports protecting a linked carry; choose and maintain the partner carefully.');else if(offensiveAD)swap(3026,'Physical-heavy pressure: Guardian Angel retains AD, adds armor and provides a cooldown-dependent revive.');else if(offensiveAP)swap(3157,'Physical-heavy pressure: armor and timed stasis; this cannot replace positioning.');}
+ const magicWeight=magicThreats.length+(magicThreats.some(p=>p.champion===comp.mainThreat)?2:0),physicalWeight=physicalThreats.length+(physicalThreats.some(p=>p.champion===comp.mainThreat)?2:0);
+ need='magic-defense';
+ if(magicWeight>=3){const reason=`The typical kits of ${names(magicThreats)} lean toward magic damage. Confirm actual builds and which threat is ahead before spending on defense.`;priority('Consider magic defense',reason);if(plan.traits.frontline)swap((plan.traits.heals||plan.traits.shields)&&!build.itemIds.includes(3065)?3065:2504,reason);else if(utilitySupport)swap(3190,'Magic-heavy pressure: Locket adds team shielding and resists while preserving a utility role.');else if(offensiveAD)swap(3156,'Magic-heavy pressure: Maw preserves AD while adding magic defense; Lifeline conflicts still apply.');else if(offensiveAP)swap(3102,'Magic-heavy pressure: spell shield and magic resistance, with AP retained.');}
+ if(magicWeight>=3&&build.itemIds.includes(3047))swap(3111,'Magic-heavy pressure: replace armor boots with magic resistance; tenacity only helps reducible control.',true,true);
+ need='physical-defense';
+ if(physicalWeight>=3){const reason=`The typical kits of ${names(physicalThreats)} lean toward physical damage. Armor does not answer their true-damage packets.`;priority('Consider physical defense',reason);if(plan.traits.frontline)swap(3143,'Physical-heavy pressure: an armor and health slot; extra crit reduction matters only if enemies actually crit.');else if(utilitySupport)swap(3109,'Physical-heavy pressure: Knight’s Vow supports protecting a linked carry; choose and maintain the partner carefully.');else if(offensiveAD)swap(3026,'Physical-heavy pressure: Guardian Angel retains AD, adds armor and provides a cooldown-dependent revive.');else if(offensiveAP)swap(3157,'Physical-heavy pressure: armor and timed stasis; this cannot replace positioning.');}
  if(enemies.some(p=>p.traits.hardCC)){priority('Check the crowd-control type','Tenacity helps reducible control only; identify the actual enemy spells before changing boots.');warnings.push('Hard-CC traits do not distinguish knockups or suppression. Tenacity does not shorten every control effect.');}
  if(comp.allies.length&&allies.length===comp.allies.length&&!allies.some(p=>p.traits.frontline)&&!plan.traits.frontline)priority('Protect access without a frontline','Your allies lack a frontline trait. Play around terrain, range and disengage rather than assuming a safe front-to-back fight.');
  if(allies.some(p=>p.traits.attackSpeedThreat)&&plan.traits.hardCC)priority('Peel for sustained attackers','Your allies can deal sustained attack damage; hold reliable control to protect their firing time.');
  if(allies.some(p=>p.traits.poke)&&plan.traits.poke)priority('Coordinate poke windows','Use allied range to soften targets before committing; preserve mana and avoid isolated engages.');
  if(allies.length&&allies.every(p=>p.traits.damage===plan.traits.damage)&&['physical','magic'].includes(plan.traits.damage))priority('Account for shared damage type','Your selected allies share your main damage type. Enemy resistance purchases become valuable; confirm them before choosing penetration.');
  if(!comp.enemies.length)warnings.push('Select enemies to get matchup priorities. Actual builds, lane state and player execution are not supplied.');
+ const satisfied=new Set<string>();
+ for(const request of pending.sort((a,b)=>b.score-a.score||a.order-b.order)){
+  if(satisfied.has(request.group))continue;
+  if(applySwap(request.id,request.reason,true,request.bootOnly))satisfied.add(request.group);
+ }
+ for(const group of new Set(pending.map(r=>r.group)))if(!satisfied.has(group))warnings.push(`Unfilled ${group.replace(/-/g,' ')} need: no compatible optional slot remains after item locks, source core protection and higher-priority answers. Compare a separate variant or adjust priorities.`);
  build.warnings=[...new Set([...build.warnings,...warnings])];return {build,priorities,changes,warnings};
 }

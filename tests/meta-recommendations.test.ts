@@ -62,3 +62,14 @@ it('adapts Tahm optional armor and defensive boots against a magic-heavy team ev
 it('keeps AP utility purchases available for a spell build with conditional true damage',()=>{
  const p={...plan,champion:'Velkoz',traits:{...traits,damage:'true-heavy' as const}};const b=buildFullMeta(data,'Velkoz',[{...source,champion:'Velkoz'}],p);expect(recommendForComp(data,b,p,[p],{allies:[],enemies:[],enemyHealing:true}).build.itemIds).toContain(3165);
 });
+
+it('reserves survival answers ahead of conflicting damage and healing suggestions when survival is selected',()=>{
+ const b=buildFullMeta(data,'Ahri',[source],plan),ps=[plan,enemy('Zed',{damage:'physical',dive:true}),enemy('Soraka',{heals:true})];
+ const r=recommendForComp(data,b,plan,ps,{allies:[],enemies:['Zed','Soraka'],enemyMR:true,priority:'survival',mainThreat:'Zed'});
+ expect(r.build.itemIds).toContain(3157);expect(r.warnings.join(' ')).toMatch(/priorit/i);
+ const damage=recommendForComp(data,b,plan,ps,{allies:[],enemies:['Zed','Soraka'],enemyMR:true,priority:'damage'});expect(damage.build.itemIds).toContain(3135);expect(damage.build.itemIds).toContain(3165);
+});
+it('respects individual item locks and validates threat selections',()=>{
+ const b=buildFullMeta(data,'Ahri',[source],plan);const r=recommendForComp(data,b,plan,[plan],{allies:[],enemies:[],enemyHealing:true,lockedItemIds:[3135,3157]});expect(r.build.itemIds).toEqual(b.itemIds);
+ for(const c of [{mainThreat:'Zed'},{laneOpponent:'Unknown'},{priority:'invalid'},{lockedItemIds:[999]}])expect(()=>recommendForComp(data,b,plan,[plan],{allies:[],enemies:[],...c} as any)).toThrow();
+});

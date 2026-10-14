@@ -1,0 +1,4 @@
+import type {Catalog} from './types';
+import type {FullMetaBuild} from './meta-recommendations';
+import {purchaseCheckpoints} from './purchase-checkpoints';
+export default function PurchaseGuide({data,build}:{data:Catalog;build:FullMetaBuild}){const name=(id:number)=>data.items.find(i=>i.id===id)?.name||String(id);return <section className="purchase-guide" aria-label="Purchase checkpoints"><p className="footnote">These are inferred checkpoints around a source core, not observed starting items or a fixed buy script.</p><ol>{purchaseCheckpoints(data,build).map(step=><li key={step.title}><h4>{step.title}</h4>{step.itemIds.length>0&&<p>{step.itemIds.map(name).join(' + ')}</p>}{!!step.choiceIds?.length&&<p>Choose from: {step.choiceIds.map(name).join(' / ')}</p>}<p className="footnote">{step.note}</p></li>)}</ol></section>}

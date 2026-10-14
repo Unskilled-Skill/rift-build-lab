@@ -3,6 +3,12 @@ from unittest.mock import patch
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('provider_collector',Path(__file__).resolve().parents[1]/'scripts/collect-provider-research.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 class Collectors(unittest.TestCase):
+ def test_explicit_lol_role_uses_lane_and_separate_cache_without_default_fallback(self):
+  c=next(c for c in m.CAT['champions'] if c['alias']=='Aatrox')
+  with tempfile.TemporaryDirectory() as folder,patch.object(m,'CACHE',Path(folder)),patch.object(m,'REFRESH',False),patch.object(m,'request',return_value='<h1>Aatrox for top Aatrox</h1>') as request:
+   (Path(folder)/'lol-Aatrox.html').write_text('default must not be read')
+   with self.assertRaisesRegex(ValueError,'Source scope'):m.lol(c,'mid')
+   request.assert_called_once_with('https://lolalytics.com/lol/aatrox/build/?lane=middle')
  def test_lolalytics_slot_options_exclude_unlabelled_item_tables(self):
   from bs4 import BeautifulSoup
   soup=BeautifulSoup('<div><div>Item 4</div><div><article><img src="https://cdn5.lolalytics.com/item64/3089.webp"><span>58.4 %</span><span>18,230</span></article><article><img src="https://cdn5.lolalytics.com/item64/3041.webp"><span>78.09 %</span><span>4,597</span></article></div></div><div><h2>All Items</h2><img src="https://cdn5.lolalytics.com/item64/3157.webp">99 % 200</div>','html.parser')

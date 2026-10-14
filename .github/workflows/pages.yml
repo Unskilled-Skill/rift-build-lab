@@ -50,6 +50,16 @@ jobs:
         run: |
           echo "::error::Meta refresh failed. The existing live site and its validated data remain unchanged."
           exit 1
+      - name: Refresh qualified alternate roles
+        if: github.event_name != 'workflow_dispatch' || inputs.refresh_data
+        run: |
+          cp public/data/provider-roles/index.json /tmp/provider-roles-index.json
+          if python scripts/collect-provider-roles.py --checked-at "$(TZ=Europe/Amsterdam date +%F)" --output-dir data/provider-refresh/roles && node scripts/prepare-provider-roles.mjs --input-file data/provider-refresh/roles/observations.json && npx vitest run tests/provider-role-selection.test.ts; then
+            echo "Qualified alternate roles refreshed and legal completions validated."
+          else
+            cp /tmp/provider-roles-index.json public/data/provider-roles/index.json
+            echo "::warning::Alternate role refresh failed; retained the prior qualified-role snapshot and its original check date."
+          fi
       - name: Build project site
         run: npm run build
         env:

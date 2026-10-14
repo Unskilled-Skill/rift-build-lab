@@ -73,3 +73,8 @@ it('respects individual item locks and validates threat selections',()=>{
  const b=buildFullMeta(data,'Ahri',[source],plan);const r=recommendForComp(data,b,plan,[plan],{allies:[],enemies:[],enemyHealing:true,lockedItemIds:[3135,3157]});expect(r.build.itemIds).toEqual(b.itemIds);
  for(const c of [{mainThreat:'Zed'},{laneOpponent:'Unknown'},{priority:'invalid'},{lockedItemIds:[999]}])expect(()=>recommendForComp(data,b,plan,[plan],{allies:[],enemies:[],...c} as any)).toThrow();
 });
+
+it('does not turn a tank core with one AP synergy item into a stasis mage',()=>{
+ const p={...plan,champion:'TahmKench',role:'support',preferredItemIds:[3876,3084,3009,2510,3075,2502],situationalItemIds:[3065,2504],traits:{...traits,damage:'mixed' as const,frontline:true,heals:true,shields:true}};
+ const b=buildFullMeta(data,p.champion,[{...source,champion:p.champion,role:'support',observedCoreItemIds:[3876,3084,2510],bootsId:3009}],p);const r=recommendForComp(data,b,p,[p,enemy('Kaisa',{damage:'mixed',dive:true})],{allies:[],enemies:['Kaisa'],priority:'survival'});expect(r.build.itemIds).not.toContain(3157);
+});

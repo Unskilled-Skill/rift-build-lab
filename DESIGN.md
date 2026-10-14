@@ -11,3 +11,6 @@ The bench shows baseline provenance, shared conditions, cost and item counts alo
 
 
 Meta & teams leads with the six-item recommendation, source/date/role and per-item evidence labels. Purchase order and detailed reasoning are disclosed on demand. Two labeled team fields stack on mobile; confirmed threat flags stay in a disclosure. Composition results name each swap and its reason, with a direct handoff to manual testing. Raw provider observations remain accessible below without duplicating the primary workflow.
+
+
+Source/role controls precede the current meta plan. Searchable, keyboard-accessible team slots show role labels and portrait/name selection, with paste in a disclosure. Explicit priority controls follow the teams. An adapted plan reveals a two-column original/adapted comparison and a separate original-plan test action. Mobile compresses the six-item row and playstyle text, with a direct focus/scroll shortcut to team setup. Historical result disclosures show the original proposal and source rather than reconstructing them from the current library.

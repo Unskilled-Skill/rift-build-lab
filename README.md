@@ -83,3 +83,14 @@ All 173 champions have a reviewed six-item starting plan for their configured pr
 Composition advice runs locally from kit traits and explicit rules; it is not live AI or a fight simulation. It preserves the source core and its earned completions, checks item-family conflicts, and adapts optional items and defensive boots. Champion identity suggests typical damage/utility; actual purchases and who is ahead still matter. Daily provider refreshes rebuild the recommendations, and deployment checks all 173 completions before publication. Formula-patch mismatches fail closed for full plans.
 
 The reviewed authoring table is `scripts/champion-meta-plans.json`; run `node scripts/prepare-champion-meta-plans.mjs` after editing it. The earlier 30 authored meta cards remain available as historical interpretations.
+
+
+## Matchup workflow and alternate roles
+
+**Meta & teams** now has searchable, duplicate-safe team slots, a paste option, a lane opponent, a main threat and Balanced / Damage first / Survive first priorities. Requests for counter-items are ranked before consuming optional slots; source cores and user item locks remain protected. Original and adapted inventories appear together with cost and listed item-stat deltas. Item passives and conversions are not included in those deltas.
+
+Purchase checkpoints separate inferred starting buys, recall component choices, the first core, boots and situational timing. They are guidance, not observed recall scripts. On mobile, **Set up teams** jumps directly to the form and the item row can expand from a compact view.
+
+Each new saved test result retains the entire original proposal, including composition, threat flags, priority, source notes and comparison inventory. Exported and copied results include that snapshot; older records remain readable without invented context.
+
+Role and provider selectors use validated observations. The first alternate catalog adds 18 qualified roles across 16 champions; other lanes are explicitly unavailable. Each alternate requires at least 100 observed core matches from each provider and 1,000 Lolalytics role games. OP.GG summary counts are not verified role cohorts. Full completions use explicitly reviewed role pools in `src/provider-role-selection.ts`, and both provider completions are tested. Daily deployment attempts a bounded alternate-role refresh and retains the prior role snapshot if acquisition or completion checks fail. See `scripts/provider-roles/README.md` for collection commands and scope.

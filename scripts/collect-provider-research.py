@@ -55,9 +55,11 @@ def opgg_item_options(data):
     items.append(dict(id=row['ids'][0],matches=row['play'],winRate=round(100*row['win']/row['play'],4)))
   if items:options.append(dict(slot=slot,items=items))
  return options
-def lol(c):
- alias=c['alias'];role=OVERRIDES.get(alias);slug='wukong' if alias=='MonkeyKing' else alias.lower();url=f'https://lolalytics.com/lol/{slug}/build/'+(f'?lane={dict(mid="middle",adc="bottom").get(role,role)}' if role else '')
- cache=CACHE/f'lol-{alias}.html'
+def lol(c,role=None):
+ explicit_role=role is not None
+ alias=c['alias'];role=role if explicit_role else OVERRIDES.get(alias);slug='wukong' if alias=='MonkeyKing' else alias.lower();url=f'https://lolalytics.com/lol/{slug}/build/'+(f'?lane={dict(mid="middle",adc="bottom").get(role,role)}' if role else '')
+ if role is not None and role not in ['top','jungle','mid','adc','support']:raise ValueError('Invalid requested role')
+ cache=CACHE/(f'lol-{alias}-{role}.html' if explicit_role else f'lol-{alias}.html')
  with SEMS['lolalytics']:
   html=cache.read_text(encoding='utf-8') if cache.exists() and not REFRESH else request(url)
 

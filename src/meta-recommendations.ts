@@ -42,10 +42,10 @@ function upgrade(data:Catalog,id:number,plan:MetaPlan):number|undefined {
  return preferred.find(n=>get(data,n)&&complete(get(data,n)!)&&reaches(id,n));
 }
 type OptionSource=ProviderSource&{observedItemOptions?:Array<{slot:number;items:Array<{id:number;matches?:number;winRate?:number}>}>};
-export function buildFullMeta(data:Catalog,champion:string,sources:ProviderSource[],plan:MetaPlan):FullMetaBuild {
+export function buildFullMeta(data:Catalog,champion:string,sources:ProviderSource[],plan:MetaPlan,provider:'auto'|'opgg'|'lolalytics'='auto'):FullMetaBuild {
  validatePlan(plan,data);if(plan.champion!==champion)throw new MetaRecommendationError('invalid-plan','Completion plan belongs to another champion.');
  const patch=data.version.split('.').slice(0,2).join('.');
- const candidates=sources.filter(s=>s.champion===champion&&s.status==='available'&&(s.sourcePatch===patch||s.sourcePatch===data.patch)&&s.coreBuildMatches!>0&&s.observedCoreItemIds?.length&&s.observedRunePage&&validRunePage(s.observedRunePage,data.trees)).sort((a,b)=>(a.provider==='opgg'?0:1)-(b.provider==='opgg'?0:1));
+ const candidates=sources.filter(s=>(provider==='auto'||s.provider===provider)&&s.role===plan.role&&s.champion===champion&&s.status==='available'&&(s.sourcePatch===patch||s.sourcePatch===data.patch)&&s.coreBuildMatches!>0&&s.observedCoreItemIds?.length&&s.observedRunePage&&validRunePage(s.observedRunePage,data.trees)).sort((a,b)=>(a.provider==='opgg'?0:1)-(b.provider==='opgg'?0:1));
  for(const source of candidates){
   const ids:number[]=[],reasons:FullMetaBuild['reasons']=[],observed:number[]=[],options:number[]=[],inferred:number[]=[],coreCompletions:number[]=[];
   const add=(id:number,kind:FullMetaBuild['reasons'][number]['kind'],reason:string)=>{const item=get(data,id);if(!item||!complete(item)||!legal(data,[...ids,id],champion))return false;ids.push(id);reasons.push({itemId:id,kind,reason});if(kind==='observed-core')observed.push(id);else if(kind==='provider-option')options.push(id);else inferred.push(id);return true};
@@ -97,11 +97,12 @@ export function recommendForComp(data:Catalog,base:FullMetaBuild,plan:MetaPlan,p
  if(comp.laneOpponent)priority('Plan the lane first',`Lane opponent: ${namesFor(comp.laneOpponent)}. Use the purchase checkpoints for lane timing; this does not infer their actual items.`);
  function namesFor(alias:string){return data.champions.find(c=>c.alias===alias)?.name||alias}
  const hasStat=(name:string)=>base.itemIds.some(id=>get(data,id)!.baseStats.some(s=>s.name===name&&s.value>0));
- const attackCarry=plan.role==='adc'&&plan.traits.attackBased&&hasStat('Attack Damage');
- const offensiveAD=hasStat('Attack Damage')&&plan.traits.damage!=='magic';
+ const attackCarry=(plan.role==='adc'||data.champions.find(c=>c.alias===plan.champion)?.roles.some(r=>r.toLowerCase()==='marksman'))&&plan.traits.attackBased&&hasStat('Attack Damage');
+ const hasAD=hasStat('Attack Damage')&&plan.traits.damage!=='magic';
  const utilitySupport=plan.role==='support'&&(plan.traits.heals||plan.traits.shields)&&base.itemIds.some(id=>get(data,id)!.baseStats.some(s=>s.name.includes('Heal and Shield')&&s.value>0));
  const statTotal=(name:string)=>base.itemIds.reduce((total,id)=>total+get(data,id)!.baseStats.filter(s=>s.name===name).reduce((sum,s)=>sum+s.value,0),0);
- const offensiveAP=hasStat('Ability Power')&&!attackCarry&&!utilitySupport&&(plan.traits.damage==='magic'||['mixed','true-heavy'].includes(plan.traits.damage)&&statTotal('Ability Power')*.6>statTotal('Attack Damage'));
+ const offensiveAP=hasStat('Ability Power')&&!attackCarry&&!utilitySupport&&(!plan.traits.frontline||statTotal('Ability Power')>=150)&&(plan.traits.damage==='magic'||['mixed','true-heavy'].includes(plan.traits.damage)&&statTotal('Ability Power')*.6>statTotal('Attack Damage'));
+ const offensiveAD=hasAD&&!offensiveAP;
  const names=(ps:MetaPlan[])=>ps.map(p=>data.champions.find(c=>c.alias===p.champion)?.name||p.champion).join(', ');
  warnings.push('Damage profiles describe typical kit threats, not confirmed enemy builds. Check actual items, damage patterns and who is ahead.');
  if(comp.enemyHealing||enemies.some(p=>p.traits.heals&&knownHealers.has(p.champion))||enemies.filter(p=>p.traits.heals).length>=2){

@@ -46,7 +46,7 @@ $('file').addEventListener('change', async () => {
   const file = $('file').files[0]; if (!file) return;
   busy = true; ready = false; controls();
   try {
-    if (!file.name.endsWith('.riftbuild.json') || file.size > 65536) throw new Error('Choose a .riftbuild.json file smaller than 64 KB.');
+    if (!/\.riftbuild(?: \([1-9][0-9]*\))?\.json$/i.test(file.name) || file.size > 65536) throw new Error('Choose an items + runes .riftbuild.json file smaller than 64 KB.');
     const result = await call('/load', {bundle:JSON.parse(await file.text())});
     bundle = result.bundle; render(); await check();
   } catch (error) { status(error.message || 'This build file could not be read.', true); }

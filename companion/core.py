@@ -64,7 +64,7 @@ def load_input(source):
             raw = base64.b64decode(encoded + '=' * (-len(encoded) % 4), altchars=b'-_', validate=True)
         else:
             path = Path(source)
-            require(path.name.endswith('.riftbuild.json'), 'Choose a .riftbuild.json file.')
+            require(re.search(r'\.riftbuild(?: \([1-9][0-9]*\))?\.json$', path.name, re.IGNORECASE) is not None, 'Choose an items + runes .riftbuild.json file.')
             require(path.stat().st_size <= MAX_INPUT, 'The build file is too large.')
             raw = path.read_bytes()
         require(len(raw) <= MAX_INPUT)

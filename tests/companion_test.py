@@ -203,4 +203,13 @@ class CompanionTests(unittest.TestCase):
         self.assertTrue(json.load(post('/apply', {'items': True, 'runes': False}, server.token))['ok'])
 
 
+
+class DuplicateDownloadNameTests(unittest.TestCase):
+ def test_loads_browser_renamed_build_files_after_repeat_downloads(self):
+  with tempfile.TemporaryDirectory() as directory:
+   for name in ['example.riftbuild.json','example.riftbuild (1).json','example.riftbuild (12).json']:
+    path=Path(directory)/name
+    path.write_text(json.dumps({'version':1}),encoding='utf-8')
+    with self.subTest(name=name):self.assertEqual(core.load_input(str(path)),{'version':1})
+
 if __name__ == '__main__': unittest.main()

@@ -6,4 +6,5 @@ import './styles.css';
 import './design-refinements.css';
 import './improvements.css';
 import './meta.css';
+import './taste.css';
 createRoot(document.getElementById('root')!).render(<React.StrictMode><ProviderRefreshProvider><App/></ProviderRefreshProvider></React.StrictMode>);

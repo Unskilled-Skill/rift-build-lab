@@ -20,3 +20,14 @@ it('uses a bounded Unicode-safe handoff that includes no local path, endpoint or
 it('can export the full roster of existing authored experimental builds',()=>{
  for(const champion of data.champions){const builds=JSON.parse(fs.readFileSync(`public/data/champion-builds/${champion.alias}.json`,'utf8')).builds;for(const b of builds){const bundle=createCompanionBundle(data,{champion:b.champion,name:b.name,itemIds:b.itemIds,runePage:b.runePage,shards:b.shards});expect(bundle.itemSet.blocks.length).toBeGreaterThan(0);expect(bundle.runePage.selectedPerkIds).toHaveLength(9);expect(companionURI(bundle).length).toBeLessThan(20000)}}
 });
+
+it('exports every main-role meta plan with purchase checkpoints and shares real bundles with companion contract tests',async()=>{
+ const {buildFullMeta,parseMetaPlans}=await import('../src/meta-recommendations');
+ const {purchaseCheckpoints}=await import('../src/purchase-checkpoints');
+ const plans=parseMetaPlans(JSON.parse(fs.readFileSync('public/data/champion-meta-plans.json','utf8')),data);
+ const index=JSON.parse(fs.readFileSync('public/data/provider-research/index.json','utf8'));
+ const bundles=[];
+ for(const champion of data.champions){for(const b of JSON.parse(fs.readFileSync(`public/data/champion-builds/${champion.alias}.json`,'utf8')).builds)bundles.push(createCompanionBundle(data,{champion:b.champion,name:b.name,itemIds:b.itemIds,runePage:b.runePage,shards:b.shards}));}
+ for(const p of plans){const sources=JSON.parse(fs.readFileSync(`public/data/provider-research/${index.recordsDirectory}/${p.champion}.json`,'utf8')).sources;const full=buildFullMeta(data,p.champion,sources,p);const bundle=createCompanionBundle(data,{champion:p.champion,name:'Meta plan',itemIds:full.itemIds,runePage:full.runePage,shards:full.shards},purchaseCheckpoints(data,full));expect(bundle.itemSet.blocks.length).toBeGreaterThan(2);expect(companionURI(bundle).length).toBeLessThan(20000);bundles.push(bundle)}
+ fs.mkdirSync('output/companion-contract',{recursive:true});fs.writeFileSync('output/companion-contract/bundles.json',JSON.stringify(bundles));fs.writeFileSync('output/companion-contract/cassiopeia.riftbuild.json',JSON.stringify(bundles.find(b=>b.championAlias==='Cassiopeia')));
+});

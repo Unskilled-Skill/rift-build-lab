@@ -1,9 +1,10 @@
+import {abilityModel,abilityModels} from './ability-models';
 import {itemFamilies as families} from './item-families.mjs';
 import {objectiveSupport} from './model-support';
 import type { Champion, Item, Result, Scenario } from './types';
 export const growth=(level:number)=>.7025*(level-1)+.0175*(level-1)**2;
 export function mitigate(damage:number,resistance:number,percentPen=0,flatPen=0){const effective=resistance<0?resistance:Math.max(0,resistance*(1-percentPen)-flatPen);return damage*(effective>=0?100/(100+effective):2-100/(100-effective));}
-export function defaultScenario(champion='Cassiopeia'):Scenario{return {champion,level:18,rank:5,eRank:5,mode:champion==='Sett'?'w':champion==='Blitzcrank'?'blitz-e':champion==='TahmKench'?'tahm-q':'qe',mr:50,armor:100,targetHP:2500,duration:3,poisoned:false,mana:2000,gritMode:'fraction',grit:100,center:true,extraAP:0,extraAD:0,extraHP:0,healthPercent:100,bloodmailBonus:0,rodStacks:0,heartsteelHP:0,conquerorStacks:0,combatSeconds:0,shards:[5008,5008,5001],runePage:[8230,8226,8210,8236,8009,8014],budget:18000,slots:6};}
+export function defaultScenario(champion='Cassiopeia'):Scenario{return {champion,level:18,rank:5,eRank:5,mode:abilityModels[champion]?'cast-q':champion==='Sett'?'w':champion==='Blitzcrank'?'blitz-e':champion==='TahmKench'?'tahm-q':'qe',mr:50,armor:100,targetHP:2500,duration:3,poisoned:false,mana:2000,gritMode:'fraction',grit:100,center:true,extraAP:0,extraAD:0,extraHP:0,healthPercent:100,bloodmailBonus:0,rodStacks:0,heartsteelHP:0,conquerorStacks:0,combatSeconds:0,shards:[5008,5008,5001],runePage:[8230,8226,8210,8236,8009,8014],budget:18000,slots:6};}
 
 export function legalBuild(items:Item[],budget:number,slots:number,champion:string){return items.length<=slots&&new Set(items.map(i=>i.id)).size===items.length&&items.reduce((n,i)=>n+i.gold.total,0)<=budget&&items.every(i=>i.maps['11']&&(i.shopListedBySource||[3040,3042,3121,2530].includes(i.id))&&(!i.requiredChampion||i.requiredChampion.toLowerCase()===champion.toLowerCase()))&&families.every(f=>items.filter(i=>f.includes(i.id)).length<=1)&&items.filter(i=>i.tags.includes('Boots')).length<=1;}
 // Includes stats-only candidates; effect coverage is always reported separately.
@@ -25,7 +26,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const itemAD=(value:number)=>has(2501)?(baseAD+value+bonusHP*.025)*(1+Math.min(.12,Math.max(0,s.bloodmailBonus/100)))-baseAD:value;
  const itemAP=(value:number)=>(value+(has(4633)?bonusHP*.02:0))*(has(3089)?1.3:1);
  const preferredAD=itemAD(bonusAD),preferredAP=itemAP(ap);
- const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank'].includes(champion.alias));
+ const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank','Ezreal'].includes(champion.alias));
  const adaptive=(value:number)=>{if(adaptiveAD)bonusAD+=value*.6;else ap+=value;};
  for(const id of s.shards)if(id===5008)adaptive(9);
  if(s.runePage.includes(8010))adaptive((1.8+(4-1.8)*(level-1)/17)*Math.min(12,Math.max(0,s.conquerorStacks)));
@@ -45,7 +46,13 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const events:Result['events']=[];let manaSpent=0,grit=0;
  const amplifier=(time:number)=>has(4633)?1+Math.min(.08,Math.floor(s.combatSeconds+time)*.02):1;
  const add=(time:number,name:string,type:Result['events'][number]['type'],raw:number,applyAmp=true)=>{if(applyAmp&&type!=='true')raw*=amplifier(time);const damage=type==='true'?raw:mitigate(raw,type==='magic'?s.mr:s.armor,type==='magic'?stats.percentPen:stat('Armor Penetration','percent')/100,type==='magic'?stats.flatPen:stat('Lethality')+stat('Armor Penetration','flat'));events.push({time,name,type,raw,damage});};
- if(champion.alias==='Sett'){
+ const cast=abilityModel(champion.alias,s.mode);
+ if(cast){
+  const castRank=Math.min(cast.rankCap,Math.max(1,Math.round(s.rank))),cost=cast.cost[castRank-1];
+  limitations.push(cast.notes,`Source: patch 26.20 / Data Dragon 16.20.1; ${cast.sourcePath}. Single cast on one champion. No automatic repeats, passive or item/rune proc simulation.`);
+  if(Math.min(s.mana,mana)>=cost){manaSpent=cost;for(const packet of cast.packets(castRank,stats,s))add(packet.time||0,packet.name,packet.type,packet.raw);}
+  else limitations.push('Not enough mana for the selected ability upfront cost.');
+ }else if(champion.alias==='Sett'){
   grit=Math.min(hp*.5,Math.max(0,s.gritMode==='fraction'?hp*.5*s.grit/100:s.grit));
   add(0,'Haymaker '+(s.center?'center':'edge'),s.center?'true':'physical',[80,100,120,140,160][rank-1]+(.25+.0025*bonusAD)*grit);
  }else if(champion.alias==='Blitzcrank'||champion.alias==='TahmKench'){

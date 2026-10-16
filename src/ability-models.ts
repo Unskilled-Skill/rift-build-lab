@@ -1,6 +1,6 @@
 import source from './ability-sources.json';
 import type {Result,Scenario} from './types';
-export type CastMode='cast-q'|'cast-w'|'cast-e'|'cast-r'|'cast-q-max'|'cast-q-isolated'|'cast-e-empowered';
+export type CastMode='cast-q'|'cast-w'|'cast-e'|'cast-r'|'cast-q-max'|'cast-q-isolated'|'cast-e-empowered'|'cast-q-empowered'|'cast-w-empowered';
 type Stats=Result['stats'];
 type DamageType=Result['events'][number]['type'];
 export interface Packet {name:string;type:DamageType;raw:number;time?:number}
@@ -13,6 +13,61 @@ function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:strin
  return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost,sourcePath:record.path,notes,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
 }
 export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>={
+ Galio:{
+  'cast-q':spell('Galio','Q',[70,105,140,175,210],.7,'One projectile impact only. The lingering tornado and its target-health damage, passive attack and subsequent casts are excluded.',{label:'Q · Winds of War (projectile impact)'}),
+  'cast-w':spell('Galio','W',[20,30,40,50,60],.3,'Minimum-charge release hit only. Charging bonus, taunt, shield and damage reduction are excluded.',{label:'W · Shield of Durand (minimum charge)'}),
+  'cast-e':spell('Galio','E',[100,135,170,205,240],1,'One champion collision. Passive attack, displacement and monster/minion rules are excluded.'),
+ },
+ Garen:{
+  'cast-q':spell('Garen','Q',[30,60,90,120,150],0,'One noncritical empowered attack, including its total AD delivery damage once. Crit, item on-hits, silence, movement and subsequent attacks are excluded.',{label:'Q · Decisive Strike (noncritical attack)',profile:'physical',totalAD:1.5}),
+ },
+ Kennen:{
+  'cast-q':spell('Kennen','Q',[75,125,175,225,275],.75,'One shuriken hit. Mark of the Storm stun, energy restoration and following attacks are excluded.'),
+  'cast-w':spell('Kennen','W',[70,95,120,145,170],.8,'Active blast on a target already carrying a Mark of the Storm. Mark setup damage/cost, fifth-attack passive, stun and energy restoration are excluded.',{label:'W · Electrical Surge (already marked)'}),
+  'cast-e':spell('Kennen','E',[80,120,160,200,240],.8,'One champion contact. Energy refunds, repeated contacts, attack-speed bonus, stun and following attacks are excluded.'),
+ },
+ LeeSin:{
+  'cast-q':spell('LeeSin','Q',[60,90,120,150,180],0,'Sonic Wave initial projectile only. Resonating Strike, missing-health bonus, Flurry attacks and energy recovery are excluded.',{label:'Q · Sonic Wave (initial hit)',profile:'physical',bonusAD:.9}),
+  'cast-e':spell('LeeSin','E',[35,60,85,110,135],0,'One Tempest magic hit scaling with total AD. Cripple, Flurry attacks and energy restoration are excluded.',{profile:'magic',totalAD:.9}),
+  'cast-r':spell('LeeSin','R',[175,400,625],0,'One kick on the primary champion. Secondary collision damage, target-health collision scaling, displacement, Flurry and energy restoration are excluded.',{profile:'physical',bonusAD:2}),
+ },
+ Akali:{
+  'cast-q':spell('Akali','Q',[45,70,95,120,145],.6,'One kunai hit. Uses the base 200-energy cap; Shroud bonus capacity, energy restoration, passive attacks and tip slow are excluded.',{totalAD:.65}),
+  'cast-e':spell('Akali','E',[21,42,63,84,105],.33,'First shuriken hit only: 30% of the combined E formula. Recast dash damage, passive attacks and Shroud bonus energy capacity are excluded.',{label:'E · Shuriken Flip (first hit)',totalAD:.3}),
+  'cast-r':spell('Akali','R',[110,220,330],.3,'First vault magic damage only. Second dash, missing-health execute scaling, passive attacks and travel are excluded.',{label:'R · Perfect Execution (first vault)',bonusAD:.5}),
+ },
+ Zed:{
+  'cast-q':spell('Zed','Q',[80,120,160,200,240],0,'One shuriken hits its first target. Shadow projectiles, prior-target reduction, Death Mark, passive attack and energy restoration are excluded.',{label:'Q · Razor Shuriken (one first-target hit)',profile:'physical',bonusAD:1}),
+  'cast-e':spell('Zed','E',[70,92.5,115,137.5,160],0,'One Shadow Slash packet. Overlapping slashes do not add damage; shadow slow, Death Mark, cooldown refunds and energy restoration are excluded.',{profile:'physical',bonusAD:.7}),
+ },
+ Shen:{
+  'cast-e':spell('Shen','E',[60,85,110,135,160],0,'One champion dash hit using bonus HP. Base energy cap is 400; on-hit energy recovery, taunt, Q attacks and passive shield are excluded.',{profile:'physical',bonusHP:.11}),
+ },
+ Renekton:{
+  'cast-q':spell('Renekton','Q',[60,90,120,150,180],0,'Ordinary Q assumes less than 50 Fury at cast. Healing, Fury generation, ultimate bonuses and other attacks are excluded.',{label:'Q · Cull the Meek (ordinary)',profile:'physical',bonusAD:1}),
+  'cast-q-empowered':spell('Renekton','Q',[90,135,180,225,270],0,'Empowered Q requires at least 50 Fury already available and consumes it. Fury setup, healing, Fury generation and ultimate bonuses are excluded.',{label:'Q · Cull the Meek (50 Fury ready)',profile:'physical',bonusAD:1.4}),
+  'cast-w':spell('Renekton','W',[5,20,35,50,65],0,'Ordinary two-strike attack assumes less than 50 Fury. Delivery AD is included in the two packets; crit, item on-hits, Fury generation and stun are excluded.',{label:'W · Ruthless Predator (ordinary two hits)',profile:'physical',packets:(rank,stats)=>[1,2].map(n=>({name:`Ruthless Predator hit ${n}`,type:'physical',raw:[5,20,35,50,65][rank-1]+.75*stats.ad}))}),
+  'cast-w-empowered':spell('Renekton','W',[5,20,35,50,65],0,'Three-strike attack requires at least 50 Fury already available and consumes it. Delivery AD is included once per strike; Fury setup, shield destruction, item on-hits, crit and stun are excluded.',{label:'W · Ruthless Predator (50 Fury ready)',profile:'physical',packets:(rank,stats)=>[1,2,3].map(n=>({name:`Empowered Ruthless Predator hit ${n}`,type:'physical',raw:[5,20,35,50,65][rank-1]+.75*stats.ad}))}),
+  'cast-e':spell('Renekton','E',[40,70,100,130,160],0,'One ordinary Slice dash. Dice recast, empowered Dice armor reduction, Fury generation and ultimate bonuses are excluded.',{label:'E · Slice (first dash)',profile:'physical',bonusAD:.9}),
+ },
+ Riven:{
+  'cast-q':spell('Riven','Q',[45,75,105,135,165],0,'First Broken Wings slash only. Other slashes, Runic Blade attacks and automatic Blade of the Exile AD are excluded; enter any already active bonus AD explicitly.',{label:'Q · Broken Wings (first slash)',profile:'physical',bonusAD:[.6,.65,.7,.75,.8]}),
+  'cast-w':spell('Riven','W',[65,95,125,155,185],0,'One Ki Burst hit. Stun, Runic Blade attacks and automatic ultimate AD are excluded; enter existing ultimate bonus AD through Extra AD.',{profile:'physical',bonusAD:1}),
+ },
+ Aatrox:{
+  'cast-q':spell('Aatrox','Q',[10,25,40,55,70],0,'First Q swing, outside the sweet spot. Later swings, passive attacks, healing and automatic World Ender AD are excluded; enter existing ultimate AD explicitly.',{label:'Q · Darkin Blade (first swing, ordinary)',profile:'physical',totalAD:[.6,.675,.75,.825,.9]}),
+  'cast-q-empowered':spell('Aatrox','Q',[17.5,43.75,70,96.25,122.5],0,'First Q swing at its sweet spot: 1.75 times the ordinary hit. Later swings, passive attacks, healing and automatic ultimate AD are excluded.',{label:'Q · Darkin Blade (first swing sweet spot)',profile:'physical',totalAD:[1.05,1.18125,1.3125,1.44375,1.575]}),
+  'cast-w':spell('Aatrox','W',[30,40,50,60,70],0,'Initial chain hit only. Conditional pull-back hit, passive attacks, healing, slow and automatic ultimate AD are excluded.',{label:'W · Infernal Chains (initial hit)',profile:'physical',totalAD:.4}),
+ },
+ RekSai:{
+  'cast-q':spell('RekSai','Q',[50,80,110,140,170],.7,'One burrowed Prey Seeker magic hit. Requires already being burrowed; unburrowed empowered attacks, Fury generation and other targets are excluded.',{label:'Q · Prey Seeker (already burrowed)',bonusAD:.25}),
+  'cast-e':spell('RekSai','E',[70,95,120,145,170],0,'Ordinary unburrowed bite below maximum Fury. Fury generation, attacks, healing and tunnel movement are excluded.',{label:'E · Furious Bite (below maximum Fury)',profile:'physical',bonusAD:.6}),
+  'cast-e-empowered':spell('RekSai','E',[84,114,144,174,204],0,'Requires maximum Fury already available. Current source converts the bite to true damage at 1.2 times the ordinary packet. Fury setup, healing, attacks and tunnel movement are excluded.',{label:'E · Furious Bite (maximum Fury ready)',profile:'true',bonusAD:.72}),
+ },
+ Katarina:{
+  'cast-q':spell('Katarina','Q',[80,115,150,185,220],.4,'One initial blade hit on this champion. Bounces to other targets, dagger pickup, passive reset and following attacks are excluded.'),
+  'cast-e':spell('Katarina','E',[20,30,40,50,60],.25,'One Shunpo magic packet. Dagger pickup, on-hit effects, subsequent attacks, cooldown resets and ultimate are excluded.',{totalAD:.4}),
+ },
  Caitlyn:{
   'cast-q':spell('Caitlyn','Q',[50,90,130,170,210],0,'Full damage to the first target hit. Uses rank-dependent total AD scaling. Subsequent-target reduction, trap exceptions, Headshot and item procs are excluded.',{label:'Q · Piltover Peacemaker (first target)',profile:'physical',totalAD:[1.25,1.45,1.65,1.85,2.05]}),
   'cast-e':spell('Caitlyn','E',[80,130,180,230,280],.8,'One net magic hit. Headshot mark and follow-up attack, slow and recoil are excluded.'),
@@ -196,4 +251,4 @@ export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>
  },
 };
 export const abilityModel=(alias:string,mode:string)=>abilityModels[alias]?.[mode as CastMode];
-export const castModes:CastMode[]=['cast-q','cast-w','cast-e','cast-r','cast-q-max','cast-q-isolated','cast-e-empowered'];
+export const castModes:CastMode[]=['cast-q','cast-w','cast-e','cast-r','cast-q-max','cast-q-isolated','cast-e-empowered','cast-q-empowered','cast-w-empowered'];

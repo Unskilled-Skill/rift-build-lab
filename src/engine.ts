@@ -1,3 +1,4 @@
+import {championResource} from './resources';
 import {abilityModel,abilityModels} from './ability-models';
 import {itemFamilies as families} from './item-families.mjs';
 import {objectiveSupport} from './model-support';
@@ -12,13 +13,14 @@ export const modeledItemIds=[3089,3135,3137,3116,4629,4633,6657,3083,2501,3748,3
 const scopeNotes:Record<number,string>={3137:'Cryptbloom healing is outside this damage objective.',3116:'Rylai slow is outside this damage objective.',4629:'Cosmic movement speed is outside this damage objective.',3083:'Warmog out-of-combat healing is excluded.',2501:'Bloodmail Retribution uses your explicitly entered AD bonus; its missing-health curve is unresolved.',3748:'Titanic attacks and active are excluded: no attacks in these scenarios.',3161:'Shojin basic haste is included; Focused Will damage amplification is omitted.',3053:'Sterak AD passive is omitted: this is a stats-only estimate.',3065:'Visage healing and shielding are excluded.',3071:'Black Cleaver armor shred is omitted.',3157:'Zhonya stasis is outside this damage objective.',3102:'Banshee spell shield is outside this damage objective.',3084:'Heartsteel uses your finite earned-health input; its attack proc is excluded.'};
 export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  if(!objectiveSupport(champion.alias,s.mode).supported)throw new Error('No numerical adapter for this champion objective.');
+ const resource=championResource(champion.alias);
  const level=Math.min(18,Math.max(1,s.level)),rank=Math.min(5,Math.max(1,s.rank)),eRank=Math.min(5,Math.max(1,s.eRank));
  const has=(id:number)=>items.some(i=>i.id===id),stat=(name:string,unit?:string)=>items.flatMap(i=>i.baseStats).filter(v=>v.name===name&&(!unit||v.unit===unit)).reduce((n,v)=>n+v.value,0);
  let ap=stat('Ability Power')+s.extraAP,bonusAD=stat('Attack Damage')+s.extraAD,haste=stat('Ability Haste'),bonusHP=stat('Health')+s.extraHP;
  const itemHP=stat('Health');if(has(3083))bonusHP+=itemHP*.12;
  if(has(3084))bonusHP+=s.heartsteelHP;
- let mana=(champion.stats.mp||0)+(champion.stats.mpperlevel||0)*growth(level)+stat('Mana');
- if(has(6657)){const stacks=Math.min(10,Math.max(0,s.rodStacks));ap+=stacks*3;bonusHP+=stacks*10;mana+=stacks*30;}
+ let mana=resource.kind==='mana'?(champion.stats.mp||0)+(champion.stats.mpperlevel||0)*growth(level)+stat('Mana'):0;
+ if(has(6657)){const stacks=Math.min(10,Math.max(0,s.rodStacks));ap+=stacks*3;bonusHP+=stacks*10;if(resource.kind==='mana')mana+=stacks*30;}
  if(has(3042))bonusAD+=mana*.02;
  // Nonadaptive shard stats contribute to item conversions before choosing adaptive force.
  for(const id of s.shards){if(id===5001)bonusHP+=10+10*(level-1);if(id===5011)bonusHP+=65;if(id===5007)haste+=8;}
@@ -26,7 +28,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const itemAD=(value:number)=>has(2501)?(baseAD+value+bonusHP*.025)*(1+Math.min(.12,Math.max(0,s.bloodmailBonus/100)))-baseAD:value;
  const itemAP=(value:number)=>(value+(has(4633)?bonusHP*.02:0))*(has(3089)?1.3:1);
  const preferredAD=itemAD(bonusAD),preferredAP=itemAP(ap);
- const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank','Ezreal','Lucian','Corki','Caitlyn','Ashe','MissFortune','Draven','Graves','Quinn','JarvanIV','Nocturne','Talon','Pantheon'].includes(champion.alias));
+ const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank','Ezreal','Lucian','Corki','Caitlyn','Ashe','MissFortune','Draven','Graves','Quinn','JarvanIV','Nocturne','Talon','Pantheon','Garen','LeeSin','Zed','Shen','Renekton','Riven','Aatrox','RekSai','Akali'].includes(champion.alias));
  const adaptive=(value:number)=>{if(adaptiveAD)bonusAD+=value*.6;else ap+=value;};
  for(const id of s.shards)if(id===5008)adaptive(9);
  if(s.runePage.includes(8010))adaptive((1.8+(4-1.8)*(level-1)/17)*Math.min(12,Math.max(0,s.conquerorStacks)));
@@ -43,15 +45,17 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  if(champion.alias==='TahmKench')limitations.push('Single champion hit; passive added to Q only. Q healing, W cost refund, R ally shield, stack setup and crowd control are excluded. Enemy Devour assumes three existing stacks; setup damage is excluded. Passive base caps at 60 per official 26.8 notes, despite ambiguous exported breakpoint extrapolation.');
  if(champion.alias==='Sett')limitations.push('W uses DamageConversion (.0025 × bonus AD), not the contradictory MaxDamage helper. Grit input is at cast time, before decay. Damage-amplifier interactions with true damage are excluded.');
  if(champion.alias==='Cassiopeia')limitations.push('Q poison damage is prorated uniformly over 3 seconds; tick rounding, travel time and cast windup are not simulated.');
- const events:Result['events']=[];let manaSpent=0,grit=0;
+ const events:Result['events']=[];let manaSpent=0,castResourceSpent=0,grit=0;
+ const resourceMaximum=resource.kind==='energy'?resource.baseMaximum:mana;
  const amplifier=(time:number)=>has(4633)?1+Math.min(.08,Math.floor(s.combatSeconds+time)*.02):1;
  const add=(time:number,name:string,type:Result['events'][number]['type'],raw:number,applyAmp=true)=>{if(applyAmp&&type!=='true')raw*=amplifier(time);const damage=type==='true'?raw:mitigate(raw,type==='magic'?s.mr:s.armor,type==='magic'?stats.percentPen:stat('Armor Penetration','percent')/100,type==='magic'?stats.flatPen:stat('Lethality')+stat('Armor Penetration','flat'));events.push({time,name,type,raw,damage});};
  const cast=abilityModel(champion.alias,s.mode);
  if(cast){
   const castRank=Math.min(cast.rankCap,Math.max(1,Math.round(s.rank))),cost=cast.cost[castRank-1];
   limitations.push(cast.notes,`Source: patch 26.20 / Data Dragon 16.20.1; ${cast.sourcePath}. Single cast on one champion. No automatic repeats, passive or item/rune proc simulation.`);
-  if(Math.min(s.mana,mana)>=cost){manaSpent=cost;for(const packet of cast.packets(castRank,stats,s))add(packet.time||0,packet.name,packet.type,packet.raw);}
-  else limitations.push('Not enough mana for the selected ability upfront cost.');
+  if(resource.kind==='none'||Math.min(s.mana,resourceMaximum)>=cost){castResourceSpent=cost;if(resource.kind==='mana')manaSpent=cost;for(const packet of cast.packets(castRank,stats,s))add(packet.time||0,packet.name,packet.type,packet.raw);}
+  else limitations.push(`Not enough ${resource.kind} for the selected ability upfront cost.`);
+  if(resource.kind==='energy')limitations.push(`Base energy cap ${resource.baseMaximum}; mana purchases do not raise energy or provide mana-to-AD conversion. Energy regeneration, refunds and temporary maximum-energy bonuses are excluded.`);
  }else if(champion.alias==='Sett'){
   grit=Math.min(hp*.5,Math.max(0,s.gritMode==='fraction'?hp*.5*s.grit/100:s.grit));
   add(0,'Haymaker '+(s.center?'center':'edge'),s.center?'true':'physical',[80,100,120,140,160][rank-1]+(.25+.0025*bonusAD)*grit);
@@ -83,5 +87,5 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
   }
   if(manaSpent===0)limitations.push('Not enough mana to begin the selected sequence.');
  }
- return {damage:events.reduce((n,e)=>n+e.damage,0),events,stats,manaSpent,grit,cost:items.reduce((n,i)=>n+i.gold.total,0),limitations:[...new Set(limitations)]};
+ return {resource:{kind:resource.kind,maximum:resourceMaximum,spent:resource.kind==='mana'?manaSpent:castResourceSpent},damage:events.reduce((n,e)=>n+e.damage,0),events,stats,manaSpent,grit,cost:items.reduce((n,i)=>n+i.gold.total,0),limitations:[...new Set(limitations)]};
 }

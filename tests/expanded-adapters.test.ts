@@ -47,10 +47,10 @@ it('Ziggs edge damage is 65% of center and does not borrow Sett grit logic',()=>
 it('clamps ultimate ranks separately and uses rank-dependent AP scaling',()=>{
  expect(damage('Lux','cast-r',{rank:5}).damage).toBe(620);expect(damage('Veigar','cast-q',{rank:5}).damage).toBe(310);expect(damage('Ziggs','cast-q',{rank:5}).damage).toBe(360);
 });
-it('every registered model is selectable, rejects insufficient mana and reports source scope',()=>{
+it('every registered model is selectable, checks positive upfront costs and reports source scope',()=>{
  for(const [alias,models] of Object.entries(abilityModels))for(const [mode,model] of Object.entries(models)){
   expect(objectiveSupport(alias,mode).supported).toBe(true);expect(model.sourcePath).toContain(`Characters/${alias}/Spells/`);
-  const result=damage(alias,mode as Scenario['mode'],{mana:0});expect(result.damage).toBe(0);expect(result.manaSpent).toBe(0);
+  const result=damage(alias,mode as Scenario['mode'],{mana:0});if(model.cost[0]>0)expect(result.damage).toBe(0);expect(result.resource?.spent).toBe(0);
  }
 });
 it('new objectives round-trip while incompatible champion casts are rejected',()=>{

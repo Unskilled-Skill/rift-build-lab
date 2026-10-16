@@ -5,6 +5,7 @@ import type {Baseline} from './workspace-draft';
 import {compareAtTarget,defenseSweep,progressionRows} from './comparison-lab';
 import type {DefenseAxis,TargetComparison} from './comparison-lab';
 import {NumberField} from './TestSetup';
+import {championResource} from './resources';
 import type {Catalog,Champion,Item,Scenario} from './types';
 const n=(value:number)=>value.toLocaleString(undefined,{maximumFractionDigits:1});
 const signed=(value:number)=>`${value>0?'+':''}${n(value)}`;
@@ -24,6 +25,7 @@ export default function ComparisonLab({data,champion,scenario,ids,baseline,suppo
   }catch(e){return {error:e instanceof Error?e.message:'Comparison could not be calculated.',pair,progress:[],sweep:[]};}
  },[champion,scenario,ids,baseline,supported,view,axis,min,max,earned,data]);
  const ready=!!baseline&&comparisonReady(scenario,ids,baseline,data);
+ const resourceKind=championResource(champion.alias).kind;
  const chooseAxis=(value:DefenseAxis)=>{setAxis(value);setMin(value==='targetHP'?1000:0);setMax(value==='targetHP'?5000:300)};
  return <section className="comparison-lab" id="comparison-lab" tabIndex={-1} aria-label="Build comparison lab">
   <header className="lab-heading"><div><h2>Put the builds side by side.</h2><p>One objective, shared conditions. Find where the experiment earns its place.</p></div><button className="secondary" onClick={onPin} disabled={!ids.length}><Pin size={16} aria-hidden="true"/>{baseline?'Replace baseline':'Pin current build'}</button></header>
@@ -36,7 +38,7 @@ export default function ComparisonLab({data,champion,scenario,ids,baseline,suppo
      {view==='compare'&&<>
       <div className="lab-totals"><div><span>Experiment</span><strong>{n(analysis.pair.experiment.damage)}</strong><small>{n(analysis.pair.experiment.cost)}g · {ids.length} items</small></div><div><span>Baseline</span><strong>{n(analysis.pair.baseline.damage)}</strong><small>{n(analysis.pair.baseline.cost)}g · {baseline.ids.length} items</small></div><div><span>{ready?'Modeled difference':'Reference difference'}</span><strong>{signed(analysis.pair.delta)}</strong><small>{analysis.pair.percent===null?'Zero baseline; no percentage':`${signed(analysis.pair.percent)}%`}</small></div></div>
       <p className={ready?'footnote':'warning'}>{ready?'Both inventories fit the shared budget, slots and item count.':'Item counts, budget/slot limits or rune-page validity differ. Treat this as a reference comparison.'} {analysis.pair.spendingGap===0?'Actual item spending matches.':`Experiment spending is ${signed(analysis.pair.spendingGap)}g versus the baseline; this is not equal spending.`}</p>
-      <div className="table-scroll lab-table" role="region" aria-label="Build stat comparison" tabIndex={0}><table><thead><tr><th>Included stat</th><th>Experiment</th><th>Baseline</th></tr></thead><tbody>{([['AP','ap'],['Bonus AD','bonusAD'],['Maximum HP','hp'],['Ability haste','haste'],['Maximum mana','mana']] as const).map(([label,key])=><tr key={key}><th scope="row">{label}</th><td>{n(analysis.pair!.experiment.stats[key])}</td><td>{n(analysis.pair!.baseline.stats[key])}</td></tr>)}<tr><th scope="row">Mana used</th><td>{n(analysis.pair.experiment.manaSpent)}</td><td>{n(analysis.pair.baseline.manaSpent)}</td></tr></tbody></table></div>
+      <div className="table-scroll lab-table" role="region" aria-label="Build stat comparison" tabIndex={0}><table><thead><tr><th>Included stat</th><th>Experiment</th><th>Baseline</th></tr></thead><tbody>{([['AP','ap'],['Bonus AD','bonusAD'],['Maximum HP','hp'],['Ability haste','haste']] as const).map(([label,key])=><tr key={key}><th scope="row">{label}</th><td>{n(analysis.pair!.experiment.stats[key])}</td><td>{n(analysis.pair!.baseline.stats[key])}</td></tr>)}{resourceKind!=='none'&&<><tr><th scope="row">{resourceKind==='energy'?'Maximum energy':'Maximum mana'}</th><td>{n(analysis.pair.experiment.resource?.maximum??analysis.pair.experiment.stats.mana)}</td><td>{n(analysis.pair.baseline.resource?.maximum??analysis.pair.baseline.stats.mana)}</td></tr><tr><th scope="row">{resourceKind==='energy'?'Energy used':'Mana used'}</th><td>{n(analysis.pair.experiment.resource?.spent??analysis.pair.experiment.manaSpent)}</td><td>{n(analysis.pair.baseline.resource?.spent??analysis.pair.baseline.manaSpent)}</td></tr></>}</tbody></table></div>
      </>}
      {view==='progression'&&<>
       <h3>Compare the route to full build.</h3><p className="lab-explanation">Each row has the same gold cap, slot limit, level and ability ranks for both routes. Buy the next item in order only when affordable; remaining gold buys no components. This tests item spikes, not lane strength or match time.</p>

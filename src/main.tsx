@@ -7,4 +7,5 @@ import './design-refinements.css';
 import './improvements.css';
 import './meta.css';
 import './taste.css';
+import './comparison-lab.css';
 createRoot(document.getElementById('root')!).render(<React.StrictMode><ProviderRefreshProvider><App/></ProviderRefreshProvider></React.StrictMode>);

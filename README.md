@@ -16,6 +16,16 @@ Numerical adapters cover Cassiopeia Q/E and Sett W. Search ranks a limited model
 
 Save uses browser localStorage; JSON import/export provides portable scenarios. Full research exports are in `data/lol/16.20.1`. Generated browser data is in `public/data` and can be recreated with `npm run data`.
 
+## Build comparison lab
+
+In **Test bench**, load a reference build, follow **Compare**, and choose **Pin current build**. Load another proposal for the same champion or edit your inventory; the pinned items and rune page stay available. Choosing another champion clears the baseline. The working setup and purchase order persist locally.
+
+- **Head to head** compares damage, spending, AP, bonus AD, HP, haste and mana under shared cast/target conditions. It reports spending gaps explicitly; matching budget caps do not mean equal spending.
+- **Purchase progression** compares ordered purchases at shared gold checkpoints. Edit the assumed item order, including boots. Only affordable completed purchases are included; leftover gold buys no components. By default, earned transformations use purchasable prerequisites and Rod stacks, earned Heartsteel HP and Gathering Storm time are zero. An explicit toggle uses your supplied finite values instead. Level/ranks and other combat conditions stay fixed: this is not a lane or match-time simulation.
+- **Enemy defenses** samples damage across armor, MR or target HP, with a chart, exact-value table and actions to apply a sampled target to the test bench.
+
+Numerical comparisons use the existing partial adapters for Cassiopeia Q/E, Sett W, Blitzcrank noncritical E and Tahm Kench Q/W/enemy R. Full meta plans and interaction hypotheses still open in manual mode when required. **Calculate a supported ability** explicitly selects a partial model; it does not simulate the complete proposal. Other champions retain manual testing.
+
 ## Builds from this ChatGPT conversation
 
 The default **Four builds per champion** collection contains 692 proposals: four for each of the 173 champions. Each uses an individually curated kit question and candidate package, with full items/runes, early-core priorities, comparison tests and failure conditions. These are a research first pass, not independently proven builds or mathematical maxima. **Earlier experiments** keeps the previous detailed Cassiopeia/Sett/Tahm proposals available. Only the selected champion's collection is downloaded.

@@ -34,4 +34,6 @@ it('withholds relative ranking until both setups fit the shared constraints and 
  expect(comparisonReady(scenario,[],b,data)).toBe(false);
  expect(comparisonReady(scenario,[3083],b,data)).toBe(true);
  expect(comparisonReady({...scenario,budget:1000},[3083],b,data)).toBe(false);
+ expect(comparisonReady({...scenario,runePage:[8010,8010,8010,8010,8010,8010]},[3083],b,data)).toBe(false);
+ expect(comparisonReady(scenario,[3083],{...b,runePage:[]},data)).toBe(false);
 });

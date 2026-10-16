@@ -10,7 +10,7 @@ export interface WorkspaceDraft {version:1;save:Save;tab:string;activeBuild?:Cha
 export function comparisonScenario(scenario:Scenario,baseline:Baseline):Scenario{return {...scenario,runePage:baseline.runePage||scenario.runePage,shards:baseline.shards||scenario.shards}}
 export function comparisonReady(scenario:Scenario,ids:number[],baseline:Baseline,data:Catalog):boolean{
  const legal=(values:number[])=>{const items=values.map(id=>data.items.find(i=>i.id===id));return items.every(Boolean)&&legalBuild(items as Catalog['items'],scenario.budget,scenario.slots,scenario.champion)};
- return ids.length===baseline.ids.length&&legal(ids)&&legal(baseline.ids);
+ return ids.length===baseline.ids.length&&legal(ids)&&legal(baseline.ids)&&validRunePage(scenario.runePage,data.trees)&&validRunePage(baseline.runePage||scenario.runePage,data.trees);
 }
 export function providerBaseline(source:ProviderSource,data:Catalog):Baseline{
  if(source.status!=='available'||!source.observedCoreItemIds||!source.observedRunePage||!validRunePage(source.observedRunePage,data.trees))throw new Error('This reference has no validated core and rune page.');

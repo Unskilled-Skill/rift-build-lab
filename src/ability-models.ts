@@ -13,6 +13,63 @@ function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:strin
  return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost,sourcePath:record.path,notes,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+(options.bonusAD||0)*stats.bonusAD+(options.totalAD||0)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
 }
 export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>={
+ Brand:{
+  'cast-q':spell('Brand','Q',[70,100,130,160,190],.65,'One Sear hit. Blaze burn, explosion and stun are excluded.'),
+  'cast-w':spell('Brand','W',[75,120,165,210,255],.7,'One Pillar hit against a target that is not Ablaze. The 25% Ablaze bonus, subsequent burn and explosion are excluded.',{label:'W · Pillar of Flame (not Ablaze)'}),
+  'cast-e':spell('Brand','E',[55,80,105,130,155],.6,'One Conflagration hit. Blaze burn, explosion and spread to other targets are excluded.'),
+  'cast-r':spell('Brand','R',[100,175,250],.3,'One bounce against this champion, charging the initial ultimate mana cost. Further bounces, Blaze burn and explosion are excluded.',{label:'R · Pyroclasm (one bounce)'}),
+ },
+ Velkoz:{
+  'cast-q':spell('Velkoz','Q',[80,120,160,200,240],.9,'One projectile hit, including a split projectile if that is the one that lands. No extra split hit, Organic Deconstruction or researched-target effects.'),
+  'cast-w':spell('Velkoz','W',[30,50,70,90,110],.2,'Initial Void Rift hit only. Delayed eruption, second charge and Organic Deconstruction are excluded.',{label:'W · Void Rift (initial hit)'}),
+  'cast-e':spell('Velkoz','E',[70,100,130,160,190],.3,'One Tectonic Disruption hit. Organic Deconstruction, knockup and displacement are excluded.'),
+ },
+ Xerath:{
+  'cast-q':spell('Xerath','Q',[70,110,150,190,230],.9,'One beam hit. Charging changes range, not damage; charge time, travel and passive mana restoration are excluded.'),
+  'cast-w':spell('Xerath','W',[50,85,120,155,190],.65,'One outer-area hit. Center bonus damage and slow are excluded.',{label:'W · Eye of Destruction (outer area)'}),
+  'cast-e':spell('Xerath','E',[70,100,130,160,190],.45,'One Shocking Orb hit; stun duration and travel time are excluded.'),
+  'cast-r':spell('Xerath','R',[170,220,270],.45,'First artillery hit on a champion with zero prior ramp stacks. Charges the initial ultimate mana cost; additional shots and champion-hit ramp damage are excluded.',{label:'R · Rite of the Arcane (first shot)'}),
+ },
+ Neeko:{
+  'cast-q':spell('Neeko','Q',[60,110,160,210,260],.6,'Initial explosion only. Conditional second and third blooms, disguise and passive attacks are excluded.',{label:'Q · Blooming Burst (initial hit)'}),
+  'cast-e':spell('Neeko','E',[80,115,150,185,220],.65,'One Tangle-Barbs hit. Passing through units changes root duration, not this damage; root and follow-up damage are excluded.'),
+ },
+ Vex:{
+  'cast-q':spell('Vex','Q',[70,115,160,205,250],.7,'One Mistral Bolt hit on an unmarked target. Gloom detonation, Doom fear and travel are excluded.'),
+  'cast-w':spell('Vex','W',[80,120,160,200,240],.3,'One Personal Space hit on an unmarked target. Shield value, Gloom detonation and Doom fear are excluded.'),
+  'cast-e':spell('Vex','E',[50,70,90,110,130],[.4,.45,.5,.55,.6],'One Looming Darkness hit on an unmarked target. Uses rank-dependent AP scaling; Gloom application/detonation, fear and slow are excluded.'),
+  'cast-r':spell('Vex','R',[75,125,175],.2,'Initial missile hit only. Recast arrival damage, Gloom, resets and travel time are excluded.',{label:'R · Shadow Surge (initial hit)'}),
+ },
+ Seraphine:{
+  'cast-e':spell('Seraphine','E',[70,100,130,160,190],.5,'One Beat Drop wave. Echo double-cast, Notes, root/stun and allied interactions are excluded.'),
+  'cast-r':spell('Seraphine','R',[150,200,250],.4,'One Encore hit on this champion. Charm, range extensions, Notes and additional targets are excluded.'),
+ },
+ Karma:{
+  'cast-q':spell('Karma','Q',[60,110,160,210,260],.7,'One ordinary Inner Flame hit. Mantra Soulflare impact/field damage, slow and passive cooldown refunds are excluded.',{label:'Q · Inner Flame (without Mantra)'}),
+  'cast-w':spell('Karma','W',[40,65,90,115,140],.45,'Initial ordinary tether hit only. Tether completion, Mantra Renewal, healing and root are excluded.',{label:'W · Focused Resolve (initial hit)'}),
+ },
+ Nami:{
+  'cast-q':spell('Nami','Q',[90,145,200,255,310],.5,'One Aqua Prison hit. Suspension, passive movement speed and other targets are excluded.'),
+  'cast-w':spell('Nami','W',[60,95,130,165,200],.5,'Direct offensive first hit on this champion. Bounce modifiers, healing, allied casts and Tidecaller procs are excluded.',{label:'W · Ebb and Flow (first offensive hit)'}),
+  'cast-r':spell('Nami','R',[150,250,350],.6,'One Tidal Wave hit. Knockup, slow, travel and allied movement speed are excluded.'),
+ },
+ Janna:{
+  'cast-q':spell('Janna','Q',[55,90,125,160,195],.5,'Uncharged tornado hit only. No charge bonus, knockup value or Tailwind attack/W damage.',{label:'Q · Howling Gale (uncharged)'}),
+  'cast-q-max':spell('Janna','Q',[85,135,185,235,285],.8,'Fully charged tornado requires three seconds of prior preparation before the scored hit. Setup time, knockup and Tailwind attack/W damage are excluded.',{label:'Q · Howling Gale (fully charged)'}),
+ },
+ Leblanc:{
+  'cast-q':spell('Leblanc','Q',[65,90,115,140,165],.4,'Initial Sigil hit only. The mark needs another ability to trigger; mark detonation and that trigger damage are excluded.',{label:'Q · Sigil of Malice (initial hit)'}),
+  'cast-w':spell('Leblanc','W',[75,115,155,195,235],.9,'One Distortion landing against an unmarked champion. Sigil detonation, Mimic, return positioning and other targets are excluded.'),
+  'cast-e':spell('Leblanc','E',[50,70,90,110,130],.4,'Initial Ethereal Chains hit on an unmarked target only. Delayed tether damage, Sigil detonation, root and Mimic are excluded.',{label:'E · Ethereal Chains (initial hit)'}),
+ },
+ Lucian:{
+  'cast-q':spell('Lucian','Q',[90,130,170,210,250],0,'One Piercing Light hit, scaling with bonus AD. Lightslinger, Vigilance, attacks and item procs are excluded.',{profile:'physical',bonusAD:1}),
+  'cast-w':spell('Lucian','W',[75,110,145,180,215],.9,'One Ardent Blaze hit. Mark triggers, Vigilance, Lightslinger, attacks and movement value are excluded.'),
+ },
+ Corki:{
+  'cast-q':spell('Corki','Q',[60,105,150,195,240],1,'One Phosphorus Bomb magic hit, scaling with bonus AD and AP. Hextech Munitions attack damage, item procs and vision are excluded.',{bonusAD:1.25}),
+  'cast-r':spell('Corki','R',[90,170,250],0,'One ordinary missile physical hit, scaling with bonus AD. Big One damage, additional missiles, attack passive and charge refunds are excluded.',{label:'R · Missile Barrage (ordinary missile)',profile:'physical',bonusAD:.85}),
+ },
  Lux:{
   'cast-q':spell('Lux','Q',[80,120,160,200,240],.75,'One target hit. Illumination damage, root and subsequent attacks are excluded.'),
   'cast-e':spell('Lux','E',[65,115,165,215,265],.8,'One detonation; slow, vision and Illumination are excluded.'),

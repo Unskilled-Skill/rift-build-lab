@@ -26,7 +26,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const itemAD=(value:number)=>has(2501)?(baseAD+value+bonusHP*.025)*(1+Math.min(.12,Math.max(0,s.bloodmailBonus/100)))-baseAD:value;
  const itemAP=(value:number)=>(value+(has(4633)?bonusHP*.02:0))*(has(3089)?1.3:1);
  const preferredAD=itemAD(bonusAD),preferredAP=itemAP(ap);
- const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank','Ezreal','Lucian','Corki'].includes(champion.alias));
+ const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank','Ezreal','Lucian','Corki','Caitlyn','Ashe','MissFortune','Draven','Graves','Quinn','JarvanIV','Nocturne','Talon','Pantheon'].includes(champion.alias));
  const adaptive=(value:number)=>{if(adaptiveAD)bonusAD+=value*.6;else ap+=value;};
  for(const id of s.shards)if(id===5008)adaptive(9);
  if(s.runePage.includes(8010))adaptive((1.8+(4-1.8)*(level-1)/17)*Math.min(12,Math.max(0,s.conquerorStacks)));

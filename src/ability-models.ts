@@ -1,6 +1,6 @@
 import source from './ability-sources.json';
 import type {Result,Scenario} from './types';
-export type CastMode='cast-q'|'cast-w'|'cast-e'|'cast-r'|'cast-q-max'|'cast-q-isolated';
+export type CastMode='cast-q'|'cast-w'|'cast-e'|'cast-r'|'cast-q-max'|'cast-q-isolated'|'cast-e-empowered';
 type Stats=Result['stats'];
 type DamageType=Result['events'][number]['type'];
 export interface Packet {name:string;type:DamageType;raw:number;time?:number}
@@ -8,11 +8,79 @@ export interface AbilityModel {label:string;slot:string;rankCap:number;cost:numb
 type Coefficient=number|number[];
 const at=(values:Coefficient,rank:number)=>typeof values==='number'?values:values[rank-1];
 const records=source.records as Record<string,Record<string,{name:string;cost:number[];path:string}>>;
-function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];bonusAD?:number;totalAD?:number;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
+function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];bonusAD?:Coefficient;totalAD?:Coefficient;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
  const record=records[alias][slot];const type=options.profile==='physical'?'physical':options.profile==='true'?'true':'magic';
- return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost,sourcePath:record.path,notes,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+(options.bonusAD||0)*stats.bonusAD+(options.totalAD||0)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
+ return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost,sourcePath:record.path,notes,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
 }
 export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>={
+ Caitlyn:{
+  'cast-q':spell('Caitlyn','Q',[50,90,130,170,210],0,'Full damage to the first target hit. Uses rank-dependent total AD scaling. Subsequent-target reduction, trap exceptions, Headshot and item procs are excluded.',{label:'Q · Piltover Peacemaker (first target)',profile:'physical',totalAD:[1.25,1.45,1.65,1.85,2.05]}),
+  'cast-e':spell('Caitlyn','E',[80,130,180,230,280],.8,'One net magic hit. Headshot mark and follow-up attack, slow and recoil are excluded.'),
+ },
+ Ashe:{
+  'cast-w':spell('Ashe','W',[60,95,130,165,200],0,'One Volley arrow hits this champion. Multiple arrows do not add extra damage to the same target. Frost Shot attacks, slow and item procs are excluded.',{profile:'physical',bonusAD:1}),
+  'cast-r':spell('Ashe','R',[200,400,600],1.2,'One direct champion hit. Splash targets, stun duration, travel and follow-up attacks are excluded.'),
+ },
+ MissFortune:{
+  'cast-q':spell('MissFortune','Q',[20,45,70,95,120],.35,'First-target Double Up spell packet only. Love Tap, item on-hits, the delivery of any separate attack and second-target bounce/crit are excluded.',{label:'Q · Double Up (first target)',profile:'physical',totalAD:1}),
+ },
+ Draven:{
+  'cast-e':spell('Draven','E',[75,110,145,180,215],0,'One Stand Aside hit. Knockback, slow, axes and subsequent attacks are excluded.',{profile:'physical',bonusAD:.5}),
+  'cast-r':spell('Draven','R',[200,300,400],0,'Full first outward hit with no prior enemies struck. Return hit, per-target falloff and Adoration execute are excluded.',{label:'R · Whirling Death (first outward hit)',profile:'physical',bonusAD:[1.1,1.3,1.5]}),
+ },
+ Graves:{
+  'cast-q':spell('Graves','Q',[50,75,100,125,150],0,'Initial projectile only. Delayed detonation, wall timing, shotgun attacks and item procs are excluded.',{label:'Q · End of the Line (initial hit)',profile:'physical',bonusAD:.55}),
+  'cast-w':spell('Graves','W',[60,110,160,210,260],.6,'One Smoke Screen impact magic hit. Nearsight, slow, smoke duration and follow-up damage are excluded.'),
+  'cast-r':spell('Graves','R',[275,425,575],0,'Direct projectile impact on this champion. The cone is not added to the direct hit; recoil, other targets and follow-up damage are excluded.',{label:'R · Collateral Damage (direct impact)',profile:'physical',bonusAD:1.5}),
+ },
+ Quinn:{
+  'cast-q':spell('Quinn','Q',[65,100,135,170,205],.5,'One champion hit, using rank-dependent bonus AD and AP. Harrier follow-up attacks, nearsight and monster bonus are excluded.',{profile:'physical',bonusAD:[.8,.85,.9,.95,1]}),
+  'cast-e':spell('Quinn','E',[40,65,90,115,140],0,'One Vault spell hit. Harrier follow-up attack, bounce movement and slow are excluded.',{profile:'physical',bonusAD:.2}),
+ },
+ JarvanIV:{
+  'cast-e':spell('JarvanIV','E',[80,120,160,200,240],.8,'One flag landing magic hit. Attack-speed aura, Martial Cadence attacks and Dragon Strike/armor reduction are excluded.'),
+  'cast-r':spell('JarvanIV','R',[200,325,450],0,'One Cataclysm impact. Target armor is the entered value; no prior Dragon Strike shred, Martial Cadence attacks or terrain value are assumed.',{profile:'physical',bonusAD:1.8}),
+ },
+ Nocturne:{
+  'cast-q':spell('Nocturne','Q',[65,105,145,185,225],0,'One Duskbringer projectile hit using supplied bonus AD at impact. Enter any already active trail AD through Extra AD; automatic trail AD generation, Umbra Blades attacks, movement and subsequent hits are excluded.',{profile:'physical',bonusAD:.85}),
+  'cast-r':spell('Nocturne','R',[150,275,400],0,'One successful Paranoia dash impact, charging the initial ultimate mana cost. Darkness, travel, trail AD and following attacks are excluded.',{profile:'physical',bonusAD:1.2}),
+ },
+ Talon:{
+  'cast-q':spell('Talon','Q',[65,85,105,125,145],0,'Ranged leap damage only. Melee critical variant, Blade\'s End bleed, item on-hits, attacks and kill healing are excluded.',{label:'Q · Noxian Diplomacy (ranged leap)',profile:'physical',bonusAD:1}),
+  'cast-w':spell('Talon','W',[50,60,70,80,90],0,'Outward Rake hit only. Returning blades, slow and Blade\'s End bleed are excluded.',{label:'W · Rake (outward hit)',profile:'physical',bonusAD:.4}),
+  'cast-r':spell('Talon','R',[90,135,180],0,'One outward blade hit only. Converging blades, Blade\'s End bleed, stealth, attacks and movement are excluded.',{label:'R · Shadow Assault (outward hit)',profile:'physical',bonusAD:1}),
+ },
+ Pantheon:{
+  'cast-r':spell('Pantheon','R',[300,500,700],1,'Center landing magic damage only. Thrown spear physical damage, edge reduction, travel/channel time, Mortal Will attacks and subsequent casts are excluded. Passive armor penetration does not modify this magic packet.',{label:'R · Grand Starfall (center landing)'}),
+ },
+ Orianna:{
+  'cast-q':spell('Orianna','Q',[60,90,120,150,180],.55,'Full damage to the first target along the ball path. Prior-target falloff, ball travel, passive attacks and follow-up spells are excluded.',{label:'Q · Command: Attack (first target)'}),
+  'cast-w':spell('Orianna','W',[70,110,150,190,230],.8,'One Dissonance pulse with the ball already in place. Ball setup damage/mana, movement effects and passive attacks are excluded.'),
+  'cast-e':spell('Orianna','E',[60,90,120,150,180],.3,'One champion crossed by the returning ball. Shield, defensive stats, ball setup and passive attacks are excluded.',{label:'E · Command: Protect (ball hits enemy)'}),
+  'cast-r':spell('Orianna','R',[225,350,475],1.1,'One Shockwave hit with the ball already in place. Ball setup damage/mana, displacement and passive attacks are excluded.'),
+ },
+ Diana:{
+  'cast-q':spell('Diana','Q',[70,105,140,175,210],.7,'One Crescent Strike hit. Moonlight application, Lunar Rush resets and Moonsilver Blade attacks are excluded.'),
+  'cast-w':spell('Diana','W',[20,32,44,56,68],.18,'All three orbs hit this champion, approximated together at impact. Shield value, contact timing, passive attacks and other targets are excluded.',{label:'W · Pale Cascade (three orbs hit)',packets:(rank,stats)=>[1,2,3].map(n=>({name:`Pale Cascade orb ${n}`,type:'magic',raw:[20,32,44,56,68][rank-1]+.18*stats.ap}))}),
+  'cast-e':spell('Diana','E',[50,70,90,110,130],.6,'One Lunar Rush damage packet. Moonlight setup damage/mana, cooldown resets, repeated dashes and passive attacks are excluded.'),
+ },
+ Lissandra:{
+  'cast-q':spell('Lissandra','Q',[80,115,150,185,220],.75,'One Ice Shard hit. Shattering extends range without adding another hit on the same target; slow and Iceborn thralls are excluded.'),
+  'cast-w':spell('Lissandra','W',[70,105,140,175,210],.7,'One Ring of Frost hit. Root, Iceborn thralls and follow-up spells are excluded.'),
+  'cast-e':spell('Lissandra','E',[70,105,140,175,210],.6,'One claw passage hit. Teleporting does not grant an extra hit; movement, thralls and follow-up spells are excluded.'),
+  'cast-r':spell('Lissandra','R',[150,250,350],.75,'One enemy-target Frozen Tomb hit. Self-cast effects, healing, stun, thralls and other targets are excluded.',{label:'R · Frozen Tomb (enemy target)'}),
+ },
+ Syndra:{
+  'cast-q':spell('Syndra','Q',[90,125,160,195,230],.7,'One Dark Sphere hit with fewer than 120 Splinters (no passive AP multiplier). Extra charge, Splinter generation and follow-up damage are excluded.'),
+  'cast-w':spell('Syndra','W',[70,100,130,160,190],.65,'One thrown object hit with fewer than 60 Splinters. Upgraded W bonus true damage, passive AP multiplier, pickup damage and other targets are excluded.',{label:'W · Force of Will (before upgrade)'}),
+  'cast-e':spell('Syndra','E',[60,95,130,165,200],.6,'One Scatter the Weak hit with fewer than 120 Splinters (no passive AP multiplier). Sphere collisions do not add another E packet here; stun and follow-up damage are excluded.'),
+  'cast-r':spell('Syndra','R',[80,120,160],.2,'Only the three orbiting spheres, with fewer than 120 Splinters (no passive AP multiplier). Ground spheres, upgraded execute, setup casts and sphere travel time are excluded.',{label:'R · Unleashed Power (three spheres)',packets:(rank,stats)=>[1,2,3].map(n=>({name:`Unleashed Power sphere ${n}`,type:'magic',raw:[80,120,160][rank-1]+.2*stats.ap}))}),
+ },
+ Anivia:{
+  'cast-q':spell('Anivia','Q',[50,70,90,110,130],.25,'Both projectile passage and explosion hit this champion, approximated at impact. Travel, stun, Chill setup for other abilities and follow-up E are excluded.',{label:'Q · Flash Frost (passage + explosion)',packets:(rank,stats)=>[{name:'Flash Frost passage',type:'magic',raw:[50,70,90,110,130][rank-1]+.25*stats.ap},{name:'Flash Frost explosion',type:'magic',raw:[60,95,130,165,200][rank-1]+.45*stats.ap}]}),
+  'cast-e':spell('Anivia','E',[55,80,105,130,155],.55,'One Frostbite on a target that is not Chilled. No Chill multiplier or setup spell damage.',{label:'E · Frostbite (not Chilled)'}),
+  'cast-e-empowered':spell('Anivia','E',[110,160,210,260,310],1.1,'One Frostbite against a target already Chilled, doubling the base spell packet. Q/R setup damage, setup mana and timing are excluded; Chill is an explicit prerequisite.',{label:'E · Frostbite (already Chilled)'}),
+ },
  Brand:{
   'cast-q':spell('Brand','Q',[70,100,130,160,190],.65,'One Sear hit. Blaze burn, explosion and stun are excluded.'),
   'cast-w':spell('Brand','W',[75,120,165,210,255],.7,'One Pillar hit against a target that is not Ablaze. The 25% Ablaze bonus, subsequent burn and explosion are excluded.',{label:'W · Pillar of Flame (not Ablaze)'}),
@@ -128,4 +196,4 @@ export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>
  },
 };
 export const abilityModel=(alias:string,mode:string)=>abilityModels[alias]?.[mode as CastMode];
-export const castModes:CastMode[]=['cast-q','cast-w','cast-e','cast-r','cast-q-max','cast-q-isolated'];
+export const castModes:CastMode[]=['cast-q','cast-w','cast-e','cast-r','cast-q-max','cast-q-isolated','cast-e-empowered'];

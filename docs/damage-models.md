@@ -2,7 +2,7 @@
 
 Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-16. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 27 champions. Beyond the four original models, the reviewed cast adapters expose 66 objectives:
+The engine now supports 42 champions. Beyond the four original models, the reviewed cast adapters expose 104 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
@@ -29,6 +29,21 @@ The engine now supports 27 champions. Beyond the four original models, the revie
 | LeBlanc | Q initial hit, W, E initial hit | Unmarked target; no Q mark trigger, E tether completion or Mimic |
 | Lucian | Q, W | Q uses bonus AD and physical damage; W uses AP and magic damage. No Lightslinger or Vigilance |
 | Corki | Q, ordinary R missile | Q is magic with bonus AD/AP; R is physical with bonus AD. No Big One, attack passive or extra missiles |
+| Caitlyn | Q first target, E | Q uses rank-dependent total AD; no Q falloff, Headshot or trap exception |
+| Ashe | W, R | W counts one arrow and uses bonus AD; R is magic with AP scaling |
+| Miss Fortune | Q first target spell packet | Total AD/AP physical packet; no Love Tap, on-hits, bounce or second-target crit |
+| Draven | E, R first outward hit | Rank-dependent R bonus AD; no prior-target falloff, return hit or Adoration execute |
+| Graves | Q initial hit, W, R direct impact | No Q detonation. W is magic; R counts the direct projectile without adding the cone |
+| Quinn | Q, E | Q has rank-dependent bonus AD plus AP, dealt as physical damage; no Harrier attacks |
+| Jarvan IV | E, R | E is AP magic; R is bonus AD physical. No Q armor reduction or Martial Cadence |
+| Nocturne | Q, R dash | Enter any existing trail AD in Extra AD. Automatic trail generation, Umbra attacks and darkness are excluded |
+| Talon | Q ranged leap, W outward, R outward | No melee-Q crit, returning blades, Blade's End bleed or attacks |
+| Pantheon | R center landing | Magic landing only; thrown spear, edge reduction and subsequent physical spells are excluded |
+| Orianna | Q first target, W, E ball passage, R | Ball already positioned for W/R; no setup casts, Q falloff or passive attacks |
+| Diana | Q, W three orbs, E | All W orbs assumed to hit at impact. No Moonlight setup, resets, shields or passive attacks |
+| Lissandra | Q, W, E, enemy-target R | No extra hit from Q shattering/E teleport, self-R healing or Iceborn thralls |
+| Syndra | Q, unupgraded W, E, R three spheres | No 120-Splinter AP multiplier. W assumes fewer than 60 Splinters. R excludes ground spheres and execute |
+| Anivia | Q passage + explosion, E normal, E already Chilled | Both Q packets assumed to land. Empowered E explicitly requires existing Chill and excludes Q/R setup damage and mana |
 
 Existing Cassiopeia Q/E, Sett W, Blitzcrank E and Tahm Kench Q/W/enemy R remain unchanged. New cast modes use `cast-*` IDs. Older saves with generic manual modes remain readable; they are not silently interpreted as new spells. Selecting a supported objective explicitly changes the working model. New champion defaults select their first available adapter, including Seraphine E; an unsupported Q is never selected just because the champion has another modeled spell.
 

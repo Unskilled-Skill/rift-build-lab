@@ -68,6 +68,7 @@ export interface BuildPlan {
   runePage:number[]; shards:number[];
   stages:PurchaseStage[];        // always ends with id 'final'
   authoredPriorities:string[];   // existing buyOrder prose, shown verbatim
+  rationale:string[]; tradeoffs:string[]; // hypothesis or meta item reasons; authored tradeoffs
   provenance:{items:Provenance; runes:Provenance; order:Provenance};
   limits:string[];               // calculator/coverage disclosures
 }

@@ -17,6 +17,7 @@ export interface BuildPlan {
  patch:string;dataVersion:string;checkedAt?:string;sourceURL?:string;
  finalItemIds:number[];runePage:number[];shards:number[];
  stages:PurchaseStage[];authoredPriorities:string[];
+ rationale:string[];tradeoffs:string[]; // item/rune reasoning and authored tradeoffs, shown below the stages
  provenance:{items:Provenance;runes:Provenance;order:Provenance};
  limits:string[];
 }
@@ -68,13 +69,13 @@ export function planFromChatBuild(data:Catalog,build:ChatBuild,collection:'autho
   name:build.name,category:build.category||(collection==='ceiling'?'Ability ceiling':collection==='meta-reference'?'Current meta reference':'Experiment'),goal:build.goal,summary:build.summary||build.hypothesis,
   patch:data.patch,dataVersion:data.version,checkedAt:build.meta?.checkedAt,sourceURL:build.meta?.sourceURL,
   finalItemIds:[...build.itemIds],runePage:[...build.runePage],shards:[...build.shards],
-  stages:finish(data,stages),authoredPriorities:[...build.buyOrder],
+  stages:finish(data,stages),authoredPriorities:[...build.buyOrder],rationale:[build.hypothesis],tradeoffs:[...build.tradeoffs],
   provenance:{items:collection==='meta-reference'?'source-observed':own,runes:runesObserved?'source-observed':own,order:own},
   limits:[...build.coverageNotes],
  };
 }
-export function planFromMeta(data:Catalog,build:FullMetaBuild):BuildPlan{
- validate(data,build.champion,build.itemIds,build.runePage,build.shards);
+// Practical meta stages from the reviewed checkpoint rules; shared by planFromMeta and the existing meta purchase guide.
+export function metaStages(data:Catalog,build:FullMetaBuild):PurchaseStage[]{
  const observed=(id:number)=>build.observedCoreItemIds.some(o=>o===id||earnedPrerequisites[o]===id);
  const stages:PurchaseStage[]=purchaseCheckpoints(data,build).map(point=>{
   const id=metaStageIds[point.title];if(!id)throw new BuildPlanError('stage-overlap',`Unknown purchase checkpoint ${point.title}.`);
@@ -82,13 +83,17 @@ export function planFromMeta(data:Catalog,build:FullMetaBuild):BuildPlan{
   return {id,title:point.title,buy,chooseOne,note:point.note,provenance:id==='first-core'&&buy.every(observed)?'source-observed':'inferred',available:buy.length+chooseOne.length>0};
  });
  stages.push({id:'final',title:'Final build',buy:[...build.itemIds],chooseOne:[],note:'Observed source core completed with reviewed inferred items. Earned upgrades export their buyable prerequisite.',provenance:'source-observed',available:true});
+ return finish(data,stages);
+}
+export function planFromMeta(data:Catalog,build:FullMetaBuild):BuildPlan{
+ validate(data,build.champion,build.itemIds,build.runePage,build.shards);
  const role=normalizeRole(build.role);
  return {
   id:`meta:${build.champion}:${role}:${build.sourceProvider}`,collection:'meta',champion:build.champion,role,
   name:`${build.role.toUpperCase()} meta plan`,category:'Current meta plan',goal:build.summary,summary:build.summary,
   patch:data.patch,dataVersion:data.version,checkedAt:build.checkedAt,sourceURL:build.sourceURL,
   finalItemIds:[...build.itemIds],runePage:[...build.runePage],shards:[...build.shards],
-  stages:finish(data,stages),authoredPriorities:[],
+  stages:metaStages(data,build),authoredPriorities:[],rationale:build.reasons.map(r=>`${data.items.find(i=>i.id===r.itemId)?.name||r.itemId}: ${r.reason}`),tradeoffs:[],
   provenance:{items:'source-observed',runes:'source-observed',order:'inferred'},
   limits:[...build.warnings],
  };
@@ -99,7 +104,7 @@ export function planFromWorkspace(data:Catalog,champion:string,ids:number[],rune
   id:`workspace:${champion}:${ids.join('-')}`,collection:'workspace',champion,role:'unspecified',name,category:'Test bench',goal:'Current test-bench setup.',summary:'Current test-bench setup.',
   patch:data.patch,dataVersion:data.version,finalItemIds:[...ids],runePage:[...runes],shards:[...shards],
   stages:finish(data,[{id:'final',title:'Final build',buy:[...ids],chooseOne:[],note:order==='calculator'?'Damage-calculated order for the selected objective, not a practical match order.':'Current equipped order.',provenance:order,available:true}]),
-  authoredPriorities:[],provenance:{items:'authored',runes:'authored',order},
+  authoredPriorities:[],rationale:[],tradeoffs:[],provenance:{items:'authored',runes:'authored',order},
   limits:order==='calculator'?['Order maximizes the selected objective only; component stats, defensive utility and most procs are excluded.']:[],
  };
 }

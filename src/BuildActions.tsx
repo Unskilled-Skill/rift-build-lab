@@ -8,6 +8,7 @@ import type {ApplyResult,NativeBuildActions} from './platform/types';
 import {createLeagueItemSetFromPlan,createBundleFromPlan,companionURI,downloadLeagueJSON} from './league-export';
 import {appPath} from './hosting';
 import {NativeContext} from './platform/native-context';
+import {desktopLink} from './platform/build-links';
 const roleNames:Record<PlanRole,string>={top:'Top',jungle:'Jungle',mid:'Mid',adc:'Bot',support:'Support',unspecified:'Any role'};
 const assignable=['top','jungle','mid','adc','support'] as const;
 export function outcomeText(result:ApplyResult):string{
@@ -54,6 +55,7 @@ export default function BuildActions({data,plan,checkpoints,onTest,testLabel='Lo
   <details className="league-import"><summary>League import options</summary>
    <p>For items alone, download the item-set JSON, then open Collection → Items in League and use the import control. Choose the set in the shop for this champion.</p>
    {!native&&<><p>To apply items and runes together on Windows:</p><ol><li><a href={appPath('/downloads/rift-build-lab-companion-windows.zip')} download>Download the Windows companion</a>, extract the ZIP, then run <strong>Install.cmd</strong> once to enable website links for your Windows user.</li><li>Open League of Legends and sign in, then choose <strong>Open companion</strong> above.</li><li>Review the local preview and click <strong>Apply to League Client</strong>. You can select items, runes, or both.</li></ol></>}
+   {!native&&<p><strong>Windows desktop app (optional)</strong> — imports items and runes automatically when you lock a champion. Needs Windows 10 or 11 (64-bit); Microsoft Edge WebView2 is installed if missing. <a href="https://github.com/Unskilled-Skill/rift-build-lab/releases" target="_blank" rel="noreferrer">Download from GitHub releases</a>{plan&&desktopLink(plan)&&<> · <a href={desktopLink(plan)!}>Open this build in the desktop app</a></>}.</p>}
    <button className="quiet" disabled={!plan} onClick={exportBundle}><Download size={16} aria-hidden="true"/>Download items + runes file</button>
    {!native&&<p className="footnote">If website links do not open, run RiftBuildLabCompanion.exe and load the items + runes file. No API key is needed. Previous settings are backed up locally; the companion manages one item set per champion and one rune page named Rift Build Lab.</p>}
    <p className="footnote">{native?'The desktop app':'Personal-test Windows companion · live client apply has not yet been verified. It'} uses an unsupported League Client interface. Verify your settings in League before playing. <a href="https://developer.riotgames.com/docs/lol#league-client-api" target="_blank" rel="noreferrer">Riot’s client API guidance</a>.</p>

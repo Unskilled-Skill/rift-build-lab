@@ -5,6 +5,7 @@
 //! application crate only wires these modules to IPC, tray and window lifecycle.
 
 pub mod apply;
+pub mod auto_import;
 pub mod backup;
 pub mod bundle;
 pub mod catalog;

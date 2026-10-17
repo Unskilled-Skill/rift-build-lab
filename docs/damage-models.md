@@ -1,8 +1,8 @@
 # Reviewed damage objectives
 
-Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-16. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
+Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-17. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 54 champions. Beyond the four original models, the reviewed cast adapters expose 135 objectives:
+The engine now supports 69 champions. Beyond the four original models, the reviewed cast adapters expose 186 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
@@ -56,6 +56,21 @@ The engine now supports 54 champions. Beyond the four original models, the revie
 | Aatrox | Q first swing ordinary/sweet spot, W initial | Sweet spot is 1.75 times ordinary. No later swings, W pull-back, healing or passive; existing ultimate AD must be entered explicitly |
 | Rek'Sai | Q already burrowed, E ordinary/maximum-Fury | Prey Seeker is magic with bonus AD/AP. Current-source empowered bite is 1.2 times ordinary as true damage, requiring maximum Fury already prepared |
 | Katarina | Q initial hit, E spell packet | No Q bounce to this target, dagger pickup, item on-hits, attacks, resets or ultimate |
+| Nautilus | Q, E one wave, R primary target | No extra E waves, passive attacks or secondary R targets |
+| Sejuani | Q, W both swings, E already four Frost stacks, R short-range impact | W is physical with total HP/AP scaling; no Icebreaker or stack setup. W contacts are approximated together |
+| Maokai | Q, W, E outside brush, R | E uses bonus HP/AP; no brush damage-over-time, passive healing or repeated vines |
+| Sion | Q uncharged/full, W shield detonation, E, R minimum distance | Q charge setup is prior to impact. W needs the shield to survive until 3s and adds 14% enemy max HP; enter earned passive HP explicitly |
+| Poppy | Q impact/1s eruption, W dash interception, E no wall, R tap | Q scales with enemy max HP by rank and second hit needs the target to stay. No wall bonus, extra interceptions or charged-R damage |
+| Alistar | Q, W | Single magic hits; no Trample, healing or combo follow-up |
+| Leona | Q noncritical attack, W explosion at 3s, E, R | Q splits physical delivery/magic bonus; no allied Sunlight trigger or item on-hits |
+| Braum | Q, R | Q scales with own total HP; no Concussive Blows, attacks or stun |
+| Nunu & Willump | Q champion bite, E one snowball, R full channel | Q uses bonus HP/AP and magic damage. R must finish its 3s channel inside the window; E excludes remaining projectiles and root |
+| Volibear | Q noncritical attack, W first/marked, E, R center | W2 multiplier varies with bonus AD and requires an existing mark. E includes enemy max HP; R is physical despite AP scaling. Automatic R bonus HP/conversions are excluded |
+| Warwick | Q champion spell packet | Total AD/AP plus rank-dependent enemy max HP as magic; no passive/on-hit packets, healing or monster cap |
+| Xin Zhao | Q first attack, W slash, E, R | No W thrust/crit, passive attacks or free challenge setup. R adds 15% enemy current HP from the supplied starting percentage |
+| Vi | Q minimum/full charge, E noncritical attack, R | Maximum Q is 2.5 times minimum. No Denting Blows armor reduction/third-hit damage, on-hits or extra E charges |
+| Fizz | Q, E, R small/big shark | Q splits physical delivery/magic bonus. Sharks explode at 2s after an assumed 0s attachment; big shark requires maximum-distance attachment |
+| Fiddlesticks | Q ordinary, E | Q uses enemy current HP with rank-dependent minimum damage, assuming the target was not recently feared. No recent-fear doubling or passive setup |
 
 Existing Cassiopeia Q/E, Sett W, Blitzcrank E and Tahm Kench Q/W/enemy R remain unchanged. New cast modes use `cast-*` IDs. Older saves with generic manual modes remain readable; they are not silently interpreted as new spells. Selecting a supported objective explicitly changes the working model. New champion defaults select their first available adapter, including Seraphine E; an unsupported Q is never selected just because the champion has another modeled spell.
 
@@ -70,3 +85,9 @@ The generic cast adapters now distinguish mana, energy and no mana/energy budget
 Energy costs are paid upfront. Refunds, regeneration and temporary capacity changes (including Akali Shroud) are excluded. Zero-cost abilities such as Lee Sin R and Akali R can still hit at zero energy. The result carries a resource kind, maximum and spent amount; the existing manaSpent field remains actual mana spending. Damage events and comparisons display the correct resource.
 
 For Garen, Riven, Aatrox and Katarina, these selected casts have no mana/energy cost. Renekton and Rek'Sai variants keep Fury prerequisites explicit in the selected objective; the engine does not generate or advance a Fury meter. Selecting an empowered variant asserts the required Fury is already present, and its notes explain consumption/setup exclusions. These are still single-cast comparisons.
+
+## Current target health and delayed impacts
+
+Xin Zhao R and Fiddlesticks Q expose **Target starting HP (%)**. Their current-health term uses target maximum HP multiplied by that percentage; it remains the same condition for both builds and across purchase stages. The comparison context displays the percentage, and saves retain it. These are raw damage estimates, not kill predictions; Fiddlesticks Q also applies its exported rank-dependent damage floor.
+
+Poppy Q emits its second packet only at a window of at least 1s, assuming the champion remains in the eruption. Sion W, Leona W and fully channeled Nunu R need 3s; Fizz R needs 2s after an assumed attachment. These casts still pay initial mana in a shorter window. Fully charged Sion/Vi Q objectives instead score an impact after prior charge setup, as their labels/notes state. Selected non-formula values (target-health ratios, timing and minimum damage) are now retained alongside formula expressions and checked against the bundled engine spell data.

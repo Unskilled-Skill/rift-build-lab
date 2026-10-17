@@ -1,18 +1,100 @@
 import source from './ability-sources.json';
 import type {Result,Scenario} from './types';
-export type CastMode='cast-q'|'cast-w'|'cast-e'|'cast-r'|'cast-q-max'|'cast-q-isolated'|'cast-e-empowered'|'cast-q-empowered'|'cast-w-empowered';
+export type CastMode='cast-q'|'cast-w'|'cast-e'|'cast-r'|'cast-q-max'|'cast-q-isolated'|'cast-e-empowered'|'cast-q-empowered'|'cast-w-empowered'|'cast-r-empowered';
 type Stats=Result['stats'];
 type DamageType=Result['events'][number]['type'];
 export interface Packet {name:string;type:DamageType;raw:number;time?:number}
-export interface AbilityModel {label:string;slot:string;rankCap:number;cost:number[];sourcePath:string;notes:string;profile:'magic'|'physical'|'true'|'mixed';packets:(rank:number,stats:Stats,s:Scenario)=>Packet[]}
+export interface AbilityModel {label:string;slot:string;rankCap:number;cost:number[];sourcePath:string;notes:string;targetHealth?:boolean;profile:'magic'|'physical'|'true'|'mixed';packets:(rank:number,stats:Stats,s:Scenario)=>Packet[]}
 type Coefficient=number|number[];
 const at=(values:Coefficient,rank:number)=>typeof values==='number'?values:values[rank-1];
 const records=source.records as Record<string,Record<string,{name:string;cost:number[];path:string}>>;
-function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];bonusAD?:Coefficient;totalAD?:Coefficient;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
+const currentHP=(s:Scenario)=>s.targetHP*Math.min(100,Math.max(0,s.targetHealthPercent??100))/100;
+function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];targetHealth?:boolean;bonusAD?:Coefficient;totalAD?:Coefficient;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
  const record=records[alias][slot];const type=options.profile==='physical'?'physical':options.profile==='true'?'true':'magic';
- return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost,sourcePath:record.path,notes,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
+ return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost,sourcePath:record.path,notes,targetHealth:options.targetHealth,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
 }
 export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>={
+ Nautilus:{
+  'cast-q':spell('Nautilus','Q',[85,125,165,205,245],.9,'One champion hook hit. Terrain refund, displacement, passive attack and follow-up damage are excluded.'),
+  'cast-e':spell('Nautilus','E',[55,90,125,160,195],.5,'One Riptide wave hits this champion. Other wave contacts, repeat-hit reduction, slow and monster bonus are excluded.',{label:'E · Riptide (one wave)'}),
+  'cast-r':spell('Nautilus','R',[150,275,400],.8,'Primary target damage only. Travel, secondary-target packets, knockup and stun are excluded.',{label:'R · Depth Charge (primary target)'}),
+ },
+ Sejuani:{
+  'cast-q':spell('Sejuani','Q',[90,140,190,240,290],.75,'One champion collision. Knockup, Frost setup, Icebreaker and passive defenses are excluded.'),
+  'cast-w':spell('Sejuani','W',[5,15,25,35,45],.3,'Both swings land, using total maximum HP. Impact times are approximated together at zero; swing timing, Frost stacks, Icebreaker and slow are excluded.',{label:'W · Winter\'s Wrath (both swings)',profile:'physical',packets:(rank,stats)=>[{name:'Winter\'s Wrath first swing',type:'physical',raw:[5,15,25,35,45][rank-1]+.3*stats.ap+.04*stats.hp},{name:'Winter\'s Wrath second swing',type:'physical',raw:[5,25,45,65,85][rank-1]+.6*stats.ap+.08*stats.hp}]}),
+  'cast-e':spell('Sejuani','E',[55,105,155,205,255],.7,'Requires four Frost stacks already on this champion. Stack setup, Icebreaker follow-up, stun and allied attacks are excluded.'),
+  'cast-r':spell('Sejuani','R',[125,150,175],.4,'Short-range initial bola hit only, before the travel threshold for the enhanced storm. Ice storm, Icebreaker, travel time and stun are excluded.',{label:'R · Glacial Prison (short-range initial hit)'}),
+ },
+ Maokai:{
+  'cast-q':spell('Maokai','Q',[75,120,165,210,255],.5,'One Bramble Smash hit. Displacement, slow, passive healing and following attacks are excluded.'),
+  'cast-w':spell('Maokai','W',[60,85,110,135,160],.4,'One Twisted Advance hit. Root, travel, untargetability and passive healing are excluded.'),
+  'cast-e':spell('Maokai','E',[50,75,100,125,150],.25,'One ordinary sapling detonation outside brush, scaling with bonus HP. Placement/chase time, brush damage-over-time, slow and passive cooldown refunds are excluded.',{label:'E · Sapling Toss (outside brush)',bonusHP:.05}),
+  'cast-r':spell('Maokai','R',[150,225,300],.75,'One vine hits this champion. Additional vines do not add damage here; root, travel and other targets are excluded.'),
+ },
+ Sion:{
+  'cast-q':spell('Sion','Q',[30,45,60,75,90],0,'Uncharged Q impact only. Charge bonus, stun, passive zombie attacks and other targets are excluded.',{label:'Q · Decimating Smash (uncharged)',profile:'physical',totalAD:[.4,.5,.6,.7,.8]}),
+  'cast-q-max':spell('Sion','Q',[90,155,220,285,350],0,'Fully charged Q impact, requiring two seconds of prior preparation before the scored hit. Charge time, stun and passive zombie attacks are excluded.',{label:'Q · Decimating Smash (fully charged)',profile:'physical',totalAD:[1.2,1.5,1.8,2.1,2.4]}),
+  'cast-w':spell('Sion','W',[40,65,90,115,140],.4,'Shield is assumed to remain intact until detonation at 3s. Adds 14% enemy maximum HP; windows below 3s score no hit but pay initial mana. Shield value, incoming damage and automatic passive HP stacks are excluded.',{label:'W · Soul Furnace (shield survives to detonation)',packets:(rank,stats,s)=>s.duration>=3?[{name:'Soul Furnace detonation',type:'magic',raw:[40,65,90,115,140][rank-1]+.4*stats.ap+.14*s.targetHP,time:3}]:[]}),
+  'cast-e':spell('Sion','E',[65,100,135,170,205],.55,'One direct roar hit. Armor reduction is not applied to subsequent physical spells; minion collisions, slow and later damage are excluded.'),
+  'cast-r':spell('Sion','R',[150,300,450],0,'Minimum-distance impact only. Distance scaling to maximum damage, charge travel, displacement and passive attacks are excluded.',{label:'R · Unstoppable Onslaught (minimum-distance hit)',profile:'physical',bonusAD:.6}),
+ },
+ Poppy:{
+  'cast-q':spell('Poppy','Q',[30,55,80,105,130],0,'Initial hit at 0s; the same champion remains in the area for the second hit at 1s if the window permits it. Each hit includes rank-dependent enemy maximum HP damage. Slow, monster caps and passive attacks are excluded.',{label:'Q · Hammer Shock (target stays for eruption)',profile:'physical',packets:(rank,stats,s)=>{const raw=[30,55,80,105,130][rank-1]+.75*stats.bonusAD+[.07,.075,.08,.085,.09][rank-1]*s.targetHP;return [{name:'Hammer Shock impact',type:'physical',raw},...(s.duration>=1?[{name:'Hammer Shock eruption',type:'physical' as const,raw,time:1}]:[])]}}),
+  'cast-w':spell('Poppy','W',[70,110,150,190,230],.7,'One enemy dash is intercepted. Requires an actual dash into the field; grounding, defenses, movement and further interceptions are excluded.',{label:'W · Steadfast Presence (dash intercepted)'}),
+  'cast-e':spell('Poppy','E',[40,60,80,100,120],0,'Initial tackle hit only. Wall collision bonus hit, wall stun, displacement and passive attack are excluded.',{label:'E · Heroic Charge (no wall collision)',profile:'physical',bonusAD:.6}),
+  'cast-r':spell('Poppy','R',[100,150,200],0,'Uncharged tap deals half the charged damage packet. Charge range, knockback, untargetability and following attacks are excluded.',{label:'R · Keeper\'s Verdict (uncharged tap)',profile:'physical',bonusAD:.45}),
+ },
+ Alistar:{
+  'cast-q':spell('Alistar','Q',[60,100,140,180,220],.8,'One Pulverize hit. Knockup, Trample stacks, healing and other targets are excluded.'),
+  'cast-w':spell('Alistar','W',[55,110,165,220,275],1,'One Headbutt hit. Knockback, Q combo, Trample stacks and following attacks are excluded.'),
+ },
+ Leona:{
+  'cast-q':spell('Leona','Q',[10,35,60,85,110],.3,'One noncritical delivery attack plus the Q magic bonus. Attack AD is included once; Sunlight requires another champion and is excluded, as are item on-hits and stun.',{label:'Q · Shield of Daybreak (noncritical attack)',profile:'mixed',packets:(rank,stats)=>[{name:'Delivery attack (noncritical)',type:'physical',raw:stats.ad},{name:'Shield of Daybreak bonus',type:'magic',raw:[10,35,60,85,110][rank-1]+.3*stats.ap}]}),
+  'cast-w':spell('Leona','W',[55,85,115,145,175],.4,'One Eclipse explosion at 3s, assuming the enemy is in range. Earlier windows score no hit but pay initial mana. Defensive stats, buff extension and Sunlight follow-up are excluded.',{packets:(rank,stats,s)=>s.duration>=3?[{name:'Eclipse explosion',type:'magic',raw:[55,85,115,145,175][rank-1]+.4*stats.ap,time:3}]:[]}),
+  'cast-e':spell('Leona','E',[50,90,130,170,210],.4,'One Zenith Blade hit. Root, dash, Sunlight follow-up and attacks are excluded.'),
+  'cast-r':spell('Leona','R',[150,225,300],.8,'One Solar Flare hit. Stun/slow zones, Sunlight follow-up and other targets are excluded.'),
+ },
+ Braum:{
+  'cast-q':spell('Braum','Q',[75,120,165,210,255],0,'One Winter\'s Bite magic hit, scaling with total maximum HP. Concussive Blows, stun, slow and following attacks are excluded.',{packets:(rank,stats)=>[{name:'Winter\'s Bite',type:'magic',raw:[75,120,165,210,255][rank-1]+.025*stats.hp}]}),
+  'cast-r':spell('Braum','R',[150,250,350],.6,'One Glacial Fissure magic hit. Knockup, slow field, Concussive Blows and other targets are excluded.'),
+ },
+ Nunu:{
+  'cast-q':spell('Nunu','Q',[60,100,140,180,220],.65,'Champion Consume magic damage with bonus HP scaling. Monster/minion true damage, healing and passive attack-speed effects are excluded.',{label:'Q · Consume (champion target)',bonusHP:.05}),
+  'cast-e':spell('Nunu','E',[15,22.5,30,37.5,45],.12,'One snowball projectile packet from the initial cast, paying initial mana. Other snowballs, recasts, root detonation and slow are excluded.',{label:'E · Snowball Barrage (one snowball)'}),
+  'cast-r':spell('Nunu','R',[625,925,1275],3,'Full uninterrupted three-second channel, with this champion inside the final explosion. Windows below 3s score no hit but spend initial mana. Early releases, shields, slow and interruption are excluded.',{label:'R · Absolute Zero (full channel)',packets:(rank,stats,s)=>s.duration>=3?[{name:'Absolute Zero full detonation',type:'magic',raw:[625,925,1275][rank-1]+3*stats.ap,time:3}]:[]}),
+ },
+ Volibear:{
+  'cast-q':spell('Volibear','Q',[10,20,30,40,50],0,'One noncritical empowered attack, including delivery AD once and Q bonus AD scaling. Passive lightning, item on-hits, stun and movement are excluded.',{label:'Q · Thundering Smash (noncritical attack)',profile:'physical',totalAD:1,bonusAD:1.6}),
+  'cast-w':spell('Volibear','W',[5,30,55,80,105],0,'First maul on an unmarked target. Bonus HP is used, not total HP. Subsequent marked-target maul, healing, item on-hits and automatic ultimate HP are excluded.',{label:'W · Frenzied Maul (unmarked)',profile:'physical',totalAD:1.1,bonusHP:.06}),
+  'cast-w-empowered':spell('Volibear','W',[5,30,55,80,105],0,'One maul on a target already marked by W. The multiplier is 1.5 + 0.0025 per bonus AD. Mark setup damage/mana, healing, on-hits and automatic ultimate HP are excluded.',{label:'W · Frenzied Maul (already marked)',profile:'physical',packets:(rank,stats)=>[{name:'Frenzied Maul marked hit',type:'physical',raw:([5,30,55,80,105][rank-1]+1.1*stats.ad+.06*stats.bonusHP)*(1.5+.0025*stats.bonusAD)}]}),
+  'cast-e':spell('Volibear','E',[80,110,140,170,200],.7,'One lightning impact with rank-dependent enemy maximum HP damage. Telegraph time is outside the scored impact; shield, slow, monster cap and automatic ultimate HP are excluded.',{packets:(rank,stats,s)=>[{name:'Sky Splitter',type:'magic',raw:[80,110,140,170,200][rank-1]+.7*stats.ap+[.11,.12,.13,.14,.15][rank-1]*s.targetHP}]}),
+  'cast-r':spell('Volibear','R',[300,500,700],1.25,'One center landing physical hit. Automatic ultimate bonus HP and resulting item conversions, tower damage, displacement, slow and passive lightning are excluded.',{label:'R · Stormbringer (center landing)',profile:'physical',bonusAD:2.5}),
+ },
+ Warwick:{
+  'cast-q':spell('Warwick','Q',[0,0,0,0,0],1,'One champion bite spell packet, with total AD/AP and rank-dependent enemy maximum HP damage. Passive attack damage, item on-hits, healing, movement and monster caps are excluded.',{packets:(rank,stats,s)=>[{name:'Jaws of the Beast',type:'magic',raw:1.2*stats.ad+stats.ap+[.06,.07,.08,.09,.1][rank-1]*s.targetHP}]}),
+ },
+ XinZhao:{
+  'cast-q':spell('XinZhao','Q',[15,30,45,60,75],0,'First empowered noncritical attack, including its normal AD delivery. Other two attacks, Determination passive, on-hits, cooldown refunds and knockup are excluded.',{label:'Q · Three Talon Strike (first attack)',profile:'physical',totalAD:1,bonusAD:.4}),
+  'cast-w':spell('XinZhao','W',[30,40,50,60,70],0,'Initial slash only. The thrust, its AP/crit scaling, slow, mark and attacks are excluded.',{label:'W · Wind Becomes Lightning (initial slash)',profile:'physical',totalAD:.3}),
+  'cast-e':spell('XinZhao','E',[50,75,100,125,150],1.2,'One Audacious Charge magic hit. Attack-speed buff, attacks, slow and passive healing are excluded.'),
+  'cast-r':spell('XinZhao','R',[75,175,275],1.1,'One sweep adds 15% of enemy current HP at impact, using the supplied starting-HP percentage. Challenge setup, knockback, immunity and following attacks are excluded.',{profile:'physical',targetHealth:true,packets:(rank,stats,s)=>[{name:'Crescent Guard',type:'physical',raw:[75,175,275][rank-1]+stats.bonusAD+1.1*stats.ap+.15*currentHP(s)}]}),
+ },
+ Vi:{
+  'cast-q':spell('Vi','Q',[40,60,80,100,120],0,'Minimum-charge Q hit. Denting Blows damage/armor reduction, passive shield, charge timing and knockback are excluded.',{label:'Q · Vault Breaker (minimum charge)',profile:'physical',bonusAD:.6}),
+  'cast-q-max':spell('Vi','Q',[100,150,200,250,300],0,'Fully charged Q impact is 2.5 times minimum damage. Prior charging is assumed complete; charge timing, Denting Blows, passive shield and knockback are excluded.',{label:'Q · Vault Breaker (fully charged)',profile:'physical',bonusAD:1.5}),
+  'cast-e':spell('Vi','E',[10,30,50,70,90],1,'One noncritical empowered attack, including total AD delivery once. Other charges, crit, Denting Blows, item on-hits and cone targets are excluded.',{label:'E · Relentless Force (noncritical attack)',profile:'physical',totalAD:1.1}),
+  'cast-r':spell('Vi','R',[150,250,350],0,'One ultimate hit on this champion. Secondary targets, travel, Denting Blows, passive shield and following attacks are excluded.',{profile:'physical',bonusAD:.9}),
+ },
+ Fizz:{
+  'cast-q':spell('Fizz','Q',[10,25,40,55,70],.55,'One dash spell with physical delivery AD and the separate magic bonus. W passive damage, item on-hits and follow-up attacks are excluded.',{profile:'mixed',packets:(rank,stats)=>[{name:'Urchin Strike physical delivery',type:'physical',raw:stats.ad},{name:'Urchin Strike magic bonus',type:'magic',raw:[10,25,40,55,70][rank-1]+.55*stats.ap}]}),
+  'cast-e':spell('Fizz','E',[80,130,180,230,280],.95,'One landing hit. Prior hop time, untargetability, slow and subsequent attacks are excluded.'),
+  'cast-r':spell('Fizz','R',[180,300,420],.6,'Small shark explodes 2s after attachment, assumed at 0s. Windows below 2s score no hit but spend initial mana. Prior fish travel, crowd control and other targets are excluded.',{label:'R · Chum the Waters (small shark)',packets:(rank,stats,s)=>s.duration>=2?[{name:'Small shark explosion',type:'magic',raw:[180,300,420][rank-1]+.6*stats.ap,time:2}]:[]}),
+  'cast-r-empowered':spell('Fizz','R',[270,450,630],.9,'Maximum-distance attachment creates the big shark, exploding 2s after attachment at 1.5 times small-shark damage. Attachment is assumed at 0s; prior fish travel, crowd control and other targets are excluded.',{label:'R · Chum the Waters (big shark)',packets:(rank,stats,s)=>s.duration>=2?[{name:'Big shark explosion',type:'magic',raw:[270,450,630][rank-1]+.9*stats.ap,time:2}]:[]}),
+ },
+ Fiddlesticks:{
+  'cast-q':spell('Fiddlesticks','Q',[0,0,0,0,0],0,'Target is not recently feared by Fiddlesticks. Uses enemy current HP from the supplied percentage, with the exported rank-dependent minimum damage. Recent-fear doubling, passive fear setup and monster rules are excluded.',{label:'Q · Terrify (not recently feared)',targetHealth:true,packets:(rank,stats,s)=>[{name:'Terrify',type:'magic',raw:Math.max([40,60,80,100,120][rank-1],([.04,.045,.05,.055,.06][rank-1]+.0003*stats.ap)*currentHP(s))}]}),
+  'cast-e':spell('Fiddlesticks','E',[70,105,140,175,210],.5,'One Reap hit. Slow, center silence, passive fear, setup and other targets are excluded.'),
+ },
  Galio:{
   'cast-q':spell('Galio','Q',[70,105,140,175,210],.7,'One projectile impact only. The lingering tornado and its target-health damage, passive attack and subsequent casts are excluded.',{label:'Q · Winds of War (projectile impact)'}),
   'cast-w':spell('Galio','W',[20,30,40,50,60],.3,'Minimum-charge release hit only. Charging bonus, taunt, shield and damage reduction are excluded.',{label:'W · Shield of Durand (minimum charge)'}),
@@ -251,4 +333,4 @@ export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>
  },
 };
 export const abilityModel=(alias:string,mode:string)=>abilityModels[alias]?.[mode as CastMode];
-export const castModes:CastMode[]=['cast-q','cast-w','cast-e','cast-r','cast-q-max','cast-q-isolated','cast-e-empowered','cast-q-empowered','cast-w-empowered'];
+export const castModes:CastMode[]=['cast-q','cast-w','cast-e','cast-r','cast-q-max','cast-q-isolated','cast-e-empowered','cast-q-empowered','cast-w-empowered','cast-r-empowered'];

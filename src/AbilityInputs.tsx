@@ -13,6 +13,7 @@ export default function AbilityInputs({model,scenario:s,update}:{model:AbilityMo
   <NumberField label="Enemy magic resist" value={s.mr} min={-1000} max={10000} onChange={v=>update('mr',v)}/>
   <NumberField label="Enemy armor" value={s.armor} min={-1000} max={10000} onChange={v=>update('armor',v)}/>
   <NumberField label="Target maximum HP" value={s.targetHP} min={1} max={100000} onChange={v=>update('targetHP',v)}/>
+  {model.targetHealth&&<NumberField label="Target starting HP (%)" value={s.targetHealthPercent??100} min={0} max={100} onChange={v=>update('targetHealthPercent',v)}/>}
   {s.champion==='Ziggs'&&model.slot==='R'&&<label className="check"><input type="checkbox" checked={s.center} onChange={e=>update('center',e.target.checked)}/>Mega Inferno Bomb center hit (unchecked: 65% edge damage)</label>}
  </>;
 }

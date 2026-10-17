@@ -64,8 +64,9 @@ it('keeps source paths, mana costs and reviewed formulas aligned with the bundle
    const ability=kit.primaryAbilities.find((a:{slot:string})=>a.slot===model!.slot);
    expect(model!.cost).toEqual(ability.costByRank);
    const spell=kit.allSpellRecords.find((r:{path:string})=>r.path===model!.sourcePath);expect(spell).toBeTruthy();
-   const records=source.records as Record<string,Record<string,{calculations:Record<string,string>}>>;
+   const records=source.records as Record<string,Record<string,{calculations:Record<string,string>;values?:Record<string,number[]>}>>;
    for(const [key,expression] of Object.entries(records[alias][model!.slot].calculations))expect(spell.calculations[key].expression).toBe(expression);
+   for(const [key,values] of Object.entries(records[alias][model!.slot].values||{}))expect(spell.dataValuesRaw[key]).toEqual(values);
   }
  }
 });

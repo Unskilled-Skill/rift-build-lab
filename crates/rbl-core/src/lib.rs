@@ -8,6 +8,7 @@ pub mod bundle;
 pub mod catalog;
 pub mod error;
 pub mod json;
+pub mod lcu;
 
 pub use error::CoreError;
 

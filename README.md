@@ -34,7 +34,7 @@ In **Test bench**, load a reference build, follow **Compare**, and choose **Pin 
 - **Purchase progression** compares ordered purchases at shared gold checkpoints. Edit the assumed item order, including boots. Only affordable completed purchases are included; leftover gold buys no components. By default, earned transformations use purchasable prerequisites and Rod stacks, earned Heartsteel HP and Gathering Storm time are zero. An explicit toggle uses your supplied finite values instead. Level/ranks and other combat conditions stay fixed: this is not a lane or match-time simulation.
 - **Enemy defenses** samples damage across armor, MR or target HP, with a chart, exact-value table and actions to apply a sampled target to the test bench.
 
-Numerical comparisons support all 173 champions; see [the objective and assumption table](docs/damage-models.md). The original Cassiopeia Q/E, Sett W, Blitzcrank noncritical E and Tahm Kench Q/W/enemy R adapters remain available. Full meta plans and interaction hypotheses still open in manual mode when required. **Calculate a supported ability** explicitly selects a partial model; it does not simulate the complete proposal. Other champions retain manual testing.
+Numerical comparisons support all 173 champions; see [the objective and assumption table](docs/damage-models.md). The original Cassiopeia Q/E, Sett W, Blitzcrank noncritical E and Tahm Kench Q/W/enemy R adapters remain available. Full meta plans and interaction hypotheses still open in manual mode when required. **Calculate a supported ability** explicitly selects a partial model; it does not simulate the complete proposal. Unsupported effects and full-combo hypotheses still require manual testing.
 
 ## Builds from this ChatGPT conversation
 

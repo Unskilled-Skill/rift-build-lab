@@ -9,7 +9,7 @@ Machine: Intel Core i5-12600K, 16 logical processors; Windows build 10.0.26200; 
 | Native tray, no webview | 17.9 MiB | 0 MiB | 5.8 MiB | 0.00% observed |
 | Window, fresh WebView2 profile | 31.1 MiB | 391.4 MiB | 238.4 MiB | 0.00% observed |
 
-The final tray run collected 60 samples across 66.9 seconds, with no changed app-data file timestamps/sizes during the sample. The initial tray run averaged 21.4 MiB native working set. The window run collected 60 samples across 68.4 seconds, including process-inventory overhead. Six owned WebView2 processes were observed. Process creation was first sampled at 1.27 seconds; this **is not UI-ready timing**. Zero observed CPU means no measurable processor-time increase after the first sample at this resolution; startup CPU is excluded, and it is not a promise of literally zero work.
+The final tray run reused its isolated native data directory; the final window run used a new explicit WebView2 profile in an existing isolated native directory. These are not cold-versus-warm UI timing comparisons. The final tray run collected 60 samples across 66.9 seconds, with no changed app-data file timestamps/sizes during the sample. The initial tray run averaged 21.4 MiB native working set. The window run collected 60 samples across 68.4 seconds, including process-inventory overhead. Six owned WebView2 processes were observed. Process creation was first sampled at 1.27 seconds; this **is not UI-ready timing**. Zero observed CPU means no measurable processor-time increase after the first sample at this resolution; startup CPU is excluded, and it is not a promise of literally zero work.
 
 ## Target assessment
 
@@ -23,7 +23,7 @@ The implemented low-footprint behavior is destruction of the webview when closin
 
 ## Reproduction and limitations
 
-From PowerShell 7.4+ at the repository root, close other Rift Build Lab instances, build release, then run:
+From PowerShell 7.4+ at the repository root, close other Rift Build Lab instances and turn off its Windows-startup option in its own settings, build release, then run:
 
 ```powershell
 npm run desktop:build
@@ -34,4 +34,4 @@ npm run desktop:build
 
 `Seconds` selects the sample count with a one-second minimum interval; CIM inventory adds overhead, so the report records elapsed duration. Measurements use only the owned app process and its descendant tree, separate native/WebView2 working sets and combined private memory, and compare file timestamps/sizes before/after the run. WebView2's documented `WEBVIEW2_USER_DATA_FOLDER` override isolates browser storage as well as native `%APPDATA%`/`%LOCALAPPDATA%`; see [Microsoft's environment options](https://learn.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/webview2-idl).
 
-Raw measurements are local ignored `output/desktop-performance/{Tray,Window}/measurement.json`. The fresh window run created/changed 207 WebView2 cache/profile files; this is not a claim of zero idle writes. File timestamp comparisons do not measure write volume or attribute individual writes. The script stops only the process it launched and never edits the user's ordinary app preferences. Reusing a mode's output folder produces a reused-profile run; choose a new `-Output` folder for a genuinely fresh profile. No elevated privileges, credential reads, remote debugging or browser-security bypasses are needed.
+Raw measurements are local ignored `output/desktop-performance/{Tray,Window}/measurement.json`. The fresh window run created/changed 207 WebView2 cache/profile files; this is not a claim of zero idle writes. A separate 10-sample fresh-directory smoke check wrote 812 native staging files during the startup data-update check; background mode is not disk-silent while downloading a new revision. File timestamp comparisons do not measure write volume or attribute individual writes. The script refuses to run if an existing app startup registration could be changed by the isolated startup-off profile. It stops only the process it launched and never edits the user's ordinary app preferences. Reusing a mode's output folder produces a reused-profile run; choose a new `-Output` folder for a genuinely fresh profile. No elevated privileges, credential reads, remote debugging or browser-security bypasses are needed.

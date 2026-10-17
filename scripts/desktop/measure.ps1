@@ -1,11 +1,20 @@
 param([ValidateSet('Tray','Window')][string]$Mode='Tray',[ValidateRange(10,300)][int]$Seconds=60,[string]$Executable='target/release/rift-build-lab.exe',[string]$Output='output/desktop-performance')
 $ErrorActionPreference='Stop'
+# Startup registration is shared OS state, even when app-data directories are isolated.
+# Refuse to launch a seeded startup-off profile if it could change an existing registration.
+$startupKey='HKCU:\Software\Microsoft\Windows\CurrentVersion\Run'
+if(Test-Path -LiteralPath $startupKey) {
+ $startupNames=(Get-Item -LiteralPath $startupKey).GetValueNames()
+ $productName=(Get-Content -LiteralPath 'src-tauri/tauri.conf.json' -Raw | ConvertFrom-Json).productName
+ if($productName -in $startupNames -or 'rift-build-lab' -in $startupNames){throw 'Disable Rift Build Lab Windows startup in its own settings before isolated measurement; an existing registration must not be altered by this test.'}
+}
 $exe=(Resolve-Path -LiteralPath $Executable).Path
 if(Get-Process -Name 'rift-build-lab' -ErrorAction SilentlyContinue){throw 'Close existing Rift Build Lab windows before isolated measurement.'}
 $root=(Resolve-Path '.').Path
 $runRoot=[IO.Path]::GetFullPath((Join-Path $root "$Output/$Mode"))
 if(-not $runRoot.StartsWith($root+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)){throw 'Measurement output must stay inside the workspace.'}
 $roaming=Join-Path $runRoot 'roaming';$local=Join-Path $runRoot 'local'
+$profileReused=Test-Path -LiteralPath $runRoot
 New-Item -ItemType Directory -Force -Path (Join-Path $roaming 'RiftBuildLab'),$local | Out-Null
 $preferences=@{schema=1;autoImport=@{enabled=$false;items=$true;runes=$true;metaFallback=$false};background=@{trayOnClose=($Mode -eq 'Tray');startWithWindows=$false};defaults=@{};lastApplied=$null;lastFailure=$null}
 $preferences | ConvertTo-Json -Depth 6 | Set-Content -Encoding utf8 (Join-Path $roaming 'RiftBuildLab/preferences.json')
@@ -46,7 +55,7 @@ try {
  $changedFiles=@($filesAfter.Keys | Where-Object { -not $filesBefore.ContainsKey($_) -or $filesBefore[$_] -ne $filesAfter[$_] } | ForEach-Object { $_.Substring($runRoot.Length+1) })
  $interval=$rows[-1].elapsedSeconds-$rows[0].elapsedSeconds
  $cpuPercent=(($rows | Select-Object -Skip 1 | Measure-Object cpuSecondsDelta -Sum).Sum)/$interval/$logical*100
- $result=[ordered]@{mode=$Mode;samples=$Seconds;durationSeconds=$interval;exe=$exe;appVersion=(Get-Item $exe).VersionInfo.ProductVersion;windows=[Environment]::OSVersion.VersionString;webviewVersion=$webviewVersion;launchProfile="fresh isolated user data";changedAppDataFileCount=$changedFiles.Count;changedAppDataFiles=$changedFiles;logicalProcessors=$logical;cpuName=(Get-CimInstance Win32_Processor | Select-Object -First 1 -ExpandProperty Name);averageCpuPercent=$cpuPercent;averagePrivateMiB=($rows | Measure-Object privateMiB -Average).Average;averageNativeMiB=($rows | Measure-Object nativeMiB -Average).Average;averageWebviewMiB=($rows | Measure-Object webviewMiB -Average).Average;maxWebviewProcesses=($rows | Measure-Object webviewProcesses -Maximum).Maximum;secondsUntilWebviewProcess=$startupWebviewSeconds;uiReadyTimeMeasured=$false;leagueLobbyMeasured=$false;notes='Isolated user data; auto-import off. Working sets can double-count shared runtime pages. Process discovery is not UI-ready timing.';rows=$rows}
+ $result=[ordered]@{mode=$Mode;samples=$Seconds;durationSeconds=$interval;exe=$exe;appVersion=(Get-Item $exe).VersionInfo.ProductVersion;windows=[Environment]::OSVersion.VersionString;webviewVersion=$webviewVersion;launchProfile=$(if($profileReused){"reused isolated data directory"}else{"new isolated data directory"});changedAppDataFileCount=$changedFiles.Count;changedAppDataFiles=$changedFiles;logicalProcessors=$logical;cpuName=(Get-CimInstance Win32_Processor | Select-Object -First 1 -ExpandProperty Name);averageCpuPercent=$cpuPercent;averagePrivateMiB=($rows | Measure-Object privateMiB -Average).Average;averageNativeMiB=($rows | Measure-Object nativeMiB -Average).Average;averageWebviewMiB=($rows | Measure-Object webviewMiB -Average).Average;maxWebviewProcesses=($rows | Measure-Object webviewProcesses -Maximum).Maximum;secondsUntilWebviewProcess=$startupWebviewSeconds;uiReadyTimeMeasured=$false;leagueLobbyMeasured=$false;notes='Isolated user data; auto-import off. Working sets can double-count shared runtime pages. Process discovery is not UI-ready timing.';rows=$rows}
  $result | ConvertTo-Json -Depth 6 | Set-Content -Encoding utf8 (Join-Path $runRoot 'measurement.json')
  $result.Remove('rows');$result.Remove('changedAppDataFiles');$result | ConvertTo-Json -Depth 3
 } finally {

@@ -17,7 +17,7 @@ With the player's consent, the desktop app applied one authored build (Aatrox, "
 | Current rune page | The managed page becomes the current page (as the companion does) |
 | Backups | One format-1 backup per apply under `%LOCALAPPDATA%/RiftBuildLab/backups` (8→9 sets, 2→3 pages recorded); no credentials in either file |
 
-Published 0.1.0 still contains the strict read-back, so its Apply now reports a successful write as partial; the fix ships in the next release.
+The fix shipped in 0.1.1, which installed copies of 0.1.0 receive through the auto-updater.
 
 ## Read-only check against a signed-in client (2026-10-17)
 

@@ -56,9 +56,21 @@ Local measurements/checksum above refer to the local package and its recorded da
 |---|---|
 | `releases/latest/download/latest.json` resolves | 200; version 0.1.0; `windows-x86_64` and `windows-x86_64-nsis` point at the release asset; no BOM |
 | A 0.0.9-stamped build of the same app finds, downloads and verifies 0.1.0 | Passed: `check_app_update` returned `ready: true` after signature verification against the bundled public key; status strip showed "Update 0.1.0 ready · Restart to update" |
-| Install on quit / Restart to update | Not exercised (the test process was force-stopped so nothing was installed); installer upgrade behaviour remains part of the installer lifecycle gate |
+| Install on quit / Restart to update | Verified with 0.1.1 (below) |
 
 The first release run failed because the signing-key secret had been stored with a UTF-8 BOM (set via a Windows PowerShell pipe); re-storing it from the file fixed the run.
+
+## Release 0.1.1 delivered through the auto-updater (2026-10-17)
+
+[0.1.1](https://github.com/Unskilled-Skill/rift-build-lab/releases/tag/desktop-v0.1.1) (tag `desktop-v0.1.1`, commit `10a4059`) fixes the read-back that reported confirmed League writes as partial. It was built and signed by the release workflow and published as the latest release; the updater endpoint served 0.1.1 immediately.
+
+End-to-end delivery on this machine:
+
+1. The published 0.1.0 installer (checksum matched the release `.sha256`) was installed silently with `/S` for the current user (`%LOCALAPPDATA%\Rift Build Lab`; Installed apps showed 0.1.0).
+2. Launched normally, 0.1.0 found, downloaded and signature-verified 0.1.1 within about 5 seconds; the status strip showed "Update 0.1.1 ready · Restart to update".
+3. Closing the window (tray mode off) quit the app; the passive installer replaced it, the executable reported 0.1.1 about 4 seconds later and the app relaunched on 0.1.1. Installed apps then showed 0.1.1, and the running app's own check reported it up to date.
+
+Not covered: update while running in tray mode, Restart to update clicked from the UI, and SmartScreen prompts on a machine that has not seen the installer.
 
 ## Remaining gates
 

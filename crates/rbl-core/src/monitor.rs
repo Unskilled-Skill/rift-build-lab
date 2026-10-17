@@ -148,10 +148,29 @@ impl<S: ClientSource, L: Library> Runtime<S, L> {
                     Ok(()) => {
                         let catalog = self.library.catalog();
                         let writer = self.writer.as_ref().expect("connected");
+                        let account = writer.lcu().call(LcuRequest::GetSummoner).await.ok().and_then(|v| v["summonerId"].as_u64());
+                        let phase = writer.lcu().call(LcuRequest::GetPhase).await.ok().and_then(|v| v.as_str().map(str::to_owned));
+                        let session = writer.lcu().call(LcuRequest::GetChampSelectSession).await.ok().as_ref().and_then(reduce);
+                        if let (Some(account), Some(phase)) = (account, phase) {
+                            self.step(Event::ClientFound { account });
+                            self.step(Event::Phase(phase));
+                            if let Some(view) = session {
+                                let pick = view.champion_id.and_then(|id| catalog.champion(id)).map(|c| Pick {
+                                    champion_id: c.id,
+                                    champion: c.alias.clone(),
+                                    role: view.role,
+                                });
+                                self.step(Event::Session { game_id: view.game_id, pick });
+                            }
+                        }
+                        let writer = self.writer.as_ref().expect("connected");
                         writer.apply(&catalog, ApplyRequest { bundle: &bundle, items, runes, expected: None }).await
                     }
                     Err(error) => ApplyOutcome::Rejected { error },
                 };
+                if let Some(id) = bundle["championId"].as_i64() {
+                    self.machine.record_manual(id, bundle["buildName"].as_str().unwrap_or("Manual build"), &outcome);
+                }
                 self.library.record(None, &outcome);
                 let _ = reply.send(outcome);
                 Vec::new()

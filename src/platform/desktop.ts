@@ -18,7 +18,7 @@ const isPendingOpen=(v:unknown):v is OpenBuild|null=>v===null||guard.isOpenBuild
 /** Subscribes to a native event, delivering only payloads that pass `check`. */
 function subscribe<T>(event:string,check:(v:unknown)=>v is T,callback:(value:T)=>void):()=>void{
  let stop:(()=>void)|undefined,cancelled=false;
- void listen(event,e=>{if(check(e.payload))callback(e.payload)}).then(unlisten=>{if(cancelled)unlisten();else stop=unlisten});
+ void listen(event,e=>{if(check(e.payload))callback(e.payload)}).then(unlisten=>{if(cancelled)unlisten();else stop=unlisten}).catch(()=>{/* A lost event channel must not create an unhandled rejection. Explicit commands still report connectivity. */});
  return()=>{cancelled=true;stop?.()};
 }
 const linkArg=(link:ExternalLink)=>typeof link==='string'?{kind:link}:link;

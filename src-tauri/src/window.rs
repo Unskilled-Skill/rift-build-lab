@@ -29,6 +29,11 @@ pub fn show(app: &AppHandle) -> bool {
         let _ = window.set_focus();
         return true;
     }
+    if let Some(core) = app.try_state::<Core>()
+        && let (Ok(current), Ok(mut pinned)) = (core.data.read(), core.window_data.write())
+    {
+        *pinned = current.clone();
+    }
     let built = WebviewWindowBuilder::new(app, MAIN, WebviewUrl::App("index.html".into()))
         .title("Rift Build Lab")
         .inner_size(1280.0, 860.0)
@@ -52,9 +57,14 @@ pub fn on_close_requested(window: &WebviewWindow<Wry>, api: &tauri::CloseRequest
     tauri::async_runtime::spawn(async move {
         let core = app.state::<Core>();
         let saved = core.ui_saved.notified();
+        tokio::pin!(saved);
+        saved.as_mut().enable();
         let _ = window.emit("persist-ui-state", ());
-        let _ = tokio::time::timeout(SAVE_TIMEOUT, saved).await;
-        let _ = window.destroy();
+        if tokio::time::timeout(SAVE_TIMEOUT, saved).await.is_ok() {
+            let _ = window.destroy();
+        } else {
+            let _ = window.emit("window-save-failed", ());
+        }
     });
 }
 
@@ -134,15 +144,14 @@ pub fn tooltip(status: &serde_json::Value) -> String {
 }
 
 /// Registers or removes the Windows startup entry to match the user's choice.
-pub fn sync_autostart(app: &AppHandle, wanted: bool) {
+pub fn sync_autostart(app: &AppHandle, wanted: bool) -> Result<(), rbl_core::CoreError> {
     let launcher = app.autolaunch();
-    match launcher.is_enabled() {
-        Ok(true) if !wanted => {
-            let _ = launcher.disable();
-        }
-        Ok(false) if wanted => {
-            let _ = launcher.enable();
-        }
-        _ => {}
-    }
+    rbl_core::startup::sync_startup(
+        wanted,
+        || launcher.is_enabled().map_err(|_| rbl_core::CoreError::Internal),
+        |enable| { if enable { launcher.enable() } else { launcher.disable() } }.map_err(|_| rbl_core::CoreError::Internal),
+    )
+    .map_err(|_| rbl_core::CoreError::InvalidBundle {
+        reason: "Windows startup registration could not be changed. Check Windows Startup apps and retry.",
+    })
 }

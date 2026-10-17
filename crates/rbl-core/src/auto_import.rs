@@ -51,7 +51,13 @@ pub struct ApplyIdentity {
 impl ApplyIdentity {
     /// What the writer must re-check immediately before writing.
     pub fn expected(&self) -> ExpectedSelection {
-        ExpectedSelection { summoner_id: self.account, champion_id: self.champion_id }
+        ExpectedSelection {
+            summoner_id: self.account,
+            champion_id: self.champion_id,
+            role: self.role,
+            game_id: Some(self.session.game_id),
+            champ_select_only: true,
+        }
     }
 }
 
@@ -70,6 +76,11 @@ pub enum Event {
     Phase(String),
     /// Champ-select snapshot; `pick` is `None` until the local player has locked a champion.
     Session {
+        game_id: u64,
+        pick: Option<Pick>,
+    },
+    /// Refresh local context for a manual request without scheduling an automatic write.
+    ObserveSession {
         game_id: u64,
         pick: Option<Pick>,
     },
@@ -176,6 +187,7 @@ enum State {
 }
 
 pub struct Machine {
+    suspended: Option<Box<Selection>>,
     state: State,
     entry_seq: u64,
 }
@@ -232,7 +244,7 @@ impl Selection {
             return vec![];
         };
         self.attention = None;
-        if self.applied.iter().any(|(id, role, plan)| (*id, *role) == pick_key(&pick) && *plan == plan_id) {
+        if self.applied.iter().any(|(id, role, _plan)| (*id, *role) == pick_key(&pick)) {
             return vec![];
         }
         let identity = self.identity(&pick, plan_id, ctx, false);
@@ -294,10 +306,15 @@ fn record_outside_session(state: &mut State, identity: &ApplyIdentity, outcome: 
 
 impl Machine {
     pub fn new(enabled: bool) -> Self {
-        Machine { state: if enabled { State::Waiting { attempt: 0 } } else { State::Disabled }, entry_seq: 0 }
+        Machine { suspended: None, state: if enabled { State::Waiting { attempt: 0 } } else { State::Disabled }, entry_seq: 0 }
     }
 
     fn enter_champ_select(&mut self, account: u64, game_id: u64) -> State {
+        if let Some(saved) = self.suspended.take()
+            && saved.account == account
+        {
+            return State::ChampSelect(saved);
+        }
         self.entry_seq += 1;
         State::ChampSelect(Box::new(Selection::new(account, SessionKey { game_id, entry_seq: self.entry_seq })))
     }
@@ -311,6 +328,7 @@ impl Machine {
 
     fn transition(&mut self, state: State, event: Event, ctx: &Context) -> (State, Vec<Effect>) {
         let none = Vec::new;
+        let observe_only = matches!(&event, Event::ObserveSession { .. });
         match (state, event) {
             (_, Event::Disable) => (State::Disabled, none()),
             (State::Disabled, Event::Enable) => (State::Waiting { attempt: 0 }, none()),
@@ -329,16 +347,21 @@ impl Machine {
             (State::Waiting { attempt }, Event::ClientLost) => (State::Waiting { attempt: attempt.saturating_add(1) }, none()),
             (state @ State::Waiting { .. }, _) => (state, none()),
 
-            (State::Connected { .. }, Event::ClientLost) | (State::ChampSelect(_), Event::ClientLost) => {
+            (State::ChampSelect(selection), Event::ClientLost) => {
+                self.suspended = Some(selection);
                 (State::Waiting { attempt: 1 }, none())
             }
+            (State::Connected { .. }, Event::ClientLost) => (State::Waiting { attempt: 1 }, none()),
 
             (State::Connected { account, phase, attention }, event) => match event {
                 Event::ClientFound { account: other } if other != account => {
                     (State::Connected { account: other, phase: "None".into(), attention: None }, none())
                 }
                 Event::Phase(p) if p == "ChampSelect" => (self.enter_champ_select(account, 0), none()),
-                Event::Phase(p) => (State::Connected { account, phase: p, attention }, none()),
+                Event::Phase(p) => {
+                    self.suspended = None;
+                    (State::Connected { account, phase: p, attention }, none())
+                }
                 Event::ApplyFinished { identity, outcome } => {
                     let mut state = State::Connected { account, phase, attention };
                     record_outside_session(&mut state, &identity, &outcome);
@@ -355,7 +378,7 @@ impl Machine {
                     let attention = if s.blocked { s.attention.clone() } else { None };
                     (State::Connected { account: s.account, phase: p, attention }, none())
                 }
-                Event::Session { game_id, pick } => {
+                Event::Session { game_id, pick } | Event::ObserveSession { game_id, pick } => {
                     if game_id != 0 && s.key.game_id != 0 && game_id != s.key.game_id {
                         let account = s.account;
                         let State::ChampSelect(fresh) = self.enter_champ_select(account, game_id) else { unreachable!() };
@@ -371,7 +394,7 @@ impl Machine {
                             s.attention = None;
                         }
                     }
-                    let effects = s.evaluate(ctx);
+                    let effects = if observe_only { none() } else { s.evaluate(ctx) };
                     (State::ChampSelect(s), effects)
                 }
                 Event::Tick => {
@@ -394,6 +417,33 @@ impl Machine {
                 _ => (State::ChampSelect(s), none()),
             },
         }
+    }
+
+    /// A user's explicit import owns the current pick; an automatic default must not replace it.
+    pub fn record_manual(&mut self, champion_id: i64, name: &str, outcome: &ApplyOutcome) {
+        fn mark(state: &mut State, id: i64, name: &str, outcome: &ApplyOutcome) {
+            match state {
+                State::Paused(prior) => mark(prior, id, name, outcome),
+                State::ChampSelect(s) => {
+                    if let Some(pick) = s.pick.as_ref().filter(|p| p.champion_id == id) {
+                        let key = pick_key(pick);
+                        s.in_flight = None;
+                        s.considered = Some(key);
+                        s.applied.push((key.0, key.1, name.to_owned()));
+                        if let Some(error) = failure(outcome) {
+                            s.blocked = true;
+                            s.attention = Some(error.clone());
+                        } else {
+                            s.blocked = false;
+                            s.attention = None;
+                            s.last = Some((key, name.to_owned(), matches!(outcome, ApplyOutcome::Verified { .. })));
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+        mark(&mut self.state, champion_id, name, outcome);
     }
 
     pub fn status(&self) -> Status {

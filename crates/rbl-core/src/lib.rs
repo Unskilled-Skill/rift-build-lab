@@ -26,3 +26,5 @@ pub use error::CoreError;
 
 /// Name of the one managed rune page and the prefix of managed item-set titles.
 pub const MANAGED_NAME: &str = "Rift Build Lab";
+
+pub mod startup;

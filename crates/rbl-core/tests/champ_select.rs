@@ -62,3 +62,11 @@ fn maps_client_positions_to_build_roles() {
         assert_eq!(position_role(position), role, "{position}");
     }
 }
+#[test]
+fn a_draft_trade_uses_the_assigned_champion_not_the_historical_pick_action() {
+    let mut session = fixture("draft-locked");
+    let cell = session["localPlayerCellId"].as_i64().unwrap();
+    let me = session["myTeam"].as_array_mut().unwrap().iter_mut().find(|p| p["cellId"] == cell).unwrap();
+    me["championId"] = json!(69);
+    assert_eq!(reduce(&session).unwrap().champion_id, Some(69));
+}

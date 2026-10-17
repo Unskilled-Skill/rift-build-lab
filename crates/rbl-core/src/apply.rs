@@ -24,6 +24,9 @@ pub const SAFE_PHASES: [&str; 5] = ["None", "Lobby", "Matchmaking", "ReadyCheck"
 pub struct ExpectedSelection {
     pub summoner_id: u64,
     pub champion_id: i64,
+    pub role: Option<crate::prefs::Role>,
+    pub game_id: Option<u64>,
+    pub champ_select_only: bool,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -141,12 +144,31 @@ impl<L: Lcu> Writer<L> {
             Some(client) if client == data => {}
             client => return Err(CoreError::PatchMismatch { client: client.unwrap_or_else(|| "unknown".into()), data }),
         }
+        if expected.is_some_and(|e| e.champ_select_only) && phase != "ChampSelect" {
+            return Err(CoreError::SelectionChanged);
+        }
+        if phase == "ChampSelect" {
+            let session = self.get(LcuRequest::GetChampSelectSession).await.map_err(|_| CoreError::SelectionChanged)?;
+            if local_champion(&session) != Some(bundle.champion_id()) {
+                return Err(CoreError::SelectionChanged);
+            }
+        }
         if let Some(expected) = expected {
             let summoner = self.get(LcuRequest::GetSummoner).await?;
-            let session = self.get(LcuRequest::GetChampSelectSession).await.map_err(|_| CoreError::SelectionChanged)?;
-            if summoner.get("summonerId").and_then(Value::as_u64) != Some(expected.summoner_id)
-                || local_champion(&session) != Some(expected.champion_id)
-            {
+            if summoner.get("summonerId").and_then(Value::as_u64) != Some(expected.summoner_id) {
+                return Err(CoreError::SelectionChanged);
+            }
+            if expected.champ_select_only {
+                let session = self.get(LcuRequest::GetChampSelectSession).await.map_err(|_| CoreError::SelectionChanged)?;
+                let selected = crate::lcu::champ_select::reduce(&session).ok_or(CoreError::SelectionChanged)?;
+                if selected.champion_id != Some(expected.champion_id)
+                    || selected.role != expected.role
+                    || expected.game_id.is_some_and(|id| selected.game_id != id)
+                {
+                    return Err(CoreError::SelectionChanged);
+                }
+            }
+            if phase == "ChampSelect" && expected.champion_id != bundle.champion_id() {
                 return Err(CoreError::SelectionChanged);
             }
         }
@@ -174,6 +196,13 @@ impl<L: Lcu> Writer<L> {
         if request.expected.is_some_and(|e| e.summoner_id != summoner_id.get()) {
             return Err(rejected(CoreError::SelectionChanged));
         }
+        let expected = request.expected.or(Some(ExpectedSelection {
+            summoner_id: summoner_id.get(),
+            champion_id: bundle.champion_id(),
+            role: None,
+            game_id: None,
+            champ_select_only: false,
+        }));
         let original_sets =
             if request.items { Some(self.get(LcuRequest::GetItemSets { summoner: summoner_id }).await.map_err(rejected)?) } else { None };
         let pages = if request.runes { self.get(LcuRequest::GetPages).await.map_err(rejected)? } else { json!([]) };
@@ -207,7 +236,7 @@ impl<L: Lcu> Writer<L> {
         )
         .map_err(rejected)?;
         // Recheck immediately before writes; earlier reads are never treated as authority.
-        self.check_ready(&bundle, request.expected).await.map_err(rejected)?;
+        self.check_ready(&bundle, expected).await.map_err(rejected)?;
 
         let (mut items_attempted, mut items_completed, mut runes_attempted) = (false, false, false);
         let failure = async {
@@ -217,7 +246,7 @@ impl<L: Lcu> Writer<L> {
                 items_completed = true;
             }
             if request.runes {
-                self.check_ready(&bundle, request.expected).await.map_err(|error| TransportError { error, ambiguous: false })?;
+                self.check_ready(&bundle, expected).await.map_err(|error| TransportError { error, ambiguous: false })?;
                 runes_attempted = true;
                 let body = bundle.rune_page().clone();
                 match &owned {

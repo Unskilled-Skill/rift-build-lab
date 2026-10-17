@@ -219,6 +219,7 @@ struct Pointer {
     previous: Option<String>,
 }
 
+#[derive(Clone)]
 struct Active {
     dir: PathBuf,
     manifest: Manifest,
@@ -234,7 +235,9 @@ impl Active {
     }
 }
 
+#[derive(Clone)]
 pub struct DataStore {
+    retained: Vec<String>,
     root: PathBuf,
     bundled: PathBuf,
     formula_compat: u32,
@@ -254,6 +257,7 @@ impl DataStore {
             _ => snapshot,
         };
         Ok(DataStore {
+            retained: Vec::new(),
             root: root.to_path_buf(),
             bundled: bundled.to_path_buf(),
             formula_compat,
@@ -295,12 +299,19 @@ impl DataStore {
         }
     }
 
+    /// Protect the immutable revision still served to an open window.
+    pub fn retain_revision(&mut self, revision: &str) {
+        if is_sha256(revision) && !self.retained.iter().any(|r| r == revision) {
+            self.retained.push(revision.to_owned());
+        }
+    }
+
     fn remove_stale(&self, keep: &[&str]) {
         let Ok(entries) = std::fs::read_dir(&self.root) else { return };
         for entry in entries.flatten() {
             let name = entry.file_name().to_string_lossy().into_owned();
             let stale = name.starts_with("staging-") || (is_sha256(&name) && !keep.contains(&name.as_str()));
-            if stale && entry.path().is_dir() {
+            if stale && !self.retained.contains(&name) && entry.path().is_dir() {
                 let _ = std::fs::remove_dir_all(entry.path());
             }
         }

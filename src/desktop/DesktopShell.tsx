@@ -16,7 +16,7 @@ export default function DesktopShell({platform}:{platform:Platform}){
   platform.status().then(s=>{if(live)setStatus(s)}).catch(()=>{});
   platform.preferences().then(p=>{if(!live)return;setPrefs(p);if(!p.autoImport.enabled&&!p.ui?.firstRunSeen)setPanel('first-run')}).catch(()=>{});
   platform.revision().then(r=>{if(live)setRevision(r)}).catch(()=>{});
-  const offStatus=platform.onStatus(setStatus),offRevision=platform.onDataRevision(setRevision);
+  const offStatus=platform.onStatus(setStatus),offRevision=platform.onDataRevision(r=>{setRevision(r);setMessage('New data is installed. Close and reopen this build window to load it; the current window keeps a consistent snapshot.')});
   return()=>{live=false;offStatus();offRevision()};
  },[platform]);
  const run=useCallback(async(task:()=>Promise<string|void>)=>{

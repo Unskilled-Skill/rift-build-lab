@@ -68,9 +68,20 @@ fn get_preferences(core: State<'_, Core>) -> Result<Preferences> {
 
 #[tauri::command]
 async fn update_preferences(app: AppHandle, core: State<'_, Core>, patch: PreferencesPatch) -> Result<Preferences> {
-    let prefs = core.update_preferences(patch).await?;
-    window::sync_autostart(&app, prefs.background.start_with_windows);
-    Ok(prefs)
+    let before = core.preferences()?.background.start_with_windows;
+    let wanted = patch.background.as_ref().and_then(|b| b.start_with_windows);
+    if let Some(wanted) = wanted {
+        window::sync_autostart(&app, wanted)?;
+    }
+    match core.update_preferences(patch).await {
+        Ok(prefs) => Ok(prefs),
+        Err(error) => {
+            if wanted.is_some() {
+                window::sync_autostart(&app, before)?;
+            }
+            Err(error)
+        }
+    }
 }
 
 #[tauri::command]
@@ -163,10 +174,26 @@ fn setup(app: &mut tauri::App) -> std::result::Result<(), Box<dyn std::error::Er
     let (tray_on_close, start_with_windows) =
         prefs.lock().map(|p| (p.prefs().background.tray_on_close, p.prefs().background.start_with_windows)).unwrap_or((false, false));
     let ui_saved = Default::default();
-    app.manage(Core { monitor, prefs, data, paths, bundled, app_version: version(app.handle()), ui_saved, pending_open: Mutex::new(None) });
+    app.manage(Core {
+        window_data: Arc::new(RwLock::new(data.read().unwrap().clone())),
+        data_updates: Default::default(),
+        monitor,
+        prefs,
+        data: data.clone(),
+        paths,
+        bundled,
+        app_version: version(app.handle()),
+        ui_saved,
+        pending_open: Mutex::new(None),
+    });
 
     window::tray(app.handle())?;
-    window::sync_autostart(app.handle(), start_with_windows);
+    if let Err(error) = window::sync_autostart(app.handle(), start_with_windows)
+        && let Ok(mut prefs) = app.state::<Core>().prefs.lock()
+    {
+        let at = rbl_core::backup::format_utc(std::time::SystemTime::now()).0;
+        let _ = prefs.record_failure(&at, &error);
+    }
     // A Windows start-up launch (`--background`) stays in the tray only when the user chose tray mode.
     let background = std::env::args().any(|a| a == "--background") && tray_on_close;
     if !background {
@@ -208,7 +235,7 @@ fn main() {
             let not_found = || DataResponse { status: 404, content_type: "text/plain", body: b"Not found".to_vec() };
             let served = match ctx.app_handle().try_state::<Core>() {
                 Some(core) if request.method() == "GET" => {
-                    core.data.read().map(|store| serve_data(&store, request.uri().path())).unwrap_or_else(|_| not_found())
+                    core.window_data.read().map(|store| serve_data(&store, request.uri().path())).unwrap_or_else(|_| not_found())
                 }
                 _ => not_found(),
             };

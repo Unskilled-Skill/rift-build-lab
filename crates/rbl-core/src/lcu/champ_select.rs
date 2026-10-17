@@ -50,8 +50,7 @@ pub fn reduce(session: &Value) -> Option<SessionView> {
             .iter()
             .rev()
             .find(|a| a.get("completed") == Some(&Value::Bool(true)))
-            .and_then(|a| a.get("championId"))
-            .and_then(Value::as_i64)
+            .and_then(|_| me.and_then(|p| p.get("championId")).and_then(Value::as_i64))
     };
     Some(SessionView { game_id, champion_id: champion.filter(|id| *id > 0), role })
 }

@@ -13,16 +13,17 @@ import type {ChatBuild,TestRecord} from './chat-builds';
 import {emptyDraft,feedbackBrief,isModifiedSetup,parseTestDraft,parseTrialValues,trialSummary} from './workflow';
 import type {TestDraft} from './workflow';
 import type {ProviderSource} from './provider-research';
-interface Props{data:Catalog;champion:Champion;scenario:Scenario;items:number[];activeBuildId?:string;onTest:(build:ChatBuild)=>void;onBaseline?:(source:ProviderSource)=>void}
+interface Props{onSelection?:(id:string)=>void;request?:{champion:string;collection:string;buildId:string;nonce:number};data:Catalog;champion:Champion;scenario:Scenario;items:number[];activeBuildId?:string;onTest:(build:ChatBuild)=>void;onBaseline?:(source:ProviderSource)=>void}
 const download=(data:unknown,name:string)=>{const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
 const title=(b:ChatBuild)=>b.name.replace(/^(Reference|Damage interaction|Situational adaptation|Experiment|Control):\s*/,'');
 const collectionKinds={four:'authored',ceilings:'ceiling',meta:'meta-reference',earlier:'experiment'} as const;
 const roleNames:Record<PlanRole,string>={top:'Top',jungle:'Jungle',mid:'Mid',adc:'Bot',support:'Support',unspecified:'Any role'};
 function readRecords(data:Catalog){try{return parseTestRecords(localStorage.getItem('rift-chat-test-results')||'[]',data).records}catch{return []}}
-export default function BuildLibrary({data,champion,scenario,items,activeBuildId,onTest,onBaseline}:Props){
+export default function BuildLibrary({onSelection,request,data,champion,scenario,items,activeBuildId,onTest,onBaseline}:Props){
  const [builds,setBuilds]=useState<ChatBuild[]>([]),[error,setError]=useState(''),[goal,setGoal]=useState(''),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
  const [collection,setCollection]=useState(()=>{try{const saved=sessionStorage.getItem('rift-build-collection');return ['four','earlier','ceilings','meta'].includes(saved||'')?saved!:'four'}catch{return 'four'}}),[loading,setLoading]=useState(true),[counts,setCounts]=useState<Record<string,number>>({});
  const [selectedId,setSelectedId]=useState<string>(),[role,setRole]=useState<PlanRole|'all'>('all');
+ useEffect(()=>{if(request&&request.champion===champion.alias){setCollection(request.collection);setSelectedId(request.buildId);setRole('all')}},[request?.nonce]);
  const controller=useRef<AbortController|null>(null),goalRef=useRef<HTMLTextAreaElement>(null),detailRef=useRef<HTMLElement>(null),listRef=useRef<HTMLUListElement>(null);
  const refresh=async(initial=false)=>{
   controller.current?.abort();const c=new AbortController();controller.current=c;if(initial)setLoading(true);
@@ -30,7 +31,7 @@ export default function BuildLibrary({data,champion,scenario,items,activeBuildId
   catch(e){if(controller.current===c&&!(e instanceof Error&&e.name==='AbortError'))setError(e instanceof Error?e.message:'Could not load builds. Refresh to retry.')}
   finally{if(controller.current===c)setLoading(false)}
  };
- useEffect(()=>{setBuilds([]);setError('');setSelectedId(undefined);setRole('all');void refresh(true);const onFocus=()=>{if(!document.hidden)void refresh()};const interval=setInterval(onFocus,localServicesEnabled?10000:15*60*1000);window.addEventListener('focus',onFocus);return()=>{clearInterval(interval);window.removeEventListener('focus',onFocus);controller.current?.abort()}},[data,champion.alias,collection]);
+ useEffect(()=>{setBuilds([]);setError('');setSelectedId(request?.champion===champion.alias&&request.collection===collection?request.buildId:undefined);setRole('all');void refresh(true);const onFocus=()=>{if(!document.hidden)void refresh()};const interval=setInterval(onFocus,localServicesEnabled?10000:15*60*1000);window.addEventListener('focus',onFocus);return()=>{clearInterval(interval);window.removeEventListener('focus',onFocus);controller.current?.abort()}},[data,champion.alias,collection]);
  useEffect(()=>{setMessage('');setGoal('')},[champion.alias]);
  useEffect(()=>{const update=()=>{const next:Record<string,number>={};for(const r of readRecords(data))next[r.buildId]=(next[r.buildId]||0)+1;setCounts(next)};update();window.addEventListener('rift-test-recorded',update);return()=>window.removeEventListener('rift-test-recorded',update)},[data]);
  const visible=useMemo(()=>builds.filter(b=>b.champion===champion.alias),[builds,champion.alias]);
@@ -39,6 +40,7 @@ export default function BuildLibrary({data,champion,scenario,items,activeBuildId
  const roles=[...new Set(entries.map(e=>e.plan.role))];
  const shownIds=new Set(filterPlans(entries.map(e=>e.plan),{role}).map(p=>p.id)),shown=entries.filter(e=>shownIds.has(e.plan.id));
  const selected=shown.find(e=>e.build.id===selectedId)??shown.find(e=>e.build.id===activeBuildId)??shown[0];
+ useEffect(()=>{if(selected)onSelection?.(selected.plan.id)},[selected?.plan.id]);
  const select=(id:string)=>{setSelectedId(id);if(window.matchMedia?.('(max-width: 900px)').matches)setTimeout(()=>detailRef.current?.focus())};
  const cost=(plan:BuildPlan)=>plan.finalItemIds.reduce((n,id)=>n+(data.items.find(i=>i.id===id)?.gold.total||0),0);
  const changeCollection=(value:string)=>{setCollection(value);try{sessionStorage.setItem('rift-build-collection',value)}catch{/* Selection works without storage. */}};

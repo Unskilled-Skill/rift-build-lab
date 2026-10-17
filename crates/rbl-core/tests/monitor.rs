@@ -216,7 +216,7 @@ async fn disabled_monitoring_makes_no_client_calls_but_manual_apply_still_works(
     wait(120).await;
     assert_eq!((client.calls(), monitor.status()), (0, Status::Disabled));
 
-    let outcome = monitor.apply_now(parity_bundle(0), true, false).await.unwrap();
+    let outcome = monitor.apply_now(parity_bundle(1), true, false).await.unwrap();
     assert_eq!(outcome.kind(), "verified");
     assert_eq!(client.writes(), 1, "items only");
     assert_eq!(monitor.test_connection().await.unwrap(), "16.20.555.1");
@@ -256,4 +256,20 @@ async fn pausing_stops_polling_and_losing_the_client_backs_off() {
 
     drop(monitor);
     tokio::time::timeout(Duration::from_secs(5), task).await.expect("dropping the handle stops the monitor").unwrap();
+}
+#[tokio::test(start_paused = true)]
+async fn explicit_manual_import_is_not_overwritten_by_the_next_automatic_poll() {
+    let client = Fake::new();
+    client.set(|c| {
+        c.phase = "ChampSelect";
+        c.session = lock(103, "middle")
+    });
+    let books = Books::new();
+    let backups = tempfile::tempdir().unwrap();
+    let (monitor, _task) = spawn(client.clone(), books, backups.path().to_path_buf(), true);
+    wait(1).await;
+    assert_eq!(monitor.apply_now(parity_bundle(1), true, true).await.unwrap().kind(), "verified");
+    let after_manual = client.writes();
+    wait(10).await;
+    assert_eq!(client.writes(), after_manual);
 }

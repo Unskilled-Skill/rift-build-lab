@@ -183,6 +183,8 @@ fn version(text: &str) -> Option<(u64, u64, u64)> {
 
 /// Shared native state behind the commands.
 pub struct Core {
+    pub data_updates: tokio::sync::Mutex<()>,
+    pub window_data: Arc<RwLock<DataStore>>,
     pub monitor: MonitorHandle,
     pub prefs: Arc<Mutex<PrefsStore>>,
     pub data: Arc<RwLock<DataStore>>,
@@ -280,9 +282,9 @@ impl Core {
 
     pub fn save_ui_state(&self, state: Value) -> Result<(), IpcError> {
         let result = self.prefs()?.set_ui(state);
-        // Release a waiting close even if saving failed; the window must not hang open.
-        self.ui_saved.notify_one();
-        Ok(result?)
+        result?;
+        self.ui_saved.notify_waiters();
+        Ok(())
     }
 
     pub fn take_pending_open(&self) -> Option<OpenBuild> {
@@ -295,7 +297,10 @@ impl Core {
 
     /// Installs a newer compatible data revision; the shared store is swapped only after success.
     pub async fn check_data_updates<F: Fetch>(&self, fetch: &F) -> Result<DataUpdateResult, IpcError> {
+        let _update = self.data_updates.lock().await;
         let mut fresh = DataStore::open(&self.paths.data, &self.bundled, FORMULA_COMPAT)?;
+        let pinned = self.window_data.read().map_err(|_| CoreError::Internal)?.revision().revision;
+        fresh.retain_revision(&pinned);
         let result = fresh.update(fetch).await;
         if result.status == crate::data::UpdateStatus::Updated {
             *self.data.write().map_err(|_| CoreError::Internal)? = fresh;

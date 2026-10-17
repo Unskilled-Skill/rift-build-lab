@@ -341,17 +341,17 @@ async fn invalid_bundles_missing_targets_and_failed_backups_change_nothing() {
 
 #[tokio::test]
 async fn a_changed_champion_or_account_aborts_before_writing_or_rolls_back_items() {
-    let expected = Some(ExpectedSelection { summoner_id: 42, champion_id: 69 });
-    let swapped = FakeLcu::new().edit(|s| s.session["myTeam"][1]["championId"] = json!(103));
+    let expected = Some(ExpectedSelection { summoner_id: 42, champion_id: 69, role: None, game_id: None, champ_select_only: true });
+    let swapped = FakeLcu::new().edit(|s| s.phase = json!("ChampSelect")).edit(|s| s.session["myTeam"][1]["championId"] = json!(103));
     let run = apply_with(swapped, &bundle(), true, true, expected).await;
     assert_eq!(run.outcome, ApplyOutcome::Rejected { error: CoreError::SelectionChanged });
     assert!(run.writes().is_empty());
 
-    let other_account = Some(ExpectedSelection { summoner_id: 7, champion_id: 69 });
-    let run = apply_with(FakeLcu::new(), &bundle(), true, true, other_account).await;
+    let other_account = Some(ExpectedSelection { summoner_id: 7, champion_id: 69, role: None, game_id: None, champ_select_only: true });
+    let run = apply_with(FakeLcu::new().edit(|s| s.phase = json!("ChampSelect")), &bundle(), true, true, other_account).await;
     assert_eq!(run.outcome, ApplyOutcome::Rejected { error: CoreError::SelectionChanged });
 
-    let swaps_mid_apply = FakeLcu::new().with(|state, r| {
+    let swaps_mid_apply = FakeLcu::new().edit(|s| s.phase = json!("ChampSelect")).with(|state, r| {
         if matches!(r, LcuRequest::PutItemSets { .. }) && state.item_writes == 0 {
             state.session["myTeam"][1]["championId"] = json!(103);
         }
@@ -371,4 +371,42 @@ async fn concurrent_applies_are_serialized_through_one_write_queue() {
     assert!(matches!(a, ApplyOutcome::Verified { .. }) && matches!(b, ApplyOutcome::Verified { .. }));
     let writes = writer.lcu().state.lock().unwrap().writes.clone();
     assert_eq!(writes, vec![put(SETS), put("/lol-perks/v1/pages/12"), put(SETS), put("/lol-perks/v1/pages/12")]);
+}
+#[tokio::test]
+async fn manual_import_rechecks_the_account_after_reading_original_settings() {
+    let lcu = FakeLcu::new().with(|state, request| {
+        if matches!(request, LcuRequest::GetPages) {
+            state.summoner = json!({"summonerId":7});
+        }
+        None
+    });
+    let run = apply(lcu).await;
+    assert_eq!(run.outcome, ApplyOutcome::Rejected { error: CoreError::SelectionChanged });
+    assert!(run.writes().is_empty());
+}
+#[tokio::test]
+async fn manual_import_does_not_target_another_champion_during_selection() {
+    let lcu = FakeLcu::new().edit(|s| {
+        s.phase = json!("ChampSelect");
+        s.session["myTeam"][1]["championId"] = json!(103)
+    });
+    let run = apply(lcu).await;
+    assert_eq!(run.outcome, ApplyOutcome::Rejected { error: CoreError::SelectionChanged });
+    assert!(run.writes().is_empty());
+}
+#[tokio::test]
+async fn automatic_preflight_rejects_role_session_or_phase_changes() {
+    use rbl_core::prefs::Role;
+    let expected =
+        Some(ExpectedSelection { summoner_id: 42, champion_id: 69, role: Some(Role::Mid), game_id: Some(900), champ_select_only: true });
+    for (phase, role, game) in [("Lobby", "middle", 900), ("ChampSelect", "utility", 900), ("ChampSelect", "middle", 901)] {
+        let lcu = FakeLcu::new().edit(|s| {
+            s.phase = json!(phase);
+            s.session["gameId"] = json!(game);
+            s.session["myTeam"][1]["assignedPosition"] = json!(role)
+        });
+        let run = apply_with(lcu, &bundle(), true, true, expected).await;
+        assert_eq!(run.outcome, ApplyOutcome::Rejected { error: CoreError::SelectionChanged });
+        assert!(run.writes().is_empty());
+    }
 }

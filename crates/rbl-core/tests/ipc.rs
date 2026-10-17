@@ -72,7 +72,18 @@ fn core(dir: &Path) -> Core {
     let prefs = Arc::new(Mutex::new(PrefsStore::load(&paths.preferences, &data.catalog().unwrap())));
     let data = Arc::new(RwLock::new(data));
     let (monitor, _task) = spawn(NoLeague, StoreLibrary::new(prefs.clone(), data.clone()), paths.backups.clone(), false);
-    Core { monitor, prefs, data, paths, bundled, app_version: "0.1.0".into(), ui_saved: Default::default(), pending_open: Mutex::new(None) }
+    Core {
+        window_data: Arc::new(RwLock::new(data.read().unwrap().clone())),
+        data_updates: Default::default(),
+        monitor,
+        prefs,
+        data: data.clone(),
+        paths,
+        bundled,
+        app_version: "0.1.0".into(),
+        ui_saved: Default::default(),
+        pending_open: Mutex::new(None),
+    }
 }
 
 #[test]
@@ -265,4 +276,46 @@ async fn app_update_checks_only_announce_newer_desktop_releases() {
     ] {
         assert_eq!(check(release).await.release_url, None);
     }
+}
+#[tokio::test]
+async fn a_failed_window_save_never_acknowledges_that_the_webview_can_close() {
+    let dir = tempfile::tempdir().unwrap();
+    let core = core(dir.path());
+    assert!(core.save_ui_state(json!(["not an object"])).is_err());
+    assert!(tokio::time::timeout(Duration::from_millis(10), core.ui_saved.notified()).await.is_err());
+    let saved = core.ui_saved.notified();
+    tokio::pin!(saved);
+    saved.as_mut().enable();
+    core.save_ui_state(json!({"champion":"Ahri","tab":"Builds"})).unwrap();
+    assert!(tokio::time::timeout(Duration::from_millis(10), saved).await.is_ok());
+}
+#[tokio::test]
+async fn an_earlier_preferences_save_cannot_acknowledge_a_future_window_close() {
+    let dir = tempfile::tempdir().unwrap();
+    let core = core(dir.path());
+    core.save_ui_state(json!({"firstRunSeen":true})).unwrap();
+    assert!(tokio::time::timeout(Duration::from_millis(10), core.ui_saved.notified()).await.is_err());
+}
+#[tokio::test]
+async fn simultaneous_data_checks_are_serialized_for_the_whole_update() {
+    use std::sync::atomic::{AtomicUsize, Ordering};
+    struct CountingFetch {
+        active: AtomicUsize,
+        maximum: AtomicUsize,
+    }
+    impl Fetch for CountingFetch {
+        async fn get(&self, _url: &str) -> Result<Vec<u8>, CoreError> {
+            let n = self.active.fetch_add(1, Ordering::SeqCst) + 1;
+            self.maximum.fetch_max(n, Ordering::SeqCst);
+            tokio::time::sleep(Duration::from_millis(20)).await;
+            self.active.fetch_sub(1, Ordering::SeqCst);
+            Err(CoreError::ClientUnavailable)
+        }
+    }
+    let dir = tempfile::tempdir().unwrap();
+    let core = core(dir.path());
+    let fetch = CountingFetch { active: AtomicUsize::new(0), maximum: AtomicUsize::new(0) };
+    let (a, b) = tokio::join!(core.check_data_updates(&fetch), core.check_data_updates(&fetch));
+    assert!(a.is_ok() && b.is_ok());
+    assert_eq!(fetch.maximum.load(Ordering::SeqCst), 1);
 }

@@ -117,7 +117,10 @@ fn waits_for_a_stable_locked_pick_then_applies_once_with_a_full_identity() {
     );
     assert_eq!(identity.revision, "rev-a");
     assert!(!identity.explicit);
-    assert_eq!(identity.expected(), ExpectedSelection { summoner_id: 42, champion_id: 103 });
+    assert_eq!(
+        identity.expected(),
+        ExpectedSelection { summoner_id: 42, champion_id: 103, role: Some(Role::Mid), game_id: Some(900), champ_select_only: true }
+    );
     assert_eq!(h.machine.status(), Status::Applying);
     assert!(h.after(5000).is_empty(), "no second apply while one is in flight");
 
@@ -315,4 +318,42 @@ fn status_serializes_to_the_typescript_connection_state() {
         let kind = status.to_json()["kind"].as_str().unwrap().to_owned();
         assert!(["connecting", "league-closed", "applying", "paused", "connected"].contains(&kind.as_str()));
     }
+}
+#[test]
+fn reconnecting_to_the_same_selection_preserves_import_and_failure_history() {
+    for outcome in [verified(), ApplyOutcome::Partial { error: CoreError::ReadbackMismatch, backup: PathBuf::from("backup.json") }] {
+        let mut h = Harness::in_champ_select();
+        let effects = h.lock_and_wait("Ahri", 103, Some(Role::Mid));
+        h.finish(&effects, outcome);
+        h.send(Event::ClientLost);
+        h.send(Event::ClientFound { account: 42 });
+        h.send(Event::Phase("ChampSelect".into()));
+        assert!(h.lock_and_wait("Ahri", 103, Some(Role::Mid)).is_empty());
+    }
+}
+#[test]
+fn changing_provider_after_an_import_does_not_replace_the_current_page() {
+    let mut h = Harness::in_champ_select();
+    let effects = h.lock_and_wait("Ahri", 103, Some(Role::Mid));
+    h.finish(&effects, verified());
+    h.revision = "rev-b".into();
+    h.builds.insert(("Ahri".into(), Some(Role::Mid)), "meta:Ahri:mid:lolalytics".into());
+    assert!(h.send(Event::PrefsChanged).is_empty());
+}
+#[test]
+fn observing_before_a_rejected_manual_import_never_creates_a_phantom_apply() {
+    let mut h = Harness::in_champ_select();
+    h.lock("Ahri", 103, Some(Role::Mid));
+    h.now += Duration::from_millis(1600);
+    assert!(h.send(Event::ObserveSession { game_id: 900, pick: Some(pick("Ahri", 103, Some(Role::Mid))) }).is_empty());
+    h.machine.record_manual(69, "Wrong champion", &ApplyOutcome::Rejected { error: CoreError::SelectionChanged });
+    assert_eq!(h.after(1).len(), 1);
+}
+#[test]
+fn successful_manual_repair_clears_previous_attention() {
+    let mut h = Harness::in_champ_select();
+    let effects = h.lock_and_wait("Ahri", 103, Some(Role::Mid));
+    h.finish(&effects, ApplyOutcome::Rejected { error: CoreError::RuneCapacity });
+    h.machine.record_manual(103, "Manual repair", &verified());
+    assert_eq!(h.machine.status(), Status::Applied { plan_id: "Manual repair".into(), verified: true });
 }

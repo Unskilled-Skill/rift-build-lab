@@ -362,3 +362,25 @@ async fn never_replaces_newer_data_with_an_older_published_revision() {
     assert_eq!(store.revision().revision, s.bundled_rev.revision);
     assert!(dirs(&s.root).is_empty());
 }
+#[tokio::test]
+async fn an_open_window_keeps_its_revision_when_newer_data_is_installed_and_pruned() {
+    let dir = tempfile::tempdir().unwrap();
+    let bundled = dir.path().join("bundled");
+    let cache = dir.path().join("cache");
+    let first = revision("first", FORMULA_COMPAT, "2026-10-10T00:00:00Z");
+    write_tree(&bundled, &first);
+    let site = FakeSite::default();
+    let mut store = DataStore::open(&cache, &bundled, FORMULA_COMPAT).unwrap();
+    let pinned_revision = revision("pinned", FORMULA_COMPAT, "2026-10-11T00:00:00Z");
+    site.publish(&pinned_revision);
+    assert_eq!(store.update(&site).await.status, UpdateStatus::Updated);
+    let window = store.clone();
+    store.retain_revision(&window.revision().revision);
+    for (marker, date) in [("next", "2026-10-12T00:00:00Z"), ("latest", "2026-10-13T00:00:00Z"), ("more", "2026-10-14T00:00:00Z")] {
+        site.publish(&revision(marker, FORMULA_COMPAT, date));
+        assert_eq!(store.update(&site).await.status, UpdateStatus::Updated);
+    }
+    assert_eq!(window.revision().revision, pinned_revision.revision);
+    let bytes = std::fs::read_to_string(window.resolve("champions/Ahri.json").unwrap()).unwrap();
+    assert!(bytes.contains("pinned"));
+}

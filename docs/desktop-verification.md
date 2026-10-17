@@ -1,6 +1,8 @@
 # Desktop continuation verification
 
-Date: 2026-10-17. Native/session fixes: `de44ec8`. This report distinguishes implementation, automated evidence and remaining manual gates.
+Updated memory policy: `db03a23`; see [open-window memory optimization](desktop-memory-optimization.md). Latest local checks pass 881 frontend tests in 55 files (including nine memory-policy regressions), 102 Rust tests, fmt/Clippy, production web/desktop builds and installer validation. The website main JS hash remains `index-BXD7MCu0.js`; the native bundle guard passes. Current Windows CI: [run39058020519](https://github.com/Unskilled-Skill/rift-build-lab/actions/runs/39058020519); inspect its result before claiming CI completion.
+
+Date: 2026-10-17. Initial native/session fixes: `de44ec8`. This report distinguishes implementation, automated evidence and remaining manual gates.
 
 ## Implemented
 
@@ -28,7 +30,7 @@ Review corrections cover current champion after trades, reconnect/provider refre
 
 The existing approximately 741 kB main web JS chunk still emits Vite's size warning. It was not silenced or represented as optimized. Rust tests use fakes/test TLS servers, not an authenticated League client.
 
-## Packaging
+## Initial packaging (before memory optimization)
 
 Version 0.1.0 installer: **3,130,280 bytes (2.99 MiB)**. SHA-256:
 

@@ -24,6 +24,8 @@ Build locally with `npm ci` then `npm run desktop:build` (Rust and the Windows C
 
 The native app manages its own item set per champion and one rune page named **Rift Build Lab**. It backs up before writes, preserves personal pages and checks read-back. Choose preferred builds by champion/role; qualified meta fallback is optional. Item ordering is guidance exported as blocks, not automatic purchasing or a claim of optimal in-match decisions. No gameplay automation, account service or cloud AI is included. Data updates and compiled damage formulas have separate compatibility checks.
 
+The desktop window now requests WebView2 cache reclamation after 15 seconds idle or on focus loss, restoring normal mode on input and keeping normal mode for ongoing damage searches. This lowers resident RAM while the window remains open; active-use peaks and private committed memory are separate measures. See the [memory optimization report](docs/desktop-memory-optimization.md). The website does not load this native policy.
+
 Preferences are under `%APPDATA%/RiftBuildLab`; backups and cached revisions are under `%LOCALAPPDATA%/RiftBuildLab`. Keep these when upgrading. Installer upgrade/uninstall behavior still needs a hands-on check; export/copy local data before testing removal. The existing Python companion remains a separate alternative until the desktop live-client gate passes.
 
 ## Build comparison lab

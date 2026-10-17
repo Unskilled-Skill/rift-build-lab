@@ -108,3 +108,6 @@ export function planFromWorkspace(data:Catalog,champion:string,ids:number[],rune
   limits:order==='calculator'?['Order maximizes the selected objective only; component stats, defensive utility and most procs are excluded.']:[],
  };
 }
+export function filterPlans(plans:BuildPlan[],filter:{collection?:PlanCollection;role?:PlanRole|'all'}):BuildPlan[]{
+ return plans.filter(p=>(!filter.collection||p.collection===filter.collection)&&(!filter.role||filter.role==='all'||p.role===filter.role));
+}

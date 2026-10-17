@@ -92,3 +92,11 @@ it('builds a test-bench plan from the current workspace without claiming a pract
  expect(p.collection).toBe('workspace');expect(p.role).toBe('unspecified');expect(p.stages.map(s=>s.id)).toEqual(['final']);expect(p.provenance.order).toBe('authored');
  expect(planFromWorkspace(data,'Cassiopeia',[6657,3040,3116,3009,3157,3089],[8230,8226,8210,8236,8009,9105],[5008,5008,5001],'Planned',{order:'calculator'}).provenance.order).toBe('calculator');
 });
+it('filters plans by collection and role without reordering them',async()=>{
+ const {filterPlans}=await import('../src/build-plan');
+ const refs=plans.filter(p=>p.collection==='meta-reference');
+ expect(filterPlans(plans,{collection:'meta-reference'})).toEqual(refs);
+ const mid=filterPlans(plans,{collection:'meta-reference',role:'mid'});expect(mid.length).toBeGreaterThan(0);expect(mid.every(p=>p.role==='mid'&&p.collection==='meta-reference')).toBe(true);
+ expect(filterPlans(plans,{})).toEqual(plans);expect(filterPlans(plans,{role:'all'})).toEqual(plans);
+ expect(new Set(refs.map(p=>p.role))).toContain('adc');
+});

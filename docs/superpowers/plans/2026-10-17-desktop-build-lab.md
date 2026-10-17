@@ -56,11 +56,11 @@ export interface PurchaseStage {
   chooseOne:number[];    // alternatives; never exported as simultaneous purchases
   note:string; provenance:Provenance;
   available:boolean;     // false → render "not responsibly derivable", export skips it
-  cumulativeGold?:number;// only when buy[] is fully known up to this stage
+  cumulativeGold?:number;// completed-item gold so far (earned upgrades at prerequisite cost); excludes starting consumables
 }
 export interface BuildPlan {
   id:string;                     // stable: `${collection}:${champion}:${sourceId}`
-  collection:'authored'|'ceiling'|'experiment'|'meta';
+  collection:'authored'|'ceiling'|'experiment'|'meta-reference'|'meta'|'workspace'; // meta-reference = meta-baselines.json
   champion:string; role:'top'|'jungle'|'mid'|'adc'|'support'|'unspecified';
   name:string; category:string; goal:string; summary:string;
   patch:string; dataVersion:string; checkedAt?:string; sourceURL?:string;
@@ -73,7 +73,8 @@ export interface BuildPlan {
 }
 export function planFromChatBuild(data:Catalog, build:ChatBuild, collection:'authored'|'ceiling'|'experiment'):BuildPlan;
 export function planFromMeta(data:Catalog, build:FullMetaBuild):BuildPlan; // stages from purchaseCheckpoints()
-export function planFromWorkspace(data:Catalog, champion:string, ids:number[], runes:number[], shards:number[], name:string):BuildPlan; // test bench; order provenance 'calculator' only if PurchasePlanner applied
+export function planFromWorkspace(data:Catalog, champion:string, ids:number[], runes:number[], shards:number[], name:string, options?:{order?:'authored'|'calculator'}):BuildPlan; // test bench; 'calculator' only if PurchasePlanner applied
+export function normalizeRole(role:string):BuildPlan['role']; // middle→mid, bot/bottom→adc, utility→support, else unspecified
 export class BuildPlanError extends Error { constructor(public code:'unknown-champion'|'illegal-items'|'illegal-runes'|'stage-overlap', message:string) }
 ```
 

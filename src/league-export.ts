@@ -2,17 +2,18 @@ import type {Catalog} from './types';
 import type {PurchaseCheckpoint} from './purchase-checkpoints';
 import {legalBuild} from './engine';
 import {validRunePage} from './storage';
+import type {BuildPlan} from './build-plan';
 export interface LeagueExportSetup {champion:string;name:string;itemIds:number[];runePage:number[];shards:number[]}
 export interface LeagueItemSet {title:string;type:'custom';map:'SR';mode:'any';sortrank:number;associatedMaps:number[];associatedChampions:number[];blocks:Array<{type:string;items:Array<{id:string;count:number}>}>}
 export interface LeagueRunePage {name:string;primaryStyleId:number;subStyleId:number;selectedPerkIds:number[];current:true}
 export interface CompanionBundle {version:1;patch:string;dataVersion:string;championId:number;championAlias:string;buildName:string;itemSet:LeagueItemSet;runePage:LeagueRunePage;labels:{items:Record<string,string>;runes:Record<string,string>}}
-const earned:Record<number,number>={3040:3003,3042:3004,3121:3119,2530:2526,3869:3865,3870:3865,3871:3865,3876:3865,3877:3865};
+export const earnedPrerequisites:Readonly<Record<number,number>>={3040:3003,3042:3004,3121:3119,2530:2526,3869:3865,3870:3865,3871:3865,3876:3865,3877:3865};
 const clean=(text:string,max:number)=>text.replace(/[\u0000-\u001f\u007f]/g,' ').trim().slice(0,max);
 export function createLeagueItemSet(data:Catalog,setup:Pick<LeagueExportSetup,'champion'|'name'|'itemIds'>,checkpoints:PurchaseCheckpoint[]=[]):LeagueItemSet{
  const champion=data.champions.find(c=>c.alias===setup.champion);if(!champion)throw Error('Select a known champion first.');
  const selected=setup.itemIds.map(id=>data.items.find(i=>i.id===id));if(!selected.length||selected.length>6||selected.some(i=>!i)||!legalBuild(selected as Catalog['items'],100000,6,setup.champion))throw Error('Equip one to six legal items before exporting.');
  const blocks:LeagueItemSet['blocks']=[];
- const add=(title:string,ids:number[])=>{if(!ids.length)return;const counts=new Map<number,number>();for(const id of ids){const target=earned[id]||id;const item=data.items.find(i=>i.id===target);if(!item||!item.name||!item.maps['11']||!item.shopListedBySource||/^(32|66)\d{4}$/.test(String(target)))throw Error('This item is not eligible for a Summoner’s Rift item-set export.');counts.set(target,(counts.get(target)||0)+1)}if(counts.size>12||[...counts.values()].some(n=>n>9))throw Error('An export block contains too many items.');blocks.push({type:clean(title,80),items:[...counts].map(([id,count])=>({id:String(id),count}))});};
+ const add=(title:string,ids:number[])=>{if(!ids.length)return;const counts=new Map<number,number>();for(const id of ids){const target=earnedPrerequisites[id]||id;const item=data.items.find(i=>i.id===target);if(!item||!item.name||!item.maps['11']||!item.shopListedBySource||/^(32|66)\d{4}$/.test(String(target)))throw Error('This item is not eligible for a Summoner’s Rift item-set export.');counts.set(target,(counts.get(target)||0)+1)}if(counts.size>12||[...counts.values()].some(n=>n>9))throw Error('An export block contains too many items.');blocks.push({type:clean(title,80),items:[...counts].map(([id,count])=>({id:String(id),count}))});};
  for(const point of checkpoints){add(`${point.title}${point.title==='Starting purchase'?' (inferred)':''}`,point.itemIds);if(point.choiceIds?.length)add(`${point.title} — choose one option`,point.choiceIds)}
  add('Final build — buy prerequisites; earn upgrades',setup.itemIds);
  if(blocks.length>16)throw Error('Too many purchase checkpoints to export.');
@@ -36,3 +37,7 @@ export function companionURI(bundle:CompanionBundle):string{
  if(uri.length>20000)throw Error('This bundle is too large for a direct handoff. Download the items + runes file instead.');return uri;
 }
 export function downloadLeagueJSON(value:unknown,filename:string){const url=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+// Available stages before the final inventory become League shop blocks; unavailable stages are never exported.
+export function planCheckpoints(plan:BuildPlan):PurchaseCheckpoint[]{return plan.stages.filter(s=>s.available&&s.id!=='final').map(s=>({title:s.title,itemIds:[...s.buy],choiceIds:s.chooseOne.length?[...s.chooseOne]:undefined,note:s.note}))}
+export function createLeagueItemSetFromPlan(data:Catalog,plan:BuildPlan):LeagueItemSet{return createLeagueItemSet(data,{champion:plan.champion,name:plan.name,itemIds:plan.finalItemIds},planCheckpoints(plan))}
+export function createBundleFromPlan(data:Catalog,plan:BuildPlan):CompanionBundle{return createCompanionBundle(data,{champion:plan.champion,name:plan.name,itemIds:plan.finalItemIds,runePage:plan.runePage,shards:plan.shards},planCheckpoints(plan))}

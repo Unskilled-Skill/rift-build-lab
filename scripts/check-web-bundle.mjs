@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 // The published website must not contain desktop IPC, the desktop data protocol or a desktop chunk.
-const markers=['__TAURI','@tauri-apps','rbldata:','tauri://','ipc://localhost'];
+const markers=['__TAURI','@tauri-apps','rbldata:','rbldata.localhost','tauri://','ipc://localhost','ipc.localhost'];
 export function findDesktopLeaks(files){
  const leaks=[];
  for(const {name,text} of files){

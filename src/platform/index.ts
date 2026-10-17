@@ -8,7 +8,8 @@ const dataPath=/^\/data\/(?:[A-Za-z0-9._-]+\/)*[A-Za-z0-9._-]+(?:\?[A-Za-z0-9=&_
 // Published data files only; desktop serves the same relative tree from its active data revision.
 export function dataUrl(path:string):string{
  if(!dataPath.test(path)||path.split('?')[0].split('/').some(part=>part==='..'||part==='.'))throw new PlatformError('internal',`Not a published data path: ${path}`);
- return isDesktop?`rbldata://localhost${path}`:appPath(path);
+ // WebView2 serves custom schemes as http://<scheme>.localhost (Windows is the only desktop target).
+ return isDesktop?`http://rbldata.localhost${path}`:appPath(path);
 }
 let desktop:Promise<Platform>|undefined;
 export function getPlatform():Promise<Platform>{

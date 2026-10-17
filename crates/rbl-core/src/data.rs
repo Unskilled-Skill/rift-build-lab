@@ -274,6 +274,12 @@ impl DataStore {
         }
     }
 
+    /// The active revision's catalog (validated when the revision was installed or built).
+    pub fn catalog(&self) -> Result<Catalog, CoreError> {
+        let file = self.resolve("catalog.json").ok_or(INVALID_SNAPSHOT)?;
+        Catalog::from_published_json(&std::fs::read_to_string(file).map_err(|_| INVALID_SNAPSHOT)?)
+    }
+
     /// File for a published data path (relative to `data/`), only if it belongs to the active revision.
     pub fn resolve(&self, path: &str) -> Option<PathBuf> {
         (is_manifest_path(path) && self.active.hashes.contains_key(path)).then(|| self.active.dir.join(path))

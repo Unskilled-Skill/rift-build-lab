@@ -12,10 +12,12 @@ pub mod catalog;
 pub mod data;
 pub mod error;
 pub mod fsx;
+pub mod ipc;
 pub mod json;
 pub mod lcu;
 pub mod library;
 pub mod monitor;
+pub mod net;
 pub mod paths;
 pub mod prefs;
 

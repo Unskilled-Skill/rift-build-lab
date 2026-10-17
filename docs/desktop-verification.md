@@ -36,7 +36,7 @@ Version 0.1.0 installer: **3,130,280 bytes (2.99 MiB)**. SHA-256:
 
 Bundled data revision `40f40f8e04e3c89d40ba605710a0c1662f5d808a9bc4ad4df3d3d54744a898e9`, patch 26.20, 1,063 manifest files / approximately 14.9 MiB uncompressed. The installer uses system WebView2 and downloads its bootstrapper if needed; its small size does not include that runtime. No bundled Chromium/Node/Python runtime. This is an **unsigned preview**, not a public stable release.
 
-Windows CI runs locked native checks, frontend tests/build, packaging and artifact validation. The release workflow checks a matching existing `desktop-vVERSION` tag and built commit, then creates a draft prerelease with installer, checksum and metadata. It does not publish the draft or change Pages. Local packaging is verified; consult Actions for each pushed CI run's independent status.
+Windows CI runs locked native checks, frontend tests/build, packaging and artifact validation. The release workflow checks a matching existing `desktop-vVERSION` tag and built commit, then creates a draft prerelease with installer, checksum and metadata. It does not publish the draft or change Pages. The first clean CI run exposed missing desktop resource preparation before Cargo checks; the workflow now builds that snapshot explicitly before testing. Local packaging is verified; consult Actions for each pushed CI run's independent status.
 
 ## Remaining gates
 

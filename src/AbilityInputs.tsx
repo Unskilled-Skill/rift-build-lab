@@ -14,6 +14,7 @@ export default function AbilityInputs({model,scenario:s,update}:{model:AbilityMo
   <NumberField label="Enemy armor" value={s.armor} min={-1000} max={10000} onChange={v=>update('armor',v)}/>
   <NumberField label="Target maximum HP" value={s.targetHP} min={1} max={100000} onChange={v=>update('targetHP',v)}/>
   {model.targetHealth&&<NumberField label="Target starting HP (%)" value={s.targetHealthPercent??100} min={0} max={100} onChange={v=>update('targetHealthPercent',v)}/>}
+  {model.stackInput&&<NumberField label={model.stackInput} value={s.abilityStacks??0} min={0} max={1000000} step={1} onChange={v=>update('abilityStacks',Math.floor(v))}/>}
   {s.champion==='Ziggs'&&model.slot==='R'&&<label className="check"><input type="checkbox" checked={s.center} onChange={e=>update('center',e.target.checked)}/>Mega Inferno Bomb center hit (unchecked: 65% edge damage)</label>}
  </>;
 }

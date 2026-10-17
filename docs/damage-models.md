@@ -2,10 +2,30 @@
 
 Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-17. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 84 champions. Beyond the four original models, the reviewed cast adapters expose 226 objectives:
+The engine now supports 104 champions. Beyond the four original models, the reviewed cast adapters expose 281 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
+| Aurora | Q initial, E, R landing | No Q return/missing-health scaling or passive detonation |
+| Bard | Q | One champion hit; no meeps, chime bonuses or attacks |
+| Heimerdinger | W one/all five rockets, E | All-five W uses reduced additional rocket damage; no R upgrade or turret attacks |
+| Hwei | QQ, EQ, R | QQ includes enemy maximum HP. R uniformly prorates its three-second burn, then detonates at 3s. No passive or WE lights |
+| Nasus | Q attack with earned stacks, E field | Enter finite earned Q damage stacks; they are not AD. E includes initial magic hit plus a five-second field; no physical armor-shred follow-up |
+| Nidalee | Human Q minimum/maximum distance, human W trap | Maximum spear multiplies by 3.25; trap poison is uniformly prorated over four seconds. No cougar follow-up |
+| Sona | Q direct bolt, R | One target; no aura on-hit, Power Chord or allied damage |
+| Swain | Q one/all five bolts, W, E return | Five bolts total twice first-bolt damage. W detonates at 1.5s. No souls, healing or ultimate |
+| Sylas | Q initial/with explosion, W, E chain | Q explosion at 0.6s assumes target stays in intersection. No Petricite Burst, healing or stolen ultimate |
+| Taliyah | Q first/all five rocks, E initial | Additional Q rocks deal 40%, total 2.6 times first hit; all impact times approximated together. No worked-ground boulder or E dash detonations |
+| Teemo | Q, E one attack/poison, R triggered mushroom | E separates physical delivery and magic impact/poison, including bonus AD ratios. Poison uniformly prorated over four seconds; no refreshes or item on-hits |
+| Thresh | Q, E active, R first wall | No charged Flay attack, earned soul stats or subsequent wall damage |
+| Twisted Fate | Q, E ready fourth attack | Q includes bonus AD and AP. E includes noncritical physical delivery plus magic proc, with three prior attacks excluded. No Pick a Card |
+| Viktor | Q initial, E initial, R storm | R includes initial burst and at most six discrete one-second ticks. No Q discharge, E aftershock or death-triggered storm extension |
+| Singed | E | AP plus enemy maximum HP; no Poison Trail or automatic Insanity Potion stats |
+| Shaco | E front hit, R clone-death explosion | E multiplies by 1.5 strictly below 30% starting HP; no Backstab. R excludes clone and mini-box attacks |
+| Jax | Q, W attack, R active swing | W separates physical delivery and magic bonus. No R passive third hit, structure modifiers or defensive buffs |
+| Jinx | W, E trap, R minimum/maximum travel | W uses total AD. R adds full missing-HP damage at either travel endpoint; no splash or passive takedown buff |
+| Tristana | W landing, R | Both include current exported bonus AD/AP ratios; no E bomb triggers or resets |
+| Vayne | Q attack, E without/with wall | Q includes physical AP scaling and delivery AD once. E wall totals 250% of initial packet; no Silver Bolts or automatic Final Hour AD |
 | Ekko | Q both passes, E attack, R | Q impact times approximated together; E separates noncritical AD delivery from magic bonus. No Z-Drive or W passive |
 | Elise | Human Q, human W | Q uses enemy current HP and AP-dependent percentage; no spider form or spiderlings |
 | Evelynn | Q first missile, E ordinary/empowered, R | Uncharmed target, no Allure MR shred or Q mark triggers. R multiplies damage by 2.4 strictly below 30% starting HP |
@@ -108,3 +128,9 @@ Xin Zhao R and Fiddlesticks Q expose **Target starting HP (%)**. Their current-h
 Poppy Q emits its second packet only at a window of at least 1s, assuming the champion remains in the eruption. Sion W, Leona W and fully channeled Nunu R need 3s; Fizz R needs 2s after an assumed attachment. These casts still pay initial mana in a shorter window. Fully charged Sion/Vi Q objectives instead score an impact after prior charge setup, as their labels/notes state. Selected non-formula values (target-health ratios, timing and minimum damage) are now retained alongside formula expressions and checked against the bundled engine spell data.
 
 Elise human Q uses this same starting-HP control. Evelynn R uses it for a strict below-30% damage threshold, without claiming a guaranteed kill. Ivern E, Soraka E and Zilean Q filter their delayed packets by the observation window while paying initial mana. Malzahar E uniformly prorates observed damage over four seconds rather than simulating its exported 0.25s server ticks. Riftmaker amplification is integrated across each combat-time boundary; true damage remains unamplified. Kassadin's four-stack R objective asserts four prior stacks already exist, multiplies the base mana cost by 16, and never awards free setup casts.
+
+Shaco E also uses a strict below-30% threshold, while Jinx R uses missing HP at the supplied starting percentage. Jinx's travel multiplier affects only its flat/bonus AD packet, not the missing-HP term. Hwei R combines a uniformly prorated burn with a delayed final explosion; Viktor R instead uses the exported one-second cadence and six-tick cap. Teemo and Nidalee traps start the scored window when an already armed trap triggers; placement/arming time is excluded, but initial mana is charged. Nasus E assumes the champion remains inside the field.
+
+## Earned ability stacks
+
+Nasus Q exposes **Earned Siphoning Strike stacks**, defaulting to zero for older scenarios. The input is a finite integer from 0 to 1,000,000 and adds directly to Q damage, without increasing AD or other spells. It represents already earned bonus Q damage; stack generation is excluded. The shared comparison conditions display and preserve it across both builds, purchase stages, target sweeps and portable saves. Critical strikes and Spellblade remain outside this noncritical Q estimate.

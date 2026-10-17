@@ -4,16 +4,106 @@ export type CastMode='cast-q'|'cast-w'|'cast-e'|'cast-r'|'cast-q-max'|'cast-q-is
 type Stats=Result['stats'];
 type DamageType=Result['events'][number]['type'];
 export interface Packet {name:string;type:DamageType;raw:number;time?:number;duration?:number}
-export interface AbilityModel {label:string;slot:string;rankCap:number;cost:number[];costMultiplier?:number;sourcePath:string;notes:string;targetHealth?:boolean;profile:'magic'|'physical'|'true'|'mixed';packets:(rank:number,stats:Stats,s:Scenario)=>Packet[]}
+export interface AbilityModel {label:string;slot:string;rankCap:number;cost:number[];costMultiplier?:number;sourcePath:string;notes:string;targetHealth?:boolean;stackInput?:string;profile:'magic'|'physical'|'true'|'mixed';packets:(rank:number,stats:Stats,s:Scenario)=>Packet[]}
 type Coefficient=number|number[];
 const at=(values:Coefficient,rank:number)=>typeof values==='number'?values:values[rank-1];
 const records=source.records as Record<string,Record<string,{name:string;cost:number[];path:string}>>;
 const currentHP=(s:Scenario)=>s.targetHP*Math.min(100,Math.max(0,s.targetHealthPercent??100))/100;
-function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];targetHealth?:boolean;costMultiplier?:number;bonusAD?:Coefficient;totalAD?:Coefficient;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
+function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];targetHealth?:boolean;stackInput?:string;costMultiplier?:number;bonusAD?:Coefficient;totalAD?:Coefficient;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
  const record=records[alias][slot];const type=options.profile==='physical'?'physical':options.profile==='true'?'true':'magic';
- return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost.map(v=>v*(options.costMultiplier??1)),costMultiplier:options.costMultiplier,sourcePath:record.path,notes,targetHealth:options.targetHealth,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
+ return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost.map(v=>v*(options.costMultiplier??1)),costMultiplier:options.costMultiplier,sourcePath:record.path,notes,targetHealth:options.targetHealth,stackInput:options.stackInput,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
 }
 export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>={
+ Aurora:{
+  'cast-q':spell('Aurora','Q',[45,70,95,120,145],.4,'Initial Twofold Hex hit only. Recast missing-health damage, Spirit Abjuration passive and other targets are excluded.',{label:'Q · Twofold Hex (initial hit)'}),
+  'cast-e':spell('Aurora','E',[80,120,160,200,240],.7,'One The Weirding hit. Passive detonation, movement and slow are excluded.'),
+  'cast-r':spell('Aurora','R',[175,275,375],.7,'One landing pulse. Passive detonation, realm hopping, boundary slow and travel are excluded.'),
+ },
+ Bard:{'cast-q':spell('Bard','Q',[80,120,160,200,240],.8,'One Cosmic Binding hit on this champion. Wall/second-target stun, meeps, chime bonuses and attacks are excluded.')},
+ Heimerdinger:{
+  'cast-w':spell('Heimerdinger','W',[50,75,100,125,150],.55,'One ordinary rocket hits this champion. Other rockets, turret charge, turret attacks and UPGRADE are excluded.',{label:'W · Hextech Micro-Rockets (one rocket)'}),
+  'cast-w-empowered':spell('Heimerdinger','W',[90,135,180,225,270],1.03,'All five ordinary rockets hit this champion, with the reduced additional-hit damage. Impacts are approximated together at zero. This is not R-upgraded W; turret attacks and charge follow-up are excluded.',{label:'W · Hextech Micro-Rockets (all five)'}),
+  'cast-e':spell('Heimerdinger','E',[60,100,140,180,220],.6,'One ordinary grenade impact. Turret attacks, charge follow-up, stun, slow and R upgrade are excluded.'),
+ },
+ Hwei:{
+  'cast-q':spell('Hwei','Q',[50,80,110,140,170],.8,'QQ Devastating Fire only, including its rank-dependent enemy maximum HP term. Other Q paintings, Signature of the Visionary passive and WE bonus lights are excluded.',{label:'QQ · Devastating Fire',packets:(rank,stats,s)=>[{name:'Devastating Fire',type:'magic',raw:[50,80,110,140,170][rank-1]+.8*stats.ap+[.03,.04,.05,.06,.07][rank-1]*s.targetHP}]}),
+  'cast-e':spell('Hwei','E',[70,110,150,190,230],.65,'EQ Grim Visage impact only. Other E paintings, fear, passive detonation and WE bonus lights are excluded.',{label:'EQ · Grim Visage'}),
+  'cast-r':spell('Hwei','R',[200,325,450],.8,'Spiraling Despair attached at zero: uniformly prorated burn over 3s and final explosion at 3s if the window permits it. Missile travel, passive detonation, WE lights and slow are excluded.',{packets:(rank,stats)=>[{name:'Spiraling Despair burn',type:'magic',raw:3*([10,20,30][rank-1]+.05*stats.ap),duration:3},{name:'Spiraling Despair explosion',type:'magic',raw:[200,325,450][rank-1]+.8*stats.ap,time:3}]}),
+ },
+ Nasus:{
+  'cast-q':spell('Nasus','Q',[30,50,70,90,110],0,'One noncritical Siphoning Strike attack, including delivery AD once and your finite earned Q damage stacks. Stacks are not AD. Stack generation, critical strikes, lifesteal, Spellblade and other on-hits are excluded.',{label:'Q · Siphoning Strike (earned stacks)',profile:'physical',stackInput:'Earned Siphoning Strike stacks',packets:(rank,stats,s)=>[{name:'Siphoning Strike attack',type:'physical',raw:stats.ad+[30,50,70,90,110][rank-1]+Math.floor(Math.min(1000000,Math.max(0,s.abilityStacks??0)))}]}),
+  'cast-e':spell('Nasus','E',[50,80,110,140,170],.6,'Initial Spirit Fire damage plus a five-second field, uniformly prorated inside the window while the target remains in it. Armor shred, ultimate stats, Q attacks and passive lifesteal are excluded.',{packets:(rank,stats)=>[{name:'Spirit Fire initial',type:'magic',raw:[50,80,110,140,170][rank-1]+.6*stats.ap},{name:'Spirit Fire field',type:'magic',raw:5*([10,16,22,28,34][rank-1]+.12*stats.ap),duration:5}]}),
+ },
+ Nidalee:{
+  'cast-q':spell('Nidalee','Q',[70,90,110,130,150],.5,'Human javelin at minimum damage distance. Hunted setup, cougar follow-up, travel time and attacks are excluded.',{label:'Q · Javelin Toss (minimum distance)'}),
+  'cast-q-max':spell('Nidalee','Q',[227.5,292.5,357.5,422.5,487.5],1.625,'Human javelin at maximum damage distance, multiplying the base packet by 3.25. Prior flight is outside the scored impact. Hunted and cougar follow-up are excluded.',{label:'Q · Javelin Toss (maximum distance)'}),
+  'cast-w':spell('Nidalee','W',[40,80,120,160,200],.2,'One human trap triggers at zero and deals uniformly prorated damage over 4s. Placement/arming time, Hunted effects, repeat traps and cougar follow-up are excluded.',{label:'W · Bushwhack (triggered trap)',packets:(rank,stats)=>[{name:'Bushwhack poison',type:'magic',raw:4*([10,20,30,40,50][rank-1]+.05*stats.ap),duration:4}]}),
+ },
+ Sona:{
+  'cast-q':spell('Sona','Q',[50,85,120,155,190],.4,'One direct Hymn of Valor bolt on this champion. Aura on-hit, Power Chord, allied damage, other targets and Accelerando generation are excluded.'),
+  'cast-r':spell('Sona','R',[150,250,350],.5,'One Crescendo hit. Stun, aura effects, Power Chord and following attacks are excluded.'),
+ },
+ Swain:{
+  'cast-q':spell('Swain','Q',[60,90,120,150,180],.45,'One Death\'s Hand bolt hits. Other bolts, soul collection, healing and ultimate damage are excluded.',{label:'Q · Death\'s Hand (one bolt)'}),
+  'cast-q-max':spell('Swain','Q',[120,180,240,300,360],.9,'All five Death\'s Hand bolts hit this champion: first full damage, four additional bolts at 25% each. Soul collection, healing and ultimate damage are excluded.',{label:'Q · Death\'s Hand (all five bolts)'}),
+  'cast-w':spell('Swain','W',[70,115,160,205,250],.6,'Vision of Empire explodes at 1.5s. Earlier windows score no hit but spend mana. Soul HP, healing, reveal and slow are excluded.',{packets:(rank,stats)=>[{name:'Vision of Empire',type:'magic',raw:[70,115,160,205,250][rank-1]+.6*stats.ap,time:1.5}]}),
+  'cast-e':spell('Swain','E',[90,130,170,210,250],.7,'One Nevermove returning-wave detonation. Outgoing travel, pull, soul collection, healing and root are excluded.',{label:'E · Nevermove (return detonation)'}),
+ },
+ Sylas:{
+  'cast-q':spell('Sylas','Q',[40,60,80,100,120],.4,'Initial Chain Lash only. Intersection explosion, Petricite Burst, slow and following attacks are excluded.',{label:'Q · Chain Lash (initial hit)'}),
+  'cast-q-empowered':spell('Sylas','Q',[40,60,80,100,120],.4,'Initial chain hit and intersection explosion at 0.6s, assuming the champion remains in the intersection. Petricite Burst, slow and following attacks are excluded.',{label:'Q · Chain Lash (with intersection explosion)',packets:(rank,stats)=>[{name:'Chain Lash initial',type:'magic',raw:[40,60,80,100,120][rank-1]+.4*stats.ap},{name:'Chain Lash explosion',type:'magic',raw:[60,115,170,225,280][rank-1]+.8*stats.ap,time:.6}]}),
+  'cast-w':spell('Sylas','W',[75,110,145,180,215],.6,'One Kingslayer damage hit. Healing, Petricite Burst, dash and following attacks are excluded.'),
+  'cast-e':spell('Sylas','E',[80,130,180,230,280],.8,'One Abduct chain hit after the initial dash, paying the full E mana cost. Petricite Burst, knockup, travel and following attacks are excluded.',{label:'E · Abduct (chain hit)'}),
+ },
+ Taliyah:{
+  'cast-q':spell('Taliyah','Q',[55,72.5,90,107.5,125],.5,'First ordinary Threaded Volley rock only. Worked-ground boulder, other rocks, displacement and monster bonuses are excluded.',{label:'Q · Threaded Volley (first rock)'}),
+  'cast-q-max':spell('Taliyah','Q',[143,188.5,234,279.5,325],1.3,'All five ordinary rocks hit the same champion: first at full damage, four at 40%. Impact times are approximated together at zero; volley timing, worked-ground boulder and monster bonuses are excluded.',{label:'Q · Threaded Volley (all five rocks)'}),
+  'cast-e':spell('Taliyah','E',[60,105,150,195,240],.6,'Initial Unraveled Earth hit only. Dash/knockback-triggered stone detonations, stun and slow are excluded.',{label:'E · Unraveled Earth (initial hit)'}),
+ },
+ Teemo:{
+  'cast-q':spell('Teemo','Q',[80,125,170,215,260],.7,'One Blinding Dart hit. Blind, Toxic Shot attacks and item on-hits are excluded.'),
+  'cast-e':spell('Teemo','E',[9,23,37,51,65],.3,'One noncritical attack: normal physical AD delivery, Toxic Shot magic impact, then uniformly prorated poison over 4s. Champion ratios only; monster modifier, refreshes, repeat attacks, critical strikes and item on-hits are excluded.',{label:'E · Toxic Shot (one attack and poison)',profile:'mixed',packets:(rank,stats)=>[{name:'Delivery attack (noncritical)',type:'physical',raw:stats.ad},{name:'Toxic Shot impact',type:'magic',raw:[9,23,37,51,65][rank-1]+.3*stats.ap+.05*stats.bonusAD},{name:'Toxic Shot poison',type:'magic',raw:4*([6,12,18,24,30][rank-1]+.1*stats.ap+.025*stats.bonusAD),duration:4}]}),
+  'cast-r':spell('Teemo','R',[200,325,450],.5,'One armed mushroom triggers at zero, dealing uniformly prorated poison over 4s. Placement/arming time is outside the scored window, while its initial mana cost is included. Repeated traps, slow, vision and item procs are excluded.',{label:'R · Noxious Trap (triggered mushroom)',packets:(rank,stats)=>[{name:'Noxious Trap poison',type:'magic',raw:[200,325,450][rank-1]+.5*stats.ap,duration:4}]}),
+ },
+ Thresh:{
+  'cast-q':spell('Thresh','Q',[100,150,200,250,300],.9,'One Death Sentence hit. Recast travel, stun, cooldown refund, soul generation and following attacks are excluded.'),
+  'cast-e':spell('Thresh','E',[65,110,155,200,245],.6,'Active Flay spell hit only. Charged passive attack, earned souls, displacement and slow are excluded.',{label:'E · Flay (active spell)'}),
+  'cast-r':spell('Thresh','R',[250,400,550],1,'One champion breaks the first damaging wall. Subsequent walls deal no damage here. Setup time, slow, earned souls and attacks are excluded.',{label:'R · The Box (first wall)'}),
+ },
+ TwistedFate:{
+  'cast-q':spell('TwistedFate','Q',[60,105,150,195,240],.85,'One Wild Cards projectile hits this champion. Other cards do not add damage to the same target here. Pick a Card, Stacked Deck, critical strikes and item procs are excluded.',{bonusAD:.5}),
+  'cast-e':spell('TwistedFate','E',[65,90,115,140,165],.4,'Stacked Deck is already ready: one noncritical physical attack plus its magic proc. Three setup attacks are excluded, as are Pick a Card, critical strikes and item on-hits.',{label:'E · Stacked Deck (ready fourth attack)',profile:'mixed',packets:(rank,stats)=>[{name:'Delivery attack (noncritical)',type:'physical',raw:stats.ad},{name:'Stacked Deck proc',type:'magic',raw:[65,90,115,140,165][rank-1]+.2*stats.bonusAD+.4*stats.ap}]}),
+ },
+ Viktor:{
+  'cast-q':spell('Viktor','Q',[60,75,90,105,120],.4,'Initial Siphon Power spell only. Empowered discharge attack, shield, upgraded movement and item procs are excluded.',{label:'Q · Siphon Power (initial spell)'}),
+  'cast-e':spell('Viktor','E',[70,110,150,190,230],.5,'Initial Hextech Ray only. Upgraded aftershock, slow and following attacks are excluded.',{label:'E · Hextech Ray (initial ray)'}),
+  'cast-r':spell('Viktor','R',[100,175,250],.5,'Initial storm burst at zero plus up to six one-second damage ticks, assuming the target stays in the storm. Death-triggered growth/duration extensions, storm movement, interrupt and attacks are excluded.',{label:'R · Arcane Storm (target stays)',packets:(rank,stats)=>[{name:'Arcane Storm initial',type:'magic',raw:[100,175,250][rank-1]+.5*stats.ap},...Array.from({length:6},(_,i)=>({name:`Arcane Storm tick ${i+1}`,type:'magic' as const,raw:[65,105,145][rank-1]+.35*stats.ap,time:i+1}))]}),
+ },
+ Singed:{'cast-e':spell('Singed','E',[50,60,70,80,90],.55,'One Fling impact including enemy maximum HP damage. Poison Trail, Insanity Potion stat bonuses, passive movement, grounding and root are excluded.',{packets:(rank,stats,s)=>[{name:'Fling',type:'magic',raw:[50,60,70,80,90][rank-1]+.55*stats.ap+[.06,.065,.07,.075,.08][rank-1]*s.targetHP}]})},
+ Shaco:{
+  'cast-e':spell('Shaco','E',[70,95,120,145,170],.6,'One Two-Shiv Poison hit from the front. Damage is multiplied by 1.5 strictly below 30% starting HP. Backstab, attacks, boxes and slow are excluded.',{targetHealth:true,packets:(rank,stats,s)=>[{name:'Two-Shiv Poison',type:'magic',raw:([70,95,120,145,170][rank-1]+.8*stats.bonusAD+.6*stats.ap)*((s.targetHealthPercent??100)<30?1.5:1)}]}),
+  'cast-r':spell('Shaco','R',[150,225,300],.7,'Clone-death explosion only, scored at impact and including the R mana cost. Prior clone lifetime, clone attacks, mini-box attacks, fear and Backstab are excluded.',{label:'R · Hallucinate (clone-death explosion)'}),
+ },
+ Jax:{
+  'cast-q':spell('Jax','Q',[65,105,145,185,225],0,'Leap Strike spell damage on one enemy champion. W empowerment, R passive proc, item on-hits, travel and following attacks are excluded.',{profile:'physical',bonusAD:1}),
+  'cast-w':spell('Jax','W',[50,85,120,155,190],.6,'One noncritical attack plus ordinary champion Empower damage. Normal attack AD is counted once; R passive third-hit proc, critical strikes, item on-hits and structure modifier are excluded.',{label:'W · Empower (noncritical attack)',profile:'mixed',packets:(rank,stats)=>[{name:'Delivery attack (noncritical)',type:'physical',raw:stats.ad},{name:'Empower bonus',type:'magic',raw:[50,85,120,155,190][rank-1]+.6*stats.ap}]}),
+  'cast-r':spell('Jax','R',[100,175,250],1,'Active Grandmaster-at-Arms swing damage only. Passive third-hit proc, armor/MR buffs, subsequent attacks and structure modifier are excluded.',{label:'R · Grandmaster-at-Arms (active swing)'}),
+ },
+ Jinx:{
+  'cast-w':spell('Jinx','W',[10,60,110,160,210],0,'One Zap impact using total AD. Cast windup, slow, passive takedown buff and following attacks are excluded.',{profile:'physical',totalAD:1.4}),
+  'cast-e':spell('Jinx','E',[90,140,190,240,290],1,'One armed Flame Chomper triggers on this champion. Other chompers, placement/arming time, root and passive takedown buff are excluded.',{label:'E · Flame Chompers! (one triggered trap)'}),
+  'cast-r':spell('Jinx','R',[20,35,50],0,'Primary champion hit at minimum travel damage. Adds the full rank-dependent enemy missing-HP term, which is not reduced by travel. Flight time, splash and passive takedown buff are excluded.',{label:'R · Super Mega Death Rocket! (minimum travel)',profile:'physical',targetHealth:true,packets:(rank,stats,s)=>[{name:'Rocket minimum travel',type:'physical',raw:[20,35,50][rank-1]+.12*stats.bonusAD+[.25,.3,.35][rank-1]*(s.targetHP-currentHP(s))}]}),
+  'cast-r-empowered':spell('Jinx','R',[200,350,500],0,'Primary champion hit at maximum travel damage, reached after sufficient prior flight. Adds the full rank-dependent missing-HP term. Flight time, splash and passive takedown buff are excluded.',{label:'R · Super Mega Death Rocket! (maximum travel)',profile:'physical',targetHealth:true,packets:(rank,stats,s)=>[{name:'Rocket maximum travel',type:'physical',raw:[200,350,500][rank-1]+1.2*stats.bonusAD+[.25,.3,.35][rank-1]*(s.targetHP-currentHP(s))}]}),
+ },
+ Tristana:{
+  'cast-w':spell('Tristana','W',[70,105,140,175,210],.5,'One Rocket Jump landing, including bonus AD and AP damage. E bomb trigger/stacks, resets, slow and travel are excluded.',{bonusAD:1}),
+  'cast-r':spell('Tristana','R',[225,275,325],1,'One Buster Shot hit, including bonus AD and AP. E bomb triggers, knockback and following attacks are excluded.',{bonusAD:.7}),
+ },
+ Vayne:{
+  'cast-q':spell('Vayne','Q',[0,0,0,0,0],.5,'One noncritical Tumble attack with normal delivery AD plus rank-dependent total AD bonus and physical AP scaling. Silver Bolts, Final Hour bonus AD, critical strikes and item on-hits are excluded.',{label:'Q · Tumble (noncritical attack)',profile:'physical',totalAD:[1.75,1.85,1.95,2.05,2.15]}),
+  'cast-e':spell('Vayne','E',[50,85,120,155,190],0,'Initial Condemn hit without a wall. Silver Bolts, Final Hour bonus AD, displacement and attacks are excluded.',{label:'E · Condemn (no wall)',profile:'physical',bonusAD:.5}),
+  'cast-e-empowered':spell('Vayne','E',[125,212.5,300,387.5,475],0,'Condemn initial hit plus terrain-collision bonus of 150% of that packet, totaling 250%. The collision is assumed successful and impact times are approximated together. Silver Bolts, Final Hour bonus AD and stun are excluded.',{label:'E · Condemn (wall collision)',profile:'physical',bonusAD:1.25}),
+ },
  Ekko:{
   'cast-q':spell('Ekko','Q',[80,95,110,125,140],.3,'Both outgoing and return hits land on this champion. Their impact times are approximated together at zero; Z-Drive passive, W passive, travel and slow are excluded.',{label:'Q · Timewinder (both passes)',packets:(rank,stats)=>[{name:'Timewinder outgoing',type:'magic',raw:[80,95,110,125,140][rank-1]+.3*stats.ap},{name:'Timewinder return',type:'magic',raw:[40,65,90,115,140][rank-1]+.7*stats.ap}]}),
   'cast-e':spell('Ekko','E',[50,75,100,125,150],.4,'One noncritical delivery attack plus E magic bonus. Attack AD is counted once; Z-Drive passive, W passive, item on-hits and mobility are excluded.',{label:'E · Phase Dive (noncritical attack)',profile:'mixed',packets:(rank,stats)=>[{name:'Delivery attack (noncritical)',type:'physical',raw:stats.ad},{name:'Phase Dive bonus',type:'magic',raw:[50,75,100,125,150][rank-1]+.4*stats.ap}]}),

@@ -28,7 +28,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const itemAD=(value:number)=>has(2501)?(baseAD+value+bonusHP*.025)*(1+Math.min(.12,Math.max(0,s.bloodmailBonus/100)))-baseAD:value;
  const itemAP=(value:number)=>(value+(has(4633)?bonusHP*.02:0))*(has(3089)?1.3:1);
  const preferredAD=itemAD(bonusAD),preferredAP=itemAP(ap);
- const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank','Ezreal','Lucian','Corki','Caitlyn','Ashe','MissFortune','Draven','Graves','Quinn','JarvanIV','Nocturne','Talon','Pantheon','Garen','LeeSin','Zed','Shen','Renekton','Riven','Aatrox','RekSai','Akali','Sion','Poppy','Leona','Braum','Volibear','Warwick','XinZhao','Vi','Khazix'].includes(champion.alias));
+ const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank','Ezreal','Lucian','Corki','Caitlyn','Ashe','MissFortune','Draven','Graves','Quinn','JarvanIV','Nocturne','Talon','Pantheon','Garen','LeeSin','Zed','Shen','Renekton','Riven','Aatrox','RekSai','Akali','Sion','Poppy','Leona','Braum','Volibear','Warwick','XinZhao','Vi','Khazix','Nasus','Thresh','Shaco','Jax','Jinx','Tristana','Vayne'].includes(champion.alias));
  const adaptive=(value:number)=>{if(adaptiveAD)bonusAD+=value*.6;else ap+=value;};
  for(const id of s.shards)if(id===5008)adaptive(9);
  if(s.runePage.includes(8010))adaptive((1.8+(4-1.8)*(level-1)/17)*Math.min(12,Math.max(0,s.conquerorStacks)));
@@ -52,7 +52,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const cast=abilityModel(champion.alias,s.mode);
  if(cast){
   const castRank=Math.min(cast.rankCap,Math.max(1,Math.round(s.rank))),cost=cast.cost[castRank-1];
-  limitations.push(cast.notes,`Source: patch 26.20 / Data Dragon 16.20.1; ${cast.sourcePath}. Single cast on one champion. No automatic repeats, passive or item/rune proc simulation.`);
+  limitations.push(cast.notes,`Source: patch 26.20 / Data Dragon 16.20.1; ${cast.sourcePath}. Single cast on one champion. No automatic repeats or additional passive/item/rune triggers beyond the selected packets.`);
   if(resource.kind==='none'||Math.min(s.mana,resourceMaximum)>=cost){
    castResourceSpent=cost;if(resource.kind==='mana')manaSpent=cost;
    for(const packet of cast.packets(castRank,stats,s)){

@@ -14,6 +14,10 @@ export default function AbilityInputs({model,scenario:s,update}:{model:AbilityMo
   {resource.kind==='energy'&&<NumberField label={`Energy available (base cap ${resource.baseMaximum})`} value={Math.min(resource.baseMaximum,s.mana)} max={resource.baseMaximum} onChange={v=>update('mana',v)}/>}
   <NumberField label="Enemy magic resist" value={s.mr} min={-1000} max={10000} onChange={v=>update('mr',v)}/>
   <NumberField label="Enemy armor" value={s.armor} min={-1000} max={10000} onChange={v=>update('armor',v)}/>
+  {model.defenseScaling&&<>
+   <NumberField label="Extra armor (before champion bonuses)" value={s.extraArmor??0} min={0} max={10000} onChange={v=>update('extraArmor',v)}/>
+   <NumberField label="Extra magic resist (before champion bonuses)" value={s.extraMR??0} min={0} max={10000} onChange={v=>update('extraMR',v)}/>
+  </>}
   <NumberField label="Target maximum HP" value={s.targetHP} min={1} max={100000} onChange={v=>update('targetHP',v)}/>
   {model.targetHealth&&<NumberField label="Target starting HP (%)" value={s.targetHealthPercent??100} min={0} max={100} onChange={v=>update('targetHealthPercent',v)}/>}
   {model.stackInput&&<NumberField label={model.stackInput.label} value={s.abilityStacks??0} min={0} max={model.stackInput.max} step={1} onChange={v=>update('abilityStacks',Math.floor(v))}/>}

@@ -16,7 +16,7 @@ export function parseSave(text:string,champions:Champion[],items:Item[]):Save{
  if(s.mode.startsWith('cast-')&&!abilityModel(s.champion,s.mode))throw new Error('Ability mode does not match the champion.');
  const optional:Record<string,unknown>={};
  for(const key of ['spellbladeReady','procReady','firstStrikeReady'])if(s[key]!==undefined){if(typeof s[key]!=='boolean')throw new Error(`Invalid ${key}.`);optional[key]=s[key];}
- for(const [key,max] of [['gatheringMinutes',120],['targetHealthPercent',100]] as const)if(s[key]!==undefined){if(typeof s[key]!=='number'||!Number.isFinite(s[key])||s[key]<0||s[key]>max)throw new Error(`Invalid ${key}.`);optional[key]=s[key];}
+ for(const [key,max] of [['gatheringMinutes',120],['targetHealthPercent',100],['extraArmor',10000],['extraMR',10000]] as const)if(s[key]!==undefined){if(typeof s[key]!=='number'||!Number.isFinite(s[key])||s[key]<0||s[key]>max)throw new Error(`Invalid ${key}.`);optional[key]=s[key];}
  if(s.penetrationRank!==undefined){if(typeof s.penetrationRank!=='number'||!Number.isInteger(s.penetrationRank)||s.penetrationRank<0||s.penetrationRank>(penetrationRules[s.champion]?.values.length??5))throw new Error('Invalid penetrationRank.');optional.penetrationRank=s.penetrationRank;}
  if(s.abilityStacks!==undefined){if(typeof s.abilityStacks!=='number'||!Number.isInteger(s.abilityStacks)||s.abilityStacks<0||s.abilityStacks>(abilityModel(s.champion,s.mode)?.stackInput?.max??1000000))throw new Error('Invalid abilityStacks.');optional.abilityStacks=s.abilityStacks;}
  if(s.critMode!==undefined){if(!['normal','critical','expected'].includes(s.critMode))throw new Error('Invalid crit mode.');optional.critMode=s.critMode;}

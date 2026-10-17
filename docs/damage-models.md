@@ -2,10 +2,14 @@
 
 Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-17. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 155 champions. Beyond the four original models, the reviewed cast adapters expose 426 objectives:
+The engine now supports 159 champions. Beyond the four original models, the reviewed cast adapters expose 437 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
+| K'Sante | Q, W released in base form | Own bonus armor/MR scale Q and enemy max-HP W. No All Out, marks, additional attacks or full charge timeline |
+| Ornn | Q, W cone, E, R first pass | Living Forge amplifies bonus HP/armor/MR by 10% plus 4% per entered earned Masterwork (0–5). Actual upgrade stat allocations require explicit input. W is a finite 0.75s cone with a minimum; E does not double hit; no Brittle proc |
+| Rammus | Q, W one triggered retaliation, R ordinary initial landing | W flat and percentage armor/MR buffs precede retaliation. Spiked Shell adds 15% own total armor plus MR to AD. Q/R assume W inactive. No Thornmail, repeated retaliation, W detonation, R pulses or Powerball-enhanced R |
+| Udyr | Q one ordinary first-two attack, R ordinary storm | Q includes noncritical delivery, stance on-hit and enemy max-HP physical bonus. R uniformly prorated over four seconds. Six learned ranks; no Awaken, lightning, second attack or R attack pulses |
 | Annie | Q, W, E one triggered retaliation, R initial summon | R passive magic penetration uses explicit learned R rank for other spells, selected R rank for R. No pet attacks/aura, stun or repeated retaliation |
 | Mordekaiser | E | E passive magic penetration follows selected E rank. No passive attacks/field or Realm of Death stat stealing |
 | Ambessa | W ordinary/prepared enhanced, E initial strike, R | Energy capped at 200. Learned R armor penetration included. No energy refunds, dash-triggered second E, passive attacks, shield or healing |
@@ -195,3 +199,5 @@ Twitch E exposes **Existing Deadly Venom stacks**, capped at six. Mel R exposes 
 Jayce's hammer abilities and Yuumi Q expose all six learned ranks, including rank-six source costs and save validation. Bel'Veth, Mini Gnar, Shyvana and Viego do not use mana/energy for these casts; mana purchases cannot generate mana capacity or Muramana conversion. Rage/Fury/form transitions, True Form stat bonuses and possession are not advanced by the engine. Conditional objectives explicitly assume their Coral, form, Fury, Unleash or prior-hit prerequisites are already prepared, with setup damage excluded.
 
 Learned penetration is shared between compared builds and saved with the scenario. For Annie, Mordekaiser, Ambessa and Zaahen, the passive uses the selected ability rank when calculating its own source ability; other spells use the explicit passive-rank input (zero means unlearned). Item percent penetration and learned percent penetration combine multiplicatively before flat penetration. Negative defenses remain unaffected by penetration. This is a spell estimate and does not validate a complete skill-point allocation.
+
+Own armor and magic resistance use the champion's base values and level growth plus flat item stats. Explicit extra armor/MR are bonus defenses entered before champion amplification, shared across compared builds, and saved with the scenario. Ornn's earned upgrade count is shared across all four objectives and affects bonus HP before item HP-to-AP/AD conversions. W retaliation reports Rammus's W-active defenses; his Q/R report W-inactive defenses. Unmodeled defense item passives and external buffs require explicit input. Damage objectives that scale with defenses show both total and bonus defenses in the comparison table.

@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "Sion",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-13",
+  "authoredAt": "2026-10-18",
   "builds": [
     {
       "id": "sion-ceiling-ability-ceiling-r",
@@ -45,7 +45,8 @@
         "targetHP": 3000,
         "heartsteelHP": 0,
         "conquerorStacks": 0,
-        "combatSeconds": 0
+        "combatSeconds": 0,
+        "objectiveSlot": "R"
       },
       "requiresManualTest": true,
       "ceiling": {
@@ -60,7 +61,7 @@
         "Finite benchmark: Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. Full-distance collision;500 earned W HP minute30; earned Muramana. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged.",
         "Measure collision only; compare Bloodmail/Muramana at same W stacks. W health unbounded: no finite global max through health-to-AD.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
-        "Use the stated benchmark, not free infinite stacks or allied buffs. The initial form fields are editable defaults (level18, target3000HP/100armor/50MR); adjust them and record every other requirement before measuring."
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
       "failureConditions": [
         "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
@@ -75,7 +76,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
-        "These targets are manual experiments. Existing Cassiopeia Q/E and Sett W numeric adapters cannot certify these whole loadouts, omitted item/rune effects or global maxima.",
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "High-number candidate, not proof of mathematical maximum. Ability-only result separate from item/rune procs; unresolved raw statFormula/helper flags require live verification. Unbounded stacks/health prevent finite global maximum; mandatory finite benchmark. First Strike separately logged only in actual window; Absolute Focus needs above70% casterHP, inactive in lowHP tests; Gathering Storm fixed30min. ",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
       ],
@@ -86,6 +87,95 @@
           "slot": "R",
           "source": "Characters/Sion/Spells/SionRAbility/SionR",
           "formula": "Sion charges Unstoppably in a direction for 8 seconds, turning towards the mouse cursor. Sion stops on colliding with an enemy champion or wall or on Recasting this Ability.  \n\nAt the end of the charge, Sion deals between [150 / 300 / 450 + (0.6) × AD[statFormula=2]] and [400 / 800 / 1200 + (1.2) × AD[statFormula=2]] physical damage based on distance travelled. Enemies close to Sion are Stunned for between [0.75] and [1.75] seconds based on distance travelled. Enemies in a larger area are Slowed by [40 / 45 / 50]% for 3 seconds."
+        }
+      ]
+    },
+    {
+      "id": "sion-ceiling-q-max-charge-ad",
+      "champion": "Sion",
+      "name": "Decimating Smash: full-charge AD hit",
+      "category": "Ability ceiling",
+      "summary": "Explore a large fully charged Decimating Smash number under fixed conditions, comparing legal item swaps rather than assuming a global maximum.",
+      "goal": "Explore a large fully charged Decimating Smash number under fixed conditions, comparing legal item swaps rather than assuming a global maximum.",
+      "hypothesis": "Rank-5 full-charge Q is 350 + 2.4 total AD, compared with 90 + 0.8 total AD on an uncharged tap. This large total-AD coefficient makes flat AD, Sterak's base-AD conversion and earned Hubris worth testing against lethality. Serylda is the sole percent-armor-penetration-family item; Profane active is not Q damage. HP does not directly scale Q unless an item first converts it into AD.",
+      "itemIds": [
+        3072,
+        6697,
+        6698,
+        6694,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "targetHealthPercent": 30,
+        "healthPercent": 100,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "fully charged Decimating Smash",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, maximum target rank, game time 30 minutes, no elixir, dragons or allied buffs. Enemy champion: 3000 maximum HP, 900 current HP, 100 armor and 50 MR before any explicitly tested debuff. Owner starts at full HP. No free permanent stacks. Two seconds of uninterrupted charge completed before impact. Hubris exactly 10 credited kills with active buff. No E armor reduction or zombie passive, and no free Sion W health stacks. Absolute Focus active. Record raw potential separately from effective damage; do not count packets after the target dies.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum target rank, game time 30 minutes, no elixir, dragons or allied buffs. Enemy champion: 3000 maximum HP, 900 current HP, 100 armor and 50 MR before any explicitly tested debuff. Owner starts at full HP. No free permanent stacks. Two seconds of uninterrupted charge completed before impact. Hubris exactly 10 credited kills with active buff. No E armor reduction or zombie passive, and no free Sion W health stacks. Absolute Focus active. Record raw potential separately from effective damage; do not count packets after the target dies.",
+        "Select the fully charged Q objective, record the actual 2-second windup, then compare the hit with the tap. Swap Sterak for Edge of Night and Profane for Bloodmail at fixed earned HP; do not invent W stacks to favor Bloodmail. Repeat at 50 and 200 armor. Keep setup damage out of the scored Q.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Only maximum charge is scored; interrupted or early-release casts must not receive the full coefficient. Existing full-charge adapter excludes pre-hit E shred and most item buffs."
+      ],
+      "tradeoffs": [
+        "A two-second stationary windup is easy to evade or interrupt. Bootless damage sacrifices the positioning needed to land the hit.",
+        "Confidence: plausible. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Only maximum charge is scored; interrupted or early-release casts must not receive the full coefficient. Existing full-charge adapter excludes pre-hit E shred and most item buffs.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Decimating Smash",
+          "slot": "Q",
+          "source": "Characters/Sion/Spells/SionQAbility/SionQ",
+          "formula": "Begin Charging: Sion charges a heavy blow for up to 2 seconds.\n\nRelease: Sion slams his axe down, briefly Slowing and dealing between [30 / 45 / 60 / 75 / 90 + (0.4 / 0.5 / 0.6 / 0.7 / 0.8) × AD] and [90 / 155 / 220 / 285 / 350 + (1.2 / 1.5 / 1.8 / 2.1 / 2.4) × AD] physical damage based on charge time. If Sion charged for at least 1 second, enemies are Knocked Up and Stunned for between [1.25] and 2.25 seconds based on charge time."
         }
       ]
     }

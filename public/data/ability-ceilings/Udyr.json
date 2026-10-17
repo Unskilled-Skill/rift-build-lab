@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "Udyr",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-13",
+  "authoredAt": "2026-10-18",
   "builds": [
     {
       "id": "udyr-ceiling-ceiling-r-full-window",
@@ -45,7 +45,8 @@
         "targetHP": 3000,
         "heartsteelHP": 0,
         "conquerorStacks": 0,
-        "combatSeconds": 0
+        "combatSeconds": 0,
+        "objectiveSlot": "R"
       },
       "requiresManualTest": true,
       "ceiling": {
@@ -60,7 +61,7 @@
         "Finite benchmark: Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Level18,R6,awakening ready; victim all4s. Riftmaker fully ramped before measured packet.",
         "Same-patch practice/custom test with exact state: record Awakened Wingborne Storm tooltip, observed AP/AD/HP/mana/resists, per-packet damage/protection and final targetHP. Compare one legal item swap at a time, separating setup damage, rune/item procs and ordinary attack. Verify raw helper/statFormula mappings and conditional multipliers before treating result as established.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
-        "Use the stated benchmark, not free infinite stacks or allied buffs. The initial form fields are editable defaults (level18, target3000HP/100armor/50MR); adjust them and record every other requirement before measuring."
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
       "failureConditions": [
         "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
@@ -75,7 +76,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
-        "These targets are manual experiments. Existing Cassiopeia Q/E and Sett W numeric adapters cannot certify these whole loadouts, omitted item/rune effects or global maxima.",
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "Confirm raw14% endpoint/flags; stance attacks/Q lightning excluded. Raw statFormula=2/Stat identifiers remain source evidence until runtime mapping confirmed; no unspecified stats/stacks granted.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
       ],
@@ -86,6 +87,184 @@
           "slot": "R",
           "source": "Characters/Udyr/Spells/UdyrRAbility/UdyrR",
           "formula": "Storm Stance: Udyr surrounds himself in a glacial storm for [4] seconds, dealing [20 / 36 / 52 / 68 / 84 / 100 + (0.35) × AP] magic damage per second to nearby enemies and Slowing them by [(0.15 / 0.18 / 0.21 / 0.24 / 0.27 / 0.3) × 100]%. Additionally, Udyr's next two Attacks in this stance deal [characterLevelInterpolation(10 → 40; raw flags preserved) + (0.35) × AP] magic damage to enemies in the storm.\n\nAwaken: Unleash the storm, causing it to follow Udyr's last Attacked enemy, deal an additional [characterLevelInterpolation(0.08 → 0.14; raw flags preserved) + (0.00035) × AP] max Health magic damage over the duration, and Slow by an additional [0.05]."
+        }
+      ]
+    },
+    {
+      "id": "udyr-ceiling-q-claw-ad-hp",
+      "champion": "Udyr",
+      "name": "Wilding Claw: AD and HP maul",
+      "category": "Ability ceiling",
+      "summary": "Explore a large ordinary Wilding Claw first empowered attack number under fixed conditions, comparing legal item swaps rather than assuming a global maximum.",
+      "goal": "Explore a large ordinary Wilding Claw first empowered attack number under fixed conditions, comparing legal item swaps rather than assuming a global maximum.",
+      "hypothesis": "Rank-6 ordinary Q first attack contains a noncritical delivery attack, 36 + 0.2 bonus AD + 0.02 bonus HP on-hit, and (0.08 + 0.00035 bonus AD) of enemy maximum HP. Bonus AD improves both flat and target-health terms; bonus HP improves the flat on-hit and Bloodmail AD conversion. Heartsteel and Warmog provide finite item HP, not free infinite stacks.",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        2501,
+        3084,
+        3083
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 6,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "targetHealthPercent": 30,
+        "healthPercent": 100,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "ordinary Wilding Claw first empowered attack",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, maximum target rank, game time 30 minutes, no elixir, dragons or allied buffs. Enemy champion: 3000 maximum HP, 900 current HP, 100 armor and 50 MR before any explicitly tested debuff. Owner starts at full HP. No free permanent stacks. Q rank 6, one of the first two ordinary attacks, no Awaken. Heartsteel earned bonus HP exactly zero; its proc is excluded. Hubris exactly 10 credited kills with active buff. Absolute Focus active; Bloodmail missing-health amplification inactive. Record raw potential separately from effective damage; do not count packets after the target dies.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum target rank, game time 30 minutes, no elixir, dragons or allied buffs. Enemy champion: 3000 maximum HP, 900 current HP, 100 armor and 50 MR before any explicitly tested debuff. Owner starts at full HP. No free permanent stacks. Q rank 6, one of the first two ordinary attacks, no Awaken. Heartsteel earned bonus HP exactly zero; its proc is excluded. Hubris exactly 10 credited kills with active buff. Absolute Focus active; Bloodmail missing-health amplification inactive. Record raw potential separately from effective damage; do not count packets after the target dies.",
+        "Log delivery, ordinary on-hit and first-two max-HP term independently. Swap Warmog for Sterak, then Bloodthirster for another HP item at the same target HP. Repeat against 1500 and 6000 HP. Then test at 10% owner HP, recording lost Absolute Focus and gained Bloodmail separately rather than keeping both buffs.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "The second attack, awakened extra max-HP term, six lightning strikes, item on-hits and attack-speed timing are not part of this single-attack metric. Rank 6 must remain rank 6 when loaded."
+      ],
+      "tradeoffs": [
+        "Large single attacks do not prove best two-attack burst or DPS; slower access and attack timing can beat the paper damage advantage.",
+        "Confidence: plausible. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "The second attack, awakened extra max-HP term, six lightning strikes, item on-hits and attack-speed timing are not part of this single-attack metric. Rank 6 must remain rank 6 when loaded.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Wilding Claw",
+          "slot": "Q",
+          "source": "Characters/Udyr/Spells/UdyrQAbility/UdyrQ",
+          "formula": "Claw Stance: Udyr gains [(0.2 / 0.32 / 0.44 / 0.56 / 0.68 / 0.8) × 100]% Attack Speed and his Attacks deal [6 / 12 / 18 / 24 / 30 / 36 + (0.2) × AD[statFormula=2] + (0.01 / 0.012 / 0.014 / 0.016 / 0.018 / 0.02) × Stat(12)[statFormula=2]] physical damage {{ Item_Keyword_OnHit }} for [4] seconds. Additionally, Udyr's next two Attacks in this stance deal a bonus [0.03 / 0.04 / 0.05 / 0.06 / 0.07 / 0.08 + (0.00035) × AD[statFormula=2]] max Health physical damage and gain [50] range.\n\nAwaken: Increase bonus Attack Speed to [0.2 / 0.32 / 0.44 / 0.56 / 0.68 / 0.8 + UNRESOLVED({ee18a47b}; see calculationRaw)] and max Health damage to [0.03 / 0.04 / 0.05 / 0.06 / 0.07 / 0.08 + characterLevelInterpolation(0.02 → 0.04; raw flags preserved) + (0.0005) × AD[statFormula=2] + (1e-05) × Stat(12)[statFormula=2]]. Additionally, Udyr's next two Attacks call lightning six times, dealing a total of [(((6e-05) × AP + UNRESOLVED({ee18a47b}; see calculationRaw))) × ((1 + ((6 + -1)) × (1)))] max Health magic damage to isolated targets (strikes bounce to other nearby targets when possible)."
+        }
+      ]
+    },
+    {
+      "id": "udyr-ceiling-q-awaken-isolated-ap",
+      "champion": "Udyr",
+      "name": "Awakened Claw: isolated AP lightning",
+      "category": "Ability ceiling",
+      "summary": "Explore a large one awakened Q attack with isolated lightning number under fixed conditions, comparing legal item swaps rather than assuming a global maximum.",
+      "goal": "Explore a large one awakened Q attack with isolated lightning number under fixed conditions, comparing legal item swaps rather than assuming a global maximum.",
+      "hypothesis": "Awakened Q has an AP-scaled magic lightning component even though ordinary Q rewards AD and HP. The source lists six strikes per empowered attack and 0.00006 AP of target maximum HP per strike; isolation controls whether all strikes stay on one target. Ordinary delivery and awakened physical max-HP damage must be measured separately. Deathcap, magic penetration and conditional Shadowflame target the lightning rather than turning Q into a spell that can ordinarily crit.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        4633,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 6,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "targetHealthPercent": 100,
+        "healthPercent": 100,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "one awakened Q attack with isolated lightning",
+        "metric": "single-hit",
+        "damageType": "mixed",
+        "finiteState": "Level 18, maximum target rank, game time 30 minutes, no elixir, dragons or allied buffs. Enemy champion: 3000 maximum HP, 900 current HP, 100 armor and 50 MR before any explicitly tested debuff. Owner starts at full HP. No free permanent stacks. Q rank 6, Awaken available, one empowered attack. No other bounce-eligible units nearby. First attack only; second awakened attack excluded. Riftmaker ramp already four seconds; setup damage excluded. Record raw potential separately from effective damage; do not count packets after the target dies. Override starting target HP to full (3000 current HP) for this target. Shadowflame starts inactive; apply it only to eligible later packets after the threshold is crossed.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum target rank, game time 30 minutes, no elixir, dragons or allied buffs. Enemy champion: 3000 maximum HP, 900 current HP, 100 armor and 50 MR before any explicitly tested debuff. Owner starts at full HP. No free permanent stacks. Q rank 6, Awaken available, one empowered attack. No other bounce-eligible units nearby. First attack only; second awakened attack excluded. Riftmaker ramp already four seconds; setup damage excluded. Record raw potential separately from effective damage; do not count packets after the target dies. Override starting target HP to full (3000 current HP) for this target. Shadowflame starts inactive; apply it only to eligible later packets after the threshold is crossed.",
+        "Record all six lightning strikes and their target IDs, then sum their magic damage separately from the physical attack. Compare one AP slot against Bloodthirster for total mixed damage. Repeat beside one minion, then without Riftmaker ramp and above 40% target HP. Validate the unresolved level-based lightning term in the current client before claiming an exact result. If the target dies before all six strikes, record the surviving observed packets and damage capped by remaining HP; do not assume six amplified strikes.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Source extraction retains an unresolved hashed level term. This is a manual candidate, not an implemented exact awakened-Q calculation. Never copy the ordinary Q adapter number as awakened damage or assume isolation in a wave."
+      ],
+      "tradeoffs": [
+        "Isolated AP burst may collapse around minions and trades away sustained AD attacks. Keeping the target isolated is part of the build's cost.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Source extraction retains an unresolved hashed level term. This is a manual candidate, not an implemented exact awakened-Q calculation. Never copy the ordinary Q adapter number as awakened damage or assume isolation in a wave.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Wilding Claw",
+          "slot": "Q",
+          "source": "Characters/Udyr/Spells/UdyrQAbility/UdyrQ",
+          "formula": "Claw Stance: Udyr gains [(0.2 / 0.32 / 0.44 / 0.56 / 0.68 / 0.8) × 100]% Attack Speed and his Attacks deal [6 / 12 / 18 / 24 / 30 / 36 + (0.2) × AD[statFormula=2] + (0.01 / 0.012 / 0.014 / 0.016 / 0.018 / 0.02) × Stat(12)[statFormula=2]] physical damage {{ Item_Keyword_OnHit }} for [4] seconds. Additionally, Udyr's next two Attacks in this stance deal a bonus [0.03 / 0.04 / 0.05 / 0.06 / 0.07 / 0.08 + (0.00035) × AD[statFormula=2]] max Health physical damage and gain [50] range.\n\nAwaken: Increase bonus Attack Speed to [0.2 / 0.32 / 0.44 / 0.56 / 0.68 / 0.8 + UNRESOLVED({ee18a47b}; see calculationRaw)] and max Health damage to [0.03 / 0.04 / 0.05 / 0.06 / 0.07 / 0.08 + characterLevelInterpolation(0.02 → 0.04; raw flags preserved) + (0.0005) × AD[statFormula=2] + (1e-05) × Stat(12)[statFormula=2]]. Additionally, Udyr's next two Attacks call lightning six times, dealing a total of [(((6e-05) × AP + UNRESOLVED({ee18a47b}; see calculationRaw))) × ((1 + ((6 + -1)) × (1)))] max Health magic damage to isolated targets (strikes bounce to other nearby targets when possible)."
         }
       ]
     }

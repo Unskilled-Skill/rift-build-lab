@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "Gragas",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-13",
+  "authoredAt": "2026-10-18",
   "builds": [
     {
       "id": "gragas-ceiling-ability-ceiling-gragas-q",
@@ -45,7 +45,8 @@
         "targetHP": 3000,
         "heartsteelHP": 0,
         "conquerorStacks": 0,
-        "combatSeconds": 0
+        "combatSeconds": 0,
+        "objectiveSlot": "Q"
       },
       "requiresManualTest": true,
       "ceiling": {
@@ -60,7 +61,7 @@
         "Finite benchmark: Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready.",
         "Wait full 4s then detonate one Q; compare immediate cast to verify fermentation. Log raw kit packet(s), post-mitigation damage and separate item/rune packets; repeat at 100% target HP and swap one item at a time. First Strike must be ready and champion initiates; compare eligible bonus separately.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
-        "Use the stated benchmark, not free infinite stacks or allied buffs. The initial form fields are editable defaults (level18, target3000HP/100armor/50MR); adjust them and record every other requirement before measuring."
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
       "failureConditions": [
         "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
@@ -75,7 +76,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
-        "These targets are manual experiments. Existing Cassiopeia Q/E and Sett W numeric adapters cannot certify these whole loadouts, omitted item/rune effects or global maxima.",
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "Highest-number candidate, not proof of mathematical maximum. Use current stored source values and verify all conditional multipliers. Unlimited game time changes Gathering Storm; no finite global maximum over unrestricted time. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
       ],
@@ -86,6 +87,95 @@
           "slot": "Q",
           "source": "Characters/Gragas/Spells/GragasQAbility/GragasQ",
           "formula": "Gragas rolls a cask that explodes after [4] seconds, dealing between [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage and [(80 / 120 / 160 / 200 / 240 + (0.8) × AP) × (1.5)] magic damage and Slowing for between [40 / 45 / 50 / 55 / 60] and [(40 / 45 / 50 / 55 / 60) × 1.5]% for [2] seconds. The damage and Slow increase with time the cask spent before exploding. \n\nGragas can Recast to detonate the cask early."
+        }
+      ]
+    },
+    {
+      "id": "gragas-ceiling-w-ap-percent-health",
+      "champion": "Gragas",
+      "name": "Drunken Rage: AP tank-buster smack",
+      "category": "Ability ceiling",
+      "summary": "Explore a large Drunken Rage empowered attack bonus number under fixed conditions, comparing legal item swaps rather than assuming a global maximum.",
+      "goal": "Explore a large Drunken Rage empowered attack bonus number under fixed conditions, comparing legal item swaps rather than assuming a global maximum.",
+      "hypothesis": "Rank-5 W adds 140 + 0.7 AP + 7% enemy maximum HP as magic damage to the attack. AP increases the flat magic term; target HP changes the independent percentage term. Deathcap and earned Seraph AP compete with MR penetration. A Lich Bane swap is a separate delivery-proc experiment: the Spellblade packet is not part of the W bonus itself.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "targetHealthPercent": 30,
+        "healthPercent": 100,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "Drunken Rage empowered attack bonus",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, maximum target rank, game time 30 minutes, no elixir, dragons or allied buffs. Enemy champion: 3000 maximum HP, 900 current HP, 100 armor and 50 MR before any explicitly tested debuff. Owner starts at full HP. No free permanent stacks. W drink completed; one empowered attack. Seraph is legally transformed with earned stacks. No Q fermentation, R or E damage; no allied buffs. Absolute Focus active. Record raw potential separately from effective damage; do not count packets after the target dies.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum target rank, game time 30 minutes, no elixir, dragons or allied buffs. Enemy champion: 3000 maximum HP, 900 current HP, 100 armor and 50 MR before any explicitly tested debuff. Owner starts at full HP. No free permanent stacks. W drink completed; one empowered attack. Seraph is legally transformed with earned stacks. No Q fermentation, R or E damage; no allied buffs. Absolute Focus active. Record raw potential separately from effective damage; do not count packets after the target dies.",
+        "Record the ordinary physical attack and W magic bonus separately. Compare Zhonya against Lich Bane, reporting W-only and W-plus-Spellblade totals independently. Repeat at 1500 and 6000 enemy max HP and 30 versus 150 MR. Record actual Awe AP rather than assuming it is in the partial calculator.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "W is a magic bonus on an attack, not an AP conversion of the entire physical delivery. Lifesteal, damage reduction and healing are separate outputs."
+      ],
+      "tradeoffs": [
+        "A high W bonus requires melee attack access and a completed drink; losing movement or stasis for a proc slot can reduce the chance to deliver it.",
+        "Confidence: plausible. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "W is a magic bonus on an attack, not an AP conversion of the entire physical delivery. Lifesteal, damage reduction and healing are separate outputs.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Drunken Rage",
+          "slot": "W",
+          "source": "Characters/Gragas/Spells/GragasWAbility/GragasW",
+          "formula": "Gragas samples his brew, reducing incoming damage by [(10 / 14 / 18 / 22 / 26 + (0.04) × AP) × (0.01)] for [2.5] seconds and empowering his next Attack to deal an additional [20 / 50 / 80 / 110 / 140 + (0.7) × AP] plus [7]% max Health magic damage to the target and surrounding enemies."
         }
       ]
     }

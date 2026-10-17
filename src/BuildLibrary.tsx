@@ -1,4 +1,5 @@
-import {appPath,localServicesEnabled} from './hosting';
+import {localServicesEnabled} from './hosting';
+import {dataUrl} from './platform';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import BuildPlanView from './BuildPlanView';
 import {filterPlans,planFromChatBuild} from './build-plan';
@@ -25,7 +26,7 @@ export default function BuildLibrary({data,champion,scenario,items,activeBuildId
  const controller=useRef<AbortController|null>(null),goalRef=useRef<HTMLTextAreaElement>(null),detailRef=useRef<HTMLElement>(null),listRef=useRef<HTMLUListElement>(null);
  const refresh=async(initial=false)=>{
   controller.current?.abort();const c=new AbortController();controller.current=c;if(initial)setLoading(true);
-  try{const path=collection==='four'?`/data/champion-builds/${encodeURIComponent(champion.alias)}.json`:collection==='ceilings'?`/data/ability-ceilings/${encodeURIComponent(champion.alias)}.json`:collection==='meta'?'/data/meta-baselines.json':'/data/chatgpt-builds.json';const response=await fetch(appPath(`${path}${localServicesEnabled?`?t=${Date.now()}`:''}`),{cache:localServicesEnabled?'no-store':'no-cache',signal:c.signal});if(!response.ok)throw new Error('Builds could not be loaded. Refresh to retry or choose the other collection.');const raw=await response.text();if(controller.current!==c)return;setBuilds(collection==='four'?parseChampionBuilds(raw,data,champion.alias):parseChatBuilds(raw,data));setError('')}
+  try{const path=collection==='four'?`/data/champion-builds/${encodeURIComponent(champion.alias)}.json`:collection==='ceilings'?`/data/ability-ceilings/${encodeURIComponent(champion.alias)}.json`:collection==='meta'?'/data/meta-baselines.json':'/data/chatgpt-builds.json';const response=await fetch(dataUrl(`${path}${localServicesEnabled?`?t=${Date.now()}`:''}`),{cache:localServicesEnabled?'no-store':'no-cache',signal:c.signal});if(!response.ok)throw new Error('Builds could not be loaded. Refresh to retry or choose the other collection.');const raw=await response.text();if(controller.current!==c)return;setBuilds(collection==='four'?parseChampionBuilds(raw,data,champion.alias):parseChatBuilds(raw,data));setError('')}
   catch(e){if(controller.current===c&&!(e instanceof Error&&e.name==='AbortError'))setError(e instanceof Error?e.message:'Could not load builds. Refresh to retry.')}
   finally{if(controller.current===c)setLoading(false)}
  };

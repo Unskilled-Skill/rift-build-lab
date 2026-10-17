@@ -4,6 +4,7 @@ import PurchasePlanner from './PurchasePlanner';
 import AbilityInputs from './AbilityInputs';
 import {abilityModel,abilityModels} from './ability-models';
 import {appPath} from './hosting';
+import {dataUrl} from './platform';
 import {parseWorkspaceDraft,providerBaseline} from './workspace-draft';
 import type {Baseline} from './workspace-draft';
 import type {ProviderSource} from './provider-research';
@@ -44,8 +45,8 @@ function App(){
  const [plannerIds,setPlannerIds]=useState<number[]|null>(null);
  const [draftReady,setDraftReady]=useState(false),[draftBlocked,setDraftBlocked]=useState(false),[chooserOpen,setChooserOpen]=useState(false);
  const worker=useRef<Worker|null>(null);
- useEffect(()=>{const controller=new AbortController();fetch(appPath('/data/catalog.json'),{signal:controller.signal}).then(r=>{if(!r.ok)throw new Error('Cannot load data bundle. Refresh the page to retry; if this continues, the published data bundle needs repair.');return r.json()}).then(setData).catch(e=>{if(e.name!=='AbortError')setError(e.message)});return()=>controller.abort()},[]);
- useEffect(()=>{const controller=new AbortController();setKit(null);setKitError('');fetch(appPath(`/data/champions/${alias}.json`),{signal:controller.signal}).then(r=>{if(!r.ok)throw new Error('Champion formula data could not be loaded.');return r.json()}).then(setKit).catch(e=>{if(e.name!=='AbortError')setKitError(e.message)});return()=>controller.abort()},[alias]);
+ useEffect(()=>{const controller=new AbortController();fetch(dataUrl('/data/catalog.json'),{signal:controller.signal}).then(r=>{if(!r.ok)throw new Error('Cannot load data bundle. Refresh the page to retry; if this continues, the published data bundle needs repair.');return r.json()}).then(setData).catch(e=>{if(e.name!=='AbortError')setError(e.message)});return()=>controller.abort()},[]);
+ useEffect(()=>{const controller=new AbortController();setKit(null);setKitError('');fetch(dataUrl(`/data/champions/${alias}.json`),{signal:controller.signal}).then(r=>{if(!r.ok)throw new Error('Champion formula data could not be loaded.');return r.json()}).then(setKit).catch(e=>{if(e.name!=='AbortError')setKitError(e.message)});return()=>controller.abort()},[alias]);
  useEffect(()=>()=>worker.current?.terminate(),[]);
  useEffect(()=>{if(tab==='Test bench')document.getElementById('bench-heading')?.focus()},[tab,chatTest?.id]);
  useEffect(()=>{worker.current?.terminate();worker.current=null;setRunning(false);setResults([]);setSearchInfo('');},[locks,excluded]);

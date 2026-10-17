@@ -28,7 +28,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const itemAD=(value:number)=>has(2501)?(baseAD+value+bonusHP*.025)*(1+Math.min(.12,Math.max(0,s.bloodmailBonus/100)))-baseAD:value;
  const itemAP=(value:number)=>(value+(has(4633)?bonusHP*.02:0))*(has(3089)?1.3:1);
  const preferredAD=itemAD(bonusAD),preferredAP=itemAP(ap);
- const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank','Ezreal','Lucian','Corki','Caitlyn','Ashe','MissFortune','Draven','Graves','Quinn','JarvanIV','Nocturne','Talon','Pantheon','Garen','LeeSin','Zed','Shen','Renekton','Riven','Aatrox','RekSai','Akali','Sion','Poppy','Leona','Braum','Volibear','Warwick','XinZhao','Vi'].includes(champion.alias));
+ const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Sett','Blitzcrank','Ezreal','Lucian','Corki','Caitlyn','Ashe','MissFortune','Draven','Graves','Quinn','JarvanIV','Nocturne','Talon','Pantheon','Garen','LeeSin','Zed','Shen','Renekton','Riven','Aatrox','RekSai','Akali','Sion','Poppy','Leona','Braum','Volibear','Warwick','XinZhao','Vi','Khazix'].includes(champion.alias));
  const adaptive=(value:number)=>{if(adaptiveAD)bonusAD+=value*.6;else ap+=value;};
  for(const id of s.shards)if(id===5008)adaptive(9);
  if(s.runePage.includes(8010))adaptive((1.8+(4-1.8)*(level-1)/17)*Math.min(12,Math.max(0,s.conquerorStacks)));
@@ -48,12 +48,22 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const events:Result['events']=[];let manaSpent=0,castResourceSpent=0,grit=0;
  const resourceMaximum=resource.kind==='energy'?resource.baseMaximum:mana;
  const amplifier=(time:number)=>has(4633)?1+Math.min(.08,Math.floor(s.combatSeconds+time)*.02):1;
- const add=(time:number,name:string,type:Result['events'][number]['type'],raw:number,applyAmp=true)=>{if(applyAmp&&type!=='true')raw*=amplifier(time);const damage=type==='true'?raw:mitigate(raw,type==='magic'?s.mr:s.armor,type==='magic'?stats.percentPen:stat('Armor Penetration','percent')/100,type==='magic'?stats.flatPen:stat('Lethality')+stat('Armor Penetration','flat'));events.push({time,name,type,raw,damage});};
+ const add=(time:number,name:string,type:Result['events'][number]['type'],raw:number,applyAmp=true,ampTime=time)=>{if(applyAmp&&type!=='true')raw*=amplifier(ampTime);const damage=type==='true'?raw:mitigate(raw,type==='magic'?s.mr:s.armor,type==='magic'?stats.percentPen:stat('Armor Penetration','percent')/100,type==='magic'?stats.flatPen:stat('Lethality')+stat('Armor Penetration','flat'));events.push({time,name,type,raw,damage});};
  const cast=abilityModel(champion.alias,s.mode);
  if(cast){
   const castRank=Math.min(cast.rankCap,Math.max(1,Math.round(s.rank))),cost=cast.cost[castRank-1];
   limitations.push(cast.notes,`Source: patch 26.20 / Data Dragon 16.20.1; ${cast.sourcePath}. Single cast on one champion. No automatic repeats, passive or item/rune proc simulation.`);
-  if(resource.kind==='none'||Math.min(s.mana,resourceMaximum)>=cost){castResourceSpent=cost;if(resource.kind==='mana')manaSpent=cost;for(const packet of cast.packets(castRank,stats,s))add(packet.time||0,packet.name,packet.type,packet.raw);}
+  if(resource.kind==='none'||Math.min(s.mana,resourceMaximum)>=cost){
+   castResourceSpent=cost;if(resource.kind==='mana')manaSpent=cost;
+   for(const packet of cast.packets(castRank,stats,s)){
+    const start=packet.time??0;
+    if(packet.duration&&packet.duration>0){
+     const end=Math.min(s.duration,start+packet.duration);let time=start;
+     // Uniform damage over time, split where the combat-time amplifier changes.
+     while(time<end-1e-9){const next=Math.min(end,Math.floor(s.combatSeconds+time+1e-9)+1-s.combatSeconds);add(time,packet.name,packet.type,packet.raw*(next-time)/packet.duration,true,time+1e-8);time=next;}
+    }else if(start<=s.duration)add(start,packet.name,packet.type,packet.raw);
+   }
+  }
   else limitations.push(`Not enough ${resource.kind} for the selected ability upfront cost.`);
   if(resource.kind==='energy')limitations.push(`Base energy cap ${resource.baseMaximum}; mana purchases do not raise energy or provide mana-to-AD conversion. Energy regeneration, refunds and temporary maximum-energy bonuses are excluded.`);
  }else if(champion.alias==='Sett'){

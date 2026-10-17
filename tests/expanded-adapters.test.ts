@@ -62,7 +62,7 @@ it('keeps source paths, mana costs and reviewed formulas aligned with the bundle
   const kit=JSON.parse(readFileSync(new URL(`../public/data/champions/${alias}.json`,import.meta.url),'utf8'));
   for(const model of Object.values(models)){
    const ability=kit.primaryAbilities.find((a:{slot:string})=>a.slot===model!.slot);
-   expect(model!.cost).toEqual(ability.costByRank);
+   expect(model!.cost).toEqual(ability.costByRank.map((cost:number)=>cost*(model!.costMultiplier??1)));
    const spell=kit.allSpellRecords.find((r:{path:string})=>r.path===model!.sourcePath);expect(spell).toBeTruthy();
    const records=source.records as Record<string,Record<string,{calculations:Record<string,string>;values?:Record<string,number[]>}>>;
    for(const [key,expression] of Object.entries(records[alias][model!.slot].calculations))expect(spell.calculations[key].expression).toBe(expression);

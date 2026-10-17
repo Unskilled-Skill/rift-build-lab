@@ -2,10 +2,25 @@
 
 Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-17. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 69 champions. Beyond the four original models, the reviewed cast adapters expose 186 objectives:
+The engine now supports 84 champions. Beyond the four original models, the reviewed cast adapters expose 226 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
+| Ekko | Q both passes, E attack, R | Q impact times approximated together; E separates noncritical AD delivery from magic bonus. No Z-Drive or W passive |
+| Elise | Human Q, human W | Q uses enemy current HP and AP-dependent percentage; no spider form or spiderlings |
+| Evelynn | Q first missile, E ordinary/empowered, R | Uncharmed target, no Allure MR shred or Q mark triggers. R multiplies damage by 2.4 strictly below 30% starting HP |
+| Ivern | Q, E explosion | E explodes at 2s within the observation window; no Daisy, shield or brush attacks |
+| Kassadin | Q, E, R zero/four prior stacks | R scales from maximum mana. Four existing stacks give four damage bonuses and cost 640 mana upfront; setup damage/mana excluded |
+| Kha'Zix | Q ordinary/isolated, W, E | Isolated Q multiplies its physical packet by 2.1. No passive attacks, evolution utility or resets |
+| Lillia | Q outer edge, W outer/center, E | Q separates magic and true packets; W center triples damage. No passive burn, movement stacks or sleep/wake bonus |
+| Lulu | Q one/both bolts, offensive E | Second Q bolt deals 50% damage to the same champion. Pix positioning assumed; no Pix attacks |
+| Malzahar | Q, E observed damage | E uniformly prorated over four seconds; Riftmaker ramp integrated over the observed duration. No refreshes, spreading or voidlings |
+| Milio | Q | One kick hit; no Fired Up allied triggers |
+| Rakan | Q, W, R one contact | No healing, shielding, repeated contacts or following attacks |
+| Renata Glasc | Q initial hit, E | No Q recast collision, passive mark, allied damage or shields |
+| Soraka | Q, E initial/closing | E closing packet at 1.5s assumes target stays in area; no healing |
+| Zilean | Q one bomb | Full three-second fuse within observation window; no Rewind or early double-bomb detonation |
+| Zyra | Q, E, R initial damage | No plant attacks or enrage damage; R knockup adds no damage |
 | Lux | Q, E, R | Single champion hit; no Illumination detonation |
 | Veigar | Q, W | Rank-dependent AP ratios; finite earned passive AP entered as Extra AP |
 | Malphite | Q, R | AP damage only; armor-dependent W/E are not modeled |
@@ -91,3 +106,5 @@ For Garen, Riven, Aatrox and Katarina, these selected casts have no mana/energy 
 Xin Zhao R and Fiddlesticks Q expose **Target starting HP (%)**. Their current-health term uses target maximum HP multiplied by that percentage; it remains the same condition for both builds and across purchase stages. The comparison context displays the percentage, and saves retain it. These are raw damage estimates, not kill predictions; Fiddlesticks Q also applies its exported rank-dependent damage floor.
 
 Poppy Q emits its second packet only at a window of at least 1s, assuming the champion remains in the eruption. Sion W, Leona W and fully channeled Nunu R need 3s; Fizz R needs 2s after an assumed attachment. These casts still pay initial mana in a shorter window. Fully charged Sion/Vi Q objectives instead score an impact after prior charge setup, as their labels/notes state. Selected non-formula values (target-health ratios, timing and minimum damage) are now retained alongside formula expressions and checked against the bundled engine spell data.
+
+Elise human Q uses this same starting-HP control. Evelynn R uses it for a strict below-30% damage threshold, without claiming a guaranteed kill. Ivern E, Soraka E and Zilean Q filter their delayed packets by the observation window while paying initial mana. Malzahar E uniformly prorates observed damage over four seconds rather than simulating its exported 0.25s server ticks. Riftmaker amplification is integrated across each combat-time boundary; true damage remains unamplified. Kassadin's four-stack R objective asserts four prior stacks already exist, multiplies the base mana cost by 16, and never awards free setup casts.

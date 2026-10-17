@@ -3,17 +3,83 @@ import type {Result,Scenario} from './types';
 export type CastMode='cast-q'|'cast-w'|'cast-e'|'cast-r'|'cast-q-max'|'cast-q-isolated'|'cast-e-empowered'|'cast-q-empowered'|'cast-w-empowered'|'cast-r-empowered';
 type Stats=Result['stats'];
 type DamageType=Result['events'][number]['type'];
-export interface Packet {name:string;type:DamageType;raw:number;time?:number}
-export interface AbilityModel {label:string;slot:string;rankCap:number;cost:number[];sourcePath:string;notes:string;targetHealth?:boolean;profile:'magic'|'physical'|'true'|'mixed';packets:(rank:number,stats:Stats,s:Scenario)=>Packet[]}
+export interface Packet {name:string;type:DamageType;raw:number;time?:number;duration?:number}
+export interface AbilityModel {label:string;slot:string;rankCap:number;cost:number[];costMultiplier?:number;sourcePath:string;notes:string;targetHealth?:boolean;profile:'magic'|'physical'|'true'|'mixed';packets:(rank:number,stats:Stats,s:Scenario)=>Packet[]}
 type Coefficient=number|number[];
 const at=(values:Coefficient,rank:number)=>typeof values==='number'?values:values[rank-1];
 const records=source.records as Record<string,Record<string,{name:string;cost:number[];path:string}>>;
 const currentHP=(s:Scenario)=>s.targetHP*Math.min(100,Math.max(0,s.targetHealthPercent??100))/100;
-function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];targetHealth?:boolean;bonusAD?:Coefficient;totalAD?:Coefficient;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
+function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];targetHealth?:boolean;costMultiplier?:number;bonusAD?:Coefficient;totalAD?:Coefficient;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
  const record=records[alias][slot];const type=options.profile==='physical'?'physical':options.profile==='true'?'true':'magic';
- return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost,sourcePath:record.path,notes,targetHealth:options.targetHealth,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
+ return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost.map(v=>v*(options.costMultiplier??1)),costMultiplier:options.costMultiplier,sourcePath:record.path,notes,targetHealth:options.targetHealth,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
 }
 export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>={
+ Ekko:{
+  'cast-q':spell('Ekko','Q',[80,95,110,125,140],.3,'Both outgoing and return hits land on this champion. Their impact times are approximated together at zero; Z-Drive passive, W passive, travel and slow are excluded.',{label:'Q · Timewinder (both passes)',packets:(rank,stats)=>[{name:'Timewinder outgoing',type:'magic',raw:[80,95,110,125,140][rank-1]+.3*stats.ap},{name:'Timewinder return',type:'magic',raw:[40,65,90,115,140][rank-1]+.7*stats.ap}]}),
+  'cast-e':spell('Ekko','E',[50,75,100,125,150],.4,'One noncritical delivery attack plus E magic bonus. Attack AD is counted once; Z-Drive passive, W passive, item on-hits and mobility are excluded.',{label:'E · Phase Dive (noncritical attack)',profile:'mixed',packets:(rank,stats)=>[{name:'Delivery attack (noncritical)',type:'physical',raw:stats.ad},{name:'Phase Dive bonus',type:'magic',raw:[50,75,100,125,150][rank-1]+.4*stats.ap}]}),
+  'cast-r':spell('Ekko','R',[200,350,500],1.75,'One rewind explosion with the enemy at the destination. Prior movement and damage, healing, passive stacks and invulnerability are excluded.'),
+ },
+ Elise:{
+  'cast-q':spell('Elise','Q',[40,70,100,130,160],0,'Human-form Q uses enemy current HP at impact, including its AP-dependent percentage. Spider form, spiderlings, healing and monster damage caps are excluded.',{label:'Q · Neurotoxin (human form)',targetHealth:true,packets:(rank,stats,s)=>[{name:'Neurotoxin',type:'magic',raw:[40,70,100,130,160][rank-1]+(.04+.0003*stats.ap)*currentHP(s)}]}),
+  'cast-w':spell('Elise','W',[60,100,140,180,220],.75,'One human-form spider explosion at impact. Chase time, spider form attacks and passive spiderlings are excluded.',{label:'W · Volatile Spiderling (human form)'}),
+ },
+ Evelynn:{
+  'cast-q':spell('Evelynn','Q',[25,30,35,40,45],.25,'First missile only on an uncharmed target. Three recasts, mark bonus triggers, Allure resistance reduction and passive effects are excluded.',{label:'Q · Hate Spike (first missile)'}),
+  'cast-e':spell('Evelynn','E',[60,90,120,150,180],0,'Ordinary Whiplash on an uncharmed target. Uses enemy maximum HP, including AP-dependent scaling; on-hits, Allure resistance reduction and movement are excluded.',{label:'E · Whiplash (ordinary)',packets:(rank,stats,s)=>[{name:'Whiplash',type:'magic',raw:[60,90,120,150,180][rank-1]+(.03+.00015*stats.ap)*s.targetHP}]}),
+  'cast-e-empowered':spell('Evelynn','E',[80,120,160,200,240],0,'Empowered Whiplash is already ready from Demon Shade. Enemy is uncharmed. Preparation, on-hits, Allure resistance reduction and other targets are excluded.',{label:'E · Whiplash (empowered)',packets:(rank,stats,s)=>[{name:'Empowered Whiplash',type:'magic',raw:[80,120,160,200,240][rank-1]+(.04+.00025*stats.ap)*s.targetHP}]}),
+  'cast-r':spell('Evelynn','R',[125,250,375],.75,'One Last Caress hit on an uncharmed target. Damage is multiplied by 2.4 only strictly below 30% starting HP; this is bonus damage, not a guaranteed execute. Allure resistance reduction and earlier combo damage are excluded.',{targetHealth:true,packets:(rank,stats,s)=>[{name:'Last Caress',type:'magic',raw:([125,250,375][rank-1]+.75*stats.ap)*((s.targetHealthPercent??100)<30?2.4:1)}]}),
+ },
+ Ivern:{
+  'cast-q':spell('Ivern','Q',[80,125,170,215,260],.7,'One Rootcaller hit. Root, ally dash, brush attacks and Daisy damage are excluded.'),
+  'cast-e':spell('Ivern','E',[70,90,110,130,150],.8,'One Triggerseed explosion at 2s with the enemy in range. Earlier windows score no explosion but spend mana. Shield, renewal, slow and Daisy damage are excluded.',{packets:(rank,stats)=>[{name:'Triggerseed explosion',type:'magic',raw:[70,90,110,130,150][rank-1]+.8*stats.ap,time:2}]}),
+ },
+ Kassadin:{
+  'cast-q':spell('Kassadin','Q',[65,95,125,155,185],.8,'One Null Sphere hit. Shield, interrupt, passive defenses and later attacks are excluded.'),
+  'cast-e':spell('Kassadin','E',[70,100,130,160,190],.7,'One Force Pulse hit. Slow, nearby spell cooldown reductions and following spells are excluded.'),
+  'cast-r':spell('Kassadin','R',[80,95,110],.5,'One Riftwalk with zero prior stacks, including 2% maximum mana. Available mana only determines affordability; prior casts, movement and following casts are excluded.',{label:'R · Riftwalk (zero prior stacks)',packets:(rank,stats)=>[{name:'Riftwalk',type:'magic',raw:[80,95,110][rank-1]+.5*stats.ap+.02*stats.mana}]}),
+  'cast-r-empowered':spell('Kassadin','R',[80,95,110],.5,'Four Riftwalk stacks are already active within their 15s duration. This cast costs 640 mana upfront and includes four stack bonuses. Prior setup damage and mana, stack decay and subsequent casts are excluded.',{label:'R · Riftwalk (four prior stacks)',costMultiplier:16,packets:(rank,stats)=>[{name:'Riftwalk at four stacks',type:'magic',raw:[80,95,110][rank-1]+.5*stats.ap+.02*stats.mana+4*([35,45,55][rank-1]+.07*stats.ap+.01*stats.mana)}]}),
+ },
+ Khazix:{
+  'cast-q':spell('Khazix','Q',[80,105,130,155,180],0,'One Q on a non-isolated champion. Passive attack, evolution cooldown changes and following attacks are excluded.',{label:'Q · Taste Their Fear (not isolated)',profile:'physical',bonusAD:1.05}),
+  'cast-q-isolated':spell('Khazix','Q',[80,105,130,155,180],0,'Enemy is already isolated; Q damage is multiplied by 2.1. Passive attack, isolation setup, evolution cooldown changes and repeats are excluded.',{label:'Q · Taste Their Fear (isolated)',profile:'physical',packets:(rank,stats)=>[{name:'Isolated Taste Their Fear',type:'physical',raw:([80,105,130,155,180][rank-1]+1.05*stats.bonusAD)*2.1}]}),
+  'cast-w':spell('Khazix','W',[75,105,135,165,195],0,'One spike explosion on this champion. Other spikes, healing, evolution utility and passive attacks are excluded.',{profile:'physical',bonusAD:1}),
+  'cast-e':spell('Khazix','E',[65,100,135,170,205],0,'One leap landing. Evolution resets, passive attacks, travel and following casts are excluded.',{profile:'physical',bonusAD:.4}),
+ },
+ Lillia:{
+  'cast-q':spell('Lillia','Q',[35,45,55,65,75],.35,'Enemy is hit by the outer edge: one magic packet and an equal true-damage packet. Dream-Laden Bough burn, healing and movement stacks are excluded.',{label:'Q · Blooming Blows (outer edge)',profile:'mixed',packets:(rank,stats)=>{const raw=[35,45,55,65,75][rank-1]+.35*stats.ap;return [{name:'Blooming Blows magic',type:'magic',raw},{name:'Blooming Blows outer true damage',type:'true',raw}]}}),
+  'cast-w':spell('Lillia','W',[80,100,120,140,160],.35,'One outer-area W hit. Center bonus, passive burn, movement and following attacks are excluded.',{label:'W · Watch Out! Eep! (outer area)'}),
+  'cast-w-empowered':spell('Lillia','W',[240,300,360,420,480],1.05,'One center W hit deals triple the outer-area packet. Passive burn, movement and sleep/wake damage are excluded.',{label:'W · Watch Out! Eep! (center)'}),
+  'cast-e':spell('Lillia','E',[60,85,110,135,160],.5,'One Swirlseed hit. Rolling travel, passive burn, slow and sleep/wake damage are excluded.'),
+ },
+ Lulu:{
+  'cast-q':spell('Lulu','Q',[60,95,130,165,200],.5,'One Glitterlance bolt hits. Pix attacks, second bolt, slow and other targets are excluded.',{label:'Q · Glitterlance (one bolt)'}),
+  'cast-q-empowered':spell('Lulu','Q',[90,142.5,195,247.5,300],.75,'Both Glitterlance bolts hit the same champion; the second deals 50% damage. Pix positioning is assumed ready. Pix attacks, setup damage and slow are excluded.',{label:'Q · Glitterlance (both bolts)'}),
+  'cast-e':spell('Lulu','E',[70,110,150,190,230],.5,'Offensive E on one enemy champion. Ally shield, subsequent Pix attacks and vision utility are excluded.',{label:'E · Help, Pix! (offensive)'}),
+ },
+ Malzahar:{
+  'cast-q':spell('Malzahar','Q',[70,105,140,175,210],.55,'One Call of the Void hit. E refresh, voidlings, silence and passive shield are excluded.'),
+  'cast-e':spell('Malzahar','E',[80,115,150,185,220],.8,'One Malefic Visions application, prorated uniformly across its four-second duration inside the observation window. This approximates the exported 0.25s ticks. Refreshes, spreading, voidlings, mana refunds and minion execution are excluded.',{label:'E · Malefic Visions (observed damage)',packets:(rank,stats)=>[{name:'Malefic Visions observed damage',type:'magic',raw:[80,115,150,185,220][rank-1]+.8*stats.ap,duration:4}]}),
+ },
+ Milio:{'cast-q':spell('Milio','Q',[80,140,200,260,320],1.2,'One Ultra Mega Fire Kick hit. Fired Up allied triggers, healing, shields, knockback and slow are excluded.')},
+ Rakan:{
+  'cast-q':spell('Rakan','Q',[70,115,160,205,250],.7,'One Gleaming Quill hit. Healing, passive shield and follow-up damage are excluded.'),
+  'cast-w':spell('Rakan','W',[70,120,170,220,270],.8,'One Grand Entrance impact. Travel time, knockup, passive shield and following attacks are excluded.'),
+  'cast-r':spell('Rakan','R',[100,200,300],.5,'One contact with this champion during The Quickness. Repeated contacts add no damage; charm, movement and following spells are excluded.'),
+ },
+ Renata:{
+  'cast-q':spell('Renata','Q',[80,125,170,215,260],.8,'Initial Handshake hit on one champion. Recast displacement, collision effects, passive mark and allied damage are excluded.'),
+  'cast-e':spell('Renata','E',[65,95,125,155,185],.55,'One enemy hit by Loyalty Program. Shield, slow, passive mark and allied follow-up are excluded.'),
+ },
+ Soraka:{
+  'cast-q':spell('Soraka','Q',[85,120,155,190,225],.35,'One Starcall impact. Flight time, Rejuvenation healing, slow and movement are excluded.'),
+  'cast-e':spell('Soraka','E',[70,95,120,145,170],.4,'Initial Equinox hit at zero and an equal closing hit at 1.5s, assuming the target stays in the area. Root, silence and healing are excluded.',{label:'E · Equinox (target stays)',packets:(rank,stats)=>{const raw=[70,95,120,145,170][rank-1]+.4*stats.ap;return [{name:'Equinox initial',type:'magic',raw},{name:'Equinox closing',type:'magic',raw,time:1.5}]}}),
+ },
+ Zilean:{'cast-q':spell('Zilean','Q',[75,115,165,230,300],.9,'One bomb attached at time zero, exploding after its 3s fuse. Earlier windows score no hit but spend initial mana. Rewind resets, early double-bomb detonation, stun and revive are excluded.',{label:'Q · Time Bomb (one full fuse)',packets:(rank,stats)=>[{name:'Time Bomb explosion',type:'magic',raw:[75,115,165,230,300][rank-1]+.9*stats.ap,time:3}]})},
+ Zyra:{
+  'cast-q':spell('Zyra','Q',[60,100,140,180,220],.65,'One Deadly Spines hit. Seeds, plants, plant attacks and passive generation are excluded.'),
+  'cast-e':spell('Zyra','E',[60,95,130,165,200],.6,'One Grasping Roots hit. Root, seeds, plants and following attacks are excluded.'),
+  'cast-r':spell('Zyra','R',[200,300,400],.7,'Initial Stranglethorns damage only. Later knockup adds no damage here; plant enrage, plant attacks and other targets are excluded.'),
+ },
  Nautilus:{
   'cast-q':spell('Nautilus','Q',[85,125,165,205,245],.9,'One champion hook hit. Terrain refund, displacement, passive attack and follow-up damage are excluded.'),
   'cast-e':spell('Nautilus','E',[55,90,125,160,195],.5,'One Riptide wave hits this champion. Other wave contacts, repeat-hit reduction, slow and monster bonus are excluded.',{label:'E · Riptide (one wave)'}),

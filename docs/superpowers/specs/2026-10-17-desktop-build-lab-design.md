@@ -1,13 +1,13 @@
 # Rift Build Lab desktop and shared build experience
 
 Date: 2026-10-17
-Status: Proposed specification for user review; implementation has not started.
+Status: User approved on 2026-10-17. Implementation planning is authorized; desktop implementation has not started.
 
 ## Outcome and approved direction
 
 Provide two independently usable products: the existing GitHub Pages website and an installable Windows desktop application. Both present the same champion builds, visual rune pages, purchase recommendations and damage comparisons. Desktop adds automatic League Client imports, champion-select detection and optional background operation. Long-term maintainability, low CPU use, small distribution size and measured memory use take priority over decorative features.
 
-The user approved a full desktop application, retaining and updating the separate website, and asked whether Rust would be preferable. The chosen design uses Tauri 2 with a native Rust core and the existing React/TypeScript interface. This document makes that direction concrete for review before implementation planning.
+The user approved a full desktop application, retaining and updating the separate website, and asked whether Rust would be preferable. The chosen design uses Tauri 2 with a native Rust core and the existing React/TypeScript interface. The user subsequently approved this written design and authorized the implementation plan. The next deliverable is that plan; the user also requested a portable full-design/context handoff for another chat.
 
 ## Architecture decision
 

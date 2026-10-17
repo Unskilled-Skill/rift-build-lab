@@ -39,5 +39,7 @@ export function companionURI(bundle:CompanionBundle):string{
 export function downloadLeagueJSON(value:unknown,filename:string){const url=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 // Available stages before the final inventory become League shop blocks; unavailable stages are never exported.
 export function planCheckpoints(plan:BuildPlan):PurchaseCheckpoint[]{return plan.stages.filter(s=>s.available&&s.id!=='final').map(s=>({title:s.title,itemIds:[...s.buy],choiceIds:s.chooseOne.length?[...s.chooseOne]:undefined,note:s.note}))}
-export function createLeagueItemSetFromPlan(data:Catalog,plan:BuildPlan):LeagueItemSet{return createLeagueItemSet(data,{champion:plan.champion,name:plan.name,itemIds:plan.finalItemIds},planCheckpoints(plan))}
-export function createBundleFromPlan(data:Catalog,plan:BuildPlan):CompanionBundle{return createCompanionBundle(data,{champion:plan.champion,name:plan.name,itemIds:plan.finalItemIds,runePage:plan.runePage,shards:plan.shards},planCheckpoints(plan))}
+// Test-bench exports keep one block per equipped item, matching the order shown on the bench.
+export function workspaceCheckpoints(plan:BuildPlan):PurchaseCheckpoint[]{return plan.finalItemIds.map((id,n)=>({title:`Purchase ${n+1}`,itemIds:[id],note:'Current equipped order'}))}
+export function createLeagueItemSetFromPlan(data:Catalog,plan:BuildPlan,checkpoints=planCheckpoints(plan)):LeagueItemSet{return createLeagueItemSet(data,{champion:plan.champion,name:plan.name,itemIds:plan.finalItemIds},checkpoints)}
+export function createBundleFromPlan(data:Catalog,plan:BuildPlan,checkpoints=planCheckpoints(plan)):CompanionBundle{return createCompanionBundle(data,{champion:plan.champion,name:plan.name,itemIds:plan.finalItemIds,runePage:plan.runePage,shards:plan.shards},checkpoints)}

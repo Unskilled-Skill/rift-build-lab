@@ -20,7 +20,7 @@ use crate::paths::AppPaths;
 use crate::prefs::{Preferences, PreferencesPatch, PrefsStore, Role};
 
 /// Commands the main window may invoke (each needs an `allow-…` permission in its capability).
-pub const COMMANDS: [&str; 17] = [
+pub const COMMANDS: [&str; 18] = [
     "get_status",
     "test_connection",
     "apply_build",
@@ -38,6 +38,7 @@ pub const COMMANDS: [&str; 17] = [
     "check_app_update",
     "ui_state_saved",
     "take_pending_open",
+    "set_window_activity",
 ];
 pub const MAX_BUNDLE_BYTES: usize = 64 * 1024;
 

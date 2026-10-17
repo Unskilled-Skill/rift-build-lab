@@ -155,3 +155,45 @@ pub fn sync_autostart(app: &AppHandle, wanted: bool) -> Result<(), rbl_core::Cor
         reason: "Windows startup registration could not be changed. Check Windows Startup apps and retry.",
     })
 }
+
+/// Supported WebView2 cache management. Low mode preserves page state and scripts;
+/// interaction restores Normal. Unsupported older runtimes simply keep their default.
+pub async fn set_memory_active(window: WebviewWindow<Wry>, active: bool) -> bool {
+    #[cfg(windows)]
+    {
+        use webview2_com::Microsoft::Web::WebView2::Win32::{
+            COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_LOW, COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_NORMAL, ICoreWebView2_19,
+        };
+        use windows_core::Interface;
+        let (sender, receiver) = tokio::sync::oneshot::channel();
+        let queued = window.with_webview(move |webview| {
+            // Tauri dispatches this closure onto the webview's owning UI thread.
+            let result = unsafe {
+                (|| -> windows_core::Result<()> {
+                    let core = webview.controller().CoreWebView2()?;
+                    let memory = core.cast::<ICoreWebView2_19>()?;
+                    memory.SetMemoryUsageTargetLevel(if active {
+                        COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_NORMAL
+                    } else {
+                        COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_LOW
+                    })
+                })()
+            };
+            let _ = sender.send(result.is_ok());
+        });
+        if queued.is_err() {
+            return false;
+        }
+        let applied = tokio::time::timeout(Duration::from_secs(2), receiver).await.ok().and_then(Result::ok).unwrap_or(false);
+        if std::env::var_os("RBL_MEMORY_DIAGNOSTICS").is_some() {
+            let time = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap_or_default().as_millis();
+            eprintln!("RBL_MEMORY time={time} target={} applied={applied}", if active { "normal" } else { "low" });
+        }
+        applied
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = (window, active);
+        false
+    }
+}

@@ -1,4 +1,6 @@
-import {useCallback,useEffect,useState} from 'react';
+import {invoke} from '@tauri-apps/api/core';
+import {connectWindowMemory} from './window-memory';
+import {useCallback,useEffect,useRef,useState} from 'react';
 import {Settings} from 'lucide-react';
 import type {AppUpdate,ConnectionState,Platform,Preferences,RevisionInfo} from '../platform/types';
 import ConnectionStrip from './ConnectionStrip';
@@ -7,10 +9,12 @@ import {ImportSettingsView,type SettingsAction} from './ImportSettings';
 import './desktop.css';
 type Panel='none'|'first-run'|'settings';
 /** Desktop-only chrome under the top bar: connection status, first-run setup and Import settings. */
-export default function DesktopShell({platform}:{platform:Platform}){
+export default function DesktopShell({platform,calculationBusy=false}:{platform:Platform;calculationBusy?:boolean}){
  const [status,setStatus]=useState<ConnectionState>({kind:'connecting'});
  const [prefs,setPrefs]=useState<Preferences|null>(null),[revision,setRevision]=useState<RevisionInfo|null>(null),[appUpdate,setAppUpdate]=useState<AppUpdate>();
  const [panel,setPanel]=useState<Panel>('none'),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
+ const memoryBusy=useRef(false);memoryBusy.current=busy||calculationBusy;
+ useEffect(()=>connectWindowMemory({events:window,focused:()=>document.hasFocus()&&!document.hidden,busy:()=>memoryBusy.current,send:active=>invoke<boolean>('set_window_activity',{active})}),[]);
  useEffect(()=>{
   let live=true;
   platform.status().then(s=>{if(live)setStatus(s)}).catch(()=>{});

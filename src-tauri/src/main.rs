@@ -90,6 +90,11 @@ fn ui_state_saved(core: State<'_, Core>, state: Value) -> Result<()> {
 }
 
 #[tauri::command]
+async fn set_window_activity(window: tauri::WebviewWindow, active: bool) -> bool {
+    window::set_memory_active(window, active).await
+}
+
+#[tauri::command]
 fn take_pending_open(core: State<'_, Core>) -> Option<OpenBuild> {
     core.take_pending_open()
 }
@@ -267,7 +272,8 @@ fn main() {
             open_external,
             check_app_update,
             ui_state_saved,
-            take_pending_open
+            take_pending_open,
+            set_window_activity
         ])
         .on_window_event(|window, event| {
             if let (Some(webview), WindowEvent::CloseRequested { api, .. }) =

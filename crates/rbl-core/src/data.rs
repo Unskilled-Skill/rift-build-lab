@@ -319,7 +319,8 @@ impl DataStore {
             Err(error) if error == APP_UPDATE => return self.result(UpdateStatus::AppUpdateRequired, &error.to_string()),
             Err(error) => return self.result(UpdateStatus::Failed, &error.to_string()),
         };
-        if manifest.revision == current {
+        // Only newer publications are installed; a fresher bundled snapshot is never replaced by older data.
+        if manifest.revision == current || manifest.generated_at <= self.active.manifest.generated_at {
             return self.result(UpdateStatus::UpToDate, "Build data is up to date.");
         }
         let staging = self.root.join(format!("staging-{}", manifest.revision));

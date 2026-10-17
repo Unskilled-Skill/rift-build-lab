@@ -348,3 +348,17 @@ fn the_website_build_output_is_a_valid_bundled_snapshot() {
         assert_eq!((bytes.len() as u64, hex(&bytes)), (file.bytes, file.sha256.clone()), "{}", file.path);
     }
 }
+
+#[tokio::test]
+async fn never_replaces_newer_data_with_an_older_published_revision() {
+    let s = setup();
+    let mut store = DataStore::open(&s.root, &s.bundled, FORMULA_COMPAT).unwrap();
+    let site = FakeSite::default();
+    let older = revision("older", FORMULA_COMPAT, "2026-10-16T00:00:00Z");
+    site.publish(&older);
+    let result = store.update(&site).await;
+    assert_eq!(result.status, UpdateStatus::UpToDate, "{}", result.message);
+    assert_eq!(site.take_requests(), vec![MANIFEST_URL.to_string()], "nothing older is downloaded");
+    assert_eq!(store.revision().revision, s.bundled_rev.revision);
+    assert!(dirs(&s.root).is_empty());
+}

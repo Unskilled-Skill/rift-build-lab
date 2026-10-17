@@ -4,9 +4,11 @@
 //! boundary, managed writes, the auto-import state machine and data revisions. The Tauri
 //! application crate only wires these modules to IPC, tray and window lifecycle.
 
+pub mod backup;
 pub mod bundle;
 pub mod catalog;
 pub mod error;
+pub mod fsx;
 pub mod json;
 pub mod lcu;
 

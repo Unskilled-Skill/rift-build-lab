@@ -38,6 +38,12 @@ Bundled data revision `40f40f8e04e3c89d40ba605710a0c1662f5d808a9bc4ad4df3d3d5474
 
 Windows CI runs locked native checks, frontend tests/build, packaging and artifact validation. The release workflow checks a matching existing `desktop-vVERSION` tag and built commit, then creates a draft prerelease with installer, checksum and metadata. It does not publish the draft or change Pages. The first clean CI run exposed missing desktop resource preparation before Cargo checks; the workflow now builds that snapshot explicitly before testing. Local packaging is verified; consult Actions for each pushed CI run's independent status.
 
+## Clean Windows CI evidence
+
+[Windows run 39055676431](https://github.com/Unskilled-Skill/rift-build-lab/actions/runs/39055676431) passed on a clean GitHub runner at `6e37880`: frontend tests, web/desktop preparation, locked Rust tests, Clippy, NSIS release build, installer/resource validation and artifact upload. The downloadable `rift-build-lab-windows` artifact includes installer, checksum and metadata. The newer `357781c` changes only measurement tooling and documentation; application code is the same. That commit's independent run may finish later; inspect its Actions status rather than inferring success.
+
+Local measurements/checksum above refer to the local package and its recorded data revision. The clean CI package uses tracked repository data and carries its own checksum/manifest; prefer that artifact when sharing the preview. Unrelated provider research in the local checkout was preserved and not committed by this continuation.
+
 ## Remaining gates
 
 See [live verification](desktop-live-verification.md): signed-in League application and installer install/upgrade/uninstall are **not run**. See [performance](desktop-performance.md) for measured idle figures and unmeasured scenarios. Cached UI-ready timing and League-in-lobby performance are not established. Keep the existing website and Python companion available while these gates remain.

@@ -8,10 +8,12 @@ pub mod apply;
 pub mod backup;
 pub mod bundle;
 pub mod catalog;
+pub mod data;
 pub mod error;
 pub mod fsx;
 pub mod json;
 pub mod lcu;
+pub mod prefs;
 
 pub use error::CoreError;
 

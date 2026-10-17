@@ -827,3 +827,5 @@ export function learnedPenetration(s:Scenario){
 
 export const traitRules:Record<string,{slot:string;label:string;max:number}>={Taric:{slot:'W',label:'W rank (Bastion armor)',max:5},Tryndamere:{slot:'Q',label:'Q rank (Bloodlust AD)',max:5},Nilah:{slot:'Q',label:'Q rank (passive penetration)',max:5}};
 export const traitRank=(s:Scenario)=>{const rule=traitRules[s.champion];if(!rule)return 0;return abilityModel(s.champion,s.mode)?.slot===rule.slot?Math.min(rule.max,Math.max(1,Math.round(s.rank))):Math.min(rule.max,Math.max(0,Math.round(s.traitRank??0)))};
+
+export const baseCritDamage=(alias:string)=>(source.characterStats as Record<string,{critDamageMultiplier:number}>)[alias]?.critDamageMultiplier??2;

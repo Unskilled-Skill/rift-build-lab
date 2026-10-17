@@ -1,5 +1,5 @@
 import {championResource} from './resources';
-import {abilityModel,abilityModels,learnedPenetration,traitRank} from './ability-models';
+import {abilityModel,abilityModels,learnedPenetration,traitRank,baseCritDamage} from './ability-models';
 import {itemFamilies as families} from './item-families.mjs';
 import {objectiveSupport} from './model-support';
 import type { Champion, Item, Result, Scenario } from './types';
@@ -24,7 +24,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  if(has(3042))bonusAD+=mana*.02;
  // Nonadaptive shard stats contribute to item conversions before choosing adaptive force.
  for(const id of s.shards){if(id===5001)bonusHP+=10+10*(level-1);if(id===5011)bonusHP+=65;if(id===5007)haste+=8;}
- const critChance=Math.min(1,Math.max(0,stat('Critical Strike Chance','percent')/100)),critDamage=2+stat('Critical Strike Damage','percent')/100,bonusAS=stat('Attack Speed','percent')/100+(s.shards.includes(5005)?.1:0)+Math.min(500,Math.max(0,s.extraAS??0))/100;
+ const critChance=Math.min(1,Math.max(0,stat('Critical Strike Chance','percent')/100)),critDamage=baseCritDamage(alias)+stat('Critical Strike Damage','percent')/100,bonusAS=stat('Attack Speed','percent')/100+(s.shards.includes(5005)?.1:0)+Math.min(500,Math.max(0,s.extraAS??0))/100;
  if(alias==='Pyke'){bonusAD+=bonusHP/14;bonusHP=0;}
  if(alias==='Aphelios')bonusAD+=4*Math.floor(Math.min(6,Math.max(0,s.abilityStacks??0)));
  if(alias==='Tryndamere'&&traitRank(s))bonusAD+=[20,35,50,65,80][traitRank(s)-1]*Math.min(1,Math.max(0,(100-s.healthPercent)/90));

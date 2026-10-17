@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import source from '../src/ability-sources.json';
 import {defenseSweep,progressionRows} from '../src/comparison-lab';
 import {calculate,defaultScenario} from '../src/engine';
-import {abilityModel} from '../src/ability-models';
+import {abilityModel,baseCritDamage} from '../src/ability-models';
 import {modeledChampions} from '../src/model-support';
 import {parseSave} from '../src/storage';
 import {comparisonScenario} from '../src/workspace-draft';
@@ -98,8 +98,8 @@ it('retains the intrinsic conversion source records and current spell crit multi
   for(const [key,value] of Object.entries(r.values||{}))expect(spell.dataValuesRaw[key]).toEqual(value);
  }
  for(const alias of ['Sivir','Nilah']){
-  const raw=JSON.parse(readFileSync(new URL(`../data/lol/16.20.1/champions/raw/${alias}.engine.json`,import.meta.url),'utf8'));
-  const char=Object.values(raw).find((r:any)=>r?.__type==='CharacterRecord') as {critDamageMultiplier:number};expect(char.critDamageMultiplier).toBe(2);
+  const snapshot=(source.characterStats as Record<string,{sourcePath:string;critDamageMultiplier:number}>)[alias];
+  expect(snapshot.sourcePath).toContain(`Characters/${alias}/CharacterRecords/`);expect(snapshot.critDamageMultiplier).toBe(2);expect(baseCritDamage(alias)).toBe(2);
  }
 });
 it('runs both comparison views for every newly covered champion',()=>{

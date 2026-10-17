@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useContext,useState} from 'react';
 import type {ReactNode} from 'react';
 import {ArrowRight,Download,ExternalLink,Pin,Zap} from 'lucide-react';
 import type {Catalog} from './types';
@@ -7,6 +7,7 @@ import type {PurchaseCheckpoint} from './purchase-checkpoints';
 import type {ApplyResult,NativeBuildActions} from './platform/types';
 import {createLeagueItemSetFromPlan,createBundleFromPlan,companionURI,downloadLeagueJSON} from './league-export';
 import {appPath} from './hosting';
+import {NativeContext} from './platform/native-context';
 const roleNames:Record<PlanRole,string>={top:'Top',jungle:'Jungle',mid:'Mid',adc:'Bot',support:'Support',unspecified:'Any role'};
 const assignable=['top','jungle','mid','adc','support'] as const;
 export function outcomeText(result:ApplyResult):string{
@@ -15,7 +16,7 @@ export function outcomeText(result:ApplyResult):string{
   'applied-unverified':'Sent to League, but the result was not confirmed by read-back. Check League before playing.',
   'rolled-back':'Not applied. Your previous League settings were restored.',
   'partial':'PARTIAL APPLY: some League settings may have changed. Check League before playing.',
-  'rejected':'League rejected the change. Nothing was applied.',
+  'rejected':'Nothing was applied.',
  }[result.outcome];
  return `${lead} ${result.message}`.trim();
 }
@@ -26,7 +27,8 @@ interface Props {
  native?:NativeBuildActions;                  // desktop only; absent on the website
  disabledReason?:string;
 }
-export default function BuildActions({data,plan,checkpoints,onTest,testLabel='Load into test bench',testState,native,disabledReason}:Props){
+export default function BuildActions({data,plan,checkpoints,onTest,testLabel='Load into test bench',testState,native:nativeProp,disabledReason}:Props){
+ const contextNative=useContext(NativeContext),native=nativeProp??contextNative;
  const [message,setMessage]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
  const [items,setItems]=useState(true),[runes,setRunes]=useState(true),[defaultRole,setDefaultRole]=useState<typeof assignable[number]>('mid');
  const champion=plan?data.champions.find(c=>c.alias===plan.champion)?.name||plan.champion:'';

@@ -17,7 +17,7 @@ export function parseSave(text:string,champions:Champion[],items:Item[]):Save{
  const optional:Record<string,unknown>={};
  for(const key of ['spellbladeReady','procReady','firstStrikeReady'])if(s[key]!==undefined){if(typeof s[key]!=='boolean')throw new Error(`Invalid ${key}.`);optional[key]=s[key];}
  for(const [key,max] of [['gatheringMinutes',120],['targetHealthPercent',100]] as const)if(s[key]!==undefined){if(typeof s[key]!=='number'||!Number.isFinite(s[key])||s[key]<0||s[key]>max)throw new Error(`Invalid ${key}.`);optional[key]=s[key];}
- if(s.abilityStacks!==undefined){if(typeof s.abilityStacks!=='number'||!Number.isInteger(s.abilityStacks)||s.abilityStacks<0||s.abilityStacks>1000000)throw new Error('Invalid abilityStacks.');optional.abilityStacks=s.abilityStacks;}
+ if(s.abilityStacks!==undefined){if(typeof s.abilityStacks!=='number'||!Number.isInteger(s.abilityStacks)||s.abilityStacks<0||s.abilityStacks>(abilityModel(s.champion,s.mode)?.stackInput?.max??1000000))throw new Error('Invalid abilityStacks.');optional.abilityStacks=s.abilityStacks;}
  if(s.critMode!==undefined){if(!['normal','critical','expected'].includes(s.critMode))throw new Error('Invalid crit mode.');optional.critMode=s.critMode;}
  if(s.objectiveSlot!==undefined){if(typeof s.objectiveSlot!=='string'||!/^([PQWER](?::[0-9])?|combo)$/.test(s.objectiveSlot))throw new Error('Invalid objective slot.');optional.objectiveSlot=s.objectiveSlot;}
  const shardRows=[[5005,5007,5008],[5008,5010,5001],[5011,5013,5001]];

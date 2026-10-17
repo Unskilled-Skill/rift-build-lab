@@ -2,10 +2,30 @@
 
 Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-17. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 104 champions. Beyond the four original models, the reviewed cast adapters expose 281 objectives:
+The engine now supports 124 champions. Beyond the four original models, the reviewed cast adapters expose 341 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
+| Camille | Q first/prepared second attack, W inner/outer, E collision | Noncritical Q2 converts 40% + 4% per level after level one, capped at 100%, to true damage; no Q1 setup damage or Spellblade. Outer W includes enemy max HP |
+| Fiora | Q without Vital, W | No Vital true damage or item on-hits; W is the stab impact after prior parry preparation |
+| Gangplank | Noncritical Q, R one wave | Q includes total AD once. R counts one ordinary wave and charges initial R mana; no barrels, other waves or upgrades |
+| Illaoi | W attack, R initial | W includes total-AD-dependent enemy maximum HP; no tentacle slams or spirit transfer |
+| Irelia | Q, W minimum/maximum damage, E, R initial | Q assumes passive not fully stacked. Charged W scores a prepared release; no on-hits, cage crossing or marks/resets |
+| Kai'Sa | Q one missile/six isolated/twelve evolved isolated, W | First missile full damage; additional missiles at 25%. Evolution already earned for twelve-missile objective; no Plasma detonations |
+| Kalista | Q, E with prepared spears | Rend requires at least one existing spear, with a source cap of 254. No setup attacks, refunds, resets or Oathsworn proc |
+| Kled | Mounted Q initial/retained tether, E, R minimum/maximum distance | Yank at 1.75s deals twice initial Q. R uses enemy maximum HP and magic damage. No Courage/remounting or Skaarl health-pool simulation |
+| Naafiri | Q first cast/bleed, E both slashes, R own dash | Five-second bleed uniformly prorated; no Q recast/cashout, W bonus AD or Packmate damage |
+| Qiyana | Ordinary Q, E, R terrain explosion | Royal Privilege unavailable; no passive proc, elemental Q bonus or W on-hit |
+| Samira | Ranged noncritical Q, W both slashes, E | W second slash at 0.75s. No melee passive, Style generation or critical damage |
+| Trundle | Q pre-steal attack | Uses total AD before this hit steals AD; no free stolen AD on the same hit, item on-hits or later attacks |
+| Varus | Q minimum/maximum charge, E, R initial | First target without existing Blight; W inactive. No Blight/W detonations, passthrough reduction or spread |
+| Xayah | Q both first-target daggers, R | R dagger wave at 1.5s; no feather recall or Clean Cuts attacks |
+| Yorick | Q attack, E | E uses AP-dependent maximum-HP damage. No Mist Walkers, Maiden, E armor-shred follow-up or healing |
+| Yasuo | Noncritical Q, E zero/four prepared stacks, R | Four dash stacks double E. R requires airborne target; no setup damage, critical/excess-crit AD conversions or follow-up bonus armor penetration |
+| Yone | Noncritical Q, W, R | W and R split physical/magic packets. W uses the champion tooltip and MaxHealthDamage, not the unrelated AD helper. No E repeat or critical-stat conversions |
+| Kayle | Q, R sword impact | No resistance-shred follow-up, E attacks or level-based waves. R scores the explosion after prior cast preparation |
+| Kog'Maw | Q, W one attack, E, R first-cost shot | W separates physical delivery and AP-dependent max-HP magic. R ramps with missing HP above the threshold and doubles strictly below 40%; no Q shred follow-up or repeated R mana ramp |
+| Kindred | Q, W one Wolf bite | W uses explicit earned marks and enemy current HP; no repeat bites, E proc, setup Lamb attacks or mark generation |
 | Aurora | Q initial, E, R landing | No Q return/missing-health scaling or passive detonation |
 | Bard | Q | One champion hit; no meeps, chime bonuses or attacks |
 | Heimerdinger | W one/all five rockets, E | All-five W uses reduced additional rocket damage; no R upgrade or turret attacks |
@@ -134,3 +154,7 @@ Shaco E also uses a strict below-30% threshold, while Jinx R uses missing HP at 
 ## Earned ability stacks
 
 Nasus Q exposes **Earned Siphoning Strike stacks**, defaulting to zero for older scenarios. The input is a finite integer from 0 to 1,000,000 and adds directly to Q damage, without increasing AD or other spells. It represents already earned bonus Q damage; stack generation is excluded. The shared comparison conditions display and preserve it across both builds, purchase stages, target sweeps and portable saves. Critical strikes and Spellblade remain outside this noncritical Q estimate.
+
+Kalista E exposes **Existing Rend spears**, defaulting to zero and capped at the engine snapshot's 254. At zero spears it cannot cast: damage and mana spent both remain zero, with an explicit prerequisite note. One spear supplies the base physical packet; every later spear adds a separate total AD/AP term. Kindred W exposes **Earned Mark of the Kindred stacks** and uses those marks in one Wolf bite's enemy-current-HP coefficient. Its input has the same finite app limit as Nasus; this is not a claim about an in-game mark cap. These controls reuse the portable earned-stack field with objective-specific labels and bounds; each comparison displays the correct stack context.
+
+Kai'Sa Q's reviewed raw calculation tree adds the first missile at full damage before multiplying only the five/eleven additional hits by 0.25, producing 2.25/3.75 total multipliers. The rendered formula's parentheses are misleading, so the adapters also retain source MaxDamage/MaxDamageEvolved values and use the raw tree plus explicit missile rules. Yone W similarly uses source BaseDamage/MaxHealthDamage and the champion tooltip instead of the unrelated WDamage AD helper. Both choices have independent numeric fixtures.

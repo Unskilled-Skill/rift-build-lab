@@ -1,6 +1,6 @@
 import type {Catalog} from './types';
 import type {PurchaseCheckpoint} from './purchase-checkpoints';
-import {legalBuild} from './engine';
+import {legalBuild} from './build-rules';
 import {validRunePage} from './storage';
 import type {BuildPlan} from './build-plan';
 export interface LeagueExportSetup {champion:string;name:string;itemIds:number[];runePage:number[];shards:number[]}

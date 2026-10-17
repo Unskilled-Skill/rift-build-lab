@@ -34,7 +34,9 @@ pub fn show(app: &AppHandle) -> bool {
     {
         *pinned = current.clone();
     }
-    let built = WebviewWindowBuilder::new(app, MAIN, WebviewUrl::App("index.html".into()))
+    let control = std::env::var("RBL_MEMORY_DIAGNOSTICS").as_deref() == Ok("normal-control");
+    let url = if control { WebviewUrl::External("about:blank".parse().expect("static URL")) } else { WebviewUrl::App("index.html".into()) };
+    let built = WebviewWindowBuilder::new(app, MAIN, url)
         .title("Rift Build Lab")
         .inner_size(1280.0, 860.0)
         .min_inner_size(390.0, 600.0)
@@ -42,6 +44,9 @@ pub fn show(app: &AppHandle) -> bool {
         .build();
     if let Ok(window) = built {
         let _ = window.set_focus();
+        if control {
+            tauri::async_runtime::spawn(set_memory_active(window, true));
+        }
     }
     false
 }
@@ -158,6 +163,12 @@ pub fn sync_autostart(app: &AppHandle, wanted: bool) -> Result<(), rbl_core::Cor
 
 /// Supported WebView2 cache management. Low mode preserves page state and scripts;
 /// interaction restores Normal. Unsupported older runtimes simply keep their default.
+#[cfg(any(windows, test))]
+fn memory_target_active(active: bool, diagnostics: Option<&str>) -> bool {
+    // Explicit local profiling only: exclude idle/blur reclamation from measurements.
+    active || matches!(diagnostics, Some("normal" | "normal-control"))
+}
+
 pub async fn set_memory_active(window: WebviewWindow<Wry>, active: bool) -> bool {
     #[cfg(windows)]
     {
@@ -165,6 +176,8 @@ pub async fn set_memory_active(window: WebviewWindow<Wry>, active: bool) -> bool
             COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_LOW, COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_NORMAL, ICoreWebView2_19,
         };
         use windows_core::Interface;
+        let diagnostics = std::env::var("RBL_MEMORY_DIAGNOSTICS").ok();
+        let active = memory_target_active(active, diagnostics.as_deref());
         let (sender, receiver) = tokio::sync::oneshot::channel();
         let queued = window.with_webview(move |webview| {
             // Tauri dispatches this closure onto the webview's owning UI thread.
@@ -195,5 +208,18 @@ pub async fn set_memory_active(window: WebviewWindow<Wry>, active: bool) -> bool
     {
         let _ = (window, active);
         false
+    }
+}
+
+#[cfg(test)]
+mod memory_tests {
+    #[test]
+    fn diagnostic_hold_normal_never_reclaims_active_pages() {
+        assert!(super::memory_target_active(false, Some("normal")));
+        assert!(super::memory_target_active(true, Some("normal")));
+        assert!(super::memory_target_active(false, Some("normal-control")));
+        assert!(!super::memory_target_active(false, None));
+        assert!(!super::memory_target_active(false, Some("1")));
+        assert!(super::memory_target_active(true, None));
     }
 }

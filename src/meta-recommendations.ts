@@ -1,6 +1,6 @@
 import type {Catalog,Item} from './types';
 import type {ProviderSource} from './provider-research';
-import {legalBuild} from './engine';
+import {legalBuild} from './build-rules';
 import {validRunePage} from './storage';
 
 export interface MetaPlan {

@@ -2,7 +2,7 @@ import type {Catalog,Scenario} from './types';
 import type {ProviderSource} from './provider-research';
 import type {ChatBuild} from './chat-builds';
 import {parseChatBuilds} from './chat-builds';
-import {legalBuild} from './engine';
+import {legalBuild} from './build-rules';
 import {parseSave,validRunePage} from './storage';
 import type {Save} from './storage';
 export interface Baseline {ids:number[];names:string[];runePage?:number[];shards?:number[];source?:{provider:string;role:string;patch:string;checkedAt:string;matches:number;kind:'observed-core'}}

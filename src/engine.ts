@@ -1,28 +1,12 @@
 import {championResource} from './resources';
-import {abilityModel,abilityModels,learnedPenetration,traitRank,baseCritDamage} from './ability-models';
-import {itemFamilies as families} from './item-families.mjs';
+import {abilityModel,learnedPenetration,traitRank,baseCritDamage} from './ability-models';
+import {modeledItemIds} from './build-rules';
+export {legalBuild,modeledItemIds} from './build-rules';
+export {defaultScenario} from './scenario';
 import {objectiveSupport} from './model-support';
 import type { Champion, Item, Result, Scenario } from './types';
 export const growth=(level:number)=>.7025*(level-1)+.0175*(level-1)**2;
 export function mitigate(damage:number,resistance:number,percentPen=0,flatPen=0){const effective=resistance<0?resistance:Math.max(0,resistance*(1-percentPen)-flatPen);return damage*(effective>=0?100/(100+effective):2-100/(100-effective));}
-export function defaultScenario(champion='Cassiopeia'):Scenario{return {champion,level:18,rank:5,eRank:5,mode:abilityModels[champion]?Object.keys(abilityModels[champion])[0] as Scenario['mode']:champion==='Sett'?'w':champion==='Blitzcrank'?'blitz-e':champion==='TahmKench'?'tahm-q':'qe',mr:50,armor:100,targetHP:2500,duration:3,poisoned:false,mana:2000,gritMode:'fraction',grit:100,center:true,extraAP:0,extraAD:0,extraHP:0,healthPercent:100,bloodmailBonus:0,rodStacks:0,heartsteelHP:0,conquerorStacks:0,combatSeconds:0,shards:[5008,5008,5001],runePage:[8230,8226,8210,8236,8009,8014],budget:18000,slots:6};}
-
-export function legalBuild(items:Item[],budget:number,slots:number,champion:string){
- if(items.length>slots)return false;
- let cost=0,boots=0;
- for(let index=0;index<items.length;index++){
-  const item=items[index];cost+=item.gold.total;
-  if(!item.maps['11']||(!item.shopListedBySource&&item.id!==3040&&item.id!==3042&&item.id!==3121&&item.id!==2530)||item.requiredChampion&&item.requiredChampion.toLowerCase()!==champion.toLowerCase())return false;
-  if(item.tags.includes('Boots')&&++boots>1)return false;
-  for(let prior=0;prior<index;prior++)if(items[prior].id===item.id)return false;
- }
- if(!(cost<=budget))return false;
- // At most six items: scan families without allocating a filtered array per family.
- for(const family of families){let count=0;for(const item of items)if(family.includes(item.id)&&++count>1)return false;}
- return true;
-}
-// Includes stats-only candidates; effect coverage is always reported separately.
-export const modeledItemIds=[3089,3135,3137,3116,4629,4633,6657,3083,2501,3748,3161,3053,3065,3071,3157,3102,3084,3040,3042,3031,3078,3508,6694,6676,3085,3115,3100];
 const scopeNotes:Record<number,string>={3137:'Cryptbloom healing is outside this damage objective.',3116:'Rylai slow is outside this damage objective.',4629:'Cosmic movement speed is outside this damage objective.',3083:'Warmog out-of-combat healing is excluded.',2501:'Bloodmail Retribution uses your explicitly entered AD bonus; its missing-health curve is unresolved.',3748:'Titanic attack on-hits and active damage are omitted; base stats are included.',3161:'Shojin basic haste is included; Focused Will damage amplification is omitted.',3053:'Sterak AD passive is omitted: this is a stats-only estimate.',3065:'Visage healing and shielding are excluded.',3071:'Black Cleaver armor shred is omitted.',3157:'Zhonya stasis is outside this damage objective.',3102:'Banshee spell shield is outside this damage objective.',3084:'Heartsteel uses your finite earned-health input; its attack proc is excluded.'};
 export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  if(!objectiveSupport(champion.alias,s.mode).supported)throw new Error('No numerical adapter for this champion objective.');

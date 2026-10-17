@@ -1,5 +1,6 @@
 import type {Catalog} from './types';
-import {defaultScenario,legalBuild} from './engine';
+import {defaultScenario} from './scenario';
+import {legalBuild} from './build-rules';
 import {parseSave,validRunePage} from './storage';
 import type {Save} from './storage';
 import {createLeagueRunePage} from './league-export';

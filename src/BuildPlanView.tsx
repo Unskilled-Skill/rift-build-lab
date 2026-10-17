@@ -5,6 +5,7 @@ import type {Catalog} from './types';
 import type {BuildPlan} from './build-plan';
 import PurchaseStages,{provenanceLabels} from './PurchaseStages';
 import RunePreview from './RunePreview';
+import SourceDetails from './SourceDetails';
 import './build-plan.css';
 const roleLabels:Record<BuildPlan['role'],string>={top:'Top',jungle:'Jungle',mid:'Mid',adc:'Bot',support:'Support',unspecified:'Any role'};
 const orderNotes:Record<BuildPlan['provenance']['order'],string>={
@@ -15,7 +16,7 @@ const orderNotes:Record<BuildPlan['provenance']['order'],string>={
 };
 function List({title,items,ordered}:{title:string;items:string[];ordered?:boolean}){
  if(!items.length)return null;const Tag=ordered?'ol':'ul';
- return <details className="plan-detail"><summary>{title}</summary><Tag>{items.map((line,n)=><li key={n}>{line}</li>)}</Tag></details>;
+ return <SourceDetails className="plan-detail" summary={title}>{()=> <Tag>{items.map((line,n)=><li key={n}>{line}</li>)}</Tag>}</SourceDetails>;
 }
 export default function BuildPlanView({data,plan,actions}:{data:Catalog;plan:BuildPlan;actions?:ReactNode}){
  const heading=useId(),champion=data.champions.find(c=>c.alias===plan.champion)?.name||plan.champion;

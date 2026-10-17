@@ -1,6 +1,7 @@
 import {castModes,abilityModel,penetrationRules} from './ability-models';
 import type {Catalog,Champion,Item,RuneTree,Scenario} from './types';
-import {defaultScenario,legalBuild} from './engine';
+import {defaultScenario} from './scenario';
+import {legalBuild} from './build-rules';
 export interface Save {version:1;patch:'26.20';scenario:Scenario;items:number[];notes?:string;requiresManualTest?:boolean}
 export function validRunePage(ids:number[],trees:RuneTree[]){if(ids.length!==6||new Set(ids).size!==6)return false;const primary=trees.find(t=>t.slots[0].runes.some(r=>r.id===ids[0]));if(!primary||!ids.slice(0,4).every((id,n)=>primary.slots[n].runes.some(r=>r.id===id)))return false;const secondary=trees.find(t=>t.id!==primary.id&&t.slots.slice(1).some(slot=>slot.runes.some(r=>r.id===ids[4])));if(!secondary)return false;const rows=ids.slice(4).map(id=>secondary.slots.findIndex(slot=>slot.runes.some(r=>r.id===id)));return rows.every(n=>n>0)&&rows[0]!==rows[1];}
 export function parseSave(text:string,champions:Champion[],items:Item[]):Save{

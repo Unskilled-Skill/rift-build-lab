@@ -1,5 +1,7 @@
-param([ValidateSet('Tray','Window')][string]$Mode='Tray',[ValidateRange(10,300)][int]$Seconds=60,[string]$Executable='target/release/rift-build-lab.exe',[string]$Output='output/desktop-performance')
+param([ValidateSet('Tray','Window')][string]$Mode='Tray',[ValidateRange(10,300)][int]$Seconds=60,[string]$Executable='target/release/rift-build-lab.exe',[string]$Output='output/desktop-performance',[switch]$HoldNormal,[switch]$Control,[ValidateSet('Builds','Champion kit','Runes','Test bench')][string]$Tab='Builds',[ValidatePattern('^[A-Za-z0-9]+$')][string]$Champion='Cassiopeia')
 $ErrorActionPreference='Stop'
+if($Control -and -not $HoldNormal){throw 'Control requires HoldNormal.'}
+if($HoldNormal -and $Mode -ne 'Window'){throw 'HoldNormal is only valid for a window measurement.'}
 . "$PSScriptRoot/metrics.ps1"
 # Startup registration is shared OS state, even when app-data directories are isolated.
 # Refuse to launch a seeded startup-off profile if it could change an existing registration.
@@ -17,7 +19,7 @@ if(-not $runRoot.StartsWith($root+[IO.Path]::DirectorySeparatorChar,[StringCompa
 $roaming=Join-Path $runRoot 'roaming';$local=Join-Path $runRoot 'local'
 $profileReused=Test-Path -LiteralPath $runRoot
 New-Item -ItemType Directory -Force -Path (Join-Path $roaming 'RiftBuildLab'),$local | Out-Null
-$preferences=@{schema=1;autoImport=@{enabled=$false;items=$true;runes=$true;metaFallback=$false};background=@{trayOnClose=($Mode -eq 'Tray');startWithWindows=$false};defaults=@{};lastApplied=$null;lastFailure=$null}
+$preferences=@{schema=1;autoImport=@{enabled=$false;items=$true;runes=$true;metaFallback=$false};background=@{trayOnClose=($Mode -eq 'Tray');startWithWindows=$false};defaults=@{};lastApplied=$null;lastFailure=$null;ui=@{tab=$Tab;champion=$Champion;firstRunSeen=$true}}
 $preferences | ConvertTo-Json -Depth 6 | Set-Content -Encoding utf8 (Join-Path $roaming 'RiftBuildLab/preferences.json')
 $launchArgs=if($Mode -eq 'Tray'){@('--background')}else{@()}
 function Get-AppFiles {
@@ -28,9 +30,10 @@ function Get-AppFiles {
  return $result
 }
 $webviewProfile=Join-Path $local 'webview2'
+$executableSha256=(Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLowerInvariant()
 $filesBefore=Get-AppFiles
 $launchTimer=[Diagnostics.Stopwatch]::StartNew()
-$startOptions=@{FilePath=$exe;WindowStyle='Hidden';PassThru=$true;Environment=@{APPDATA=$roaming;LOCALAPPDATA=$local;WEBVIEW2_USER_DATA_FOLDER=$webviewProfile;RBL_MEMORY_DIAGNOSTICS='1'}}
+$startOptions=@{FilePath=$exe;WindowStyle='Hidden';PassThru=$true;Environment=@{APPDATA=$roaming;LOCALAPPDATA=$local;WEBVIEW2_USER_DATA_FOLDER=$webviewProfile;RBL_MEMORY_DIAGNOSTICS=$(if($Control){'normal-control'}elseif($HoldNormal){'normal'}else{'1'})}}
 $startOptions.RedirectStandardError=Join-Path $runRoot 'native-memory.log'
 if($launchArgs.Count){$startOptions.ArgumentList=$launchArgs}
 $app=Start-Process @startOptions
@@ -67,7 +70,8 @@ try {
  $memoryTargets=@(Get-Content -LiteralPath (Join-Path $runRoot 'native-memory.log') -ErrorAction SilentlyContinue | ForEach-Object {
   if($_ -match '^RBL_MEMORY time=(\d+) target=(normal|low) applied=(true|false)$'){[pscustomobject]@{timeMsUtc=[long]$Matches[1];target=$Matches[2];applied=($Matches[3] -eq 'true')}}
  })
- $result=[ordered]@{mode=$Mode;samples=$Seconds;durationSeconds=$interval;exe=$exe;appVersion=(Get-Item $exe).VersionInfo.ProductVersion;windows=[Environment]::OSVersion.VersionString;webviewVersion=$webviewVersion;launchProfile=$(if($profileReused){"reused isolated data directory"}else{"new isolated data directory"});changedAppDataFileCount=$changedFiles.Count;changedAppDataFiles=$changedFiles;logicalProcessors=$logical;cpuName=(Get-CimInstance Win32_Processor | Select-Object -First 1 -ExpandProperty Name);averageCpuPercent=$cpuPercent;averagePrivateMiB=($rows | Measure-Object privateMiB -Average).Average;averageNativeMiB=($rows | Measure-Object nativeMiB -Average).Average;averageWebviewMiB=($rows | Measure-Object webviewMiB -Average).Average;maxWebviewProcesses=($rows | Measure-Object webviewProcesses -Maximum).Maximum;secondsUntilWebviewProcess=$startupWebviewSeconds;memoryTargets=$memoryTargets;uiReadyTimeMeasured=$false;leagueLobbyMeasured=$false;notes='Isolated user data; auto-import off. Working sets can double-count shared runtime pages. Process discovery is not UI-ready timing.';rows=$rows}
+ if($HoldNormal -and (-not ($memoryTargets | Where-Object { $_.target -eq 'normal' -and $_.applied }) -or ($memoryTargets | Where-Object { $_.target -eq 'low' -and $_.applied }))){throw 'Normal memory policy was not verified. Discard this run; use a release built with tauri/custom-protocol and the diagnostic support.'}
+ $result=[ordered]@{mode=$Mode;holdNormal=[bool]$HoldNormal;control=[bool]$Control;initialTab=$Tab;initialChampion=$Champion;samples=$Seconds;durationSeconds=$interval;exe=$exe;executableSha256=$executableSha256;appVersion=(Get-Item $exe).VersionInfo.ProductVersion;windows=[Environment]::OSVersion.VersionString;webviewVersion=$webviewVersion;launchProfile=$(if($profileReused){"reused isolated data directory"}else{"new isolated data directory"});changedAppDataFileCount=$changedFiles.Count;changedAppDataFiles=$changedFiles;logicalProcessors=$logical;cpuName=(Get-CimInstance Win32_Processor | Select-Object -First 1 -ExpandProperty Name);averageCpuPercent=$cpuPercent;averagePrivateMiB=($rows | Measure-Object privateMiB -Average).Average;averageNativeMiB=($rows | Measure-Object nativeMiB -Average).Average;averageWebviewMiB=($rows | Measure-Object webviewMiB -Average).Average;maxWebviewProcesses=($rows | Measure-Object webviewProcesses -Maximum).Maximum;secondsUntilWebviewProcess=$startupWebviewSeconds;memoryTargets=$memoryTargets;uiReadyTimeMeasured=$false;leagueLobbyMeasured=$false;notes='Isolated user data; auto-import off. Working sets can double-count shared runtime pages. Process discovery is not UI-ready timing. HoldNormal excludes idle cache reclamation; no input is synthesized, so this is not a continuous interaction benchmark.';rows=$rows}
  $result | ConvertTo-Json -Depth 6 | Set-Content -Encoding utf8 (Join-Path $runRoot 'measurement.json')
  $result.Remove('rows');$result.Remove('changedAppDataFiles');$result | ConvertTo-Json -Depth 3
 } finally {

@@ -1,6 +1,6 @@
 import type {Catalog,Scenario} from './types';
 import type {Save} from './storage';
-import {defaultScenario} from './engine';
+import {defaultScenario} from './scenario';
 import {parseSave,validRunePage} from './storage';
 import {trialSummary} from './workflow';
 export type CeilingMetric='single-hit'|'full-window'|'shield'|'heal'|'execute-threshold'|'stat';

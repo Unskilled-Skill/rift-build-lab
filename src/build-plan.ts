@@ -3,7 +3,7 @@ import type {ChatBuild} from './chat-builds';
 import type {FullMetaBuild} from './meta-recommendations';
 import {purchaseCheckpoints} from './purchase-checkpoints';
 import {earnedPrerequisites} from './league-export';
-import {legalBuild} from './engine';
+import {legalBuild} from './build-rules';
 import {validRunePage} from './storage';
 // One presentation/export contract for authored builds, ceilings, experiments, meta references and generated meta plans.
 export type Provenance='source-observed'|'authored'|'inferred'|'calculator';

@@ -1,5 +1,7 @@
 # Active-use allocation and catalog improvements
 
+Follow-up: [deferred content, analysis chunks and Normal-policy measurements](desktop-deferred-memory.md).
+
 This pass targets calculation churn and the amount of card UI mounted while browsing. It does **not** establish a lower total active WebView2 working set or solve the reported 405 MB footprint. The earlier [idle-memory result](desktop-memory-optimization.md) must not be presented as an active-use result.
 
 ## Changes

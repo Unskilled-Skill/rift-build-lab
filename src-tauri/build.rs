@@ -16,6 +16,8 @@ const COMMANDS: &[&str] = &[
     "get_data_revision",
     "open_external",
     "check_app_update",
+    "ui_state_saved",
+    "take_pending_open",
 ];
 
 fn main() {

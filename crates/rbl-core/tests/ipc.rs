@@ -72,7 +72,7 @@ fn core(dir: &Path) -> Core {
     let prefs = Arc::new(Mutex::new(PrefsStore::load(&paths.preferences, &data.catalog().unwrap())));
     let data = Arc::new(RwLock::new(data));
     let (monitor, _task) = spawn(NoLeague, StoreLibrary::new(prefs.clone(), data.clone()), paths.backups.clone(), false);
-    Core { monitor, prefs, data, paths, bundled, app_version: "0.1.0".into() }
+    Core { monitor, prefs, data, paths, bundled, app_version: "0.1.0".into(), ui_saved: Default::default(), pending_open: Mutex::new(None) }
 }
 
 #[test]

@@ -1,12 +1,15 @@
 //! Rift Build Lab desktop shell. Everything that touches League, preferences or data lives in
-//! `rbl-core`; this crate wires it to the window, IPC, the `rbldata` protocol and (later) the tray.
+//! `rbl-core`; this crate wires it to the window, IPC, the `rbldata` protocol and the tray.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
+mod window;
 
 use std::sync::{Arc, Mutex, RwLock};
 use std::time::Duration;
 
 use rbl_core::CoreError;
 use rbl_core::data::{DataStore, DataUpdateResult, FORMULA_COMPAT, RevisionInfo, UpdateStatus};
+use rbl_core::deeplink::OpenBuild;
 use rbl_core::ipc::{
     AppUpdateDto, ApplyBuildRequest, ApplyResultDto, Core, DataResponse, DefaultKey, DefaultRequest, ExternalLink, IpcError,
     TestConnectionDto, external_url, serve_data,
@@ -19,7 +22,8 @@ use rbl_core::paths::AppPaths;
 use rbl_core::prefs::{Preferences, PreferencesPatch, PrefsStore};
 use serde_json::Value;
 use tauri::http::{Response, StatusCode, header};
-use tauri::{AppHandle, Emitter, Manager, State};
+use tauri::{AppHandle, Emitter, Manager, RunEvent, State, WindowEvent};
+use tauri_plugin_deep_link::DeepLinkExt;
 use tauri_plugin_opener::OpenerExt;
 
 type Result<T> = std::result::Result<T, IpcError>;
@@ -63,8 +67,20 @@ fn get_preferences(core: State<'_, Core>) -> Result<Preferences> {
 }
 
 #[tauri::command]
-async fn update_preferences(core: State<'_, Core>, patch: PreferencesPatch) -> Result<Preferences> {
-    core.update_preferences(patch).await
+async fn update_preferences(app: AppHandle, core: State<'_, Core>, patch: PreferencesPatch) -> Result<Preferences> {
+    let prefs = core.update_preferences(patch).await?;
+    window::sync_autostart(&app, prefs.background.start_with_windows);
+    Ok(prefs)
+}
+
+#[tauri::command]
+fn ui_state_saved(core: State<'_, Core>, state: Value) -> Result<()> {
+    core.save_ui_state(state)
+}
+
+#[tauri::command]
+fn take_pending_open(core: State<'_, Core>) -> Option<OpenBuild> {
+    core.take_pending_open()
 }
 
 #[tauri::command]
@@ -133,14 +149,40 @@ fn setup(app: &mut tauri::App) -> std::result::Result<(), Box<dyn std::error::Er
     let handle = app.handle().clone();
     let mut status = monitor.subscribe();
     tauri::async_runtime::spawn(async move {
-        let first = status.borrow_and_update().to_json();
-        let _ = handle.emit("status-changed", first);
-        while status.changed().await.is_ok() {
-            let next = status.borrow_and_update().to_json();
-            let _ = handle.emit("status-changed", next);
+        loop {
+            let value = status.borrow_and_update().to_json();
+            if let Some(tray) = handle.tray_by_id(window::MAIN) {
+                let _ = tray.set_tooltip(Some(window::tooltip(&value)));
+            }
+            let _ = handle.emit("status-changed", value);
+            if status.changed().await.is_err() {
+                break;
+            }
         }
     });
-    app.manage(Core { monitor, prefs, data, paths, bundled, app_version: version(app.handle()) });
+    let (tray_on_close, start_with_windows) =
+        prefs.lock().map(|p| (p.prefs().background.tray_on_close, p.prefs().background.start_with_windows)).unwrap_or((false, false));
+    let ui_saved = Default::default();
+    app.manage(Core { monitor, prefs, data, paths, bundled, app_version: version(app.handle()), ui_saved, pending_open: Mutex::new(None) });
+
+    window::tray(app.handle())?;
+    window::sync_autostart(app.handle(), start_with_windows);
+    // A Windows start-up launch (`--background`) stays in the tray only when the user chose tray mode.
+    let background = std::env::args().any(|a| a == "--background") && tray_on_close;
+    if !background {
+        window::show(app.handle());
+    }
+    let handle = app.handle().clone();
+    app.deep_link().on_open_url(move |event| {
+        for url in event.urls() {
+            window::open_url(&handle, url.as_str());
+        }
+    });
+    if let Ok(Some(urls)) = app.deep_link().get_current() {
+        for url in urls {
+            window::open_url(app.handle(), url.as_str());
+        }
+    }
 
     // Data updates: once at launch, then at most every six hours; failures keep the installed data.
     let handle = app.handle().clone();
@@ -155,6 +197,12 @@ fn setup(app: &mut tauri::App) -> std::result::Result<(), Box<dyn std::error::Er
 
 fn main() {
     tauri::Builder::default()
+        // First: a second launch (including a build link) is forwarded here and only shows the window.
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            window::show(app);
+        }))
+        .plugin(tauri_plugin_deep_link::init())
+        .plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, Some(vec!["--background"])))
         .plugin(tauri_plugin_opener::init())
         .register_uri_scheme_protocol("rbldata", |ctx, request| {
             let not_found = || DataResponse { status: 404, content_type: "text/plain", body: b"Not found".to_vec() };
@@ -190,9 +238,26 @@ fn main() {
             check_data_updates,
             get_data_revision,
             open_external,
-            check_app_update
+            check_app_update,
+            ui_state_saved,
+            take_pending_open
         ])
+        .on_window_event(|window, event| {
+            if let (Some(webview), WindowEvent::CloseRequested { api, .. }) =
+                (window.app_handle().get_webview_window(window.label()), event)
+            {
+                window::on_close_requested(&webview, api);
+            }
+        })
         .setup(setup)
-        .run(tauri::generate_context!())
-        .expect("Rift Build Lab could not start");
+        .build(tauri::generate_context!())
+        .expect("Rift Build Lab could not start")
+        .run(|app, event| {
+            // Closing the last window ends the app unless it should keep running in the tray; Quit always exits.
+            if let RunEvent::ExitRequested { api, code: None, .. } = event
+                && window::tray_mode(app)
+            {
+                api.prevent_exit();
+            }
+        });
 }

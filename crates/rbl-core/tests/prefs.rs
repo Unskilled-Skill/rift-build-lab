@@ -148,3 +148,18 @@ fn records_the_last_result_and_failure() {
     assert_eq!(saved["lastFailure"]["code"], "rune-capacity");
     assert!(saved["lastFailure"]["message"].as_str().unwrap().contains("rune page"));
 }
+
+#[test]
+fn keeps_small_window_state_and_rejects_anything_else() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("preferences.json");
+    let mut store = PrefsStore::load(&path, &catalog());
+    store.set_ui(json!({"tab": "Builds", "champion": "Ahri", "scroll": 120})).unwrap();
+    let modified = std::fs::metadata(&path).unwrap().modified().unwrap();
+    store.set_ui(json!({"tab": "Builds", "champion": "Ahri", "scroll": 120})).unwrap();
+    assert_eq!(std::fs::metadata(&path).unwrap().modified().unwrap(), modified);
+    assert_eq!(PrefsStore::load(&path, &catalog()).prefs().ui, Some(json!({"tab": "Builds", "champion": "Ahri", "scroll": 120})));
+    for bad in [json!("text"), json!([1, 2]), json!({"blob": "x".repeat(17 * 1024)})] {
+        assert!(matches!(store.set_ui(bad), Err(CoreError::InvalidBundle { .. })));
+    }
+}

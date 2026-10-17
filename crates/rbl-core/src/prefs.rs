@@ -17,6 +17,7 @@ use crate::catalog::Catalog;
 use crate::fsx::atomic_write_json;
 
 pub const SCHEMA: u32 = 1;
+pub const MAX_UI_STATE: usize = 16 * 1024;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
@@ -96,6 +97,9 @@ pub struct Preferences {
     pub needs_review: BTreeMap<String, DefaultBuild>,
     pub last_applied: Option<LastApplied>,
     pub last_failure: Option<LastFailure>,
+    /// Window state saved before the window is destroyed (tray mode) and restored when it reopens.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ui: Option<Value>,
 }
 
 impl Default for Preferences {
@@ -108,6 +112,7 @@ impl Default for Preferences {
             needs_review: BTreeMap::new(),
             last_applied: None,
             last_failure: None,
+            ui: None,
         }
     }
 }
@@ -318,6 +323,19 @@ impl PrefsStore {
         let entry = LastFailure { at: at.into(), code: error.code().into(), message: error.to_string() };
         self.change(|prefs| {
             prefs.last_failure = Some(entry);
+            Ok(())
+        })
+        .map(|_| ())
+    }
+
+    /// Stores the window's own state (a JSON object of at most 16 KiB); unchanged state is not rewritten.
+    pub fn set_ui(&mut self, state: Value) -> Result<(), CoreError> {
+        let size = serde_json::to_vec(&state).map(|b| b.len()).unwrap_or(usize::MAX);
+        if !state.is_object() || size > MAX_UI_STATE {
+            return Err(CoreError::InvalidBundle { reason: "Window state must be a small JSON object." });
+        }
+        self.change(|prefs| {
+            prefs.ui = Some(state);
             Ok(())
         })
         .map(|_| ())

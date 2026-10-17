@@ -13,13 +13,14 @@ use crate::CoreError;
 use crate::apply::ApplyOutcome;
 use crate::auto_import::Status;
 use crate::data::{DataStore, DataUpdateResult, FORMULA_COMPAT, Fetch, RevisionInfo};
+use crate::deeplink::OpenBuild;
 use crate::monitor::{Command, MonitorHandle};
 use crate::net::{RELEASES_API, RELEASES_PAGE};
 use crate::paths::AppPaths;
 use crate::prefs::{Preferences, PreferencesPatch, PrefsStore, Role};
 
 /// Commands the main window may invoke (each needs an `allow-…` permission in its capability).
-pub const COMMANDS: [&str; 15] = [
+pub const COMMANDS: [&str; 17] = [
     "get_status",
     "test_connection",
     "apply_build",
@@ -35,6 +36,8 @@ pub const COMMANDS: [&str; 15] = [
     "get_data_revision",
     "open_external",
     "check_app_update",
+    "ui_state_saved",
+    "take_pending_open",
 ];
 pub const MAX_BUNDLE_BYTES: usize = 64 * 1024;
 
@@ -186,6 +189,10 @@ pub struct Core {
     pub paths: AppPaths,
     pub bundled: PathBuf,
     pub app_version: String,
+    /// Signalled when the window has saved its state before being closed to the tray.
+    pub ui_saved: Arc<tokio::sync::Notify>,
+    /// A build link received while no window could take it yet.
+    pub pending_open: Mutex<Option<OpenBuild>>,
 }
 
 impl Core {
@@ -269,6 +276,17 @@ impl Core {
     pub fn backup_folder(&self) -> Result<PathBuf, IpcError> {
         std::fs::create_dir_all(&self.paths.backups).map_err(|_| CoreError::BackupFailed)?;
         Ok(self.paths.backups.clone())
+    }
+
+    pub fn save_ui_state(&self, state: Value) -> Result<(), IpcError> {
+        let result = self.prefs()?.set_ui(state);
+        // Release a waiting close even if saving failed; the window must not hang open.
+        self.ui_saved.notify_one();
+        Ok(result?)
+    }
+
+    pub fn take_pending_open(&self) -> Option<OpenBuild> {
+        self.pending_open.lock().ok().and_then(|mut pending| pending.take())
     }
 
     pub fn data_revision(&self) -> Result<RevisionInfo, IpcError> {

@@ -10,6 +10,7 @@ pub mod backup;
 pub mod bundle;
 pub mod catalog;
 pub mod data;
+pub mod deeplink;
 pub mod error;
 pub mod fsx;
 pub mod ipc;

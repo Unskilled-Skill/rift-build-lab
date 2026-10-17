@@ -1,0 +1,148 @@
+//! Window lifecycle, tray and incoming build links.
+//!
+//! With "keep running in the tray" on, closing the window saves its state, then destroys the
+//! webview so only the native process (monitor + tray) remains. Reopening builds a new window.
+//! Quitting from the tray exits the process. Without tray mode, closing the window quits.
+
+use std::time::Duration;
+
+use rbl_core::deeplink::{OpenBuild, parse};
+use rbl_core::ipc::Core;
+use tauri::menu::{Menu, MenuItem, PredefinedMenuItem};
+use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
+use tauri::window::Color;
+use tauri::{AppHandle, Emitter, Manager, WebviewUrl, WebviewWindow, WebviewWindowBuilder, Wry};
+use tauri_plugin_autostart::ManagerExt;
+
+pub const MAIN: &str = "main";
+const SAVE_TIMEOUT: Duration = Duration::from_secs(1);
+
+pub fn tray_mode(app: &AppHandle) -> bool {
+    app.try_state::<Core>().and_then(|core| core.prefs.lock().ok().map(|p| p.prefs().background.tray_on_close)).unwrap_or(false)
+}
+
+/// Shows the main window, creating it if it was destroyed. Returns whether it already existed.
+pub fn show(app: &AppHandle) -> bool {
+    if let Some(window) = app.get_webview_window(MAIN) {
+        let _ = window.unminimize();
+        let _ = window.show();
+        let _ = window.set_focus();
+        return true;
+    }
+    let built = WebviewWindowBuilder::new(app, MAIN, WebviewUrl::App("index.html".into()))
+        .title("Rift Build Lab")
+        .inner_size(1280.0, 860.0)
+        .min_inner_size(390.0, 600.0)
+        .background_color(Color(0x11, 0x19, 0x1c, 0xff))
+        .build();
+    if let Ok(window) = built {
+        let _ = window.set_focus();
+    }
+    false
+}
+
+/// Close requested: in tray mode keep running without a webview, otherwise let the app quit.
+pub fn on_close_requested(window: &WebviewWindow<Wry>, api: &tauri::CloseRequestApi) {
+    let app = window.app_handle().clone();
+    if !tray_mode(&app) {
+        return;
+    }
+    api.prevent_close();
+    let window = window.clone();
+    tauri::async_runtime::spawn(async move {
+        let core = app.state::<Core>();
+        let saved = core.ui_saved.notified();
+        let _ = window.emit("persist-ui-state", ());
+        let _ = tokio::time::timeout(SAVE_TIMEOUT, saved).await;
+        let _ = window.destroy();
+    });
+}
+
+/// A build link: an open window is told directly; a new window collects it at startup.
+pub fn open_link(app: &AppHandle, link: OpenBuild) {
+    if show(app) {
+        let _ = app.emit_to(MAIN, "open-build", &link);
+    } else if let Some(core) = app.try_state::<Core>()
+        && let Ok(mut pending) = core.pending_open.lock()
+    {
+        *pending = Some(link);
+    }
+}
+
+pub fn open_url(app: &AppHandle, url: &str) {
+    if let Some(link) = parse(url) {
+        open_link(app, link);
+    }
+}
+
+fn send(app: &AppHandle, pause: bool) {
+    let app = app.clone();
+    tauri::async_runtime::spawn(async move {
+        let core = app.state::<Core>();
+        let _ = if pause { core.pause().await } else { core.resume().await };
+    });
+}
+
+pub fn tray(app: &AppHandle) -> tauri::Result<()> {
+    let open = MenuItem::with_id(app, "open", "Open Rift Build Lab", true, None::<&str>)?;
+    let pause = MenuItem::with_id(app, "pause", "Pause automatic imports", true, None::<&str>)?;
+    let resume = MenuItem::with_id(app, "resume", "Resume automatic imports", true, None::<&str>)?;
+    let quit = MenuItem::with_id(app, "quit", "Quit Rift Build Lab", true, None::<&str>)?;
+    let separator = PredefinedMenuItem::separator(app)?;
+    let menu = Menu::with_items(app, &[&open, &pause, &resume, &separator, &quit])?;
+    let mut builder = TrayIconBuilder::with_id(MAIN)
+        .tooltip("Rift Build Lab")
+        .menu(&menu)
+        .show_menu_on_left_click(false)
+        .on_menu_event(|app, event| match event.id().as_ref() {
+            "open" => {
+                show(app);
+            }
+            "pause" => send(app, true),
+            "resume" => send(app, false),
+            "quit" => app.exit(0),
+            _ => {}
+        })
+        .on_tray_icon_event(|tray, event| {
+            if let TrayIconEvent::Click { button: MouseButton::Left, button_state: MouseButtonState::Up, .. } = event {
+                show(tray.app_handle());
+            }
+        });
+    if let Some(icon) = app.default_window_icon() {
+        builder = builder.icon(icon.clone());
+    }
+    builder.build(app)?;
+    Ok(())
+}
+
+/// Short tray tooltip for a `status-changed` payload.
+pub fn tooltip(status: &serde_json::Value) -> String {
+    let text = match status["kind"].as_str().unwrap_or("") {
+        "disabled" => "automatic imports off",
+        "connecting" => "looking for League",
+        "league-closed" => "League closed",
+        "connected" => "connected",
+        "champ-select" => "champion select",
+        "applying" => "importing",
+        "applied" if status["verified"] == true => "import confirmed",
+        "applied" => "import not confirmed",
+        "paused" => "paused",
+        "needs-attention" => "needs attention",
+        _ => "",
+    };
+    if text.is_empty() { "Rift Build Lab".into() } else { format!("Rift Build Lab · {text}") }
+}
+
+/// Registers or removes the Windows startup entry to match the user's choice.
+pub fn sync_autostart(app: &AppHandle, wanted: bool) {
+    let launcher = app.autolaunch();
+    match launcher.is_enabled() {
+        Ok(true) if !wanted => {
+            let _ = launcher.disable();
+        }
+        Ok(false) if wanted => {
+            let _ = launcher.enable();
+        }
+        _ => {}
+    }
+}

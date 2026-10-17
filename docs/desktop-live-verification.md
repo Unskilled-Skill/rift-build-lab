@@ -1,6 +1,23 @@
 # Live League Client verification
 
-Status: **Partly run (read-only)**, 2026-10-17. All League **writes remain unverified**: no item set or rune page has been applied to a signed-in client. Automatic imports remain off by default. Do not publish this preview as live-client verified.
+Status: **Partly run**, 2026-10-17. A manual items + runes apply to a signed-in client is verified (below); automatic champion-select imports, single-target applies and failure paths are not. Automatic imports remain off by default.
+
+## Manual apply against a signed-in client (2026-10-17)
+
+With the player's consent, the desktop app applied one authored build (Aatrox, "Reference: Contact fighter", items + runes) through **Apply now** with League on the home screen. Personal settings were fingerprinted before and after with `examples/live_snapshot.rs` (SHA-256 over non-managed pages and sets; nothing identifying printed).
+
+| Check | Result |
+|---|---|
+| First apply (0.1.0 code) | Writes succeeded but read-back reported **partial / not confirmed**. Cause: League adds empty `hideIfSummonerSpell`/`showIfSummonerSpell` to every block and `preferredItemSlots`/`startedFrom` to the set, which the exact-match read-back treated as a difference. The app correctly did not claim success. |
+| Fix | Read-back now compares what the player sees (title, champion, maps, mode, block types, item ids and counts); regression test uses the captured shape. Request bodies are now ASCII-escaped JSON like the Python companion (defensive; League stored UTF-8 titles correctly). An apparent title-encoding problem during diagnosis was the test harness reading UTF-8 as cp1252, not League. |
+| Second apply (fixed code) | **"Applied and confirmed in League"** — read-back verified items and runes |
+| Personal rune pages | 2 before and after; fingerprint `10562f879dd00ce0` unchanged after both applies |
+| Personal item sets | 8 before and after; fingerprint `abe8ab5b18ba3672` unchanged after both applies |
+| Managed objects | Exactly one Rift Build Lab rune page (9 perks) and one Aatrox item set (4 purchase blocks); the second apply replaced them instead of duplicating |
+| Current rune page | The managed page becomes the current page (as the companion does) |
+| Backups | One format-1 backup per apply under `%LOCALAPPDATA%/RiftBuildLab/backups` (8→9 sets, 2→3 pages recorded); no credentials in either file |
+
+Published 0.1.0 still contains the strict read-back, so its Apply now reports a successful write as partial; the fix ships in the next release.
 
 ## Read-only check against a signed-in client (2026-10-17)
 
@@ -25,7 +42,7 @@ Use a signed-in client and an account whose existing pages/item sets can be chec
 | Discover client and Test connection | **Passed (read-only)** | Discovery, Riot-root TLS, version 16.20 and signed-in state confirmed; disconnect display not yet observed |
 | Manual items only | Not run | Read-back verified; champion-specific managed set, purchase blocks |
 | Manual runes only | Not run | One editable Rift Build Lab page with exact perks/shards |
-| Manual items and runes | Not run | Both verified; unrelated sets and personal pages unchanged |
+| Manual items and runes | **Passed** (after the read-back fix) | Both verified; unrelated sets and personal pages unchanged |
 | Full rune capacity | Not run | Explicit failure; no personal page deleted |
 | Preferred build in draft / blind / ARAM | Not run | Correct locked champion, known role/default; once per selection |
 | Champion trade/swap or role change | Not run | Stale queued writes aborted; current local selection used |

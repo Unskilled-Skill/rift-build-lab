@@ -164,6 +164,26 @@ fn basic_auth(password: &str) -> String {
     out
 }
 
+/// JSON with every non-ASCII character escaped as `\uXXXX` (surrogate pairs above U+FFFF).
+/// Matches what the Python companion always sent (`json.dumps` default) and reads the same under any
+/// text decoder; League stored UTF-8 titles correctly in the live test, so this is defensive.
+/// Non-ASCII text only occurs inside JSON strings, so escaping it there is lossless.
+fn ascii_json(value: &Value) -> Vec<u8> {
+    let text = serde_json::to_string(value).expect("JSON values serialize");
+    let mut out = String::with_capacity(text.len());
+    for c in text.chars() {
+        if c.is_ascii() {
+            out.push(c);
+        } else {
+            let mut units = [0u16; 2];
+            for unit in c.encode_utf16(&mut units) {
+                out.push_str(&format!("\\u{unit:04x}"));
+            }
+        }
+    }
+    out.into_bytes()
+}
+
 impl LcuClient {
     /// Client trusting only the Riot root shipped with the app.
     pub fn new(credentials: Credentials) -> Result<Self, CoreError> {
@@ -206,7 +226,7 @@ impl LcuClient {
         tokio::spawn(async move {
             let _ = connection.await;
         });
-        let body = request.body().map(|b| serde_json::to_vec(b).expect("JSON values serialize")).unwrap_or_default();
+        let body = request.body().map(ascii_json).unwrap_or_default();
         let http = hyper::Request::builder()
             .method(request.method())
             .uri(request.path())

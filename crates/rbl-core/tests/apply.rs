@@ -410,3 +410,43 @@ async fn automatic_preflight_rejects_role_session_or_phase_changes() {
         assert!(run.writes().is_empty());
     }
 }
+
+/// Captured from a signed-in client (2026-10-17): League adds empty summoner-spell filters to every
+/// block and bookkeeping fields to the set. These must not count as a read-back mismatch.
+#[tokio::test]
+async fn read_back_ignores_fields_league_adds_but_catches_changed_content() {
+    let normalize = |state: &mut State, r: &LcuRequest| match r {
+        LcuRequest::PutItemSets { .. } => {
+            let _ = handle(state, r);
+            state.writes.pop();
+            for set in state.sets["itemSets"].as_array_mut().unwrap() {
+                set["preferredItemSlots"] = json!([]);
+                set["startedFrom"] = json!("blank");
+                for block in set["blocks"].as_array_mut().unwrap() {
+                    block["hideIfSummonerSpell"] = json!("");
+                    block["showIfSummonerSpell"] = json!("");
+                }
+            }
+            Some(Ok(Value::Null))
+        }
+        _ => None,
+    };
+    let run = apply(FakeLcu::new().with(normalize)).await;
+    assert!(matches!(run.outcome, ApplyOutcome::Verified { .. }), "{:?}", run.outcome);
+
+    // A title that comes back different (for example, re-encoded) is a real difference.
+    let mangled = FakeLcu::new().with(|state, r| match r {
+        LcuRequest::PutItemSets { .. } => {
+            let _ = handle(state, r);
+            state.writes.pop();
+            let last = state.sets["itemSets"].as_array_mut().unwrap().last_mut().unwrap();
+            last["title"] = json!(last["title"].as_str().unwrap().replace('\u{b7}', "\u{c2}\u{b7}"));
+            Some(Ok(Value::Null))
+        }
+        _ => None,
+    });
+    let mut bundle = bundle();
+    bundle["itemSet"]["title"] = json!("Rift Build Lab \u{b7} Cassiopeia");
+    let run = apply_with(mangled, &bundle, true, false, None).await;
+    assert!(matches!(&run.outcome, ApplyOutcome::Partial { error: CoreError::ReadbackMismatch, .. }), "{:?}", run.outcome);
+}

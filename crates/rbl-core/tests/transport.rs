@@ -247,3 +247,18 @@ fn the_bundled_riot_root_loads_and_debug_output_hides_credentials() {
     let shown = format!("{client:?}");
     assert!(shown.contains("2999") && !shown.contains(PASSWORD), "{shown}");
 }
+
+/// Request bodies are pure ASCII JSON with \u escapes (as the Python companion sent them), so no
+/// endpoint's text decoding can alter build or page names.
+#[tokio::test]
+async fn request_bodies_are_ascii_only_json() {
+    let body = json!({"title": "Rift Build Lab \u{b7} Kai'Sa \u{e9}\u{1f600}", "n": 1});
+    let (result, request) =
+        call(Leaf::WrongName, Reply::Status(204, vec![]), LcuRequest::PutItemSets { summoner: id(42), body: body.clone() }).await;
+    assert_eq!(result.unwrap(), Value::Null);
+    let raw = request.unwrap();
+    let sent = raw.split("\r\n\r\n").nth(1).unwrap();
+    assert!(sent.is_ascii(), "{sent}");
+    assert!(sent.contains(r"\u00b7") && sent.contains(r"\ud83d\ude00"), "{sent}");
+    assert_eq!(serde_json::from_str::<Value>(sent).unwrap(), body);
+}

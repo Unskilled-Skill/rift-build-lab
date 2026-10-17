@@ -111,6 +111,25 @@ fn rune_payload(page: &Value) -> Option<Value> {
     })
 }
 
+/// The parts of an item set the player sees. League adds bookkeeping (`preferredItemSlots`,
+/// `startedFrom`, empty summoner-spell filters on each block), which read-back must not count.
+fn item_set_content(set: &Value) -> Value {
+    let blocks: Vec<Value> = set["blocks"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .map(|block| {
+            let items: Vec<Value> =
+                block["items"].as_array().into_iter().flatten().map(|i| json!({"id": i["id"], "count": i["count"]})).collect();
+            json!({"type": block["type"], "items": items})
+        })
+        .collect();
+    json!({
+        "title": set["title"], "associatedChampions": set["associatedChampions"], "associatedMaps": set["associatedMaps"],
+        "map": set["map"], "mode": set["mode"], "type": set["type"], "blocks": blocks,
+    })
+}
+
 enum Step {
     Done,
     Failed(TransportError),
@@ -300,8 +319,7 @@ impl<L: Lcu> Writer<L> {
             let sets = self.get(LcuRequest::GetItemSets { summoner }).await?;
             let expected = bundle.item_set();
             let found = sets.get("itemSets").and_then(Value::as_array).and_then(|l| l.iter().find(|s| s["uid"] == expected["uid"]));
-            let matches =
-                found.is_some_and(|set| expected.as_object().is_some_and(|fields| fields.iter().all(|(k, v)| set.get(k) == Some(v))));
+            let matches = found.is_some_and(|set| item_set_content(set) == item_set_content(expected));
             if !matches {
                 return Ok(false);
             }

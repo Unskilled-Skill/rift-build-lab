@@ -1,12 +1,28 @@
 # Live League Client verification
 
-Status: **Blocked — not run**, 2026-10-17. No LeagueClient/LeagueClientUx process was running during this continuation. The installer and automated tests do not establish compatibility with a signed-in client. Automatic imports remain off by default. Do not publish this preview as live-client verified.
+Status: **Partly run (read-only)**, 2026-10-17. All League **writes remain unverified**: no item set or rune page has been applied to a signed-in client. Automatic imports remain off by default. Do not publish this preview as live-client verified.
+
+## Read-only check against a signed-in client (2026-10-17)
+
+Run with `cargo run -p rbl-core --example live_probe` (GET requests from the typed allowlist only; prints counts and yes/no answers, never credentials, account identifiers, URLs or page names):
+
+| Step | Result |
+|---|---|
+| Lockfile discovery (running `LeagueClientUx.exe`, ToolHelp32) | Passed |
+| TLS with the bundled Riot root (rustls/webpki; only the host-name mismatch waived) | **Passed** — the real local certificate chain is accepted |
+| Game version | `16.20.8248524+branch.releases-16-20…`; parses to 16.20 and matches the bundled data (16.20.1) |
+| Gameflow phase | `Matchmaking`, then `ReadyCheck` → `InProgress` |
+| Signed-in summoner | Present |
+| Rune pages | 2 editable, 0 managed; every field the writer reads/writes is present |
+| Item sets | 8 sets, 0 managed; `uid` present on every set |
+
+`cargo run -p rbl-core --example live_champ_select -- 240` observed `ReadyCheck` → `InProgress` directly: that queue had no champion select, so the session shape (and the provisional fixtures in `tests/fixtures/champ-select`) is still unconfirmed. Run the observer again during a draft or blind pick; it prints key names and what the reducer derives, nothing identifying.
 
 Use a signed-in client and an account whose existing pages/item sets can be checked. Keep the pre-write backups from `%LOCALAPPDATA%/RiftBuildLab/backups`. Record application version, game/client patch, mode, timestamp, outcome and sanitized observations; never include lockfile passwords or authenticated URLs.
 
 | Check | Status | Expected evidence |
 |---|---|---|
-| Discover client and Test connection | Not run | Correct connection/patch; disconnect shown clearly |
+| Discover client and Test connection | **Passed (read-only)** | Discovery, Riot-root TLS, version 16.20 and signed-in state confirmed; disconnect display not yet observed |
 | Manual items only | Not run | Read-back verified; champion-specific managed set, purchase blocks |
 | Manual runes only | Not run | One editable Rift Build Lab page with exact perks/shards |
 | Manual items and runes | Not run | Both verified; unrelated sets and personal pages unchanged |

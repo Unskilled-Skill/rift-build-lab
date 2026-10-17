@@ -27,6 +27,8 @@ Review corrections cover current champion after trades, reconnect/provider refre
 | `npm run desktop:build` | Passed; release executable and NSIS x64 installer produced |
 | `scripts/desktop/check-artifacts.ps1` | Passed; resource hashes/sizes/allowlist and version match |
 | Shared browser UI | Build selection, purchase stages, visual runes at desktop and 390 px; no horizontal overflow or console errors observed |
+| Desktop keyboard pass (real Tab key events via WebView2 DevTools) | Skip link → top bar → status strip → first-run or Import settings controls → champion search → champion list; every stop shows a focus ring (search draws it on its wrapper); disabled meta-fallback box is skipped; `Import settings` exposes `aria-expanded`/`aria-controls` |
+| Signed-in League Client, read-only (`examples/live_probe.rs`) | Discovery, Riot-root TLS, version parsing and rune page/item set shapes confirmed; no writes performed — see [live verification](desktop-live-verification.md) |
 
 The existing approximately 741 kB main web JS chunk still emits Vite's size warning. It was not silenced or represented as optimized. Rust tests use fakes/test TLS servers, not an authenticated League client.
 

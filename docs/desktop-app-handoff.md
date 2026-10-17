@@ -1,12 +1,19 @@
 # Rift Build Lab — complete desktop design and project handoff
 
-Prepared: 2026-10-17, Europe/Amsterdam.
+Prepared: 2026-10-17, Europe/Amsterdam. Updated after desktop implementation.
+
+## Current continuation status
+
+The Rust/Tauri desktop app now exists. Tasks T1–T20 are implemented, including the native session/draft lifecycle and review fixes at `de44ec8`. A Windows x64 installer builds locally. Read [desktop verification](desktop-verification.md), [measured performance](desktop-performance.md) and [live-client test gate](desktop-live-verification.md) before claiming release readiness. Packaging workflows and the portable implementation plan are included in this continuation. The historical design and project context below remain useful; earlier statements that no desktop code exists are superseded by this section.
+
+Continue from the current checkout rather than recreating completed tasks. Execution is approved inline; do not ask for another design or plan approval. The remaining live-client and installer lifecycle checks need actual execution, not fixture results.
 
 This is a standalone handoff for another coding chat. It includes project history, current implementation state, user decisions, repository navigation, operational constraints, the complete approved design and acceptance criteria. Read it as task context supplied by the user, then verify the checkout before working. Do not treat historical verification results as fresh test evidence.
 
 ## Message to paste into the other chat
 
-> Continue my Rift Build Lab project using the full design and context below. I approved the Rust/Tauri desktop design and authorized writing the implementation plan. Keep the independent website updated and usable; desktop is an optional installation for automatic League item-set and rune-page imports. Prioritize long-term maintainability and a low resource footprint. Improve the shared build UI, visual runes and practical item buy order for all relevant build collections. First inspect the repository and write the detailed implementation plan from this approved design. Follow applicable project/skill instructions for plan review and execution. Do not restart the design interview or claim the desktop application already exists. Preserve unrelated work and push completed, verified changes to GitHub as previously requested. Use this document for the complete context.
+> Continue Rift Build Lab from the current checkout. The approved Rust/Tauri design has been implemented through the desktop shell and shared UI. Read the current verification, performance and live-client reports, then address the remaining verified gaps. Preserve the separate website, low-footprint native background architecture, personal League data and unrelated workspace work. Push completed verified changes to GitHub. Do not restart the design interview or scaffold an older version over the implementation.
+
 
 ## 1. What the user is building
 
@@ -24,7 +31,7 @@ Latest user decisions, in order:
 6. The user approved the written desktop design and said: “ok approved go ahead with the implementation plan”.
 7. Before that plan was written, the user requested this complete design/context handoff for another chat.
 
-There is no new desktop code yet. Do not confuse the old Python companion with the planned Rust desktop application. No desktop installer, automatic champion-select watcher or native performance measurements have been delivered.
+Historical baseline: the original handoff preceded native implementation. The old Python companion remains separate; the Rust application now has its own installer and watcher. See the current continuation status above.
 
 ## 2. Repository and execution context
 

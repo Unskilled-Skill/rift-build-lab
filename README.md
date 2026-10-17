@@ -16,6 +16,16 @@ Numerical adapters cover all 173 champions, including 466 reviewed single-cast o
 
 Save uses browser localStorage; JSON import/export provides portable scenarios. Full research exports are in `data/lol/16.20.1`. Generated browser data is in `public/data` and can be recreated with `npm run data`.
 
+## Optional Windows desktop app
+
+The website remains independent at [Rift Build Lab](https://unskilled-skill.github.io/rift-build-lab/). The optional Windows 10/11 x64 desktop preview uses Rust/Tauri and the system WebView2 runtime. It shares the build browser, visual rune pages, purchase stages and calculations, with native League Client connection, Apply now and opt-in automatic imports. Automatic imports, tray mode and Windows startup are off initially.
+
+Build locally with `npm ci` then `npm run desktop:build` (Rust and the Windows C++ build tools required). The installer is produced in `target/release/bundle/nsis`. CI also packages a Windows artifact; the desktop release workflow creates drafts. No public stable desktop release is claimed. See [verification](docs/desktop-verification.md), [performance](docs/desktop-performance.md) and [live-client checks](docs/desktop-live-verification.md). The preview is unsigned and live League writes remain unverified.
+
+The native app manages its own item set per champion and one rune page named **Rift Build Lab**. It backs up before writes, preserves personal pages and checks read-back. Choose preferred builds by champion/role; qualified meta fallback is optional. Item ordering is guidance exported as blocks, not automatic purchasing or a claim of optimal in-match decisions. No gameplay automation, account service or cloud AI is included. Data updates and compiled damage formulas have separate compatibility checks.
+
+Preferences are under `%APPDATA%/RiftBuildLab`; backups and cached revisions are under `%LOCALAPPDATA%/RiftBuildLab`. Keep these when upgrading. Installer upgrade/uninstall behavior still needs a hands-on check; export/copy local data before testing removal. The existing Python companion remains a separate alternative until the desktop live-client gate passes.
+
 ## Build comparison lab
 
 In **Test bench**, load a reference build, follow **Compare**, and choose **Pin current build**. Load another proposal for the same champion or edit your inventory; the pinned items and rune page stay available. Choosing another champion clears the baseline. The working setup and purchase order persist locally.

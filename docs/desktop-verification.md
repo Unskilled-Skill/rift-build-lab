@@ -48,6 +48,18 @@ Windows CI runs locked native checks, frontend tests/build, packaging and artifa
 
 Local measurements/checksum above refer to the local package and its recorded data revision. The clean CI package uses tracked repository data and carries its own checksum/manifest; prefer that artifact when sharing the preview. Unrelated provider research in the local checkout was preserved and not committed by this continuation.
 
+## Release 0.1.0 and automatic updates (2026-10-17)
+
+[Rift Build Lab Desktop 0.1.0](https://github.com/Unskilled-Skill/rift-build-lab/releases/tag/desktop-v0.1.0) is published as a regular GitHub release from tag `desktop-v0.1.0` (commit `0594e8d`), built and signed by the release workflow on a clean Windows runner. Assets: `rift-build-lab_0.1.0_x64-setup.exe` (3,344,778 bytes, SHA-256 `02b9743bcd63d4d2089b2b9b16e4452cdf059b2d00203a7b9138c6afaf8432b4`), its updater signature, checksum, package manifest and `latest.json`. The installer is not Authenticode-signed (SmartScreen may warn).
+
+| Updater check | Result |
+|---|---|
+| `releases/latest/download/latest.json` resolves | 200; version 0.1.0; `windows-x86_64` and `windows-x86_64-nsis` point at the release asset; no BOM |
+| A 0.0.9-stamped build of the same app finds, downloads and verifies 0.1.0 | Passed: `check_app_update` returned `ready: true` after signature verification against the bundled public key; status strip showed "Update 0.1.0 ready · Restart to update" |
+| Install on quit / Restart to update | Not exercised (the test process was force-stopped so nothing was installed); installer upgrade behaviour remains part of the installer lifecycle gate |
+
+The first release run failed because the signing-key secret had been stored with a UTF-8 BOM (set via a Windows PowerShell pipe); re-storing it from the file fixed the run.
+
 ## Remaining gates
 
 See [live verification](desktop-live-verification.md): signed-in League application and installer install/upgrade/uninstall are **not run**. See [performance](desktop-performance.md) for measured idle figures and unmeasured scenarios. Cached UI-ready timing and League-in-lobby performance are not established. Keep the existing website and Python companion available while these gates remain.

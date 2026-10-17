@@ -13,6 +13,15 @@ class ContractTests(unittest.TestCase):
    with self.subTest(champion=bundle['championAlias'],build=bundle['buildName']):
     validated=validate_bundle(bundle,catalog)
     self.assertEqual(validated['championId'],bundle['championId'])
+ def test_desktop_meta_fallback_bundles_validate_against_companion_rules(self):
+  path=ROOT/'output/companion-contract/desktop-meta-bundles.json'
+  if not path.exists():self.skipTest('Run npm test first to generate desktop meta fallback bundles.')
+  bundles=json.loads(path.read_text(encoding='utf-8'))
+  self.assertGreaterEqual(len(bundles),173)
+  catalog=json.loads((ROOT/'companion/catalog.json').read_text(encoding='utf-8'))
+  for bundle in bundles:
+   with self.subTest(champion=bundle['championAlias'],build=bundle['buildName']):
+    self.assertEqual(validate_bundle(bundle,catalog)['championAlias'],bundle['championAlias'])
  def test_packaged_download_matches_reviewed_sources(self):
   path=ROOT/'public/downloads/companion-manifest.json'
   if not path.exists():self.skipTest('Package the Windows companion first.')

@@ -1,5 +1,5 @@
 import {championResource} from './resources';
-import {abilityModel,abilityModels} from './ability-models';
+import {abilityModel,abilityModels,learnedPenetration} from './ability-models';
 import {itemFamilies as families} from './item-families.mjs';
 import {objectiveSupport} from './model-support';
 import type { Champion, Item, Result, Scenario } from './types';
@@ -28,7 +28,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const itemAD=(value:number)=>has(2501)?(baseAD+value+bonusHP*.025)*(1+Math.min(.12,Math.max(0,s.bloodmailBonus/100)))-baseAD:value;
  const itemAP=(value:number)=>(value+(has(4633)?bonusHP*.02:0))*(has(3089)?1.3:1);
  const preferredAD=itemAD(bonusAD),preferredAP=itemAP(ap);
- const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Senna','Skarner','Darius','Sett','Blitzcrank','Ezreal','Lucian','Corki','Caitlyn','Ashe','MissFortune','Draven','Graves','Quinn','JarvanIV','Nocturne','Talon','Pantheon','Garen','LeeSin','Zed','Shen','Renekton','Riven','Aatrox','RekSai','Akali','Sion','Poppy','Leona','Braum','Volibear','Warwick','XinZhao','Vi','Khazix','Nasus','Thresh','Shaco','Jax','Jinx','Tristana','Vayne','Camille','Fiora','Gangplank','Illaoi','Irelia','Kaisa','Kalista','Kled','Naafiri','Qiyana','Samira','Trundle','Varus','Xayah','Yorick','Yasuo','Yone','Kayle','KogMaw','Kindred','Akshan','Belveth','Gnar','Jayce','Kayn','MasterYi','Shyvana','Smolder','Twitch','Urgot','Viego','MonkeyKing','Yunara','Zeri'].includes(champion.alias));
+ const adaptiveAD=preferredAD>preferredAP*.6||(preferredAD===preferredAP*.6&&['Ambessa','Zaahen','Hecarim','Rengar','Senna','Skarner','Darius','Sett','Blitzcrank','Ezreal','Lucian','Corki','Caitlyn','Ashe','MissFortune','Draven','Graves','Quinn','JarvanIV','Nocturne','Talon','Pantheon','Garen','LeeSin','Zed','Shen','Renekton','Riven','Aatrox','RekSai','Akali','Sion','Poppy','Leona','Braum','Volibear','Warwick','XinZhao','Vi','Khazix','Nasus','Thresh','Shaco','Jax','Jinx','Tristana','Vayne','Camille','Fiora','Gangplank','Illaoi','Irelia','Kaisa','Kalista','Kled','Naafiri','Qiyana','Samira','Trundle','Varus','Xayah','Yorick','Yasuo','Yone','Kayle','KogMaw','Kindred','Akshan','Belveth','Gnar','Jayce','Kayn','MasterYi','Shyvana','Smolder','Twitch','Urgot','Viego','MonkeyKing','Yunara','Zeri'].includes(champion.alias));
  const adaptive=(value:number)=>{if(adaptiveAD)bonusAD+=value*.6;else ap+=value;};
  for(const id of s.shards)if(id===5008)adaptive(9);
  if(s.runePage.includes(8010))adaptive((1.8+(4-1.8)*(level-1)/17)*Math.min(12,Math.max(0,s.conquerorStacks)));
@@ -36,7 +36,8 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  // Project once for preference above, then apply once to final rune-inclusive stats.
  bonusAD=itemAD(bonusAD);ap=itemAP(ap);
  const hp=(champion.stats.hp||0)+(champion.stats.hpperlevel||0)*growth(level)+bonusHP;
- const stats={hp,bonusHP,baseAD,bonusAD,ad:baseAD+bonusAD,ap,haste,mana,flatPen:stat('Magic Penetration','flat'),percentPen:stat('Magic Penetration','percent')/100};
+ const learned=learnedPenetration(s),combinePen=(item:number,passive:number)=>passive?1-(1-item)*(1-passive):item,magicPen=combinePen(stat('Magic Penetration','percent')/100,learned?.kind==='magic'?learned.value:0),armorPen=combinePen(stat('Armor Penetration','percent')/100,learned?.kind==='physical'?learned.value:0);
+ const stats={hp,bonusHP,baseAD,bonusAD,ad:baseAD+bonusAD,ap,haste,mana,flatPen:stat('Magic Penetration','flat'),percentPen:magicPen};
  const limitations=items.map(i=>scopeNotes[i.id]||(!modeledItemIds.includes(i.id)?`${i.name}: passive/active effects are omitted; base stats only.`:'')).filter(Boolean);
  const newScope:Record<number,string>={3040:'Seraph Awe ratio is unavailable in the 26.20 exported source; mana-to-AP conversion is omitted. Shielding is excluded.',3042:'Muramana Awe adds 2% max mana as AD; Shock is omitted because attack/ability proc interactions are unverified.',3031:'Infinity Edge crit chance/damage interactions are omitted for this objective; AD stats are included.',3078:'Trinity Spellblade uses the historical official 200% base AD rule only when explicitly ready; current proc behavior needs a gameplay check.',3508:'Essence Reaver Spellblade uses the official 26.1 rule only when explicitly ready; mana refund and current proc behavior require gameplay checks.',6694:'Serylda armor penetration is included; slow is excluded.',6676:'Collector execute threshold is excluded; AD, lethality and crit stats are kept separate.',3085:'Runaan secondary bolts are excluded.',3115:'Nashor on-hit coefficient is unresolved in the exported source and omitted.',3100:'Lich Bane Spellblade coefficient is unresolved in the current exported source and omitted.'};
  limitations.push(...items.map(i=>newScope[i.id]).filter(Boolean));
@@ -45,10 +46,11 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  if(champion.alias==='TahmKench')limitations.push('Single champion hit; passive added to Q only. Q healing, W cost refund, R ally shield, stack setup and crowd control are excluded. Enemy Devour assumes three existing stacks; setup damage is excluded. Passive base caps at 60 per official 26.8 notes, despite ambiguous exported breakpoint extrapolation.');
  if(champion.alias==='Sett')limitations.push('W uses DamageConversion (.0025 × bonus AD), not the contradictory MaxDamage helper. Grit input is at cast time, before decay. Damage-amplifier interactions with true damage are excluded.');
  if(champion.alias==='Cassiopeia')limitations.push('Q poison damage is prorated uniformly over 3 seconds; tick rounding, travel time and cast windup are not simulated.');
+ if(learned)limitations.push(`${learned.slot} passive rank ${learned.rank}: ${Math.round(learned.value*1000)/10}% learned ${learned.kind==='magic'?'magic':'armor'} penetration; combines multiplicatively with item percent penetration. Rank zero means unlearned; this does not validate a complete skill-point allocation.`);
  const events:Result['events']=[];let manaSpent=0,castResourceSpent=0,grit=0;
  const resourceMaximum=resource.kind==='energy'?resource.baseMaximum:mana;
  const amplifier=(time:number)=>has(4633)?1+Math.min(.08,Math.floor(s.combatSeconds+time)*.02):1;
- const add=(time:number,name:string,type:Result['events'][number]['type'],raw:number,applyAmp=true,ampTime=time)=>{if(applyAmp&&type!=='true')raw*=amplifier(ampTime);const damage=type==='true'?raw:mitigate(raw,type==='magic'?s.mr:s.armor,type==='magic'?stats.percentPen:stat('Armor Penetration','percent')/100,type==='magic'?stats.flatPen:stat('Lethality')+stat('Armor Penetration','flat'));events.push({time,name,type,raw,damage});};
+ const add=(time:number,name:string,type:Result['events'][number]['type'],raw:number,applyAmp=true,ampTime=time)=>{if(applyAmp&&type!=='true')raw*=amplifier(ampTime);const damage=type==='true'?raw:mitigate(raw,type==='magic'?s.mr:s.armor,type==='magic'?stats.percentPen:armorPen,type==='magic'?stats.flatPen:stat('Lethality')+stat('Armor Penetration','flat'));events.push({time,name,type,raw,damage});};
  const cast=abilityModel(champion.alias,s.mode);
  if(cast){
   const castRank=Math.min(cast.rankCap,Math.max(1,Math.round(s.rank))),cost=cast.cost[castRank-1];

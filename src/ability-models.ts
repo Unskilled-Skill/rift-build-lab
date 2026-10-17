@@ -16,6 +16,35 @@ function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:strin
  return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost.map(v=>v*(options.costMultiplier??1)),costMultiplier:options.costMultiplier,sourcePath:record.path,notes,targetHealth:options.targetHealth,stackInput:options.stackInput,requiresStacks:options.requiresStacks,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
 }
 export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>={
+ Annie:{
+  'cast-q':spell('Annie','Q',[80,125,170,215,260],.8,'One Disintegrate hit. Learned R magic penetration is included at the supplied passive rank. Kill refunds, stun, Tibbers and following spells are excluded.'),
+  'cast-w':spell('Annie','W',[70,110,150,190,230],.8,'One Incinerate cone hit. Learned R magic penetration is included at the supplied passive rank. Stun, Tibbers and following spells are excluded.'),
+  'cast-e':spell('Annie','E',[25,35,45,55,65],.4,'One Molten Shield retaliation against this champion, assuming they trigger it while the shield is active. Learned R penetration is included. Shield, movement, Tibbers shield, additional attackers and additional retaliation are excluded.',{label:'E · Molten Shield (one triggered retaliation)'}),
+  'cast-r':spell('Annie','R',[150,275,400],.75,'One Tibbers summon impact. Learned R magic penetration uses the selected R rank. Tibbers attacks, burning aura, enrage, stun and following spells are excluded.',{label:'R · Summon: Tibbers (initial impact)'}),
+ },
+ Mordekaiser:{
+  'cast-e':spell('Mordekaiser','E',[60,80,100,120,140],.45,'One Death\'s Grasp hit. E passive magic penetration uses the selected E rank. Pull travel is approximated at time zero; Darkness Rise, passive attack damage, Realm of Death stat stealing and following attacks are excluded.'),
+ },
+ Ambessa:{
+  'cast-w':spell('Ambessa','W',[50,75,100,125,150],0,'One ordinary Repudiation strike without blocking damage. Learned R armor penetration is included at the supplied passive rank. Shield, energy refunds, Drakehound attacks, empowered strike condition and healing are excluded.',{label:'W · Repudiation (ordinary strike)',profile:'physical',bonusAD:.5}),
+  'cast-w-empowered':spell('Ambessa','W',[75,112.5,150,187.5,225],0,'Repudiation has already blocked qualifying damage: one enhanced strike at 150%. Learned R armor penetration is included. Block setup, shield, energy refunds, Drakehound attacks and healing are excluded.',{label:'W · Repudiation (prepared enhanced strike)',profile:'physical',bonusAD:.75}),
+  'cast-e':spell('Ambessa','E',[40,60,80,100,120],0,'One initial Lacerate strike. Learned R armor penetration is included at the supplied passive rank. Additional dash-triggered strike, passive attack, slow, energy refund and healing are excluded.',{label:'E · Lacerate (initial strike)',profile:'physical',bonusAD:.5}),
+  'cast-r':spell('Ambessa','R',[150,250,350],0,'One successful Public Execution slam. Learned armor penetration uses the selected R rank. Blink travel is approximated at time zero; suppression, stun, healing, passive attack and energy restoration are excluded.',{profile:'physical',bonusAD:.8}),
+ },
+ Zaahen:{
+  'cast-w':spell('Zaahen','W',[40,60,80,100,120],0,'One initial Dreaded Return strike. Learned R armor penetration is included. Determination automatic AD, return hit, pull, stack generation and following attacks are excluded; enter already earned Determination AD through Extra AD.',{label:'W · Dreaded Return (initial strike)',profile:'physical',bonusAD:.5}),
+  'cast-e':spell('Zaahen','E',[40,60,80,100,120],0,'One inner Aureate Rush slice. Learned R armor penetration is included. Edge maximum-HP magic damage, Determination automatic AD, travel and following attacks are excluded; enter existing Determination AD through Extra AD.',{label:'E · Aureate Rush (inner slice)',profile:'physical',bonusAD:.5}),
+  'cast-e-empowered':spell('Zaahen','E',[60,90,120,150,180],0,'One outer-edge Aureate Rush slice: 150% physical packet plus rank-dependent enemy maximum-HP magic damage. R armor penetration applies only to physical damage. Automatic Determination AD, travel and following attacks are excluded; enter existing Determination AD through Extra AD.',{label:'E · Aureate Rush (outer edge)',profile:'mixed',packets:(rank,stats,s)=>[{name:'Aureate Rush edge physical',type:'physical',raw:1.5*([40,60,80,100,120][rank-1]+.5*stats.bonusAD)},{name:'Aureate Rush edge max HP',type:'magic',raw:[.04,.045,.05,.055,.06][rank-1]*s.targetHP}]}),
+  'cast-r':spell('Zaahen','R',[250,400,550],0,'One Grim Deliverance landing hit. Learned armor penetration uses selected R rank. Cast travel is approximated at time zero; healing, damage reduction, revive, automatic Determination AD and following attacks are excluded; enter existing Determination AD through Extra AD.',{profile:'physical',bonusAD:2}),
+ },
+ Hecarim:{
+  'cast-w':spell('Hecarim','W',[80,120,160,200,240],.8,'One Spirit of Dread field, uniformly prorated over four seconds while the target stays in range. Healing, defensive stats, Warpath movement-to-AD conversion and other spells are excluded; Warpath AD does not scale this packet.',{label:'W · Spirit of Dread (observed field)',packets:(rank,stats)=>[{name:'Spirit of Dread observed damage',type:'magic',raw:[80,120,160,200,240][rank-1]+.8*stats.ap,duration:4}]}),
+  'cast-r':spell('Hecarim','R',[150,250,350],1,'One Onslaught of Shadows spectral rider hit on this champion. Travel is approximated at time zero; fear, other targets, following attacks and Warpath movement-to-AD conversion are excluded. Warpath AD does not scale this packet.'),
+ },
+ Rengar:{
+  'cast-w':spell('Rengar','W',[50,80,110,140,170],.8,'One ordinary Battle Roar hit, without Ferocity empowerment. Healing, cleanse, Ferocity generation, Bonetooth AD conversion and following attacks are excluded; Bonetooth AD does not scale this packet.',{label:'W · Battle Roar (ordinary hit)'}),
+  'cast-e':spell('Rengar','E',[55,100,145,190,235],0,'One ordinary Bola Strike. Automatic Bonetooth bonus AD is excluded; enter already earned bonus AD through Extra AD. Ferocity empowerment, root, stack generation and following attacks are excluded.',{label:'E · Bola Strike (ordinary hit)',profile:'physical',bonusAD:.8}),
+ },
  Senna:{
   'cast-q':spell('Senna','Q',[30,55,80,105,130],0,'One Piercing Darkness enemy hit, using bonus AD. Enter earned soul AD through Extra AD; automatic soul growth, soul extraction, passive bonus damage, item on-hits, healing and slow are excluded.',{profile:'physical',bonusAD:.6}),
   'cast-w':spell('Senna','W',[70,110,150,190,230],0,'One Last Embrace projectile hit. Enter earned soul AD through Extra AD; automatic soul growth, root, passive extraction and following attacks are excluded.',{profile:'physical',bonusAD:.9}),
@@ -704,3 +733,17 @@ export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>
 };
 export const abilityModel=(alias:string,mode:string)=>abilityModels[alias]?.[mode as CastMode];
 export const castModes:CastMode[]=['cast-q','cast-w','cast-e','cast-r','cast-q-max','cast-q-isolated','cast-e-empowered','cast-q-empowered','cast-w-empowered','cast-r-empowered'];
+
+export interface PenetrationRule {slot:string;kind:'magic'|'physical';values:number[]}
+export const penetrationRules:Record<string,PenetrationRule>={
+ Annie:{slot:'R',kind:'magic',values:[.1,.15,.2]},
+ Mordekaiser:{slot:'E',kind:'magic',values:[.05,.075,.1,.125,.15]},
+ Ambessa:{slot:'R',kind:'physical',values:[.1,.2,.3]},
+ Zaahen:{slot:'R',kind:'physical',values:[.1,.2,.3]},
+};
+export function learnedPenetration(s:Scenario){
+ const rule=penetrationRules[s.champion];if(!rule)return undefined;
+ const model=abilityModel(s.champion,s.mode);
+ const rank=model?.slot===rule.slot?Math.min(model.rankCap,Math.max(1,Math.round(s.rank))):Math.min(rule.values.length,Math.max(0,Math.round(s.penetrationRank??0)));
+ return {...rule,rank,value:rank?rule.values[rank-1]:0};
+}

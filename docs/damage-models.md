@@ -2,10 +2,16 @@
 
 Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-17. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 149 champions. Beyond the four original models, the reviewed cast adapters expose 409 objectives:
+The engine now supports 155 champions. Beyond the four original models, the reviewed cast adapters expose 426 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
+| Annie | Q, W, E one triggered retaliation, R initial summon | R passive magic penetration uses explicit learned R rank for other spells, selected R rank for R. No pet attacks/aura, stun or repeated retaliation |
+| Mordekaiser | E | E passive magic penetration follows selected E rank. No passive attacks/field or Realm of Death stat stealing |
+| Ambessa | W ordinary/prepared enhanced, E initial strike, R | Energy capped at 200. Learned R armor penetration included. No energy refunds, dash-triggered second E, passive attacks, shield or healing |
+| Zaahen | W initial, E inner/outer, R landing | Outer E separates 150% physical packet and rank-dependent enemy max-HP magic packet. R armor penetration affects physical only. Enter already earned Determination AD explicitly |
+| Hecarim | W field, R spectral rider | W uniformly prorated over four seconds. No healing, fear or Warpath AD conversion; these AP packets do not scale with AD |
+| Rengar | W ordinary roar, E ordinary bola | No Ferocity empowerment or automatic Bonetooth conversion; enter earned bonus AD explicitly for E. No healing, cleanse or following attacks |
 | Senna | Q, W, R central hit | Physical bonus AD scaling; R also uses AP. Earned soul AD must be entered in Extra AD. No extraction, on-hits, healing or shielding |
 | Skarner | Q boulder throw, W, E wall pin, R | Q adds 11% enemy max HP and own bonus HP; E uses own total HP. No passive, prior Q attacks or automatic Q throw with R |
 | Rumble | Q ordinary/prepared Danger Zone, R trail | Q has enemy max HP scaling and a finite three-second cone; Danger Zone scales both components by 1.5. R is a finite 4.5-second trail. Heat setup and E shred excluded |
@@ -187,3 +193,5 @@ Kai'Sa Q's reviewed raw calculation tree adds the first missile at full damage b
 Twitch E exposes **Existing Deadly Venom stacks**, capped at six. Mel R exposes **Existing Overwhelm stacks**, using the finite app limit of 1,000,000, not a claimed in-game cap. Both need an already affected target: zero stacks produces no damage and spends no mana. Twitch's ongoing poison true damage and Mel's passive execution mechanics are excluded; their selected active packets use only the supplied stack count. Saves, target sweeps and purchase comparisons preserve these conditions.
 
 Jayce's hammer abilities and Yuumi Q expose all six learned ranks, including rank-six source costs and save validation. Bel'Veth, Mini Gnar, Shyvana and Viego do not use mana/energy for these casts; mana purchases cannot generate mana capacity or Muramana conversion. Rage/Fury/form transitions, True Form stat bonuses and possession are not advanced by the engine. Conditional objectives explicitly assume their Coral, form, Fury, Unleash or prior-hit prerequisites are already prepared, with setup damage excluded.
+
+Learned penetration is shared between compared builds and saved with the scenario. For Annie, Mordekaiser, Ambessa and Zaahen, the passive uses the selected ability rank when calculating its own source ability; other spells use the explicit passive-rank input (zero means unlearned). Item percent penetration and learned percent penetration combine multiplicatively before flat penetration. Negative defenses remain unaffected by penetration. This is a spell estimate and does not validate a complete skill-point allocation.

@@ -9,7 +9,6 @@ use crate::CoreError;
 pub struct Secret(String);
 
 impl Secret {
-    #[allow(dead_code, reason = "read only by the LCU transport (plan T9)")]
     pub(crate) fn expose(&self) -> &str {
         &self.0
     }
@@ -31,7 +30,6 @@ impl Drop for Secret {
 #[derive(Debug)]
 pub struct Credentials {
     port: u16,
-    #[allow(dead_code, reason = "read only by the LCU transport (plan T9)")]
     password: Secret,
 }
 
@@ -39,7 +37,6 @@ impl Credentials {
     pub fn port(&self) -> u16 {
         self.port
     }
-    #[allow(dead_code, reason = "read only by the LCU transport (plan T9)")]
     pub(crate) fn password(&self) -> &str {
         self.password.expose()
     }

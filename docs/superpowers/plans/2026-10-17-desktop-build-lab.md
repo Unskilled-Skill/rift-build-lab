@@ -304,6 +304,6 @@ Tests: `scripts/check-web-bundle.mjs` passes; existing suites green.
 ## 5. Risks to watch
 
 - LCU payload shapes for champ select are documented by the community, not Riot; T13 fixtures are provisional until T23.
-- Riot certificate name behaviour is assumed from the Python companion (`check_hostname=False`); T9's verifier must accept only the name mismatch.
+- Riot certificate name behaviour is assumed from the Python companion (`check_hostname=False`); T9's verifier must accept only the name mismatch. As built, T9 uses hyper + tokio-rustls (ring provider, no aws-lc) rather than reqwest, and generates test CAs with rcgen at test time instead of committing key material. rustls-webpki is stricter than OpenSSL (v3 certificates, EKU rules); if Riot's chain fails it in T23, adjust the verifier deliberately rather than falling back to insecure TLS.
 - `rbldata` URL form on Windows WebView2 differs from other platforms; T17 must use Tauri's `convertFileSrc`-style helper rather than hardcoding if the API offers it.
 - Main JS chunk (~722 KB) — T3/T5 should lazy-load the test bench and comparison lab if the build library becomes the first screen, not raise the warning.

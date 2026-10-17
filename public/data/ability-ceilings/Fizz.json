@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "Fizz",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-13",
+  "authoredAt": "2026-10-18",
   "builds": [
     {
       "id": "fizz-ceiling-ceiling-r-single-hit",
@@ -46,7 +46,11 @@
         "heartsteelHP": 0,
         "conquerorStacks": 0,
         "combatSeconds": 0,
-        "objectiveSlot": "R"
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 30,
+        "rodStacks": 0
       },
       "requiresManualTest": true,
       "ceiling": {
@@ -54,11 +58,11 @@
         "targetName": "Maximum-distance shark",
         "metric": "single-hit",
         "damageType": "magic",
-        "finiteState": "Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Fish travels to largest-shark threshold.",
+        "finiteState": "Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Fish travels to largest-shark threshold. Loaded form: owner 100% HP, target 30% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 0s, Gathering Storm minute 30.",
         "verification": "candidate"
       },
       "testPlan": [
-        "Finite benchmark: Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Fish travels to largest-shark threshold.",
+        "Finite benchmark: Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Fish travels to largest-shark threshold. Loaded form: owner 100% HP, target 30% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 0s, Gathering Storm minute 30.",
         "Same-patch practice/custom test with exact state: record Maximum-distance shark tooltip, observed AP/AD/HP/mana/resists, per-packet damage/protection and final targetHP. Compare one legal item swap at a time, separating setup damage, rune/item procs and ordinary attack. Verify raw helper/statFormula mappings and conditional multipliers before treating result as established.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
@@ -87,6 +91,96 @@
           "slot": "R",
           "source": "Characters/Fizz/Spells/FizzRAbility/FizzR",
           "formula": "Fizz launches a fish that attaches to the first champion hit. The victim is afflicted with True Sight and Slowed by between 40% to 80% based on how far the fish travelled before attaching. \n\nAfter [2] seconds a shark erupts on the target, Knocking Up the target with the fish for 1 second, Knocking Back everything else, and dealing between [180 / 300 / 420 + (0.6) × AP] to [(180 / 300 / 420 + (0.6) × AP) × (1.5)] magic damage based on how far the fish travelled before attaching."
+        }
+      ]
+    },
+    {
+      "id": "fizz-ceiling-w-trident-active",
+      "champion": "Fizz",
+      "name": "Seastone Trident: empowered stab",
+      "category": "Ability ceiling",
+      "summary": "Explore a high Seastone Trident active bonus result with finite setup and controlled one-item swaps. This is an experiment, not a certified optimum.",
+      "goal": "Explore a high Seastone Trident active bonus result with finite setup and controlled one-item swaps. This is an experiment, not a certified optimum.",
+      "hypothesis": "Rank-5 W active adds 150 + 0.45 AP magic damage. Its passive bleed is a separate 90 + 0.25 AP over three seconds; later empowered attacks are another effect. Deathcap/MR modifiers target the first active bonus, while Lich Bane or Nashor are alternatives for the whole attack event rather than multipliers of W.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        4633,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 30,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "Seastone Trident active bonus",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, maximum selected rank unless overridden, game minute 30. Enemy champion: 3000 max HP, 100 armor, 50 MR; no allied buffs, dragons or elixirs. Owner full HP. No unearned permanent stacks. Read actual AD/AP/HP and resists before the hit. Item/rune proc damage is separate; no scoring after target death. One first W-empowered attack; target has no earlier W bleed. Riftmaker pre-ramped on separate champion combat. No Q/E/R. Target starts at 30% HP; prior champion combat 4s. Gathering Storm fixed at minute 30; Absolute Focus only above 70% owner HP.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum selected rank unless overridden, game minute 30. Enemy champion: 3000 max HP, 100 armor, 50 MR; no allied buffs, dragons or elixirs. Owner full HP. No unearned permanent stacks. Read actual AD/AP/HP and resists before the hit. Item/rune proc damage is separate; no scoring after target death. One first W-empowered attack; target has no earlier W bleed. Riftmaker pre-ramped on separate champion combat. No Q/E/R. Target starts at 30% HP; prior champion combat 4s. Gathering Storm fixed at minute 30; Absolute Focus only above 70% owner HP.",
+        "Record the active bonus at impact, then the full three-second bleed as a different metric. Swap Banshee for Lich Bane and compare W-only versus delivery including Spellblade. Report the physical attack separately.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Do not multiply the active by every passive bleed tick or add the five-second follow-up on-hit to the first attack."
+      ],
+      "tradeoffs": [
+        "AP bonus maximization can lose attack access, haste and a more practical Q-W burst pattern.",
+        "Confidence: plausible. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Do not multiply the active by every passive bleed tick or add the five-second follow-up on-hit to the first attack.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Seastone Trident",
+          "slot": "W",
+          "source": "Characters/Fizz/Spells/FizzWAbility/FizzW",
+          "formula": "Passive: Fizz's Attacks cause his enemies to bleed, dealing [30 / 45 / 60 / 75 / 90 + (0.25) × AP] magic damage over [3] seconds. \n\nActive: Fizz's next Attack deals an additional [50 / 75 / 100 / 125 / 150 + (0.45) × AP] magic damage. If this Attack kills its target, Fizz refunds [30 / 40 / 50 / 60 / 70] Mana and reduces the cooldown of this Ability to [1] second. If it does not kill, Fizz's Attacks deal an additional [20 / 25 / 30 / 35 / 40 + (0.3) × AP] magic damage for [5] seconds."
         }
       ]
     }

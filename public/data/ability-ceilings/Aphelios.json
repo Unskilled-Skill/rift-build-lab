@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "Aphelios",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-13",
+  "authoredAt": "2026-10-18",
   "builds": [
     {
       "id": "aphelios-ceiling-ability-ceiling-r",
@@ -45,8 +45,12 @@
         "targetHP": 3000,
         "heartsteelHP": 0,
         "conquerorStacks": 0,
-        "combatSeconds": 0,
-        "objectiveSlot": "R"
+        "combatSeconds": 5,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0
       },
       "requiresManualTest": true,
       "ceiling": {
@@ -54,18 +58,18 @@
         "targetName": "Infernum Moonlight Vigil cluster",
         "metric": "full-window",
         "damageType": "physical",
-        "finiteState": "Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. Infernum main hand; five clustered3000HP champions; six AD/six penetration/six AS passive ranks. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged.",
+        "finiteState": "Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. Infernum main hand; five clustered3000HP champions; six AD/six penetration/six AS passive ranks. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged. Loaded form: owner 100% HP, target 100% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 5s, Gathering Storm minute 30.",
         "verification": "candidate"
       },
       "testPlan": [
-        "Finite benchmark: Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. Infernum main hand; five clustered3000HP champions; six AD/six penetration/six AS passive ranks. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged.",
+        "Finite benchmark: Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. Infernum main hand; five clustered3000HP champions; six AD/six penetration/six AS passive ranks. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged. Loaded form: owner 100% HP, target 100% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 5s, Gathering Storm minute 30.",
         "Measure central victim R/splash packets with one versus five victims; compare AP alternative. Never grant every blast normal attack crit.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
       "failureConditions": [
         "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
-        "High-number candidate, not proof of mathematical maximum. Ability-only result separate from item/rune procs; unresolved raw statFormula/helper flags require live verification. First Strike separately logged only in actual window; Absolute Focus needs above70% casterHP, inactive in lowHP tests; Gathering Storm fixed30min. "
+        "High-number candidate, not proof of mathematical maximum. Ability-only result separate from item/rune procs; unresolved raw statFormula/helper flags require live verification. First Strike separately logged only in actual window; Absolute Focus needs above70% casterHP, inactive in lowHP tests; Gathering Storm fixed30min.  Report observed damage only while the target survives; any theoretical full-window overkill is a separate raw-potential metric, not damage actually dealt."
       ],
       "tradeoffs": [
         "Six completed items model a late-game boots swap. Reaching range and surviving preparation become harder; expensive specialized stats sacrifice ordinary pacing and utility.",
@@ -77,7 +81,7 @@
       ],
       "coverageNotes": [
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
-        "High-number candidate, not proof of mathematical maximum. Ability-only result separate from item/rune procs; unresolved raw statFormula/helper flags require live verification. First Strike separately logged only in actual window; Absolute Focus needs above70% casterHP, inactive in lowHP tests; Gathering Storm fixed30min. ",
+        "High-number candidate, not proof of mathematical maximum. Ability-only result separate from item/rune procs; unresolved raw statFormula/helper flags require live verification. First Strike separately logged only in actual window; Absolute Focus needs above70% casterHP, inactive in lowHP tests; Gathering Storm fixed30min.  Report observed damage only while the target survives; any theoretical full-window overkill is a separate raw-potential metric, not damage actually dealt.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
       ],
       "author": "ChatGPT",

@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "Renekton",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-13",
+  "authoredAt": "2026-10-18",
   "builds": [
     {
       "id": "renekton-ceiling-ability-ceiling-renekton-w",
@@ -46,7 +46,11 @@
         "heartsteelHP": 0,
         "conquerorStacks": 0,
         "combatSeconds": 0,
-        "objectiveSlot": "W"
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 29,
+        "rodStacks": 0
       },
       "requiresManualTest": true,
       "ceiling": {
@@ -54,18 +58,18 @@
         "targetName": "Ruthless Predator",
         "metric": "full-window",
         "damageType": "physical",
-        "finiteState": "Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready.",
+        "finiteState": "Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready. Loaded form: owner 100% HP, target 29% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 0s, Gathering Storm minute 30.",
         "verification": "candidate"
       },
       "testPlan": [
-        "Finite benchmark: Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready.",
+        "Finite benchmark: Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready. Loaded form: owner 100% HP, target 29% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 0s, Gathering Storm minute 30.",
         "Start 100 Fury; W once on target; verify three strike packets and exclude shield destruction from damage. Log raw kit packet(s), post-mitigation damage and separate item/rune packets; repeat at 100% target HP and swap one item at a time. First Strike must be ready and champion initiates; compare eligible bonus separately.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
       "failureConditions": [
         "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
-        "Highest-number candidate, not proof of mathematical maximum. Use current stored source values and verify all conditional multipliers. Unlimited game time changes Gathering Storm; no finite global maximum over unrestricted time. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs."
+        "Highest-number candidate, not proof of mathematical maximum. Use current stored source values and verify all conditional multipliers. Unlimited game time changes Gathering Storm; no finite global maximum over unrestricted time. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs. Report observed damage only while the target survives; any theoretical full-window overkill is a separate raw-potential metric, not damage actually dealt."
       ],
       "tradeoffs": [
         "Six completed items assume late boots sell/swap; movement and practical survival/access are sacrificed for the number. Bloodthirster, Infinity Edge, Serylda's Grudge, Profane Hydra, Youmuu's Ghostblade, Eclipse. Required setup damage is excluded from scored ability. Defensive or attack-speed replacements may win real fights despite a lower isolated packet.",
@@ -77,7 +81,7 @@
       ],
       "coverageNotes": [
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
-        "Highest-number candidate, not proof of mathematical maximum. Use current stored source values and verify all conditional multipliers. Unlimited game time changes Gathering Storm; no finite global maximum over unrestricted time. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs.",
+        "Highest-number candidate, not proof of mathematical maximum. Use current stored source values and verify all conditional multipliers. Unlimited game time changes Gathering Storm; no finite global maximum over unrestricted time. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs. Report observed damage only while the target survives; any theoretical full-window overkill is a separate raw-potential metric, not damage actually dealt.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
       ],
       "author": "ChatGPT",
@@ -87,6 +91,96 @@
           "slot": "W",
           "source": "Characters/Renekton/Spells/RenektonPreExecuteAbility/RenektonPreExecute",
           "formula": "Renekton's next Attack strikes twice, Stunning for [0.75] seconds and dealing a total of [(5 / 20 / 35 / 50 / 65 + (0.75) × AD) × (2)] physical damage. Hitting a champion generates an additional [10] Fury.\n\nFury Bonus: Renekton Attacks 3 times instead, destroying Shields before dealing [(5 / 20 / 35 / 50 / 65 + (0.75) × AD) × (3)] physical damage and Stunning for [1.5] seconds. Does not generate any Fury."
+        }
+      ]
+    },
+    {
+      "id": "renekton-ceiling-q-fury-cleave",
+      "champion": "Renekton",
+      "name": "Cull the Meek: Fury cleave hit",
+      "category": "Ability ceiling",
+      "summary": "Explore a high 50-Fury Cull the Meek champion hit result with finite setup and controlled one-item swaps. This is an experiment, not a certified optimum.",
+      "goal": "Explore a high 50-Fury Cull the Meek champion hit result with finite setup and controlled one-item swaps. This is an experiment, not a certified optimum.",
+      "hypothesis": "At rank 5 and sufficient Fury, Q is 270 + 1.4 bonus AD physical damage per champion, compared with 180 + bonus AD ordinarily. High AD and penetration strengthen that cleave. Hitting additional champions increases total team damage and healing, not this per-target coefficient.",
+      "itemIds": [
+        3072,
+        6697,
+        6698,
+        6694,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 30,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "50-Fury Cull the Meek champion hit",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, maximum selected rank unless overridden, game minute 30. Enemy champion: 3000 max HP, 100 armor, 50 MR; no allied buffs, dragons or elixirs. Owner full HP. No unearned permanent stacks. Read actual AD/AP/HP and resists before the hit. Item/rune proc damage is separate; no scoring after target death. At least 50 Fury prepared before Q; score exactly one champion. Hubris exactly 10 credited kills with active buff. No E shred or empowered W setup counted. Target starts at 30% HP; prior champion combat 0s. Gathering Storm fixed at minute 30; Absolute Focus only above 70% owner HP.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum selected rank unless overridden, game minute 30. Enemy champion: 3000 max HP, 100 armor, 50 MR; no allied buffs, dragons or elixirs. Owner full HP. No unearned permanent stacks. Read actual AD/AP/HP and resists before the hit. Item/rune proc damage is separate; no scoring after target death. At least 50 Fury prepared before Q; score exactly one champion. Hubris exactly 10 credited kills with active buff. No E shred or empowered W setup counted. Target starts at 30% HP; prior champion combat 0s. Gathering Storm fixed at minute 30; Absolute Focus only above 70% owner HP.",
+        "Compare ordinary and Fury Q at the same AD and target armor. Swap Sterak for Edge of Night; then separately record a five-champion total with five real victims instead of relabeling it one hit. Record healing independently.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Fury is consumed rather than generated by this empowered cast. Multi-target healing and damage are not a single-target multiplier."
+      ],
+      "tradeoffs": [
+        "This is a narrow cleave ceiling; attack resets, haste, sustain and teamfight survival may be more valuable in a match.",
+        "Confidence: plausible. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Fury is consumed rather than generated by this empowered cast. Multi-target healing and damage are not a single-target multiplier.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Cull the Meek",
+          "slot": "Q",
+          "source": "Characters/Renekton/Spells/RenektonCleaveAbility/RenektonCleave",
+          "formula": "Renekton swings his blade, dealing [60 / 90 / 120 / 150 / 180 + (1) × AD[statFormula=2]] physical damage and restoring [2 / 3 / 4 / 5 / 6 + (0.02) × AD[statFormula=2]] Health per non-champion and [12 / 20 / 28 / 36 / 44 + (0.17) × AD[statFormula=2]] per champion hit. He also generates [2.5] Fury per non-champion and [10] Fury per champion.\n\nFury Bonus: Damage is increased to [90 / 135 / 180 / 225 / 270 + (1.4) × AD[statFormula=2]] physical damage and healing is increased to [(2 / 3 / 4 / 5 / 6 + (0.02) × AD[statFormula=2]) × (3)] Health against non-champions and [(12 / 20 / 28 / 36 / 44 + (0.17) × AD[statFormula=2]) × (3)] Health against champions. Does not generate any Fury."
         }
       ]
     }

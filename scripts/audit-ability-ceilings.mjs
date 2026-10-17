@@ -1,0 +1,34 @@
+import fs from 'node:fs';
+import {validateCeilings,ceilingBuild} from './ability-ceilings.mjs';
+
+const read=path=>JSON.parse(fs.readFileSync(path,'utf8'));
+const catalog=read('public/data/catalog.json'),resources=read('scripts/champion-resources.json');
+const files=fs.readdirSync('scripts/ability-ceilings').filter(name=>/^group-\d+\.json$/.test(name)).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+const entries=files.flatMap(name=>read(`scripts/ability-ceilings/${name}`));
+validateCeilings(entries,catalog,resources);
+const rows=entries.map(entry=>{
+ const kit=read(`public/data/champions/${entry.champion}.json`);
+ const build=ceilingBuild(entry,kit,catalog,resources);
+ const published=read(`public/data/ability-ceilings/${entry.champion}.json`).builds.find(b=>b.id===build.id);
+ if(JSON.stringify(published)!==JSON.stringify(build))throw new Error(`${build.id}: generated publication is stale.`);
+ const form=build.conditions.objectiveSlot;
+ const ability=kit.primaryAbilities.find(a=>a.slot===entry.targetSlot);
+ if(form.includes(':')&&!ability?.name.split(/\s+\/\s+/)[Number(form.split(':')[1])])throw new Error(`${build.id}: unknown form.`);
+ if(build.conditions.rank>(entry.targetSlot==='P'?5:ability?.maxRank||5))throw new Error(`${build.id}: invalid rank.`);
+ if(!build.kitEvidence.length)throw new Error(`${build.id}: no target source evidence.`);
+ const checks=[];
+ if(build.conditions.conquerorStacks>0)checks.push('Prepare the recorded earned Conqueror stacks; verify rune amplification eligibility separately.');
+ if(build.kitEvidence.some(e=>/UNRESOLVED|@spell\./.test(e.formula)))checks.push('Source tooltip contains an unresolved token; inspect helper and current client.');
+ if(entry.confidence==='speculative')checks.push('Authored interaction remains speculative.');
+ if(entry.metric==='full-window')checks.push('Verify hit count, timing and target survival; do not score post-death packets.');
+ if(['heal','shield'].includes(entry.metric))checks.push('Verify heal/shield-power eligibility and missing-health/shield cap separately from damage.');
+ if(entry.metric==='execute-threshold')checks.push('Measure threshold, not damage dealt.');
+ if([4633,3161,6697,3040,3042,6665].some(id=>entry.itemIds.includes(id)))checks.push('Read actual earned stacks, stat conversions and conditional item ramp in the client.');
+ return {id:build.id,champion:entry.champion,target:entry.targetName,slot:form,metric:entry.metric,damageType:entry.damageType,confidence:entry.confidence,itemIds:entry.itemIds,runePage:build.runePage,finiteState:entry.finiteState,conditions:build.conditions,sourcePaths:build.kitEvidence.map(e=>e.source),specificLimits:entry.limits,manualChecks:checks,verification:'source-and-setup-reviewed; in-game result not verified'};
+});
+const report={reviewedAt:'2026-10-18',patch:catalog.patch,championCount:catalog.champions.length,targetCount:rows.length,scope:'All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.',targets:rows};
+fs.writeFileSync('docs/ability-ceiling-review.json',JSON.stringify(report,null,2)+'\n');
+const escape=text=>text.replaceAll('|','/');
+const table=rows.map(r=>`| ${r.champion} | ${escape(r.target)} | ${r.slot} | ${r.metric} | ${r.confidence} | ${r.manualChecks.length} |`).join('\n');
+fs.writeFileSync('docs/ability-ceiling-review.md',`# Ability ceiling review — 2026-10-18\n\nPatch ${catalog.patch}: ${rows.length} targets across ${catalog.champions.length} champions.\n\n${report.scope}\n\nTwenty new targets extend the previous 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.\n\nAll rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with \`npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs\`.\n\nThe current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-20-notes/); detailed formulas use the repository's extracted patch snapshot.\n\n| Champion | Target | Form | Metric | Confidence | Manual check categories |\n|---|---|---|---|---|---|\n${table}\n`);
+console.log(`Reviewed ${rows.length} ceiling targets: legal inventories, target sources and published benchmark consistency. In-game verification remains pending.`);

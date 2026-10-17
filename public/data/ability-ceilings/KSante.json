@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "KSante",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-13",
+  "authoredAt": "2026-10-18",
   "builds": [
     {
       "id": "ksante-ceiling-ability-ceiling-ksante-w",
@@ -45,8 +45,12 @@
         "targetHP": 3000,
         "heartsteelHP": 0,
         "conquerorStacks": 0,
-        "combatSeconds": 0,
-        "objectiveSlot": "W"
+        "combatSeconds": 5,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 29,
+        "rodStacks": 0
       },
       "requiresManualTest": true,
       "ceiling": {
@@ -54,11 +58,11 @@
         "targetName": "Path Maker",
         "metric": "single-hit",
         "damageType": "mixed",
-        "finiteState": "Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready.",
+        "finiteState": "Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready. Loaded form: owner 100% HP, target 29% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 5s, Gathering Storm minute 30.",
         "verification": "candidate"
       },
       "testPlan": [
-        "Finite benchmark: Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready.",
+        "Finite benchmark: Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready. Loaded form: owner 100% HP, target 29% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 5s, Gathering Storm minute 30.",
         "Stack JakSho/FoN then inspect stats before/after R; full W charge once, separately record physical/true packets. Log raw kit packet(s), post-mitigation damage and separate item/rune packets; repeat at 100% target HP and swap one item at a time. First Strike must be ready and champion initiates; compare eligible bonus separately.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."

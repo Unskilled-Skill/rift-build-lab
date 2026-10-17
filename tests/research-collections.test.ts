@@ -15,7 +15,7 @@ it('every champion retains ceiling coverage and every published target loads a l
    expect(build.champion).toBe(c.alias);
    expect(build.ceiling?.verification).toBe('candidate');
    expect(toTestSave(build,data).requiresManualTest).toBe(true);
-   expect(toTestSave(build,data).scenario.objectiveSlot).toBe(build.ceiling?.targetSlot);
+   expect(toTestSave(build,data).scenario.objectiveSlot?.split(':')[0]).toBe(build.ceiling?.targetSlot);
   }
  }
 });

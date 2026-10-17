@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "MasterYi",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-13",
+  "authoredAt": "2026-10-18",
   "builds": [
     {
       "id": "masteryi-ceiling-ability-ceiling-e",
@@ -12,7 +12,7 @@
       "category": "Ability ceiling",
       "summary": "Find a high-number candidate for Wuju Style true packet in the specified finite setup; compare the competing stat package.",
       "goal": "Find a high-number candidate for Wuju Style true packet in the specified finite setup; compare the competing stat package.",
-      "hypothesis": "E5 adds40+0.35 bonusAD true per real attack. Raw bonusAD and eligible amplification support it; crit and resistance penetration cannot multiply this true on-hit. Bloodthirster/IE fund high flatAD; IE crit explicitly does not multiply chosen true packet. Bloodmail converts finite Heartsteel/Sterak HP toAD; Sterak AD coefficient read live; Shojin eligibility measured. No useful resistance penetration.",
+      "hypothesis": "E5 adds40+0.35 bonusAD true per real attack. Raw bonusAD and eligible amplification support it; crit and resistance penetration cannot multiply this true on-hit. Bloodthirster/IE fund high flatAD; IE crit explicitly does not multiply chosen true packet. Bloodmail converts finite Heartsteel/Sterak HP toAD; Sterak AD coefficient read live; Shojin eligibility measured. No useful resistance penetration. Low-HP rune candidate uses earned Conqueror adaptive stats and Last Stand instead of inactive Absolute Focus. Test rune eligibility separately; do not assume every amplifier affects true damage.",
       "itemIds": [
         3072,
         3031,
@@ -22,11 +22,11 @@
         3053
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
-        8233,
+        8010,
+        9111,
+        9105,
+        8299,
+        8210,
         8236
       ],
       "shards": [
@@ -43,10 +43,14 @@
         "mr": 50,
         "armor": 100,
         "targetHP": 3000,
-        "heartsteelHP": 0,
-        "conquerorStacks": 0,
-        "combatSeconds": 0,
-        "objectiveSlot": "E"
+        "heartsteelHP": 500,
+        "conquerorStacks": 12,
+        "combatSeconds": 5,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0
       },
       "requiresManualTest": true,
       "ceiling": {
@@ -54,11 +58,11 @@
         "targetName": "Wuju Style true packet",
         "metric": "single-hit",
         "damageType": "true",
-        "finiteState": "Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. One E attack; caster30% HP; Double Strike unavailable;500 Heartsteel HP. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged.",
+        "finiteState": "Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. One E attack; caster30% HP; Double Strike unavailable;500 Heartsteel HP. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged. Absolute Focus is inactive at this owner HP; do not retain its stat bonus. Loaded form: owner 30% HP, target 100% HP, Heartsteel earned HP 500, Rod stacks 0, prior champion combat 5s, Gathering Storm minute 30. Conqueror exactly 12 earned stacks prepared before the scored hit; observe Last Stand eligibility per damage packet, especially true damage.",
         "verification": "candidate"
       },
       "testPlan": [
-        "Finite benchmark: Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. One E attack; caster30% HP; Double Strike unavailable;500 Heartsteel HP. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged.",
+        "Finite benchmark: Level18; max rank selected ability; minute30; target3000 maxHP (1500 bonusHP),100 armor/50 MR unless specified. One E attack; caster30% HP; Double Strike unavailable;500 Heartsteel HP. Shojin4 stacks/Riftmaker full ramp only if equipped, earned on separate champion before hit; all states logged. Absolute Focus is inactive at this owner HP; do not retain its stat bonus. Loaded form: owner 30% HP, target 100% HP, Heartsteel earned HP 500, Rod stacks 0, prior champion combat 5s, Gathering Storm minute 30. Conqueror exactly 12 earned stacks prepared before the scored hit; observe Last Stand eligibility per damage packet, especially true damage.",
         "Subtract physical attack; test Shojin eligibility versus flatAD swap. Full5s E is a different metric.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."

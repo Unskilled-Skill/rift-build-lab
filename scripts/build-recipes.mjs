@@ -1,5 +1,6 @@
 // Curated candidate packages. These are test hypotheses, not live-game optima.
 export const pages={
+ ceilingLowHP:[8010,9111,9105,8299,8210,8236],
  ceilingAD:[8369,8321,8345,8347,8233,8236],ceilingAP:[8369,8321,8345,8347,8233,8236],ceilingHeal:[8214,8226,8210,8236,8444,8453],
  hob:[9923,8126,8140,8106,8210,8236],
  conq:[8010,9111,9105,8299,8444,8451],pta:[8005,9111,9104,8014,8444,8451],lt:[8008,9111,9104,8014,8429,8451],

@@ -5,18 +5,75 @@ type Stats=Result['stats'];
 type DamageType=Result['events'][number]['type'];
 export interface Packet {name:string;type:DamageType;raw:number;time?:number;duration?:number}
 interface StackInput {label:string;context:string;max:number}
-export interface AbilityModel {label:string;slot:string;rankCap:number;cost:number[];costMultiplier?:number;sourcePath:string;notes:string;targetHealth?:boolean;defenseScaling?:boolean;stackInput?:StackInput;requiresStacks?:boolean;profile:'magic'|'physical'|'true'|'mixed';packets:(rank:number,stats:Stats,s:Scenario)=>Packet[]}
+export interface AbilityModel {label:string;slot:string;rankCap:number;cost:number[];costMultiplier?:number;sourcePath:string;notes:string;targetHealth?:boolean;defenseScaling?:boolean;healthCost?:(rank:number,stats:Stats,s:Scenario)=>number;stackInput?:StackInput;requiresStacks?:boolean;profile:'magic'|'physical'|'true'|'mixed';packets:(rank:number,stats:Stats,s:Scenario)=>Packet[]}
 type Coefficient=number|number[];
 const at=(values:Coefficient,rank:number)=>typeof values==='number'?values:values[rank-1];
 const records=source.records as Record<string,Record<string,{name:string;cost:number[];path:string}>>;
 const currentHP=(s:Scenario)=>s.targetHP*Math.min(100,Math.max(0,s.targetHealthPercent??100))/100;
 const earnedStacks=(s:Scenario,max=1000000)=>Math.floor(Math.min(max,Math.max(0,s.abilityStacks??0)));
-function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];targetHealth?:boolean;defenseScaling?:boolean;stackInput?:StackInput;requiresStacks?:boolean;costMultiplier?:number;bonusAD?:Coefficient;totalAD?:Coefficient;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
+function spell(alias:string,slot:string,base:number[],ap:Coefficient,notes:string,options:{label?:string;profile?:AbilityModel['profile'];targetHealth?:boolean;defenseScaling?:boolean;healthCost?:(rank:number,stats:Stats,s:Scenario)=>number;stackInput?:StackInput;requiresStacks?:boolean;costMultiplier?:number;bonusAD?:Coefficient;totalAD?:Coefficient;bonusHP?:number;packets?:AbilityModel['packets']}={}):AbilityModel {
  const record=records[alias][slot];const type=options.profile==='physical'?'physical':options.profile==='true'?'true':'magic';
- return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost.map(v=>v*(options.costMultiplier??1)),costMultiplier:options.costMultiplier,sourcePath:record.path,notes,targetHealth:options.targetHealth,defenseScaling:options.defenseScaling,stackInput:options.stackInput,requiresStacks:options.requiresStacks,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
+ return {label:options.label||`${slot} · ${record.name}`,slot,rankCap:base.length,cost:record.cost.map(v=>v*(options.costMultiplier??1)),costMultiplier:options.costMultiplier,sourcePath:record.path,notes,targetHealth:options.targetHealth,defenseScaling:options.defenseScaling,healthCost:options.healthCost,stackInput:options.stackInput,requiresStacks:options.requiresStacks,profile:options.profile||'magic',packets:options.packets||((rank,stats)=>[{name:record.name,type,raw:base[rank-1]+at(ap,rank)*stats.ap+at(options.bonusAD??0,rank)*stats.bonusAD+at(options.totalAD??0,rank)*stats.ad+(options.bonusHP||0)*stats.bonusHP}])};
 }
 const ornnUpgrades:StackInput={label:'Masterwork upgrades already completed',context:'earned Masterwork upgrades',max:5};
 export const abilityModels:Record<string,Partial<Record<CastMode,AbilityModel>>>={
+ Aphelios:{
+  'cast-r':spell('Aphelios','R',[125,175,225],1,'Moonlight Vigil initial explosion only, physical damage despite AP scaling. Enter invested AD and lethality ranks; each grants 4 AD or 4.5 lethality. Weapon follow-up attacks, critical strikes, Infernum bonus and all weapon effects are excluded. Skill-point allocation is not validated.',{label:'R · Moonlight Vigil (initial explosion)',profile:'physical',bonusAD:.2,stackInput:{label:'Aphelios invested AD ranks',context:'invested AD ranks',max:6}}),
+ },
+ Briar:{
+  'cast-e':spell('Briar','E',[80,115,150,185,220],1,'One Chilling Scream after a full one-second charge. Only the release packet is counted; healing, bleed, damage reduction, knockback and wall collision are excluded. This E has no upfront health cost.',{label:'E · Chilling Scream (fully charged release)',packets:(rank,stats)=>[{name:'Charged scream release',type:'magic',raw:[80,115,150,185,220][rank-1]+stats.bonusAD+stats.ap,time:1}]}),
+  'cast-e-empowered':spell('Briar','E',[220,330,440,550,660],3.4,'Fully charged Chilling Scream release plus successful wall collision on this champion. Both impacts are approximated at one second. Bleed, healing, damage reduction and stun are excluded; this E has no upfront health cost.',{label:'E · Chilling Scream (full charge + wall)',packets:(rank,stats)=>[{name:'Charged scream release',type:'magic',raw:[80,115,150,185,220][rank-1]+stats.bonusAD+stats.ap,time:1},{name:'Wall collision',type:'magic',raw:[140,215,290,365,440][rank-1]+2.4*(stats.bonusAD+stats.ap),time:1}]}),
+ },
+ DrMundo:{
+  'cast-q':spell('DrMundo','Q',[80,130,180,230,280],0,'One Infected Bonesaw on a champion, using enemy current HP with the champion minimum and no monster cap. Upfront health is reported before the on-hit health refund. Slow, refunds, E passive AD and R health changes are excluded; Q does not scale with own AP or AD.',{targetHealth:true,healthCost:rank=>[50,60,70,80,90][rank-1],packets:(rank,_stats,s)=>[{name:'Infected Bonesaw',type:'magic',raw:Math.max([80,130,180,230,280][rank-1],[.2,.225,.25,.275,.3][rank-1]*currentHP(s))}]}),
+ },
+ Jhin:{
+  'cast-q':spell('Jhin','Q',[44,69,94,119,144],.6,'One first Dancing Grenade hit with no prior bounce kills. Whisper AD conversion includes level, purchased crit chance and item/shard/explicit bonus AS. Bounce amplification, fourth shot and item procs are excluded.',{label:'Q · Dancing Grenade (first hit)',profile:'physical',totalAD:[.44,.515,.59,.665,.74]}),
+  'cast-w':spell('Jhin','W',[70,105,140,175,210],0,'One Deadly Flourish champion hit. Whisper AD conversion is included; root, marked-target setup and travel are excluded.',{profile:'physical',totalAD:.5}),
+  'cast-e':spell('Jhin','E',[20,80,140,200,260],1,'One Captive Audience explosion after its trap is triggered; explosion time approximated at zero. Whisper AD conversion is included. Trap arming, slow, overlapping-trap penalties and death traps are excluded.',{label:'E · Captive Audience (one explosion)',profile:'magic',totalAD:1.2}),
+  'cast-r':spell('Jhin','R',[64,128,192],0,'One of the first three Curtain Call bullets, with zero to 300% extra damage from enemy missing-health percentage. Full activation mana is charged. Fourth critical bullet, other bullets, channel timing and slow are excluded; Whisper AD conversion is included.',{label:'R · Curtain Call (one ordinary bullet)',profile:'physical',targetHealth:true,packets:(rank,stats,s)=>[{name:'Curtain Call ordinary bullet',type:'physical',raw:([64,128,192][rank-1]+.25*stats.ad)*(1+3*(1-currentHP(s)/s.targetHP))}]}),
+ },
+ Nilah:{
+  'cast-q':spell('Nilah','Q',[0,10,20,30,40],0,'One Formless Blade active hit. Continuous crit-chance/crit-damage spell scaling and Q passive armor penetration are included. Does not roll an attack crit. Attack cone, attack-speed buff, lifesteal, shielding and item procs are excluded.',{profile:'physical',packets:(rank,stats)=>[{name:'Formless Blade',type:'physical',raw:([0,10,20,30,40][rank-1]+stats.ad)*(1+.7*stats.critChance*(stats.critDamage-1))}]}),
+  'cast-e':spell('Nilah','E',[60,70,80,90,100],0,'One Slipstream dash hit. Q passive crit-derived armor penetration uses the explicit learned Q rank (zero means unlearned). Combined Q cast, second dash, attack and healing are excluded.',{profile:'physical',bonusAD:.2}),
+ },
+ Olaf:{
+  'cast-e':spell('Olaf','E',[70,115,160,205,250],0,'One Reckless Swing true-damage hit. Reports the nonlethal health cost at 40% raw ability damage before kill refund. Ragnarok is inactive; its bonus AD, refund, cooldown-reset attacks and other spells are excluded.',{profile:'true',totalAD:.5,healthCost:(rank,stats)=>.4*([70,115,160,205,250][rank-1]+.5*stats.ad)}),
+ },
+ Pyke:{
+  'cast-q':spell('Pyke','Q',[100,150,200,250,300],0,'One Bone Skewer champion hit. Gift of the Drowned Ones converts bonus HP to AD at 14:1; converted HP cannot also feed Bloodmail/Riftmaker HP conversions. Tap/charge travel, pull, slow, gray-health healing and item procs are excluded.',{profile:'physical',bonusAD:.75}),
+  'cast-e':spell('Pyke','E',[100,150,200,250,300],0,'One Phantom Undertow phantom hit, assuming it successfully reaches this champion. Bonus HP-to-AD conversion is included. Travel is approximated at zero; stun duration, healing and following attacks are excluded.',{profile:'physical',bonusAD:1}),
+ },
+ Rell:{
+  'cast-q':spell('Rell','Q',[60,100,140,180,220],.6,'One Shattering Strike spell packet against the supplied impact MR. Break the Mold new/repeated resistance steals are not simulated: enter measured impact MR when testing those interactions. Passive attack on-hit, shield break, stun and following spells are excluded.'),
+  'cast-w':spell('Rell','W',[60,90,120,150,180],.6,'One mounted Crash Down impact against the supplied impact MR. Break the Mold resistance changes are not simulated; enter measured impact MR. Passive attack on-hit, dismounted defenses, shield, knockup and following attacks are excluded.',{label:'W · Crash Down (spell impact)'}),
+ },
+ Ryze:{
+  'cast-q':spell('Ryze','Q',[75,95,115,135,155],.55,'One unfluxed Overload hit. Arcane Mastery adds 10% maximum mana per 100 AP; damage uses bonus maximum mana, not total or available mana. Spell Flux/R empowerment, rune discharge, shield and cooldown resets are excluded.',{label:'Q · Overload (unfluxed)',packets:(rank,stats)=>[{name:'Unfluxed Overload',type:'magic',raw:[75,95,115,135,155][rank-1]+.55*stats.ap+.02*stats.bonusMana}]}),
+  'cast-w':spell('Ryze','W',[60,90,120,150,180],.6,'One Rune Prison hit, including Arcane Mastery maximum-mana growth and bonus-mana scaling. Flux/root, slow, cooldown resets and follow-up spells are excluded.',{packets:(rank,stats)=>[{name:'Rune Prison',type:'magic',raw:[60,90,120,150,180][rank-1]+.6*stats.ap+.03*stats.bonusMana}]}),
+  'cast-e':spell('Ryze','E',[60,90,120,150,180],.5,'One initial Spell Flux hit, including Arcane Mastery and bonus-mana scaling. Spread targets, flux detonation, root and follow-up spells are excluded.',{packets:(rank,stats)=>[{name:'Spell Flux',type:'magic',raw:[60,90,120,150,180][rank-1]+.5*stats.ap+.02*stats.bonusMana}]}),
+ },
+ Sivir:{
+  'cast-q':spell('Sivir','Q',[60,85,110,135,160],.6,'One Boomerang Blade pass on its first target. Continuous crit chance/damage spell scaling is included even in normal attack mode. Return pass, secondary-target falloff, passive movement and item procs are excluded.',{label:'Q · Boomerang Blade (one full-damage pass)',profile:'physical',packets:(rank,stats)=>[{name:'Boomerang Blade one pass',type:'physical',raw:([60,85,110,135,160][rank-1]+.7*stats.bonusAD+.6*stats.ap)*(1+.4*stats.critChance*(stats.critDamage-1))}]}),
+  'cast-q-empowered':spell('Sivir','Q',[120,170,220,270,320],1.2,'Both Boomerang Blade passes hit this champion without prior-target falloff. Impact times are approximated together at zero. Continuous crit scaling is included; passive movement and item procs are excluded.',{label:'Q · Boomerang Blade (both full-damage passes)',profile:'physical',packets:(rank,stats)=>[{name:'Boomerang Blade both passes',type:'physical',raw:2*([60,85,110,135,160][rank-1]+.7*stats.bonusAD+.6*stats.ap)*(1+.4*stats.critChance*(stats.critDamage-1))}]}),
+ },
+ Taric:{
+  'cast-e':spell('Taric','E',[90,130,170,210,250],.5,'One Dazzle beam after the one-second delay. Explicit learned W rank adds Bastion self armor before the bonus-armor scaling. No duplicated ally beam hit, Bravado attack, shield or stun simulation.',{defenseScaling:true,packets:(rank,stats)=>[{name:'Dazzle beam',type:'magic',raw:[90,130,170,210,250][rank-1]+.5*stats.ap+.5*stats.bonusArmor,time:1}]}),
+ },
+ Tryndamere:{
+  'cast-e':spell('Tryndamere','E',[80,120,160,200,240],.8,'One Spinning Slash hit. Explicit learned Q rank grants missing-health AD, capped at 10% remaining health; no Q healing cast is performed. Fury crit chance, critical attacks, cooldown refunds and R survival are excluded.',{profile:'physical',bonusAD:1}),
+ },
+ Vladimir:{
+  'cast-q':spell('Vladimir','Q',[80,100,120,140,160],.6,'One ordinary Transfusion. Crimson Pact converts external bonus HP to AP and external AP to HP without feeding its own bonuses back into each other. Crimson Rush, healing, Hemoplague amplification and item procs are excluded.'),
+  'cast-q-empowered':spell('Vladimir','Q',[148,185,222,259,296],1.11,'Crimson Rush is already prepared: one empowered Transfusion at 185% ordinary damage. Crimson Pact nonrecursive stat conversion is included. Preparation casts, healing, Hemoplague and item procs are excluded.',{label:'Q · Transfusion (prepared Crimson Rush)'}),
+ },
+ Zac:{
+  'cast-q':spell('Zac','Q',[60,90,120,150,180],.3,'One Stretching Strikes initial arm hit, with own bonus-HP scaling and 8% current-health upfront cost. Follow-up attack, second target, collision damage, blobs, healing and slow are excluded.',{bonusHP:.03,healthCost:(_rank,stats,s)=>.08*stats.hp*s.healthPercent/100}),
+  'cast-w':spell('Zac','W',[40,50,60,70,80],0,'One Unstable Matter cast on a champion, including AP-scaled enemy maximum HP. Reports 4% own current-health upfront cost. Blobs, healing, cooldown refunds and minion caps are excluded.',{healthCost:(_rank,stats,s)=>.04*stats.hp*s.healthPercent/100,packets:(rank,stats,s)=>[{name:'Unstable Matter',type:'magic',raw:[40,50,60,70,80][rank-1]+([.04,.05,.06,.07,.08][rank-1]+.0003*stats.ap)*s.targetHP}]}),
+  'cast-e':spell('Zac','E',[60,105,150,195,240],.8,'One Elastic Slingshot champion landing after a legally prepared charge, with impact approximated at zero. Reports 4% current-health upfront cost; charge movement, refunds, blobs, healing and knockup are excluded.',{healthCost:(_rank,stats,s)=>.04*stats.hp*s.healthPercent/100}),
+  'cast-r':spell('Zac','R',[120,190,260],.4,'One first Let\'s Bounce hit on this champion. No upfront health cost. Later bounces, W casts, blobs, healing and knockback are excluded.',{label:'R · Let\'s Bounce (first hit)'}),
+  'cast-r-empowered':spell('Zac','R',[300,475,650],1,'Four Let\'s Bounce hits on the same champion at times 0, 1, 2 and 3s; subsequent hits deal 50% damage. No upfront health cost. W casts, blobs, healing and knockback are excluded.',{label:'R · Let\'s Bounce (four hits)',packets:(rank,stats)=>[0,1,2,3].map(time=>({name:`Bounce ${time+1}`,type:'magic',raw:([120,190,260][rank-1]+.4*stats.ap)*(time? .5:1),time}))}),
+ },
  KSante:{
   'cast-q':spell('KSante','Q',[70,100,130,160,190],0,'Base form Ntofo Strikes: one hit uses own bonus armor and bonus MR, excluding base defenses. All Out, Dauntless Instinct mark attack, shockwave setup and following attacks are excluded.',{label:'Q · Ntofo Strikes (base form)',profile:'physical',defenseScaling:true,packets:(rank,stats)=>[{name:'Ntofo Strikes',type:'physical',raw:[70,100,130,160,190][rank-1]+.4*(stats.bonusArmor+stats.bonusMR)}]}),
   'cast-w':spell('KSante','W',[45,75,105,135,165],0,'Base form Path Maker released after a legal charge: one hit includes enemy maximum HP scaling from own bonus defenses. Charge/ram travel is approximated at time zero. All Out true damage, mark attack, defensive reduction, stun and following attacks are excluded.',{label:'W · Path Maker (base form release)',profile:'physical',defenseScaling:true,packets:(rank,stats,s)=>[{name:'Path Maker release',type:'physical',raw:[45,75,105,135,165][rank-1]+(.08+.0002*(stats.bonusArmor+stats.bonusMR))*s.targetHP}]}),
@@ -767,3 +824,6 @@ export function learnedPenetration(s:Scenario){
  const rank=model?.slot===rule.slot?Math.min(model.rankCap,Math.max(1,Math.round(s.rank))):Math.min(rule.values.length,Math.max(0,Math.round(s.penetrationRank??0)));
  return {...rule,rank,value:rank?rule.values[rank-1]:0};
 }
+
+export const traitRules:Record<string,{slot:string;label:string;max:number}>={Taric:{slot:'W',label:'W rank (Bastion armor)',max:5},Tryndamere:{slot:'Q',label:'Q rank (Bloodlust AD)',max:5},Nilah:{slot:'Q',label:'Q rank (passive penetration)',max:5}};
+export const traitRank=(s:Scenario)=>{const rule=traitRules[s.champion];if(!rule)return 0;return abilityModel(s.champion,s.mode)?.slot===rule.slot?Math.min(rule.max,Math.max(1,Math.round(s.rank))):Math.min(rule.max,Math.max(0,Math.round(s.traitRank??0)))};

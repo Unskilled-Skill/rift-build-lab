@@ -2,10 +2,24 @@
 
 Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-17. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 159 champions. Beyond the four original models, the reviewed cast adapters expose 437 objectives:
+The engine now supports all 173 champions. Beyond the four original models, the reviewed cast adapters expose 466 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
+| Aphelios | R initial explosion | Physical AP/bonus AD packet; explicit invested AD/lethality ranks. No automatic weapon follow-up or weapon modifiers |
+| Briar | E full release, E release + wall | Full charge at one second; wall added separately. No bleed, healing or damage reduction |
+| Dr. Mundo | Q | Enemy current-HP damage with champion minimum; upfront nonlethal health cost reported before refund. No E/R stat changes |
+| Jhin | Q first target, W, E one trap, R one ordinary bullet | Whisper level/crit/bonus-AS AD conversion. No Q bounce kills, fourth shot, repeated traps or other R bullets |
+| Nilah | Q, E | Q continuous crit scaling; learned Q passive crit-derived armor penetration. No attacks, cone cleaves, healing or shields |
+| Olaf | E | True damage; nonlethal health cost is 40% raw damage before kill refund. Ragnarok inactive |
+| Pyke | Q, E | All bonus HP converts to AD at 14:1; converted HP cannot also feed HP item conversions. No R execute, gray-health healing or item procs |
+| Rell | Q, mounted W | Spell-only packets against supplied impact MR. Break the Mold steal ordering is unverified and excluded; use measured MR for that interaction |
+| Ryze | Unfluxed Q, W, E | AP increases maximum mana; ability ratios use final bonus mana. No Flux/R Q amplification, spread or Seraph mana-to-AP |
+| Sivir | Q one/both passes | Continuous crit chance/damage scaling, full damage without prior-target falloff; both impact times approximated together |
+| Taric | E one beam | Learned W self armor included before bonus-armor damage; one-second delay. No duplicate ally hit or Bravado |
+| Tryndamere | E | Explicit learned Q rank and own starting HP determine missing-health AD. No Fury crit, cooldown refunds or R survival |
+| Vladimir | Q ordinary/prepared Crimson Rush | Nonrecursive Crimson Pact HP/AP conversion. Riftmaker conversion from Crimson Pact-generated HP remains unverified and excluded |
+| Zac | Q initial, W, E, R first/four bounces | Current-health costs for Q/W/E; no automatic blobs/refunds. R at 0/1/2/3s, subsequent hits at 50%; no W during R |
 | K'Sante | Q, W released in base form | Own bonus armor/MR scale Q and enemy max-HP W. No All Out, marks, additional attacks or full charge timeline |
 | Ornn | Q, W cone, E, R first pass | Living Forge amplifies bonus HP/armor/MR by 10% plus 4% per entered earned Masterwork (0–5). Actual upgrade stat allocations require explicit input. W is a finite 0.75s cone with a minimum; E does not double hit; no Brittle proc |
 | Rammus | Q, W one triggered retaliation, R ordinary initial landing | W flat and percentage armor/MR buffs precede retaliation. Spiked Shell adds 15% own total armor plus MR to AD. Q/R assume W inactive. No Thornmail, repeated retaliation, W detonation, R pulses or Powerball-enhanced R |
@@ -201,3 +215,5 @@ Jayce's hammer abilities and Yuumi Q expose all six learned ranks, including ran
 Learned penetration is shared between compared builds and saved with the scenario. For Annie, Mordekaiser, Ambessa and Zaahen, the passive uses the selected ability rank when calculating its own source ability; other spells use the explicit passive-rank input (zero means unlearned). Item percent penetration and learned percent penetration combine multiplicatively before flat penetration. Negative defenses remain unaffected by penetration. This is a spell estimate and does not validate a complete skill-point allocation.
 
 Own armor and magic resistance use the champion's base values and level growth plus flat item stats. Explicit extra armor/MR are bonus defenses entered before champion amplification, shared across compared builds, and saved with the scenario. Ornn's earned upgrade count is shared across all four objectives and affects bonus HP before item HP-to-AP/AD conversions. W retaliation reports Rammus's W-active defenses; his Q/R report W-inactive defenses. Unmodeled defense item passives and external buffs require explicit input. Damage objectives that scale with defenses show both total and bonus defenses in the comparison table.
+
+All 173 catalog champions now have at least one numerical damage objective; this is roster coverage, not complete-kit or full-combat coverage. Health-cost objectives report the nonlethal upfront payment separately from mana, using supplied champion starting HP and leaving at least 1 HP; hit/kill refunds and healing are excluded. Health costs do not increase outgoing damage. Crit-sensitive Sivir/Nilah spells use the exported 200% base crit multiplier plus item crit damage in continuous chance scaling, independently of attack crit mode. Jhin uses the exported level breakpoint curve plus crit and item/shard/entered bonus-AS conversion. Learned trait ranks, Aphelios investments and extra AS are portable and shared across comparisons. Rell resistance-steal timing and Vladimir/Riftmaker cross-conversion remain explicit manual-check gaps.

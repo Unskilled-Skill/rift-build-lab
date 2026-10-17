@@ -1,7 +1,7 @@
 import type {CompanionBundle} from '../league-export';
 import type {PlanRole} from '../build-plan';
 // Shared platform contract (plan §2.2). The website implements it without native access; desktop IPC implements it in T17.
-export const errorCodes=['client-unavailable','tls','not-signed-in','unsafe-phase','patch-mismatch','rejected','rune-capacity','ambiguous-ownership','partial-apply','readback-mismatch','backup-failed','invalid-bundle','no-build-for-role','data-incompatible','internal'] as const;
+export const errorCodes=['client-unavailable','tls','not-signed-in','unsafe-phase','patch-mismatch','rejected','rune-capacity','ambiguous-ownership','partial-apply','readback-mismatch','backup-failed','invalid-bundle','selection-changed','no-build-for-role','data-incompatible','internal'] as const;
 export type ErrorCode=typeof errorCodes[number];
 export class PlatformError extends Error {
  constructor(public code:ErrorCode,message:string){super(message);this.name='PlatformError'}

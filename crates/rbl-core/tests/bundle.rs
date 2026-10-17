@@ -114,6 +114,7 @@ fn error_codes_match_the_shared_typescript_list() {
         CoreError::ReadbackMismatch,
         CoreError::BackupFailed,
         CoreError::InvalidBundle { reason: "x" },
+        CoreError::SelectionChanged,
         CoreError::NoBuildForRole,
         CoreError::DataIncompatible { reason: "x" },
         CoreError::Internal,

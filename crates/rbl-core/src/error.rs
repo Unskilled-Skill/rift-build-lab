@@ -4,7 +4,7 @@
 use serde::Serialize;
 
 /// Error codes shared with the TypeScript platform contract (`tests/fixtures/error-codes.json`).
-pub const ERROR_CODES: [&str; 15] = [
+pub const ERROR_CODES: [&str; 16] = [
     "client-unavailable",
     "tls",
     "not-signed-in",
@@ -17,6 +17,7 @@ pub const ERROR_CODES: [&str; 15] = [
     "readback-mismatch",
     "backup-failed",
     "invalid-bundle",
+    "selection-changed",
     "no-build-for-role",
     "data-incompatible",
     "internal",
@@ -52,6 +53,8 @@ pub enum CoreError {
     /// `reason` is the exact companion message for this validation failure.
     #[error("{reason}")]
     InvalidBundle { reason: &'static str },
+    #[error("Your champion selection or account changed before the import. Nothing new was applied.")]
+    SelectionChanged,
     #[error("No build is chosen for this champion and role. Choose build to continue.")]
     NoBuildForRole,
     #[error("{reason}")]
@@ -80,6 +83,7 @@ impl CoreError {
             CoreError::ReadbackMismatch => "readback-mismatch",
             CoreError::BackupFailed => "backup-failed",
             CoreError::InvalidBundle { .. } => "invalid-bundle",
+            CoreError::SelectionChanged => "selection-changed",
             CoreError::NoBuildForRole => "no-build-for-role",
             CoreError::DataIncompatible { .. } => "data-incompatible",
             CoreError::Internal => "internal",

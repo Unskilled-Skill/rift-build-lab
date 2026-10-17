@@ -38,3 +38,28 @@ it('keeps normal performance for an ongoing damage search even without further i
 it.each(['click','input','compositionstart'])('restores normal mode for accessible form activity: %s',event=>{
  const f=setup();vi.advanceTimersByTime(15_000);f.fire(event);expect(f.send).toHaveBeenLastCalledWith(true);f.stop();
 });
+
+it('retries restoring normal mode on input after a transient IPC failure',async()=>{
+ vi.useFakeTimers();const events=new EventTarget();
+ const requested:boolean[]=[];
+ const send=async(active:boolean)=>{requested.push(active);if(requested.length===1)throw Error('Window temporarily unavailable');return true};
+ const stop=connectWindowMemory({events,focused:()=>true,send});
+ await Promise.resolve();
+ events.dispatchEvent(new Event('keydown'));
+ expect(requested).toEqual([true,true]);
+ stop();
+});
+
+it('does not let an older failed request invalidate a newer successful memory target',async()=>{
+ vi.useFakeTimers();const events=new EventTarget();const requested:boolean[]=[];
+ let failFirst!:(error:Error)=>void;
+ const send=(active:boolean)=>{requested.push(active);return requested.length===1?new Promise((_,reject)=>{failFirst=reject}):Promise.resolve(true)};
+ const stop=connectWindowMemory({events,focused:()=>true,send});
+ vi.advanceTimersByTime(15_000);
+ await Promise.resolve();
+ failFirst(Error('Old request failed'));
+ await Promise.resolve();
+ events.dispatchEvent(new Event('blur'));
+ expect(requested).toEqual([true,false]);
+ stop();
+});

@@ -83,3 +83,15 @@ it('delivers only valid events and unsubscribes cleanly',async()=>{
  expect(opened).toEqual([samples.openBuilds[1]]);expect(persist).toHaveBeenCalledOnce();
  off();expect(unlisten).toHaveBeenCalledOnce();
 });
+
+it('ignores queued events after cleanup even before native unlisten resolves',async()=>{
+ const {desktopPlatform:p}=await import('../src/platform/desktop');
+ const seen:unknown[]=[];
+ const off=p.onStatus(s=>seen.push(s));
+ off();
+ handlers.get('status-changed')!({payload:samples.statuses[7]});
+ await Promise.resolve();
+ handlers.get('status-changed')!({payload:samples.statuses[7]});
+ expect(seen).toEqual([]);
+ expect(unlisten).toHaveBeenCalledOnce();
+});

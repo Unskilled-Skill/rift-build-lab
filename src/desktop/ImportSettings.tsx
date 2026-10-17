@@ -45,7 +45,7 @@ export function ImportSettingsView({prefs,revision,status,busy,message,appUpdate
    <p className="footnote">In the tray, only the small background process runs; the window is rebuilt when you open it. Quit from the tray menu stops imports.</p>
   </fieldset>
   <fieldset><legend>App version</legend>
-   <p className="footnote">{appUpdate?.ready?`Version ${appUpdate.latest} is downloaded and its signature verified. It installs when you quit Rift Build Lab, or restart now.`:appUpdate?appUpdate.releaseUrl?`Version ${appUpdate.latest} is available (you have ${appUpdate.current}).`:`You have the latest version (${appUpdate.current}).`:'Updates download automatically from the official GitHub release, are signature-checked, and install when you quit.'}</p>
+   <p className="footnote">{appUpdate?.ready?`Version ${appUpdate.latest} is downloaded and its signature verified. It installs when you quit Rift Build Lab, or restart now.`:appUpdate?appUpdate.releaseUrl?`Version ${appUpdate.latest} is available (you have ${appUpdate.current}).`:appUpdate.latest===appUpdate.current?`You have the latest version (${appUpdate.current}).`:`You have version ${appUpdate.current}. We could not check for updates. Try again when you are online.`:'Updates download automatically from the official GitHub release, are signature-checked, and install when you quit.'}</p>
    <div className="desktop-panel-actions">
     <button className="secondary" disabled={busy} onClick={()=>onAction({type:'app-update'})}><RefreshCw size={14} aria-hidden="true"/>Check for app update</button>
     {appUpdate?.ready&&<button className="primary" disabled={busy} onClick={()=>onAction({type:'install-update'})}><Download size={14} aria-hidden="true"/>Restart to update</button>}

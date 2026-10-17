@@ -47,3 +47,11 @@ it('offers a verified downloaded update without installing it mid-session',()=>{
  const current=text(renderToString(<ImportSettingsView prefs={defaults} revision={revision} status={{kind:'disabled'}} busy={false} message="" appUpdate={{current:'0.1.0',latest:'0.1.0',ready:false}} onAction={noop}/>));
  expect(current).toContain('You have the latest version (0.1.0)');expect(current).not.toContain('Restart to update');
 });
+
+it('does not claim the installed version is latest when an update check failed',()=>{
+ const t=text(renderToString(<ImportSettingsView prefs={defaults} revision={revision} status={{kind:'disabled'}} busy={false} message="" appUpdate={{current:'0.1.0',ready:false}} onAction={noop}/>));
+ expect(t).not.toContain('You have the latest version');
+ expect(t).toContain('could not check');
+ expect(t).toContain('0.1.0');
+ expect(t).toContain('Check for app update');
+ });

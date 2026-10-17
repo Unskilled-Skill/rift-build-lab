@@ -9,9 +9,9 @@ export interface WindowMemoryOptions {
  idleMs?:number;
 }
 export function connectWindowMemory({events,focused,busy=()=>false,send,idleMs=15_000}:WindowMemoryOptions):()=>void{
- let timer:ReturnType<typeof setTimeout>|undefined,mode:boolean|undefined,stopped=false,lastMove=-Infinity;
+ let timer:ReturnType<typeof setTimeout>|undefined,mode:boolean|undefined,stopped=false,lastMove=-Infinity,request=0;
  const clear=()=>{if(timer!==undefined){clearTimeout(timer);timer=undefined}};
- const set=(active:boolean)=>{if(stopped||mode===active)return;mode=active;void send(active).catch(()=>{/* Older runtimes retain their normal memory policy. */})};
+ const set=(active:boolean)=>{if(stopped||mode===active)return;mode=active;const sent=++request;void send(active).catch(()=>{if(!stopped&&sent===request)mode=undefined;/* Retry on the next activity or idle transition, without a polling loop. */})};
  const sleep=()=>{if(stopped)return;clear();if(busy()){set(true);timer=setTimeout(sleep,idleMs)}else set(false)};
  const wake=(event?:Event)=>{
   if(stopped||!focused())return;

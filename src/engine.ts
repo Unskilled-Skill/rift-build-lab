@@ -7,7 +7,20 @@ export const growth=(level:number)=>.7025*(level-1)+.0175*(level-1)**2;
 export function mitigate(damage:number,resistance:number,percentPen=0,flatPen=0){const effective=resistance<0?resistance:Math.max(0,resistance*(1-percentPen)-flatPen);return damage*(effective>=0?100/(100+effective):2-100/(100-effective));}
 export function defaultScenario(champion='Cassiopeia'):Scenario{return {champion,level:18,rank:5,eRank:5,mode:abilityModels[champion]?Object.keys(abilityModels[champion])[0] as Scenario['mode']:champion==='Sett'?'w':champion==='Blitzcrank'?'blitz-e':champion==='TahmKench'?'tahm-q':'qe',mr:50,armor:100,targetHP:2500,duration:3,poisoned:false,mana:2000,gritMode:'fraction',grit:100,center:true,extraAP:0,extraAD:0,extraHP:0,healthPercent:100,bloodmailBonus:0,rodStacks:0,heartsteelHP:0,conquerorStacks:0,combatSeconds:0,shards:[5008,5008,5001],runePage:[8230,8226,8210,8236,8009,8014],budget:18000,slots:6};}
 
-export function legalBuild(items:Item[],budget:number,slots:number,champion:string){return items.length<=slots&&new Set(items.map(i=>i.id)).size===items.length&&items.reduce((n,i)=>n+i.gold.total,0)<=budget&&items.every(i=>i.maps['11']&&(i.shopListedBySource||[3040,3042,3121,2530].includes(i.id))&&(!i.requiredChampion||i.requiredChampion.toLowerCase()===champion.toLowerCase()))&&families.every(f=>items.filter(i=>f.includes(i.id)).length<=1)&&items.filter(i=>i.tags.includes('Boots')).length<=1;}
+export function legalBuild(items:Item[],budget:number,slots:number,champion:string){
+ if(items.length>slots)return false;
+ let cost=0,boots=0;
+ for(let index=0;index<items.length;index++){
+  const item=items[index];cost+=item.gold.total;
+  if(!item.maps['11']||(!item.shopListedBySource&&item.id!==3040&&item.id!==3042&&item.id!==3121&&item.id!==2530)||item.requiredChampion&&item.requiredChampion.toLowerCase()!==champion.toLowerCase())return false;
+  if(item.tags.includes('Boots')&&++boots>1)return false;
+  for(let prior=0;prior<index;prior++)if(items[prior].id===item.id)return false;
+ }
+ if(!(cost<=budget))return false;
+ // At most six items: scan families without allocating a filtered array per family.
+ for(const family of families){let count=0;for(const item of items)if(family.includes(item.id)&&++count>1)return false;}
+ return true;
+}
 // Includes stats-only candidates; effect coverage is always reported separately.
 export const modeledItemIds=[3089,3135,3137,3116,4629,4633,6657,3083,2501,3748,3161,3053,3065,3071,3157,3102,3084,3040,3042,3031,3078,3508,6694,6676,3085,3115,3100];
 const scopeNotes:Record<number,string>={3137:'Cryptbloom healing is outside this damage objective.',3116:'Rylai slow is outside this damage objective.',4629:'Cosmic movement speed is outside this damage objective.',3083:'Warmog out-of-combat healing is excluded.',2501:'Bloodmail Retribution uses your explicitly entered AD bonus; its missing-health curve is unresolved.',3748:'Titanic attack on-hits and active damage are omitted; base stats are included.',3161:'Shojin basic haste is included; Focused Will damage amplification is omitted.',3053:'Sterak AD passive is omitted: this is a stats-only estimate.',3065:'Visage healing and shielding are excluded.',3071:'Black Cleaver armor shred is omitted.',3157:'Zhonya stasis is outside this damage objective.',3102:'Banshee spell shield is outside this damage objective.',3084:'Heartsteel uses your finite earned-health input; its attack proc is excluded.'};
@@ -15,7 +28,10 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  if(!objectiveSupport(champion.alias,s.mode).supported)throw new Error('No numerical adapter for this champion objective.');
  const resource=championResource(champion.alias);const alias=champion.alias;
  const level=Math.min(18,Math.max(1,s.level)),rank=Math.min(5,Math.max(1,s.rank)),eRank=Math.min(5,Math.max(1,s.eRank));
- const has=(id:number)=>items.some(i=>i.id===id),stat=(name:string,unit?:string)=>items.flatMap(i=>i.baseStats).filter(v=>v.name===name&&(!unit||v.unit===unit)).reduce((n,v)=>n+v.value,0);
+ const has=(id:number)=>items.some(i=>i.id===id);
+ // Searches call this hundreds of thousands of times. Accumulate directly instead of
+ // allocating flattened and filtered stat arrays for every lookup; preserve source order.
+ const stat=(name:string,unit?:string)=>{let total=0;for(const item of items)for(const value of item.baseStats)if(value.name===name&&(!unit||value.unit===unit))total+=value.value;return total};
  let ap=stat('Ability Power')+s.extraAP,bonusAD=stat('Attack Damage')+s.extraAD,haste=stat('Ability Haste'),bonusHP=stat('Health')+s.extraHP;
  const itemHP=stat('Health');if(has(3083))bonusHP+=itemHP*.12;
  if(has(3084))bonusHP+=s.heartsteelHP;

@@ -7,6 +7,7 @@ import ConnectionStrip from './ConnectionStrip';
 import {FirstRunView,firstRunPatch,type FirstRunChoice} from './FirstRun';
 import {ImportSettingsView,type SettingsAction} from './ImportSettings';
 import './desktop.css';
+import './catalog.css';
 type Panel='none'|'first-run'|'settings';
 /** Desktop-only chrome under the top bar: connection status, first-run setup and Import settings. */
 export default function DesktopShell({platform,calculationBusy=false}:{platform:Platform;calculationBusy?:boolean}){

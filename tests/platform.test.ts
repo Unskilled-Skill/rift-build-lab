@@ -28,3 +28,6 @@ it('finds desktop markers and desktop chunks in a website bundle',()=>{
  const leaks=findDesktopLeaks([{name:'assets/index-abc.js',text:'window.__TAURI_INTERNALS__'},{name:'assets/x.js',text:'import("@tauri-apps/api/core")'},{name:'assets/y.js',text:'"rbldata://localhost/data"'},{name:'assets/z.js',text:'fetch("http://rbldata.localhost/data/catalog.json")'},{name:'assets/desktop-123.js',text:''}]);
  expect(leaks.map(l=>l.file)).toEqual(['assets/index-abc.js','assets/x.js','assets/y.js','assets/z.js','assets/desktop-123.js']);
 });
+it('keeps desktop catalog paging out of the standalone website',()=>{
+ expect(findDesktopLeaks([{name:'assets/index.js',text:'className:"desktop-catalog-pages"'}])).toEqual([{file:'assets/index.js',marker:'desktop-catalog-pages'}]);
+});

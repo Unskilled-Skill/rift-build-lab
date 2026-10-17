@@ -294,3 +294,25 @@ fn chooses_preferences_first_then_only_an_opted_in_role_specific_meta_plan() {
 fn _identity_is_cloneable(identity: &ApplyIdentity) -> ApplyIdentity {
     identity.clone()
 }
+
+#[test]
+fn status_serializes_to_the_typescript_connection_state() {
+    assert_eq!(Status::Disabled.to_json(), json!({"kind": "disabled"}));
+    assert_eq!(Status::ChampSelect { champion: None, role: None }.to_json(), json!({"kind": "champ-select"}));
+    assert_eq!(
+        Status::ChampSelect { champion: Some("Ahri".into()), role: Some(Role::Adc) }.to_json(),
+        json!({"kind": "champ-select", "champion": "Ahri", "role": "adc"})
+    );
+    assert_eq!(
+        Status::Applied { plan_id: "meta:Ahri:mid:opgg".into(), verified: false }.to_json(),
+        json!({"kind": "applied", "build": "meta:Ahri:mid:opgg", "verified": false})
+    );
+    let attention = Status::NeedsAttention { error: CoreError::RuneCapacity }.to_json();
+    assert_eq!(attention["code"], "rune-capacity");
+    assert!(attention["recovery"].as_str().unwrap().contains("rune page slot"));
+    for status in [Status::Connecting, Status::LeagueClosed, Status::Applying, Status::Paused, Status::Connected { phase: "Lobby".into() }]
+    {
+        let kind = status.to_json()["kind"].as_str().unwrap().to_owned();
+        assert!(["connecting", "league-closed", "applying", "paused", "connected"].contains(&kind.as_str()));
+    }
+}

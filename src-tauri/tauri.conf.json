@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Rift Build Lab",
+  "version": "0.1.0",
+  "identifier": "io.github.unskilledskill.riftbuildlab",
+  "build": {
+    "frontendDist": "../dist-desktop",
+    "devUrl": "http://127.0.0.1:5175",
+    "beforeDevCommand": "npm run desktop:dev-web",
+    "beforeBuildCommand": "npm run build:desktop"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Rift Build Lab",
+        "width": 1280,
+        "height": 860,
+        "minWidth": 390,
+        "minHeight": 600,
+        "backgroundColor": "#11191c"
+      }
+    ],
+    "security": {
+      "csp": {
+        "default-src": "'self'",
+        "script-src": "'self'",
+        "style-src": "'self' 'unsafe-inline'",
+        "font-src": "'self'",
+        "img-src": "'self' data: https://ddragon.leagueoflegends.com https://raw.communitydragon.org rbldata: http://rbldata.localhost",
+        "connect-src": "'self' ipc: http://ipc.localhost rbldata: http://rbldata.localhost"
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.ico"],
+    "resources": { "../dist-desktop-data/": "data/" },
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper" }
+    }
+  }
+}

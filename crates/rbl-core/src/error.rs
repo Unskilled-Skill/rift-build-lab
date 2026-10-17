@@ -68,6 +68,28 @@ impl CoreError {
         CoreError::InvalidBundle { reason }
     }
 
+    /// What the player can do next, shown beside the message.
+    pub fn recovery(&self) -> &'static str {
+        match self {
+            CoreError::ClientUnavailable | CoreError::NotSignedIn => "Open League of Legends and sign in. Imports resume automatically.",
+            CoreError::Tls => "Restart League of Legends. If this continues, reinstall Rift Build Lab.",
+            CoreError::UnsafePhase { .. } => "Imports run again in your next champion select.",
+            CoreError::PatchMismatch { .. } | CoreError::DataIncompatible { .. } => {
+                "Check for data updates or install the latest Rift Build Lab release."
+            }
+            CoreError::Rejected { .. } | CoreError::Internal => "Use Reapply to try again, or apply from the build page.",
+            CoreError::RuneCapacity => "Free a rune page slot in League, then use Reapply.",
+            CoreError::AmbiguousOwnership => "Rename extra Rift Build Lab rune pages in League, then use Reapply.",
+            CoreError::PartialApply { .. } | CoreError::ReadbackMismatch => {
+                "Check your items and runes in League. Your previous settings are in the backup folder."
+            }
+            CoreError::BackupFailed => "Check free disk space and folder permissions, then use Reapply.",
+            CoreError::InvalidBundle { .. } => "Choose a different build or export it again from the current data.",
+            CoreError::SelectionChanged => "Imports follow your new selection automatically.",
+            CoreError::NoBuildForRole => "Choose a build for this champion and role.",
+        }
+    }
+
     /// Stable code matching the serialized `code` tag and the TypeScript `ErrorCode`.
     pub fn code(&self) -> &'static str {
         match self {

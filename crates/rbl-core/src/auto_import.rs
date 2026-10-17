@@ -102,6 +102,35 @@ pub enum Status {
     NeedsAttention { error: CoreError },
 }
 
+impl Status {
+    /// The TypeScript `ConnectionState` shape sent to the window.
+    pub fn to_json(&self) -> serde_json::Value {
+        use serde_json::json;
+        match self {
+            Status::Disabled => json!({"kind": "disabled"}),
+            Status::Connecting => json!({"kind": "connecting"}),
+            Status::LeagueClosed => json!({"kind": "league-closed"}),
+            Status::Connected { phase } => json!({"kind": "connected", "phase": phase}),
+            Status::ChampSelect { champion, role } => {
+                let mut value = json!({"kind": "champ-select"});
+                if let Some(champion) = champion {
+                    value["champion"] = json!(champion);
+                }
+                if let Some(role) = role {
+                    value["role"] = json!(role.as_str());
+                }
+                value
+            }
+            Status::Applying => json!({"kind": "applying"}),
+            Status::Applied { plan_id, verified } => json!({"kind": "applied", "build": plan_id, "verified": verified}),
+            Status::Paused => json!({"kind": "paused"}),
+            Status::NeedsAttention { error } => {
+                json!({"kind": "needs-attention", "code": error.code(), "message": error.to_string(), "recovery": error.recovery()})
+            }
+        }
+    }
+}
+
 pub struct Context<'a> {
     pub now: Instant,
     /// Active data revision, recorded with each import.

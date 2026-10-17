@@ -14,6 +14,9 @@ pub mod error;
 pub mod fsx;
 pub mod json;
 pub mod lcu;
+pub mod library;
+pub mod monitor;
+pub mod paths;
 pub mod prefs;
 
 pub use error::CoreError;

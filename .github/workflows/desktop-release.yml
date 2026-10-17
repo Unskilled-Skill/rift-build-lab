@@ -13,6 +13,11 @@ permissions:
 jobs:
   build:
     uses: ./.github/workflows/desktop-ci.yml
+    with:
+      sign: true
+    secrets:
+      TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+      TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
   draft:
     needs: build
     runs-on: windows-latest
@@ -26,26 +31,40 @@ jobs:
         with:
           name: rift-build-lab-windows
           path: release-files
-      - name: Verify version and create draft
+      - name: Verify version, write updater manifest and create draft
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
         run: |
           $ErrorActionPreference='Stop'
-          $version=(Get-Content release-files/desktop-manifest.json -Raw | ConvertFrom-Json).version
+          $package=Get-Content release-files/desktop-manifest.json -Raw | ConvertFrom-Json
+          $version=$package.version
           if($env:RELEASE_TAG -ne "desktop-v$version"){throw 'Release tag does not match packaged application version.'}
           git rev-parse --verify "refs/tags/$env:RELEASE_TAG"
           if($LASTEXITCODE -ne 0){throw 'Tag must already exist.'}
           $tagCommit=git rev-list -n 1 $env:RELEASE_TAG
           if($tagCommit -ne '${{ github.sha }}'){throw 'Selected tag must point at the built commit.'}
+          if(-not $package.updaterSignature){throw 'Release builds must carry an updater signature.'}
+          $installer=$package.installer
+          $signature=(Get-Content -LiteralPath "release-files/$installer.sig" -Raw).Trim()
+          $url="https://github.com/${{ github.repository }}/releases/download/$env:RELEASE_TAG/$installer"
+          $notes="Rift Build Lab Desktop $version. See the release page for details."
+          $platform=@{signature=$signature;url=$url}
+          # The updater reads releases/latest/download/latest.json; both keys cover NSIS-specific and generic lookups.
+          @{version=$version;notes=$notes;pub_date=(Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ');platforms=@{'windows-x86_64'=$platform;'windows-x86_64-nsis'=$platform}} |
+            ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 release-files/latest.json
           @'
-          Windows 10/11 x64 desktop preview. WebView2 is required; the installer checks for it.
-          Includes the build browser, item-order/rune UI and opt-in automatic League Client imports.
-          Unsigned preview. Live League Client application is not yet verified. Backups are local.
-          See the repository's desktop verification and performance reports before relying on auto-import.
-          The website remains independently usable without installing this app.
+          Windows 10/11 x64 desktop app (preview). WebView2 is required; the installer fetches it if missing.
+
+          - Build browser, practical purchase stages, visual rune pages and damage comparisons (shared with the website).
+          - Apply now and opt-in automatic item/rune imports in champion select. Automatic imports are off until you turn them on.
+          - Automatic app updates: new versions download in the background, are verified against the app's update signing key, and install when you quit (or choose Restart to update).
+
+          Status: preview. The installer is not Authenticode-signed, so Windows SmartScreen may warn on first run. Connecting to a signed-in League Client has been verified read-only; applying items and runes to a live client has not yet been verified. Your previous League settings are backed up locally before every change.
+
+          The website keeps working without installing this app.
           '@ | Set-Content release-notes.md
           $assets=@(Get-ChildItem -LiteralPath release-files -File | ForEach-Object FullName)
-          gh release create $env:RELEASE_TAG --verify-tag --draft --prerelease --title "Rift Build Lab Desktop $version preview" --notes-file release-notes.md @assets
+          gh release create $env:RELEASE_TAG --verify-tag --draft --title "Rift Build Lab Desktop $version" --notes-file release-notes.md @assets
           if($LASTEXITCODE -ne 0){throw 'Draft release failed.'}

@@ -3,11 +3,11 @@ import type {AssignedRole,ConnectionState,Preferences,PreferencesPatch,RevisionI
 import {planLabel} from './status';
 export type SettingsAction=
  |{type:'patch';patch:PreferencesPatch}|{type:'pause'}|{type:'resume'}|{type:'reapply'}
- |{type:'backup'}|{type:'data'}|{type:'app-update'}|{type:'release-page'}
+ |{type:'backup'}|{type:'data'}|{type:'app-update'}|{type:'install-update'}|{type:'release-page'}
  |{type:'clear-default';champion:string;role:AssignedRole};
 const roleNames:Record<string,string>={top:'Top',jungle:'Jungle',mid:'Mid',adc:'Bot',support:'Support'};
 const split=(key:string)=>{const [champion,role]=key.split('|');return {champion,role:role as AssignedRole}};
-interface Props {prefs:Preferences;revision:RevisionInfo|null;status:ConnectionState;busy:boolean;message:string;appUpdate?:{latest?:string;releaseUrl?:string;current:string};onAction:(action:SettingsAction)=>void}
+interface Props {prefs:Preferences;revision:RevisionInfo|null;status:ConnectionState;busy:boolean;message:string;appUpdate?:{latest?:string;releaseUrl?:string;current:string;ready:boolean};onAction:(action:SettingsAction)=>void}
 export function ImportSettingsView({prefs,revision,status,busy,message,appUpdate,onAction}:Props){
  const a=prefs.autoImport,b=prefs.background,patch=(p:PreferencesPatch)=>onAction({type:'patch',patch:p});
  const defaults=Object.entries(prefs.defaults),review=Object.entries(prefs.needsReview||{});
@@ -45,10 +45,11 @@ export function ImportSettingsView({prefs,revision,status,busy,message,appUpdate
    <p className="footnote">In the tray, only the small background process runs; the window is rebuilt when you open it. Quit from the tray menu stops imports.</p>
   </fieldset>
   <fieldset><legend>App version</legend>
-   <p className="footnote">{appUpdate?appUpdate.releaseUrl?`Version ${appUpdate.latest} is available (you have ${appUpdate.current}).`:`You have the latest version (${appUpdate.current}).`:'Updates are downloaded from the official GitHub releases page; the app never replaces itself silently.'}</p>
+   <p className="footnote">{appUpdate?.ready?`Version ${appUpdate.latest} is downloaded and its signature verified. It installs when you quit Rift Build Lab, or restart now.`:appUpdate?appUpdate.releaseUrl?`Version ${appUpdate.latest} is available (you have ${appUpdate.current}).`:`You have the latest version (${appUpdate.current}).`:'Updates download automatically from the official GitHub release, are signature-checked, and install when you quit.'}</p>
    <div className="desktop-panel-actions">
     <button className="secondary" disabled={busy} onClick={()=>onAction({type:'app-update'})}><RefreshCw size={14} aria-hidden="true"/>Check for app update</button>
-    {appUpdate?.releaseUrl&&<button className="primary" disabled={busy} onClick={()=>onAction({type:'release-page'})}><Download size={14} aria-hidden="true"/>Open release page</button>}
+    {appUpdate?.ready&&<button className="primary" disabled={busy} onClick={()=>onAction({type:'install-update'})}><Download size={14} aria-hidden="true"/>Restart to update</button>}
+    {appUpdate?.releaseUrl&&<button className="quiet" disabled={busy} onClick={()=>onAction({type:'release-page'})}>Release notes</button>}
    </div>
   </fieldset>
   {message&&<p className="footnote" role="status">{message}</p>}

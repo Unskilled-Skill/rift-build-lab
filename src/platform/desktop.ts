@@ -41,6 +41,8 @@ export const desktopPlatform:Platform={
  revision:()=>call('get_data_revision',undefined,guard.isRevisionInfo),
  onDataRevision:callback=>subscribe('data-revision-changed',guard.isRevisionInfo,callback),
  checkAppUpdate:()=>call('check_app_update',undefined,guard.isAppUpdate),
+ installAppUpdate:()=>call('install_app_update',undefined,(v:unknown):v is boolean=>typeof v==='boolean'),
+ onAppUpdateReady:callback=>subscribe('app-update-ready',(v:unknown):v is string=>typeof v==='string'&&/^\d+\.\d+\.\d+$/.test(v),callback),
  openExternal:async link=>{await call('open_external',{link:linkArg(link)},isNull)},
  saveUiState:async state=>{await call('ui_state_saved',{state},isNull)},
  onPersistUiState:callback=>subscribe('persist-ui-state',(_v:unknown):_v is unknown=>true,()=>callback()),

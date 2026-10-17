@@ -40,3 +40,10 @@ it('lists saved defaults, defaults needing review and the last result',()=>{
  expect(t).toContain('Downloaded update');expect(t).toContain('Resume');expect(t).toContain('Build data is up to date.');
  expect((html.match(/>Clear</g)||[]).length).toBe(2);
 });
+
+it('offers a verified downloaded update without installing it mid-session',()=>{
+ const ready=text(renderToString(<ImportSettingsView prefs={defaults} revision={revision} status={{kind:'disabled'}} busy={false} message="" appUpdate={{current:'0.1.0',latest:'0.2.0',releaseUrl:'https://github.com/Unskilled-Skill/rift-build-lab/releases/tag/desktop-v0.2.0',ready:true}} onAction={noop}/>));
+ expect(ready).toContain('Version 0.2.0 is downloaded and its signature verified');expect(ready).toContain('Restart to update');expect(ready).toContain('installs when you quit');
+ const current=text(renderToString(<ImportSettingsView prefs={defaults} revision={revision} status={{kind:'disabled'}} busy={false} message="" appUpdate={{current:'0.1.0',latest:'0.1.0',ready:false}} onAction={noop}/>));
+ expect(current).toContain('You have the latest version (0.1.0)');expect(current).not.toContain('Restart to update');
+});

@@ -20,7 +20,7 @@ use crate::paths::AppPaths;
 use crate::prefs::{Preferences, PreferencesPatch, PrefsStore, Role};
 
 /// Commands the main window may invoke (each needs an `allow-…` permission in its capability).
-pub const COMMANDS: [&str; 18] = [
+pub const COMMANDS: [&str; 19] = [
     "get_status",
     "test_connection",
     "apply_build",
@@ -39,6 +39,7 @@ pub const COMMANDS: [&str; 18] = [
     "ui_state_saved",
     "take_pending_open",
     "set_window_activity",
+    "install_app_update",
 ];
 pub const MAX_BUNDLE_BYTES: usize = 64 * 1024;
 
@@ -114,6 +115,8 @@ pub struct AppUpdateDto {
     pub latest: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub release_url: Option<String>,
+    /// A signed update has been downloaded and verified; it installs on quit or on request.
+    pub ready: bool,
 }
 
 pub fn apply_result(outcome: &ApplyOutcome) -> ApplyResultDto {
@@ -312,7 +315,7 @@ impl Core {
 
     /// Compares the newest `desktop-v*` GitHub release with this build; offline checks report no update.
     pub async fn check_app_update<F: Fetch>(&self, fetch: &F) -> AppUpdateDto {
-        let none = AppUpdateDto { current: self.app_version.clone(), latest: None, release_url: None };
+        let none = AppUpdateDto { current: self.app_version.clone(), latest: None, release_url: None, ready: false };
         let Ok(bytes) = fetch.get(RELEASES_API).await else { return none };
         let Ok(release) = serde_json::from_slice::<Value>(&bytes) else { return none };
         let Some(latest) = release.get("tag_name").and_then(Value::as_str).and_then(|t| t.strip_prefix("desktop-v")) else { return none };

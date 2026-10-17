@@ -12,7 +12,7 @@ export const webPlatform:Platform={
  preferences:unavailable,updatePreferences:unavailable,
  pause:unavailable,resume:unavailable,reapply:unavailable,
  openBackupFolder:unavailable,checkDataUpdates:unavailable,clearDefault:unavailable,
- revision:unavailable,checkAppUpdate:unavailable,saveUiState:unavailable,
+ revision:unavailable,checkAppUpdate:unavailable,installAppUpdate:unavailable,onAppUpdateReady:()=>()=>{},saveUiState:unavailable,
  onDataRevision:()=>()=>{},onPersistUiState:()=>()=>{},onOpenBuild:()=>()=>{},
  takePendingOpen:async()=>null,
  openExternal:async link=>{window.open(typeof link==='string'?links[link]:link.url,'_blank','noopener,noreferrer')},

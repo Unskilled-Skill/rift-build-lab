@@ -88,7 +88,7 @@ fn samples() -> Value {
         "dataUpdates": updates,
         "revisions": [RevisionInfo { revision: "a".repeat(64), patch: "26.20".into(), data_version: "16.20.1".into(), generated_at: "2026-10-17T00:00:00Z".into(), source_checked_at: source, bundled: true }],
         "connections": [TestConnectionDto { reachable: true, client_version: Some("16.20.1".into()), message: "m".into() }, TestConnectionDto { reachable: false, client_version: None, message: "m".into() }],
-        "appUpdates": [AppUpdateDto { current: "0.1.0".into(), latest: Some("0.2.0".into()), release_url: Some("https://github.com/Unskilled-Skill/rift-build-lab/releases/tag/desktop-v0.2.0".into()) }, AppUpdateDto { current: "0.1.0".into(), latest: None, release_url: None }],
+        "appUpdates": [AppUpdateDto { current: "0.1.0".into(), latest: Some("0.2.0".into()), release_url: Some("https://github.com/Unskilled-Skill/rift-build-lab/releases/tag/desktop-v0.2.0".into()), ready: true }, AppUpdateDto { current: "0.1.0".into(), latest: None, release_url: None, ready: false }],
         "openBuilds": [OpenBuild { champion: "Ahri".into(), plan_id: Some("meta:Ahri:mid:opgg".into()) }, OpenBuild { champion: "Zed".into(), plan_id: None }],
         "errors": [IpcError::from(CoreError::RuneCapacity), IpcError::from(CoreError::SelectionChanged)],
     })

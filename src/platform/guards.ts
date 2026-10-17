@@ -37,6 +37,6 @@ export function isPreferences(v:unknown):v is Preferences{
 export const isDataUpdateResult=(v:unknown):v is DataUpdateResult=>obj(v)&&oneOf(updateStatuses,v.status)&&str(v.revision)&&str(v.patch)&&str(v.checkedAt)&&str(v.message);
 export const isRevisionInfo=(v:unknown):v is RevisionInfo=>obj(v)&&str(v.revision)&&str(v.patch)&&str(v.dataVersion)&&str(v.generatedAt)&&obj(v.sourceCheckedAt)&&str(v.sourceCheckedAt.providers)&&str(v.sourceCheckedAt.roles)&&bool(v.bundled);
 export const isTestConnection=(v:unknown):v is TestConnection=>obj(v)&&bool(v.reachable)&&optStr(v.clientVersion)&&str(v.message);
-export const isAppUpdate=(v:unknown):v is AppUpdate=>obj(v)&&str(v.current)&&optStr(v.latest)&&(v.releaseUrl===undefined||(str(v.releaseUrl)&&v.releaseUrl.startsWith('https://github.com/Unskilled-Skill/rift-build-lab/releases')));
+export const isAppUpdate=(v:unknown):v is AppUpdate=>obj(v)&&str(v.current)&&optStr(v.latest)&&bool(v.ready)&&(v.releaseUrl===undefined||(str(v.releaseUrl)&&v.releaseUrl.startsWith('https://github.com/Unskilled-Skill/rift-build-lab/releases')));
 export const isOpenBuild=(v:unknown):v is OpenBuild=>obj(v)&&str(v.champion)&&alias.test(v.champion)&&(v.planId===undefined||(str(v.planId)&&planId.test(v.planId)));
 export const isIpcError=(v:unknown):v is {code:ErrorCode;message:string;recovery:string}=>obj(v)&&isErrorCode(v.code)&&str(v.message)&&str(v.recovery);

@@ -1,4 +1,4 @@
-param([string]$BundleRoot='target/release/bundle/nsis',[string]$Snapshot='dist-desktop-data',[string]$Output='output/desktop-release')
+param([string]$BundleRoot='target/release/bundle/nsis',[string]$Snapshot='dist-desktop-data',[string]$Output='output/desktop-release',[switch]$RequireSignature)
 $ErrorActionPreference='Stop'
 $workspaceRoot=(Resolve-Path '.').Path
 $bundlePath=(Resolve-Path -LiteralPath $BundleRoot).Path
@@ -23,8 +23,14 @@ foreach($entry in $manifest.files){
 $outputPath=[IO.Path]::GetFullPath((Join-Path $workspaceRoot $Output))
 if(-not $outputPath.StartsWith($workspaceRoot+[IO.Path]::DirectorySeparatorChar,[StringComparison]::OrdinalIgnoreCase)){throw 'Release output must stay inside this workspace.'}
 New-Item -ItemType Directory -Force -Path $outputPath | Out-Null
-Copy-Item -LiteralPath $setup.FullName -Destination $outputPath
+# Release assets get a space-free name so download URLs (and the updater's latest.json) are predictable.
+$assetName="rift-build-lab_$($expected)_x64-setup.exe"
+Copy-Item -LiteralPath $setup.FullName -Destination (Join-Path $outputPath $assetName)
+$signature="$($setup.FullName).sig"
+$signed=Test-Path -LiteralPath $signature
+if($RequireSignature -and -not $signed){throw 'Updater signature (.sig) is missing; was the signing key provided?'}
+if($signed){Copy-Item -LiteralPath $signature -Destination (Join-Path $outputPath "$assetName.sig")}
 $hash=(Get-FileHash -LiteralPath $setup.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-"$hash  $($setup.Name)" | Set-Content -Encoding ascii -LiteralPath (Join-Path $outputPath "$($setup.Name).sha256")
-@{version=$expected;patch=$manifest.patch;dataRevision=$manifest.revision;bytes=$setup.Length;sha256=$hash;liveClientVerified=$false;signed=$false} | ConvertTo-Json | Set-Content -Encoding utf8 -LiteralPath (Join-Path $outputPath 'desktop-manifest.json')
+"$hash  $assetName" | Set-Content -Encoding ascii -LiteralPath (Join-Path $outputPath "$assetName.sha256")
+@{version=$expected;installer=$assetName;patch=$manifest.patch;dataRevision=$manifest.revision;bytes=$setup.Length;sha256=$hash;liveClientVerified=$false;signed=$false;updaterSignature=$signed} | ConvertTo-Json | Set-Content -Encoding utf8 -LiteralPath (Join-Path $outputPath 'desktop-manifest.json')
 Write-Output "Verified desktop package $expected ($([math]::Round($setup.Length/1MB,2)) MiB)."

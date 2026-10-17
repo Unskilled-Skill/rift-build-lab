@@ -20,8 +20,11 @@ export default function DesktopShell({platform,calculationBusy=false}:{platform:
   platform.status().then(s=>{if(live)setStatus(s)}).catch(()=>{});
   platform.preferences().then(p=>{if(!live)return;setPrefs(p);if(!p.autoImport.enabled&&!p.ui?.firstRunSeen)setPanel('first-run')}).catch(()=>{});
   platform.revision().then(r=>{if(live)setRevision(r)}).catch(()=>{});
+  // The native side checks for app updates at launch; ask once in case one finished before this window opened.
+  platform.checkAppUpdate().then(u=>{if(live&&u.ready)setAppUpdate(u)}).catch(()=>{});
+  const offUpdate=platform.onAppUpdateReady(version=>setAppUpdate(u=>({current:u?.current||'',latest:version,ready:true})));
   const offStatus=platform.onStatus(setStatus),offRevision=platform.onDataRevision(r=>{setRevision(r);setMessage('New data is installed. Close and reopen this build window to load it; the current window keeps a consistent snapshot.')});
-  return()=>{live=false;offStatus();offRevision()};
+  return()=>{live=false;offStatus();offRevision();offUpdate()};
  },[platform]);
  const run=useCallback(async(task:()=>Promise<string|void>)=>{
   setBusy(true);setMessage('');
@@ -42,13 +45,15 @@ export default function DesktopShell({platform,calculationBusy=false}:{platform:
    case 'backup':await platform.openBackupFolder();return;
    case 'data':{const result=await platform.checkDataUpdates();setRevision(await platform.revision());return result.message}
    case 'app-update':setAppUpdate(await platform.checkAppUpdate());return;
+   case 'install-update':return (await platform.installAppUpdate())?undefined:'No downloaded update is ready yet.';
    case 'release-page':await platform.openExternal('releases');return;
    case 'clear-default':await platform.clearDefault({champion:action.champion,role:action.role});setPrefs(await platform.preferences());return 'Saved build cleared.';
   }
  });
+ const install=appUpdate?.ready?<button className="quiet" onClick={()=>act({type:'install-update'})}>Update {appUpdate.latest} ready · Restart to update</button>:null;
  const toggle=<button className="quiet" aria-expanded={panel==='settings'} aria-controls="desktop-panel" onClick={()=>{setMessage('');setPanel(p=>p==='settings'?'none':'settings')}}><Settings size={14} aria-hidden="true"/>Import settings</button>;
  return <div className="desktop-shell">
-  <ConnectionStrip platform={platform} state={status} extra={toggle}/>
+  <ConnectionStrip platform={platform} state={status} extra={<>{install}{toggle}</>}/>
   {panel!=='none'&&<div id="desktop-panel">
    {panel==='first-run'&&<FirstRunView busy={busy} message={message} onEnable={enable} onSkip={skip} onTest={test}/>}
    {panel==='settings'&&prefs&&<ImportSettingsView prefs={prefs} revision={revision} status={status} busy={busy} message={message} appUpdate={appUpdate} onAction={act}/>}

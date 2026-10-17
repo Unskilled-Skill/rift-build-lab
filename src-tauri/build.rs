@@ -19,6 +19,7 @@ const COMMANDS: &[&str] = &[
     "ui_state_saved",
     "take_pending_open",
     "set_window_activity",
+    "install_app_update",
 ];
 
 fn main() {

@@ -2,6 +2,7 @@
 //! `rbl-core`; this crate wires it to the window, IPC, the `rbldata` protocol and the tray.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod updates;
 mod window;
 
 use std::sync::{Arc, Mutex, RwLock};
@@ -146,8 +147,14 @@ fn open_external(app: AppHandle, link: ExternalLink) -> Result<()> {
 }
 
 #[tauri::command]
-async fn check_app_update(app: AppHandle, core: State<'_, Core>) -> Result<AppUpdateDto> {
-    Ok(core.check_app_update(&HttpsFetch::new(&version(&app))).await)
+async fn check_app_update(app: AppHandle) -> Result<AppUpdateDto> {
+    Ok(updates::check_and_download(&app).await)
+}
+
+/// Installs a downloaded update now (Windows exits the app and runs the installer). False if none is ready.
+#[tauri::command]
+fn install_app_update(app: AppHandle) -> bool {
+    updates::install_ready(&app)
 }
 
 fn setup(app: &mut tauri::App) -> std::result::Result<(), Box<dyn std::error::Error>> {
@@ -192,6 +199,8 @@ fn setup(app: &mut tauri::App) -> std::result::Result<(), Box<dyn std::error::Er
         pending_open: Mutex::new(None),
     });
 
+    app.manage(updates::PendingUpdate::default());
+    updates::spawn_checks(app.handle());
     window::tray(app.handle())?;
     if let Err(error) = window::sync_autostart(app.handle(), start_with_windows)
         && let Ok(mut prefs) = app.state::<Core>().prefs.lock()
@@ -236,6 +245,7 @@ fn main() {
         .plugin(tauri_plugin_deep_link::init())
         .plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, Some(vec!["--background"])))
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .register_uri_scheme_protocol("rbldata", |ctx, request| {
             let not_found = || DataResponse { status: 404, content_type: "text/plain", body: b"Not found".to_vec() };
             let served = match ctx.app_handle().try_state::<Core>() {
@@ -273,7 +283,8 @@ fn main() {
             check_app_update,
             ui_state_saved,
             take_pending_open,
-            set_window_activity
+            set_window_activity,
+            install_app_update
         ])
         .on_window_event(|window, event| {
             if let (Some(webview), WindowEvent::CloseRequested { api, .. }) =
@@ -287,10 +298,13 @@ fn main() {
         .expect("Rift Build Lab could not start")
         .run(|app, event| {
             // Closing the last window ends the app unless it should keep running in the tray; Quit always exits.
-            if let RunEvent::ExitRequested { api, code: None, .. } = event
-                && window::tray_mode(app)
-            {
-                api.prevent_exit();
+            match event {
+                RunEvent::ExitRequested { api, code: None, .. } if window::tray_mode(app) => api.prevent_exit(),
+                // A downloaded, verified update installs as the app quits, never mid-session.
+                RunEvent::Exit => {
+                    updates::install_ready(app);
+                }
+                _ => {}
             }
         });
 }

@@ -19,6 +19,7 @@ it('accepts every payload the native core actually produces',()=>{
  for(const s of samples.revisions)expect(guards.isRevisionInfo(s)).toBe(true);
  for(const s of samples.connections)expect(guards.isTestConnection(s)).toBe(true);
  for(const s of samples.appUpdates)expect(guards.isAppUpdate(s)).toBe(true);
+ expect(guards.isAppUpdate({current:'0.1.0'})).toBe(false);
  for(const s of samples.openBuilds)expect(guards.isOpenBuild(s)).toBe(true);
  for(const s of samples.errors)expect(guards.isIpcError(s)).toBe(true);
 });

@@ -31,7 +31,7 @@ export const updateStatuses=['up-to-date','updated','offline','failed','app-upda
 export interface DataUpdateResult {status:typeof updateStatuses[number];revision:string;patch:string;checkedAt:string;message:string}
 export interface RevisionInfo {revision:string;patch:string;dataVersion:string;generatedAt:string;sourceCheckedAt:{providers:string;roles:string};bundled:boolean}
 export interface TestConnection {reachable:boolean;clientVersion?:string;message:string}
-export interface AppUpdate {current:string;latest?:string;releaseUrl?:string}
+export interface AppUpdate {current:string;latest?:string;releaseUrl?:string;ready:boolean}
 export interface OpenBuild {champion:string;planId?:string}
 export type ExternalLink='releases'|'riot-lcu-policy'|'website'|{kind:'source';url:string};
 export interface NativeBuildActions {
@@ -48,6 +48,8 @@ export interface Platform extends NativeBuildActions {
  openBackupFolder():Promise<void>;checkDataUpdates():Promise<DataUpdateResult>;revision():Promise<RevisionInfo>;
  onDataRevision(callback:(revision:RevisionInfo)=>void):()=>void;
  checkAppUpdate():Promise<AppUpdate>;
+ /** Installs a downloaded, signature-verified update (the app closes and restarts). False if none is ready. */
+ installAppUpdate():Promise<boolean>;onAppUpdateReady(callback:(version:string)=>void):()=>void;
  openExternal(link:ExternalLink):Promise<void>;
  /** Window lifecycle: saved before the window closes to the tray, read back when it reopens. */
  saveUiState(state:Record<string,unknown>):Promise<void>;onPersistUiState(callback:()=>void):()=>void;

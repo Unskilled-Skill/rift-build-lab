@@ -20,7 +20,13 @@ Save uses browser localStorage; JSON import/export provides portable scenarios. 
 
 The website remains independent at [Rift Build Lab](https://unskilled-skill.github.io/rift-build-lab/). The optional Windows 10/11 x64 desktop preview uses Rust/Tauri and the system WebView2 runtime. It shares the build browser, visual rune pages, purchase stages and calculations, with native League Client connection, Apply now and opt-in automatic imports. Automatic imports, tray mode and Windows startup are off initially.
 
-Build locally with `npm ci` then `npm run desktop:build` (Rust and the Windows C++ build tools required). The installer is produced in `target/release/bundle/nsis`. CI also packages a Windows artifact; the desktop release workflow creates drafts. No public stable desktop release is claimed. See [verification](docs/desktop-verification.md), [performance](docs/desktop-performance.md) and [live-client checks](docs/desktop-live-verification.md). The preview is unsigned and live League writes remain unverified.
+Download the installer from [GitHub releases](https://github.com/Unskilled-Skill/rift-build-lab/releases). The installer is not Authenticode-signed, so SmartScreen may warn on first run; live League writes remain unverified (connection and TLS were verified read-only). See [verification](docs/desktop-verification.md), [performance](docs/desktop-performance.md) and [live-client checks](docs/desktop-live-verification.md).
+
+**Automatic updates.** The app checks the latest GitHub release at launch and every six hours, downloads a newer version in the background, and keeps it only if it is signed with the project's updater key (public key in `src-tauri/tauri.conf.json`). It installs when you quit, or immediately via **Restart to update**; it never replaces itself mid-session.
+
+**Releasing.** Bump the version in `package.json`, `src-tauri/tauri.conf.json` and `src-tauri/Cargo.toml`, push to `main`, then push a matching `desktop-vX.Y.Z` tag. The release workflow builds and signs the installer with the `TAURI_SIGNING_PRIVATE_KEY` secrets, writes `latest.json` and creates a draft; publish it as a regular (not pre-) release so installed apps see it. Never regenerate the updater key: installed copies only accept updates signed by it.
+
+Build locally with `npm ci` then `npm run desktop:build` (Rust and the Windows C++ build tools required); local builds are unsigned and produce no updater artifacts.
 
 The native app manages its own item set per champion and one rune page named **Rift Build Lab**. It backs up before writes, preserves personal pages and checks read-back. Choose preferred builds by champion/role; qualified meta fallback is optional. Item ordering is guidance exported as blocks, not automatic purchasing or a claim of optimal in-match decisions. No gameplay automation, account service or cloud AI is included. Data updates and compiled damage formulas have separate compatibility checks.
 

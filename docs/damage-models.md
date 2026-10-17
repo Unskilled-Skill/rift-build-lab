@@ -2,10 +2,30 @@
 
 Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-17. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 124 champions. Beyond the four original models, the reviewed cast adapters expose 341 objectives:
+The engine now supports 144 champions. Beyond the four original models, the reviewed cast adapters expose 396 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
+| Akshan | Q one/both passes | No Dirty Fighting proc; both impact times approximated together |
+| Aurelion Sol | E field, R ordinary/prepared upgraded center | E uniformly prorated over five seconds without execute/Stardust generation. Upgraded R center multiplies by 1.25; no shockwave |
+| Azir | Q, E, R | Q/E assume a previously placed soldier; summon cost, soldier attacks and extra soldier hits excluded |
+| Bel'Veth | Q one dash, W, R prepared Coral explosion | R adds 20% enemy missing HP as true damage. No Coral setup, Lavender attacks or transformation HP/conversions |
+| Gnar | Mini Q, W ready third attack, E bounce | W separates noncritical physical attack and magic Hyper proc; E uses total HP. No Mega-form stats or transformation |
+| Gwen | Q zero/four prepared stacks, outer area | One/five small snips plus final snip; all magic outside center. No center true conversion or A Thousand Cuts |
+| Jayce | Hammer Q, W field, E | All six ranks. W prorated over four seconds; E adds rank-dependent enemy max HP to bonus AD magic damage. No cannon/transform attacks |
+| Kayn | Base Q both hits, W, R; Rhaast R | Rhaast R replaces base flat packet with enemy max-HP scaling. No setup damage, Shadow Assassin bonus or healing |
+| Locke | Q one nail, E arrival, R initial | No nail consumption, Silver Stake on-hit, seal/execute or earned execution stacks |
+| Master Yi | Q one/isolated four hits, E one attack | Q noncritical, with later isolated hits at 25%. E separates physical attack and true bonus; no Double Strike or item on-hits |
+| Mel | Q first/all explosions, E initial, R with prepared Overwhelm | R needs existing stacks, scores active damage only; no passive execute, auto-generated stacks or E area damage |
+| Shyvana | W detonation, E human/one Dragon pulse, R | Human E includes 5% max HP; Dragon pulse multiplies packet by 1.25. Form/Fury prerequisites assumed ready, with no trail, transformation HP or item conversions |
+| Smolder | W initial, R outer/center | R center multiplies physical AD/AP packet by 1.5. No Dragon Practice, W explosion or healing |
+| Twitch | E with prepared Venom | One to six existing stacks; physical base/bonus AD packet and magic AP packet use separate defenses. No poison true damage, stack setup or R AD |
+| Urgot | Q, W one shot, E, R initial drill | No Echoing Flames, on-hits, repeated W shots, shields or R execute |
+| Viego | W | Charge affects stun duration; no Q passive/mark attacks, possession or item on-hits |
+| Wukong | E, R one cast | R uniformly prorated over two seconds, using total AD and enemy maximum HP. No clone, second R or Q armor reduction |
+| Yunara | Q prepared noncritical attack, W initial | Q includes physical delivery plus passive and active magic on-hits; requires eight prior Unleash. No critical passive, spread, R upgrade or W lingering damage |
+| Yuumi | Q ordinary/accelerated, R one wave | All six Q ranks; no attached ally on-hit, other R waves, healing/shields or channel timing |
+| Zeri | W without terrain, R initial nova | W is physical AP/total AD; R is magic AP/bonus AD. No wall critical strike, excess-AS AD conversion or Overcharge shots |
 | Camille | Q first/prepared second attack, W inner/outer, E collision | Noncritical Q2 converts 40% + 4% per level after level one, capped at 100%, to true damage; no Q1 setup damage or Spellblade. Outer W includes enemy max HP |
 | Fiora | Q without Vital, W | No Vital true damage or item on-hits; W is the stab impact after prior parry preparation |
 | Gangplank | Noncritical Q, R one wave | Q includes total AD once. R counts one ordinary wave and charges initial R mana; no barrels, other waves or upgrades |
@@ -158,3 +178,7 @@ Nasus Q exposes **Earned Siphoning Strike stacks**, defaulting to zero for older
 Kalista E exposes **Existing Rend spears**, defaulting to zero and capped at the engine snapshot's 254. At zero spears it cannot cast: damage and mana spent both remain zero, with an explicit prerequisite note. One spear supplies the base physical packet; every later spear adds a separate total AD/AP term. Kindred W exposes **Earned Mark of the Kindred stacks** and uses those marks in one Wolf bite's enemy-current-HP coefficient. Its input has the same finite app limit as Nasus; this is not a claim about an in-game mark cap. These controls reuse the portable earned-stack field with objective-specific labels and bounds; each comparison displays the correct stack context.
 
 Kai'Sa Q's reviewed raw calculation tree adds the first missile at full damage before multiplying only the five/eleven additional hits by 0.25, producing 2.25/3.75 total multipliers. The rendered formula's parentheses are misleading, so the adapters also retain source MaxDamage/MaxDamageEvolved values and use the raw tree plus explicit missile rules. Yone W similarly uses source BaseDamage/MaxHealthDamage and the champion tooltip instead of the unrelated WDamage AD helper. Both choices have independent numeric fixtures.
+
+Twitch E exposes **Existing Deadly Venom stacks**, capped at six. Mel R exposes **Existing Overwhelm stacks**, using the finite app limit of 1,000,000, not a claimed in-game cap. Both need an already affected target: zero stacks produces no damage and spends no mana. Twitch's ongoing poison true damage and Mel's passive execution mechanics are excluded; their selected active packets use only the supplied stack count. Saves, target sweeps and purchase comparisons preserve these conditions.
+
+Jayce's hammer abilities and Yuumi Q expose all six learned ranks, including rank-six source costs and save validation. Bel'Veth, Mini Gnar, Shyvana and Viego do not use mana/energy for these casts; mana purchases cannot generate mana capacity or Muramana conversion. Rage/Fury/form transitions, True Form stat bonuses and possession are not advanced by the engine. Conditional objectives explicitly assume their Coral, form, Fury, Unleash or prior-hit prerequisites are already prepared, with setup damage excluded.

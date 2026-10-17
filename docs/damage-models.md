@@ -2,10 +2,15 @@
 
 Source snapshot: Riot patch 26.20 / Data Dragon 16.20.1, verified as the latest Data Dragon version on 2026-10-17. The coefficients are reviewed from the bundled CommunityDragon engine spell calculations, not inferred from champion roles or AI build descriptions. `src/ability-sources.json` retains exact source paths, costs and reviewed calculation expressions. Tests fail when those expressions drift from the bundled champion data.
 
-The engine now supports 144 champions. Beyond the four original models, the reviewed cast adapters expose 396 objectives:
+The engine now supports 149 champions. Beyond the four original models, the reviewed cast adapters expose 409 objectives:
 
 | Champion | Added objectives | Key assumptions |
 | --- | --- | --- |
+| Senna | Q, W, R central hit | Physical bonus AD scaling; R also uses AP. Earned soul AD must be entered in Extra AD. No extraction, on-hits, healing or shielding |
+| Skarner | Q boulder throw, W, E wall pin, R | Q adds 11% enemy max HP and own bonus HP; E uses own total HP. No passive, prior Q attacks or automatic Q throw with R |
+| Rumble | Q ordinary/prepared Danger Zone, R trail | Q has enemy max HP scaling and a finite three-second cone; Danger Zone scales both components by 1.5. R is a finite 4.5-second trail. Heat setup and E shred excluded |
+| Zoe | W one prepared missile, E initial hit | W assumes a legal prior trigger. No other missiles, trigger spell, passive attack, sleep MR reduction or wake-up damage |
+| Darius | R with zero to five existing bleed stacks | True damage; each prepared stack adds 20%. No setup attacks, bleed ticks, resets or automatic Noxian Might AD; enter active bonus AD explicitly |
 | Akshan | Q one/both passes | No Dirty Fighting proc; both impact times approximated together |
 | Aurelion Sol | E field, R ordinary/prepared upgraded center | E uniformly prorated over five seconds without execute/Stardust generation. Upgraded R center multiplies by 1.25; no shockwave |
 | Azir | Q, E, R | Q/E assume a previously placed soldier; summon cost, soldier attacks and extra soldier hits excluded |

@@ -13,6 +13,7 @@ import repeatTargets from '../scripts/ability-ceilings/group-13.json';
 import weaponTargets from '../scripts/ability-ceilings/group-14.json';
 import potentialTargets from '../scripts/ability-ceilings/group-15.json';
 import scalingTargets from '../scripts/ability-ceilings/group-16.json';
+import conversionWindows from '../scripts/ability-ceilings/group-17.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -20,6 +21,29 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings,ceilingBuild} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('roundtrips pet, crit and missing-health experiments without dropping their distinct benchmark states',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(conversionWindows,data,resources,false)).toHaveLength(16);
+ for(const entry of conversionWindows){
+  const published=JSON.parse(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'));
+  const b=parseChatBuilds(JSON.stringify(published),data).find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Graves')expect(saved.scenario).toMatchObject({objectiveSlot:'P',critMode:'critical',targetHP:10000});
+  if(entry.champion==='Kaisa')expect(saved.scenario).toMatchObject({objectiveSlot:'P',targetHealthPercent:20,targetHP:20000});
+  if(entry.champion==='Zac')expect(saved.scenario).toMatchObject({objectiveSlot:'Q',rank:5,heartsteelHP:500,combatSeconds:4,duration:2.5});
+ }
+ const read=(c:string)=>conversionWindows.find(e=>e.champion===c)!;
+ expect(read('Jax')).toMatchObject({metric:'stat',damageType:'none',conditions:{duration:8,conquerorStacks:12}});
+ expect(read('Maokai')).toMatchObject({metric:'heal',damageType:'none',conditions:{healthPercent:10}});
+ expect(read('Gangplank')).toMatchObject({damageType:'true',conditions:{duration:2.5,healthPercent:30}});
+ expect(read('Malzahar')).toMatchObject({targetSlot:'W',metric:'single-hit',damageType:'magic'});
+ expect(read('Malzahar').itemIds).toContain(3072);
+ expect(read('Brand').conditions).toMatchObject({targetHP:20000,duration:5});
+});
 it('loads alternate spell forms and mixed-stat shield candidates with their finite setup intact',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(scalingTargets,data,resources,false)).toHaveLength(16);

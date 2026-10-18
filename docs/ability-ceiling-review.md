@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 380 targets across 173 champions.
+Patch 26.20: 396 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 195 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 211 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -392,3 +392,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Sion | one Soul Furnace detonation | W | single-hit | speculative | 2 |
 | Sylas | one primary-target Petricite Burst attack | P | single-hit | speculative | 3 |
 | Udyr | one Awakened Iron Mantle shield component | W | shield | speculative | 3 |
+| Akali | one Five Point Strike champion hit | Q | single-hit | speculative | 2 |
+| Anivia | one Flash Frost pass-through and detonation | Q | full-window | speculative | 3 |
+| Brand | three Pyroclasm impacts on one surviving champion | R | full-window | speculative | 3 |
+| Ezreal | one Mystic Shot native physical packet | Q | single-hit | speculative | 2 |
+| Gangplank | one complete Trial by Fire burn | P | full-window | speculative | 4 |
+| Jax | armor granted by one five-champion Grandmaster activation | R | stat | speculative | 3 |
+| KogMaw | one Caustic Spittle champion impact | Q | single-hit | speculative | 2 |
+| Malzahar | one Voidling attack on a champion | W | single-hit | speculative | 2 |
+| Neeko | one complete three-bloom Blooming Burst | Q | full-window | speculative | 3 |
+| Riven | one Runic Blade passive physical bonus | P | single-hit | speculative | 3 |
+| Zac | Q attachment plus one collision on the original target | Q | full-window | speculative | 3 |
+| Taliyah | one five-rock Threaded Volley on a single champion | Q | full-window | speculative | 3 |
+| Graves | one six-pellet critical New Destiny shell | P | single-hit | speculative | 2 |
+| Kaisa | one four-stack Plasma consumption burst | P | single-hit | speculative | 3 |
+| Maokai | one Sap Magic self-heal | P | heal | speculative | 2 |
+| Malphite | one Ground Slam with Granite Shield active | E | single-hit | speculative | 1 |

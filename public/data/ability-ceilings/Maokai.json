@@ -93,6 +93,96 @@
           "formula": "Maokai flings a sapling, which stands watch for [30] seconds. Saplings chase nearby enemies, detonating on arrival to deal [50 / 75 / 100 / 125 / 150 + (0.25) × AP + (0.05) × Stat(12)[statFormula=2]] magic damage and Slow surrounding enemies by [45]% for [2] seconds. Sap Magic's Cooldown is reduced by an additional 4 seconds if the sapling hits an enemy champion or epic monster.\n\nIf placed in brush, Saplings instead last for [30 + (0.015) × Stat(12)[statFormula=2]] seconds and cause a larger explosion, dealing [100 / 150 / 200 / 250 / 300 + (0.5) × AP + (0.1) × Stat(12)[statFormula=2]] magic damage over [2] seconds and Slowing enemies by [0.45 + (0.0001) × AP + ((0.01) × (0.01)) × Stat(12)[statFormula=2]]."
         }
       ]
+    },
+    {
+      "id": "maokai-ceiling-q-ap-health-smash",
+      "champion": "Maokai",
+      "name": "Bramble Smash: AP plus target-health impact",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Bramble Smash impact output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one Bramble Smash impact output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "Q deals 75/120/165/210/255 + 0.5 AP magic plus 2/2.5/3/3.5/4% enemy maximum HP. The health fraction is fixed by rank; AP increases the flat part, not that percentage. Nearby knockback does not add a second complete Q packet.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        4633,
+        3157
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "one Bramble Smash impact",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; no free permanent stacks. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Seraph legally transformed and Riftmaker pre-ramped. One champion hit by one Q at recorded distance, with no W, E, R or passive healing included. No allied MR debuffs.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; no free permanent stacks. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Seraph legally transformed and Riftmaker pre-ramped. One champion hit by one Q at recorded distance, with no W, E, R or passive healing included. No allied MR debuffs.",
+        "Compare AP and penetration swaps at 1500 and 6000 target maximum HP. Verify close-range knockback and distant hit against identical stats. Separate passive healing and any item procs from Q magic damage.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No target maximum HP confused with Maokai HP, AP added into the fixed health percentage or contact knockback counted as a second hit. Actual amplifier eligibility remains unverified."
+      ],
+      "tradeoffs": [
+        "Pure spell damage sacrifices the tank durability that lets Maokai stay in range and deliver repeated casts.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No target maximum HP confused with Maokai HP, AP added into the fixed health percentage or contact knockback counted as a second hit. Actual amplifier eligibility remains unverified.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Bramble Smash",
+          "slot": "Q",
+          "source": "Characters/Maokai/Spells/MaokaiQAbility/MaokaiQ",
+          "formula": "Maokai smashes his fist into the ground, dealing [75 / 120 / 165 / 210 / 255 + (0.5) × AP] plus [(0.02 / 0.025 / 0.03 / 0.035 / 0.04) × 100]% max Health magic damage and briefly Slowing. Nearby enemies are also Knocked Back."
+        }
+      ]
     }
   ]
 }

@@ -5,6 +5,7 @@ import expansion from '../scripts/ability-ceilings/group-5.json';
 import conversionTargets from '../scripts/ability-ceilings/group-6.json';
 import packetTargets from '../scripts/ability-ceilings/group-7.json';
 import executionTargets from '../scripts/ability-ceilings/group-8.json';
+import hybridTargets from '../scripts/ability-ceilings/group-9.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -12,6 +13,30 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('roundtrips hybrid and form-specific candidates without losing health, damage type or manual-test requirements',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(hybridTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of hybridTargets){
+  const builds=parseChatBuilds(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'),data);
+  const b=builds.find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Elise'){
+   expect(saved.scenario).toMatchObject({objectiveSlot:'Q:0',rank:5});
+   const published=JSON.parse(fs.readFileSync('public/data/ability-ceilings/Elise.json','utf8')).builds.find((v:{id:string})=>v.id===b.id) as {kitEvidence:{formula:string}[]};
+   expect(published.kitEvidence.some(e=>e.formula.includes('Human Form:'))).toBe(true);
+  }
+  if(entry.champion==='Gnar')expect(saved.scenario).toMatchObject({objectiveSlot:'W:0',rank:5});
+ }
+ const read=(c:string)=>hybridTargets.find(e=>e.champion===c)!;
+ expect(read('Nautilus')).toMatchObject({metric:'shield',damageType:'none',pageKey:'ceilingHeal',conditions:{healthPercent:30,heartsteelHP:500,duration:6}});
+ expect(read('Sejuani')).toMatchObject({damageType:'physical',conditions:{heartsteelHP:500,duration:2}});
+ expect(read('Tryndamere').conditions).toMatchObject({healthPercent:30,conquerorStacks:12});
+ for(const c of ['Vi','XinZhao','Tryndamere'])expect(read(c).damageType).toBe('physical');
+});
 it('preserves execution experiments as manual candidates with finite target health and no borrowed spell totals',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(executionTargets,data,resources,false)).toHaveLength(16);

@@ -93,6 +93,96 @@
           "formula": "Sylas lunges at an enemy with magical force dealing [75 / 110 / 145 / 180 / 215 + (0.6) × AP] magic damage. Against champions, Sylas restores between [20 / 40 / 60 / 80 / 100 + (0.3) × AP + (0.05) × Stat(12)[statFormula=2]] and [(20 / 40 / 60 / 80 / 100 + (0.3) × AP + (0.05) × Stat(12)[statFormula=2]) × (2)] Health based on his missing Health (max healing at or below [40]% Health)."
         }
       ]
+    },
+    {
+      "id": "sylas-ceiling-e-chain-collision",
+      "champion": "Sylas",
+      "name": "Abduct: one AP chain collision",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Abduct chain hit output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one Abduct chain hit output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "The E recast deals 80/130/180/230/280 + 0.8 AP magic to the first enemy hit. The opening dash enables the recast but does not supply another full damaging E packet. Petricite Burst attacks are separate effects.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3.5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "E",
+        "targetName": "one Abduct chain hit",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3.5s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; no free permanent stacks. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Seraph legally transformed. Opening dash legally used, followed by one chain within its 3.5-second recast window. The scored champion is the first enemy hit; no minion or other enemy blocks the chain. No passive attacks or stolen ultimate included.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3.5s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; no free permanent stacks. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Seraph legally transformed. Opening dash legally used, followed by one chain within its 3.5-second recast window. The scored champion is the first enemy hit; no minion or other enemy blocks the chain. No passive attacks or stolen ultimate included.",
+        "Compare raw AP and penetration slots at fixed MR. Record whether the chain hit the intended victim, a minion, or nothing. Measure the passive attack after E only as a separately labeled combo.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No E1 damage invented, chain passing through intervening units, or passive attacks counted as core Abduct. The broad E slot in a partial calculator cannot certify the delivery and all item effects."
+      ],
+      "tradeoffs": [
+        "A high hit number gives little value when the chain is blocked; a six-slot AP experiment also trades away Sylas sustained fighting and haste.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No E1 damage invented, chain passing through intervening units, or passive attacks counted as core Abduct. The broad E slot in a partial calculator cannot certify the delivery and all item effects.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Abscond / Abduct",
+          "slot": "E",
+          "source": "Characters/Sylas/Spells/SylasEAbility/SylasE",
+          "formula": "Sylas quickly dashes, and prepares a Recast for 3.5 seconds.\n\nRecast: Sylas throws his chains, pulling himself to the first enemy hit, dealing [80 / 130 / 180 / 230 / 280 + (0.8) × AP] magic damage, and Knocking Up for [0.5] seconds."
+        }
+      ]
     }
   ]
 }

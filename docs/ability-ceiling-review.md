@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 252 targets across 173 champions.
+Patch 26.20: 268 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 67 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 83 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -264,3 +264,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Karthus | one isolated Lay Waste impact | Q | single-hit | speculative | 2 |
 | Leblanc | one Sigil of Malice impact and mark detonation | Q | full-window | speculative | 3 |
 | Pantheon | one Shield Vault initial leap | W | single-hit | speculative | 2 |
+| Amumu | four seconds of Despair core magic damage | W | full-window | speculative | 3 |
+| Cassiopeia | one complete Noxious Blast poison | Q | full-window | speculative | 3 |
+| Elise | one human Neurotoxin impact | Q:0 | single-hit | speculative | 2 |
+| Evelynn | one empowered Whiplash core impact | E | single-hit | speculative | 2 |
+| Gnar | one Mini Gnar Hyper detonation | W:0 | single-hit | speculative | 3 |
+| Irelia | one Flawless Duet crossing | E | single-hit | speculative | 2 |
+| Lucian | one Piercing Light beam impact | Q | single-hit | speculative | 2 |
+| Maokai | one Bramble Smash impact | Q | single-hit | speculative | 2 |
+| Nautilus | one fresh Titan's Wrath shield | W | shield | speculative | 2 |
+| Orianna | one fully stacked Clockwork Windup magic packet | P | single-hit | speculative | 2 |
+| Riven | one complete three-slash Broken Wings sequence | Q | full-window | speculative | 4 |
+| Sejuani | both Winter's Wrath impacts | W | full-window | speculative | 3 |
+| Sylas | one Abduct chain hit | E | single-hit | speculative | 2 |
+| Tryndamere | one Spinning Slash impact | E | single-hit | speculative | 3 |
+| Vi | one Relentless Force enhanced attack core | E | single-hit | speculative | 1 |
+| XinZhao | one Crescent Guard sweep | R | single-hit | speculative | 2 |

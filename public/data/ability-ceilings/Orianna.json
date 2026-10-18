@@ -93,6 +93,96 @@
           "formula": "Orianna commands her Ball to unleash a shockwave, dealing [225 / 350 / 475 + (1.1) × AP] magic damage to nearby enemies and Knocking them in the direction of the Ball."
         }
       ]
+    },
+    {
+      "id": "orianna-ceiling-passive-third-windup-hit",
+      "champion": "Orianna",
+      "name": "Clockwork Windup: fully stacked magic bonus",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one fully stacked Clockwork Windup magic packet output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one fully stacked Clockwork Windup magic packet output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "The passive base is 10 to 50 by level plus 0.15 AP magic. Each same-target follow-up adds 15% of that base, capped at two additions; a fully stacked level-18 packet is nominally 65 + 0.195 AP. The delivering attack and Nashor proc are separate sources.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3115,
+        3040,
+        3157
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "one fully stacked Clockwork Windup magic packet",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; no free permanent stacks. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Seraph legally transformed. Exactly two prior attacks on the same target with the four-second continuation window still active. Score one fully stacked attack and record enemy health after preparation, correcting the loaded baseline if it changed. No permanent stacks or allied attack buffs.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; no free permanent stacks. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Seraph legally transformed. Exactly two prior attacks on the same target with the four-second continuation window still active. Score one fully stacked attack and record enemy health after preparation, correcting the loaded baseline if it changed. No permanent stacks or allied attack buffs.",
+        "Compare first, second and third passive packets with identical actual AP and target resists. Confirm stack expiry and target switching reset behavior. Swap Nashor for raw AP for a single packet, then compare achievable repeated attacks separately.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No physical attack or Nashor on-hit folded into the passive coefficient, no unlimited stack growth or ordinary attack crit multiplier on the magic packet. Attack-speed value belongs to a separately timed multi-attack comparison."
+      ],
+      "tradeoffs": [
+        "The capped passive has a smaller single-packet coefficient than Orianna spells; an auto-focused build needs time in attack range and sacrifices burst utility.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No physical attack or Nashor on-hit folded into the passive coefficient, no unlimited stack growth or ordinary attack crit multiplier on the magic packet. Attack-speed value belongs to a separately timed multi-attack comparison.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Clockwork Windup",
+          "slot": "Passive",
+          "source": "Characters/Orianna/Spells/OriannaPAbility/OriannaP",
+          "formula": "Orianna's Abilities originate from her Ball. Orianna's Ball automatically returns to her if she is too far away from it.\n\nOrianna's Attacks deal an additional [characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP] magic damage. Subsequent Attacks against the same target within [4] seconds deal an additional [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × (0.15)] magic damage (max of [(characterLevelInterpolation(10 → 50; raw flags preserved) + (0.15) × AP) × ((0.15) × (2))] damage)."
+        }
+      ]
     }
   ]
 }

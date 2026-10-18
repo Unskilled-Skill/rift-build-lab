@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 348 targets across 173 champions.
+Patch 26.20: 364 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 163 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 179 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -360,3 +360,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Xayah | both Double Daggers on the first target | Q | full-window | speculative | 3 |
 | Xerath | one six-shot Rite of the Arcane sequence | R | full-window | speculative | 3 |
 | Yasuo | one Last Breath impact | R | single-hit | speculative | 2 |
+| Braum | one Concussive Blows stun and four-second follow-up window | P | full-window | speculative | 3 |
+| Nilah | one full Apotheosis damage sequence | R | full-window | speculative | 4 |
+| Pyke | Phantom Undertow nominal stun duration | E | stat | speculative | 2 |
+| Veigar | one Dark Matter impact at five hundred earned stacks | W | single-hit | speculative | 2 |
+| Yuumi | five Final Chapter heals on one Best Friend | R | heal | speculative | 4 |
+| Zed | one Death Mark pop after a recorded three-second combo | R | single-hit | speculative | 2 |
+| Hwei | one Molten Fissure eruption and pool exposure | Q | full-window | speculative | 4 |
+| AurelionSol | four seconds of Breath of Light and earned bursts | Q | full-window | speculative | 3 |
+| Garen | one Courage shield | W | shield | speculative | 2 |
+| Hecarim | native Spirit of Dread healing from its own five-target aura | W | heal | speculative | 2 |
+| Vladimir | one five-champion Hemoplague direct self-heal | R | heal | speculative | 3 |
+| Sett | one center-impact Show Stopper collateral hit | R | single-hit | speculative | 3 |
+| Volibear | three seconds of fully stacked passive lightning on one champion | P | full-window | speculative | 2 |
+| Darius | one critical Crippling Strike enhanced attack | W | single-hit | speculative | 3 |
+| Gnar | one Mini Gnar Hop enemy bounce | E:0 | single-hit | speculative | 2 |
+| Yorick | Maiden maximum health from one legal summon | R | stat | speculative | 1 |

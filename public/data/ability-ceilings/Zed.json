@@ -93,6 +93,96 @@
           "formula": "Zed and his Shadows throw their shurikens, each dealing [80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2]] physical damage to the first enemy they pass through, and [(80 / 120 / 160 / 200 / 240 + (1) × AD[statFormula=2]) × (0.6)] physical damage to each additional enemy."
         }
       ]
+    },
+    {
+      "id": "zed-ceiling-r-fixed-combo-mark-pop",
+      "champion": "Zed",
+      "name": "Death Mark: recorded finite-combo detonation",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Death Mark pop after a recorded three-second combo output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one Death Mark pop after a recorded three-second combo output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "R lists a 1.0 total AD physical base plus 25/40/55% of eligible damage dealt during its three-second mark. The actual stored-damage rules, pre/post-mitigation basis and item/passive eligibility must be measured. A larger pop is not obtained by inventing an arbitrary stored damage number or adding the entire setup combo again.",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        6698,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "one Death Mark pop after a recorded three-second combo",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 20000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 4s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff active. One legal W shadow plus the R shadow, one E, one Q cast with up to three actually connected shurikens, and at most two real basic attacks during the mark. Target 20000 maximum HP, initially full. Record exact events before the three-second cutoff; observe through the pop within four seconds. No Hydra active or free extra resets.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 20000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 4s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff active. One legal W shadow plus the R shadow, one E, one Q cast with up to three actually connected shurikens, and at most two real basic attacks during the mark. Target 20000 maximum HP, initially full. Record exact events before the three-second cutoff; observe through the pop within four seconds. No Hydra active or free extra resets.",
+        "First measure R with no follow-up, then add one source at a time before testing the fixed combo. Vary target armor to infer storage/second-mitigation ordering. Record missed shurikens, late attacks and any passive trigger explicitly. Score only the pop, with combo damage reported separately.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No assumed three hits without two real shadows, two attacks granted despite timing, all item/rune/true damage assumed eligible, post-cutoff damage stored or pre-pop damage added again to pop output. The source tooltip alone does not certify storage rules."
+      ],
+      "tradeoffs": [
+        "The large delayed pop needs an executable combo and a target that survives long enough; maximizing a screenshot can sacrifice escape or reliable damage.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No assumed three hits without two real shadows, two attacks granted despite timing, all item/rune/true damage assumed eligible, post-cutoff damage stored or pre-pop damage added again to pop output. The source tooltip alone does not certify storage rules.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Death Mark",
+          "slot": "R",
+          "source": "Characters/Zed/Spells/ZedRAbility/ZedR",
+          "formula": "Zed becomes Untargetable and dashes to an enemy champion, marking them. After [3] seconds, the mark triggers, dealing [(1) × AD] physical damage and repeating [(0.25 / 0.4 / 0.55) × 100]% of all damage dealt to the target by Zed while the mark was active.\n\nThe dash leaves a Shadow behind for [7.5] seconds. Zed can Recast this Ability to switch positions with this Shadow."
+        }
+      ]
     }
   ]
 }

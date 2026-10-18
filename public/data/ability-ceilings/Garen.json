@@ -183,6 +183,96 @@
           "formula": "Garen removes all Slowing effects on him and gains [35]% Move Speed for [1.4 / 1.95 / 2.5 / 3.05 / 3.6] second(s).\n\nHis next Attack Silences for [1.5] seconds and does [30 / 60 / 90 / 120 / 150 + (1.5) × AD] physical damage."
         }
       ]
+    },
+    {
+      "id": "garen-ceiling-w-bonus-health-shield",
+      "champion": "Garen",
+      "name": "Courage: bonus-health shield",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Courage shield output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one Courage shield output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "W shield is 65/85/105/125/145 + 18% bonus HP for 0.75 seconds. Its longer four-second damage reduction, tenacity and permanent resistance stacks are separate defensive effects, not additional shield capacity. This helper uses bonus HP, not total maximum HP.",
+      "itemIds": [
+        3084,
+        3083,
+        3065,
+        2501,
+        3748,
+        3181
+      ],
+      "runePage": [
+        8214,
+        8275,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 0.75,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "one Courage shield",
+        "metric": "shield",
+        "damageType": "none",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 0.75s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 500 earned Heartsteel HP and exactly 150 legally earned W kill stacks, granting the source cap of 30 armor/MR but no extra shield coefficient. Owner 30%, one fresh W, no prior or allied shield. Record bonus HP, initial capacity and the short expiration separately from damage reduction.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 0.75s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 500 earned Heartsteel HP and exactly 150 legally earned W kill stacks, granting the source cap of 30 armor/MR but no extra shield coefficient. Owner 30%, one fresh W, no prior or allied shield. Record bonus HP, initial capacity and the short expiration separately from damage reduction.",
+        "Compare zero versus 500 earned Heartsteel HP, then Visage versus an HP slot. Test full/low owner health and measure shield before it absorbs damage. Read bonus rather than total HP; record mitigation after the shield expires as a separate output.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No four-second shield duration borrowed from the damage-reduction buff, total HP substituted for bonus HP, damage reduction added as shield points or infinite W stacks/Heartsteel. Shield modifier eligibility needs client checks."
+      ],
+      "tradeoffs": [
+        "The largest shield lasts only 0.75 seconds, so timing can matter more than its nominal capacity.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No four-second shield duration borrowed from the damage-reduction buff, total HP substituted for bonus HP, damage reduction added as shield points or infinite W stacks/Heartsteel. Shield modifier eligibility needs client checks.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Courage",
+          "slot": "W",
+          "source": "Characters/Garen/Spells/GarenWAbility/GarenW",
+          "formula": "Passive: Garen has [(0.2) × BuffStacks({9e10ce18})] bonus Armor and [(0.2) × BuffStacks({9e10ce18})] bonus Magic Resist. Killing units permanently grants [0.2] resists, up to a max of [30].\n\nActive: Garen steels his courage for [4] seconds, reducing incoming damage by [(0.25 / 0.29 / 0.33 / 0.37 / 0.41) × 100]%. He also gains [65 / 85 / 105 / 125 / 145 + (0.18) × Stat(12)[statFormula=2]] Shield and [60]% Tenacity for [0.75] seconds."
+        }
+      ]
     }
   ]
 }

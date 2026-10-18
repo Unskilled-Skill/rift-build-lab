@@ -183,6 +183,96 @@
           "formula": "Sett itches for a fight, gaining [30]% Move Speed towards enemy champions for [1.5] seconds.\n\nAdditionally Sett's next two Attacks deal an additional [10 / 20 / 30 / 40 / 50] plus [0.01 + (0.0001 / 0.00015 / 0.0002 / 0.00025 / 0.0003) × AD] max Health physical damage."
         }
       ]
+    },
+    {
+      "id": "sett-ceiling-r-grabbed-tank-collateral",
+      "champion": "Sett",
+      "name": "The Show Stopper: tank-powered collateral",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one center-impact Show Stopper collateral hit output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one center-impact Show Stopper collateral hit output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "R impact is 200/300/400 + 1.2 bonus AD physical plus 40/50/60% of the grabbed enemy bonus HP. At rank 3 a legally measured 6000 bonus-HP grabbed victim contributes 3600 raw physical before falloff and mitigation. This is not the grabbed enemy total HP or Sett own bonus HP directly.",
+      "itemIds": [
+        3072,
+        6697,
+        3053,
+        2501,
+        3084,
+        6694
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8210,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 12,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "one center-impact Show Stopper collateral hit",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 20000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff, 500 earned Heartsteel HP, owner 30% and 12 earned Conqueror stacks. Grab a real champion with exactly 6000 bonus HP from recorded items/stacks; record their base and maximum HP separately. A different 20000-max-HP champion is struck at the landing center, without distance falloff. Score only this collateral victim.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 20000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff, 500 earned Heartsteel HP, owner 30% and 12 earned Conqueror stacks. Grab a real champion with exactly 6000 bonus HP from recorded items/stacks; record their base and maximum HP separately. A different 20000-max-HP champion is struck at the landing center, without distance falloff. Score only this collateral victim.",
+        "Compare grabbed targets with different recorded bonus HP at fixed collateral defenses. Swap AD/HP-conversion versus penetration slots. Test center and edge landing to measure falloff; record the grabbed and collateral victims as separate outputs.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No collateral target HP substituted for grabbed bonus HP, all of the grabbed maximum HP used as bonus, own Heartsteel directly added to the victim coefficient, full center damage at every distance or multi-victim sum called one hit."
+      ],
+      "tradeoffs": [
+        "The large number needs a high-bonus-HP opponent and a precisely placed second victim, which is rarely guaranteed.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No collateral target HP substituted for grabbed bonus HP, all of the grabbed maximum HP used as bonus, own Heartsteel directly added to the victim coefficient, full center damage at every distance or multi-victim sum called one hit.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "The Show Stopper",
+          "slot": "R",
+          "source": "Characters/Sett/Spells/SettRAbility/SettR",
+          "formula": "Sett grabs an enemy champion and Suppresses them as he carries them forward, then slams them into the ground, dealing [200 / 300 / 400 + (1.2) × AD[statFormula=2]] plus [(0.4 / 0.5 / 0.6) × 100]% of the grabbed enemy's bonus Health physical damage to surrounding enemies and Slowing them by [99]% for [1] second. Enemies take less damage the further they are from where Sett lands."
+        }
+      ]
     }
   ]
 }

@@ -11,6 +11,7 @@ import interactionTargets from '../scripts/ability-ceilings/group-11.json';
 import sequenceTargets from '../scripts/ability-ceilings/group-12.json';
 import repeatTargets from '../scripts/ability-ceilings/group-13.json';
 import weaponTargets from '../scripts/ability-ceilings/group-14.json';
+import potentialTargets from '../scripts/ability-ceilings/group-15.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -18,6 +19,34 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings,ceilingBuild} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('keeps pet-health, CC-duration and timed spell variants distinct when loading the new candidates',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(potentialTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of potentialTargets){
+  const published=JSON.parse(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'));
+  const b=parseChatBuilds(JSON.stringify(published),data).find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Gnar')expect(saved.scenario).toMatchObject({objectiveSlot:'E:0',rank:5,heartsteelHP:500});
+  if(entry.champion==='Hwei'){
+   const raw=published.builds.find((v:{id:string})=>v.id===b.id) as {kitEvidence:{source:string;formula:string}[]};
+   const kit=JSON.parse(fs.readFileSync('public/data/champions/Hwei.json','utf8'));
+   const spell=kit.allSpellRecords.find((s:{internalName:string})=>s.internalName==='HweiQE');
+   expect(raw.kitEvidence[0].source).toBe(spell.path);
+   expect(raw.kitEvidence[0].formula).toContain(`DamagePerSecond: ${spell.calculations.DamagePerSecond.expression}`);
+  }
+ }
+ const read=(c:string)=>potentialTargets.find(e=>e.champion===c)!;
+ for(const c of ['Pyke','Yorick'])expect(read(c)).toMatchObject({metric:'stat',damageType:'none'});
+ expect(read('Garen')).toMatchObject({metric:'shield',conditions:{duration:0.75,heartsteelHP:500}});
+ expect(read('Vladimir')).toMatchObject({metric:'heal',conditions:{combatSeconds:0,healthPercent:10,duration:4}});
+ expect(read('Braum').pageKey).toBe('lt');
+ expect(read('Yorick').pageKey).toBe('grasp');
+ expect(read('Zed').conditions).toMatchObject({targetHP:20000,duration:4});
+});
 it('preserves weapon and hybrid candidates with the selected calculation evidence instead of a generic wrapper',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(weaponTargets,data,resources,false)).toHaveLength(16);

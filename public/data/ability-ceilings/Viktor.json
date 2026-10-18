@@ -183,6 +183,96 @@
           "formula": "Viktor blasts an enemy, dealing [60 / 75 / 90 / 105 / 120 + (0.4) × AP] magic damage and granting Viktor [characterLevelInterpolation(40 → 140; raw flags preserved) + (0.25) × AP] Shield for [2.5] seconds.\n\nViktor's next Attack within 4 seconds deals [20 / 45 / 70 / 95 / 120 + (0.5) × AP + (1) × AD] magic damage.\n\nUpgraded: Grants [(characterLevelInterpolation(40 → 140; raw flags preserved) + (0.25) × AP) × (1.6)] Shield and Viktor additionally gains [30]% Move Speed for [2.5] seconds."
         }
       ]
+    },
+    {
+      "id": "viktor-ceiling-r-four-earned-duration-extensions",
+      "champion": "Viktor",
+      "name": "Arcane Storm: four earned extensions",
+      "category": "Ability ceiling",
+      "summary": "Explore high one Arcane Storm on a survivor with four earned extensions output with explicit finite conditions; compare item swaps rather than claiming a global maximum.",
+      "goal": "Explore high one Arcane Storm on a survivor with four earned extensions output with explicit finite conditions; compare item swaps rather than claiming a global maximum.",
+      "hypothesis": "R begins with 100/175/250 + 0.50 AP and periodic helper 65/105/145 + 0.35 AP per second. The base duration is 6.5 seconds. Upgraded R adds three seconds when a champion it damaged dies, up to six growths; four actual other-enemy deaths can nominally extend this one storm to 18.5 seconds.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        6657,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 18.5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "one Arcane Storm on a survivor with four earned extensions",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy reference: 20000 maximum HP, 100 armor, 50 MR, 100% starting HP. Owner at 100% HP. No dragons, elixirs or external allied stat buffs. Record final stats, actual eligibility and per-packet state; keep raw and effective results separate and stop scoring damage at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. Legitimately unlock the R upgrade before this trial. The benchmark champion survives inside the moving storm; exactly four distinct other enemy champions are actually damaged by this storm and die while it remains active. No respawn loops, free takedowns or damage to those four included in the selected victim result. Log exact extension timestamps.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy reference: 20000 maximum HP, 100 armor, 50 MR, 100% starting HP. Owner at 100% HP. No dragons, elixirs or external allied stat buffs. Record final stats, actual eligibility and per-packet state; keep raw and effective results separate and stop scoring damage at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. Legitimately unlock the R upgrade before this trial. The benchmark champion survives inside the moving storm; exactly four distinct other enemy champions are actually damaged by this storm and die while it remains active. No respawn loops, free takedowns or damage to those four included in the selected victim result. Log exact extension timestamps.",
+        "Compare zero-extension 6.5-second baseline with the actual four-extension trial and AP/penetration swaps. Count real periodic damage events: source has a six-MaxTicks field, so duration extension must not automatically be turned into extra ticks without client confirmation.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No six free deaths while also claiming a fifth surviving enemy, extra initial burst at each growth, repeating storm recasts as new casts or arbitrary duration/attack counts. Score only ticks actually delivered before victim death or storm expiry."
+      ],
+      "tradeoffs": [
+        "The large duration ceiling depends on an upgraded ultimate, four real enemy deaths and a remaining victim staying in range.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No six free deaths while also claiming a fifth surviving enemy, extra initial burst at each growth, repeating storm recasts as new casts or arbitrary duration/attack counts. Score only ticks actually delivered before victim death or storm expiry.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Arcane Storm",
+          "slot": "R",
+          "source": "Characters/Viktor/Spells/ViktorRAbility/ViktorR",
+          "formula": "Viktor conjures an Arcane Storm in an area for [6.5] seconds, which instantly deals [100 / 175 / 250 + (0.5) × AP] magic damage followed by [65 / 105 / 145 + (0.35) × AP] magic damage per second to surrounding enemies. The storm automatically follows champions it has recently damaged.\n\nRecast: Viktor can manually move the storm.\n\nUpgraded: The storm moves [25]% faster. If a champion that the storm has damaged dies, the storm increases its size and its duration by [3] seconds (up to [6] times)."
+        }
+      ]
     }
   ]
 }

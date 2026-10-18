@@ -273,6 +273,96 @@
           "formula": "Galio designates an allied champion's position as his landing spot, granting all allied champions in the area Shield of Durand's passive Shield for [5] seconds. Galio then flies to his landing zone.\n\nWhen Galio lands, he Knocks Up for [0.75] seconds and deals [150 / 250 / 350 + (0.7) × AP + (1) × Stat(6)[statFormula=2]] magic damage."
         }
       ]
+    },
+    {
+      "id": "galio-ceiling-w-ap-mr-hp-damage-reduction",
+      "champion": "Galio",
+      "name": "Shield of Durand: AP MR and HP reduction",
+      "category": "Ability ceiling",
+      "summary": "Explore high Shield of Durand magic-damage reduction percentage output with explicit finite conditions; compare item swaps rather than claiming a global maximum.",
+      "goal": "Explore high Shield of Durand magic-damage reduction percentage output with explicit finite conditions; compare item swaps rather than claiming a global maximum.",
+      "hypothesis": "Rank-5 magic reduction helper is 0.45 + 0.0004 AP + 0.0008 bonus MR + 0.0001 bonus HP. Physical reduction is half the corresponding magic helper. These three scaling axes can produce high raw values, but caps, actual damage rules and modifier order must be measured.",
+      "itemIds": [
+        3084,
+        3083,
+        3089,
+        3102,
+        3065,
+        6665
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 0,
+        "combatSeconds": 5,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "Shield of Durand magic-damage reduction percentage",
+        "metric": "stat",
+        "damageType": "none",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy reference: 10000 maximum HP, 100 armor, 50 MR, 100% starting HP. Owner at 100% HP. No dragons, elixirs or external allied stat buffs. Record final stats, actual eligibility and per-packet state; keep raw and effective results separate and stop scoring damage at death. Exactly 500 earned Heartsteel HP. Exactly 500 earned Heartsteel HP. Prepare five real seconds of champion combat for JakSho, keep its ramp active through W, and record final AP, bonus MR and bonus HP. W rank 5 charges for two seconds, then grants the real release linger. No allied resist buffs.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy reference: 10000 maximum HP, 100 armor, 50 MR, 100% starting HP. Owner at 100% HP. No dragons, elixirs or external allied stat buffs. Record final stats, actual eligibility and per-packet state; keep raw and effective results separate and stop scoring damage at death. Exactly 500 earned Heartsteel HP. Exactly 500 earned Heartsteel HP. Prepare five real seconds of champion combat for JakSho, keep its ramp active through W, and record final AP, bonus MR and bonus HP. W rank 5 charges for two seconds, then grants the real release linger. No allied resist buffs.",
+        "Compare HP, AP and MR slots with identical known physical/magic incoming test hits before, during and after W. Consume any magic shield in a separately logged preparation so shield absorption cannot masquerade as reduction. Verify client caps and use true damage only as a separate control.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No raw helper over 100% interpreted as immunity without testing, base MR/HP included in bonus ratios, physical reduction equal to magic reduction, magic shield counted as extra reduction or JakSho ramp granted without combat."
+      ],
+      "tradeoffs": [
+        "The short defensive peak needs preparation and channel timing and can give up offensive penetration.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No raw helper over 100% interpreted as immunity without testing, base MR/HP included in bonus ratios, physical reduction equal to magic reduction, magic shield counted as extra reduction or JakSho ramp granted without combat.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Shield of Durand",
+          "slot": "W",
+          "source": "Characters/Galio/Spells/GalioWAbility/GalioW",
+          "formula": "Passive: Galio gains a [(0.075 / 0.09 / 0.105 / 0.12 / 0.135) × Stat(12)] Magic Shield after not taking damage for [characterLevelBreakpoints(start=12, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": -1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": -3.0, \"__type\": \"Breakpoint\"}])] seconds.\n\nBegin Charging: Galio reduces incoming magic damage by [(0.25 / 0.3 / 0.35 / 0.4 / 0.45 + (0.0004) × AP + (0.0008) × Stat(6)[statFormula=2] + (0.0001) × Stat(12)[statFormula=2]) × (1)] and incoming physical damage by [((0.25 / 0.3 / 0.35 / 0.4 / 0.45 + (0.0004) × AP + (0.0008) × Stat(6)[statFormula=2] + (0.0001) × Stat(12)[statFormula=2]) × (1)) × (0.5)] and Slows himself by [15]%.\n\nRelease: Galio Taunts enemy champions for between [0.5] to [1.5] seconds, deals between [20 / 30 / 40 / 50 / 60 + (0.3) × AP] and [(20 / 30 / 40 / 50 / 60 + (0.3) × AP) × (3)] magic damage, and refreshes the damage reduction for [2] seconds. Taunt duration, damage, and range increase with charge time."
+        }
+      ]
     }
   ]
 }

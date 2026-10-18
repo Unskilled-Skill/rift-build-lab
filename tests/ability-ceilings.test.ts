@@ -16,6 +16,7 @@ import scalingTargets from '../scripts/ability-ceilings/group-16.json';
 import conversionWindows from '../scripts/ability-ceilings/group-17.json';
 import conditionalTargets from '../scripts/ability-ceilings/group-18.json';
 import preparationTargets from '../scripts/ability-ceilings/group-19.json';
+import extendedTargets from '../scripts/ability-ceilings/group-20.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -23,6 +24,36 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings,ceilingBuild} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('keeps selected passive records, transform ranks and earned storm durations when loading the new batch',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(extendedTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of extendedTargets){
+  const published=JSON.parse(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'));
+  const b=parseChatBuilds(JSON.stringify(published),data).find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Gnar')expect(saved.scenario).toMatchObject({objectiveSlot:'Q:1',rank:5});
+  if(entry.champion==='Elise')expect(saved.scenario).toMatchObject({objectiveSlot:'R',rank:4,healthPercent:10,duration:4});
+  if(entry.evidenceSpell){
+   const raw=published.builds.find((v:{id:string})=>v.id===b.id) as {kitEvidence:{ability:string;source:string;formula:string}[]};
+   const kit=JSON.parse(fs.readFileSync(`public/data/champions/${entry.champion}.json`,'utf8'));
+   const spell=kit.allSpellRecords.find((v:{internalName:string})=>v.internalName===entry.evidenceSpell);
+   expect(raw.kitEvidence).toHaveLength(1);
+   expect(raw.kitEvidence[0]).toMatchObject({ability:entry.targetName,source:spell.path});
+   if(entry.champion==='Akali')expect(raw.kitEvidence[0].formula).toContain(`Damage: ${spell.calculations.Damage.expression}`);
+   if(entry.champion==='Elise')expect(raw.kitEvidence[0].formula).toContain(`PassiveTotalHealing: ${spell.calculations.PassiveTotalHealing.expression}`);
+  }
+ }
+ const read=(c:string)=>extendedTargets.find(e=>e.champion===c)!;
+ expect(read('Viktor')).toMatchObject({metric:'full-window',conditions:{targetHP:20000,duration:18.5}});
+ expect(read('Galio')).toMatchObject({metric:'stat',damageType:'none',conditions:{heartsteelHP:500,combatSeconds:5,duration:4}});
+ expect(read('Heimerdinger')).toMatchObject({targetSlot:'E',metric:'full-window',conditions:{duration:3}});
+ expect(read('Volibear')).toMatchObject({targetSlot:'E',metric:'single-hit',damageType:'magic'});
+ expect(read('Akshan')).toMatchObject({targetSlot:'P',damageType:'magic'});
+});
 it('loads reservoir, replacement-attack and stat-output candidates with the selected form evidence',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(preparationTargets,data,resources,false)).toHaveLength(16);

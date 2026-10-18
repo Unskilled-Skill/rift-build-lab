@@ -183,6 +183,96 @@
           "formula": "Lux throws her wand, granting [40 / 55 / 70 / 85 / 100 + (0.4) × AP] Shield for [2.5] seconds to allies it passes through. Then it returns, granting the same Shield on its return."
         }
       ]
+    },
+    {
+      "id": "lux-ceiling-p-r-refresh-double-consumption",
+      "champion": "Lux",
+      "name": "Illumination: beam refresh and attack cashout",
+      "category": "Ability ceiling",
+      "summary": "Explore high two legal Illumination mark consumptions output with explicit finite conditions; compare item swaps rather than claiming a global maximum.",
+      "goal": "Explore high two legal Illumination mark consumptions output with explicit finite conditions; compare item swaps rather than claiming a global maximum.",
+      "hypothesis": "Each Illumination consumption uses a level-table base + 0.35 AP magic damage. Final Spark consumes a pre-existing mark and refreshes it, enabling a later attack to consume a second mark. The two passive packets are distinct from E, R beam and the physical attack.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        6657,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "two legal Illumination mark consumptions",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy reference: 20000 maximum HP, 100 armor, 50 MR, 100% starting HP. Owner at 100% HP. No dragons, elixirs or external allied stat buffs. Record final stats, actual eligibility and per-packet state; keep raw and effective results separate and stop scoring damage at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. Start the overall setup on the full-health benchmark target. Apply one legal mark with E, hit R while that mark is alive, then attack once within the refreshed six-second mark duration. Selected scoring counts only the two actual passive consumptions within four seconds; log all preparation and beam damage separately.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy reference: 20000 maximum HP, 100 armor, 50 MR, 100% starting HP. Owner at 100% HP. No dragons, elixirs or external allied stat buffs. Record final stats, actual eligibility and per-packet state; keep raw and effective results separate and stop scoring damage at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. Start the overall setup on the full-health benchmark target. Apply one legal mark with E, hit R while that mark is alive, then attack once within the refreshed six-second mark duration. Selected scoring counts only the two actual passive consumptions within four seconds; log all preparation and beam damage separately.",
+        "Compare AP/penetration while confirming mark presence before R and refresh afterward. Use R on an unmarked target as a control and count only actual passive packets. Read the actual level-18 table value in client.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No two passive procs from unmarked R, beam damage mislabeled Illumination, initial E damage or physical attack added to the passive subtotal, repeated mark consumption without a new application or damage after death."
+      ],
+      "tradeoffs": [
+        "The double cashout requires a premark, ultimate and attack range rather than safe long-range poke.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No two passive procs from unmarked R, beam damage mislabeled Illumination, initial E damage or physical attack added to the passive subtotal, repeated mark consumption without a new application or damage after death.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Illumination",
+          "slot": "Passive",
+          "source": "Characters/Lux/Spells/LuxIlluminationPassiveAbility/LuxIlluminationPassive",
+          "formula": "Lux's damaging Abilities mark enemies for [6] seconds. Lux's Attacks consume the mark, dealing [characterLevelTable[20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320] + (0.35) × AP] magic damage.\n\nFinal Spark will consume marks on enemies it hits and refresh them."
+        }
+      ]
     }
   ]
 }

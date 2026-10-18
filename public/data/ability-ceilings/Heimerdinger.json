@@ -183,6 +183,96 @@
           "formula": "Heimerdinger unleashes a barrage of [5] rockets that deal [50 / 75 / 100 / 125 / 150 + (0.55) × AP] magic damage to the first enemy hit. Additional rocket hits deal reduced damage.\n\nMax Damage: [90 / 135 / 180 / 225 / 270 + (1.03) × AP] magic damage.\n\nNearby Turrets gain 20% charge per rocket that hits a champion."
         }
       ]
+    },
+    {
+      "id": "heimerdinger-ceiling-e-three-turret-beam-setup",
+      "champion": "Heimerdinger",
+      "name": "Electron Storm: grenade and three charged beams",
+      "category": "Ability ceiling",
+      "summary": "Explore high one grenade impact and one beam from each of three turrets output with explicit finite conditions; compare item swaps rather than claiming a global maximum.",
+      "goal": "Explore high one grenade impact and one beam from each of three turrets output with explicit finite conditions; compare item swaps rather than claiming a global maximum.",
+      "hypothesis": "E impact is 60/100/140/180/220 + 0.60 AP. Hitting a champion fully charges nearby turrets; ordinary rank-5 Q beam helper is 120 + 0.55 AP. If exactly three real turret beams connect, nominal E-plus-beams total is 580 + 2.25 AP, excluding normal turret shots.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        6657,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "E",
+        "targetName": "one grenade impact and one beam from each of three turrets",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy reference: 20000 maximum HP, 100 armor, 50 MR, 100% starting HP. Owner at 100% HP. No dragons, elixirs or external allied stat buffs. Record final stats, actual eligibility and per-packet state; keep raw and effective results separate and stop scoring damage at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. E rank 5 and Q rank 5. Place exactly three legal ordinary turrets with actual charges/cooldowns respected; none has a pending pre-existing beam. One E hits the champion and each eligible surviving turret must really acquire and beam that target within three seconds. R inactive.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy reference: 20000 maximum HP, 100 armor, 50 MR, 100% starting HP. Owner at 100% HP. No dragons, elixirs or external allied stat buffs. Record final stats, actual eligibility and per-packet state; keep raw and effective results separate and stop scoring damage at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. E rank 5 and Q rank 5. Place exactly three legal ordinary turrets with actual charges/cooldowns respected; none has a pending pre-existing beam. One E hits the champion and each eligible surviving turret must really acquire and beam that target within three seconds. R inactive.",
+        "Log grenade, each actual beam and normal turret shots separately. Compare AP/penetration and one-to-three available turrets; score only connected beams and verify charge timing rather than guaranteeing them.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No six beams from one E without another legal recharge, upgraded R turret coefficients mixed into ordinary Q, normal shots hidden in the selected total or out-of-range/destroyed turrets granted damage."
+      ],
+      "tradeoffs": [
+        "The high setup burst is location-dependent and collapses if turrets are missing, killed or unable to aim.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No six beams from one E without another legal recharge, upgraded R turret coefficients mixed into ordinary Q, normal shots hidden in the selected total or out-of-range/destroyed turrets granted damage.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "CH-2 Electron Storm Grenade",
+          "slot": "E",
+          "source": "Characters/Heimerdinger/Spells/HeimerdingerEAbility/HeimerdingerE",
+          "formula": "Heimerdinger hurls a grenade that deals [60 / 100 / 140 / 180 / 220 + (0.6) × AP] magic damage in an area and Slows by @SlowPercent.0*100@% for [2] seconds. Enemies in the center are also Stunned for [1.5] seconds.\n\nHitting a champion fully charges nearby Turrets."
+        }
+      ]
     }
   ]
 }

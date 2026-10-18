@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 428 targets across 173 champions.
+Patch 26.20: 444 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 243 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 259 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -440,3 +440,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Jayce | one three-attack cannon Hyper Charge sequence | W:1 | full-window | speculative | 4 |
 | Lissandra | one low-health Frozen Tomb self-heal | R | heal | speculative | 2 |
 | Sona | one Diminuendo damage-reduction percentage | W | stat | speculative | 2 |
+| Akali | one Assassin's Mark magic bonus | P | single-hit | speculative | 3 |
+| Akshan | one Dirty Fighting three-hit magic proc | P | single-hit | speculative | 2 |
+| Azir | one Emperor's Divide impact on one champion | R | single-hit | speculative | 2 |
+| Bard | one Cosmic Binding impact on a champion | Q | single-hit | speculative | 2 |
+| Cassiopeia | one Petrifying Gaze impact | R | single-hit | speculative | 2 |
+| Elise | four seconds of Spider Form attack self-healing | R | heal | speculative | 3 |
+| Evelynn | one Hate Spike initial hit and three qualifying recasts | Q | full-window | speculative | 3 |
+| Galio | Shield of Durand magic-damage reduction percentage | W | stat | speculative | 2 |
+| Gnar | one Mega Gnar Boulder Toss impact | Q:1 | single-hit | speculative | 3 |
+| Heimerdinger | one grenade impact and one beam from each of three turrets | E | full-window | speculative | 3 |
+| Katarina | one native Shunpo magic strike | E | single-hit | speculative | 1 |
+| Kayle | one Divine Judgment area blast | R | single-hit | speculative | 2 |
+| Lux | two legal Illumination mark consumptions | P | full-window | speculative | 3 |
+| Viktor | one Arcane Storm on a survivor with four earned extensions | R | full-window | speculative | 3 |
+| Volibear | one Sky Splitter enemy lightning impact | E | single-hit | speculative | 2 |
+| Gragas | one Explosive Cask impact | R | single-hit | speculative | 2 |

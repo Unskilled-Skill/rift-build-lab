@@ -183,6 +183,96 @@
           "formula": "Passive: While this Ability is off Cooldown, Shaco's Attacks Slow the target by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [2] seconds.\n\nActive: Shaco throws a shiv, dealing [70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP] magic damage and Slowing by [(-0.2 / -0.225 / -0.25 / -0.275 / -0.3) × -100]% for [3] seconds. If the target has less than [30]% Health, the shiv deals [(70 / 95 / 120 / 145 / 170 + (0.8) × AD[statFormula=2] + (0.6) × AP) × (1.5)] damage instead."
         }
       ]
+    },
+    {
+      "id": "shaco-ceiling-r-explosion-and-isolated-box-window",
+      "champion": "Shaco",
+      "name": "Hallucinate: explosion and isolated mini-boxes",
+      "category": "Ability ceiling",
+      "summary": "Explore high Hallucinate explosion plus three seconds of surviving mini-box fire output under a finite setup; compare item swaps without claiming a universal maximum.",
+      "goal": "Explore high Hallucinate explosion plus three seconds of surviving mini-box fire output under a finite setup; compare item swaps without claiming a universal maximum.",
+      "hypothesis": "Clone detonation deals 150/225/300 + 0.70 AP. Each mini-box shot uses 25/50/75 + 0.15 AP against an isolated firing target, or a lower multi-target helper. Three spawned boxes do not imply a fixed total without counting their actual attacks and survival.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        6657,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "Hallucinate explosion plus three seconds of surviving mini-box fire",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 20000 max HP, 100 armor, 50 MR and 100% starting HP. Owner HP at the selected event: 100%. No dragons, elixirs or external allied buffs. Record actual final stats and eligible modifiers. Keep raw and effective output separate; stop damage at death and cap effective healing at missing HP. Seraph legitimately transformed. Exactly 10 earned Rod stacks. One legitimately summoned clone dies near the benchmark champion within its 18-second lifetime, without attacking the victim first. Start the three-second scoring window at detonation. Exactly one enemy is eligible for mini-box fire; all three boxes must actually arm, survive and hit for any included shots.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 20000 max HP, 100 armor, 50 MR and 100% starting HP. Owner HP at the selected event: 100%. No dragons, elixirs or external allied buffs. Record actual final stats and eligible modifiers. Keep raw and effective output separate; stop damage at death and cap effective healing at missing HP. Seraph legitimately transformed. Exactly 10 earned Rod stacks. One legitimately summoned clone dies near the benchmark champion within its 18-second lifetime, without attacking the victim first. Start the three-second scoring window at detonation. Exactly one enemy is eligible for mini-box fire; all three boxes must actually arm, survive and hit for any included shots.",
+        "Log detonation and each real mini-box shot with timestamps. Compare AP/penetration slots and one versus multiple nearby targets. Record clone attack damage and ordinary W boxes outside this selected window.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No invented box attack rate, six seconds of box damage in a three-second observation, three copies of the explosion, clone attacks before death or isolated-shot bonus when another target changes box targeting."
+      ],
+      "tradeoffs": [
+        "The high total relies on a clone death in position and fragile boxes surviving long enough to fire.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No invented box attack rate, six seconds of box damage in a three-second observation, three copies of the explosion, clone attacks before death or isolated-shot bonus when another target changes box targeting.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Hallucinate",
+          "slot": "R",
+          "source": "Characters/Shaco/Spells/HallucinateFullAbility/HallucinateFull",
+          "formula": "Shaco briefly disappears, then reappears with a clone that lasts [18] seconds and detonates when it dies, dealing [150 / 225 / 300 + (0.7) × AP] magic damage and spawning three mini Jack in the Boxes that trigger immediately. The clone deals [60]% of Shaco's damage and receives [50]% increased damage.\n\nMini Jack in the Boxes deal [10 / 20 / 30 + (0.1) × AP] magic damage, or [25 / 50 / 75 + (0.15) × AP] magic damage if firing at only one enemy, and Fear for [1] second."
+        }
+      ]
     }
   ]
 }

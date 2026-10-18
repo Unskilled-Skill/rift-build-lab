@@ -15,6 +15,7 @@ import potentialTargets from '../scripts/ability-ceilings/group-15.json';
 import scalingTargets from '../scripts/ability-ceilings/group-16.json';
 import conversionWindows from '../scripts/ability-ceilings/group-17.json';
 import conditionalTargets from '../scripts/ability-ceilings/group-18.json';
+import preparationTargets from '../scripts/ability-ceilings/group-19.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -22,6 +23,35 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings,ceilingBuild} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('loads reservoir, replacement-attack and stat-output candidates with the selected form evidence',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(preparationTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of preparationTargets){
+  const published=JSON.parse(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'));
+  const b=parseChatBuilds(JSON.stringify(published),data).find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Jayce'){
+   expect(saved.scenario).toMatchObject({objectiveSlot:'W:1',rank:6,critMode:'critical',duration:3.6});
+   const raw=published.builds.find((v:{id:string})=>v.id===b.id) as {kitEvidence:{ability:string;source:string;formula:string}[]};
+   const kit=JSON.parse(fs.readFileSync('public/data/champions/Jayce.json','utf8'));
+   const spell=kit.allSpellRecords.find((v:{internalName:string})=>v.internalName==='JayceHyperCharge');
+   expect(raw.kitEvidence).toHaveLength(1);
+   expect(raw.kitEvidence[0]).toMatchObject({ability:entry.targetName,source:spell.path});
+   expect(raw.kitEvidence[0].formula).toContain(`ActualDamage: ${spell.calculations.ActualDamage.expression}`);
+  }
+ }
+ const read=(c:string)=>preparationTargets.find(e=>e.champion===c)!;
+ expect(read('TahmKench')).toMatchObject({metric:'shield',damageType:'none',conditions:{healthPercent:20,heartsteelHP:500,duration:2.5}});
+ expect(read('Mordekaiser')).toMatchObject({metric:'shield',conditions:{healthPercent:30,heartsteelHP:500,duration:5}});
+ expect(read('Lissandra')).toMatchObject({metric:'heal',conditions:{healthPercent:10,duration:2.5}});
+ for(const c of ['Illaoi','Sona'])expect(read(c)).toMatchObject({metric:'stat',damageType:'none'});
+ expect(read('Khazix')).toMatchObject({damageType:'magic',conditions:{conquerorStacks:12}});
+ expect(read('Fiora').conditions.critMode).toBe('critical');
+});
 it('preserves low-health recovery, shield growth and guaranteed crit conditions in the new experiments',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(conditionalTargets,data,resources,false)).toHaveLength(16);

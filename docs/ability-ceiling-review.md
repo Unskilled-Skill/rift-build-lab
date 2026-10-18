@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 412 targets across 173 champions.
+Patch 26.20: 428 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 227 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 243 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -424,3 +424,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | TwistedFate | one Stacked Deck native magic bonus | E | single-hit | speculative | 2 |
 | Samira | one ten-wave critical Inferno Trigger on one champion | R | full-window | speculative | 3 |
 | Hwei | one fully grown Pool of Reflection self-shield | W | shield | speculative | 3 |
+| Galio | one Hero's Entrance landing impact | R | single-hit | speculative | 1 |
+| Mordekaiser | one fully charged Indestructible self-shield | W | shield | speculative | 2 |
+| TahmKench | one Thick Skin shield from a recorded damage event | E | shield | speculative | 2 |
+| Illaoi | Test of Spirit damage-transfer percentage | E | stat | speculative | 3 |
+| Shaco | Hallucinate explosion plus three seconds of surviving mini-box fire | R | full-window | speculative | 3 |
+| Yorick | one ordinary Mist Walker attack on a champion | P | single-hit | speculative | 3 |
+| Fiora | one second Bladework enhanced attack | E | single-hit | speculative | 3 |
+| Yasuo | one critical Steel Tempest first-target thrust | Q | single-hit | speculative | 2 |
+| XinZhao | three Three Talon Strike enhanced attacks | Q | full-window | speculative | 3 |
+| Talon | both Shadow Assault passes on one champion | R | full-window | speculative | 3 |
+| Qiyana | two Royal Privilege bonus physical packets | P | full-window | speculative | 3 |
+| Ekko | one Timewinder outbound and recall sequence | Q | full-window | speculative | 3 |
+| Khazix | one Unseen Threat magic bonus | P | single-hit | speculative | 3 |
+| Jayce | one three-attack cannon Hyper Charge sequence | W:1 | full-window | speculative | 4 |
+| Lissandra | one low-health Frozen Tomb self-heal | R | heal | speculative | 2 |
+| Sona | one Diminuendo damage-reduction percentage | W | stat | speculative | 2 |

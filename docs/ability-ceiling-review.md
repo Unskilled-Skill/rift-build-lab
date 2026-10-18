@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 332 targets across 173 champions.
+Patch 26.20: 348 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 147 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 163 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -344,3 +344,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Viego | one Blade of the Ruined King active stab | Q | single-hit | speculative | 2 |
 | Velkoz | one Organic Deconstruction true-damage packet | P | single-hit | speculative | 2 |
 | Zyra | four seconds of two enraged Thorn Spitters | P | full-window | speculative | 3 |
+| Aphelios | one Calibrum Moonshot projectile | Q | single-hit | speculative | 2 |
+| Ashe | one Ranger's Focus attack on a frosted champion | Q | single-hit | speculative | 2 |
+| Aurora | one Twofold Hex initial and return sequence | Q | full-window | speculative | 3 |
+| Azir | one Conquering Sands soldier pass | Q | single-hit | speculative | 2 |
+| Kindred | four seconds of Wolf's Frenzy bites | W | full-window | speculative | 2 |
+| Leona | Eclipse granted armor while active | W | stat | speculative | 2 |
+| Mel | one ten-explosion Radiant Volley | Q | full-window | speculative | 4 |
+| MonkeyKing | one Wukong and one clone Crushing Blow bonus | Q | full-window | speculative | 3 |
+| Naafiri | one Darkin Daggers first hit and recast cashout | Q | full-window | speculative | 4 |
+| Olaf | two Undertow hits with one real pickup | Q | full-window | speculative | 3 |
+| Renata | one Loyalty Program shield on one ally | E | shield | speculative | 3 |
+| Smolder | one Achooo initial hit and explosion | W | full-window | speculative | 4 |
+| Vex | one Personal Space self-shield | W | shield | speculative | 2 |
+| Xayah | both Double Daggers on the first target | Q | full-window | speculative | 3 |
+| Xerath | one six-shot Rite of the Arcane sequence | R | full-window | speculative | 3 |
+| Yasuo | one Last Breath impact | R | single-hit | speculative | 2 |

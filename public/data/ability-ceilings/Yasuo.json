@@ -93,6 +93,96 @@
           "formula": "Yasuo dashes through a target, dealing [70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP] magic damage. Each use of this Ability grants [(70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP) × (0.25)] bonus damage to subsequent uses for [5] seconds, stacking up to [4] times.\n\nThis Ability has a [10 / 9 / 8 / 7 / 6] second per-target Cooldown."
         }
       ]
+    },
+    {
+      "id": "yasuo-ceiling-r-bonus-ad-impact",
+      "champion": "Yasuo",
+      "name": "Last Breath: bonus-AD impact",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Last Breath impact output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one Last Breath impact output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "R deals 200/350/500 + 1.5 bonus AD physical. Its later critical strikes ignoring 60% bonus armor are a separate post-ultimate effect, not free penetration on this impact or 60% of all armor. Flow gain and extended airborne time are utility.",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        6698,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "one Last Breath impact",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff active. A legal own Q3 airborne enables one R on a surviving 10000-max-HP champion; preparation hits and tornado damage excluded. Record actual bonus AD, target armor and any previous R buff state; no prior Last Breath penetration buff in the baseline.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff active. A legal own Q3 airborne enables one R on a surviving 10000-max-HP champion; preparation hits and tornado damage excluded. Record actual bonus AD, target armor and any previous R buff state; no prior Last Breath penetration buff in the baseline.",
+        "Swap AD versus penetration at fixed armor. Compare impact with later critical attacks as separate outputs, explicitly distinguishing base and bonus armor. Record a failed airborne prerequisite as no legal R rather than a free cast.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No ordinary attack crit multiplier, post-R armor-ignore bonus applied to the current R without evidence, ignored bonus armor treated as all armor, or Q3 damage/Flow shield added to impact. Native crit conversions require actual AD readings."
+      ],
+      "tradeoffs": [
+        "The large AD coefficient is gated by a real airborne target; a pure impact inventory can lose normal crit, attack speed and survivability.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No ordinary attack crit multiplier, post-R armor-ignore bonus applied to the current R without evidence, ignored bonus armor treated as all armor, or Q3 damage/Flow shield added to impact. Native crit conversions require actual AD readings.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Last Breath",
+          "slot": "R",
+          "source": "Characters/Yasuo/Spells/YasuoRAbility/YasuoR",
+          "formula": "Yasuo teleports to an Airborne enemy champion, dealing [200 / 350 / 500 + (1.5) × AD[statFormula=2]] physical damage and holding all nearby Airborne enemies up for an additional [1] second. Yasuo also gains maximum Flow, but loses all {{Spell_YasuoQ1Wrapper_Name}} stacks.\n\nAfterwards, Yasuo's critical strikes ignore [60]% bonus Armor for [15] seconds."
+        }
+      ]
     }
   ]
 }

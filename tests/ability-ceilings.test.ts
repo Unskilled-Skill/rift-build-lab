@@ -10,13 +10,49 @@ import durationTargets from '../scripts/ability-ceilings/group-10.json';
 import interactionTargets from '../scripts/ability-ceilings/group-11.json';
 import sequenceTargets from '../scripts/ability-ceilings/group-12.json';
 import repeatTargets from '../scripts/ability-ceilings/group-13.json';
+import weaponTargets from '../scripts/ability-ceilings/group-14.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
 import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
-import {validateCeilings} from '../scripts/ability-ceilings.mjs';
+import {validateCeilings,ceilingBuild} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('preserves weapon and hybrid candidates with the selected calculation evidence instead of a generic wrapper',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(weaponTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of weaponTargets){
+  const published=JSON.parse(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'));
+  const b=parseChatBuilds(JSON.stringify(published),data).find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Aphelios'){
+   expect(saved.scenario).toMatchObject({objectiveSlot:'Q',rank:1});
+   const raw=published.builds.find((v:{id:string})=>v.id===b.id) as {kitEvidence:{ability:string;source:string;formula:string}[]};
+   const kit=JSON.parse(fs.readFileSync('public/data/champions/Aphelios.json','utf8'));
+   const spell=kit.allSpellRecords.find((s:{internalName:string})=>s.internalName==='ApheliosCalibrumQ');
+   expect(raw.kitEvidence).toHaveLength(1);
+   expect(raw.kitEvidence[0]).toMatchObject({ability:entry.targetName,source:spell.path});
+   expect(raw.kitEvidence[0].formula).toContain(`SpellDamage: ${spell.calculations.SpellDamage.expression}`);
+  }
+ }
+ const read=(c:string)=>weaponTargets.find(e=>e.champion===c)!;
+ expect(read('Smolder')).toMatchObject({damageType:'mixed',conditions:{targetHP:10000,duration:3}});
+ expect(read('Kindred').conditions).toMatchObject({targetHP:20000,duration:4});
+ expect(read('Leona')).toMatchObject({metric:'stat',damageType:'none',conditions:{combatSeconds:5}});
+ expect(read('Vex')).toMatchObject({metric:'shield',damageType:'none',conditions:{healthPercent:30,duration:2.5}});
+ expect(read('Ashe').conditions.critMode).toBe('normal');
+});
+it('rejects malformed and unavailable evidence selectors instead of silently using unrelated source records',()=>{
+ for(const evidenceSpell of ['',null,12,[],{},'../spell','x'.repeat(121)])
+  expect(()=>validateCeilings([{...candidate,evidenceSpell}],catalog,resources,false)).toThrow(/evidence/i);
+ const kit=JSON.parse(fs.readFileSync('public/data/champions/Blitzcrank.json','utf8'));
+ for(const evidenceSpell of ['NotARealSpell','ApheliosCalibrumQ'])
+  expect(()=>ceilingBuild({...candidate,evidenceSpell},kit,catalog,resources)).toThrow(/unknown evidence spell/i);
+});
 it('preserves repeated-hit candidates without confusing continuous crit scaling with critical outcomes',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(repeatTargets,data,resources,false)).toHaveLength(16);

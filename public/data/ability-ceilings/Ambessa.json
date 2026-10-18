@@ -183,6 +183,96 @@
           "formula": "Ambessa gains [characterLevelInterpolation(50 → 320; raw flags preserved) + (1.5) × AD[statFormula=2]] Shield for [1.5] seconds and braces herself for [0.5] seconds. She then slams the ground, dealing [50 / 75 / 100 / 125 / 150 + (0.5) × AD[statFormula=2]] physical damage to nearby enemies, which increases to [(50 / 75 / 100 / 125 / 150 + (0.5) × AD[statFormula=2]) × (1.5)] physical damage if she braced herself from damage from an enemy champion, large monster, or structure."
         }
       ]
+    },
+    {
+      "id": "ambessa-ceiling-e-double-lacerate",
+      "champion": "Ambessa",
+      "name": "Lacerate: passive-dash second strike",
+      "category": "Ability ceiling",
+      "summary": "Explore high one Lacerate plus its legal passive-dash strike output under a finite benchmark; compare alternatives without claiming a solver-certified maximum.",
+      "goal": "Explore high one Lacerate plus its legal passive-dash strike output under a finite benchmark; compare alternatives without claiming a solver-certified maximum.",
+      "hypothesis": "Each Lacerate strike deals 40/60/80/100/120 + 0.50 bonus AD. Initiating the passive dash from E causes an additional strike: two real hits nominally total 240 + 1.0 bonus AD at rank 5. Rank-3 R passive supplies armor penetration independently of item penetration.",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        2520,
+        6698,
+        3142
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "E",
+        "targetName": "one Lacerate plus its legal passive-dash strike",
+        "metric": "full-window",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. E rank 5, R rank 3 learned, real energy sufficient. One E followed by its legally triggered passive dash; position so both strikes hit the same champion during two seconds. No empowered basic attack or active R impact.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. E rank 5, R rank 3 learned, real energy sufficient. One E followed by its legally triggered passive dash; position so both strikes hit the same champion during two seconds. No empowered basic attack or active R impact.",
+        "Compare no-dash and double-hit cases before AD/penetration swaps. Record actual passive R penetration and per-hit armor, separate any healing, rune and item damage.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No free second strike without passive initiation, R damage included in E, empowered attack added as a third E strike or armor penetration counted as flat reduction."
+      ],
+      "tradeoffs": [
+        "Double-hit damage requires close positioning and commits the passive dash.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No free second strike without passive initiation, R damage included in E, empowered attack added as a third E strike or armor penetration counted as flat reduction.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Lacerate",
+          "slot": "E",
+          "source": "Characters/Ambessa/Spells/AmbessaEAbility/AmbessaE",
+          "formula": "Ambessa whips her chains around, dealing [40 / 60 / 80 / 100 / 120 + (0.5) × AD[statFormula=2]] physical damage and Slowing enemies by [99]%, which decays over [1] second. Initiating {{Spell_AmbessaP_Name}} from this Ability will trigger an additional strike."
+        }
+      ]
     }
   ]
 }

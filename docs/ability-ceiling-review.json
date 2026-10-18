@@ -2,7 +2,7 @@
   "reviewedAt": "2026-10-18",
   "patch": "26.20",
   "championCount": 173,
-  "targetCount": 396,
+  "targetCount": 412,
   "scope": "All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.",
   "targets": [
     {
@@ -21214,6 +21214,878 @@
       "specificLimits": "No all armor treated as bonus armor, W multiplier applied twice, shield capacity counted as armor, or physical penetration applied to magic E. Incoming damage used to remove Granite Shield must not silently change the active-state baseline.",
       "manualChecks": [
         "Authored interaction remains speculative."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "jhin-ceiling-p-fourth-shot-stat-conversion",
+      "champion": "Jhin",
+      "target": "one Whisper fourth-shot attack",
+      "slot": "P",
+      "metric": "single-hit",
+      "damageType": "physical",
+      "confidence": "speculative",
+      "itemIds": [
+        3031,
+        3094,
+        6676,
+        3036,
+        3072,
+        6697
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 20000 maximum HP, 100 armor, 50 MR, starting current HP 50%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. Exactly the fourth round is loaded after three preparation attacks on other units. The benchmark victim starts at 50% of 20000 HP. Rapid Firecannon is fully charged; record its proc separately. Read final AD after all passive conversions.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 50,
+        "rodStacks": 0,
+        "critMode": "critical"
+      },
+      "sourcePaths": [
+        "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive"
+      ],
+      "specificLimits": "No attack-speed-to-fire-rate assumption, recursive AD conversion, ordinary crit multiplier replacing Jhin rules, first three shots included in the fourth-shot subtotal or Energized damage hidden in the native attack.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "warwick-ceiling-p-low-health-on-hit-recovery",
+      "champion": "Warwick",
+      "target": "one empowered Eternal Hunger self-heal",
+      "slot": "P",
+      "metric": "heal",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        6621,
+        3107,
+        3065
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 10% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Owner at 10% HP, one basic attack, no Q/R, no passive suppression or Grievous Wounds. Record the native passive damage actually dealt after mitigation, then its delayed recovery. Keep rune and item damage outside the passive basis.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 10,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Warwick/Spells/WarwickPAbility/WarwickP"
+      ],
+      "specificLimits": "No physical basic-attack damage, lifesteal, item damage or post-death overkill added to the passive healing basis. Do not grant low-health healing at full HP or multiply by 2.5 twice.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "urgot-ceiling-e-ad-hp-self-shield",
+      "champion": "Urgot",
+      "target": "one Disdain self-shield",
+      "slot": "E",
+      "metric": "shield",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3084,
+        2501,
+        3072,
+        6697,
+        3065,
+        6621
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 30% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. Exactly 500 earned Heartsteel HP. Owner 30%, exactly 500 earned Heartsteel HP and recorded actual Bloodmail bonus AD. One E with no existing shield and no enemy collision needed. Record shield capacity before any incoming damage and after four-second expiry.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Urgot/Spells/UrgotEAbility/UrgotE"
+      ],
+      "specificLimits": "No base HP or base AD included in bonus-stat ratios, ordinary E damage counted as shield, free Hubris kills or overlapping shields added to this layer. Healing-power and received-shield order remain manual checks.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "trundle-ceiling-p-single-death-healing",
+      "champion": "Trundle",
+      "target": "one King's Tribute recovery inside Frozen Domain",
+      "slot": "P",
+      "metric": "heal",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        6621,
+        3504,
+        3107,
+        3222,
+        3065
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 10% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Owner at 10% HP, W rank 5 active and Trundle inside it. Exactly one enemy champion with 10000 maximum HP dies within the real passive range; no other unit deaths, lifesteal or healing effects during the measurement. W remains active until recovery resolves.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 10,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Trundle/Spells/TrundleDiseaseOverseerAbility/TrundleDiseaseOverseer"
+      ],
+      "specificLimits": "No Trundle own max HP substituted for the dead enemy HP, multiple deaths combined into one event, enemy current HP used as the base or W healing bonus counted as an independent heal.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "nautilus-ceiling-e-three-wave-falloff",
+      "champion": "Nautilus",
+      "target": "one three-wave Riptide sequence on one champion",
+      "slot": "E",
+      "metric": "full-window",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        6657,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Seraph is legitimately transformed. Rod has exactly 10 earned stacks. One E, target positioned and moving so all three expanding waves can actually connect. Observe for two seconds; log each contact rather than assuming a stationary target receives three waves. No auto, passive or other spells.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone"
+      ],
+      "specificLimits": "No three full-damage waves, monster bonus on champions, extra wave invented when geometry misses or multiple E casts merged into one. Source penalty needs actual-client confirmation.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "rumble-ceiling-e-two-danger-zone-harpoons",
+      "champion": "Rumble",
+      "target": "two legal Danger Zone Electro Harpoon hits",
+      "slot": "E",
+      "metric": "full-window",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3102,
+        3157,
+        3100
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Start at exactly 80 Heat with two legitimately available charges and no existing E debuff on the victim. Fire both within two seconds while each remains above 50 and below the 150 Overheat lockout threshold; record actual heat before each cast and each hit.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade"
+      ],
+      "specificLimits": "No maximum double-hit shred applied before the first impact, extra unearned charges, free casting through Overheat, full ordinary/empowered damage added together or Lich Bane auto counted as E.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "renekton-ceiling-e-slice-empowered-dice",
+      "champion": "Renekton",
+      "target": "one Slice plus empowered Dice on the same champion",
+      "slot": "E",
+      "metric": "full-window",
+      "damageType": "physical",
+      "confidence": "speculative",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        2520,
+        6698,
+        3142
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. Start with exactly 50 Fury and sufficient time to complete the recast. Hit the same champion with the first dash, then spend the legally available Fury on Dice within its four-second window. No R, W or Q damage.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Renekton/Spells/RenektonSliceAndDiceAbility/RenektonSliceAndDice"
+      ],
+      "specificLimits": "No first dash empowered, both hits multiplied by the empowered coefficient, 35% armor removal applied to the initial Slice, unearned Fury or extra recasts.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "pantheon-ceiling-r-central-ap-meteor",
+      "champion": "Pantheon",
+      "target": "one central Grand Starfall meteor impact",
+      "slot": "R",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        6657,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Seraph is legitimately transformed. Rod has exactly 10 earned stacks. Rank-3 R with a legal cast, channel and landing. Benchmark champion is in the central full-damage area; log the preceding spear separately if it also hits. No empowered follow-up attack.",
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Pantheon/Spells/PantheonRAbility/PantheonR"
+      ],
+      "specificLimits": "No 30% armor penetration applied to magic meteor, spear copied from meteor AP scaling, maximum center damage assigned to edge hits or R reset granted without cooldown.",
+      "manualChecks": [
+        "Source tooltip contains an unresolved token; inspect helper and current client.",
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "lulu-ceiling-e-self-shield-power",
+      "champion": "Lulu",
+      "target": "one self-cast Help Pix shield",
+      "slot": "E",
+      "metric": "shield",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        6621,
+        3504,
+        3107,
+        3222,
+        3065
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 30% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. One self-cast rank-5 E, owner at 30% HP, no earlier shield and Pix available. Measure fresh capacity before damage; observe expiry at 2.5 seconds. No W, R, Moonstone chain or outside buffs.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2.5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Lulu/Spells/LuluEAbility/LuluE"
+      ],
+      "specificLimits": "No enemy-cast E damage counted as shield, Pix attack damage added to capacity, multiple refreshes stacked or caster received-healing modifiers applied to a different recipient.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "ambessa-ceiling-e-double-lacerate",
+      "champion": "Ambessa",
+      "target": "one Lacerate plus its legal passive-dash strike",
+      "slot": "E",
+      "metric": "full-window",
+      "damageType": "physical",
+      "confidence": "speculative",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        2520,
+        6698,
+        3142
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. E rank 5, R rank 3 learned, real energy sufficient. One E followed by its legally triggered passive dash; position so both strikes hit the same champion during two seconds. No empowered basic attack or active R impact.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Ambessa/Spells/AmbessaEAbility/AmbessaE"
+      ],
+      "specificLimits": "No free second strike without passive initiation, R damage included in E, empowered attack added as a third E strike or armor penetration counted as flat reduction.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "ornn-ceiling-r-two-elemental-passes",
+      "champion": "Ornn",
+      "target": "two native Call of the Forge God impacts",
+      "slot": "R",
+      "metric": "full-window",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        6657,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 20000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Seraph is legitimately transformed. Rod has exactly 10 earned stacks. One incoming elemental and one successfully redirected elemental both contact the same surviving champion in a five-second observation. No pre-existing Brittle, attacks, W, allied CC or Masterwork item upgrades.",
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Ornn/Spells/OrnnRAbility/OrnnR"
+      ],
+      "specificLimits": "No Brittle percentage treated as AP scaling, free third pass, headbutt auto counted as a third native impact or two Brittle detonations assumed without distinct legal consumption events.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "zeri-ceiling-q-critical-seven-round-burst",
+      "champion": "Zeri",
+      "target": "one full critical Burst Fire burst",
+      "slot": "Q",
+      "metric": "single-hit",
+      "damageType": "physical",
+      "confidence": "speculative",
+      "itemIds": [
+        3031,
+        3094,
+        6676,
+        3036,
+        3072,
+        6697
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. One rank-5 Q with all seven rounds reaching the same first target, actual 100% crit chance from this inventory, R and E inactive. Rapid Firecannon charged; isolate its proc. No charged passive basic attack.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "critical"
+      },
+      "sourcePaths": [
+        "Characters/Zeri/Spells/ZeriQAbility/ZeriQ"
+      ],
+      "specificLimits": "No seven copies of the complete Q helper, charged passive magic attack merged into Q, seven independent Energized procs or ordinary attack added again because Q already is the selected attack.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "drmundo-ceiling-q-current-health-penetration",
+      "champion": "DrMundo",
+      "target": "one Infected Bonesaw hit on a full-health champion",
+      "slot": "Q",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3135,
+        4645,
+        4633,
+        3161,
+        3020,
+        3083
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. One rank-5 first-target Q on a full-health 10000-max-HP champion. Prepare exactly four real qualifying Shojin stacks and four seconds of champion combat for Riftmaker on separate targets, preserving both through impact; if eligibility fails, report the actual state instead. Owner full HP before the real health cost.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/DrMundo/Spells/DrMundoQAbility/DrMundoQ"
+      ],
+      "specificLimits": "No AP ratio invented, monster cap applied to champions, target maximum HP used after it has been wounded, free Shojin/Riftmaker ramp or health refund counted as damage. Verify proc eligibility and amplification in client.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "twistedfate-ceiling-e-hybrid-fourth-attack",
+      "champion": "TwistedFate",
+      "target": "one Stacked Deck native magic bonus",
+      "slot": "E",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3072,
+        6697,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. Rank-5 E with exactly three legal preparation attacks on other targets. Trigger once on the benchmark champion. No Pick a Card, Lich Bane, Wild Cards or second E proc.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/TwistedFate/Spells/CardmasterStackAbility/CardmasterStack"
+      ],
+      "specificLimits": "No three preparation attacks added to the fourth-hit bonus, total AD substituted for bonus AD, lethality on magic damage or ordinary attack crit multiplier assumed to affect the passive.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "samira-ceiling-r-ten-critical-waves",
+      "champion": "Samira",
+      "target": "one ten-wave critical Inferno Trigger on one champion",
+      "slot": "R",
+      "metric": "full-window",
+      "damageType": "physical",
+      "confidence": "speculative",
+      "itemIds": [
+        3031,
+        3508,
+        6676,
+        3036,
+        3072,
+        6697
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 20000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. Prepare an actual S Style rating on separate units using legal distinct events, then activate R once. One champion stays in range for all ten waves; the inventory has actual 100% crit chance. No interruption, prior combo damage or physical auto included.",
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "critical"
+      },
+      "sourcePaths": [
+        "Characters/Samira/Spells/SamiraRAbility/SamiraR"
+      ],
+      "specificLimits": "No R without S rank, all nearby enemies summed as one target, more than ten waves, pre-R combo damage or lifesteal added to damage. Stop effective scoring when the victim dies.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "hwei-ceiling-ww-full-self-shield",
+      "champion": "Hwei",
+      "target": "one fully grown Pool of Reflection self-shield",
+      "slot": "W",
+      "metric": "shield",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        6621,
+        3504,
+        3107,
+        3222,
+        3065
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 10000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 30% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. W rank 5, owner 30%, cast the actual WW subspell and remain inside the pool through full growth without taking damage. Record initial, pre-expiry peak and subsequent expiration. No other shields or allied buffs.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Hwei/Spells/HweiWAbility/HweiWW"
+      ],
+      "specificLimits": "No immediate half shield added again on top of full capacity, caster Visage transferred to allies, three-second refreshes treated as new additive shields or WQ/WE selected instead of WW. Exact peak/expiry timing needs real-client observation.",
+      "manualChecks": [
+        "Source tooltip contains an unresolved token; inspect helper and current client.",
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage."
       ],
       "verification": "source-and-setup-reviewed; in-game result not verified"
     }

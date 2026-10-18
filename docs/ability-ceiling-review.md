@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 396 targets across 173 champions.
+Patch 26.20: 412 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 211 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 227 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -408,3 +408,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Kaisa | one four-stack Plasma consumption burst | P | single-hit | speculative | 3 |
 | Maokai | one Sap Magic self-heal | P | heal | speculative | 2 |
 | Malphite | one Ground Slam with Granite Shield active | E | single-hit | speculative | 1 |
+| Jhin | one Whisper fourth-shot attack | P | single-hit | speculative | 2 |
+| Warwick | one empowered Eternal Hunger self-heal | P | heal | speculative | 2 |
+| Urgot | one Disdain self-shield | E | shield | speculative | 3 |
+| Trundle | one King's Tribute recovery inside Frozen Domain | P | heal | speculative | 2 |
+| Nautilus | one three-wave Riptide sequence on one champion | E | full-window | speculative | 3 |
+| Rumble | two legal Danger Zone Electro Harpoon hits | E | full-window | speculative | 2 |
+| Renekton | one Slice plus empowered Dice on the same champion | E | full-window | speculative | 3 |
+| Pantheon | one central Grand Starfall meteor impact | R | single-hit | speculative | 3 |
+| Lulu | one self-cast Help Pix shield | E | shield | speculative | 2 |
+| Ambessa | one Lacerate plus its legal passive-dash strike | E | full-window | speculative | 3 |
+| Ornn | two native Call of the Forge God impacts | R | full-window | speculative | 3 |
+| Zeri | one full critical Burst Fire burst | Q | single-hit | speculative | 2 |
+| DrMundo | one Infected Bonesaw hit on a full-health champion | Q | single-hit | speculative | 2 |
+| TwistedFate | one Stacked Deck native magic bonus | E | single-hit | speculative | 2 |
+| Samira | one ten-wave critical Inferno Trigger on one champion | R | full-window | speculative | 3 |
+| Hwei | one fully grown Pool of Reflection self-shield | W | shield | speculative | 3 |

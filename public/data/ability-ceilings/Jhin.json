@@ -183,6 +183,96 @@
           "formula": "Jhin sets up and channels, enabling him to fire 4 super shots, each dealing between [64 / 128 / 192 + (0.25) × AD] and [(64 / 128 / 192 + (0.25) × AD) × ((1 + 3))] physical damage to the first champion hit based on their percentage missing health and Slowing them by [80]% for [0.5] seconds. The fourth shot critically strikes for [200]% damage."
         }
       ]
+    },
+    {
+      "id": "jhin-ceiling-p-fourth-shot-stat-conversion",
+      "champion": "Jhin",
+      "name": "Whisper: fourth shot with converted stats",
+      "category": "Ability ceiling",
+      "summary": "Explore high one Whisper fourth-shot attack output under a finite benchmark; compare alternatives without claiming a solver-certified maximum.",
+      "goal": "Explore high one Whisper fourth-shot attack output under a finite benchmark; compare alternatives without claiming a solver-certified maximum.",
+      "hypothesis": "The fourth shot always critically strikes and adds a level-breakpoint missing-health component (25% at level 18). Whisper also converts crit chance and bonus attack speed into increased AD, and Jhin has a special reduced crit rule. Use actual final AD and crit damage rather than an ordinary marksman attack formula.",
+      "itemIds": [
+        3031,
+        3094,
+        6676,
+        3036,
+        3072,
+        6697
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 50,
+        "rodStacks": 0,
+        "critMode": "critical"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "one Whisper fourth-shot attack",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 20000 maximum HP, 100 armor, 50 MR, starting current HP 50%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. Exactly the fourth round is loaded after three preparation attacks on other units. The benchmark victim starts at 50% of 20000 HP. Rapid Firecannon is fully charged; record its proc separately. Read final AD after all passive conversions.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 20000 maximum HP, 100 armor, 50 MR, starting current HP 50%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Exactly 10 earned Hubris kills with the temporary buff active. Exactly the fourth round is loaded after three preparation attacks on other units. The benchmark victim starts at 50% of 20000 HP. Rapid Firecannon is fully charged; record its proc separately. Read final AD after all passive conversions.",
+        "Compare Rapid Firecannon against raw AD and penetration while keeping earned Hubris and target state fixed. Log the crit attack, missing-health component and Energized/item/rune packets in engine order; verify the missing-health evaluation point.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No attack-speed-to-fire-rate assumption, recursive AD conversion, ordinary crit multiplier replacing Jhin rules, first three shots included in the fourth-shot subtotal or Energized damage hidden in the native attack."
+      ],
+      "tradeoffs": [
+        "The high fourth shot depends on ammunition and a wounded target and is not sustained DPS.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No attack-speed-to-fire-rate assumption, recursive AD conversion, ordinary crit multiplier replacing Jhin rules, first three shots included in the fourth-shot subtotal or Energized damage hidden in the native attack.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Whisper",
+          "slot": "Passive",
+          "source": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+          "formula": "Jhin's hand cannon has a fixed Attack Speed and can be fired [4] times before needing to be reloaded. The [4]th shot always critically strikes, and deals an additional [characterLevelBreakpoints(start=0.15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] missing health physical damage.\n\nIn addition:Jhin gains [characterLevelBreakpoints(start=0.04, perLevel=0.01, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 0.019999999552965164, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 0.03999999910593033, \"__type\": \"Breakpoint\"}]) + (0.35) × Stat(8) + (0.3) × Stat(4)[statFormula=2]] bonus Attack DamageJhin's critical strikes deal [25]% less damage but grant him [0.14 + (0.44) × Stat(4)[statFormula=2]] Move Speed for [2] seconds."
+        }
+      ]
     }
   ]
 }

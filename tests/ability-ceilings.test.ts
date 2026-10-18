@@ -14,6 +14,7 @@ import weaponTargets from '../scripts/ability-ceilings/group-14.json';
 import potentialTargets from '../scripts/ability-ceilings/group-15.json';
 import scalingTargets from '../scripts/ability-ceilings/group-16.json';
 import conversionWindows from '../scripts/ability-ceilings/group-17.json';
+import conditionalTargets from '../scripts/ability-ceilings/group-18.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -21,6 +22,36 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings,ceilingBuild} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('preserves low-health recovery, shield growth and guaranteed crit conditions in the new experiments',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(conditionalTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of conditionalTargets){
+  const published=JSON.parse(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'));
+  const b=parseChatBuilds(JSON.stringify(published),data).find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Urgot')expect(saved.scenario).toMatchObject({objectiveSlot:'E',rank:5,heartsteelHP:500,healthPercent:30,duration:4});
+  if(entry.champion==='Samira')expect(saved.scenario).toMatchObject({objectiveSlot:'R',rank:3,critMode:'critical',targetHP:20000,duration:2});
+  if(entry.champion==='Hwei'){
+   const raw=published.builds.find((v:{id:string})=>v.id===b.id) as {kitEvidence:{ability:string;source:string;formula:string}[]};
+   const kit=JSON.parse(fs.readFileSync('public/data/champions/Hwei.json','utf8'));
+   const spell=kit.allSpellRecords.find((v:{internalName:string})=>v.internalName==='HweiWW');
+   expect(raw.kitEvidence).toHaveLength(1);
+   expect(raw.kitEvidence[0]).toMatchObject({ability:entry.targetName,source:spell.path});
+   expect(raw.kitEvidence[0].formula).toContain(`ShieldAmount: ${spell.calculations.ShieldAmount.expression}`);
+  }
+ }
+ const read=(c:string)=>conditionalTargets.find(e=>e.champion===c)!;
+ expect(read('Warwick')).toMatchObject({metric:'heal',damageType:'none',conditions:{healthPercent:10}});
+ expect(read('Trundle')).toMatchObject({targetSlot:'P',metric:'heal',conditions:{healthPercent:10,targetHP:10000}});
+ expect(read('Jhin').conditions).toMatchObject({critMode:'critical',targetHealthPercent:50});
+ expect(read('Zeri').conditions.critMode).toBe('critical');
+ expect(read('DrMundo').conditions.combatSeconds).toBe(4);
+ expect(read('Rumble').conditions.duration).toBe(2);
+});
 it('roundtrips pet, crit and missing-health experiments without dropping their distinct benchmark states',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(conversionWindows,data,resources,false)).toHaveLength(16);

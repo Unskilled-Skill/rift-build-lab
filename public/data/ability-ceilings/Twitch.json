@@ -93,6 +93,96 @@
           "formula": "Deals [20 / 30 / 40 / 50 / 60] physical damage to all nearby enemies affected by Deadly Venom, plus an additional [15 / 20 / 25 / 30 / 35 + (0.35) × AD[statFormula=2]] physical damage and [(0.35) × AP] magical damage per stack of Deadly Venom.\n\nMax Damage: [20 / 30 / 40 / 50 / 60 + (6) × (15 / 20 / 25 / 30 / 35) + ((0.35) × (6)) × AD[statFormula=2]] physical damage and [((0.35) × AP) × (6)] magical damage."
         }
       ]
+    },
+    {
+      "id": "twitch-ceiling-passive-six-stack-six-seconds",
+      "champion": "Twitch",
+      "name": "Deadly Venom: six-stack true-damage window",
+      "category": "Ability ceiling",
+      "summary": "Investigate high six seconds of six-stack Deadly Venom output with a finite, reproducible setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high six seconds of six-stack Deadly Venom output with a finite, reproducible setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "Each Venom stack deals a level-breakpoint base + 0.03 AP true damage per second for six seconds, up to six stacks. At level 18 the base is 5 per stack, so a nominal six-second, six-stack window is 180 + 1.08 AP before actual tick timing and expiry. Magic penetration does not increase this true packet.",
+      "itemIds": [
+        3089,
+        3040,
+        6657,
+        6655,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 6,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "six seconds of six-stack Deadly Venom",
+        "metric": "full-window",
+        "damageType": "true",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 6s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers. Gathering Storm at minute 30 if selected; no free permanent stacks. Stop observed damage scoring on death, cap observed healing at missing HP, and report raw output separately. Exactly six legally applied stacks, with the duration freshly refreshed at the observation start; setup attack/W damage excluded. Seraph transformed and Rod exactly 10 earned stacks. A 10000-max-HP victim survives the whole six seconds. Record health after preparation and adjust the loaded start health if needed. No attacks or E inside the scored window.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 6s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers. Gathering Storm at minute 30 if selected; no free permanent stacks. Stop observed damage scoring on death, cap observed healing at missing HP, and report raw output separately. Exactly six legally applied stacks, with the duration freshly refreshed at the observation start; setup attack/W damage excluded. Seraph transformed and Rod exactly 10 earned stacks. A 10000-max-HP victim survives the whole six seconds. Record health after preparation and adjust the loaded start health if needed. No attacks or E inside the scored window.",
+        "Count actual ticks and stack expiry, comparing one versus six stacks. Swap a mana/AP slot for another AP slot using real Seraph conversion. Use a magic-penetration-only change as a negative core-damage control. Report First Strike or other proc packets separately.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No six stacks granted without setup, damage before the scored window repeated in the total, unlimited refresh duration or generic amplification automatically applied to true damage. Luden's supplies AP/mana here; its separate damage proc is not part of the true poison score."
+      ],
+      "tradeoffs": [
+        "An AP-stat inventory can produce a large delayed true burn but sacrifices attack DPS, safety and the ability to finish a target before expiry.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No six stacks granted without setup, damage before the scored window repeated in the total, unlimited refresh duration or generic amplification automatically applied to true damage. Luden's supplies AP/mana here; its separate damage proc is not part of the true poison score.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Deadly Venom",
+          "slot": "Passive",
+          "source": "Characters/Twitch/Spells/TwitchDeadlyVenomMarkerAbility/TwitchDeadlyVenomMarker",
+          "formula": "Twitch's Attacks infect his target %i:OnHit% On-Hit, dealing [characterLevelBreakpoints(start=1, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 29, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}]) + (0.03) × AP] true damage per second for [6] seconds, stacking up to [6] times. \n\nMax Damage Per Second: [(characterLevelBreakpoints(start=1, perLevel=0, changes=[{\"mLevel\": 5, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 29, \"mAdditionalBonusAtThisLevel\": 1.0, \"__type\": \"Breakpoint\"}]) + (0.03) × AP) × (6)]"
+        }
+      ]
     }
   ]
 }

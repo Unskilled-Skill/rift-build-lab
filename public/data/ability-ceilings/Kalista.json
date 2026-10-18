@@ -93,6 +93,96 @@
           "formula": "Passive: Kalista's spears linger in their target for 4 seconds, stacking any number of times.\n\nActive: Kalista rips the spears from nearby enemies, dealing [5 / 15 / 25 / 35 / 45 + (0.7) × AD + (0.65) × AP] plus [7 / 14 / 21 / 28 / 35 + (0.2 / 0.275 / 0.35 / 0.425 / 0.5) × AD + (0.5) × AP] physical damage per spear beyond the first. Slows enemies hit by [0.1 / 0.18 / 0.26 / 0.34 / 0.42 + (0.0005) × AP] for [2] seconds.\n\nIf this Ability kills at least one target, its Cooldown is refreshed and it refunds [10 / 15 / 20 / 25 / 30] Mana."
         }
       ]
+    },
+    {
+      "id": "kalista-ceiling-q-total-ad-pierce",
+      "champion": "Kalista",
+      "name": "Pierce: total-AD spear impact",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Pierce impact output with a finite, reproducible setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one Pierce impact output with a finite, reproducible setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "Q deals 10/75/140/205/270 + 1.05 total AD physical to the first target. A kill allows the spear to continue and transfer Rend stacks; that does not make the transferred stacks part of the Q damage packet or guarantee a second hit on the same victim.",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        6698,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "one Pierce impact",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers. Gathering Storm at minute 30 if selected; no free permanent stacks. Stop observed damage scoring on death, cap observed healing at missing HP, and report raw output separately. Exactly 10 earned Hubris kills with its temporary buff active. One Q on one champion, either directly or after killing a recorded intermediary. No E detonation, Sentinel passive or follow-up attack included. Confirm actual total AD.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers. Gathering Storm at minute 30 if selected; no free permanent stacks. Stop observed damage scoring on death, cap observed healing at missing HP, and report raw output separately. Exactly 10 earned Hubris kills with its temporary buff active. One Q on one champion, either directly or after killing a recorded intermediary. No E detonation, Sentinel passive or follow-up attack included. Confirm actual total AD.",
+        "Compare direct and through-unit impacts against identical champion stats. Swap an AD slot for penetration. If testing stack transfer, record spear count and the later E separately so Q impact is not inflated.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No every transferred Rend stack added as immediate Q damage, ordinary attack crit multiplier, or through-unit hit without actually killing the intermediary. Pierce and Rend are separate comparison targets."
+      ],
+      "tradeoffs": [
+        "A Q-only AD/penetration inventory sacrifices Kalista attack-speed identity and requires a skillshot to connect.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No every transferred Rend stack added as immediate Q damage, ordinary attack crit multiplier, or through-unit hit without actually killing the intermediary. Pierce and Rend are separate comparison targets.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Pierce",
+          "slot": "Q",
+          "source": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+          "formula": "Kalista hurls a spear, dealing [10 / 75 / 140 / 205 / 270 + (1.05) × AD] physical damage to the first target hit. If this kills the target, the spear continues onward, carrying any {{Spell_KalistaExpungeWrapper_Name}} stacks to the next target hit.\n\nKalista can dash after using this Ability using {{Spell_KalistaPassiveBuff_Name}}."
+        }
+      ]
     }
   ]
 }

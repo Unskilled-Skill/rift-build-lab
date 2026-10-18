@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 268 targets across 173 champions.
+Patch 26.20: 284 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 83 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 99 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -280,3 +280,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Tryndamere | one Spinning Slash impact | E | single-hit | speculative | 3 |
 | Vi | one Relentless Force enhanced attack core | E | single-hit | speculative | 1 |
 | XinZhao | one Crescent Guard sweep | R | single-hit | speculative | 2 |
+| Briar | one Certain Death landing impact | R | single-hit | speculative | 2 |
+| Elise | one human Volatile Spiderling explosion | W:0 | single-hit | speculative | 3 |
+| Graves | one End of the Line outbound and return sequence | Q | full-window | speculative | 3 |
+| Ivern | one fresh Triggerseed shield on an ally | E | shield | speculative | 3 |
+| Jinx | one Zap impact | W | single-hit | speculative | 2 |
+| Kalista | one Pierce impact | Q | single-hit | speculative | 2 |
+| Khazix | one Void Spike self-heal | W | heal | speculative | 3 |
+| Malzahar | one four-second Malefic Visions application | E | full-window | speculative | 3 |
+| Milio | two overlapping Warm Hugs shields on one ally | E | shield | speculative | 3 |
+| Nami | three Tidecaller's Blessing magic procs | E | full-window | speculative | 3 |
+| Rumble | one Danger Zone Flamespitter duration | Q | full-window | speculative | 3 |
+| Sona | one Q-enhanced Staccato magic packet | P | single-hit | speculative | 2 |
+| Teemo | one Toxic Shot impact and four-second poison | E | full-window | speculative | 3 |
+| Twitch | six seconds of six-stack Deadly Venom | P | full-window | speculative | 3 |
+| Yorick | one champion-hit Last Rites self-heal | Q | heal | speculative | 2 |
+| JarvanIV | one Demacian Standard impact | E | single-hit | speculative | 2 |

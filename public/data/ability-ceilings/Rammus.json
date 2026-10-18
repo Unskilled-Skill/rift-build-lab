@@ -93,6 +93,96 @@
           "formula": "Rammus enters a defensive formation for [7] seconds, gaining [(27 / 32 / 37 / 42 / 47) × ((1 + 0.3 / 0.375 / 0.45 / 0.525 / 0.6)) + (0.3 / 0.375 / 0.45 / 0.525 / 0.6) × Stat(1)] Armor and [(20 / 25 / 30 / 35 / 40) × ((1 + 0.3 / 0.375 / 0.45 / 0.525 / 0.6)) + (0.3 / 0.375 / 0.45 / 0.525 / 0.6) × Stat(6)] Magic Resist and dealing [15 + (0.1) × Stat(1) + (0.1) × Stat(6)] magic damage to enemies that Attack him.\n\nRecast: Rammus ends this Ability early."
         }
       ]
+    },
+    {
+      "id": "rammus-ceiling-passive-resist-ad-stat",
+      "champion": "Rammus",
+      "name": "Spiked Shell: defenses become attack damage",
+      "category": "Ability ceiling",
+      "summary": "Investigate a high Spiked Shell granted AD with W active result under finite conditions, with a practical control and one-slot swaps. Candidate, not proof of a global maximum.",
+      "goal": "Investigate a high Spiked Shell granted AD with W active result under finite conditions, with a practical control and one-slot swaps. Candidate, not proof of a global maximum.",
+      "hypothesis": "The current Spiked Shell source grants AD equal to 15% total armor + 15% total MR. W, earned Jak'Sho/Force of Nature and a legally triggered Aftershock can therefore change the granted AD. This target measures the passive's stat contribution, not reflection damage or a critical attack; flat item AD is not part of the passive contribution.",
+      "itemIds": [
+        6665,
+        3110,
+        3075,
+        4401,
+        2504,
+        3143
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 5,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 50,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "Spiked Shell granted AD with W active",
+        "metric": "stat",
+        "damageType": "none",
+        "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. W rank 5 active, Jak'Sho five-second state, Force of Nature eight qualifying magic hits, Aftershock legally triggered by a real immobilization and measured during its active window. Owner benchmark HP 50%; read actual defenses rather than granting unavailable buffs. No allied resistances. Loaded owner HP 50%, target HP 100%, prior champion combat 5s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. W rank 5 active, Jak'Sho five-second state, Force of Nature eight qualifying magic hits, Aftershock legally triggered by a real immobilization and measured during its active window. Owner benchmark HP 50%; read actual defenses rather than granting unavailable buffs. No allied resistances. Loaded owner HP 50%, target HP 100%, prior champion combat 5s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+        "Record total AD and armor/MR before/after W and each earned ramp; isolate the AD delta attributable to Spiked Shell. Compare Randuin against a different legal resistance slot. If the specified buffs cannot overlap legally, report the reachable state instead of awarding all of them.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Aftershock, W and item resistance rules must be observed in the current client, including timing and base/bonus handling. No recursive amplification, damage-as-AD label or reflection folded into a stat metric."
+      ],
+      "tradeoffs": [
+        "A brief peak AD stat is not sustained DPS and can expire before an attack connects. Six defensive slots still need a matchup and an actual reachable setup.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Aftershock, W and item resistance rules must be observed in the current client, including timing and base/bonus handling. No recursive amplification, damage-as-AD label or reflection folded into a stat metric.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Spiked Shell",
+          "slot": "Passive",
+          "source": "Characters/Rammus/Spells/RammusPAbility/RammusP",
+          "formula": "Rammus gains [(0.15) × Stat(1) + (0.15) × Stat(6)] Attack Damage."
+        }
+      ]
     }
   ]
 }

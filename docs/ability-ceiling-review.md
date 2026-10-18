@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 205 targets across 173 champions.
+Patch 26.20: 220 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-Twenty new targets extend the previous 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 35 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -217,3 +217,18 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Shen | one empowered Twilight Assault magic bonus | Q | single-hit | plausible | 1 |
 | Shyvana | dragon-form Molten Burst impact | E | single-hit | speculative | 2 |
 | Singed | Fling champion damage | E | single-hit | plausible | 1 |
+| Taric | five-charge Starlight's Touch per recipient | Q | heal | speculative | 3 |
+| Ornn | Bellows Breath plus one Brittle detonation | W | full-window | speculative | 3 |
+| KSante | base-form Ntofo Strikes hit | Q | single-hit | speculative | 2 |
+| Skarner | Shattered Earth final attack bonus | Q | single-hit | plausible | 1 |
+| TahmKench | Tongue Lash plus one passive application | Q | single-hit | plausible | 1 |
+| Chogath | one Vorpal Spikes magic bonus | E | single-hit | plausible | 1 |
+| Fiora | Lunge hit and one correctly positioned vital | Q | full-window | speculative | 3 |
+| KogMaw | Living Artillery below-40% hit | R | single-hit | speculative | 2 |
+| Vladimir | fully charged Tides of Blood release | E | single-hit | speculative | 2 |
+| Volibear | Sky Splitter shield on Volibear | E | shield | speculative | 3 |
+| Warwick | Infinite Duress core channel damage | R | full-window | speculative | 3 |
+| Galio | Colossal Smash magic attack event | P | single-hit | speculative | 2 |
+| Diana | Pale Cascade shield applications and peak | W | shield | speculative | 3 |
+| Jax | Empower and Grandmaster passive on one attack | W | full-window | speculative | 2 |
+| Rammus | Spiked Shell granted AD with W active | P | stat | speculative | 2 |

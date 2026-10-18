@@ -2,6 +2,7 @@ import {it,expect} from 'vitest';
 import fs from 'node:fs';
 import additional from '../scripts/ability-ceilings/group-4.json';
 import expansion from '../scripts/ability-ceilings/group-5.json';
+import conversionTargets from '../scripts/ability-ceilings/group-6.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -27,7 +28,7 @@ it('publishes additional targets without dropping original targets or finite ben
  }
  const index=JSON.parse(fs.readFileSync('public/data/ability-ceilings/index.json','utf8'));
  expect(index.targetCount).toBe(index.champions.reduce((n:number,c:{count:number})=>n+c.count,0));
- expect(index.targetCount).toBe(205);
+ expect(index.targetCount).toBe(fs.readdirSync('scripts/ability-ceilings').filter(f=>/^group-\d+\.json$/.test(f)).reduce((n,f)=>n+JSON.parse(fs.readFileSync(`scripts/ability-ceilings/${f}`,'utf8')).length,0));
 });
 it('rejects benchmark overrides that could change champion identity, add free stats or create impossible health',()=>{
  for(const conditions of [{champion:'Sett'},{extraAD:10000},{toString:1},{healthPercent:-10},{gatheringMinutes:Infinity},{critMode:'always'},{duration:0},{duration:0.1},{heartsteelHP:10001},{rodStacks:1.5},{rank:2.5},{objectiveSlot:'R'},[]])
@@ -62,9 +63,27 @@ it('retains reviewed legacy finite state rather than generic full-health zero-st
 });
 it('executes the full-library audit and checks publication parity for every authored target',()=>{
  const output=execFileSync(process.execPath,['scripts/audit-ability-ceilings.mjs'],{encoding:'utf8'});
- expect(output).toContain('Reviewed 205 ceiling targets');
  const review=JSON.parse(fs.readFileSync('docs/ability-ceiling-review.json','utf8'));
  const authored=fs.readdirSync('scripts/ability-ceilings').filter(f=>/^group-\d+\.json$/.test(f)).flatMap(f=>JSON.parse(fs.readFileSync(`scripts/ability-ceilings/${f}`,'utf8')));
+ expect(output).toContain(`Reviewed ${authored.length} ceiling targets`);
  expect(review.targetCount).toBe(authored.length);
  expect(new Set(review.targets.map((r:{champion:string})=>r.champion)).size).toBe(catalog.champions.length);
+});
+
+it('publishes conversion targets with finite conditions and distinct damage, shield, heal and stat metrics',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(conversionTargets,data,resources,false)).toHaveLength(15);
+ for(const entry of conversionTargets){
+  const builds=parseChatBuilds(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'),data);
+  const b=builds.find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  expect(toTestSave(b,data).scenario).toMatchObject(entry.conditions);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  expect(b.requiresManualTest).toBe(true);
+ }
+ expect(conversionTargets.find(e=>e.champion==='Taric')!.conditions).toMatchObject({targetHP:6000,targetHealthPercent:30});
+ const rammus=conversionTargets.find(e=>e.champion==='Rammus')!;
+ expect(rammus.metric).toBe('stat');expect(rammus.damageType).toBe('none');
+ const volley=conversionTargets.find(e=>e.champion==='Warwick')!;
+ expect(volley.metric).toBe('full-window');expect(volley.conditions.duration).toBe(1.5);
 });

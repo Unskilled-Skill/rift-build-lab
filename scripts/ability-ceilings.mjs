@@ -13,7 +13,7 @@ export function validateCeilings(entries,catalog,resources,complete=true){
   if(!['physical','magic','true','mixed','none'].includes(e.damageType)||!['plausible','speculative'].includes(e.confidence))throw new Error('Invalid damage type/confidence.');
   if(e.conditions!==undefined){
    if(!e.conditions||typeof e.conditions!=='object'||Array.isArray(e.conditions))throw new Error('Invalid ceiling conditions.');
-   const ranges={healthPercent:[1,100],targetHealthPercent:[0,100],gatheringMinutes:[0,120],combatSeconds:[0,60],duration:[0.25,60],heartsteelHP:[0,10000],rodStacks:[0,10],rank:[1,6],conquerorStacks:[0,12]};
+   const ranges={healthPercent:[1,100],targetHP:[1,100000],targetHealthPercent:[0,100],gatheringMinutes:[0,120],combatSeconds:[0,60],duration:[0.25,60],heartsteelHP:[0,10000],rodStacks:[0,10],rank:[1,6],conquerorStacks:[0,12]};
    for(const [key,value] of Object.entries(e.conditions)){
     if(key==='critMode'){if(!['normal','critical','expected'].includes(value))throw new Error('Invalid ceiling crit mode.');continue;}
     if(key==='objectiveSlot'){if(typeof value!=='string'||!new RegExp(`^${e.targetSlot}(?::[0-9])?$`).test(value))throw new Error('Invalid ceiling objective condition.');continue;}

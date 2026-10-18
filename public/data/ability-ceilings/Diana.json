@@ -183,6 +183,96 @@
           "formula": "Diana gains [characterLevelInterpolation(0.15 → 0.35; raw flags preserved)] Attack Speed, increased to [(characterLevelInterpolation(0.15 → 0.35; raw flags preserved)) × (3)] for [5] seconds after using an Ability.\n\nEvery third Attack cleaves nearby enemies for an additional [characterLevelBreakpoints(start=20, perLevel=5, changes=[{\"mLevel\": 7, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 15.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 17, \"mBonusPerLevelAtAndAfter\": 25.0, \"__type\": \"Breakpoint\"}]) + (0.5) × AP] magic damage."
         }
       ]
+    },
+    {
+      "id": "diana-ceiling-w-double-shield",
+      "champion": "Diana",
+      "name": "Pale Cascade: two HP/AP shield applications",
+      "category": "Ability ceiling",
+      "summary": "Investigate a high Pale Cascade shield applications and peak result under finite conditions, with a practical control and one-slot swaps. Candidate, not proof of a global maximum.",
+      "goal": "Investigate a high Pale Cascade shield applications and peak result under finite conditions, with a practical control and one-slot swaps. Candidate, not proof of a global maximum.",
+      "hypothesis": "Each rank-5 W shield application is 105 + 0.3 AP + 14% bonus HP in the current snapshot. The last of three spheres grants an additional shield and refreshes duration. Health/AP conversions, received shielding and outgoing shield-power eligibility need testing. Report cumulative shielding and peak simultaneous shield as separate numbers instead of assuming both applications always stack intact.",
+      "itemIds": [
+        3089,
+        4633,
+        3084,
+        3083,
+        3065,
+        3107
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "Pale Cascade shield applications and peak",
+        "metric": "shield",
+        "damageType": "none",
+        "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Owner HP 30%, three spheres all legally contact one champion before expiry. Zero earned Heartsteel HP; no allied shield buff. Initial and refreshed shield states recorded before/after incoming damage. Item active healing excluded. Loaded owner HP 30%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Owner HP 30%, three spheres all legally contact one champion before expiry. Zero earned Heartsteel HP; no allied shield buff. Initial and refreshed shield states recorded before/after incoming damage. Item active healing excluded. Loaded owner HP 30%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+        "Compare Redemption against Zhonya or a pure HP slot, and Visage against another stat item. Record first application, remaining shield before the last sphere, second application and peak value. Repeat with the first shield consumed and untouched; record Revitalize eligibility.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Do not add three sphere damage packets to shield value, multiply one shield by three spheres, or call cumulative applications the peak shield without observing stacking."
+      ],
+      "tradeoffs": [
+        "The second application depends on sphere contact and survival; the largest theoretical sum can hide a weak first shield.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Do not add three sphere damage packets to shield value, multiply one shield by three spheres, or call cumulative applications the peak shield without observing stacking.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Pale Cascade",
+          "slot": "W",
+          "source": "Characters/Diana/Spells/DianaOrbsAbility/DianaOrbs",
+          "formula": "Diana creates three orbiting spheres for [5] seconds that explode on contact, each dealing [20 / 32 / 44 / 56 / 68 + (0.18) × AP] magic damage, up to a max of [(20 / 32 / 44 / 56 / 68 + (0.18) × AP) × (3)] damage.\n\nDiana also gains [45 / 60 / 75 / 90 / 105 + (0.3) × AP + (0.14) × Stat(12)[statFormula=2]] Shield for the same duration. When the last sphere detonates, she gains an additional [45 / 60 / 75 / 90 / 105 + (0.3) × AP + (0.14) × Stat(12)[statFormula=2]] Shield and refreshes the duration."
+        }
+      ]
     }
   ]
 }

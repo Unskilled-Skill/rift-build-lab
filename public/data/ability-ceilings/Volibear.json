@@ -182,6 +182,96 @@
           "formula": "Volibear mauls an enemy, dealing [5 / 30 / 55 / 80 / 105 + (1.1) × AD + (0.06) × Stat(12)[statFormula=2]] physical damage and marking them for [8] seconds.\n\nIf this Ability is used on a marked target, its damage is increased to [(5 / 30 / 55 / 80 / 105 + (1.1) × AD + (0.06) × Stat(12)[statFormula=2]) × ((1.5 + (0.0025) × AD[statFormula=2]))] and Volibear restores [20 / 35 / 50 / 65 / 80] plus [0.08 / 0.11 / 0.14 / 0.17 / 0.2] missing Health."
         }
       ]
+    },
+    {
+      "id": "volibear-ceiling-e-self-shield",
+      "champion": "Volibear",
+      "name": "Sky Splitter: AP/HP self-shield",
+      "category": "Ability ceiling",
+      "summary": "Investigate a high Sky Splitter shield on Volibear result under finite conditions, with a practical control and one-slot swaps. Candidate, not proof of a global maximum.",
+      "goal": "Investigate a high Sky Splitter shield on Volibear result under finite conditions, with a practical control and one-slot swaps. Candidate, not proof of a global maximum.",
+      "hypothesis": "E's self-shield is 0.75 AP + 14% own max HP. Deathcap, finite health and Riftmaker's HP-to-AP conversion compete for shield value; Spirit Visage is a received-shield modifier rather than damage. Enemy max HP scales E damage, not this self-shield. The actual shield must be measured separately from the lightning damage.",
+      "itemIds": [
+        3089,
+        4633,
+        3084,
+        3083,
+        3065,
+        3157
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "E",
+        "targetName": "Sky Splitter shield on Volibear",
+        "metric": "shield",
+        "damageType": "none",
+        "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Volibear remains inside the delayed E zone. Owner HP 30%; no R bonus HP or allied shield buffs, zero earned Heartsteel HP. Record Revitalize and Visage eligibility instead of assuming arbitrary shield multiplication. Loaded owner HP 30%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Volibear remains inside the delayed E zone. Owner HP 30%; no R bonus HP or allied shield buffs, zero earned Heartsteel HP. Record Revitalize and Visage eligibility instead of assuming arbitrary shield multiplication. Loaded owner HP 30%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+        "Compare Zhonya against Redemption or a high-HP slot and record the shield at creation. Test Visage included/removed and a full-HP control; exclude damage absorbed before the measurement and do not add E damage to shield value.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No shield if Volibear misses his own zone. Shield power and received-shield modifiers require in-game eligibility verification; duration is not a multiplier."
+      ],
+      "tradeoffs": [
+        "The largest shield may arrive too late or cost the resistance and damage needed to survive the delay.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No shield if Volibear misses his own zone. Shield power and received-shield modifiers require in-game eligibility verification; duration is not a multiplier.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Sky Splitter",
+          "slot": "E",
+          "source": "Characters/Volibear/Spells/VolibearEAbility/VolibearE",
+          "formula": "Volibear summons a thundercloud that fires a lightning bolt, dealing [80 / 110 / 140 / 170 / 200 + (0.7) × AP] plus [(0.11 / 0.12 / 0.13 / 0.14 / 0.15) × 100]% max Health magic damage and Slowing by [40]% for [2] seconds.\n\nIf Volibear is inside the blast zone, he gains a [(0.75) × AP] plus [14]% max Health Shield for [3] seconds."
+        }
+      ]
     }
   ]
 }

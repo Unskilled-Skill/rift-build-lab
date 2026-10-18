@@ -2,7 +2,7 @@
   "reviewedAt": "2026-10-18",
   "patch": "26.20",
   "championCount": 173,
-  "targetCount": 205,
+  "targetCount": 220,
   "scope": "All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.",
   "targets": [
     {
@@ -10806,6 +10806,819 @@
       ],
       "specificLimits": "No attack crit, repeated throw or automatic poison inclusion. A max-HP coefficient does not make the spell true damage.",
       "manualChecks": [
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "taric-ceiling-q-five-stack-heal",
+      "champion": "Taric",
+      "target": "five-charge Starlight's Touch per recipient",
+      "slot": "Q",
+      "metric": "heal",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3084,
+        3083,
+        4633,
+        6616,
+        3107
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Exactly five legally earned charges. One allied recipient has 6000 max HP and enough missing HP; do not multiply by every ally. No assumed Staff AP buff unless legally triggered before this cast; record that buff separately. Loaded owner HP 100%, target HP 30%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0. For this heal metric the form's target fields refer to the allied recipient: 6000 maximum HP, 30% current HP. Enemy damage benchmark resistances are unused.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 6000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 30,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Taric/Spells/TaricQAbility/TaricQ"
+      ],
+      "specificLimits": "Five charges must exist before casting; do not gain new Bravado charges during the measured heal. Recipient max HP only caps effective healing and does not replace Taric's own max-HP coefficient.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "ornn-ceiling-w-brittle-mr-amplification",
+      "champion": "Ornn",
+      "target": "Bellows Breath plus one Brittle detonation",
+      "slot": "W",
+      "metric": "full-window",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3135,
+        4645,
+        4633,
+        3161,
+        8020,
+        3020
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Target remains in W for 0.75s, then one legal Ornn attack consumes Brittle. Abyssal range maintained. Riftmaker pre-ramped on separate combat; Shojin uses only a legally observed stack count, not an assumed four stacks. No ally CC, masterwork stat allocations or free upgrades. Loaded owner HP 100%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Ornn/Spells/OrnnWAbility/OrnnW"
+      ],
+      "specificLimits": "Do not count Brittle twice, grant full Shojin without a legal setup, apply armor penetration to magic or call two-event damage a single hit. Masterwork stat amplification requires earned upgrades and observed actual stats.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "ksante-ceiling-q-resistance-conversion",
+      "champion": "KSante",
+      "target": "base-form Ntofo Strikes hit",
+      "slot": "Q",
+      "metric": "single-hit",
+      "damageType": "physical",
+      "confidence": "speculative",
+      "itemIds": [
+        6665,
+        3110,
+        3075,
+        4401,
+        2504,
+        6694
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Base form only, no All Out. Jak'Sho has its five-second champion-combat state; Force of Nature has eight real qualifying magic hits. Read actual bonus armor/MR after those events; no free Aftershock or allied resistance buff. Loaded owner HP 100%, target HP 100%, prior champion combat 5s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 5,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/KSante/Spells/KSanteQAbility/KSanteQ"
+      ],
+      "specificLimits": "Do not reuse All Out conversion or true-damage rules, scale from base defenses, or multiply resistance amplifiers recursively. The specified prior combat does not by itself prove Force of Nature stacks.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "skarner-ceiling-q-third-boulder",
+      "champion": "Skarner",
+      "target": "Shattered Earth final attack bonus",
+      "slot": "Q",
+      "metric": "single-hit",
+      "damageType": "physical",
+      "confidence": "plausible",
+      "itemIds": [
+        2501,
+        3084,
+        3083,
+        3053,
+        3072,
+        6694
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Two Q attacks legally consumed before the scored final attack; no thrown-boulder recast or E damage. Zero earned Heartsteel HP, no proc credited. Owner full HP so Bloodmail's missing-health amplification is inactive. Loaded owner HP 100%, target HP 100%, prior champion combat 0s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Skarner/Spells/SkarnerQAbility/SkarnerQ"
+      ],
+      "specificLimits": "The final-attack bonus is not applied to all three attacks. No assumed duplicate throw damage or recursive Bloodmail conversion.",
+      "manualChecks": [
+        "Source tooltip contains an unresolved token; inspect helper and current client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "tahmkench-ceiling-q-hp-ap-product",
+      "champion": "TahmKench",
+      "target": "Tongue Lash plus one passive application",
+      "slot": "Q",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "plausible",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        4633,
+        3084,
+        3083
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. One tongue hit on a champion, zero prior passive stacks. Zero earned Heartsteel HP; no physical attack, Devour or Q healing scored. Riftmaker already ramped from separate champion combat. Loaded owner HP 100%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/TahmKench/Spells/TahmKenchQAbility/TahmKenchQ"
+      ],
+      "specificLimits": "Do not turn three passive stacks into three damage applications on one Q or add an ordinary attack to the tongue hit. Keep healing and stun separate.",
+      "manualChecks": [
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "chogath-ceiling-e-ten-feast-spikes",
+      "champion": "Chogath",
+      "target": "one Vorpal Spikes magic bonus",
+      "slot": "E",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "plausible",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        4633,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Exactly ten legally earned Feast stacks at minute 30; record actual max HP but score only one E-empowered attack on one champion. Riftmaker pre-ramped. No R damage or spike hits on other enemies counted. Loaded owner HP 100%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Chogath/Spells/VorpalSpikesAbility/VorpalSpikes"
+      ],
+      "specificLimits": "Only one of the three attacks is scored; no threefold bonus on a single attack, monster cap substitution or unlimited Feast growth.",
+      "manualChecks": [
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "fiora-ceiling-q-vital-combination",
+      "champion": "Fiora",
+      "target": "Lunge hit and one correctly positioned vital",
+      "slot": "Q",
+      "metric": "full-window",
+      "damageType": "mixed",
+      "confidence": "speculative",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        2501,
+        3084,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. A visible vital faces the Q direction and is actually struck; exactly one vital. Hubris exactly ten credited kills with its buff active; zero earned Heartsteel HP. No R four-vital completion, attack delivery duplication or healing included. Loaded owner HP 100%, target HP 100%, prior champion combat 0s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 1,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Fiora/Spells/FioraQAbility/FioraQ"
+      ],
+      "specificLimits": "A Q does not automatically hit a vital, and physical penetration does not increase the vital's true packet. No free R completion or multiple vital procs.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "kogmaw-ceiling-r-low-health-hybrid",
+      "champion": "KogMaw",
+      "target": "Living Artillery below-40% hit",
+      "slot": "R",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3072,
+        6697,
+        3089,
+        3135,
+        4645,
+        3040
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Target starts at 39% HP. Hubris exactly ten credited kills and active buff; Seraph legally transformed. One R with enough mana; previous R stack cost and setup damage recorded separately. Loaded owner HP 100%, target HP 39%, prior champion combat 0s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 39,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/KogMaw/Spells/KogMawLivingArtilleryAbility/KogMawLivingArtillery"
+      ],
+      "specificLimits": "The below-40% rule is separate from the gradual missing-health term above threshold. Do not add both bonuses at their maxima or confuse increasing mana cost with increasing R damage.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "vladimir-ceiling-e-max-charge-hp-ap",
+      "champion": "Vladimir",
+      "target": "fully charged Tides of Blood release",
+      "slot": "E",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        4633,
+        3084,
+        3083,
+        3135,
+        4645
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Full charge legally completed before release, no Hemoplague amplification, Q damage or blobs. Zero earned Heartsteel HP. Owner starts full HP before charging; record post-cost health and Absolute Focus eligibility before impact. Riftmaker pre-ramped. Loaded owner HP 100%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Vladimir/Spells/VladimirEAbility/VladimirE"
+      ],
+      "specificLimits": "Use total own max HP for E, not enemy max HP or just bonus HP. No unlimited charging or free post-charge health restoration.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "volibear-ceiling-e-self-shield",
+      "champion": "Volibear",
+      "target": "Sky Splitter shield on Volibear",
+      "slot": "E",
+      "metric": "shield",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        4633,
+        3084,
+        3083,
+        3065,
+        3157
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Volibear remains inside the delayed E zone. Owner HP 30%; no R bonus HP or allied shield buffs, zero earned Heartsteel HP. Record Revitalize and Visage eligibility instead of assuming arbitrary shield multiplication. Loaded owner HP 30%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Volibear/Spells/VolibearEAbility/VolibearE"
+      ],
+      "specificLimits": "No shield if Volibear misses his own zone. Shield power and received-shield modifiers require in-game eligibility verification; duration is not a multiplier.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "warwick-ceiling-r-ad-magic-channel",
+      "champion": "Warwick",
+      "target": "Infinite Duress core channel damage",
+      "slot": "R",
+      "metric": "full-window",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3072,
+        6697,
+        3053,
+        3135,
+        4645,
+        8020
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. One uninterrupted 1.5-second channel on a full-health champion. Hubris exactly ten credited kills and buff active; Abyssal range maintained. No Q, earlier attack damage or item on-hits in the core metric. Loaded owner HP 100%, target HP 100%, prior champion combat 0s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 1.5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Warwick/Spells/WarwickRAbility/WarwickR"
+      ],
+      "specificLimits": "Do not multiply the entire 525 + 1.67 bonus AD by three. Suppression interruption, proc cadence and healing must be reported separately.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "galio-ceiling-passive-ad-mr-crossover",
+      "champion": "Galio",
+      "target": "Colossal Smash magic attack event",
+      "slot": "P",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3072,
+        6697,
+        3135,
+        4645,
+        3102,
+        6665
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Passive ready, exactly one attack. Hubris exactly ten credited kills with active buff; Jak'Sho at its earned five-second champion-combat state. No Shield of Durand buff, Aftershock or allied MR grant. Record actual stats. Loaded owner HP 100%, target HP 100%, prior champion combat 5s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 5,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Galio/Spells/GalioPassiveAbility/GalioPassive"
+      ],
+      "specificLimits": "No double-counted physical attack, passive crit assumption or physical penetration on the magic packet. Do not recursively apply resistance amplification.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "diana-ceiling-w-double-shield",
+      "champion": "Diana",
+      "target": "Pale Cascade shield applications and peak",
+      "slot": "W",
+      "metric": "shield",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        4633,
+        3084,
+        3083,
+        3065,
+        3107
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Owner HP 30%, three spheres all legally contact one champion before expiry. Zero earned Heartsteel HP; no allied shield buff. Initial and refreshed shield states recorded before/after incoming damage. Item active healing excluded. Loaded owner HP 30%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Diana/Spells/DianaOrbsAbility/DianaOrbs"
+      ],
+      "specificLimits": "Do not add three sphere damage packets to shield value, multiply one shield by three spheres, or call cumulative applications the peak shield without observing stacking.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "jax-ceiling-w-third-hit-combination",
+      "champion": "Jax",
+      "target": "Empower and Grandmaster passive on one attack",
+      "slot": "W",
+      "metric": "full-window",
+      "damageType": "mixed",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3115,
+        3100,
+        3157
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. W rank 5, R rank 3 learned, exactly two R-passive attacks prepared within the source 2.5-second window; no R active. One W-empowered third attack. Lich Bane ready only for a separately reported full-event total. Target full HP. Loaded owner HP 100%, target HP 100%, prior champion combat 0s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 1,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Jax/Spells/JaxWAbility/JaxW"
+      ],
+      "specificLimits": "This is one combined attack event with multiple packets, not one ordinary W number. Partial W-only calculators cannot certify the full delivery. Ordinary crit does not multiply every magic component.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "rammus-ceiling-passive-resist-ad-stat",
+      "champion": "Rammus",
+      "target": "Spiked Shell granted AD with W active",
+      "slot": "P",
+      "metric": "stat",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        6665,
+        3110,
+        3075,
+        4401,
+        2504,
+        3143
+      ],
+      "runePage": [
+        8439,
+        8463,
+        8473,
+        8451,
+        8345,
+        8347
+      ],
+      "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. W rank 5 active, Jak'Sho five-second state, Force of Nature eight qualifying magic hits, Aftershock legally triggered by a real immobilization and measured during its active window. Owner benchmark HP 50%; read actual defenses rather than granting unavailable buffs. No allied resistances. Loaded owner HP 50%, target HP 100%, prior champion combat 5s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 5,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 50,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Rammus/Spells/RammusPAbility/RammusP"
+      ],
+      "specificLimits": "Aftershock, W and item resistance rules must be observed in the current client, including timing and base/bonus handling. No recursive amplification, damage-as-AD label or reflection folded into a stat metric.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
         "Read actual earned stacks, stat conversions and conditional item ramp in the client."
       ],
       "verification": "source-and-setup-reviewed; in-game result not verified"

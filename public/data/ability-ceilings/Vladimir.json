@@ -93,6 +93,96 @@
           "formula": "Vladimir drains his target's lifeforce, dealing [80 / 100 / 120 / 140 / 160 + (0.6) × AP] magic damage and restoring [20 / 25 / 30 / 35 / 40 + (0.35) × AP] Health. After using this Ability twice, Vladimir gains [characterLevelBreakpoints(start=10, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 16, \"mAdditionalBonusAtThisLevel\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 21, \"mAdditionalBonusAtThisLevel\": 10.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 26, \"mAdditionalBonusAtThisLevel\": 10.0, \"__type\": \"Breakpoint\"}])]% Move Speed for 0.5 seconds and empowers the next use of this Ability for [2.5] seconds.\n\nThe empowered version of this Ability deals [(80 / 100 / 120 / 140 / 160 + (0.6) × AP) × (1.85)] magic damage instead and restores an additional [(characterLevelInterpolation(30 → 200; raw flags preserved)) × (1)] plus [((5 + (0.04) × AP) × (0.01)) × (1)] missing Health."
         }
       ]
+    },
+    {
+      "id": "vladimir-ceiling-e-max-charge-hp-ap",
+      "champion": "Vladimir",
+      "name": "Tides of Blood: charged HP/AP reservoir",
+      "category": "Ability ceiling",
+      "summary": "Investigate a high fully charged Tides of Blood release result under finite conditions, with a practical control and one-slot swaps. Candidate, not proof of a global maximum.",
+      "goal": "Investigate a high fully charged Tides of Blood release result under finite conditions, with a practical control and one-slot swaps. Candidate, not proof of a global maximum.",
+      "hypothesis": "Rank-5 full E is 180 + 6% own maximum HP + 0.8 AP magic damage. Crimson Pact converts external HP and AP without self-recursion, while Riftmaker adds another observed HP-to-AP conversion. This rewards testing both HP and AP slots. Charging costs up to 8% own max HP; it does not increase the coefficient indefinitely.",
+      "itemIds": [
+        3089,
+        4633,
+        3084,
+        3083,
+        3135,
+        4645
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "E",
+        "targetName": "fully charged Tides of Blood release",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Full charge legally completed before release, no Hemoplague amplification, Q damage or blobs. Zero earned Heartsteel HP. Owner starts full HP before charging; record post-cost health and Absolute Focus eligibility before impact. Riftmaker pre-ramped. Loaded owner HP 100%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Full charge legally completed before release, no Hemoplague amplification, Q damage or blobs. Zero earned Heartsteel HP. Owner starts full HP before charging; record post-cost health and Absolute Focus eligibility before impact. Riftmaker pre-ramped. Loaded owner HP 100%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
+        "Compare Warmog against Zhonya and Heartsteel against Banshee at fixed earned stacks. Read actual AP and max HP after the champion/item conversions; do not sum a recursive spreadsheet loop. Compare tap and full release and account for the health cost separately from damage.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Use total own max HP for E, not enemy max HP or just bonus HP. No unlimited charging or free post-charge health restoration."
+      ],
+      "tradeoffs": [
+        "A large charged hit spends health and slows Vladimir; extra raw HP can lose useful access, haste or resistance.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Use total own max HP for E, not enemy max HP or just bonus HP. No unlimited charging or free post-charge health restoration.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Tides of Blood",
+          "slot": "E",
+          "source": "Characters/Vladimir/Spells/VladimirEAbility/VladimirE",
+          "formula": "Begin Charging: Vladimir charges up a reservoir of blood, spending up to [(0.08) × Stat(12)] Health. While at full charge, Vladimir is Slowed by 20%.\n\nRelease: Vladimir unleashes a torrent of blood missiles at surrounding enemies, dealing between [30 / 45 / 60 / 75 / 90 + (0.015) × Stat(12) + (0.35) × AP] and [60 / 90 / 120 / 150 / 180 + (0.06) × Stat(12) + (0.8) × AP] magic damage based on charge time. If this Ability was charged for at least 1 second, it also Slows targets by [40 / 45 / 50 / 55 / 60]% for 0.5 seconds."
+        }
+      ]
     }
   ]
 }

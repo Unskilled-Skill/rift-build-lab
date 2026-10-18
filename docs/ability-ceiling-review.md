@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 364 targets across 173 champions.
+Patch 26.20: 380 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 179 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 195 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -376,3 +376,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Darius | one critical Crippling Strike enhanced attack | W | single-hit | speculative | 3 |
 | Gnar | one Mini Gnar Hop enemy bounce | E:0 | single-hit | speculative | 2 |
 | Yorick | Maiden maximum health from one legal summon | R | stat | speculative | 1 |
+| Aatrox | World Ender attack-damage increase | R | stat | speculative | 3 |
+| Briar | one Snack Attack enhanced bite | W:1 | single-hit | speculative | 3 |
+| Caitlyn | one full-damage Piltover Peacemaker impact | Q | single-hit | speculative | 2 |
+| Chogath | one Rupture impact | Q | single-hit | speculative | 2 |
+| Corki | one four-second Gatling Gun exposure | E | full-window | speculative | 3 |
+| Fiora | one Riposte magic stab | W | single-hit | speculative | 2 |
+| Irelia | one Vanguard's Edge projectile and boundary hit | R | full-window | speculative | 3 |
+| JarvanIV | one Martial Cadence bonus physical packet | P | single-hit | speculative | 2 |
+| Kled | one mounted Bear Trap impact and yank | Q | full-window | speculative | 3 |
+| LeeSin | one Tempest magic impact | E:0 | single-hit | speculative | 3 |
+| Morgana | one self-cast Black Shield capacity | E | shield | speculative | 2 |
+| Nunu | one complete Snowball Barrage and root burst | E | full-window | speculative | 3 |
+| Rakan | one fresh Fey Feathers shield | P | shield | speculative | 2 |
+| Sion | one Soul Furnace detonation | W | single-hit | speculative | 2 |
+| Sylas | one primary-target Petricite Burst attack | P | single-hit | speculative | 3 |
+| Udyr | one Awakened Iron Mantle shield component | W | shield | speculative | 3 |

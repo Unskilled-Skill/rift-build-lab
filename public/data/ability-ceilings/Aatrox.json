@@ -183,6 +183,96 @@
           "formula": "Aatrox's Attacks deal an additional [characterLevelInterpolation(0.04 → 0.1; raw flags preserved)] max Health magic damage and restore [100]% of damage dealt as Health, reduced to [25]% against minions. This effect has a [characterLevelInterpolation(22 → 10; raw flags preserved)] second cooldown.\n\nAttack and Ability hits against champions and large jungle monsters reduce this effect's cooldown by 2 seconds. Hits with the edge of The Darkin Blade reduce it by 4 seconds instead."
         }
       ]
+    },
+    {
+      "id": "aatrox-ceiling-r-granted-attack-damage",
+      "champion": "Aatrox",
+      "name": "World Ender: granted attack damage",
+      "category": "Ability ceiling",
+      "summary": "Investigate high World Ender attack-damage increase output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high World Ender attack-damage increase output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "R grants 20/30/40% attack damage during its duration. The selected number is actual AD gained from one activation, measured before and after, not damage from a nonexistent impact. Its self-healing increase and movement speed are different outputs; do not feed the granted AD back into itself indefinitely.",
+      "itemIds": [
+        3072,
+        6697,
+        3053,
+        2501,
+        3084,
+        3083
+      ],
+      "runePage": [
+        8010,
+        9111,
+        9105,
+        8299,
+        8210,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 12,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "World Ender attack-damage increase",
+        "metric": "stat",
+        "damageType": "none",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy (not the recipient of this self effect): 3000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff, 500 earned Heartsteel HP, owner 30% and 12 earned Conqueror stacks. Record actual health-dependent Bloodmail AD and total AD immediately before R, then immediately after rank-3 activation. No takedowns, healing or damage changing HP during the measurement.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy (not the recipient of this self effect): 3000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff, 500 earned Heartsteel HP, owner 30% and 12 earned Conqueror stacks. Record actual health-dependent Bloodmail AD and total AD immediately before R, then immediately after rank-3 activation. No takedowns, healing or damage changing HP during the measurement.",
+        "Swap HP/Bloodmail versus raw AD at fixed owner HP percentage. Compare temporary buffs active/inactive as separate setups, recording the actual R gain each time. Observe expiry independently of damage or healing; no repeated activations within the same buff.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No 40% AD applied repeatedly to its own new total, free Hubris/Conqueror/health or self-heal amplification added as AD. The percentage helper does not certify all item conversion ordering; read final client stats."
+      ],
+      "tradeoffs": [
+        "A very large temporary AD stat requires earned buffs and low health and can cost penetration, haste and safety.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No 40% AD applied repeatedly to its own new total, free Hubris/Conqueror/health or self-heal amplification added as AD. The percentage helper does not certify all item conversion ordering; read final client stats.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "World Ender",
+          "slot": "R",
+          "source": "Characters/Aatrox/Spells/AatroxRAbility/AatroxR",
+          "formula": "Aatrox reveals his true demonic form, Fearing nearby minions for [3] seconds and gaining [(0.6 / 0.8 / 1) × 100]% Move Speed decaying over [10] seconds. He also gains [(0.2 / 0.3 / 0.4) × 100]% Attack Damage and increases self-healing by [(0.5 / 0.75 / 1) × 100]% for the duration.\n\nChampion takedowns extend the duration of this effect by [5] seconds and refresh the Move Speed effect."
+        }
+      ]
     }
   ]
 }

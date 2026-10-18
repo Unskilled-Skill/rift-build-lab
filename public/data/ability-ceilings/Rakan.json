@@ -183,6 +183,96 @@
           "formula": "Rakan flings a magical feather that deals [70 / 115 / 160 / 205 / 250 + (0.7) × AP] magic damage to the first enemy hit.\n\nIf the feather hits a champion or epic jungle monster, Rakan restores [characterLevelInterpolation(40 → 210; raw flags preserved) + (0.55) × AP] Health to himself and nearby allies after [3] seconds or when he touches an allied champion."
         }
       ]
+    },
+    {
+      "id": "rakan-ceiling-passive-ap-self-shield",
+      "champion": "Rakan",
+      "name": "Fey Feathers: AP self-shield",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one fresh Fey Feathers shield output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one fresh Fey Feathers shield output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "The passive shield scales from 30 to 225 by champion level plus 0.95 AP. AP and eligible shield power can make this self-shield large. Attacks and abilities against champions reduce its cooldown, but neither creates free simultaneous shield layers nor scales the shield by the number of cooldown-reduction hits.",
+      "itemIds": [
+        3089,
+        6621,
+        3504,
+        3107,
+        3222,
+        3065
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "one fresh Fey Feathers shield",
+        "metric": "shield",
+        "damageType": "none",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy (not the recipient of this self effect): 3000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Owner 30%, passive legally ready after the real level-18 cooldown. One fresh shield with no other active shield, external buff or incoming damage before the capacity reading. Record actual AP, Dawncore conversion and owner Visage/Revitalize eligibility; three seconds is the observation, not an asserted shield lifetime.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy (not the recipient of this self effect): 3000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Owner 30%, passive legally ready after the real level-18 cooldown. One fresh shield with no other active shield, external buff or incoming damage before the capacity reading. Record actual AP, Dawncore conversion and owner Visage/Revitalize eligibility; three seconds is the observation, not an asserted shield lifetime.",
+        "Swap AP versus shield power and Visage versus AP. Measure capacity, broken shield and actual cooldown recovery separately. If accelerating recovery with champion hits, record every legal hit and elapsed time rather than summoning another layer immediately.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No cooldown-reduction count multiplied into shield strength, ally E shield or Q healing added, owner-only modifiers applied to someone else or unverified expiry assigned to the passive. Modifier order remains a client check."
+      ],
+      "tradeoffs": [
+        "The shield can be consumed before an engage; a large AP support inventory may lose haste or resilience needed to recover it.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No cooldown-reduction count multiplied into shield strength, ally E shield or Q healing added, owner-only modifiers applied to someone else or unverified expiry assigned to the passive. Modifier order remains a client check.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Fey Feathers",
+          "slot": "Passive",
+          "source": "Characters/Rakan/Spells/RakanPassiveAbility/RakanPassive",
+          "formula": "Every [characterLevelBreakpoints(start=40, perLevel=-1.5, changes=[{\"mLevel\": 19, \"mBonusPerLevelAtAndAfter\": -0.875, \"__type\": \"Breakpoint\"}])] seconds, Rakan gains [characterLevelInterpolation(30 → 225; raw flags preserved) + (0.95) × AP] Shield. Rakan's Attacks and Abilities against enemy champions reduce this Cooldown by [1] second.\n\nLover's Leap - Xayah and Rakan can recall together."
+        }
+      ]
     }
   ]
 }

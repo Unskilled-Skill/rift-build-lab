@@ -183,6 +183,96 @@
           "formula": "Fiora lunges in a direction and stabs the closest enemy, ward, or structure, dealing [70 / 80 / 90 / 100 / 110 + (0.9 / 0.95 / 1 / 1.05 / 1.1) × AD[statFormula=2]] physical damage. The strike will prioritize Vitals and enemies it will kill.\n\nIf Fiora strikes an enemy, this Ability's Cooldown is reduced by [50]%."
         }
       ]
+    },
+    {
+      "id": "fiora-ceiling-w-ap-riposte",
+      "champion": "Fiora",
+      "name": "Riposte: AP parry stab",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Riposte magic stab output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one Riposte magic stab output with a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "W deals 110/150/190/230/270 + 1.0 AP magic after the parry. Blocking a stronger incoming hit does not turn its damage into reflected damage. Parrying an immobilizing effect changes slow to stun, while any vital true-damage event is a different packet.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "one Riposte magic stab",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph transformed. One W stab connects with the first champion; choose a direction without an exposed vital for the clean control, recording any vital proc separately. No Q, E attack or R in score. Record the 0.75-second parry and actual stab time.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph transformed. One W stab connects with the first champion; choose a direction without an exposed vital for the clean control, recording any vital proc separately. No Q, E attack or R in score. Record the 0.75-second parry and actual stab time.",
+        "Compare no incoming effect, blocked damage and blocked immobilizing effect at identical AP/MR. Swap AP versus penetration. Verify that successful CC parry changes control rather than giving a free damage multiplier; isolate any vital true damage.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No enemy incoming damage added to the stab, stun duration multiplied into damage, full critical attack rule inherited or vital true packet called W magic damage. Actual first-champion contact and proc rules require game checks."
+      ],
+      "tradeoffs": [
+        "AP gives a strong isolated ratio but loses much of Fiora sustained AD/vital pressure and spends a crucial defensive cooldown.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No enemy incoming damage added to the stab, stun duration multiplied into damage, full critical attack rule inherited or vital true packet called W magic damage. Actual first-champion contact and proc rules require game checks.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Riposte",
+          "slot": "W",
+          "source": "Characters/Fiora/Spells/FioraWAbility/FioraW",
+          "formula": "Fiora parries all incoming damage, disables, and negative effects for [0.75] seconds, then stabs. The stab deals [110 / 150 / 190 / 230 / 270 + (1) × AP] magic damage to the first champion hit and Slows Move Speed by [50]% and Attack Speed by [25]%  for [2] seconds. If Fiora parries an Immobilizing effect, the stabbed enemy is Stunned rather than Slowed."
+        }
+      ]
     }
   ]
 }

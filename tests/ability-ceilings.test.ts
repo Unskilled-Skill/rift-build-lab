@@ -12,6 +12,7 @@ import sequenceTargets from '../scripts/ability-ceilings/group-12.json';
 import repeatTargets from '../scripts/ability-ceilings/group-13.json';
 import weaponTargets from '../scripts/ability-ceilings/group-14.json';
 import potentialTargets from '../scripts/ability-ceilings/group-15.json';
+import scalingTargets from '../scripts/ability-ceilings/group-16.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -19,6 +20,27 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings,ceilingBuild} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('loads alternate spell forms and mixed-stat shield candidates with their finite setup intact',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(scalingTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of scalingTargets){
+  const published=JSON.parse(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'));
+  const b=parseChatBuilds(JSON.stringify(published),data).find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Briar')expect(saved.scenario).toMatchObject({objectiveSlot:'W:1',rank:5,targetHealthPercent:20,targetHP:20000});
+  if(entry.champion==='LeeSin')expect(saved.scenario).toMatchObject({objectiveSlot:'E:0',rank:5});
+  if(entry.champion==='Udyr')expect(saved.scenario).toMatchObject({objectiveSlot:'W',rank:6,heartsteelHP:500,healthPercent:30});
+ }
+ const read=(c:string)=>scalingTargets.find(e=>e.champion===c)!;
+ for(const c of ['Morgana','Rakan','Udyr'])expect(read(c)).toMatchObject({metric:'shield',damageType:'none'});
+ expect(read('Aatrox')).toMatchObject({metric:'stat',damageType:'none',conditions:{conquerorStacks:12}});
+ expect(read('Nunu').conditions.duration).toBe(3.5);
+ expect(read('Sylas').damageType).toBe('magic');
+});
 it('keeps pet-health, CC-duration and timed spell variants distinct when loading the new candidates',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(potentialTargets,data,resources,false)).toHaveLength(16);

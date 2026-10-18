@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 236 targets across 173 champions.
+Patch 26.20: 252 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 51 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 67 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -248,3 +248,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Zoe | Sleepy Trouble Bubble impact plus capped wake packet | E | full-window | speculative | 3 |
 | Viktor | Siphon Power empowered discharge attack | Q | single-hit | speculative | 2 |
 | MissFortune | Double Up critical second shot | Q | single-hit | speculative | 2 |
+| Aatrox | one Deathbringer Stance bonus magic packet | P | single-hit | speculative | 2 |
+| Akali | second Perfect Execution dash | R | single-hit | speculative | 2 |
+| Akshan | Heroic Swing shots in one three-second observation | E | full-window | speculative | 3 |
+| Ambessa | one Repudiation shield | W | shield | speculative | 3 |
+| AurelionSol | upgraded ultimate initial impact | R | single-hit | speculative | 2 |
+| Belveth | one Royal Maelstrom channel core damage | E | full-window | speculative | 3 |
+| Corki | one Phosphorus Bomb impact | Q | single-hit | speculative | 2 |
+| Darius | one outer-edge Decimate hit | Q | single-hit | speculative | 3 |
+| Ezreal | one Essence Flux mark detonation | W | single-hit | speculative | 2 |
+| Fizz | one Playful or Trickster landing | E | single-hit | speculative | 2 |
+| Hwei | one full Spiraling Despair duration and blast | R | full-window | speculative | 3 |
+| Jhin | one fourth Curtain Call bullet | R | single-hit | speculative | 2 |
+| Kaisa | one isolated evolved Icathian Rain volley | Q | full-window | speculative | 4 |
+| Karthus | one isolated Lay Waste impact | Q | single-hit | speculative | 2 |
+| Leblanc | one Sigil of Malice impact and mark detonation | Q | full-window | speculative | 3 |
+| Pantheon | one Shield Vault initial leap | W | single-hit | speculative | 2 |

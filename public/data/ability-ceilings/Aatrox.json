@@ -93,6 +93,96 @@
           "formula": "Aatrox slams his greatsword, dealing [10 / 25 / 40 / 55 / 70 + (0.6 / 0.675 / 0.75 / 0.825 / 0.9) × AD] physical damage. If they are hit on the edge, they are briefly Knocked Up and they take [(10 / 25 / 40 / 55 / 70 + (0.6 / 0.675 / 0.75 / 0.825 / 0.9) × AD) × ((1 + 0.75))] instead. This Ability can be Recast twice, each one changing shape and dealing 25% more damage than the previous one."
         }
       ]
+    },
+    {
+      "id": "aatrox-ceiling-passive-magic-health-strike",
+      "champion": "Aatrox",
+      "name": "Deathbringer Stance: target-health magic strike",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Deathbringer Stance bonus magic packet output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one Deathbringer Stance bonus magic packet output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "The passive helper scales from 4% to 10% of enemy maximum HP with champion level, with no direct AD or AP coefficient. Penetration and eligible amplification are the experiment; item AP alone does not increase the core percentage. The normal attack delivering the passive and its healing are separate outputs.",
+      "itemIds": [
+        3135,
+        4645,
+        4633,
+        3161,
+        8020,
+        3020
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "one Deathbringer Stance bonus magic packet",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Passive ready for one champion attack. Riftmaker legally pre-ramped in separate combat; record actual Shojin stacks reached through qualifying abilities, do not assume four from elapsed time. Abyssal victim inside its actual aura range. No allied MR debuffs.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Passive ready for one champion attack. Riftmaker legally pre-ramped in separate combat; record actual Shojin stacks reached through qualifying abilities, do not assume four from elapsed time. Abyssal victim inside its actual aura range. No allied MR debuffs.",
+        "Compare the isolated passive magic packet with and without each amplifier, at 1500 and 6000 target maximum HP. Test a raw-AP slot as a negative scaling control. Measure the delivering physical attack and healing separately.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Ability-damage eligibility for passive amplification must be checked in game. No AP ratio, critical multiplier on the magic packet, or attack-plus-heal sum presented as passive damage. The item set intentionally tests eligibility and is not a proven efficient build."
+      ],
+      "tradeoffs": [
+        "Six slots spend heavily on penetration and disputed passive amplification while sacrificing ordinary AD damage and defense.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Ability-damage eligibility for passive amplification must be checked in game. No AP ratio, critical multiplier on the magic packet, or attack-plus-heal sum presented as passive damage. The item set intentionally tests eligibility and is not a proven efficient build.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Deathbringer Stance",
+          "slot": "Passive",
+          "source": "Characters/Aatrox/Spells/AatroxPassiveAbility/AatroxPassive",
+          "formula": "Aatrox's Attacks deal an additional [characterLevelInterpolation(0.04 → 0.1; raw flags preserved)] max Health magic damage and restore [100]% of damage dealt as Health, reduced to [25]% against minions. This effect has a [characterLevelInterpolation(22 → 10; raw flags preserved)] second cooldown.\n\nAttack and Ability hits against champions and large jungle monsters reduce this effect's cooldown by 2 seconds. Hits with the edge of The Darkin Blade reduce it by 4 seconds instead."
+        }
+      ]
     }
   ]
 }

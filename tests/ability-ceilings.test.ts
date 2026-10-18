@@ -4,6 +4,7 @@ import additional from '../scripts/ability-ceilings/group-4.json';
 import expansion from '../scripts/ability-ceilings/group-5.json';
 import conversionTargets from '../scripts/ability-ceilings/group-6.json';
 import packetTargets from '../scripts/ability-ceilings/group-7.json';
+import executionTargets from '../scripts/ability-ceilings/group-8.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -11,6 +12,26 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('preserves execution experiments as manual candidates with finite target health and no borrowed spell totals',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(executionTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of executionTargets){
+  const builds=parseChatBuilds(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'),data);
+  const b=builds.find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(saved.scenario).toMatchObject({...entry.conditions,objectiveSlot:entry.targetSlot});
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+ }
+ const read=(c:string)=>executionTargets.find(e=>e.champion===c)!;
+ expect(read('Belveth').conditions).toMatchObject({targetHP:20000,targetHealthPercent:20,duration:1.5});
+ expect(read('Jhin').conditions).toMatchObject({targetHP:10000,targetHealthPercent:10,critMode:'critical'});
+ expect(read('Darius').conditions).toMatchObject({healthPercent:30,conquerorStacks:12});
+ expect(read('Ambessa')).toMatchObject({metric:'shield',damageType:'none',pageKey:'ceilingHeal'});
+ expect(read('Pantheon').damageType).toBe('physical');
+ expect(read('Kaisa').conditions.duration).toBe(2);
+});
 it('requires exact roster coverage and rejects duplicate target identifiers',()=>{expect(()=>validateCeilings([candidate],catalog,resources)).toThrow(/roster/);expect(()=>validateCeilings([candidate,candidate],catalog,resources,false)).toThrow(/duplicate/i)});
 it('rejects unspecified benchmark text and invalid damage metrics',()=>{expect(()=>validateCeilings([{...candidate,finiteState:''}],catalog,resources,false)).toThrow(/finiteState/);expect(()=>validateCeilings([{...candidate,metric:'maximum'}],catalog,resources,false)).toThrow(/metric/)});
 it('rejects impossible item-family and resource combinations before publishing a ceiling',()=>{expect(()=>validateCeilings([{...candidate,itemIds:[3031,3508,3078,3036,3072,3142]}],catalog,resources,false)).toThrow(/family/);expect(()=>validateCeilings([{...candidate,champion:'Akali',itemIds:[3042,3115,3089,3135,3157,3020]}],catalog,resources,false)).toThrow(/mana/);expect(validateCeilings([candidate],catalog,resources,false)).toHaveLength(1)});

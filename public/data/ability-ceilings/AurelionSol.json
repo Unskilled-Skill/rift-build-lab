@@ -93,6 +93,96 @@
           "formula": "Aurelion Sol summons a black hole, dealing [10 / 15 / 20 / 25 / 30 + (0.12) × AP] magic damage per second and Dragging enemies towards the center for [5] seconds. Enemies in the center below [5 + (0.026) × BuffStacks({c9372c6b})]% max Health die instantly.\n\nThe black hole absorbs Stardust when enemies die within it and each second an enemy champion is inside."
         }
       ]
+    },
+    {
+      "id": "aurelionsol-ceiling-r-upgraded-initial-impact",
+      "champion": "AurelionSol",
+      "name": "The Skies Descend: upgraded initial impact",
+      "category": "Ability ceiling",
+      "summary": "Investigate high upgraded ultimate initial impact output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high upgraded ultimate initial impact output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "Ordinary R is 150/250/350 + 0.75 AP magic. The empowered initial-impact helper multiplies that by 1.25, giving rank-3 nominal 437.5 + 0.9375 AP before mitigation. Its separate shockwave helper is 0.9 times the ordinary base; it is not automatically another hit on the same victim.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "upgraded ultimate initial impact",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Exactly 300 earned Stardust overall, with the 75 Stardust required for the next upgraded R legally gathered since the prior upgrade. Seraph transformed through real stacking. One champion inside the initial impact; no neighboring-target aggregation or assumed shockwave double hit.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Exactly 300 earned Stardust overall, with the 75 Stardust required for the next upgraded R legally gathered since the prior upgrade. Seraph transformed through real stacking. One champion inside the initial impact; no neighboring-target aggregation or assumed shockwave double hit.",
+        "Compare ordinary and upgraded initial impact with identical actual AP and resists. Record shockwave damage only on a separate eligible victim. Swap Seraph for another AP slot using the actual mana-to-AP conversion.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Stardust changes the upgrade availability and area; the extracted impact helper does not give an extra unlimited Stardust damage coefficient. No same-victim impact-plus-shockwave assumption or E execute counted as R damage."
+      ],
+      "tradeoffs": [
+        "The upgraded cast is gated by earned Stardust and can have much less practical availability than a repeatable ability.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Stardust changes the upgrade availability and area; the extracted impact helper does not give an extra unlimited Stardust damage coefficient. No same-victim impact-plus-shockwave assumption or E execute counted as R damage.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Falling Star / The Skies Descend",
+          "slot": "R",
+          "source": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+          "formula": "Aurelion Sol plucks a star from the heavens and crashes it into the earth, dealing [150 / 250 / 350 + (0.75) × AP] magic damage, Stunning enemies [1] second, and absorbing [5] Stardust for each champion hit.\n\nGathering [75] Stardust transforms the next {{Spell_AurelionSolR1_Name}} into {{Spell_AurelionSolR2_Name}}.\n\n{{Spell_AurelionSolR2_Name}}: Aurelion Sol drags a constellation's worth of fury down from the cosmos, dealing [(150 / 250 / 350 + (0.75) × AP) × (1.25)] magic damage in a larger area, Knocking Up enemies hit for [1] second, and unleashing a massive shockwave that deals [(150 / 250 / 350 + (0.75) × AP) × (0.9)] magic damage to champions and Epic Monsters and Slows all enemies hit by [50]% for 1 second."
+        }
+      ]
     }
   ]
 }

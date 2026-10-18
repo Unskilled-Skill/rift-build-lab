@@ -93,6 +93,96 @@
           "formula": "Akshan locks onto a champion and begins overcharging his gun for up to [2.5] seconds, storing up to [5 / 6 / 7] bullets.\n\nRecast: Akshan unleashes the stored bullets, each dealing at least [(25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))] physical damage to the first enemy or structure hit, increased up to [((25 / 35 / 45 + (0.15) × AD) × ((1 + ((0.3) × Stat(8)) × (((1) × Stat(9) + -1))))) × (3)] physical damage based on missing Health."
         }
       ]
+    },
+    {
+      "id": "akshan-ceiling-e-counted-swing-shots",
+      "champion": "Akshan",
+      "name": "Heroic Swing: counted-shot AD and attack-speed test",
+      "category": "Ability ceiling",
+      "summary": "Investigate high Heroic Swing shots in one three-second observation output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high Heroic Swing shots in one three-second observation output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "The per-shot helper is (8/16/24/32/40 + 0.25 total AD) times (1 + 0.3 times the bonus-attack-speed stat term). Bonus attack speed therefore has potential beyond ordinary attack frequency, but its stat normalization and the number of legal shots must be observed. Collision and release can end the swing. A separate critical helper scales the core by 1 + 0.5 times (critical-damage stat minus 1); this is a special critical rule, not automatic ordinary-attack crit inheritance.",
+      "itemIds": [
+        3072,
+        6697,
+        3046,
+        3091,
+        3153,
+        6694
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "E",
+        "targetName": "Heroic Swing shots in one three-second observation",
+        "metric": "full-window",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Exactly 10 earned Hubris kills with its temporary AD buff active. One uninterrupted legal swing, no takedown refresh; count actual shots and final disengage shot that occur within three seconds. Isolate one champion from other selectable enemies. Owner begins at full health.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Exactly 10 earned Hubris kills with its temporary AD buff active. One uninterrupted legal swing, no takedown refresh; count actual shots and final disengage shot that occur within three seconds. Isolate one champion from other selectable enemies. Owner begins at full health.",
+        "Swap Phantom Dancer for a flat-AD slot, recording actual AD, bonus AS, per-shot core physical damage and shot timestamps. Repeat a swing interrupted by collision. Report Blade/Wits End and rune proc packets separately from E core damage. Test critical and noncritical shots separately against the special source helper, including a controlled Infinity Edge swap if testing critical damage.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No assumed full on-hit effectiveness, ordinary-attack critical multiplier, fractional shot count or endless takedown loop. Source AS stat units require client confirmation; three seconds is a finite observation, not a guaranteed full-duration swing."
+      ],
+      "tradeoffs": [
+        "High theoretical scaling loses value when terrain, enemy position or collision shortens the actual swing.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No assumed full on-hit effectiveness, ordinary-attack critical multiplier, fractional shot count or endless takedown loop. Source AS stat units require client confirmation; three seconds is a finite observation, not a guaranteed full-duration swing.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Heroic Swing",
+          "slot": "E",
+          "source": "Characters/Akshan/Spells/AkshanEAbility/AkshanE",
+          "formula": "First Cast: Akshan fires a grappling hook, attaching to the first terrain hit.\n\nSecond Cast: Akshan swings around the terrain, repeatedly firing at the nearest enemy for [(8 / 16 / 24 / 32 / 40 + (0.25) × AD) × ((1 + (0.3) × Stat(4)[statFormula=2]))] physical damage per shot.\n\nThird Cast: Akshan dives off the rope, firing a final shot.\n\nColliding with an enemy Champion or terrain ends the swing early.\n\nChampion takedowns refresh this Ability's Cooldown."
+        }
+      ]
     }
   ]
 }

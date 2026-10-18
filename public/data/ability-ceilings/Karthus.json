@@ -93,6 +93,96 @@
           "formula": "Karthus channels for 3 seconds, then deals [200 / 350 / 500 + (0.7) × AP] magic damage to enemy champions, regardless of distance."
         }
       ]
+    },
+    {
+      "id": "karthus-ceiling-q-isolated-double-hit",
+      "champion": "Karthus",
+      "name": "Lay Waste: isolated double damage",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one isolated Lay Waste impact output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one isolated Lay Waste impact output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "Q deals 40/59/78/97/116 + 0.35 AP magic and doubles when it hits exactly one enemy. Rank-5 isolated nominal damage is 232 + 0.7 AP. This experiment scores one impact, not an assumed cooldown-perfect chain.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "one isolated Lay Waste impact",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Seraph legally transformed. Exactly one enemy of any kind inside the blast; no minions, pets or neighboring champion. No W MR reduction or allied debuffs. One legal cast with observed mana and cast location.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Seraph legally transformed. Exactly one enemy of any kind inside the blast; no minions, pets or neighboring champion. No W MR reduction or allied debuffs. One legal cast with observed mana and cast location.",
+        "Compare a single isolated hit against a hit sharing the blast with a second enemy at identical stats. Swap Seraph for raw AP and Void for AP at low/high MR. Record item and rune packets separately.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Isolation doubles the core spell, not unrelated procs. No free repeated casts, guessed ability-haste breakpoints or R damage in the Q result."
+      ],
+      "tradeoffs": [
+        "The delayed blast can miss or lose isolation to another unit; a high isolated hit is not guaranteed sustained DPS.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Isolation doubles the core spell, not unrelated procs. No free repeated casts, guessed ability-haste breakpoints or R damage in the Q result.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Lay Waste",
+          "slot": "Q",
+          "source": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+          "formula": "Karthus creates a blast of magic, dealing [40 / 59 / 78 / 97 / 116 + (0.35) × AP] magic damage. If the blast hits only one enemy, it instead deals [(40 / 59 / 78 / 97 / 116 + (0.35) × AP) × (2)] magic damage."
+        }
+      ]
     }
   ]
 }

@@ -93,6 +93,96 @@
           "formula": "Passive: Attacks deal an additional [2 / 4 / 6 + (0.03) × AD[statFormula=2]] true damage, stacking infinitely. Takedowns against champions and epic monsters leave behind a piece of Void Coral.\n\nActive: Bel'Veth consumes a Void Coral, gaining [1] Lavender stack and activating her true form. Void Coral from void epic monsters causes minions that die nearby to become Void Remora. While casting, Bel'Veth Slows nearby enemies before exploding, dealing [150 / 200 / 250 + (1.5) × AP] + [20]% missing-Health true damage.\n\nIn her true form, Bel'Veth gains [100 / 250 / 400 + (1.5) × AD[statFormula=2] + (1.5) × AP] max Health, [25 / 75 / 125] Attack range, [(0.06 / 0.13 / 0.2) × 100]% Total Attack Speed, and Void Surge can pass through walls.\n\nTrue form lasts [45] seconds, increased to [90] seconds at [40] Lavender stacks. At [80] Lavender stacks, true form lasts until death."
         }
       ]
+    },
+    {
+      "id": "belveth-ceiling-e-finite-channel-execute",
+      "champion": "Belveth",
+      "name": "Royal Maelstrom: finite missing-health channel",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Royal Maelstrom channel core damage output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one Royal Maelstrom channel core damage output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "Each strike starts at 10/12/14/16/18 + 0.12 total AD and can increase up to twofold with enemy missing health. The strike-count helper is 6 + 6 times (0.4 times the bonus-attack-speed stat term). Rounding, stat normalization and actual strike delivery require measurement; each strike sees the target health remaining at that instant.",
+      "itemIds": [
+        3072,
+        6697,
+        3153,
+        3046,
+        3091,
+        6694
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 1.5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 20,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "E",
+        "targetName": "one Royal Maelstrom channel core damage",
+        "metric": "full-window",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 20000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 20%, observation 1.5s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. One 1.5-second channel against an isolated 20000-max-HP enemy starting at 20% health, with no minions stealing lowest-health targeting. Exactly zero earned permanent Lavender stacks; ordinary level/item AS remains. Exactly 10 earned Hubris kills and its temporary AD buff active. No takedown reset or R transformation assumed.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 20000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 20%, observation 1.5s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. One 1.5-second channel against an isolated 20000-max-HP enemy starting at 20% health, with no minions stealing lowest-health targeting. Exactly zero earned permanent Lavender stacks; ordinary level/item AS remains. Exactly 10 earned Hubris kills and its temporary AD buff active. No takedown reset or R transformation assumed.",
+        "Count real strikes and timestamps. Swap an AS slot for AD and compare per-strike and whole-channel core damage. Record changing enemy health before each strike; separate on-hits, lifesteal and damage reduction from the core result.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No maximum execute multiplier on every strike, fractional strikes, full-strength on-hit assumption or unlimited permanent stacks. The target must survive to observe a full channel. Health, damage reduction and healing are not damage packets."
+      ],
+      "tradeoffs": [
+        "Stationary channeling and lowest-health targeting can deny the desired victim even when the paper AD/AS combination is attractive.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No maximum execute multiplier on every strike, fractional strikes, full-strength on-hit assumption or unlimited permanent stacks. The target must survive to observe a full channel. Health, damage reduction and healing are not damage packets.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Royal Maelstrom",
+          "slot": "E",
+          "source": "Characters/Belveth/Spells/BelvethEAbility/BelvethE",
+          "formula": "Bel'Veth channels and slashes around herself, gaining [(0.2 / 0.3 / 0.4 / 0.5 / 0.6) × 100]% Damage Reduction, [0.2 / 0.25 / 0.3 / 0.35 / 0.4] Life Steal, and Attacking @f2.0@ times over [1.5] seconds with the number of Attacks increasing based on her Attack Speed. Each Attack strikes the lowest-health enemy, dealing [10 / 12 / 14 / 16 / 18 + (0.12) × AD] to [(10 / 12 / 14 / 16 / 18 + (0.12) × AD) × (2)] physical damage based on the target's missing Health.\n\nUsing another Ability or Recasting ends this Ability early."
+        }
+      ]
     }
   ]
 }

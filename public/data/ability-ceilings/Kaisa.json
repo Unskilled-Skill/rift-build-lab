@@ -93,6 +93,96 @@
           "formula": "Kai'Sa fires a void blast that deals [30 / 55 / 80 / 105 / 130 + (1.3) × AD + (0.45) × AP] magic damage, applies [2] stacks of Plasma, and grants True Sight of the first enemy hit for @spell.KaisaPassive:PDuration@ seconds.\n\nEvolved: Kai'Sa instead applies [3] stacks of Plasma and hitting a champion reduces the Cooldown by [75]%.\nCurrent: @f2.1@/[100] Ability Power"
         }
       ]
+    },
+    {
+      "id": "kaisa-ceiling-q-isolated-evolved-twelve",
+      "champion": "Kaisa",
+      "name": "Icathian Rain: twelve isolated missiles",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one isolated evolved Icathian Rain volley output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one isolated evolved Icathian Rain volley output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "Each missile starts at 40/55/70/85/100 + 0.55 bonus AD + 0.2 AP physical damage. Evolution raises missile count from six to twelve after 100 bonus AD. Subsequent missiles against the same champion deal 25% damage: twelve isolated missiles nominally weight 1 + 11 times 0.25 = 3.75 full missiles, not twelve full-strength hits.",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        6698,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "one isolated evolved Icathian Rain volley",
+        "metric": "full-window",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 2s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Q evolution legitimately acquired and confirmed, actual bonus AD recorded. Exactly 10 earned Hubris kills and temporary AD buff active. One champion isolated from all other missile targets, including minions. Count twelve impacts in the two-second observation; no passive Plasma detonation added.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists. Loaded owner HP 100%, target HP 100%, observation 2s. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Q evolution legitimately acquired and confirmed, actual bonus AD recorded. Exactly 10 earned Hubris kills and temporary AD buff active. One champion isolated from all other missile targets, including minions. Count twelve impacts in the two-second observation; no passive Plasma detonation added.",
+        "Compare isolated six-missile and evolved twelve-missile volleys with controlled stats where possible; confirm per-missile reduction in live damage. Swap one AD slot for AP or penetration. Repeat near minions to measure lost single-target concentration.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No twelvefold full missile damage, missing missiles counted as hits, or extra passive damage. Evolution eligibility and isolation must both be observed rather than inferred from the inventory alone."
+      ],
+      "tradeoffs": [
+        "An AD-heavy isolated volley can lose badly when nearby units split missiles and may sacrifice the flexibility of hybrid or attack-speed builds.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No twelvefold full missile damage, missing missiles counted as hits, or extra passive damage. Evolution eligibility and isolation must both be observed rather than inferred from the inventory alone.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Icathian Rain",
+          "slot": "Q",
+          "source": "Characters/Kaisa/Spells/KaisaQAbility/KaisaQ",
+          "formula": "Kai'Sa launches [6] missiles that split among nearby enemies, each dealing [40 / 55 / 70 / 85 / 100 + (0.55) × AD[statFormula=2] + (0.2) × AP] physical damage, up to a maximum of [UNRESOLVED(GameCalculationConditional; see calculationRaw)]. Additional missile hits on champions or monsters deal [25]% damage.\n\nEvolved: Kai'Sa instead fires [12] missiles.\nCurrent: @f11.1@/[100] Bonus Attack Damage"
+        }
+      ]
     }
   ]
 }

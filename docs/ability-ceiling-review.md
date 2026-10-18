@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 316 targets across 173 champions.
+Patch 26.20: 332 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 131 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 147 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -328,3 +328,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Zeri | one fully charged Living Battery attack | P | single-hit | speculative | 2 |
 | Ziggs | one Short Fuse magic packet on a champion | P | single-hit | speculative | 2 |
 | Zilean | two Time Bomb explosions from one Q-W-Q sequence | Q | full-window | speculative | 3 |
+| Ahri | one three-fire Fox-Fire volley on one champion | W | full-window | speculative | 3 |
+| Annie | Molten Shield retaliation from one paired caster-pet hit | E | full-window | speculative | 3 |
+| Bard | one fully grown Caretaker's Shrine heal | W | heal | speculative | 3 |
+| Heimerdinger | one ordinary five-rocket volley on one champion | W | full-window | speculative | 3 |
+| Janna | one fully charged Howling Gale impact | Q | single-hit | speculative | 2 |
+| Kled | one Violent Tendencies fourth-hit bonus | W | single-hit | speculative | 2 |
+| Lux | Prismatic Barrier capacity after both passes | W | shield | speculative | 3 |
+| Morgana | one complete Tormented Shadow exposure | W | full-window | speculative | 3 |
+| Nidalee | one low-health human Primal Surge self-heal | E:0 | heal | speculative | 2 |
+| Qiyana | one rock-enchanted low-health Elemental Wrath | Q | single-hit | speculative | 2 |
+| Quinn | one Harrier bonus physical packet | P | single-hit | speculative | 2 |
+| Sivir | one Ricochet bounce on a secondary champion | W | single-hit | speculative | 2 |
+| Urgot | Purge core shots in a three-second window | W | full-window | speculative | 3 |
+| Viego | one Blade of the Ruined King active stab | Q | single-hit | speculative | 2 |
+| Velkoz | one Organic Deconstruction true-damage packet | P | single-hit | speculative | 2 |
+| Zyra | four seconds of two enraged Thorn Spitters | P | full-window | speculative | 3 |

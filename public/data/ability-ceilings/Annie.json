@@ -93,6 +93,96 @@
           "formula": "Passive: Annie gains [(0.1 / 0.15 / 0.2) × 100]% Magic Penetration.\n\nAnnie summons her bear Tibbers, dealing [150 / 275 / 400 + (0.75) × AP] magic damage. For the next [45] seconds, Tibbers burns nearby enemies for [8 / 12 / 16 + (0.04) × AP] magic damage per second.\n\nTibbers becomes enraged when summoned, if Annie stuns an enemy champion, and if Annie dies. When enraged, Tibbers gains 275% Attack Speed and 100% Move Speed decaying over 3 seconds.\n\nRecast: Manually issue orders to Tibbers."
         }
       ]
+    },
+    {
+      "id": "annie-ceiling-e-caster-pet-retaliation-test",
+      "champion": "Annie",
+      "name": "Molten Shield: caster and Tibbers retaliation test",
+      "category": "Ability ceiling",
+      "summary": "Investigate high Molten Shield retaliation from one paired caster-pet hit output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high Molten Shield retaliation from one paired caster-pet hit output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "Each eligible shield retaliation deals 25/35/45/55/65 + 0.4 AP magic, once per attacker per shield according to the tooltip. Tibbers can receive Molten Shield effects. Whether one enemy can trigger independent retaliation from both Annie and Tibbers is the interaction to test, not a guaranteed double multiplier.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "E",
+        "targetName": "Molten Shield retaliation from one paired caster-pet hit",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph transformed. Tibbers legally summoned away from the scored enemy; verify both Annie and Tibbers actually receive shield effects from the tested E. One weak enemy AoE contacts both while both shields remain within their three-second duration. Record shield ownership and each retaliation; keep the enemy outside Tibbers attack/burn range.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph transformed. Tibbers legally summoned away from the scored enemy; verify both Annie and Tibbers actually receive shield effects from the tested E. One weak enemy AoE contacts both while both shields remain within their three-second duration. Record shield ownership and each retaliation; keep the enemy outside Tibbers attack/burn range.",
+        "Compare enemy contact with Annie only, Tibbers only and both. Count distinct retaliation events from that one attacker and repeat the hit during the same shield as a once-per-shield control. Swap AP and penetration while keeping the enemy spell fixed.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "If pet shielding or independent retaliation is not observed, record failed setup or one retaliation instead of granting two. No Tibbers summon impact, aura burn, attacks, shield capacity or enemy self-damage added to E retaliation."
+      ],
+      "tradeoffs": [
+        "The paired setup depends on pet positioning and an enemy willingly hitting the shields; it is an interaction experiment rather than reliable burst.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "If pet shielding or independent retaliation is not observed, record failed setup or one retaliation instead of granting two. No Tibbers summon impact, aura burn, attacks, shield capacity or enemy self-damage added to E retaliation.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Molten Shield",
+          "slot": "E",
+          "source": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
+          "formula": "Annie grants an ally champion [60 / 95 / 130 / 165 / 200 + (0.4) × AP] Shield for [3] seconds and [characterLevelInterpolation(0.2 → 0.5; raw flags preserved)] Decaying Move Speed for [1.5] seconds. While the shield holds, enemies who hit the shielded ally with an Attack or Ability receive [25 / 35 / 45 / 55 / 65 + (0.4) × AP] magic damage once per shield.\n\nTibbers always gains the effects of Molten Shield when summoned."
+        }
+      ]
     }
   ]
 }

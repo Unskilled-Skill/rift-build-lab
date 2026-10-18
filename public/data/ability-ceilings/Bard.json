@@ -147,6 +147,96 @@
           "formula": "Meeps: Bard attracts lesser spirits that assist with his basic attacks. These meeps gain new effects as Bard collects chimes.\n\nMeeps strike through their target in a cone, dealing @f1@ (+@f9@) magic damage and applying a @f2@% slow for @f3@ second to all enemies hit. A new meep appears every @f5@ seconds, max of @f4@.\nChimes: Ancient chimes randomly appear for Bard to collect. These grant experience, 12% of his maximum mana, and out-of-combat Move Speed stacks. Chimes remain for 10 minutes.\n\n\t@f10@ chimes collected - with @f7@ more, Bard will be able to have @f8@ more meep following at once and deal @f11@ more damage."
         }
       ]
+    },
+    {
+      "id": "bard-ceiling-w-grown-shrine-heal",
+      "champion": "Bard",
+      "name": "Caretaker's Shrine: fully grown recovery",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one fully grown Caretaker's Shrine heal output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one fully grown Caretaker's Shrine heal output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "The mature shrine heals 50/87.5/125/162.5/200 + 0.7 AP after five seconds. An immature shrine instead heals 25/50/75/100/125 + 0.4 AP. These are alternative states, not two additive heals; movement speed is separate.",
+      "itemIds": [
+        3089,
+        6621,
+        3504,
+        3107,
+        3222,
+        3040
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 6,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 6000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 30,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "one fully grown Caretaker's Shrine heal",
+        "metric": "heal",
+        "damageType": "none",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Recipient ally: 6000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 30%, observation 6s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph transformed. One legally available W charge places one shrine, untouched for at least five seconds; one ally at 30% of 6000 maximum HP then collects it within a six-second observation. No enemy destroys it and no other shrine or recipient item bonus is present. Hold caster stats fixed from placement to pickup.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Recipient ally: 6000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 30%, observation 6s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph transformed. One legally available W charge places one shrine, untouched for at least five seconds; one ally at 30% of 6000 maximum HP then collects it within a six-second observation. No enemy destroys it and no other shrine or recipient item bonus is present. Hold caster stats fixed from placement to pickup.",
+        "Compare immediate pickup and five-second maturity. Swap AP against heal power using actual Dawncore conversion, then test a stat change between placement and consumption to determine snapshot behavior separately. Measure one recipient and overheal.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No mature heal before five seconds, immature plus mature healing summed, three free shrines or enemy-destroyed shrine credited as recovery. Recipient Visage is not granted for free."
+      ],
+      "tradeoffs": [
+        "The largest heal needs preparation and a safe pickup path; a shrine that cannot mature or be collected has no realized value.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No mature heal before five seconds, immature plus mature healing summed, three free shrines or enemy-destroyed shrine credited as recovery. Recipient Visage is not granted for free.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Caretaker's Shrine",
+          "slot": "W",
+          "source": "Characters/Bard/Spells/BardWAbility/BardW",
+          "formula": "Bard creates a Health shrine that grants [0.2 / 0.225 / 0.25 / 0.275 / 0.3 + (0.0006) × AP] Move Speed decaying over [1.5] seconds and restores at least [(25 / 50 / 75 / 100 / 125 + (0.4) × AP) × (1)] Health to the first ally to enter. The shrine grows to restore [(50 / 87.5 / 125 / 162.5 / 200 + (0.7) × AP) × (1)] Health after existing for [5] seconds.\n\nBard can have up to [3] shrines at once. If an enemy champion enters a shrine, it is destroyed.\n\nThis ability has [2] charges.\n\nCurrent Active Shrines: @f1@ / @f2@"
+        }
+      ]
     }
   ]
 }

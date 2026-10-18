@@ -93,6 +93,96 @@
           "formula": "Quinn orders Valor to dive, making the first enemy hit with Harrier, reducing their vision radius for [1.75] seconds and dealing [65 / 100 / 135 / 170 / 205 + (0.8 / 0.85 / 0.9 / 0.95 / 1) × AD[statFormula=2] + (0.5) × AP] physical damage to all surrounding enemies.\n\nIf the first enemy struck is not a champion, it is Disarmed for [1.75] seconds."
         }
       ]
+    },
+    {
+      "id": "quinn-ceiling-passive-one-harrier",
+      "champion": "Quinn",
+      "name": "Harrier: one bonus-AD mark consumption",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Harrier bonus physical packet output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one Harrier bonus physical packet output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "The helper adds level-scaled 15 to 120 plus 0.4 bonus AD physical when an attack consumes Harrier. The normal attack is separate. Mark generation or cooldown mechanics do not create another bonus until a new valid mark is actually available.",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        6698,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "one Harrier bonus physical packet",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff active. Passive Valor mark legitimately appears on one champion and remains within its four-second reveal window. Consume it with one attack, with no Q/E setup damage needed for this control. Record bonus AD and actual mark state.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff active. Passive Valor mark legitimately appears on one champion and remains within its four-second reveal window. Consume it with one attack, with no Q/E setup damage needed for this control. Record bonus AD and actual mark state.",
+        "Compare marked and unmarked attacks under identical stats to isolate Harrier. Swap AD versus penetration, then test critical interaction through a controlled item/outcome change rather than assuming attack crit carries into the passive.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No full basic attack added to the passive coefficient, repeated bonuses without new marks, monster bonus applied to champions, or ordinary attack critical multiplier inferred from the physical damage type alone."
+      ],
+      "tradeoffs": [
+        "The separate mark ratio is modest and requires target access; maximizing it can lose sustained attack speed or crit DPS.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No full basic attack added to the passive coefficient, repeated bonuses without new marks, monster bonus applied to champions, or ordinary attack critical multiplier inferred from the physical damage type alone.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Harrier",
+          "slot": "Passive",
+          "source": "Characters/Quinn/Spells/QuinnPassiveAbility/QuinnPassive",
+          "formula": "Every @f1@ seconds, Valor marks a nearby enemy with Harrier, revealing it for [4] seconds and causing Quinn's next Attack %i:OnHit% On-Hit against them to deal [(characterLevelInterpolation(15 → 120; raw flags preserved) + (0.4) × AD[statFormula=2]) × (1)] bonus physical damage."
+        }
+      ]
     }
   ]
 }

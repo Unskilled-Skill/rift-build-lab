@@ -93,6 +93,96 @@
           "formula": "Morgana chains herself to nearby enemy Champions, dealing [200 / 275 / 350 + (0.8) × AP] magic damage and Slowing them by [20]%. After [3] seconds, enemies unable to break the chains take an additional [200 / 275 / 350 + (0.8) × AP] magic damage and are Stunned for [1.5 / 1.75 / 2] seconds.\n\nWhile casting this Ability, Morgana gains [20 / 40 / 60]% Move Speed."
         }
       ]
+    },
+    {
+      "id": "morgana-ceiling-w-five-second-missing-health",
+      "champion": "Morgana",
+      "name": "Tormented Shadow: five-second missing-health burn",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one complete Tormented Shadow exposure output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one complete Tormented Shadow exposure output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "W deals 18/31/44/57/70 + 0.2 AP magic per second for five seconds and increases with target missing health up to twice that rate. Rank-5 baseline full contact is 350 + 1.0 AP, while an all-capped rate would be 700 + 2.0 AP only if the live health multiplier actually allowed it for every tick.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        4633,
+        3157
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 25,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "one complete Tormented Shadow exposure",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 20000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 25%, observation 5s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph transformed, Riftmaker legally pre-ramped. One 20000-max-HP champion starts at 25% health and remains in the zone for five seconds. Record target current HP before each tick; no Q/R damage, healing refresh or recast during observation.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 20000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 25%, observation 5s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph transformed, Riftmaker legally pre-ramped. One 20000-max-HP champion starts at 25% health and remains in the zone for five seconds. Record target current HP before each tick; no Q/R damage, healing refresh or recast during observation.",
+        "Log ticks and evolving missing-health multipliers, comparing full and partial contact. Swap AP versus penetration and repeat at full health. Measure passive healing and cooldown reduction separately from W damage.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No maximum missing-health multiplier on all ticks by default, fivefold multiplication of an already totaled five-second result, free recasts from passive healing, or continued health loss after death. Exact health scaling and tick boundaries need live measurement."
+      ],
+      "tradeoffs": [
+        "The strongest burn wants a wounded target to stay in a stationary zone; survival, movement and target death can end it early.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No maximum missing-health multiplier on all ticks by default, fivefold multiplication of an already totaled five-second result, free recasts from passive healing, or continued health loss after death. Exact health scaling and tick boundaries need live measurement.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Tormented Shadow",
+          "slot": "W",
+          "source": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+          "formula": "Morgana ignites the ground for [5] seconds, dealing [18 / 31 / 44 / 57 / 70 + (0.2) × AP] magic damage per second, increased by up to [(18 / 31 / 44 / 57 / 70 + (0.2) × AP) × ((1 + 1))] based on the targets' missing Health.\n\nThis Ability's Cooldown is reduced by [5]% every time Morgana is healed by {{Spell_MorganaPassive_Name}}."
+        }
+      ]
     }
   ]
 }

@@ -9,6 +9,7 @@ import hybridTargets from '../scripts/ability-ceilings/group-9.json';
 import durationTargets from '../scripts/ability-ceilings/group-10.json';
 import interactionTargets from '../scripts/ability-ceilings/group-11.json';
 import sequenceTargets from '../scripts/ability-ceilings/group-12.json';
+import repeatTargets from '../scripts/ability-ceilings/group-13.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -16,6 +17,28 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('preserves repeated-hit candidates without confusing continuous crit scaling with critical outcomes',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(repeatTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of repeatTargets){
+  const builds=parseChatBuilds(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'),data);
+  const b=builds.find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Nidalee')expect(saved.scenario).toMatchObject({objectiveSlot:'E:0',rank:5,healthPercent:10});
+ }
+ const read=(c:string)=>repeatTargets.find(e=>e.champion===c)!;
+ expect(read('Kled').conditions).toMatchObject({heartsteelHP:500,healthPercent:100,duration:4});
+ expect(read('Viego').conditions.critMode).toBe('normal');
+ expect(read('Sivir').conditions.critMode).toBe('critical');
+ expect(read('Velkoz')).toMatchObject({damageType:'true',conditions:{rodStacks:10}});
+ expect(read('Morgana').conditions).toMatchObject({targetHP:20000,targetHealthPercent:25,duration:5});
+ expect(read('Lux')).toMatchObject({metric:'shield',damageType:'none',conditions:{duration:2.5}});
+ expect(read('Zyra').conditions).toMatchObject({duration:4,targetHP:10000});
+});
 it('roundtrips charged, delayed and renewal ceilings with finite setup and correct source slot',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(sequenceTargets,data,resources,false)).toHaveLength(16);

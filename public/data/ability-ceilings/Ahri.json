@@ -93,6 +93,96 @@
           "formula": "Ahri throws then pulls back her orb, dealing [35 / 60 / 85 / 110 / 135 + (0.5) × AP] magic damage on the way out and [35 / 60 / 85 / 110 / 135 + (0.5) × AP] true damage on the way back."
         }
       ]
+    },
+    {
+      "id": "ahri-ceiling-w-three-fire-one-victim",
+      "champion": "Ahri",
+      "name": "Fox-Fire: three fires on one victim",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one three-fire Fox-Fire volley on one champion output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one three-fire Fox-Fire volley on one champion output under a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "Each first fire deals 40/60/80/100/120 + 0.4 AP magic, with subsequent hits reduced to 40%. Three fires on the same victim nominally weight 1 + 0.4 + 0.4 = 1.8 full fires, giving rank-5 total 216 + 0.72 AP. Movement speed is utility, not another damage multiplier.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "one three-fire Fox-Fire volley on one champion",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph legally transformed. One W creates exactly three fires, all actually hitting the same isolated champion within a three-second observation. No minions or other champions steal targeting; no Charm, Q, R or attack damage in score.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Seraph legally transformed. One W creates exactly three fires, all actually hitting the same isolated champion within a three-second observation. No minions or other champions steal targeting; no Charm, Q, R or attack damage in score.",
+        "Compare one versus three connected fires at fixed AP/MR. Swap AP against penetration; repeat near another enemy to measure split targeting. Count damage events and verify reduced subsequent hits rather than multiplying the first hit by three.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No three full-strength same-target hits, extra fires from movement duration, or Charm/attack setup damage added to W. Actual targeting and proc rules remain manual checks."
+      ],
+      "tradeoffs": [
+        "A clean isolated volley can be difficult around minions, and maximum AP may lose utility or haste.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No three full-strength same-target hits, extra fires from movement duration, or Charm/attack setup damage added to W. Actual targeting and proc rules remain manual checks.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Fox-Fire",
+          "slot": "W",
+          "source": "Characters/Ahri/Spells/AhriWAbility/AhriW",
+          "formula": "Ahri releases 3 fox-fires that seek nearby enemies and deal [40 / 60 / 80 / 100 / 120 + (0.4) × AP] magic damage, reduced to [(40 / 60 / 80 / 100 / 120 + (0.4) × AP) × (0.4)] damage beyond the first. She also gains [40]% Move Speed decaying over [2] seconds."
+        }
+      ]
     }
   ]
 }

@@ -2,7 +2,7 @@
   "reviewedAt": "2026-10-18",
   "patch": "26.20",
   "championCount": 173,
-  "targetCount": 300,
+  "targetCount": 316,
   "scope": "All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.",
   "targets": [
     {
@@ -15972,6 +15972,879 @@
       "manualChecks": [
         "Authored interaction remains speculative.",
         "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "alistar-ceiling-e-full-trample-stun-hit",
+      "champion": "Alistar",
+      "target": "one full Trample aura and empowered-attack magic bonus",
+      "slot": "E",
+      "metric": "full-window",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        4633,
+        3157
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 6s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed and Riftmaker legally pre-ramped. One surviving champion stays inside for the full five seconds; five stacks are actually earned. Deliver exactly one empowered champion attack before its state expires, inside a six-second observation. No Q/W, ordinary attack damage or extra victims in the selected result.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 6,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Alistar/Spells/AlistarEAbility/AlistarE"
+      ],
+      "specificLimits": "No five copies of the displayed full-duration aura, AP scaling invented on the stun bonus, attack crit applied to magic packets, or a free empowered hit without five earned stacks. A partial aura and a full aura require different totals.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "blitzcrank-ceiling-r-mark-then-field",
+      "champion": "Blitzcrank",
+      "target": "one lightning mark and one Static Field active",
+      "slot": "R",
+      "metric": "full-window",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3040,
+        6657,
+        6655,
+        3135,
+        4645
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed, Rod exactly 10 earned stacks, R available. One attack marks one champion; wait for its one-second lightning event to actually resolve, then cast R once within a three-second observation. Record actual maximum mana and AP; no extra attack marks, E attack bonus or shielded target required.",
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Blitzcrank/Spells/StaticFieldAbility/StaticField"
+      ],
+      "specificLimits": "No free stacked marks, queued mark guaranteed after disabling the passive, maximum mana replaced by current mana, or removed shield HP added to R damage. Seraph conversion and live packet ordering remain manual checks.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "karma-ceiling-r-renewal-two-self-heals",
+      "champion": "Karma",
+      "target": "two self-heals from one Mantra Renewal tether",
+      "slot": "R",
+      "metric": "heal",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3084,
+        3083,
+        3065,
+        3089,
+        6621,
+        3107
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy (not the self-heal recipient): 3000 maximum HP, 100 armor and 50 MR. Owner HP 10%, target HP 100%, observation 2s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. R rank 4 and W rank 5. Exactly 500 earned Heartsteel HP, owner at 10%, Mantra ready and used within its legal empowerment window. One tether remains connected to a surviving champion for two seconds. Record own maximum HP and each heal timestamp; no incoming damage, other healing or new permanent stacks during the observation.",
+      "conditions": {
+        "level": 18,
+        "rank": 4,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 10,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra"
+      ],
+      "specificLimits": "No doubled initial missing-health heal, second heal after tether failure, W damage added to recovery, or generic modifier stacking assumed. The main W tooltip is unresolved; the source for this candidate is the explicit Mantra RW heal helper.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "kennen-ceiling-e-one-lightning-pass",
+      "champion": "Kennen",
+      "target": "one Lightning Rush pass-through hit",
+      "slot": "E",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        4633,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Riftmaker legally pre-ramped. One paid E passes through one champion once; record actual AP, energy and contact. No R ticks, Q/W mark consumption or attacks during the selected E measurement. Record whether the target already carries marks if testing stun separately.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Kennen/Spells/KennenLightningRushAbility/KennenLightningRush"
+      ],
+      "specificLimits": "No two seconds multiplied into two full hits, free energy cast, post-E critical attacks counted as E damage, or full passive stun damage inferred without its own source. Live rehit and amplifier rules need measurement.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "rell-ceiling-w-health-shield",
+      "champion": "Rell",
+      "target": "one fresh Crash Down shield",
+      "slot": "W",
+      "metric": "shield",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3084,
+        3083,
+        3065,
+        2501,
+        3748,
+        3181
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Exactly 500 earned Heartsteel HP, owner 30%, mounted before one legal Crash Down. Record actual total maximum HP and initial shield capacity after dismounting, with no previous or allied shield. Score initial capacity within three seconds; this observation does not define shield lifetime.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Rell/Spells/RellW_DismountAbility/RellW_Dismount"
+      ],
+      "specificLimits": "No AP shield coefficient, armor/MR added as shield HP, unlimited Heartsteel stacks or shield retained after the real remount/expiry rules remove it. Recipient shield modifiers require live eligibility checks.",
+      "manualChecks": [
+        "Source tooltip contains an unresolved token; inspect helper and current client.",
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "senna-ceiling-q-ap-ad-ally-heal",
+      "champion": "Senna",
+      "target": "one Piercing Darkness heal on one ally",
+      "slot": "Q",
+      "metric": "heal",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        6621,
+        3504,
+        3107,
+        3222,
+        3040
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Recipient ally: 6000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 30%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Exactly 100 legally earned Mist stacks, contributing 75 AD through the source 0.75 AD per stack; no quest-reward AP or allied buffs. Seraph transformed. One ally at 30% of 6000 maximum HP is crossed by one Q. Record actual bonus AD, AP and Dawncore conversion. Enemy hits and item-active healing excluded.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 6000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 30,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Senna/Spells/SennaQAbility/SennaQ"
+      ],
+      "specificLimits": "No unlimited souls, historical lethality heal ratio imported from another patch, recipient physical damage added to healing, or entire-team recovery labeled as one ally heal. Actual recovery is capped by missing HP and proc chains remain separate.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "seraphine-ceiling-w-one-self-recovery-pulse",
+      "champion": "Seraphine",
+      "target": "one Surround Sound self-heal pulse",
+      "slot": "W",
+      "metric": "heal",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3084,
+        3083,
+        3065,
+        6621,
+        3222,
+        3107
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy (not the self-heal recipient): 3000 maximum HP, 100 armor and 50 MR. Owner HP 10%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Owner 10% health, exactly 500 earned Heartsteel HP. Prepare Echo through two legitimate basic casts so W is the third basic ability and echoes; confirm the first W shield legally enables a heal from the echoed cast. Score exactly one observed self-heal pulse after 2.5 seconds, within a three-second window. No external shield or new damage/healing during the wait.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 10,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Seraphine/Spells/SeraphineWAbility/SeraphineW"
+      ],
+      "specificLimits": "No free shield prerequisite, two heals granted merely because W echoes, shield HP added to healing, old AP/ally-count healing multipliers borrowed without evidence, or original missing HP used after other recovery changed it. Separate passive regeneration and all item healing.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "soraka-ceiling-w-direct-infusion",
+      "champion": "Soraka",
+      "target": "one direct Astral Infusion heal",
+      "slot": "W",
+      "metric": "heal",
+      "damageType": "none",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        6621,
+        3504,
+        3107,
+        3222,
+        3040
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Recipient ally: 6000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 30%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed. Caster at full health with legal health/mana cost available, no Rejuvenation active. One ally at 30% of 6000 maximum HP receives one W. Record caster HP cost and direct recipient recovery; no recipient Visage, ally buffs or item-active heal.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 6000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 30,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Soraka/Spells/SorakaWAbility/SorakaW"
+      ],
+      "specificLimits": "No self-cast W, free health cost, full Rejuvenation duration added to the direct heal, or recipient-only modifiers granted to the caster. Caster health threshold and legal cast availability remain real constraints.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify heal/shield-power eligibility and missing-health/shield cap separately from damage.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "taliyah-ceiling-e-scatter-four-mine-test",
+      "champion": "Taliyah",
+      "target": "one Unraveled Earth scatter and legal mine detonations",
+      "slot": "E",
+      "metric": "full-window",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed. One champion takes the scatter and is legally moved through four mine contacts by own W or a recorded enemy dash before the four-second field expires. Observe three seconds, count actual detonations, and confirm per-target limits/falloff. No Q or separate displacement damage included.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Taliyah/Spells/TaliyahEAbility/TaliyahE"
+      ],
+      "specificLimits": "No every stone in the field counted as a full hit, invented dash contacts, multiple-field overlap or monster modifier applied to champions. Four contacts and the 2.5-weight helper are a test hypothesis until live per-target rules are confirmed.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "talon-ceiling-passive-two-second-bleed",
+      "champion": "Talon",
+      "target": "one complete Blade's End bleed",
+      "slot": "P",
+      "metric": "full-window",
+      "damageType": "physical",
+      "confidence": "speculative",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        6698,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 2s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills and temporary AD buff active. Three legitimate passive stacks on one surviving 10000-max-HP champion, still within their six-second window. One attack triggers one bleed; no further attacks or ability refresh inside the two-second score. Record actual target health after setup.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Talon/Spells/TalonPassiveAbility/TalonPassive"
+      ],
+      "specificLimits": "No twofold multiplication of the already complete bleed, physical attack crit inherited by the bleed, stack-building Q/W/R damage added to passive total, or observed post-death ticks credited as health loss.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "tristana-ceiling-r-hybrid-magic-cannon",
+      "champion": "Tristana",
+      "target": "one Buster Shot impact",
+      "slot": "R",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed. One R on one champion with no Explosive Charge already attached, no passive splash from a dying intermediary and no W landing. Record actual AP and bonus AD; score only the cannonball damage.",
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Tristana/Spells/TristanaRAbility/TristanaR"
+      ],
+      "specificLimits": "No historical R base value imported, crit multiplier or target armor reduction applied to magic damage, E detonation added to R, or knockback duration multiplied into repeated impacts.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "varus-ceiling-q-full-charge-first-target",
+      "champion": "Varus",
+      "target": "one fully charged first-target Piercing Arrow",
+      "slot": "Q",
+      "metric": "single-hit",
+      "damageType": "physical",
+      "confidence": "speculative",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        6698,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills with temporary buff active. Complete the actual maximum-damage charge before impact and release before the four-second cancellation. Scored champion is the first enemy hit, with zero Blight stacks and W inactive. Record actual charge time, bonus AD and hit order.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Varus/Spells/VarusQAbility/VarusQ"
+      ],
+      "specificLimits": "No extra 1.5 multiplier on the maximum helper, guessed charge breakpoint, full first-target damage through blocking units or bonus-mana/AP Blight damage added to Q. Charge completion and falloff need actual delivery evidence.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "vayne-ceiling-e-wall-total",
+      "champion": "Vayne",
+      "target": "one Condemn impact and wall-collision bonus",
+      "slot": "E",
+      "metric": "full-window",
+      "damageType": "physical",
+      "confidence": "speculative",
+      "itemIds": [
+        3072,
+        6697,
+        6694,
+        6698,
+        3142,
+        3053
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 2s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Exactly 10 earned Hubris kills and active temporary AD buff. Final Hour legally active at its learned rank, with actual added AD recorded. One champion collides with actual terrain after one E inside two seconds. No Tumble attack, Silver Bolts proc or extra basic attack in the selected sum.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn"
+      ],
+      "specificLimits": "No wall bonus after an open-space knockback, extra repeated wall collisions, ordinary attack critical multiplier on E or Silver Bolts damage folded into Condemn. Geometry and impact order remain manual checks.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "zeri-ceiling-passive-charged-ap-attack",
+      "champion": "Zeri",
+      "target": "one fully charged Living Battery attack",
+      "slot": "P",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3100,
+        3157
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed. Charge fully earned by legal movement/Q use and confirmed before one right-click on a fresh champion. No Q projectile or R nova damage in score. Record charge consumed, actual AP, target maximum HP and any Spellblade event separately.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Zeri/Spells/ZeriPassiveAbility/ZeriPassive"
+      ],
+      "specificLimits": "No ordinary AD attack added to the charged helper, seven full passive attacks from Q rounds, uncharged execute threshold used as charged damage, or monster cap applied to a champion. Passive evidence cross-references Q; actual item/crit eligibility needs client measurement.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "ziggs-ceiling-passive-short-fuse",
+      "champion": "Ziggs",
+      "target": "one Short Fuse magic packet on a champion",
+      "slot": "P",
+      "metric": "single-hit",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3100,
+        3157
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed. Passive legally ready before one attack on one champion. Record actual level-18 base and AP. Physical attack, Lich Bane and any prior ability used for cooldown reduction are measured separately; no structure modifier in the champion benchmark.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Ziggs/Spells/ZiggsPassiveBuffAbility/ZiggsPassiveBuff"
+      ],
+      "specificLimits": "No turret multiplier on a champion, normal attack crit multiplier on the magic bonus, base attack/Spellblade included twice, or free cooldown reset. Structure armor and damage rules are not borrowed from the champion scenario.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Read actual earned stacks, stat conversions and conditional item ramp in the client."
+      ],
+      "verification": "source-and-setup-reviewed; in-game result not verified"
+    },
+    {
+      "id": "zilean-ceiling-q-two-bomb-sequence",
+      "champion": "Zilean",
+      "target": "two Time Bomb explosions from one Q-W-Q sequence",
+      "slot": "Q",
+      "metric": "full-window",
+      "damageType": "magic",
+      "confidence": "speculative",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 4s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed, W learned and actually able to restore Q availability. Two Q casts attach to the same surviving 10000-max-HP champion using one legal Rewind, second attachment within 0.75 seconds of the first. Observe four seconds so the remaining bomb can detonate; record actual mana and timestamps. No extra Q reset or ally bomb carrier assumed.",
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "sourcePaths": [
+        "Characters/Zilean/Spells/ZileanQAbility/ZileanQ"
+      ],
+      "specificLimits": "No three hits from two bombs, free Rewind cooldown/mana, second bomb detonating immediately merely because the first does, or stun duration multiplied into damage. Both attachments and the surviving second timer require live verification.",
+      "manualChecks": [
+        "Authored interaction remains speculative.",
+        "Verify hit count, timing and target survival; do not score post-death packets.",
         "Read actual earned stacks, stat conversions and conditional item ramp in the client."
       ],
       "verification": "source-and-setup-reviewed; in-game result not verified"

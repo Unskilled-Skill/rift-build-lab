@@ -93,6 +93,96 @@
           "formula": "Soraka calls upon divine powers, restoring [150 / 250 / 350 + (0.5) × AP] Health to all allied champions, regardless of distance. Healing is increased to [(150 / 250 / 350 + (0.5) × AP) × ((1 + 0.5))] on targets below 40% Health."
         }
       ]
+    },
+    {
+      "id": "soraka-ceiling-w-direct-infusion",
+      "champion": "Soraka",
+      "name": "Astral Infusion: one direct ally heal",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one direct Astral Infusion heal output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one direct Astral Infusion heal output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "W directly restores 90/110/130/150/170 + 0.5 AP health to another allied champion. Rejuvenation can reduce Soraka health cost and transfer a separate regeneration effect, but neither makes the direct W coefficient larger. AP competes with heal-and-shield power and Dawncore conversion.",
+      "itemIds": [
+        3089,
+        6621,
+        3504,
+        3107,
+        3222,
+        3040
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 6000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 30,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "one direct Astral Infusion heal",
+        "metric": "heal",
+        "damageType": "none",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Recipient ally: 6000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 30%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed. Caster at full health with legal health/mana cost available, no Rejuvenation active. One ally at 30% of 6000 maximum HP receives one W. Record caster HP cost and direct recipient recovery; no recipient Visage, ally buffs or item-active heal.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Recipient ally: 6000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 30%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed. Caster at full health with legal health/mana cost available, no Rejuvenation active. One ally at 30% of 6000 maximum HP receives one W. Record caster HP cost and direct recipient recovery; no recipient Visage, ally buffs or item-active heal.",
+        "Swap AP versus heal power using actual Dawncore conversion. Compare direct W with and without legally earned Rejuvenation while reporting transferred regeneration separately. Test recipient low/full health and distinguish raw heal from overheal.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No self-cast W, free health cost, full Rejuvenation duration added to the direct heal, or recipient-only modifiers granted to the caster. Caster health threshold and legal cast availability remain real constraints."
+      ],
+      "tradeoffs": [
+        "Maximizing one direct heal may sacrifice Soraka safety, haste and ability to afford repeated health costs.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No self-cast W, free health cost, full Rejuvenation duration added to the direct heal, or recipient-only modifiers granted to the caster. Caster health threshold and legal cast availability remain real constraints.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Astral Infusion",
+          "slot": "W",
+          "source": "Characters/Soraka/Spells/SorakaWAbility/SorakaW",
+          "formula": "Soraka restores [90 / 110 / 130 / 150 / 170 + (0.5) × AP] Health to another allied champion.\n\nIf Soraka is affected by Rejuvenation, the Health cost will be reduced by [(0.8 / 0.85 / 0.9 / 0.95 / 1) × 100]%, and the target will gain Rejuvenation for @Spell.SorakaQ:HoTDuration@ seconds."
+        }
+      ]
     }
   ]
 }

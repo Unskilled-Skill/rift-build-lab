@@ -93,6 +93,96 @@
           "formula": "{{Spell_KarmaQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}}"
         }
       ]
+    },
+    {
+      "id": "karma-ceiling-r-renewal-two-self-heals",
+      "champion": "Karma",
+      "name": "Renewal: two missing-health self-heals",
+      "category": "Ability ceiling",
+      "summary": "Investigate high two self-heals from one Mantra Renewal tether output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high two self-heals from one Mantra Renewal tether output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "The Mantra RW helper restores (17 + 0.01 AP)% missing health at the start and end of the tether. The second heal uses missing HP remaining at that later instant, not the original starting deficit. HP, AP and eligible heal modifiers therefore interact; the two W damage events are separate.",
+      "itemIds": [
+        3084,
+        3083,
+        3065,
+        3089,
+        6621,
+        3107
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 4,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 10,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "two self-heals from one Mantra Renewal tether",
+        "metric": "heal",
+        "damageType": "none",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy (not the self-heal recipient): 3000 maximum HP, 100 armor and 50 MR. Owner HP 10%, target HP 100%, observation 2s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. R rank 4 and W rank 5. Exactly 500 earned Heartsteel HP, owner at 10%, Mantra ready and used within its legal empowerment window. One tether remains connected to a surviving champion for two seconds. Record own maximum HP and each heal timestamp; no incoming damage, other healing or new permanent stacks during the observation.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy (not the self-heal recipient): 3000 maximum HP, 100 armor and 50 MR. Owner HP 10%, target HP 100%, observation 2s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. R rank 4 and W rank 5. Exactly 500 earned Heartsteel HP, owner at 10%, Mantra ready and used within its legal empowerment window. One tether remains connected to a surviving champion for two seconds. Record own maximum HP and each heal timestamp; no incoming damage, other healing or new permanent stacks during the observation.",
+        "Compare first heal, successful second heal and broken tether. Swap a max-HP slot for AP or heal power and record both actual HP deficits. Recheck Revitalize eligibility after the first heal, and isolate regeneration or item healing from Renewal.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No doubled initial missing-health heal, second heal after tether failure, W damage added to recovery, or generic modifier stacking assumed. The main W tooltip is unresolved; the source for this candidate is the explicit Mantra RW heal helper."
+      ],
+      "tradeoffs": [
+        "The maximum recovery starts at dangerous health and requires a maintained tether; health/AP support slots can sacrifice resistance and damage.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No doubled initial missing-health heal, second heal after tether failure, W damage added to recovery, or generic modifier stacking assumed. The main W tooltip is unresolved; the source for this candidate is the explicit Mantra RW heal helper.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Mantra",
+          "slot": "R",
+          "source": "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra",
+          "formula": "Karma empowers her next Ability used within 8 seconds.\n{{Spell_KarmaQ_Name}}: Deals an additional [40 / 100 / 160 / 220 + (0.3) × AP] magic damage and leaves behind a circle of flame, Slowing enemies and dealing an additional [40 / 130 / 220 / 310 + (0.5) × AP] magic damage.{{Spell_KarmaSpiritBind_Name}}: Karma will restore [(17 + (0.01) × AP) × (0.01)] missing Health at the beginning and end of the tether, and Root for [0.5 / 0.75 / 1 / 1.25]s longer.{{Spell_KarmaSolKimShield_Name}}: Karma shields her target for [45 / 85 / 125 / 165 + (0.45) × AP] more Shield, and also shields allies near her target, granting them [(45 / 85 / 125 / 165 + (0.45) × AP) × (1)] Shield and [15]% Move Speed."
+        }
+      ]
     }
   ]
 }

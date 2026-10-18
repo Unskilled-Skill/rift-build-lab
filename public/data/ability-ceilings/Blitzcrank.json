@@ -183,6 +183,96 @@
           "formula": "Blitzcrank charges up their fist, causing their next Attack to Knock Up for [1] second(s) and deal [(2) × AD + (0.25) × AP] physical damage."
         }
       ]
+    },
+    {
+      "id": "blitzcrank-ceiling-r-mark-then-field",
+      "champion": "Blitzcrank",
+      "name": "Static Field: one lightning mark then active",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one lightning mark and one Static Field active output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "goal": "Investigate high one lightning mark and one Static Field active output under a finite setup; compare controlled item swaps rather than claiming a global maximum.",
+      "hypothesis": "At rank 3 one delayed attack mark deals 150 + 0.5 AP + 2% maximum mana magic; the active deals 525 + 1.0 AP magic. Their nominal sum is 675 + 1.5 AP + 0.02 maximum mana if both legally occur. Shield destruction is utility, not additional health damage, and ordinary attack damage is outside this R-only result.",
+      "itemIds": [
+        3089,
+        3040,
+        6657,
+        6655,
+        3135,
+        4645
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 3,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "R",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "R",
+        "targetName": "one lightning mark and one Static Field active",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed, Rod exactly 10 earned stacks, R available. One attack marks one champion; wait for its one-second lightning event to actually resolve, then cast R once within a three-second observation. Record actual maximum mana and AP; no extra attack marks, E attack bonus or shielded target required.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap observed healing at recipient missing HP, and report raw output separately. Seraph transformed, Rod exactly 10 earned stacks, R available. One attack marks one champion; wait for its one-second lightning event to actually resolve, then cast R once within a three-second observation. Record actual maximum mana and AP; no extra attack marks, E attack bonus or shielded target required.",
+        "Compare active-only, one-mark-only and the ordered sequence. Test spending current mana without changing maximum mana. Swap a mana/AP slot for raw AP or penetration, and separately check what happens if R is cast before the queued mark resolves.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No free stacked marks, queued mark guaranteed after disabling the passive, maximum mana replaced by current mana, or removed shield HP added to R damage. Seraph conversion and live packet ordering remain manual checks."
+      ],
+      "tradeoffs": [
+        "The larger total requires entering attack and ultimate range and waiting for a delayed mark; maximizing AP/mana sacrifices normal frontline utility.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No free stacked marks, queued mark guaranteed after disabling the passive, maximum mana replaced by current mana, or removed shield HP added to R damage. Seraph conversion and live packet ordering remain manual checks.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Static Field",
+          "slot": "R",
+          "source": "Characters/Blitzcrank/Spells/StaticFieldAbility/StaticField",
+          "formula": "Passive: While this ability is available, lightning charges Blitzcrank's fists, marking those  Attacked. After 1 second, they are shocked for [50 / 100 / 150 + (0.3 / 0.4 / 0.5) × AP + 0.02 × AbilityResource(default, statFormula=default)] magic damage.\n\nActive: Blitzcrank overcharges, dealing [275 / 400 / 525 + (1) × AP] magic damage and Silencing nearby enemies for [0.5] seconds. Their shields are also destroyed."
+        }
+      ]
     }
   ]
 }

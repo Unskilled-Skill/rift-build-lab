@@ -93,6 +93,96 @@
           "formula": "Passive: {{Spell_RyzeW_Name}} and {{Spell_RyzeE_Name}} refresh this Ability's Cooldown and charge a rune for [4] seconds (max [2] runes).\n\nActive: Ryze unleashes a blast, dealing [75 / 95 / 115 / 135 / 155 + (0.55) × AP + 0.02 × AbilityResource(default, statFormula=2)] magic damage to the first enemy hit. If the target has Flux on it, it is consumed, causing this Ability to deal @Spell.RyzeR:OverloadDamageBonus@% increased damage and bounces to nearby enemies with Flux.\n\nRyze also discharges all runes, granting Ryze [28 / 32 / 36 / 40 / 44]% Move Speed for [2] seconds if [2] runes were charged."
         }
       ]
+    },
+    {
+      "id": "ryze-ceiling-w-bonus-mana-prison",
+      "champion": "Ryze",
+      "name": "Rune Prison: AP and bonus-mana burst",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Rune Prison impact output with a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one Rune Prison impact output with a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "W deals 60/90/120/150/180 + 0.6 AP + 3% bonus maximum mana magic. Arcane Mastery increases maximum mana with AP, while Seraph supplies another conversion that partial models do not fully certify. Read actual final AP and maximum mana; bonus mana is final maximum minus champion base mana, not current available mana.",
+      "itemIds": [
+        3089,
+        3040,
+        6657,
+        6655,
+        3135,
+        4645
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "one Rune Prison impact",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop observed damage at death, cap observed healing at missing HP, and report raw output separately. Seraph transformed and Rod exactly 10 earned stacks. Record actual final maximum mana, base champion mana and AP after all client conversions. One W on a fresh champion with no Flux; root setup E damage excluded. No elixir or external mana/AP buffs.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop observed damage at death, cap observed healing at missing HP, and report raw output separately. Seraph transformed and Rod exactly 10 earned stacks. Record actual final maximum mana, base champion mana and AP after all client conversions. One W on a fresh champion with no Flux; root setup E damage excluded. No elixir or external mana/AP buffs.",
+        "Compare a mana/AP slot with raw AP or penetration. Spend some current mana without changing maximum mana and repeat as a control. Calculate from observed final bonus mana/AP rather than iterating an assumed infinite conversion loop. Compare rooted delivery separately from damage.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No total or current mana substituted for bonus maximum mana, Flux E added to W, or Seraph conversion silently certified by a partial adapter. Mana/AP ordering and actual rune/item proc damage remain manual checks."
+      ],
+      "tradeoffs": [
+        "Mana-heavy late items can be expensive and delay survival or utility; a high point-and-click packet alone does not establish a better Ryze build.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No total or current mana substituted for bonus maximum mana, Flux E added to W, or Seraph conversion silently certified by a partial adapter. Mana/AP ordering and actual rune/item proc damage remain manual checks.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Rune Prison",
+          "slot": "W",
+          "source": "Characters/Ryze/Spells/RyzeWAbility/RyzeW",
+          "formula": "Ryze deals [60 / 90 / 120 / 150 / 180 + (0.6) × AP + 0.03 × AbilityResource(default, statFormula=2)] magic damage and Slows by [50]% for [1.5] seconds. If the target has Flux, it is consumed and this Ability Roots instead of Slowing."
+        }
+      ]
     }
   ]
 }

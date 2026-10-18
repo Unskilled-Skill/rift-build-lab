@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 284 targets across 173 champions.
+Patch 26.20: 300 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 99 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 115 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -296,3 +296,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Twitch | six seconds of six-stack Deadly Venom | P | full-window | speculative | 3 |
 | Yorick | one champion-hit Last Rites self-heal | Q | heal | speculative | 2 |
 | JarvanIV | one Demacian Standard impact | E | single-hit | speculative | 2 |
+| Ekko | one Z-Drive Resonance detonation | P | single-hit | speculative | 2 |
+| Fiddlesticks | one complete Bountiful Harvest channel | W | full-window | speculative | 3 |
+| Gwen | one A Thousand Cuts magic packet | P | single-hit | speculative | 2 |
+| Janna | Eye of the Storm granted attack damage | E | stat | speculative | 2 |
+| Jayce | one hammer-form Thundering Blow | E:0 | single-hit | speculative | 4 |
+| Kayn | one Rhaast Reaping Slash dash and sweep | Q | full-window | speculative | 3 |
+| Lissandra | one frozen-thrall shatter on one living champion | P | single-hit | speculative | 2 |
+| Lulu | Pix bolts from three qualifying attacks | P | full-window | speculative | 2 |
+| Malphite | one Thunderclap initial attack bonus | W | single-hit | speculative | 1 |
+| Nocturne | one five-target Umbra Blades self-heal | P | heal | speculative | 3 |
+| Rakan | one Gleaming Quill heal on one ally | Q | heal | speculative | 3 |
+| Ryze | one Rune Prison impact | W | single-hit | speculative | 2 |
+| Samira | one critical ranged Flair shot | Q | single-hit | speculative | 2 |
+| Swain | four seconds of five-champion Demonic Ascension healing | R | heal | speculative | 2 |
+| MasterYi | one isolated critical Alpha Strike sequence | Q | full-window | speculative | 3 |
+| Yone | one Spirit Cleave shield after five champion hits | W | shield | speculative | 3 |

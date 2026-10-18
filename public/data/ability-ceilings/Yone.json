@@ -93,6 +93,96 @@
           "formula": "Yone thrusts forward, dealing [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage.\n\nOn hit, grants a stack for [6] seconds. At 2 stacks, this ability causes Yone to dash forward with a wave of wind that Knocks Up for [0.75] seconds and deals [25 / 50 / 75 / 100 / 125 + (1.1) × AD] physical damage."
         }
       ]
+    },
+    {
+      "id": "yone-ceiling-w-five-champion-ad-shield",
+      "champion": "Yone",
+      "name": "Spirit Cleave: five-champion AD shield",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Spirit Cleave shield after five champion hits output with a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one Spirit Cleave shield after five champion hits output with a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "The base shield helper scales from 40 to 90 by level plus 0.65 bonus AD and lasts 1.5 seconds. Raw data also contains first-champion and additional-champion shield multipliers of 1 and 0.5. Their combination with the base layer must be measured; five targets do not mean five unmodified full shields. W physical/magic damage is separate.",
+      "itemIds": [
+        3072,
+        6697,
+        3053,
+        2501,
+        3084,
+        3065
+      ],
+      "runePage": [
+        8214,
+        8275,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 1.5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 500,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 30,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "one Spirit Cleave shield after five champion hits",
+        "metric": "shield",
+        "damageType": "none",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 1.5s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop observed damage at death, cap observed healing at missing HP, and report raw output separately. Exactly five living enemy champions inside one actual W cone, one cast and no prior shield. Owner 30%, exactly 500 earned Heartsteel HP, exactly 10 earned Hubris kills and temporary buff active. Record actual Bloodmail AD, bonus AD and shield capacity immediately after all five hits. Separate Sterak and any other shield.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 1.5s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop observed damage at death, cap observed healing at missing HP, and report raw output separately. Exactly five living enemy champions inside one actual W cone, one cast and no prior shield. Owner 30%, exactly 500 earned Heartsteel HP, exactly 10 earned Hubris kills and temporary buff active. Record actual Bloodmail AD, bonus AD and shield capacity immediately after all five hits. Separate Sterak and any other shield.",
+        "Compare zero-champion non-champion contact, then one through five champion hits with unchanged stats. Swap Visage for AD and a health/Bloodmail slot for AD, recording actual modifier order. Verify initial capacity rather than summing absorbed damage across different shields.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No assumed fivefold base shield, free champion targets outside the cone, damage packets added to capacity or crit damage multiplier on shield. The source damage helpers and tooltip disagree on unrelated damage scaling; they do not certify this shield test."
+      ],
+      "tradeoffs": [
+        "A large multi-champion shield requires a clustered cone hit and lasts only 1.5 seconds; this AD/health setup may lose ordinary crit DPS.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No assumed fivefold base shield, free champion targets outside the cone, damage packets added to capacity or crit damage multiplier on shield. The source damage helpers and tooltip disagree on unrelated damage scaling; they do not certify this shield test.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Spirit Cleave",
+          "slot": "W",
+          "source": "Characters/Yone/Spells/YoneWAbility/YoneW",
+          "formula": "Yone cleaves forward, dealing [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health physical damage and [(10 / 20 / 30 / 40 / 50) × 0.5] + [(0.08 / 0.09 / 0.1 / 0.11 / 0.12) × 50]% max Health magic damage.\n\nIf Yone hits, he gains [characterLevelInterpolation(40 → 90; raw flags preserved) + (0.65) × AD[statFormula=2]] Shield for [1.5] seconds. The amount of Shield increases for each champion struck."
+        }
+      ]
     }
   ]
 }

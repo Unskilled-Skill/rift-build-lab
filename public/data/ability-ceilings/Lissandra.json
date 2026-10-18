@@ -93,6 +93,96 @@
           "formula": "Lissandra encases herself or an enemy champion in ice. Enemies are Stunned for [1.5] seconds. When self cast, Lissandra enters Stasis for [2.5] seconds and restores [100 / 150 / 200 + (0.55) × AP] Health, increased by [1]% for each [1]% missing Health.\n\nIn either case, dark ice eminates from the target, dealing [150 / 250 / 350 + (0.75) × AP] magic damage. The ice persists for [3] seconds, Slowing enemies by [(-0.45 / -0.6 / -0.75) × -100]%."
         }
       ]
+    },
+    {
+      "id": "lissandra-ceiling-passive-one-thrall-shatter",
+      "champion": "Lissandra",
+      "name": "Iceborn Subjugation: one frozen thrall",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one frozen-thrall shatter on one living champion output with a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one frozen-thrall shatter on one living champion output with a finite setup; compare controlled item swaps instead of claiming a global maximum.",
+      "hypothesis": "A nearby enemy champion death creates a frozen thrall which shatters after four seconds. The damage helper is a champion-level breakpoint base plus 0.5 AP magic. Each corpse is a separately earned source, not a repeatable summon or an unlimited chain multiplier.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "one frozen-thrall shatter on one living champion",
+        "metric": "single-hit",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 4s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop observed damage at death, cap observed healing at missing HP, and report raw output separately. Seraph transformed. Exactly one enemy champion dies in valid passive range to create one thrall; one different surviving enemy stands in its eventual shatter area. Score only that single shatter, with setup kill damage excluded. Record actual spawn, path and explosion timestamp.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 4s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop observed damage at death, cap observed healing at missing HP, and report raw output separately. Seraph transformed. Exactly one enemy champion dies in valid passive range to create one thrall; one different surviving enemy stands in its eventual shatter area. Score only that single shatter, with setup kill damage excluded. Record actual spawn, path and explosion timestamp.",
+        "Compare AP against penetration at fixed MR. Test a victim leaving the shatter radius and a corpse outside the passive acquisition range. If a shatter creates another thrall through a real kill, report that as a separately labeled chain rather than this one-thrall metric.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No thrall without a real qualifying death, four-second delay multiplied into four explosions, multiple corpse damage summed as one packet, or automatic First Strike availability after setup combat."
+      ],
+      "tradeoffs": [
+        "The source depends on an enemy already dying nearby, making a large thrall number unreliable as an opening burst plan.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No thrall without a real qualifying death, four-second delay multiplied into four explosions, multiple corpse damage summed as one packet, or automatic First Strike availability after setup combat.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Iceborn Subjugation",
+          "slot": "Passive",
+          "source": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+          "formula": "When an enemy champion dies near Lissandra they become a frozen zombie that seeks out living enemies. Enemies near these zombies are Slowed by [25]%. After [4] seconds, frozen zombies shatter, dealing [characterLevelBreakpoints(start=120, perLevel=20, changes=[{\"mLevel\": 13, \"mBonusPerLevelAtAndAfter\": 30.0, \"__type\": \"Breakpoint\"}]) + (0.5) × AP] magic damage."
+        }
+      ]
     }
   ]
 }

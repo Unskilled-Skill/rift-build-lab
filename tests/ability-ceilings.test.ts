@@ -7,6 +7,7 @@ import packetTargets from '../scripts/ability-ceilings/group-7.json';
 import executionTargets from '../scripts/ability-ceilings/group-8.json';
 import hybridTargets from '../scripts/ability-ceilings/group-9.json';
 import durationTargets from '../scripts/ability-ceilings/group-10.json';
+import interactionTargets from '../scripts/ability-ceilings/group-11.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -14,6 +15,27 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('imports interaction ceilings with hammer rank six and separate buff, shield and heal metrics',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(interactionTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of interactionTargets){
+  const builds=parseChatBuilds(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'),data);
+  const b=builds.find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Jayce')expect(saved.scenario).toMatchObject({objectiveSlot:'E:0',rank:6});
+ }
+ const read=(c:string)=>interactionTargets.find(e=>e.champion===c)!;
+ expect(read('Janna')).toMatchObject({metric:'stat',damageType:'none',conditions:{rodStacks:10,duration:4}});
+ expect(read('Yone')).toMatchObject({metric:'shield',damageType:'none',conditions:{heartsteelHP:500,healthPercent:30,duration:1.5}});
+ expect(read('Swain')).toMatchObject({metric:'heal',damageType:'none',conditions:{heartsteelHP:500,healthPercent:10,duration:4}});
+ expect(read('MasterYi').conditions).toMatchObject({duration:2,critMode:'critical'});
+ expect(read('Samira').conditions.critMode).toBe('critical');
+ expect(read('Malphite').damageType).toBe('physical');
+});
 it('preserves poison windows, recipient shield state and finite stack setup through test imports',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(durationTargets,data,resources,false)).toHaveLength(16);

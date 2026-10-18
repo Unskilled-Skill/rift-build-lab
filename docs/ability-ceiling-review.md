@@ -1,10 +1,10 @@
 # Ability ceiling review — 2026-10-18
 
-Patch 26.20: 220 targets across 173 champions.
+Patch 26.20: 236 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 35 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 51 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -232,3 +232,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Diana | Pale Cascade shield applications and peak | W | shield | speculative | 3 |
 | Jax | Empower and Grandmaster passive on one attack | W | full-window | speculative | 2 |
 | Rammus | Spiked Shell granted AD with W active | P | stat | speculative | 2 |
+| Anivia | fully grown Glacial Storm over four seconds | R | full-window | speculative | 3 |
+| Brand | one three-stack Blaze detonation | P | single-hit | speculative | 2 |
+| Caitlyn | one trap-enabled Headshot delivery | P | single-hit | speculative | 3 |
+| Draven | one Spinning Axe attack | Q | single-hit | speculative | 2 |
+| Gangplank | one legally triggered Powder Keg explosion | E | single-hit | speculative | 2 |
+| Katarina | one Voracity dagger slash | P | single-hit | speculative | 2 |
+| Kennen | Electrical Surge fifth-attack bonus | W | single-hit | plausible | 1 |
+| Mordekaiser | Darkness Rise field over four seconds | P | full-window | speculative | 3 |
+| Nasus | Spirit Fire impact and five-second exposure | E | full-window | speculative | 3 |
+| Neeko | Shapesplitter third-attack magic bonus | W | single-hit | plausible | 0 |
+| Rengar | ordinary and empowered Battle Roar sequence | W | full-window | speculative | 3 |
+| Syndra | upgraded Force of Will magic and true packets | W | single-hit | speculative | 3 |
+| Thresh | one first-wall collision of The Box | R | single-hit | plausible | 1 |
+| Zoe | Sleepy Trouble Bubble impact plus capped wake packet | E | full-window | speculative | 3 |
+| Viktor | Siphon Power empowered discharge attack | Q | single-hit | speculative | 2 |
+| MissFortune | Double Up critical second shot | Q | single-hit | speculative | 2 |

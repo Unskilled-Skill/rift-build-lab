@@ -93,6 +93,96 @@
           "formula": "Mordekaiser smashes the ground with Nightfall dealing [80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP] magic damage, increased to [(80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 7.0, \"__type\": \"Breakpoint\"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP) × (1.3 / 1.35 / 1.4 / 1.45 / 1.5)] if it hits only a single enemy."
         }
       ]
+    },
+    {
+      "id": "mordekaiser-ceiling-passive-four-second-field",
+      "champion": "Mordekaiser",
+      "name": "Darkness Rise: four seconds of AP and health damage",
+      "category": "Ability ceiling",
+      "summary": "Investigate high Darkness Rise field over four seconds output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high Darkness Rise field over four seconds output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "The field source deals 5 + 0.3 AP plus a level-scaled 1%-5% enemy max HP per second. A fixed four-second window tests both AP and percentage-health damage. The separate 0.4 AP attack on-hit is not the field, and activating the field does not add three free setup hits to the scored output.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        4633,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "Darkness Rise field over four seconds",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists; stop observed scoring when a target dies and report raw overkill separately. Darkness Rise already activated by three legal qualifying hits; target stays inside for four measured seconds. No Realm of Death stat theft or shrink of target maximum HP. Riftmaker pre-ramped; setup hits and attack on-hits excluded. Loaded owner HP 100%, target HP 100%, observation 4s. Gathering Storm at minute 30 if selected. Prior champion combat 4s does not automatically grant arbitrary item stacks.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists; stop observed scoring when a target dies and report raw overkill separately. Darkness Rise already activated by three legal qualifying hits; target stays inside for four measured seconds. No Realm of Death stat theft or shrink of target maximum HP. Riftmaker pre-ramped; setup hits and attack on-hits excluded. Loaded owner HP 100%, target HP 100%, observation 4s. Gathering Storm at minute 30 if selected. Prior champion combat 4s does not automatically grant arbitrary item stacks.",
+        "Record field tick counts at level 18 and compare 1500 versus 6000 target HP. Swap Void against a raw-AP or HP/AP slot at low/high MR. Run a leave-the-field control, and report any separate R-state experiment with its changed stats and target HP rather than importing it into this benchmark.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No infinite contact, post-death ticks, included setup attacks or duplicated passive attack on-hit. Read actual level scaling and amplifier eligibility."
+      ],
+      "tradeoffs": [
+        "High stationary field damage requires surviving in melee contact; a damage-only inventory may deliver a shorter real window.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No infinite contact, post-death ticks, included setup attacks or duplicated passive attack on-hit. Read actual level scaling and amplifier eligibility.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Darkness Rise",
+          "slot": "Passive",
+          "source": "Characters/Mordekaiser/Spells/MordekaiserPassiveAbility/MordekaiserPassive",
+          "formula": "Mordekaiser's Attacks deal an additional [(0.4) × AP] magic damage.\n\nMordekaiser cloaks himself in negative energy after hitting 3 basic Abilities or Attacks against champions or jungle monsters. This cloak deals [5 + (0.3) × AP] plus [characterLevelInterpolation(1 → 5; raw flags preserved)]% max Health magic damage per second and grants him [characterLevelBreakpoints(start=0.03, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 24, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}, {\"mLevel\": 30, \"mAdditionalBonusAtThisLevel\": 0.029999999329447746, \"__type\": \"Breakpoint\"}])] Move Speed."
+        }
+      ]
     }
   ]
 }

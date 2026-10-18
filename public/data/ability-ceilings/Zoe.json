@@ -93,6 +93,96 @@
           "formula": "Zoe fires a star that deals increasing damage the further it travels to the first enemy hit and surrounding enemies -- between [50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP] to [(50 / 80 / 110 / 140 / 170 + characterLevelBreakpoints(start=2, perLevel=2, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 3.0, \"__type\": \"Breakpoint\"}, {\"mLevel\": 14, \"mBonusPerLevelAtAndAfter\": 4.0, \"__type\": \"Breakpoint\"}]) + (0.6) × AP) × (2.5)] magic damage.\n\nZoe can Recast this Ability to redirect the missile to a new position near Zoe."
         }
       ]
+    },
+    {
+      "id": "zoe-ceiling-e-bubble-wake-cap",
+      "champion": "Zoe",
+      "name": "Sleepy Trouble Bubble: impact and bounded wake",
+      "category": "Ability ceiling",
+      "summary": "Investigate high Sleepy Trouble Bubble impact plus capped wake packet output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high Sleepy Trouble Bubble impact plus capped wake packet output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "Rank-5 E initially deals 230 + 0.45 AP magic. Its sleep wake adds a true-damage bonus with the source cap 230 + 0.45 AP; it does not freely double every later Q. AP increases the initial hit and cap. Sleep MR reduction and the actual triggering damage must be observed in their correct event order; the triggering spell itself is a separate packet.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "E",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "E",
+        "targetName": "Sleepy Trouble Bubble impact plus capped wake packet",
+        "metric": "full-window",
+        "damageType": "mixed",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists; stop observed scoring when a target dies and report raw overkill separately. Override target to 10000 max/current HP so it can survive bubble and the measured wake. Apply E, allow real sleep, then wake with a legally prepared fixed-distance Q capable of reaching the cap. Seraph earned. Record Q setup and damage but exclude Q from the E-only sum. Loaded owner HP 100%, target HP 100%, observation 4s. Gathering Storm at minute 30 if selected. Prior champion combat 0s does not automatically grant arbitrary item stacks.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists; stop observed scoring when a target dies and report raw overkill separately. Override target to 10000 max/current HP so it can survive bubble and the measured wake. Apply E, allow real sleep, then wake with a legally prepared fixed-distance Q capable of reaching the cap. Seraph earned. Record Q setup and damage but exclude Q from the E-only sum. Loaded owner HP 100%, target HP 100%, observation 4s. Gathering Storm at minute 30 if selected. Prior champion combat 0s does not automatically grant arbitrary item stacks.",
+        "Measure initial E magic, the triggering Q and the distinct true wake packet. Compare weak and strong wake sources, and confirm the cap stops growing with the trigger above its bound. Repeat at different MR and read when sleep MR reduction is removed. Do not count a second sleep without a new E.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No uncapped double-Q result, doubled E cap, MR penetration on true wake or score after target death. Current partial E-only models do not certify the wake event ordering."
+      ],
+      "tradeoffs": [
+        "Needs a real sleep and a sufficiently strong, precisely timed wake source; an E-only ceiling is not the damage of the full Q combo.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No uncapped double-Q result, doubled E cap, MR penetration on true wake or score after target death. Current partial E-only models do not certify the wake event ordering.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Sleepy Trouble Bubble",
+          "slot": "E",
+          "source": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+          "formula": "Zoe dropkicks a bubble that deals [70 / 110 / 150 / 190 / 230 + (0.45) × AP] magic damage, lingering as a trap if it hits nothing. The bubble's range is extended when flying over terrain.\n\nIf either the bubble or trap hits an enemy champion she refreshes [(0.16 / 0.195 / 0.23 / 0.265 / 0.3) × 100]% of her cooldown.\n\nAfter a delay, the victim falls Asleep and have their Magic Resist reduced by [30]% for 2 seconds. Attacks and Ability hits wake them up but deal double damage, up to [70 / 110 / 150 / 190 / 230 + (0.45) × AP] true damage."
+        }
+      ]
     }
   ]
 }

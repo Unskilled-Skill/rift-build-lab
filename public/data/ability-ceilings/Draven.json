@@ -93,6 +93,96 @@
           "formula": "Draven hurls two massive axes that deal [200 / 300 / 400 + (1.1 / 1.3 / 1.5) × AD[statFormula=2]] physical damage. Upon hitting a champion or Recasting, they reverse direction and return to Draven. The axes deal [5]% less damage for each enemy hit, down to a minimum of [50]%.\n\nIf {{ Spell_DravenRCast_Name }} would leave an enemy champion with less health than [100]% of Draven's current {{Spell_DravenPassive_Name}} stacks ([(1) × BuffStacks({577427b5})]), he will execute them."
         }
       ]
+    },
+    {
+      "id": "draven-ceiling-q-axe-delivery",
+      "champion": "Draven",
+      "name": "Spinning Axe: separate crit delivery from axe bonus",
+      "category": "Ability ceiling",
+      "summary": "Investigate high one Spinning Axe attack output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high one Spinning Axe attack output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "Rank-5 Q adds 60 + 1.15 bonus AD physical damage to an attack. Raw AD raises the axe bonus, while crit items can strengthen eligible ordinary delivery. The axe tooltip alone does not prove that the whole added bonus receives ordinary critical amplification. Essence Reaver and Collector events remain separate from the named Q packet.",
+      "itemIds": [
+        3031,
+        3508,
+        6676,
+        3036,
+        3072,
+        6697
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "critical"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "one Spinning Axe attack",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists; stop observed scoring when a target dies and report raw overkill separately. Exactly one readied Spinning Axe on one attack; Hubris exactly ten credited kills and active buff. No second axe bonus, passive cash-out, W attack-speed value or catch damage counted. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Prior champion combat 0s does not automatically grant arbitrary item stacks.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists; stop observed scoring when a target dies and report raw overkill separately. Exactly one readied Spinning Axe on one attack; Hubris exactly ten credited kills and active buff. No second axe bonus, passive cash-out, W attack-speed value or catch damage counted. Loaded owner HP 100%, target HP 100%, observation 3s. Gathering Storm at minute 30 if selected. Prior champion combat 0s does not automatically grant arbitrary item stacks.",
+        "Compare critical and noncritical delivery with the axe contribution split out. Swap Essence Reaver or Collector against Profane at fixed target armor and Hubris state. Report Q-only and complete attack-event totals separately; confirm critical eligibility before multiplying the axe term.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Holding two axes does not apply two Q bonuses to one attack. AD from earned buffs must be observed; no ordinary crit factor is assumed for the full bonus."
+      ],
+      "tradeoffs": [
+        "Maximum one-hit crit can lose sustained axe catching, movement and defensive value; the proc classification can overturn the proposed inventory.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Holding two axes does not apply two Q bonuses to one attack. AD from earned buffs must be observed; no ordinary crit factor is assumed for the full bonus.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Spinning Axe",
+          "slot": "Q",
+          "source": "Characters/Draven/Spells/DravenSpinningAbility/DravenSpinning",
+          "formula": "Draven readies a Spinning Axe, causing his next Attack to deal an additional [40 / 45 / 50 / 55 / 60 + (0.75 / 0.85 / 0.95 / 1.05 / 1.15) × AD[statFormula=2]] physical damage and ricochet into the air. If Draven catches it, he readies another Spinning Axe.\n\nDraven can hold two Spinning Axes at once."
+        }
+      ]
     }
   ]
 }

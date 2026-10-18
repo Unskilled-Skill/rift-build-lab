@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import additional from '../scripts/ability-ceilings/group-4.json';
 import expansion from '../scripts/ability-ceilings/group-5.json';
 import conversionTargets from '../scripts/ability-ceilings/group-6.json';
+import packetTargets from '../scripts/ability-ceilings/group-7.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -86,4 +87,22 @@ it('publishes conversion targets with finite conditions and distinct damage, shi
  expect(rammus.metric).toBe('stat');expect(rammus.damageType).toBe('none');
  const volley=conversionTargets.find(e=>e.champion==='Warwick')!;
  expect(volley.metric).toBe('full-window');expect(volley.conditions.duration).toBe(1.5);
+});
+
+it('publishes packet-focused targets with reproducible windows and separate critical delivery settings',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(packetTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of packetTargets){
+  const builds=parseChatBuilds(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'),data);
+  const b=builds.find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const setup=toTestSave(b,data);
+  expect(setup.requiresManualTest).toBe(true);
+  expect(setup.scenario).toMatchObject(entry.conditions);
+  expect(setup.scenario.objectiveSlot).toBe(entry.targetSlot);
+ }
+ expect(packetTargets.find(e=>e.champion==='Zoe')!.conditions).toMatchObject({targetHP:10000,duration:4});
+ expect(packetTargets.find(e=>e.champion==='Anivia')!.conditions.duration).toBe(4);
+ expect(packetTargets.find(e=>e.champion==='Nasus')!.conditions.duration).toBe(5);
+ for(const champion of ['Caitlyn','Draven','Gangplank','MissFortune'])expect(packetTargets.find(e=>e.champion===champion)!.conditions.critMode).toBe('critical');
 });

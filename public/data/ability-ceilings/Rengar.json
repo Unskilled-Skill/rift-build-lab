@@ -93,6 +93,96 @@
           "formula": "Rengar's next 2 Attacks gain [40]% Attack Speed. The first Attack deals [20 / 55 / 90 / 125 / 160 + (1) × AD + (0.05) × AD] physical damage.\n\nMax Ferocity: The first Attack deals [characterLevelBreakpoints(start=35, perLevel=15, changes=[{\"mLevel\": 9, \"mBonusPerLevelAtAndAfter\": 10.0, \"__type\": \"Breakpoint\"}]) + (1) × AD + (0.2) × AD] physical damage and grants Rengar [(characterLevelBreakpoints(start=50, perLevel=3, changes=[])) × (0.01)] Attack Speed for [5] seconds."
         }
       ]
+    },
+    {
+      "id": "rengar-ceiling-w-double-roar-ap",
+      "champion": "Rengar",
+      "name": "Battle Roar: ordinary plus empowered AP burst",
+      "category": "Ability ceiling",
+      "summary": "Investigate high ordinary and empowered Battle Roar sequence output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "goal": "Investigate high ordinary and empowered Battle Roar sequence output under fixed, reproducible conditions; compare one-slot swaps instead of claiming a global maximum.",
+      "hypothesis": "Ordinary rank-5 W is 170 + 0.8 AP magic. Empowered W has its own level-table base plus 0.8 AP, so a legally prepared ordinary/empowered pair has 1.6 AP scaling before mitigation. Healing from recent damage and the empowered cleanse are separate outputs. There is no ordinary attack or critical bonus on the roars.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        4633,
+        3157,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 1,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 3000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 4,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "ordinary and empowered Battle Roar sequence",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists; stop observed scoring when a target dies and report raw overkill separately. Begin with exactly three Ferocity and ordinary W available; its legal cast earns the fourth, then empowered W is used. Verify the current client permits this sequence. One champion in both roars, no takedown resets, Q/E/R damage or extra attack. Riftmaker already ramped. Loaded owner HP 100%, target HP 100%, observation 1s. Gathering Storm at minute 30 if selected. Prior champion combat 4s does not automatically grant arbitrary item stacks.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. No dragons, elixirs or allied stat buffs. No free permanent stacks. Record actual AD/AP and resists; stop observed scoring when a target dies and report raw overkill separately. Begin with exactly three Ferocity and ordinary W available; its legal cast earns the fourth, then empowered W is used. Verify the current client permits this sequence. One champion in both roars, no takedown resets, Q/E/R damage or extra attack. Riftmaker already ramped. Loaded owner HP 100%, target HP 100%, observation 1s. Gathering Storm at minute 30 if selected. Prior champion combat 4s does not automatically grant arbitrary item stacks.",
+        "Record Ferocity transitions, cooldown state, the two timestamps and the actual empowered level-table base. Compare a high-AP slot against an alternative magic-amplification/access slot and repeat without pre-ramp. Record healing separately and reject the sequence if the ordinary/empowered availability does not match the stated setup.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "Do not cast an ordinary W at four Ferocity and then grant another free empowered W, ignore cooldown state or double the ordinary base as the empowered base. Sequence eligibility is a manual check."
+      ],
+      "tradeoffs": [
+        "AP burst trades away empowered-Q attack damage and may require a narrow pre-fight Ferocity state.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "Do not cast an ordinary W at four Ferocity and then grant another free empowered W, ignore cooldown state or double the ordinary base as the empowered base. Sequence eligibility is a manual check.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Battle Roar",
+          "slot": "W",
+          "source": "Characters/Rengar/Spells/RengarWAbility/RengarW",
+          "formula": "Rengar roars, dealing [50 / 80 / 110 / 140 / 170 + (0.8) × AP] magic damage to nearby enemies and restoring [50]% of the damage taken in the last [1.5] seconds as Health.\n\nMax Ferocity: Deals [characterLevelTable[0, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340] + (0.8) × AP] magic damage and additionally cleanses Rengar of crowd control."
+        }
+      ]
     }
   ]
 }

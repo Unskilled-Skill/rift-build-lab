@@ -17,6 +17,7 @@ import conversionWindows from '../scripts/ability-ceilings/group-17.json';
 import conditionalTargets from '../scripts/ability-ceilings/group-18.json';
 import preparationTargets from '../scripts/ability-ceilings/group-19.json';
 import extendedTargets from '../scripts/ability-ceilings/group-20.json';
+import supportProcTargets from '../scripts/ability-ceilings/group-21.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -24,6 +25,36 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings,ceilingBuild} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('loads ally-proc, capped-shield and alternate-form experiments with their original evidence and conditions',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(supportProcTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of supportProcTargets){
+  const published=JSON.parse(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'));
+  const b=parseChatBuilds(JSON.stringify(published),data).find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='RekSai')expect(saved.scenario).toMatchObject({objectiveSlot:'Q:1',rank:5});
+  if(entry.champion==='Yuumi')expect(saved.scenario).toMatchObject({objectiveSlot:'Q',rank:6,duration:5,targetHP:20000});
+  if(entry.evidenceSpell){
+   const raw=published.builds.find((v:{id:string})=>v.id===b.id) as {kitEvidence:{ability:string;source:string;formula:string}[]};
+   const kit=JSON.parse(fs.readFileSync(`public/data/champions/${entry.champion}.json`,'utf8'));
+   const spell=kit.allSpellRecords.find((v:{internalName:string})=>v.internalName===entry.evidenceSpell);
+   expect(raw.kitEvidence).toHaveLength(1);
+   expect(raw.kitEvidence[0]).toMatchObject({ability:entry.targetName,source:spell.path});
+   if(entry.champion==='RekSai')expect(raw.kitEvidence[0].formula).toContain(`BurrowDamageTooltip: ${spell.calculations.BurrowDamageTooltip.expression}`);
+   if(entry.champion==='Karma')expect(raw.kitEvidence[0].formula).toContain(`REBonusShield: ${spell.calculations.REBonusShield.expression}`);
+  }
+ }
+ const read=(c:string)=>supportProcTargets.find(e=>e.champion===c)!;
+ for(const c of ['Olaf','Shyvana'])expect(read(c)).toMatchObject({metric:'shield',damageType:'none',conditions:{healthPercent:30,heartsteelHP:500,duration:2.5}});
+ expect(read('Karma')).toMatchObject({targetSlot:'R',metric:'shield',conditions:{rank:4}});
+ expect(read('Belveth')).toMatchObject({metric:'single-hit',damageType:'true',conditions:{duration:10,targetHP:20000}});
+ expect(read('Taric').conditions.combatSeconds).toBe(5);
+ expect(read('Nocturne')).toMatchObject({targetSlot:'E',metric:'full-window',conditions:{duration:2}});
+});
 it('keeps selected passive records, transform ranks and earned storm durations when loading the new batch',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(extendedTargets,data,resources,false)).toHaveLength(16);

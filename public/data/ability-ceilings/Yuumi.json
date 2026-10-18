@@ -183,6 +183,96 @@
           "formula": "Yuumi channels for [3.5] seconds, launching [5] magical waves affecting both teams. If initially cast while Attached, Yuumi can steer the waves to follow her mouse.\n\nEnemies struck are dealt [75 / 125 / 175 + (0.25) × AP] magic damage and Slowed by [10]% for [1.25] seconds, increased by [10]% per wave hit.\n\nAlly champions are healed for [30 / 50 / 70 + (0.12) × AP] health per wave. Excess healing is converted to a Shield instead.\n\nBest Friend Bonus: For her Best Friend, the heal is increased to [(30 / 50 / 70 + (0.12) × AP) × (UNRESOLVED({f3cbe7b2}; see calculationRaw))] health.\n\nCasting You and Me! will locks the waves in the current direction.\nYuumi can move and cast Zoomies while channeling."
         }
       ]
+    },
+    {
+      "id": "yuumi-ceiling-q-best-friend-critical-on-hit-window",
+      "champion": "Yuumi",
+      "name": "Prowling Projectile: crit-ally on-hit window",
+      "category": "Ability ceiling",
+      "summary": "Explore high one accelerated Q and five seconds of granted Best Friend on-hits output with a finite preparation; compare alternatives rather than claiming an absolute maximum.",
+      "goal": "Explore high one accelerated Q and five seconds of granted Best Friend on-hits output with a finite preparation; compare alternatives rather than claiming an absolute maximum.",
+      "hypothesis": "Rank-6 accelerated Q deals 355 + 0.30 AP magic damage. Hitting a champion while attached to a Best Friend grants that ally a five-second magic on-hit of 20 + 0.05 Yuumi AP, increased by up to 75% based on ally crit chance. This is crit-chance scaling, not an ordinary critical damage multiplier on every proc.",
+      "itemIds": [
+        3089,
+        3135,
+        4645,
+        3040,
+        6657,
+        3102
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 6,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "one accelerated Q and five seconds of granted Best Friend on-hits",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Benchmark victim: 20000 max HP, 100 armor, 50 MR and 100% starting HP. Owner HP 100%. No dragons, elixirs or external allied stat buffs. Record actual final stats, eligible modifiers and event order; separate raw output from effective output and stop effective scoring at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. Q rank 6, legitimately established Best Friend relationship and Yuumi attached. One accelerated projectile actually hits. Keep the same legally built level-18 ally with recorded 100% crit chance and actual attack speed across comparisons, then count only real attacks during the five seconds after buff application. Ally ordinary damage is excluded.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Benchmark victim: 20000 max HP, 100 armor, 50 MR and 100% starting HP. Owner HP 100%. No dragons, elixirs or external allied stat buffs. Record actual final stats, eligible modifiers and event order; separate raw output from effective output and stop effective scoring at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. Q rank 6, legitimately established Best Friend relationship and Yuumi attached. One accelerated projectile actually hits. Keep the same legally built level-18 ally with recorded 100% crit chance and actual attack speed across comparisons, then count only real attacks during the five seconds after buff application. Ally ordinary damage is excluded.",
+        "Log Q impact, buff start/expiry, real ally attacks and each granted magic packet. Compare Yuumi AP/penetration slots with fixed ally inventory, and separately compare lower ally crit chance. Verify damage-owner penetration/amplification and multi-hit eligibility rather than borrowing caster and ally modifiers together.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No five-second buff assumed to mean five attacks, 75% crit amp granted without actual ally crit, ordinary crit applied a second time, extra on-hits beyond expiry or ally attack damage labeled Yuumi Q damage."
+      ],
+      "tradeoffs": [
+        "The large total depends on a specific ally continuing to attack and cannot be reproduced by Yuumi alone.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No five-second buff assumed to mean five attacks, 75% crit amp granted without actual ally crit, ordinary crit applied a second time, extra on-hits beyond expiry or ally attack damage labeled Yuumi Q damage.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Prowling Projectile",
+          "slot": "Q",
+          "source": "Characters/Yuumi/Spells/YuumiQAbility/YuumiQ",
+          "formula": "Yuumi summons an errant missile that deals [60 / 95 / 130 / 165 / 200 / 235 + (0.2) × AP] magic damage to the first enemy and Slows the target for [20]%.\n\nIf cast while Attached, Yuumi can control the missile using her mouse for a short period before it accelerates in a straight line. The accelerated missile deals [80 / 135 / 190 / 245 / 300 / 355 + (0.3) × AP] magic damage and Slows the target for [50 / 53 / 56 / 59 / 62 / 65]% for [2] seconds, instead.\n\nBest Friend Bonus: Prowling Projectile's Slow will always be enhanced and hitting an enemy champion also grants them [(0.05) × AP + 10 / 12 / 14 / 16 / 18 / 20] magic damage On-Hit %i:OnHit% for [5] seconds.\n\nThe bonus On-Hit damage can be increased by [75]% based her ally's Critical Strike Chance."
+        }
+      ]
     }
   ]
 }

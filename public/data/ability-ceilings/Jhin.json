@@ -273,6 +273,96 @@
           "formula": "Jhin's hand cannon has a fixed Attack Speed and can be fired [4] times before needing to be reloaded. The [4]th shot always critically strikes, and deals an additional [characterLevelBreakpoints(start=0.15, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 11, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}])] missing health physical damage.\n\nIn addition:Jhin gains [characterLevelBreakpoints(start=0.04, perLevel=0.01, changes=[{\"mLevel\": 10, \"mBonusPerLevelAtAndAfter\": 0.019999999552965164, \"__type\": \"Breakpoint\"}, {\"mLevel\": 12, \"mBonusPerLevelAtAndAfter\": 0.03999999910593033, \"__type\": \"Breakpoint\"}]) + (0.35) × Stat(8) + (0.3) × Stat(4)[statFormula=2]] bonus Attack DamageJhin's critical strikes deal [25]% less damage but grant him [0.14 + (0.44) × Stat(4)[statFormula=2]] Move Speed for [2] seconds."
         }
       ]
+    },
+    {
+      "id": "jhin-ceiling-q-three-kill-last-bounce",
+      "champion": "Jhin",
+      "name": "Dancing Grenade: three-kill final bounce",
+      "category": "Ability ceiling",
+      "summary": "Explore high fourth Dancing Grenade hit after three prior bounce kills output with a finite preparation; compare alternatives rather than claiming an absolute maximum.",
+      "goal": "Explore high fourth Dancing Grenade hit after three prior bounce kills output with a finite preparation; compare alternatives rather than claiming an absolute maximum.",
+      "hypothesis": "Rank-5 Q base helper is 144 + 0.74 total AD + 0.60 AP physical damage. Each previous struck enemy dying shortly afterward increases subsequent hit damage by 35%; the final champion hit can benefit from three real prior deaths. Verify additive versus multiplicative stacking rather than choosing the larger result.",
+      "itemIds": [
+        3089,
+        3102,
+        3157,
+        3072,
+        6697,
+        6694
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 3,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "Q",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "Q",
+        "targetName": "fourth Dancing Grenade hit after three prior bounce kills",
+        "metric": "single-hit",
+        "damageType": "physical",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Benchmark victim: 10000 max HP, 100 armor, 50 MR and 100% starting HP. Owner HP 100%. No dragons, elixirs or external allied stat buffs. Record actual final stats, eligible modifiers and event order; separate raw output from effective output and stop effective scoring at death. Exactly 10 earned Hubris kills with temporary buff active. Prepare three legal low-HP enemy minions within the actual 450 bounce range chain and the benchmark champion as the fourth distinct target. One Q kills each preceding minion in the real timing window and then reaches the champion. Record final Jhin AD after Whisper conversion and AP.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Benchmark victim: 10000 max HP, 100 armor, 50 MR and 100% starting HP. Owner HP 100%. No dragons, elixirs or external allied stat buffs. Record actual final stats, eligible modifiers and event order; separate raw output from effective output and stop effective scoring at death. Exactly 10 earned Hubris kills with temporary buff active. Prepare three legal low-HP enemy minions within the actual 450 bounce range chain and the benchmark champion as the fourth distinct target. One Q kills each preceding minion in the real timing window and then reaches the champion. Record final Jhin AD after Whisper conversion and AP.",
+        "Compare zero through three confirmed bounce kills, then hybrid AP/AD versus normal AD/penetration inventories. Log the actual kill and hit timestamps and final-hit native damage; prior minion damage is not champion damage.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No same target hit four times, three free kill amplifiers, raw Q multiplied by four because there are four targets, crit applied to Q or additive/multiplicative kill rules guessed from wording."
+      ],
+      "tradeoffs": [
+        "The large bounce requires a prepared wave and favorable enemy positioning and may be unavailable in a duel.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No same target hit four times, three free kill amplifiers, raw Q multiplied by four because there are four targets, crit applied to Q or additive/multiplicative kill rules guessed from wording.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Dancing Grenade",
+          "slot": "Q",
+          "source": "Characters/Jhin/Spells/JhinQAbility/JhinQ",
+          "formula": "Jhin launches a cartridge that deals [44 / 69 / 94 / 119 / 144 + (0.44 / 0.515 / 0.59 / 0.665 / 0.74) × AD + (0.6) × AP] physical damage before bouncing to a nearby enemy that has not been hit yet.\n\nThe cartridge can hit a maximum of [(1 + 3)] times. Enemies that die shortly after being hit increase the damage of subsequent hits by [35]%."
+        }
+      ]
     }
   ]
 }

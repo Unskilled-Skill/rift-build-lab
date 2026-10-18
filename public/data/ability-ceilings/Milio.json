@@ -183,6 +183,96 @@
           "formula": "Milio wraps an ally champion in protective flames, granting [45 / 75 / 105 / 135 / 165 + (0.45) × AP] Shield and [(0.12 / 0.14 / 0.16 / 0.18 / 0.2) × 100]% Move Speed for [2.5] seconds.\n\nThis ability has 2 charges and the effects stack on repeat targets."
         }
       ]
+    },
+    {
+      "id": "milio-ceiling-p-fixed-ally-ad-burn",
+      "champion": "Milio",
+      "name": "Fired Up: fixed-ally proc and burn",
+      "category": "Ability ceiling",
+      "summary": "Explore high one Fired Up allied proc and its complete burn output with a finite preparation; compare alternatives rather than claiming an absolute maximum.",
+      "goal": "Explore high one Fired Up allied proc and its complete burn output with a finite preparation; compare alternatives rather than claiming an absolute maximum.",
+      "hypothesis": "Fired Up grants a level-breakpoint fraction of the triggering ally AD as magic damage plus a burn with 0.20 Milio AP over 1.5 seconds. At level 18 the burst ratio helper is 15%; the burn base remains unresolved in the expression despite a raw 10-to-50 range, so read its actual client value.",
+      "itemIds": [
+        3089,
+        3102,
+        3157,
+        3040,
+        6657,
+        3100
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 1.5,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 10,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "one Fired Up allied proc and its complete burn",
+        "metric": "full-window",
+        "damageType": "magic",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Benchmark victim: 10000 max HP, 100 armor, 50 MR and 100% starting HP. Owner HP 100%. No dragons, elixirs or external allied stat buffs. Record actual final stats, eligible modifiers and event order; separate raw output from effective output and stop effective scoring at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. Milio level 18 and one fixed level-18 ally with a real recorded inventory producing 400 total AD; no external AD buffs. Apply one legitimate Fired Up charge using E, then that ally hits the benchmark champion exactly once. If exact 400 AD is unavailable, record the actual AD and use it consistently. No second passive application or ally damage buffs.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Benchmark victim: 10000 max HP, 100 armor, 50 MR and 100% starting HP. Owner HP 100%. No dragons, elixirs or external allied stat buffs. Record actual final stats, eligible modifiers and event order; separate raw output from effective output and stop effective scoring at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. Milio level 18 and one fixed level-18 ally with a real recorded inventory producing 400 total AD; no external AD buffs. Apply one legitimate Fired Up charge using E, then that ally hits the benchmark champion exactly once. If exact 400 AD is unavailable, record the actual AD and use it consistently. No second passive application or ally damage buffs.",
+        "Compare Milio AP slots while keeping ally inventory constant. Separate ally native attack, passive burst and each burn tick. Verify whether source level, AP, penetration and amplification belong to Milio or the recipient rather than borrowing whichever stats are larger.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No Milio AD substituted for ally AD, four ability touches counted as one stacked burn without proof, unresolved base guessed as an exact value, ally physical attack labeled passive magic or Lich Bane granted without a qualifying owner attack."
+      ],
+      "tradeoffs": [
+        "The payoff depends on another champion consuming the buff and on correct damage ownership rules.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No Milio AD substituted for ally AD, four ability touches counted as one stacked burn without proof, unresolved base guessed as an exact value, ally physical attack labeled passive magic or Lich Bane granted without a qualifying owner attack.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Fired Up!",
+          "slot": "Passive",
+          "source": "Characters/Milio/Spells/MilioPassiveAbility/MilioPassive",
+          "formula": "When Milio's Abilities touch ally champions, their next Attack or Ability deals [characterLevelBreakpoints(start=0.07, perLevel=0, changes=[{\"mLevel\": 6, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}, {\"mLevel\": 9, \"mAdditionalBonusAtThisLevel\": 0.03999999910593033, \"__type\": \"Breakpoint\"}])] ally Attack Damage as additional magic damage, plus [UNRESOLVED({ee18a47b}; see calculationRaw) + (0.2) × AP] magic damage over [1.5] seconds."
+        }
+      ]
     }
   ]
 }

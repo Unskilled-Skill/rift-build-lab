@@ -134,3 +134,74 @@ it('uses direct adaptive scaling for hybrid AP/resistance hits while preserving 
  expect(find('Rammus','W').runePlan.shards[0]).toBe(5007);
  expect(find('JarvanIV','P').runePlan.shards[0]).toBe(5007);
 });
+
+it('loads current Naafiri pursuit as rank-three R while W supplies packmate preparation',()=>{
+ const e=entries.find(e=>e.champion==='Naafiri'&&e.key==='ability-ceiling-w');
+ expect(e.targetSlot).toBe('R');
+ expect(e.evidenceSpell).toBe('NaafiriW');
+ expect(e.mechanic).toContain('dogs+W two');
+ const kit=JSON.parse(fs.readFileSync('public/data/champions/Naafiri.json','utf8'));
+ const build=ceilingBuild(e,kit,catalog,resources) as {conditions:{objectiveSlot:string;rank:number};kitEvidence:{source:string;formula:string}[];runePage:number[]};
+ expect(build.conditions).toMatchObject({objectiveSlot:'R',rank:3});
+ expect(build.runePage).toContain(8224);
+ expect(build.kitEvidence).toHaveLength(1);
+ expect(build.kitEvidence[0].source).toBe('Characters/Naafiri/Spells/NaafiriWAbility/NaafiriW');
+ expect(build.kitEvidence[0].formula).toContain('PackmateDamage:');
+ expect(()=>ceilingBuild({...e,targetSlot:'W'},kit,catalog,resources)).toThrow(/different ability slot/);
+});
+
+it('keeps native AP and HP scaling together in hybrid candidates instead of blindly choosing health-only pages',()=>{
+ for(const [champion,key] of [
+  ['Nunu','q-champion-ap-hp'],['Vladimir','e-max-charge-hp-ap'],
+  ['Pantheon','w-health-ap-leap'],['Sejuani','w-hp-ap-two-hit']
+ ]){
+  const e=entries.find(e=>e.champion===champion&&e.key===key);
+  expect(e.runePlan.runes,`${champion}/${key}`).toEqual(expect.arrayContaining([8233,8236,9103]));
+  expect(e.runePlan.shards).toEqual([5008,5001,5001]);
+  expect(e.runePlan.setup.join(' ')).toMatch(/15/);
+  expect(e.runePlan.alternatives.join(' ')).toMatch(/Overgrowth/);
+ }
+});
+
+it('removes attack speed from an AP-only fixed Katarina channel while retaining it for actual timed attacks',()=>{
+ const kat=entries.find(e=>e.champion==='Katarina'&&e.key==='ability-ceiling-katarina-r');
+ expect(kat.itemIds).toContain(4633);
+ expect(kat.runePlan.runes).toContain(9103);
+ expect(kat.runePlan.runes).not.toContain(9104);
+ expect(kat.runePlan.shards).toEqual([5008,5008,5001]);
+ expect(kat.runePlan.reason).toContain('zero term');
+ const azir=find('Azir','W');
+ expect(azir.runePlan.runes).toContain(9104);
+ expect(azir.runePlan.shards[0]).toBe(5005);
+ const braum=find('Braum','P');
+ expect(braum.runePlan.runes).toEqual(expect.arrayContaining([8008,9104,8017]));
+ expect(braum.runePlan.setup.join(' ')).toContain('six real Lethal Tempo stacks');
+ const kindred=find('Kindred','W');
+ const kindredKit=JSON.parse(fs.readFileSync('public/data/champions/Kindred.json','utf8'));
+ const wolf=kindredKit.allSpellRecords.find((s:{internalName:string})=>s.internalName==='KindredW');
+ expect(wolf.dataValuesRaw.LambToWolfAttackSpeedConversionPercent.every((v:number)=>v===0.25)).toBe(true);
+ expect(kindred.runePlan.runes).toContain(9104);
+ expect(kindred.runePlan.shards[0]).toBe(5005);
+ expect(kindred.runePlan.reason).toContain('25% Lamb attack-speed conversion');
+});
+
+it('uses item stats that support the selected native heal, shield or stat objective without crediting ally procs',()=>{
+ for(const [champion,key] of [['Trundle','p-single-death-healing'],['Thresh','w-five-hundred-soul-self-shield']]){
+  const e=entries.find(e=>e.champion===champion&&e.key===key);
+  expect(e.itemIds).toContain(6616);
+  expect(e.itemIds).not.toContain(champion==='Trundle'?3089:6617);
+ }
+ for(const [champion,key] of [['Gwen','w-ap-granted-resistances'],['Sona','w-diminuendo-damage-reduction']]){
+  const e=entries.find(e=>e.champion===champion&&e.key===key);
+  expect(e.itemIds).toContain(3157);
+  expect(e.itemIds).not.toContain(3135);
+ }
+ for(const [champion,key] of [['Nautilus','w-max-health-shield'],['Rell','w-health-shield'],['Garen','w-bonus-health-shield']]){
+  const e=entries.find(e=>e.champion===champion&&e.key===key);
+  expect(e.itemIds).toContain(6621);
+  expect(e.itemIds).not.toContain(3181);
+  expect(e.runePlan.alternatives.join(' ')).toContain('16% static shield power');
+ }
+ const garen=entries.find(e=>e.champion==='Garen'&&e.key==='w-bonus-health-shield');
+ expect(garen.runePlan.exclusions.join(' ')).toContain('do not grant its regeneration-based extra power');
+});

@@ -6,7 +6,7 @@ All authored targets checked for legal items/resources, source presence, target/
 
 The expansion adds 291 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
-Every target now has an explicit per-ability rune review, with 62 distinct legal pages. The selected baseline preserves recorded action budgets: extra combat pre-stacks are comparisons, not free buffs. Scaling-health shards use the level-18 value. See [the rune review](ceiling-rune-review.md) for selection reasoning and alternatives.
+Every target now has an explicit per-ability rune review, with 71 distinct legal pages. The selected baseline preserves recorded action budgets: extra combat pre-stacks are comparisons, not free buffs. Scaling-health shards use the level-18 value. See [the rune review](ceiling-rune-review.md) for selection reasoning and alternatives.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -43,7 +43,7 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Malphite | Unstoppable Force | R | single-hit | plausible | 1 |
 | MasterYi | Wuju Style true packet | E | single-hit | speculative | 3 |
 | MissFortune | Eighteen-wave Bullet Time | R | full-window | plausible | 2 |
-| Naafiri | Seven-packmate Hounds' Pursuit | W | full-window | plausible | 2 |
+| Naafiri | Seven-packmate Hounds' Pursuit | R | full-window | plausible | 2 |
 | Nautilus | Depth Charge primary eruption | R | single-hit | plausible | 1 |
 | Nilah | Critical Formless Blade | Q | single-hit | plausible | 1 |
 | Olaf | Ragnarok Reckless Swing | E | single-hit | plausible | 2 |

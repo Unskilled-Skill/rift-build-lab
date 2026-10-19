@@ -1,10 +1,12 @@
 # Per-ability ceiling rune review
 
-Snapshot patch 26.20. 476 explicit setups across 173 champions; 62 distinct legal six-rune pages.
+Snapshot patch 26.20. 476 explicit setups across 173 champions; 71 distinct legal six-rune pages.
 
 These are objective-specific, reasoned candidates. They have not been certified by a complete numerical rune optimizer or tested in the game. Existing benchmark items, action counts, health, level and time remain the baseline. A separate keystone proc is not native ability output. Extra combat preparation is a separate comparison, except for stacks already explicitly recorded by the benchmark.
 
 Each authored entry stores its own six runes, three shards, per-rune reasoning, preparation, alternatives and exclusions. Repeated pages can be appropriate for similar coefficients; the selected ability and finite setup determine the reasoning. The app exposes these notes in each build’s test plan and coverage notes, and imports the exact selected page into its test form.
+
+See the [full roster setup audit](ceiling-full-audit.md) for each target’s scaling assessment, corrected/retained decision, source paths and remaining client checks. Its hash-bound ledger detects stale authored setups and changed champion/catalog inputs; it is not a numerical optimization certificate.
 
 Preparation is finite: Gathering Storm uses the authored time (usually minute 30); health shards use the recorded level. Overgrowth comparisons specify observed nearby deaths, legend stacks must be earned, and biscuits must actually be received and consumed or sold. Manaflow, item ramp, temporary movement speed, Conqueror and Hail of Blades are never automatically assumed active by these notes. Read the actual client counters and record all preparation when testing. The current damage adapters do not simulate every rune or stat conversion.
 
@@ -87,7 +89,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Orb of Deception (ability-ceiling-ahri-q)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Ahri — Orb of Deception: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Ahri throws then pulls back her orb, dealing [35 / 60 / 85 / 110 / 135 + (0.5) × AP] magic damage on the way out and [35 / 60 / 85 / 110 / 135 + (0.5) × AP] true damage on the way back. Deathcap multiplies AP; Void Staff and Shadowflame reduce effective MR on
 
@@ -97,10 +99,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -131,9 +133,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Shuriken Flip E2 (ceiling-e-single-hit)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Akali — Shuriken Flip E2: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E2 at rank5 is 0.7*(350+1.0 total AD+1.1 AP) magic damage; AP and MR penetration strengthen the return hit. Deathcap multiplies AP; Zhonya/Banshee add105AP each without mana. Riftmaker converts bonusHP toAP and adds8% damage at full ramp. Void/Shadowflame pene
+Akali — Shuriken Flip E2: E2 at rank5 is 0.7*(350+1.0 total AD+1.1 AP) magic damage; AP and MR penetration strengthen the return hit. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -141,10 +143,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -152,9 +154,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### second Perfect Execution dash (r-second-dash-execute)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Akali — second Perfect Execution dash: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The R2 helper has 70/140/210 + 0.3 AP minimum magic damage and a maximum of three times that minimum. Missing enemy health increases the result; the extracted helper does not resolve its exact health breakpoint. R1 has a different coefficient and is not part o
+Akali — second Perfect Execution dash: The R2 helper has 70/140/210 + 0.3 AP minimum magic damage and a maximum of three times that minimum. Missing enemy health increases the result; the extracted helper does not resolve its exact health breakpoint. R1 has a different coefficient and is not part of this score. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -162,10 +164,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -227,7 +229,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -282,7 +284,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Headbutt (ability-ceiling-alistar-w)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Alistar — Headbutt: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Alistar rams into an enemy, Knocking them Back and dealing [55 / 110 / 165 / 220 / 275 + (1) × AP] magic damage. Deathcap multiplies AP; Void Staff and Shadowflame reduce effective MR on magic packets, with Shadowflame low-health amplification tested. Zhonya/B
 
@@ -292,10 +294,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -303,9 +305,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one full Trample aura and empowered-attack magic bonus (e-full-trample-stun-hit)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Alistar — one full Trample aura and empowered-attack magic bonus: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The aura deals 80/110/140/170/200 + 0.7 AP magic over five seconds, not per tick. Champion-damaging pulses build five stacks, enabling one next-attack magic bonus from a level-breakpoint helper. That attack bonus has no direct AP coefficient in the extracted h
+Alistar — one full Trample aura and empowered-attack magic bonus: The aura deals 80/110/140/170/200 + 0.7 AP magic over five seconds, not per tick. Champion-damaging pulses build five stacks, enabling one next-attack magic bonus from a level-breakpoint helper. That attack bonus has no direct AP coefficient in the extracted helper; the ordinary physical attack is separate. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -313,10 +315,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -412,7 +414,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Curse of the Sad Mummy (ability-ceiling-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Amumu — Curse of the Sad Mummy: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R3 is400+0.8 AP magic; pre-applied Curse adds10% true damage from magic damage taken. MR penetration improves magic and its associated Curse amount. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification
 
@@ -422,10 +424,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -433,9 +435,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### four seconds of Despair core magic damage (w-four-second-health-aura)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Amumu — four seconds of Despair core magic damage: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The tooltip gives 10 flat magic damage plus (1/1.25/1.5/1.75/2 + 0.005 AP)% enemy maximum HP per second. Rank 5 over four seconds nominally totals 40 plus (8 + 0.02 AP)% target maximum HP, before tick boundaries and mitigation. AP increases a target-health coe
+Amumu — four seconds of Despair core magic damage: The tooltip gives 10 flat magic damage plus (1/1.25/1.5/1.75/2 + 0.005 AP)% enemy maximum HP per second. Rank 5 over four seconds nominally totals 40 plus (8 + 0.02 AP)% target maximum HP, before tick boundaries and mitigation. AP increases a target-health coefficient as well as item effects; this is not 0.5% per AP. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -443,10 +445,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -456,7 +458,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Frostbite (ability-ceiling-anivia-e)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Anivia — Frostbite: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Anivia blasts an enemy with a freezing wind, dealing [55 / 80 / 105 / 130 / 155 + (0.55) × AP] magic damage. Against Chilled enemies, Anivia deals [(55 / 80 / 105 / 130 / 155 + (0.55) × AP) × (2)] magic damage instead. Deathcap multiplies AP; Void Staff and Sh
 
@@ -466,10 +468,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -477,9 +479,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### fully grown Glacial Storm over four seconds (r-grown-four-seconds)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Anivia — fully grown Glacial Storm over four seconds: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-3 R initially deals 60 + 0.125 AP magic per second; its fully grown state triples that rate to 180 + 0.375 AP. A four-second fully grown observation has 720 + 1.5 AP nominal damage before actual tick timing and mitigation. Earned Seraph and Deathcap suppo
+Anivia — fully grown Glacial Storm over four seconds: Rank-3 R initially deals 60 + 0.125 AP magic per second; its fully grown state triples that rate to 180 + 0.375 AP. A four-second fully grown observation has 720 + 1.5 AP nominal damage before actual tick timing and mitigation. Earned Seraph and Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -487,10 +489,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -575,7 +577,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -609,7 +611,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Enchanted Crystal Arrow (ability-ceiling-ashe-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Ashe — Enchanted Crystal Arrow: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Ashe launches a crystal arrow of ice that Stuns the first champion hit and deals [200 / 400 / 600 + (1.2) × AP] magic damage. The Stun duration increases with distance travelled, up to [3.5] seconds. Surrounding enemies are Slowed by Frost Shot. Deathcap multi
 
@@ -619,10 +621,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -695,7 +697,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### four seconds of Breath of Light and earned bursts (q-four-second-stardust-breath)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 AurelionSol — four seconds of Breath of Light and earned bursts: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 Q deals 105 + 0.55 AP magic per second, with a same-target burst each full second for 100 + 0.3 AP plus 0.00031 per Stardust times enemy maximum HP. The tooltip labels the burst magic, although a raw helper name contains True; verify actual damage type
 
@@ -705,10 +707,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 max HP. Equipped Riftmaker converts that real bonus HP into AP; lifesteal is outside the selected native result.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Earn exactly 15 Bloodline legend stacks before this level-18 trial; record its 85 HP and the resulting equipped Riftmaker bonus-health-to-AP conversion once. No new casts or lifesteal packets enter the selected subtotal.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -718,7 +720,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Spirit Abjuration (ability-ceiling-p)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Aurora — Spirit Abjuration: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Third hit exorcises for(1%+0.027% per AP) target maxHP. AP raises that fraction; MR penetration improves delivery; attack crit is irrelevant. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void
 
@@ -728,10 +730,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -762,11 +764,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Arise! (ability-ceiling-azir-w)
 
-Runes: Press the Attack → Presence of Mind → Legend: Alacrity → Coup de Grace → Absolute Focus → Gathering Storm. Shards: 5008 / 5008 / 5001.
+Runes: Press the Attack → Presence of Mind → Legend: Alacrity → Coup de Grace → Absolute Focus → Gathering Storm. Shards: 5005 / 5008 / 5001.
 
 Azir — Arise!: Actual soldier attacks can build Press the Attack; only subsequent eligible hits get its amplification. Alacrity and an attack-speed shard can increase real stabs in this timed window. Ability basis: Azir summons a Sand Soldier for [10] seconds. When Azir Attacks an enemy near a Sand Soldier, he instead orders the soldiers to stab, dealing [50 / 65 / 80 / 95 / 110 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{"mLevel": 10, "mBonusPerLevelAtAnd
 
-Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Offense attack speed targets the actual ten-second soldier attack count; flex adaptive force raises each .65-AP stab. Defense scaling HP is utility. Compare attack timing at the real cap; do not award fractional stabs or post-death hits.
 
 - Press the Attack: Proc damage is separate; amplification starts only after a real qualifying three-attack trigger.
 - Presence of Mind: Resource uptime; no direct damage coefficient or free mana/energy refill.
@@ -775,7 +777,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
 
-Preparation: Start PTA without a free vulnerability buff; log three actual qualifying stabs, proc order and later eligible damage. Keep the PTA burst outside soldier-only output. Gathering Storm fixed at authored minute 30; no extra game time. Alacrity uses ten earned stacks; respect the real attack-speed cap and fixed attack-count objective.
+Preparation: Start PTA without a free vulnerability buff; log three actual qualifying stabs, proc order and later eligible damage. Keep the PTA burst outside soldier-only output. Gathering Storm fixed at authored minute 30; no extra game time. Alacrity: exactly ten earned stacks. Count actual soldier attacks over its ten-second lifetime, obey the attack-speed cap and stop scoring at target death.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -827,9 +829,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### One Meep bonus (ceiling-p-single-hit)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Bard — One Meep bonus: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Helper Meep bonus is30+0.4AP plus6 per5 Chimes;100 Chimes gives candidate150+0.4AP magic. AP and MR modifiers strengthen this bonus. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR an
+Bard — One Meep bonus: Helper Meep bonus is30+0.4AP plus6 per5 Chimes;100 Chimes gives candidate150+0.4AP magic. AP and MR modifiers strengthen this bonus. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -837,10 +839,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -892,9 +894,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Void Coral detonation (ability-ceiling-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Conditioning → Overgrowth. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Biscuit Delivery → Jack Of All Trades. Shards: 5008 / 5008 / 5001.
 
-Belveth — Void Coral detonation: Native true damage uses its stated AD/AP/HP coefficient. Absolute Focus/Gathering Storm can change those stats; ordinary penetration and generic finishers are not credited as true-damage multipliers. Ability basis: R3 explosion is250+1.5 AP+20% target missingHP true. AP and eligible amplification improve it; penetration does not. Infinite passive attack ramp is excluded. Deathcap/Banshee/Zhonya concentrate AP; Shadowflame supplies conditional lowHP true amplification, no
+Belveth — Void Coral detonation: The native true packet has a real AP coefficient. Replace small indirect Overgrowth conversion with earned biscuit HP plus the actually reached Jack adaptive threshold; keep true-damage amplification as a separate eligibility test. Resistances and penetration are not multipliers on native true damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -902,12 +904,12 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
-- Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.
+- Biscuit Delivery: Three actually consumed/sold biscuits provide90HP; only equipped HP-to-AD/AP conversions feed the native true packet.
+- Jack Of All Trades: Read actual purchased-stat diversity; grant8 adaptive force at5 or20 at10 only when the client counter earns it.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Overgrowth: use exactly 150 observed eligible unit deaths for any credited HP; no unlimited growth.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Exactly three consumed/sold biscuits; record actual Jack purchased-stat count and threshold. No ten-stat assumption, bonus damage from penetration, or free rune stacks.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare Conditioning/Overgrowth secondary at exactly150 eligible nearby deaths against the earned Jack/biscuit conversion; log actual final AD/AP instead of assuming either wins. Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Generic finisher amplification is not credited to native true-damage components; Axiom true-ultimate eligibility is a separate explicit test.
 
@@ -934,11 +936,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### last observed R-passive true packet in ten normal attacks (r-finite-same-target-true-ramp)
 
-Runes: Conqueror → Triumph → Legend: Alacrity → Coup de Grace → Absolute Focus → Gathering Storm. Shards: 5005 / 5008 / 5001.
+Runes: Conqueror → Triumph → Legend: Alacrity → Coup de Grace → Absolute Focus → Gathering Storm. Shards: 5008 / 5008 / 5001.
 
 Belveth — last observed R-passive true packet in ten normal attacks: Ten fixed attacks do not become a larger final true packet just from Lethal Tempo. Conqueror can build actual bonus AD during those attacks; the increment scales with bonus AD, while ordinary damage amplifiers do not scale native true damage. Ability basis: R passive exposes 2/4/6 + 0.03 bonus AD true damage with a same-target stacking mechanic. That helper is the increment, not a license to choose an infinite multiplier. Actual cadence, counter growth and BelVeth on-hit modifiers must be observed per event.
 
-Shard reasoning: Offense AS targets real timed attacks or an AS-conversion helper; verify its breakpoint against an adaptive shard. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Offense and flex adaptive force feed the R-passive increment through its actual 0.03 bonus-AD coefficient. The objective fixes ten attacks rather than maximum attacks per time; this inventory and earned Alacrity already provide cadence. Compare AS only if ten legal attacks fail to fit, and never grant an eleventh. Defense HP is survival utility.
 
 - Conqueror: Adaptive stats enter matching coefficients only at the actual recorded stack count; no free full ramp.
 - Triumph: Takedown sustain/utility only, not added native ability damage or healing.
@@ -957,7 +959,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Rocket Grab (ability-ceiling-blitzcrank-q)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Blitzcrank — Rocket Grab: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Blitzcrank fires their right hand, Pulling the first enemy hit towards them and dealing [110 / 160 / 210 / 260 / 310 + (1.2) × AP] magic damage. Deathcap multiplies AP; Void Staff and Shadowflame reduce effective MR on magic packets, with Shadowflame low-healt
 
@@ -967,10 +969,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1012,7 +1014,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Separate Axiom classification by event: the R active explosion is an ultimate hit, while the delayed passive lightning mark needs its own eligibility test. Never apply the active's modifier automatically to the mark; the prior attack remains outside the R-only result.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1043,9 +1045,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one three-stack Blaze detonation (passive-three-stack-explosion)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Brand — one three-stack Blaze detonation: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The detonation helper uses the level-scaled 6%-12% base plus 0.02 percentage points per AP of enemy maximum HP. AP therefore increases a target-health coefficient, while MR modifiers affect the magic blast. The ordinary four-second Blaze burn is a separate eff
+Brand — one three-stack Blaze detonation: The detonation helper uses the level-scaled 6%-12% base plus 0.02 percentage points per AP of enemy maximum HP. AP therefore increases a target-health coefficient, while MR modifiers affect the magic blast. The ordinary four-second Blaze burn is a separate effect. No neighboring Brand explosions or repeat-stacking chain is silently added. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -1053,10 +1055,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1087,11 +1089,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Winter's Bite (ability-ceiling-q)
 
-Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5001 / 5001.
+Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Legend: Bloodline → Coup de Grace. Shards: 5007 / 5001 / 5001.
 
 Braum — Winter's Bite: Owner maximum or bonus HP enters this specific helper. Scaling-health shards and finite Overgrowth matter; AP, crit and attack speed cannot be substituted for a health coefficient. Ability basis: Q5 is255+2.5% caster maxHP magic; AP does not scale Q. Finite Heartsteel/Warmog HP feeds that term, penetration improves delivery. Heartsteel/Warmog maximize finiteHP; Riftmaker HP-to-AP/ramp but AP does not itself scale Braum Q; Void/Shadowflame supply percen
 
-Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Offense haste is Q setup/recast utility, not more damage per hit. Flex and defense scaling HP feed the explicit2.5% max-HP term; adaptive force has no native Q coefficient. Do not add a second Q to this single-hit score.
 
 - Grasp of the Undying: Only actually earned permanent HP may feed an HP coefficient; proc damage/healing is separate.
 - Font of Life: Separate conditional recovery; it does not enlarge the named native heal, shield or attack packet.
@@ -1108,22 +1110,22 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Concussive Blows stun and four-second follow-up window (passive-stun-followup-window)
 
-Runes: Hail of Blades → Taste of Blood → Deep Ward → Relentless Hunter → Presence of Mind → Legend: Alacrity. Shards: 5005 / 5001 / 5001.
+Runes: Lethal Tempo → Presence of Mind → Legend: Alacrity → Cut Down → Conditioning → Overgrowth. Shards: 5005 / 5001 / 5001.
 
-Braum — one Concussive Blows stun and four-second follow-up window: This native packet has no AD/AP ratio. Spend the secondary page on real Alacrity cadence rather than adaptive stats that only raise other damage. Hail of Blades activates from the scored attack sequence and can exceed the normal AS cap for its actual budget. Ability basis: The level table gives 186 magic on a level-18 four-stack detonation, with follow-up Braum attacks dealing 40% of that base during the same-target stack immunity period. Neither helper has an AD or AP coefficient. Attack frequency, magic penetration and eligibl
+Braum — one Concussive Blows stun and four-second follow-up window: The source native detonation and 40% follow-ups have no AD/AP ratio. Retain the already-authored LT6/Alacrity10 preparation and use Cut Down only on eligible live-HP magic packets. Preparing three valid passive stacks may already spend Hail of Blades attacks; a fresh three-attack HoB budget cannot coexist by assumption. Count real timed follow-ups instead of multiplying by invented AS.
 
 Shard reasoning: Offense attack speed supports real attack timing and passive proc count. Flex and defense scaling health provide survival utility; these shards do not increase the flat native passive packet. Adaptive force would improve other damage, outside this selected metric.
 
-- Hail of Blades: Real short AS window; its bonus true packet is separate and does not prove passive/ability proc inheritance.
-- Taste of Blood: Separate damage-triggered self-heal; excluded from the named ability-only result.
-- Deep Ward: Vision utility only; no adaptive damage stats from this row.
-- Relentless Hunter: Out-of-combat movement utility; not stacked with incompatible combat-only buffs.
-- Presence of Mind: Resource uptime only; no direct coefficient for the flat native passive.
-- Legend: Alacrity: Ten earned legend stacks add real attack speed. Compare actual cap and Hail of Blades breakpoint; never invent extra hits.
+- Lethal Tempo: Preserve the authored six actually earned stacks for sustained AS. Its adaptive on-attack damage is separate from flat Concussive Blows damage; respect the real AS cap.
+- Presence of Mind: Resource utility only; no native passive coefficient or invented attack count.
+- Legend: Alacrity: Preserve exactly ten earned stacks. Real AS can alter actual follow-up count during the four-second same-target immunity window.
+- Cut Down: Eligible native magic packets only while the victim is above 60% HP; recheck after every attack and exclude separate rune damage.
+- Conditioning: Defensive utility after minute 12; armor/MR do not scale the native flat passive packet.
+- Overgrowth: Survival utility; record any earned HP but do not turn it into passive damage or add free attack-speed stacks.
 
-Preparation: No free Hail of Blades trigger: log the first real champion attack, remaining buff attacks and buff expiry. If the ability needs the AS buff before a channel/swing, that trigger is a separate prepared comparison, not part of an unchanged first-hit baseline. Gathering Storm fixed at authored minute 30; no extra game time. Alacrity: exactly ten earned legend stacks as in the prior attack-window setup; count actual attack and proc events. Extra physical/item damage must not turn post-death hits into scored native damage.
+Preparation: Preserve six real Lethal Tempo stacks, ten earned Alacrity stacks, four earned Rageblade stacks and three valid target passive stacks exactly as authored. Log all stack expiries and the actual AS cap; preparation must remain legal across two victims. The scored fourth passive-stack attack begins the stun/immunity window. Count actual later Braum attacks before its end; stop effective damage at death. LT adaptive damage and all item/rune procs remain separate. Overgrowth is survival utility only. Any recorded HP needs actual observed unit deaths; it cannot enlarge this flat native passive helper.
 
-Comparisons: Compare Lethal Tempo/Alacrity at the same actual attack-speed cap, attack count, phase and time. Do not assume more AS creates another hit or advances every passive counter.
+Comparisons: Compare a separate Hail of Blades page only with its actual remaining attack budget after preparing three passive stacks; no free fresh trigger or simultaneous LT. Compare real four-second native hit totals at the same item stacks, target HP and immunity timing.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -1152,7 +1154,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Chilling Scream (ability-ceiling-briar-e)
 
-Runes: Deathfire Touch → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Briar — Chilling Scream: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Begin Charging: Briar removes Blood Frenzy and gathers energy, gaining [35]% damage reduction and restoring [(0.1 / 0.115 / 0.13 / 0.145 / 0.16) × Stat(12)] Health over 1 second. Release: Briar unleashes a scream that deals up to [80 / 115 / 150 / 185 / 220 +
 
@@ -1162,10 +1164,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1173,9 +1175,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Certain Death landing impact (r-ap-landing)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Briar — one Certain Death landing impact: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The landing deals 150/250/350 + 1.3 AP magic to nearby enemies. This large AP coefficient is separate from the subsequent frenzy attacks. The source also grants armor and MR from 20% total AD during the empowered frenzy; that defense is not another landing-dam
+Briar — one Certain Death landing impact: The landing deals 150/250/350 + 1.3 AP magic to nearby enemies. This large AP coefficient is separate from the subsequent frenzy attacks. The source also grants armor and MR from 20% total AD during the empowered frenzy; that defense is not another landing-damage coefficient. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -1183,10 +1185,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1326,7 +1328,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Twin Fang (ability-ceiling-cassiopeia-e)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Cassiopeia — Twin Fang: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Cassiopeia launches deadly fangs, dealing [characterLevelBreakpoints(start=50, perLevel=4.1176, changes=[]) + (0.2) × AP] magic damage. If the enemy is Poisoned, they take an additional [20 / 45 / 70 / 95 / 120 + (0.45) × AP] magic damage and Cassiopeia restor
 
@@ -1336,10 +1338,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1347,9 +1349,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one complete Noxious Blast poison (q-full-poison-window)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Cassiopeia — one complete Noxious Blast poison: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Q deals 65/100/135/170/205 + 0.75 AP magic over three seconds. That coefficient is the total poison, not the amount of every tick. AP and magic penetration compete with separately earned amplification; movement speed gained on hit is utility.
+Cassiopeia — one complete Noxious Blast poison: Q deals 65/100/135/170/205 + 0.75 AP magic over three seconds. That coefficient is the total poison, not the amount of every tick. AP and magic penetration compete with separately earned amplification; movement speed gained on hit is utility. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -1357,10 +1359,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1412,7 +1414,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Vorpal Spikes magic bonus (e-ten-feast-spikes)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Chogath — one Vorpal Spikes magic bonus: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 E adds 110 + 0.3 AP plus (3.9% + 0.5% per Feast stack) enemy max HP magic damage. Exactly ten earned Feast stacks give an 8.9% coefficient before modifiers. AP improves the flat term, while MR modifiers improve the percentage as well. Feast stacks are f
 
@@ -1422,10 +1424,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1466,7 +1468,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -1586,9 +1588,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Five-champion Moonfall (ceiling-r-single-hit)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Diana — Five-champion Moonfall: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R3 is400+0.6AP plus85+0.15AP per extra champion. Five legal enemies mean four extras:740+1.2AP per victim. AP and MR modifiers strengthen explosion. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame
+Diana — Five-champion Moonfall: R3 is400+0.6AP plus85+0.15AP per extra champion. Five legal enemies mean four extras:740+1.2AP per victim. AP and MR modifiers strengthen explosion. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -1596,10 +1598,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1607,7 +1609,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Moonsilver Blade third-attack magic bonus (passive-moonsilver)
 
-Runes: Summon Aery → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Summon Aery → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Diana — Moonsilver Blade third-attack magic bonus: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Diana's third attack adds a level-based magic cleave plus 0.5 AP. Deathcap and MR penetration target that bonus. Attack speed affects how often the third hit occurs, not the damage of this one cleave. A Nashor or Lich Bane alternative can improve the whole del
 
@@ -1617,10 +1619,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1662,7 +1664,7 @@ Shard reasoning: Shards are resource/survival utility for this fixed metric, not
 - Transcendence: Haste/recast utility; no free cooldown refund or extra hit in a fixed action budget.
 - Gathering Storm: Does not change this fixed metric; retain only as utility for other kit damage.
 - Presence of Mind: Resource uptime; no direct damage coefficient or free mana/energy refill.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 
 Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
 
@@ -1760,9 +1762,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Chronobreak explosion (ceiling-r-single-hit)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Ekko — Chronobreak explosion: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R3 explosion is500+1.75AP; its unusually high AP ratio rewards Deathcap/high AP and MR modifiers. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and amplify eligible low-health hits.
+Ekko — Chronobreak explosion: R3 explosion is500+1.75AP; its unusually high AP ratio rewards Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -1770,10 +1772,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1846,7 +1848,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Spider Venomous Bite (ability-ceiling-q)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Elise — Spider Venomous Bite: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Spider Q helper resolves(8%+0.03% per AP) target missingHP magic. Human Q instead uses currentHP; unresolved base must be verified. AP/MR penetration support bite, not physical spider attacks. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetratio
 
@@ -1856,10 +1858,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -1932,7 +1934,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Last Caress (ability-ceiling-evelynn-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Evelynn — Last Caress: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Evelynn unleashes her demonic energy, dealing heavy damage, becoming Untargetable and teleporting backwards. She deals [125 / 250 / 375 + (0.75) × AP] magic damage, increased to [(125 / 250 / 375 + (0.75) × AP) × (2.4)] against enemies below 30% Health. Upon c
 
@@ -1942,10 +1944,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2062,7 +2064,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Complete Crowstorm (ability-ceiling-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Fiddlesticks — Complete Crowstorm: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R3 deals5*(350+0.5 AP)=1750+2.5 AP magic over5s. AP/penetration strengthen ticks; pre-ramped Riftmaker supports contact. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies40% MR penetr
 
@@ -2072,10 +2074,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2083,9 +2085,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one complete Bountiful Harvest channel (w-complete-drain-finisher)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Fiddlesticks — one complete Bountiful Harvest channel: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The channel deals 60/90/120/150/180 + 0.45 AP magic per second for two seconds, then 12/14.5/17/19.5/22% enemy missing HP magic at the end. Rank-5 timed drain nominally totals 360 + 0.9 AP; the final 22% term must use the missing HP at its actual damage time,
+Fiddlesticks — one complete Bountiful Harvest channel: The channel deals 60/90/120/150/180 + 0.45 AP magic per second for two seconds, then 12/14.5/17/19.5/22% enemy missing HP magic at the end. Rank-5 timed drain nominally totals 360 + 0.9 AP; the final 22% term must use the missing HP at its actual damage time, after prior damage. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -2093,10 +2095,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2213,7 +2215,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Seastone Trident active bonus (w-trident-active)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Fizz — Seastone Trident active bonus: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 W active adds 150 + 0.45 AP magic damage. Its passive bleed is a separate 90 + 0.25 AP over three seconds; later empowered attacks are another effect. Deathcap/MR modifiers target the first active bonus, while Lich Bane or Nashor are alternatives for th
 
@@ -2223,10 +2225,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2257,7 +2259,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Winds of War tornado (ability-ceiling-q)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Galio — Winds of War tornado: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Each windblast210+0.7 AP; tornado(2+0.01 AP)*4 percent target maxHP over2s. Actual overlapping blast count matters; R instead scales bonusMR. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void
 
@@ -2267,10 +2269,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2312,7 +2314,7 @@ Shard reasoning: The landing has a 0.70 AP coefficient in addition to bonus MR. 
 - Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Preserve the recorded armor/MR, Granite Shield, JakSho and cast state. No extra Aftershock, incoming CC or earlier damage is granted by this rune choice. Focus uses the recorded full owner HP; Gathering Storm is minute 30. Manaflow, if credited through a real mana conversion, needs ten earned procs; otherwise it is resource utility only.
+Preparation: Preserve the actual bonus MR from Banshee, Maw and Spirit Visage and actual AP from this inventory. Galio has no Granite Shield and this inventory has no JakSho. No extra Aftershock or incoming-CC resistance buff is granted; Focus requires owner above 70% and Gathering Storm stays minute 30.
 
 Comparisons: Compare Conditioning and a genuinely pre-triggered Aftershock variant only as a separately recorded setup. Its triggering hit does not retroactively receive the resistance bonus. For armor/MR-only output, remove AP assumptions; for this hybrid helper compare actual coefficient gains against health-state amplification at fixed defenses.
 
@@ -2343,7 +2345,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Cannon Barrage (ability-ceiling-gangplank-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Gangplank — Cannon Barrage: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Gangplank signals his ship to fire [12] waves of cannonballs anywhere on the map over [8] seconds. Each wave Slows by [30]% for [0.5] seconds and deals [40 / 70 / 100 + (0.1) × AP] magic damage. Maximum damage: [(40 / 70 / 100 + (0.1) × AP) × (12)] This Abilit
 
@@ -2353,10 +2355,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2465,15 +2467,15 @@ Shard reasoning: Offense haste provides cooldown utility; it does not increase t
 
 Preparation: Record three actually consumed/sold biscuits (+90 permanent HP in this snapshot). Do not grant free Grasp HP: keep any already-authored procs fixed; extra earned Grasp stacks are a separate benchmark. Revitalize uses the actual recipient HP and healing stops at full health. Recipient is self. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability.
 
-Comparisons: Compare Overgrowth against Revitalize in separate legal pages; they occupy the same Resolve row and cannot be combined. Use exactly 150 observed nearby unit deaths for the Overgrowth comparison, not unlimited stacks.
+Comparisons: Compare Overgrowth against Revitalize in separate legal pages; they occupy the same Resolve row and cannot be combined. Use exactly 150 observed nearby unit deaths for the Overgrowth comparison, not unlimited stacks. Item comparison: the former Hullbreaker adds 500 item HP plus its actual Warmog conversion, while Dawncore adds 16% static shield power. Compare both legal inventories at the same recorded stacks; count First Light only from the observed regeneration stat and verify modifier order.
 
-Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
+Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Garen has no mana resource. The selected Dawncore comparison has 16% static shield power; do not grant its regeneration-based extra power unless the actual client stat confirms eligibility.
 
 ## Gnar
 
 ### Mega wall slam (ability-ceiling-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Gnar — Mega wall slam: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Wall R3 is1.5*(400+1 AP+0.5 bonusAD) physical. AP is efficient but armor penetration, not MR penetration, improves this packet. Deathcap/Banshee/Zhonya maximize AP for physical AP ratio; Riftmaker adds AP/conditional ramp; Serylda penetrates armor; Shojin test
 
@@ -2483,10 +2485,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2494,9 +2496,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Mini Gnar Hyper detonation (w-mini-third-hit-hyper)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Gnar — one Mini Gnar Hyper detonation: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The Mini W helper adds 0/10/20/30/40 + 1.0 AP magic, and the raw rank-indexed percentage data adds enemy maximum-health damage (14% at rank 5). AP has a full coefficient on a repeatable third-hit packet. The Mega W helper instead uses 45/75/105/135/165 + 1.0 t
+Gnar — one Mini Gnar Hyper detonation: The Mini W helper adds 0/10/20/30/40 + 1.0 AP magic, and the raw rank-indexed percentage data adds enemy maximum-health damage (14% at rank 5). AP has a full coefficient on a repeatable third-hit packet. The Mega W helper instead uses 45/75/105/135/165 + 1.0 total AD physical damage and must not be substituted. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -2504,10 +2506,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2515,11 +2517,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Mini Gnar Hop enemy bounce (e-mini-health-bounce)
 
-Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Legend: Bloodline → Cut Down. Shards: 5008 / 5001 / 5001.
+Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Legend: Bloodline → Cut Down. Shards: 5007 / 5001 / 5001.
 
 Gnar — one Mini Gnar Hop enemy bounce: Owner maximum or bonus HP enters this specific helper. Scaling-health shards and finite Overgrowth matter; AP, crit and attack speed cannot be substituted for a health coefficient. Ability basis: Mini E damage helper is 50/85/120/155/190 + 6% own total maximum HP physical. Mega Crunch instead has a different 80/115/150/185/220 base. Purchased health supports Mini damage, but item AD/AP alone does not add a direct ratio to this helper; armor penetration
 
-Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Offense haste is delivery/recast utility only. The selected Hop helper has no AD/AP ratio, so adaptive force does not increase it. Flex and defense scaling-health shards each grant their actual level-18 HP and feed the explicit total-max-HP coefficient once.
 
 - Grasp of the Undying: Only actually earned permanent HP may feed an HP coefficient; proc damage/healing is separate.
 - Font of Life: Separate conditional recovery; it does not enlarge the named native heal, shield or attack packet.
@@ -2528,7 +2530,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Legend: Bloodline: 15 earned stacks grant 85 max HP; relevant only to real HP scaling/conversion. Lifesteal remains separate.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Overgrowth benchmark: exactly 150 nearby eligible unit deaths (18 completed groups), with its real post-120 modifier. No extra Grasp stacks beyond the authored state; a 30-proc Grasp variant is separate and must record melee/ranged HP actually earned. Legend Bloodline requires 15 earned stacks for its 85 max HP. Lifesteal is a separate effect, not an extra ability-damage multiplier.
+Preparation: Preserve exactly 30 already-authored, legally earned Grasp procs and 150 eligible nearby unit deaths (18 completed Overgrowth groups plus its real post-120 modifier). Record form-appropriate Grasp HP: Mini Gnar ranged gains must not use melee values. No further permanent stacks. Legend Bloodline requires 15 earned stacks for its 85 max HP. Lifesteal is a separate effect, not an extra ability-damage multiplier.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2559,7 +2561,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Barrel Roll (ability-ceiling-gragas-q)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Gragas — Barrel Roll: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Gragas rolls a cask that explodes after [4] seconds, dealing between [80 / 120 / 160 / 200 / 240 + (0.8) × AP] magic damage and [(80 / 120 / 160 / 200 / 240 + (0.8) × AP) × (1.5)] magic damage and Slowing for between [40 / 45 / 50 / 55 / 60] and [(40 / 45 / 50
 
@@ -2569,10 +2571,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2689,7 +2691,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Nine Needlework needles (ability-ceiling-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Gwen — Nine Needlework needles: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Three casts fire1+3+5 needles. Each70+0.1 AP magic plus one passive(1+0.006 AP)% maxHP proc; nine applications make AP/targetHP powerful. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supp
 
@@ -2699,10 +2701,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2710,7 +2712,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### fully stacked center Snip Snip (q-center-four-stacks)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Gwen — fully stacked center Snip Snip: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: At rank 5, four stacks produce five small snips of 26 + 0.05 AP and a final 160 + 0.35 AP: 290 + 0.6 AP before center conversion. The center converts 50% of that spell damage to true damage and applies A Thousand Cuts on qualifying hits. AP improves the core a
 
@@ -2720,10 +2722,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2731,9 +2733,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one A Thousand Cuts magic packet (passive-one-health-cut)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Gwen — one A Thousand Cuts magic packet: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The passive deals (1 + 0.006 AP)% enemy maximum HP magic on a qualifying attack. This is one passive application, not the six-snip Q or nine-needle R total. Its champion healing uses a separate 67% damage-based rule and a level/AP cap; that recovery is not ext
+Gwen — one A Thousand Cuts magic packet: The passive deals (1 + 0.006 AP)% enemy maximum HP magic on a qualifying attack. This is one passive application, not the six-snip Q or nine-needle R total. Its champion healing uses a separate 67% damage-based rule and a level/AP cap; that recovery is not extra damage. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -2741,10 +2743,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2767,7 +2769,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 
 Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Jack Of All Trades: read purchased-item stat types and the actual client counter. Credit 8 adaptive force only at five stacks or 20 at ten; rune stats are not purchased item stats.
 
-Comparisons: Compare a separately earned full-Conqueror stat page against the fixed AP baseline, or raw-item stat changes at identical health and minute. Do not count damage amplifiers as stat multipliers.
+Comparisons: Compare a separately earned full-Conqueror stat page against the fixed AP baseline, or raw-item stat changes at identical health and minute. Do not count damage amplifiers as stat multipliers. Item comparison: Zhonya supplies 10 more base AP than the removed Void Staff for this stat objective. Luden plus the equipped Seraph mana conversion is a separate candidate; inspect final AP and actual Jack thresholds rather than assuming a universal item ranking.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -2853,7 +2855,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. The score is the empowered rocket swarm, not base W. Verify the empowerment's ultimate tagging for Axiom on each real wave; compare inactive Axiom at fixed AP and actual rocket count.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2905,7 +2907,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Severing Bolt (ability-ceiling-q)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Hwei — Severing Bolt: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: QW5 reaches3.5*(160+0.3 AP)=560+1.05 AP on isolated/immobilized lowHP target. QQ adds7% maxHP instead, so targetHP changes ranking. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies40
 
@@ -2915,10 +2917,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -2947,7 +2949,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Molten Fissure eruption and pool exposure (qe-one-pool-full-burn)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Hwei — one Molten Fissure eruption and pool exposure: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: QE impact is 20/35/50/65/80 + 0.3 AP magic; its lava deals 20/35/50/65/80 + 0.24 AP per second. The raw pool duration is 2.5 seconds, giving rank-5 nominal one-impact plus one-pool total 280 + 0.9 AP before actual ticks. This is not the QW missing-health bolt.
 
@@ -2957,10 +2959,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 max HP. Equipped Riftmaker converts that real bonus HP into AP; lifesteal is outside the selected native result.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Earn exactly 15 Bloodline legend stacks before this level-18 trial; record its 85 HP and the resulting equipped Riftmaker bonus-health-to-AP conversion once. No new casts or lifesteal packets enter the selected subtotal.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -3121,7 +3123,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Triggerseed detonation (ability-ceiling-e)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Ivern — Triggerseed detonation: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E5 explosion150+0.8 AP magic; shield235+0.5 AP is separate. AP/penetration support detonation; shield power does not amplify explosion. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void suppli
 
@@ -3131,10 +3133,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -3337,7 +3339,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Five-dodge Counter Strike (ability-ceiling-e)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Jax — Five-dodge Counter Strike: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E5 starts160+0.7 AP+4% target maxHP and adds20% per dodge to2x at five:320+1.4 AP+8% maxHP. MR penetration affects whole E. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies40% MR pen
 
@@ -3347,10 +3349,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -3563,7 +3565,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -3662,7 +3664,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Twenty-spear Rend (ability-ceiling-e)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Kalista — Twenty-spear Rend: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E5 at20 spears45+0.7 AD+0.65 AP+19*(35+0.5 AD+0.5 AP) physical. AP is competitive per extra spear; armor penetration remains correct. Deathcap/Banshee/Zhonya concentrate AP for extra-spear0.5 AP ratio; Riftmaker AP/ramp; Serylda physical penetration; Shojin E
 
@@ -3672,10 +3674,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -3727,7 +3729,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Inner Flame (ability-ceiling-karma-q)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Karma — Inner Flame: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: {{Spell_KarmaQ_Tooltip_[UNRESOLVED(GameCalculationConditional; see calculationRaw)]}} Deathcap multiplies AP; Void Staff and Shadowflame reduce effective MR on magic packets, with Shadowflame low-health amplification tested. Zhonya/Banshee are high AP stat slo
 
@@ -3737,10 +3739,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -3846,7 +3848,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -3880,30 +3882,30 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Death Lotus (ability-ceiling-katarina-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Alacrity → Coup de Grace. Shards: 5005 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Katarina — Death Lotus: The helper can use AS, but selecting Hail of Blades does not activate it before a channel or swing. The unchanged baseline uses earned Alacrity and an AS shard, actual adaptive stats and a health-state modifier; an R modifier applies only to the eligible R components. Ability basis: Katarina becomes a flurry of blades, rapidly attacking the three nearest enemy champions with a flurry of knives. Each knife deals [25 / 37.5 / 50 + (0.19) × AP] magic damage and [(((0.16) × ((1 + (3.125) × Stat(4)[statFormula=2])))) × AD[statFormula=2]] physi
+Katarina — Death Lotus: This AP-only inventory gives no item bonus AD. The native physical term is proportional to bonus AD times bonus attack speed, so Alacrity and an AS shard cannot raise that zero term or create extra magic daggers. Adaptive stats and earned Bloodline HP through Riftmaker support the fixed magic channel instead.
 
-Shard reasoning: Offense AS targets real timed attacks or an AS-conversion helper; verify its breakpoint against an adaptive shard. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Adaptive offense and flex feed the .19-AP native magic dagger term; scaling HP feeds equipped Riftmaker AP. Attack speed is not extra magic strikes, and multiplying a zero bonus-AD physical term gives no gain.
 
 - Deathfire Touch: Burn is a separate packet with real refresh/ramp rules, not extra native ticks.
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while the owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Alacrity: Ten earned legend stacks and actual AS/caps; no benefit to a fixed single-hit coefficient without AS conversion.
+- Legend: Bloodline: This AP-only inventory has no bonus AD for the native AS-times-bonus-AD physical term. Fifteen earned stacks give85HP feeding actual Riftmaker AP; lifesteal stays separate.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Alacrity: ten earned legend stacks; verify AS normalization and actual strike-count rounding in client. Respect the authored cast/channel and do not invent an extra opening attack. Hail of Blades is untriggered in this baseline. Its prepared comparison needs a real champion attack before the cast and a surviving buff timer through the actual hits. Gathering Storm remains minute 30.
+Preparation: Exactly fifteen earned Bloodline stacks provide85HP; observe its actual Riftmaker AP conversion and keep any healing separate. Use the authored complete2.5-second channel and real fixed dagger count, with Gathering Storm at minute30. No prior attack, HoB trigger or free bonusAD is added.
 
-Comparisons: Compare a separately triggered Hail of Blades page against the baseline, recording actual cast-time AS, hit count and expiry. Do not assume ability/on-hit events trigger the rune or create free attacks. Keep keystone proc damage separate from the native channel/swing helper; compare the complete delivery separately if desired.
+Comparisons: Compare a hybrid inventory with real bonus AD before testing Alacrity or a legally pre-triggered HoB variant. Record the physical coefficient and AS snapshot; this is a different build/setup. Compare the AP native channel with one adaptive-versus-AS shard swap while logging actual AP, bonus AD and dagger count. Item on-hits and Deathfire burn remain separate.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Generic finisher amplification is not credited to native true-damage components; Axiom true-ultimate eligibility is a separate explicit test.
 
 ### one Voracity dagger slash (passive-single-dagger)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Katarina — one Voracity dagger slash: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The dagger helper combines a level-table base, 0.6 bonus AD and a level-scaled AP ratio that reaches 1.0 AP through its recorded level-6/11/16 breakpoints. AP and MR penetration target the magic slash. A Bloodthirster swap tests the 0.6 bonus-AD term; ordinary
+Katarina — one Voracity dagger slash: The dagger helper combines a level-table base, 0.6 bonus AD and a level-scaled AP ratio that reaches 1.0 AP through its recorded level-6/11/16 breakpoints. AP and MR penetration target the magic slash. A Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -3911,10 +3913,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -3945,9 +3947,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Starfire missing-health bonus (ceiling-e-single-hit)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Kayle — Starfire missing-health bonus: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E5 active bonus is(10+0.015AP)% target missingHP. AP raises percentage; Q can reduce MR15%; MR modifiers apply to magic bonus. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and ampl
+Kayle — Starfire missing-health bonus: E5 active bonus is(10+0.015AP)% target missingHP. AP raises percentage; Q can reduce MR15%; MR modifiers apply to magic bonus. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -3955,10 +3957,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -4020,7 +4022,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -4054,7 +4056,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Slicing Maelstrom (ability-ceiling-kennen-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Kennen — Slicing Maelstrom: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Kennen unleashes a magical storm, dealing [40 / 80 / 120 + (0.25) × AP] magic damage to all nearby enemies every [0.5] seconds, and gaining [25 / 50 / 75] Armor and [25 / 50 / 75] Magic Resist for [3] seconds. Successive hits deal [10]% increased damage for ea
 
@@ -4064,10 +4066,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -4096,9 +4098,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Lightning Rush pass-through hit (e-one-lightning-pass)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Kennen — one Lightning Rush pass-through hit: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E deals 80/120/160/200/240 + 0.8 AP magic to an enemy passed through. The two-second lightning state is a movement window, not a per-second damage rate. Energy refund and post-cast attack speed do not add a second E damage packet.
+Kennen — one Lightning Rush pass-through hit: E deals 80/120/160/200/240 + 0.8 AP magic to an enemy passed through. The two-second lightning state is a movement window, not a per-second damage rate. Energy refund and post-cast attack speed do not add a second E damage packet. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -4106,10 +4108,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -4205,22 +4207,22 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### four seconds of Wolf's Frenzy bites (w-eight-mark-wolf-window)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Alacrity → Cut Down. Shards: 5005 / 5008 / 5001.
 
-Kindred — four seconds of Wolf's Frenzy bites: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Each bite is 25/30/35/40/45 + 0.2 bonus AD + 0.2 AP magic plus (1.5% + 1% per earned Mark) target current HP. Eight Marks give a 9.5% current-health term per qualifying bite, recalculated as health falls. The raw source converts 25% of Lamb attack speed into W
+Kindred — four seconds of Wolf's Frenzy bites: Wolf has an explicit 25% Lamb attack-speed conversion as well as 0.2 bonus AD, 0.2 AP and current-target-HP damage. Alacrity and the AS shard are cadence candidates for this fixed four-second window; preserve eight Marks and the existing Q buff, then count actual bites. Adaptive force remains a per-bite comparison, not a blanket assumption that owner AS affects every pet.
 
-Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Offense attack speed targets the explicit 25% Lamb-to-Wolf AS conversion; flex adaptive force targets the 0.2 AD/AP bite term and defense health is survival utility. Compare the AS shard against adaptive force at the actual four-second bite breakpoint; more AS is not automatically another bite.
 
 - Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison.
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Alacrity: Ten earned stacks raise actual Lamb AS; KindredW raw data converts 25% of Lamb attack speed to Wolf. Count real bites, not assumed universal pet AS transfer.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Alacrity requires exactly ten earned legend stacks. Preserve the recorded Q-buff duration, do not add Lamb attacks to refresh it, and record Wolf timing plus actual Lamb AS at W cast and each bite.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare adaptive offense versus AS and Haste versus earned Alacrity at the same eight Marks and Q duration. Test whether Wolf dynamically updates or snapshots Lamb AS; no benefit is credited without actual bite-count or timing change. Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -4259,7 +4261,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -4314,9 +4316,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### One Bio-Arcane bonus on-hit (ceiling-w-single-hit)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-KogMaw — One Bio-Arcane bonus on-hit: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: W5 bonus is(6+0.015AP)% target maxHP magic. AP increases percentage; Q5 shreds32% MR; MR modifiers affect bonus. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and amplify eligible l
+KogMaw — One Bio-Arcane bonus on-hit: W5 bonus is(6+0.015AP)% target maxHP magic. AP increases percentage; Q5 shreds32% MR; MR modifiers affect bonus. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -4324,10 +4326,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -4345,7 +4347,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -4423,7 +4425,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Mimicked Ethereal Chains (ability-ceiling-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Leblanc — Mimicked Ethereal Chains: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: RE3 deals230+0.4 AP initially and460+0.85 AP on root:690+1.25 AP over1.5s. AP/penetration support both; tether completion mandatory. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies4
 
@@ -4433,10 +4435,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -4477,7 +4479,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -4576,7 +4578,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Watch Out center strike (ability-ceiling-w)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Lillia — Watch Out center strike: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Center W5 triples160+0.35 AP into480+1.05 AP magic. Passive(5+0.0125 AP)% maxHP over3s is separate, not immediate W. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies40% MR penetratio
 
@@ -4586,10 +4588,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -4597,7 +4599,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### outer Blooming Blows impact (q-edge-mixed)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Lillia — outer Blooming Blows impact: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 Q deals 75 + 0.35 AP magic, with an additional 75 + 0.35 AP true at the outer edge. AP improves both components; Void only helps the magic part. Shadowflame can be tested on eligible low-health magic/true packets; passive burn remains separate. This mak
 
@@ -4607,10 +4609,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -4706,9 +4708,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Three Soul Nail consumption (ceiling-q-single-hit)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Locke — Three Soul Nail consumption: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Q5 consumption is50+0.35AP per nail, increased40% at three nails: candidate3*1.4*(50+0.35AP) magic. AP/MR modifiers target bonus. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and a
+Locke — Three Soul Nail consumption: Q5 consumption is50+0.35AP per nail, increased40% at three nails: candidate3*1.4*(50+0.35AP) magic. AP/MR modifiers target bonus. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -4716,10 +4718,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -4739,7 +4741,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -4924,7 +4926,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Unstoppable Force (ability-ceiling-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Malphite — Unstoppable Force: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R3 is400+0.9 AP magic. Armor scales E/W, not R; AP/MR penetration directly support impact. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies40% MR penetration; Banshee/Zhonya supply10
 
@@ -4934,10 +4936,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5010,7 +5012,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Nether Grasp (ability-ceiling-malzahar-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Malzahar — Nether Grasp: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Malzahar Suppresses an enemy champion and deals [125 / 200 / 275 + (0.8) × AP] magic damage over [2.5] seconds. A zone of negative energy is created around his target dealing [(2 / 3 / 4 + (0.005) × AP) × (0.05)] max Health magic damage over [5] seconds. Death
 
@@ -5020,10 +5022,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5031,9 +5033,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one four-second Malefic Visions application (e-four-second-visions)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Malzahar — one four-second Malefic Visions application: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E deals 80/115/150/185/220 + 0.8 AP magic over four seconds. That is the total duration coefficient, not damage per tick. Q and R refresh the effect, while death can spread it; these are separate sequences from one unrefreshed application.
+Malzahar — one four-second Malefic Visions application: E deals 80/115/150/185/220 + 0.8 AP magic over four seconds. That is the total duration coefficient, not damage per tick. Q and R refresh the effect, while death can spread it; these are separate sequences from one unrefreshed application. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -5041,10 +5043,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5075,9 +5077,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### One brush sapling explosion (ceiling-e-full-window)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5001 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5001 / 5001.
 
-Maokai — One brush sapling explosion: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Brush E5 total is300+0.5AP+0.1 Stat12[statFormula=2] magic over2s. HP increases direct bonus-health term and Riftmaker AP; AP and Shadowflame affect magic packet. Heartsteel has exactly500 earned bonusHP, Warmog amplifies itemHP, and Riftmaker converts bonusHP
+Maokai — One brush sapling explosion: Brush E5 total is300+0.5AP+0.1 Stat12[statFormula=2] magic over2s. HP increases direct bonus-health term and Riftmaker AP; AP and Shadowflame affect magic packet. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion as well as the sapling's direct bonus-HP term. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the real AD/AP coefficient. Flex and defense scaling health each grant 180 HP at level 18; this helper has direct HP scaling or an explicit HP-to-offense conversion. Compare an adaptive flex shard at fixed final client stats; do not recursively amplify conversions.
 
@@ -5085,10 +5087,10 @@ Shard reasoning: Offense adaptive force feeds only the real AD/AP coefficient. F
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet. Shard comparison: swap only flex scaling health versus adaptive force and read the actual final HP/AD/AP and native output. This is not a claim that health benefits other abilities lacking the coefficient.
 
@@ -5096,9 +5098,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Bramble Smash impact (q-ap-health-smash)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Maokai — one Bramble Smash impact: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Q deals 75/120/165/210/255 + 0.5 AP magic plus 2/2.5/3/3.5/4% enemy maximum HP. The health fraction is fixed by rank; AP increases the flat part, not that percentage. Nearby knockback does not add a second complete Q packet.
+Maokai — one Bramble Smash impact: Q deals 75/120/165/210/255 + 0.5 AP magic plus 2/2.5/3/3.5/4% enemy maximum HP. The health fraction is fixed by rank; AP increases the flat part, not that percentage. Nearby knockback does not add a second complete Q packet. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -5106,10 +5108,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5205,7 +5207,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Golden Eclipse (ability-ceiling-mel-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Mel — Golden Eclipse: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Passive: Overwhelm damage is increased to [60 / 70 / 80 + (0.1) × AP] magic damage plus [3 / 4 / 5 + (0.0075) × AP] magic damage per stack. Active: Mel unleashes her power on all enemies affected by Overwhelm, dealing [125 / 200 / 275 + (0.3) × AP] magic damag
 
@@ -5215,10 +5217,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5324,7 +5326,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -5389,7 +5391,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -5423,7 +5425,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Obliterate (ability-ceiling-mordekaiser-q)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Mordekaiser — Obliterate: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Mordekaiser smashes the ground with Nightfall dealing [80 / 115 / 150 / 185 / 220 + characterLevelBreakpoints(start=0, perLevel=0, changes=[{"mLevel": 10, "mBonusPerLevelAtAndAfter": 7.0, "__type": "Breakpoint"}]) + (1.2) × AD[statFormula=2] + (0.7) × AP] magi
 
@@ -5433,20 +5435,20 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet. Current Obliterate source includes1.2 bonus AD as well as.7 AP before isolation multiplier. Test an AD/adaptive-type item crossover separately; magic damage does not make the AD coefficient disappear.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
 ### Darkness Rise field over four seconds (passive-four-second-field)
 
-Runes: Deathfire Touch → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Mordekaiser — Darkness Rise field over four seconds: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The field source deals 5 + 0.3 AP plus a level-scaled 1%-5% enemy max HP per second. A fixed four-second window tests both AP and percentage-health damage. The separate 0.4 AP attack on-hit is not the field, and activating the field does not add three free set
+Mordekaiser — Darkness Rise field over four seconds: The field source deals 5 + 0.3 AP plus a level-scaled 1%-5% enemy max HP per second. A fixed four-second window tests both AP and percentage-health damage. The separate 0.4 AP attack on-hit is not the field, and activating the field does not add three free setup hits to the scored output. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -5454,10 +5456,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5488,9 +5490,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Soul Shackles both pulses (ceiling-r-full-window)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Morgana — Soul Shackles both pulses: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R3 each pulse350+0.8AP, total700+1.6AP over3s tether. AP/MR modifiers strengthen both; full Rift ramp applies. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and amplify eligible low
+Morgana — Soul Shackles both pulses: R3 each pulse350+0.8AP, total700+1.6AP over3s tether. AP/MR modifiers strengthen both; full Rift ramp applies. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -5498,10 +5500,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5509,7 +5511,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one complete Tormented Shadow exposure (w-five-second-missing-health)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Morgana — one complete Tormented Shadow exposure: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: W deals 18/31/44/57/70 + 0.2 AP magic per second for five seconds and increases with target missing health up to twice that rate. Rank-5 baseline full contact is 350 + 1.0 AP, while an all-capped rate would be 700 + 2.0 AP only if the live health multiplier ac
 
@@ -5519,10 +5521,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 max HP. Equipped Riftmaker converts that real bonus HP into AP; lifesteal is outside the selected native result.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Earn exactly 15 Bloodline legend stacks before this level-18 trial; record its 85 HP and the resulting equipped Riftmaker bonus-health-to-AP conversion once. No new casts or lifesteal packets enter the selected subtotal.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5553,20 +5555,20 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Seven-packmate Hounds' Pursuit (ability-ceiling-w)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Naafiri — Seven-packmate Hounds' Pursuit: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: W3 primary275+bonusAD plus10% per dog; five passive-cap dogs+R two suggest1.7*(275+bonusAD). R grants20% totalAD. No pet crit assumptions. Bloodthirster provides80 AD; Profane/Youmuu55 AD/18 lethality each; Serylda45 AD/35% armor penetration; Shojin45 AD/condi
+Naafiri — Hounds' Pursuit: The current snapshot places the damaging dash in R (internal NaafiriW). W Call of the Pack prepares two extra living packmates and 20% total-AD gain. Preserve seven dogs, earned Muramana and the same dash; Axiom is eligible for the ultimate classification, with pet contributions checked separately.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
 - Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison.
-- Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
+- Axiom Arcanist: Hounds' Pursuit is the current R, not W; test native dash amplification and keep packmate eligibility separate.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Cast current W Call of the Pack, then current R Hounds' Pursuit during its five-second buff. Read actual seven-packmate count, AD and each dash packet; Axiom does not automatically multiply every pet event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5662,9 +5664,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Spirit Fire impact and five-second exposure (e-full-spirit-fire)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Nasus — Spirit Fire impact and five-second exposure: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 E has 170 + 0.6 AP initial magic damage and five seconds at 34 + 0.12 AP per second: nominal total 340 + 1.2 AP with uninterrupted exposure. E's armor reduction helps later physical damage, not its own magic packets. Earned Seraph/Deathcap feed AP; cond
+Nasus — Spirit Fire impact and five-second exposure: Rank-5 E has 170 + 0.6 AP initial magic damage and five seconds at 34 + 0.12 AP per second: nominal total 340 + 1.2 AP with uninterrupted exposure. E's armor reduction helps later physical damage, not its own magic packets. Earned Seraph/Deathcap feed AP; conditional magic amplifiers must be recorded at each tick. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -5672,10 +5674,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5706,7 +5708,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Depth Charge primary eruption (ability-ceiling-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Nautilus — Depth Charge primary eruption: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R3 direct target400+0.8 AP magic; intervening targets225+0.4 AP. AP/penetration support primary hit; CC duration is not a multiplier. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies
 
@@ -5716,10 +5718,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5742,7 +5744,7 @@ Shard reasoning: Offense haste provides cooldown utility; it does not increase t
 
 Preparation: Record three actually consumed/sold biscuits (+90 permanent HP in this snapshot). Do not grant free Grasp HP: keep any already-authored procs fixed; extra earned Grasp stacks are a separate benchmark. Revitalize uses the actual recipient HP and healing stops at full health. Recipient is self. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability.
 
-Comparisons: Compare Overgrowth against Revitalize in separate legal pages; they occupy the same Resolve row and cannot be combined. Use exactly 150 observed nearby unit deaths for the Overgrowth comparison, not unlimited stacks.
+Comparisons: Compare Overgrowth against Revitalize in separate legal pages; they occupy the same Resolve row and cannot be combined. Use exactly 150 observed nearby unit deaths for the Overgrowth comparison, not unlimited stacks. Item comparison: the former Hullbreaker adds 500 item HP plus its actual Warmog conversion, while Dawncore adds 16% static shield power. Compare both legal inventories at the same recorded stacks; count First Light only from the observed regeneration stat and verify modifier order.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -5771,7 +5773,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Pop Blossom (ability-ceiling-neeko-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Neeko — Pop Blossom: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: After a delay Neeko leaps into the air, Knocking Up all nearby enemies for [0.6 / 0.6 / 0.6] seconds. She then crashes down, dealing [150 / 350 / 550 + (1.2) × AP] magic damage to all nearby enemies and Stunning them for [0.75 / 0.75 / 0.75] seconds. This Abil
 
@@ -5781,10 +5783,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -5955,7 +5957,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -6010,9 +6012,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Fully charged Absolute Zero (ceiling-r-single-hit)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Nunu — Fully charged Absolute Zero: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R3 full detonation is1275+3AP magic, exceptionally strong AP scaling. High AP/MR penetration/amplification target explosion. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and amplif
+Nunu — Fully charged Absolute Zero: R3 full detonation is1275+3AP magic, exceptionally strong AP scaling. High AP/MR penetration/amplification target explosion. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -6020,10 +6022,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -6031,22 +6033,22 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Consume champion damage (q-champion-ap-hp)
 
-Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5001 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5001 / 5001.
 
-Nunu — Consume champion damage: Owner maximum or bonus HP enters this specific helper. Scaling-health shards and finite Overgrowth matter; AP, crit and attack speed cannot be substituted for a health coefficient. Ability basis: Against champions, rank-5 Q is 220 + 0.05 bonus HP + 0.65 AP magic damage. The 1200 true-damage number is for minions/monsters and must never be used for a champion ceiling. Heartsteel/Warmog and Riftmaker test HP plus HP-to-AP conversion against pure AP; magi
+Nunu — Consume champion damage: The helper scales with both HP and AP. Preserve health shards and Bloodline but use full-HP Focus plus minute30 Gathering Storm for the substantial .65-AP term, rather than losing both adaptive runes for a small finite Overgrowth increase. Compare the health-only page at identical earned stacks; this is a source-based hybrid candidate.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
-- Grasp of the Undying: Only actually earned permanent HP may feed an HP coefficient; proc damage/healing is separate.
-- Font of Life: Separate conditional recovery; it does not enlarge the named native heal, shield or attack packet.
-- Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
-- Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.
-- Legend: Bloodline: 15 earned stacks grant 85 max HP; relevant only to real HP scaling/conversion. Lifesteal remains separate.
-- Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
+- Arcane Comet: Report its independent hit separately from the native Consume champion damage.
+- Manaflow Band: Resource or access utility only; this rune is not a new native damage coefficient.
+- Absolute Focus: The owner starts full HP; evaluate above70% at impact, including any real health cost.
+- Gathering Storm: Minute30 adaptive AP enters the native AP term and actual Deathcap/health conversion without recursive passive credit.
+- Legend: Bloodline: Exactly15 earned stacks provide85HP for the direct HP coefficient and equipped Riftmaker; lifesteal stays separate.
+- Coup de Grace: Apply only to eligible magic damage at the actual victim HP on impact.
 
-Preparation: Overgrowth benchmark: exactly 150 nearby eligible unit deaths (18 completed groups), with its real post-120 modifier. No extra Grasp stacks beyond the authored state; a 30-proc Grasp variant is separate and must record melee/ranged HP actually earned. Legend Bloodline requires 15 earned stacks for its 85 max HP. Lifesteal is a separate effect, not an extra ability-damage multiplier.
+Preparation: Bloodline exactly15 earned stacks; Heartsteel remains at the authored zero earned HP. Read actual max/bonus HP and Riftmaker AP. Gathering Storm minute30. Owner starts full HP; verify Absolute Focus at impact after real costs, incoming damage and any regeneration.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare Resolve primary Overgrowth at exactly150 observed nearby eligible unit deaths, with the same zero Heartsteel HP and target state. Do not grant extra Grasp stacks. Log AP and HP after every equipped conversion. Compare actual native output rather than assuming HP and AP passives multiply recursively.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -6140,7 +6142,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Command: Shockwave (ability-ceiling-orianna-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Orianna — Command: Shockwave: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Orianna commands her Ball to unleash a shockwave, dealing [225 / 350 / 475 + (1.1) × AP] magic damage to nearby enemies and Knocking them in the direction of the Ball. Deathcap multiplies AP; Void Staff and Shadowflame reduce effective MR on magic packets, wit
 
@@ -6150,10 +6152,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -6205,22 +6207,22 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Bellows Breath plus one Brittle detonation (w-brittle-mr-amplification)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Transcendence → Gathering Storm → Legend: Haste → Cut Down. Shards: 5007 / 5001 / 5001.
 
-Ornn — Bellows Breath plus one Brittle detonation: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 W deals 16% enemy max HP over 0.75s; level-18 Brittle adds the source's level-scaled max-HP magic packet when legally detonated. Neither has a direct AP coefficient. Magic penetration, nearby Abyssal Mask and verified conditional amplifiers can improve
+Ornn — Bellows Breath plus Brittle: Both native percentages depend on enemy maximum HP and level/rank, with no caster AD/AP/HP coefficient. Cut Down can help only eligible packets while the victim remains above60%. Sorcery stats and keystone damage cannot be relabeled as stronger W or Brittle; keep the rune/item procs separate.
 
-Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Haste supports setup, while double scaling HP supports survival. None changes the native W/Brittle percentage at fixed level and victim HP; ordinary attack damage is outside the selected W-plus-Brittle score.
 
 - Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison.
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
-- Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
-- Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
+- Transcendence: W and Brittle have no AD/AP coefficient; haste is only basic-ability setup utility, not a larger native percentage.
+- Gathering Storm: Legal-row adaptive utility only; these native W/Brittle percentages have no AD/AP ratio.
 - Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: A separate prepared PTA comparison needs three real qualifying champion attacks before eligible later damage. Do not award PTA from W ticks or claim its trigger burst as native Brittle. Measure native W and the one Brittle detonation with Cut Down re-evaluated per packet; isolate item, rune and physical attack damage.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -6270,22 +6272,22 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Shield Vault initial leap (w-health-ap-leap)
 
-Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Legend: Bloodline → Cut Down. Shards: 5008 / 5001 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5001 / 5001.
 
-Pantheon — one Shield Vault initial leap: Owner maximum or bonus HP enters this specific helper. Scaling-health shards and finite Overgrowth matter; AP, crit and attack speed cannot be substituted for a health coefficient. Ability basis: The initial leap deals an enemy-maximum-HP physical fraction of 6/6.5/7/7.5/8% plus 0.00004 per bonus HP and 0.00015 per AP. Both bonus HP and AP increase that fraction. Although AP scales it, physical mitigation applies; magic penetration does not improve thi
+Pantheon — one Shield Vault initial leap: AP and bonus HP both increase the enemy-health fraction, by0.00015 per AP and0.00004 per bonus HP. With this Deathcap/Riftmaker inventory, full-health Focus plus minute30 Gathering Storm offers a stronger finite candidate than150-unit Overgrowth while retaining Bloodline and both HP shards. The AP ratio still deals physical damage; no magic penetration or ordinary attack proc is added.
 
-Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Adaptive offense feeds the AP coefficient. Flex and defense scaling HP each supply180HP at18, feeding bonus HP directly and Riftmaker AP. Compare actual final stats; AP scaling does not change the leap to magic damage.
 
-- Grasp of the Undying: Only actually earned permanent HP may feed an HP coefficient; proc damage/healing is separate.
-- Font of Life: Separate conditional recovery; it does not enlarge the named native heal, shield or attack packet.
-- Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
-- Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.
-- Legend: Bloodline: 15 earned stacks grant 85 max HP; relevant only to real HP scaling/conversion. Lifesteal remains separate.
-- Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
+- Arcane Comet: Its proc is separate from the selected native physical W packet or packets.
+- Manaflow Band: Mana access utility only; this inventory has no mana-to-AP conversion and W gains no direct mana coefficient.
+- Absolute Focus: The owner starts at100% HP; adaptive AP applies only while actually above70% at each scored impact.
+- Gathering Storm: Minute30 grants48 adaptive AP before the equipped Deathcap modifier; no unbounded game time or free extra combat stacks.
+- Legend: Bloodline: Exactly15 earned stacks provide85HP, feeding the bonus-HP fraction and equipped Riftmaker AP; life-steal recovery is separate.
+- Cut Down: Apply only to each eligible physical impact while the victim actually remains above60% HP; it can expire before a later hit.
 
-Preparation: Overgrowth benchmark: exactly 150 nearby eligible unit deaths (18 completed groups), with its real post-120 modifier. No extra Grasp stacks beyond the authored state; a 30-proc Grasp variant is separate and must record melee/ranged HP actually earned. Legend Bloodline requires 15 earned stacks for its 85 max HP. Lifesteal is a separate effect, not an extra ability-damage multiplier.
+Preparation: Exactly15 legitimately earned Bloodline stacks grant85HP. Keep Heartsteel at the authored0 earned HP; no free Grasp or Overgrowth HP on this selected Sorcery page. Gathering Storm fixed at minute30; owner starts full HP and must remain above70% at actual impact for Focus. Read final AP/HP after Deathcap, Warmog and Riftmaker; no recursive conversion loop. Score one initial leap with current learned R armor penetration recorded; no empowered follow-up attacks or rune/item procs in native W.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare the previous legal page [8437,8463,8429,8451,9103,8017] with exactly150 nearby eligible unit deaths:18 completed groups supply54 flatHP plus the actual post120 modifier. Preserve15 Bloodline stacks, identical Heartsteel HP, items, rank and target state; no extra Grasp HP. Compare observed AP/bonusHP in the native fraction0.08+0.00004*bonusHP+0.00015*AP. Extra Overgrowth HP also feeds Riftmaker, so recompute both stats; Focus can lose its advantage if owner HP falls or the permitted finite health budget changes.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -6412,7 +6414,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -6651,7 +6653,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -6662,9 +6664,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### maximum-Fury Furious Bite (e-fury-true-bite)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Conditioning → Overgrowth. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Biscuit Delivery → Jack Of All Trades. Shards: 5008 / 5008 / 5001.
 
-RekSai — maximum-Fury Furious Bite: Native true damage uses its stated AD/AP/HP coefficient. Absolute Focus/Gathering Storm can change those stats; ordinary penetration and generic finishers are not credited as true-damage multipliers. Ability basis: The current extracted empowered E helper is (170 + 0.6 bonus AD) times 1.2 at rank 5, delivered as true damage at maximum Fury. AD is the direct scaling; armor penetration cannot improve this true packet. Shadowflame is a deliberately unusual slot: its source
+RekSai — maximum-Fury Furious Bite: The native true packet has a real AD coefficient. Replace small indirect Overgrowth conversion with earned biscuit HP plus the actually reached Jack adaptive threshold; keep true-damage amplification as a separate eligibility test. Resistances and penetration are not multipliers on native true damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -6672,12 +6674,12 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
-- Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.
+- Biscuit Delivery: Three actually consumed/sold biscuits provide90HP; only equipped HP-to-AD/AP conversions feed the native true packet.
+- Jack Of All Trades: Read actual purchased-stat diversity; grant8 adaptive force at5 or20 at10 only when the client counter earns it.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Overgrowth: use exactly 150 observed eligible unit deaths for any credited HP; no unlimited growth.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Exactly three consumed/sold biscuits; record actual Jack purchased-stat count and threshold. No ten-stat assumption, bonus damage from penetration, or free rune stacks.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare Conditioning/Overgrowth secondary at exactly150 eligible nearby deaths against the earned Jack/biscuit conversion; log actual final AD/AP instead of assuming either wins. Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Generic finisher amplification is not credited to native true-damage components; Axiom true-ultimate eligibility is a separate explicit test.
 
@@ -6706,9 +6708,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Full Tilt explosion (ceiling-e-single-hit)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Rell — Full Tilt explosion: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E5 bonus explosion is(7%+0.03% perAP)*target maxHP magic. AP raises percent-health term and MR modifiers strengthen it. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and amplify eli
+Rell — Full Tilt explosion: E5 bonus explosion is(7%+0.03% perAP)*target maxHP magic. AP raises percent-health term and MR modifiers strengthen it. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -6716,10 +6718,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -6742,7 +6744,7 @@ Shard reasoning: Offense haste provides cooldown utility; it does not increase t
 
 Preparation: Record three actually consumed/sold biscuits (+90 permanent HP in this snapshot). Do not grant free Grasp HP: keep any already-authored procs fixed; extra earned Grasp stacks are a separate benchmark. Revitalize uses the actual recipient HP and healing stops at full health. Recipient is self. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability.
 
-Comparisons: Compare Overgrowth against Revitalize in separate legal pages; they occupy the same Resolve row and cannot be combined. Use exactly 150 observed nearby unit deaths for the Overgrowth comparison, not unlimited stacks.
+Comparisons: Compare Overgrowth against Revitalize in separate legal pages; they occupy the same Resolve row and cannot be combined. Use exactly 150 observed nearby unit deaths for the Overgrowth comparison, not unlimited stacks. Item comparison: the former Hullbreaker adds 500 item HP plus its actual Warmog conversion, while Dawncore adds 16% static shield power. Compare both legal inventories at the same recorded stacks; count First Light only from the observed regeneration stat and verify modifier order.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -6750,7 +6752,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Leverage apply and consumption (ability-ceiling-p)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Renata — Leverage apply and consumption: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Each passive packet is level-dependent base maxHP fraction+0.02% per AP. One attack applies, one ally hit consumes same fraction; AP/penetration support magic. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true am
 
@@ -6760,10 +6762,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -6880,9 +6882,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### ordinary and empowered Battle Roar sequence (w-double-roar-ap)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Rengar — ordinary and empowered Battle Roar sequence: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Ordinary rank-5 W is 170 + 0.8 AP magic. Empowered W has its own level-table base plus 0.8 AP, so a legally prepared ordinary/empowered pair has 1.6 AP scaling before mitigation. Healing from recent damage and the empowered cleanse are separate outputs. There
+Rengar — ordinary and empowered Battle Roar sequence: Ordinary rank-5 W is 170 + 0.8 AP magic. Empowered W has its own level-table base plus 0.8 AP, so a legally prepared ordinary/empowered pair has 1.6 AP scaling before mitigation. Healing from recent damage and the empowered cleanse are separate outputs. There is no ordinary attack or critical bonus on the roars. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -6890,10 +6892,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -6989,7 +6991,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### The Equalizer (ability-ceiling-rumble-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Rumble — The Equalizer: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rumble launches a line of rockets, creating a burning trail that lasts [4.5] seconds, Slowing by [35]% and dealing [120 / 200 / 280 + (0.35) × AP] magic damage per second. Rumble can control the direction of the trail by clicking and dragging while casting thi
 
@@ -6999,10 +7001,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7010,9 +7012,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Danger Zone Flamespitter duration (q-danger-zone-full-burn)
 
-Runes: Deathfire Touch → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Rumble — one Danger Zone Flamespitter duration: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Normal Q totals 50/75/100/125/150 + 1.05 AP plus 6/6.5/7/7.5/8% enemy maximum HP over three seconds. Danger Zone multiplies both terms by 1.5, giving rank-5 nominal 225 + 1.575 AP + 12% enemy maximum HP for full contact. The displayed total is not the damage o
+Rumble — one Danger Zone Flamespitter duration: Normal Q totals 50/75/100/125/150 + 1.05 AP plus 6/6.5/7/7.5/8% enemy maximum HP over three seconds. Danger Zone multiplies both terms by 1.5, giving rank-5 nominal 225 + 1.575 AP + 12% enemy maximum HP for full contact. The displayed total is not the damage of each tick. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -7020,10 +7022,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7108,7 +7110,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -7163,7 +7165,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Glacial Prison (ability-ceiling-sejuani-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Sejuani — Glacial Prison: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Sejuani throws her True Ice bola, Stunning and revealing the first enemy champion hit for [1] second and dealing [125 / 150 / 175 + (0.4) × AP] magic damage. If the bola travels at least 25% of its range, it Stuns and reveals for [1.5] seconds instead. It then
 
@@ -7173,10 +7175,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7184,22 +7186,22 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### both Winter's Wrath impacts (w-hp-ap-two-hit)
 
-Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Legend: Bloodline → Cut Down. Shards: 5008 / 5001 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5001 / 5001.
 
-Sejuani — both Winter's Wrath impacts: Owner maximum or bonus HP enters this specific helper. Scaling-health shards and finite Overgrowth matter; AP, crit and attack speed cannot be substituted for a health coefficient. Ability basis: The first hit is 5/15/25/35/45 + 0.3 AP + 4% own maximum HP physical; the second is 5/25/45/65/85 + 0.6 AP + 8% own maximum HP physical. Rank-5 nominal two-hit total is 130 + 0.9 AP + 12% own maximum HP. Both packets are physical despite their AP ratios.
+Sejuani — both Winter's Wrath impacts: The two native physical packets total130+0.9AP+12% own maximum HP. With Deathcap/Riftmaker, full-health Focus plus minute30 Gathering Storm supports the substantial AP term while both HP shards and earned Bloodline preserve health scaling. Compare the removed finite150-unit Overgrowth page at identical earned Heartsteel HP; no E/passive burst is added.
 
-Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Adaptive offense feeds the total0.9AP coefficient. Flex and defense scaling HP each supply180HP at18, feeding the combined12% own-max-HP term and Riftmaker AP. Both impacts remain physical.
 
-- Grasp of the Undying: Only actually earned permanent HP may feed an HP coefficient; proc damage/healing is separate.
-- Font of Life: Separate conditional recovery; it does not enlarge the named native heal, shield or attack packet.
-- Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
-- Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.
-- Legend: Bloodline: 15 earned stacks grant 85 max HP; relevant only to real HP scaling/conversion. Lifesteal remains separate.
-- Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
+- Arcane Comet: Its proc is separate from the selected native physical W packet or packets.
+- Manaflow Band: Mana access utility only; this inventory has no mana-to-AP conversion and W gains no direct mana coefficient.
+- Absolute Focus: The owner starts at100% HP; adaptive AP applies only while actually above70% at each scored impact.
+- Gathering Storm: Minute30 grants48 adaptive AP before the equipped Deathcap modifier; no unbounded game time or free extra combat stacks.
+- Legend: Bloodline: Exactly15 earned stacks provide85HP, feeding W's own-max-HP terms and equipped Riftmaker AP; life-steal recovery is separate.
+- Cut Down: Apply only to each eligible physical impact while the victim actually remains above60% HP; it can expire before a later hit.
 
-Preparation: Overgrowth benchmark: exactly 150 nearby eligible unit deaths (18 completed groups), with its real post-120 modifier. No extra Grasp stacks beyond the authored state; a 30-proc Grasp variant is separate and must record melee/ranged HP actually earned. Legend Bloodline requires 15 earned stacks for its 85 max HP. Lifesteal is a separate effect, not an extra ability-damage multiplier.
+Preparation: Exactly15 legitimately earned Bloodline stacks grant85HP. Keep Heartsteel at the authored500 earned HP; no free Grasp or Overgrowth HP on this selected Sorcery page. Gathering Storm fixed at minute30; owner starts full HP and must remain above70% at actual impact for Focus. Read final AP/HP after Deathcap, Warmog and Riftmaker; no recursive conversion loop. Score both real W impacts inside the authored two seconds. Log target HP before each and exclude E, passive shatter, attacks and rune/item procs.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare the previous legal page [8437,8463,8429,8451,9103,8017] with exactly150 nearby eligible unit deaths:18 completed groups supply54 flatHP plus the actual post120 modifier. Preserve15 Bloodline stacks, identical Heartsteel HP, items, rank and target state; no extra Grasp HP. Compare observed AP/maxHP in130+0.9*AP+0.12*maxHP. Extra Overgrowth HP also feeds Riftmaker; do not compare only tooltip AP or ignore its health term. Losing Focus below70% or changing the finite HP budget requires a new comparison.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -7272,7 +7274,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Echoed low-health High Note (ability-ceiling-q)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Seraphine — Echoed low-health High Note: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Q5 caps1.75*(160+0.4 AP) under25% HP. Passive echo casts twice: candidate560+1.4 AP; targetHP may change between hits. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies40% MR penetrat
 
@@ -7282,10 +7284,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7381,9 +7383,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### One isolated Jack in the Box (ceiling-w-full-window)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Shaco — One isolated Jack in the Box: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: W5 single-target shot85+0.18AP; one box fires5s. AP/MR modifiers strengthen actual shots; record count rather than guess cadence. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and a
+Shaco — One isolated Jack in the Box: W5 single-target shot85+0.18AP; one box fires5s. AP/MR modifiers strengthen actual shots; record count rather than guess cadence. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -7391,10 +7393,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7467,7 +7469,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one empowered Twilight Assault magic bonus (q-drag-through-ap)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Shen — one empowered Twilight Assault magic bonus: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: After the blade passes through a champion, rank-5 Q adds its level-based flat term plus (7% + 0.02% per AP) enemy max HP as magic damage on each of three attacks. AP increases the percentage; MR modifiers improve the bonus. Attack speed changes delivery time,
 
@@ -7477,10 +7479,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7511,7 +7513,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### dragon-form Molten Burst impact (e-dragon-molten-burst)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Shyvana — dragon-form Molten Burst impact: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The rank-5 dragon impact helper applies 1.25 times (110 + 0.8 AP) and increases the listed 5% max-health term by the same factor. AP and MR modifiers support that explosion. Confirm the max-health term's target binding against the current client before treatin
 
@@ -7521,10 +7523,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7555,9 +7557,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Five-second Poison Trail (ceiling-q-full-window)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Singed — Five-second Poison Trail: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Q5 deals60+0.425AP per second. R3 adds85AP; five seconds exposure reward AP/magic amplification. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and amplify eligible low-health hits.
+Singed — Five-second Poison Trail: Q5 deals60+0.425AP per second. R3 adds85AP; five seconds exposure reward AP/magic amplification. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -7565,10 +7567,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7576,7 +7578,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Fling champion damage (e-fling-ap)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Singed — Fling champion damage: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 E is 90 + 0.55 AP + 8% enemy max HP magic damage. AP improves the flat term; MR penetration affects both. Rank-3 Insanity Potion can add 85 AP if actually cast and recorded. The poison trail and adhesive root are separate effects, not extra fling multip
 
@@ -7586,10 +7588,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7609,7 +7611,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -7641,7 +7643,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Soul Furnace detonation (w-ap-detonation)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Sion — one Soul Furnace detonation: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: W detonates for 40/65/90/115/140 + 0.4 AP plus 14% enemy maximum HP magic. The shield instead scales with Sion own HP and AP; its remaining capacity is not another damage term. Finite earned W health may affect AP through eligible item conversion, not a direct
 
@@ -7651,10 +7653,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 max HP. Equipped Riftmaker converts that real bonus HP into AP; lifesteal is outside the selected native result.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Earn exactly 15 Bloodline legend stacks before this level-18 trial; record its 85 HP and the resulting equipped Riftmaker bonus-health-to-AP conversion once. No new casts or lifesteal packets enter the selected subtotal.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7708,9 +7710,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Ixtal Impact wall slam (ceiling-e-single-hit)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5001 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5001 / 5001.
 
-Skarner — Ixtal Impact wall slam: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E5 wall slam150+1.2 bonusAD+0.06 totalHP physical. AD package tests large ratio; Edge HP contributes small term; armor penetration applies. Bloodthirster supplies80AD. Hubris supplies AD plus exactly10 credited kills in its90s buff. Profane/Youmuu/Edge addAD/l
+Skarner — Ixtal Impact wall slam: E5 wall slam150+1.2 bonusAD+0.06 totalHP physical. AD package tests large ratio; Edge HP contributes small term; armor penetration applies. Bloodline replaces non-scoring haste: 85 HP directly feeds the slam's 6% own-total-HP term. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the real AD/AP coefficient. Flex and defense scaling health each grant 180 HP at level 18; this helper has direct HP scaling or an explicit HP-to-offense conversion. Compare an adaptive flex shard at fixed final client stats; do not recursively amplify conversions.
 
@@ -7718,10 +7720,10 @@ Shard reasoning: Offense adaptive force feeds only the real AD/AP coefficient. F
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, directly feeding this slam's 6% own-total-HP coefficient; life-steal recovery is separate.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet. Shard comparison: swap only flex scaling health versus adaptive force and read the actual final HP/AD/AP and native output. This is not a claim that health benefits other abilities lacking the coefficient.
 
@@ -7817,7 +7819,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Hymn of Valor (ability-ceiling-sona-q)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Sona — Hymn of Valor: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Sona deals [50 / 85 / 120 / 155 / 190 + (0.4) × AP] magic damage to the nearest two enemies, prioritizing champions. She then begins a new Melody. Gain a stack of Accelerando for every champion you damage with this. Melody: Sona gains an aura for [3] seconds,
 
@@ -7827,10 +7829,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -7874,7 +7876,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 
 Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Jack Of All Trades: read purchased-item stat types and the actual client counter. Credit 8 adaptive force only at five stacks or 20 at ten; rune stats are not purchased item stats.
 
-Comparisons: Compare a separately earned full-Conqueror stat page against the fixed AP baseline, or raw-item stat changes at identical health and minute. Do not count damage amplifiers as stat multipliers.
+Comparisons: Compare a separately earned full-Conqueror stat page against the fixed AP baseline, or raw-item stat changes at identical health and minute. Do not count damage amplifiers as stat multipliers. Item comparison: Zhonya supplies 10 more base AP than the removed Void Staff for this stat objective. Luden plus the equipped Seraph mana conversion is a separate candidate; inspect final AP and actual Jack thresholds rather than assuming a universal item ranking.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -7947,7 +7949,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Five-bolt Death's Hand (ability-ceiling-q)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Swain — Five-bolt Death's Hand: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: All five bolts double180+0.45 AP into360+0.9 AP magic. AP/penetration support close hit; souls do not directly scale Q. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies40% MR penetra
 
@@ -7957,10 +7959,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8109,9 +8111,9 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
 - Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
-- Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
+- Cut Down: Apply the above-60%-victim-HP amplifier only to the eligible magic throw; never multiply the upgraded true-damage packet by it.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Score W magic and upgraded true damage separately: Cut Down may affect the magic packet only while its real health condition holds. AP changes both base throw and true-bonus fraction; do not apply the magic multiplier twice through that relationship.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8121,7 +8123,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Enemy Devour spit (ability-ceiling-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 TahmKench — Enemy Devour spit: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Enemy R3=400+(15%+0.07% per AP) target maxHP magic. Strong AP percentage rewards Deathcap/MR penetration; passive damage not automatically added. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; V
 
@@ -8131,10 +8133,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8142,7 +8144,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Tongue Lash plus one passive application (q-hp-ap-product)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5001 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5001 / 5001.
 
 TahmKench — Tongue Lash plus one passive application: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 Q deals 255 + AP magic damage and applies one passive bonus. The passive contains a level-based base, 4% bonus HP and 0.000125 times bonus HP times AP. This HP-by-AP product makes a mixed health/AP inventory worth testing against all AP. Deathcap and Ri
 
@@ -8152,10 +8154,10 @@ Shard reasoning: Offense adaptive force feeds only the real AD/AP coefficient. F
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet. Shard comparison: swap only flex scaling health versus adaptive force and read the actual final HP/AD/AP and native output. This is not a claim that health benefits other abilities lacking the coefficient.
 
@@ -8186,7 +8188,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Threaded Volley (ability-ceiling-taliyah-q)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Taliyah — Threaded Volley: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Taliyah hurls 5 rocks, each dealing [55 / 72.5 / 90 / 107.5 / 125 + (0.5) × AP] magic damage in an area around the first enemy hit while creating Worked Ground at that area. Subsequent hits against the same enemy deal [60]% less damage. Casts on worked ground
 
@@ -8196,10 +8198,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8381,7 +8383,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Noxious Trap (ability-ceiling-teemo-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Teemo — Noxious Trap: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Teemo tosses a mushroom trap that detonates when stepped on. The traps Slow by [30 / 40 / 50]% and deal [200 / 325 / 450 + (0.5) × AP] magic damage over [4] seconds. Enemies are revealed for the same duration. Traps last [5] minutes and are stealthed. A mushro
 
@@ -8391,10 +8393,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8446,9 +8448,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one first-wall collision of The Box (r-one-wall-ap)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Thresh — one first-wall collision of The Box: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-3 R deals 550 + AP magic damage on a damaging wall collision. Deathcap and MR modifiers exploit the full AP ratio. The five visible walls are not five damage packets against the same champion: after the first wall breaks, remaining walls deal no damage ac
+Thresh — one first-wall collision of The Box: Rank-3 R deals 550 + AP magic damage on a damaging wall collision. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -8456,10 +8458,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8480,7 +8482,7 @@ Shard reasoning: No shard directly changes the shield at fixed soul count. Haste
 - Biscuit Delivery: Three earned consumed/sold biscuits add finite 90 HP; their heal is a separate event.
 - Cosmic Insight: Item/summoner cooldown utility, not direct native ability output.
 
-Preparation: Keep exactly 500 earned souls. Do not count Grasp HP, biscuit HP, Font of Life healing or Guardian/Aery shields as native lantern capacity. Use the real owner low-HP condition for Revitalize. Recipient is self. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability.
+Preparation: Keep exactly 500 earned souls. Do not count Grasp HP, biscuit HP, Font of Life healing or Guardian/Aery shields as native lantern capacity. Use the real owner low-HP condition for Revitalize. Recipient is self. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability. Staff of Flowing Water contributes its purchased 10% heal/shield power and 125% base mana regeneration to Dawncore. No ally-triggered Rapids buff is granted to this self-only shield.
 
 Comparisons: Compare Revitalize with and without its low-recipient-HP condition. Aery/Guardian can be compared as separate extra shields, not upgrades to the lantern base.
 
@@ -8534,7 +8536,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Subjugate (ability-ceiling-trundle-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Trundle — Subjugate: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Trundle drains the lifeforce of an enemy champion, dealing [0.2 / 0.25 / 0.3 + (0.0002) × AP] max Health magic damage and stealing [40]% Armor and Magic Resist over [5] seconds. Deathcap multiplies AP; Void Staff and Shadowflame reduce effective MR on magic pa
 
@@ -8544,10 +8546,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8589,7 +8591,7 @@ Shard reasoning: No shard directly scales this fixed enemy-HP coefficient. Haste
 - Biscuit Delivery: Finite owner health and separate healing are utility, not a larger dead-enemy HP coefficient.
 - Cosmic Insight: Cooldown utility; it does not increase one passive recovery.
 
-Preparation: Recipient is self. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability. Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Recipient is self. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability. No Gathering Storm or Manaflow is selected. Three actually earned consumed/sold biscuits grant 90 HP as survival utility only; Trundle own HP/AP do not scale the dead-enemy-max-HP heal. Keep W active and recipient HP recorded at collection. Staff of Flowing Water contributes its purchased 10% heal/shield power and 125% base mana regeneration to Dawncore. No ally-triggered Rapids buff is granted to this self-only heal.
 
 Comparisons: Keep the dead enemy HP and W state fixed while comparing Revitalize active/inactive and real received-healing modifiers. Do not interpret adaptive AP, Grasp HP or a keystone heal as extra Kings Tribute; no rune page raises the dead enemy HP for this comparison.
 
@@ -8620,20 +8622,20 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Spinning Slash impact (e-hybrid-physical-spin)
 
-Runes: Conqueror → Triumph → Legend: Haste → Last Stand → Transcendence → Gathering Storm. Shards: 5008 / 5008 / 5001.
+Runes: Conqueror → Triumph → Legend: Bloodline → Last Stand → Transcendence → Gathering Storm. Shards: 5008 / 5008 / 5001.
 
-Tryndamere — one Spinning Slash impact: This setup already records 12 earned Conqueror stacks. Keep their real adaptive stats for the coefficient rather than inactive Absolute Focus or a new unearned burst proc. Ability basis: E deals 80/120/160/200/240 + 1.0 bonus AD + 0.8 AP physical. AP is therefore an unusual direct damage route, but magic penetration does not improve the spin. Critical attacks reduce its cooldown; that rule does not mean the spin itself uses an ordinary attack
+Tryndamere — one Spinning Slash impact: E deals 80/120/160/200/240 + 1.0 bonus AD + 0.8 AP physical. AP is therefore an unusual direct damage route, but magic penetration does not improve the spin. Critical attacks reduce its cooldown; that rule does not mean the spin itself uses an ordinary attack critical multiplier. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
 - Conqueror: Adaptive stats enter matching coefficients only at the actual recorded stack count; no free full ramp.
 - Triumph: Takedown sustain/utility only, not added native ability damage or healing.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Last Stand: Owner HP is 30%; apply only eligible non-true damage and re-evaluate if HP changes.
 - Transcendence: Haste/recast utility; no free cooldown refund or extra hit in a fixed action budget.
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
 
-Preparation: Conqueror: exactly 12 already-authored, earned stacks before the scored event; log expiry during long windows. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Conqueror: exactly 12 already-authored, earned stacks before the scored event; log expiry during long windows. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8687,7 +8689,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Contaminate (ability-ceiling-twitch-e)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Twitch — Contaminate: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Deals [20 / 30 / 40 / 50 / 60] physical damage to all nearby enemies affected by Deadly Venom, plus an additional [15 / 20 / 25 / 30 / 35 + (0.35) × AD[statFormula=2]] physical damage and [(0.35) × AP] magical damage per stack of Deadly Venom. Max Damage: [20
 
@@ -8697,10 +8699,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8708,9 +8710,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### six seconds of six-stack Deadly Venom (passive-six-stack-six-seconds)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Conditioning → Overgrowth. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Biscuit Delivery → Jack Of All Trades. Shards: 5008 / 5008 / 5001.
 
-Twitch — six seconds of six-stack Deadly Venom: Native true damage uses its stated AD/AP/HP coefficient. Absolute Focus/Gathering Storm can change those stats; ordinary penetration and generic finishers are not credited as true-damage multipliers. Ability basis: Each Venom stack deals a level-breakpoint base + 0.03 AP true damage per second for six seconds, up to six stacks. At level 18 the base is 5 per stack, so a nominal six-second, six-stack window is 180 + 1.08 AP before actual tick timing and expiry. Magic penet
+Twitch — six seconds of six-stack Deadly Venom: The six-stack poison has a direct 1.08 AP total coefficient over six seconds at the recorded level. Absolute Focus, minute-30 Gathering Storm and actually unlocked Jack adaptive force increase AP. Resolve HP/resistances did not feed this loadout's native true poison, so the secondary page now targets AP instead. No magic penetration or generic finisher amplification is credited to true damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -8718,10 +8720,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
-- Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.
+- Biscuit Delivery: Consumed/sold biscuits add finite HP and survival utility; HP does not scale this true poison or become AP through these equipped items.
+- Jack Of All Trades: This AP/mana/health/haste/armor/MR inventory can reach the 5-item-stat threshold for 8 adaptive force; read the real counter, never assume 10 stacks or 20 force.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Overgrowth: use exactly 150 observed eligible unit deaths for any credited HP; no unlimited growth.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Jack benchmark: verify at least five distinct purchased item stat types in the client, granting 8 adaptive force. This inventory does not justify a free 10-stat threshold. Record final AP including Seraph and Deathcap; no setup attack damage inside the six-second poison score.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8731,9 +8733,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Awakened Wingborne Storm (ceiling-r-full-window)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Udyr — Awakened Wingborne Storm: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R6 deals100+0.35AP per second for4s; awaken adds level-scaled8%-14%+0.035% perAP target maxHP over duration. AP/MR modifiers increase both. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrat
+Udyr — Awakened Wingborne Storm: R6 deals100+0.35AP per second for4s; awaken adds level-scaled8%-14%+0.035% perAP target maxHP over duration. AP/MR modifiers increase both. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -8741,10 +8743,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8773,7 +8775,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one awakened Q attack with isolated lightning (q-awaken-isolated-ap)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Udyr — one awakened Q attack with isolated lightning: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Awakened Q has an AP-scaled magic lightning component even though ordinary Q rewards AD and HP. The source lists six strikes per empowered attack and 0.00006 AP of target maximum HP per strike; isolation controls whether all strikes stay on one target. Ordinar
 
@@ -8783,10 +8785,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8882,7 +8884,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Blighted Quiver (ability-ceiling-varus-w)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Varus — Blighted Quiver: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Passive: Varus' Attacks deal an additional [4 / 13 / 22 / 31 / 40 + (0.25) × AP + (0.15) × AD[statFormula=2]] magic damage and apply a Blight stack for [6] seconds (max [3] stacks). Varus' other Abilities detonate Blight stacks dealing [0.03 / 0.035 / 0.04 / 0
 
@@ -8892,10 +8894,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -8981,9 +8983,9 @@ Shard reasoning: Offense attack speed supports real attack timing and passive pr
 - Triumph: Takedown sustain is utility, not extra native true damage.
 - Legend: Alacrity: Ten earned legend stacks add real attack speed. Compare actual cap and Hail of Blades breakpoint; never invent extra hits.
 
-Preparation: No free Hail of Blades trigger: log the first real champion attack, remaining buff attacks and buff expiry. If the ability needs the AS buff before a channel/swing, that trigger is a separate prepared comparison, not part of an unchanged first-hit baseline. Gathering Storm fixed at authored minute 30; no extra game time. Alacrity: exactly ten earned legend stacks as in the prior attack-window setup; count actual attack and proc events. Extra physical/item damage must not turn post-death hits into scored native damage.
+Preparation: No free Hail of Blades trigger: log the first real champion attack, remaining buff attacks and buff expiry. If the ability needs the AS buff before a channel/swing, that trigger is a separate prepared comparison, not part of an unchanged first-hit baseline. Alacrity: exactly ten earned legend stacks as in the prior attack-window setup; count actual attack and proc events. Extra physical/item damage must not turn post-death hits into scored native damage. Rageblade preparation uses non-champion units while HoB is ready; start the fresh benchmark victim with zero W stacks and the logged Phantom Hit phase. No simultaneous Lethal Tempo stacks. Only the first actual champion attack activates HoB; respect its real three-attack budget and expiry.
 
-Comparisons: Compare Lethal Tempo/Alacrity at the same actual attack-speed cap, attack count, phase and time. Do not assume more AS creates another hit or advances every passive counter.
+Comparisons: Compare a separate six-earned-stack Lethal Tempo page against HoB at actual capped AS and identical Phantom Hit phase. This inventory may already reach the ordinary AS cap; LT cannot be assumed to bypass it. Count real W procs and stop at death.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Generic finisher amplification is not credited to native true-damage components; Axiom true-ultimate eligibility is a separate explicit test.
 
@@ -8991,7 +8993,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Five-hundred-stack Primordial Burst (ability-ceiling-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Veigar — Five-hundred-stack Primordial Burst: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R3 caps2*(325+0.75 AP)=650+1.5 AP under33% HP.500 passive stacks add500 AP enlarged by Deathcap; MR penetration/Shadowflame support hit. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void suppl
 
@@ -9001,10 +9003,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -9035,9 +9037,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Life Form Disintegration Ray (ability-ceiling-velkoz-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Conditioning → Overgrowth. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Biscuit Delivery → Jack Of All Trades. Shards: 5008 / 5008 / 5001.
 
-Velkoz — Life Form Disintegration Ray: Native true damage uses its stated AD/AP/HP coefficient. Absolute Focus/Gathering Storm can change those stats; ordinary penetration and generic finishers are not credited as true-damage multipliers. Ability basis: Vel'Koz channels a ray of energy that follows the cursor, dealing a total of [450 / 700 / 925 + (1.25) × AP] magic damage over 2.5 seconds and Slowing by [20 / 20 / 20]%. Deals true damage instead to enemies recently damaged by {{Spell_VelkozPassive_Name}}. En
+Velkoz — Life Form Disintegration Ray: The native true packet has a real AP coefficient. Replace small indirect Overgrowth conversion with earned biscuit HP plus the actually reached Jack adaptive threshold; keep true-damage amplification as a separate eligibility test. Resistances and penetration are not multipliers on native true damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -9045,12 +9047,12 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
-- Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.
+- Biscuit Delivery: Three actually consumed/sold biscuits provide90HP; only equipped HP-to-AD/AP conversions feed the native true packet.
+- Jack Of All Trades: Read actual purchased-stat diversity; grant8 adaptive force at5 or20 at10 only when the client counter earns it.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Overgrowth: use exactly 150 observed eligible unit deaths for any credited HP; no unlimited growth.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Exactly three consumed/sold biscuits; record actual Jack purchased-stat count and threshold. No ten-stat assumption, bonus damage from penetration, or free rune stacks.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare Conditioning/Overgrowth secondary at exactly150 eligible nearby deaths against the earned Jack/biscuit conversion; log actual final AD/AP instead of assuming either wins. Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Generic finisher amplification is not credited to native true-damage components; Axiom true-ultimate eligibility is a separate explicit test.
 
@@ -9079,9 +9081,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Shadow Surge arrival (ceiling-r-single-hit)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Vex — Shadow Surge arrival: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Helper R3 RecastDamageCalc350+0.5AP; initial missile175+0.2AP excluded. AP/MR modifiers strengthen arrival packet. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and amplify eligible
+Vex — Shadow Surge arrival: Helper R3 RecastDamageCalc350+0.5AP; initial missile175+0.2AP excluded. AP/MR modifiers strengthen arrival packet. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -9089,10 +9091,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -9177,7 +9179,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -9297,7 +9299,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Crimson Rush Transfusion (ability-ceiling-q)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5001 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5001 / 5001.
 
 Vladimir — Crimson Rush Transfusion: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Red Q5=1.85*(160+0.6 AP)=296+1.11 AP magic. Passive1AP/30 bonusHP and1.6 HP/AP do not recurse; actual AP/HP after Riftmaker must be observed. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void
 
@@ -9307,10 +9309,10 @@ Shard reasoning: Compare 180 flex HP through Crimson Pact and equipped Riftmaker
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet. Shard comparison: swap only flex scaling health versus adaptive force and read the actual final HP/AD/AP and native output. This is not a claim that health benefits other abilities lacking the coefficient.
 
@@ -9318,22 +9320,22 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### fully charged Tides of Blood release (e-max-charge-hp-ap)
 
-Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Legend: Bloodline → Cut Down. Shards: 5008 / 5001 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5001 / 5001.
 
-Vladimir — fully charged Tides of Blood release: Owner maximum or bonus HP enters this specific helper. Scaling-health shards and finite Overgrowth matter; AP, crit and attack speed cannot be substituted for a health coefficient. Ability basis: Rank-5 full E is 180 + 6% own maximum HP + 0.8 AP magic damage. Crimson Pact converts external HP and AP without self-recursion, while Riftmaker adds another observed HP-to-AP conversion. This rewards testing both HP and AP slots. Charging costs up to 8% own m
+Vladimir — fully charged Tides of Blood: The helper scales with both HP and AP. Preserve health shards and Bloodline but use full-HP Focus plus minute30 Gathering Storm for the substantial .8-AP term, rather than losing both adaptive runes for a small finite Overgrowth increase. Compare the health-only page at identical earned stacks; this is a source-based hybrid candidate.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
-- Grasp of the Undying: Only actually earned permanent HP may feed an HP coefficient; proc damage/healing is separate.
-- Font of Life: Separate conditional recovery; it does not enlarge the named native heal, shield or attack packet.
-- Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
-- Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.
-- Legend: Bloodline: 15 earned stacks grant 85 max HP; relevant only to real HP scaling/conversion. Lifesteal remains separate.
-- Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
+- Arcane Comet: Report its independent hit separately from the native fully charged Tides of Blood.
+- Nimbus Cloak: Resource or access utility only; this rune is not a new native damage coefficient.
+- Absolute Focus: The owner starts full HP; evaluate above70% at impact, including any real health cost.
+- Gathering Storm: Minute30 adaptive AP enters the native AP term and actual Deathcap/health conversion without recursive passive credit.
+- Legend: Bloodline: Exactly15 earned stacks provide85HP for the direct HP coefficient and equipped Riftmaker; lifesteal stays separate.
+- Cut Down: Apply only to eligible magic damage at the actual victim HP on impact.
 
-Preparation: Overgrowth benchmark: exactly 150 nearby eligible unit deaths (18 completed groups), with its real post-120 modifier. No extra Grasp stacks beyond the authored state; a 30-proc Grasp variant is separate and must record melee/ranged HP actually earned. Legend Bloodline requires 15 earned stacks for its 85 max HP. Lifesteal is a separate effect, not an extra ability-damage multiplier.
+Preparation: Bloodline exactly15 earned stacks; Heartsteel remains at the authored zero earned HP. Read actual max/bonus HP and Riftmaker AP. Gathering Storm minute30. Owner starts full HP; verify Absolute Focus at impact after real costs, incoming damage and any regeneration.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare Resolve primary Overgrowth at exactly150 observed nearby eligible unit deaths, with the same zero Heartsteel HP and target state. Do not grant extra Grasp stacks. Log AP and HP after every equipped conversion. Compare actual native output rather than assuming HP and AP passives multiply recursively.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric.
 
@@ -9372,7 +9374,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -9469,9 +9471,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Jaws of the Beast bite (ceiling-q-single-hit)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
-Warwick — Jaws of the Beast bite: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Q5 is1.2AD+1AP+10% target maxHP MAGIC. AP/MR modifiers exploit1AP; compare AD swap because1.2AD also strong. Deathcap multiplies AP; Zhonya adds105AP; Riftmaker adds bonusHP-to-AP and8% full-ramp damage. Void/Shadowflame penetrate MR and amplify eligible low-h
+Warwick — Jaws of the Beast bite: Q5 is1.2AD+1AP+10% target maxHP MAGIC. AP/MR modifiers exploit1AP; compare AD swap because1.2AD also strong. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -9479,10 +9481,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -9500,7 +9502,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Haste: Basic-ability preparation utility only; it does not reduce this ultimate cooldown or add a cast inside this benchmark.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
 Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
@@ -9599,7 +9601,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one six-shot Rite of the Arcane sequence (r-six-shot-ramp-test)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Xerath — one six-shot Rite of the Arcane sequence: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-3 R permits six shots in ten seconds. Each base helper is 270 + 0.45 AP magic, and the ramp helper is 30 + 0.05 AP per champion hit. Verify whether ramp is applied before or after each hit and what persists across shots; the full ramp must not be granted
 
@@ -9609,10 +9611,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 max HP. Equipped Riftmaker converts that real bonus HP into AP; lifesteal is outside the selected native result.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Earn exactly 15 Bloodline legend stacks before this level-18 trial; record its 85 HP and the resulting equipped Riftmaker bonus-health-to-AP conversion once. No new casts or lifesteal packets enter the selected subtotal.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -9643,9 +9645,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Crescent Guard sweep (r-hybrid-current-health-sweep)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
-XinZhao — one Crescent Guard sweep: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: R deals 75/175/275 + 1.0 bonus AD + 1.1 AP physical plus 15% of enemy current HP. AP has a larger displayed coefficient than bonus AD, while armor still mitigates the packet. The protective zone and knockback are utility, not additional damage.
+XinZhao — one Crescent Guard sweep: R deals 75/175/275 + 1.0 bonus AD + 1.1 AP physical plus 15% of enemy current HP. AP has a larger displayed coefficient than bonus AD, while armor still mitigates the packet. The protective zone and knockback are utility, not additional damage. Bloodline replaces non-scoring haste: 85 HP feeds the equipped Riftmaker HP-to-AP conversion. Keep conditional native modifiers separate from rune proc damage.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -9653,10 +9655,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 HP, which equipped Riftmaker converts into AP; native output gains only through its actual HP/AP coefficients, not life-steal healing.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline benchmark: exactly 15 legitimately earned Legend stacks before measurement, granting 85 max HP. Read actual HP/AP after equipped conversions; with fewer stacks credit no completion HP. No extra attacks are added to the scored action budget.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -9687,7 +9689,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Sweeping Blade (ability-ceiling-yasuo-e)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Yasuo — Sweeping Blade: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Yasuo dashes through a target, dealing [70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP] magic damage. Each use of this Ability grants [(70 / 85 / 100 / 115 / 130 + (0.2) × AD[statFormula=2] + (0.6) × AP) × (0.25)] bonus damage to subsequent
 
@@ -9697,10 +9699,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -9794,9 +9796,9 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Soul Unbound return after a fixed legal sequence (e-recorded-five-second-echo)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Conditioning → Overgrowth. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
 
-Yone — one Soul Unbound return after a fixed legal sequence: Native true damage uses its stated AD/AP/HP coefficient. Absolute Focus/Gathering Storm can change those stats; ordinary penetration and generic finishers are not credited as true-damage multipliers. Ability basis: Rank-5 E repeats 35% of qualifying attack and ability damage dealt to champions during spirit form. The return is tested as its own true-damage event based on already dealt eligible damage; it is not a free AD-ratio strike or 35% of every item/rune packet.
+Yone — one Soul Unbound return after a fixed legal sequence: E has a fixed 35% repeat fraction rather than a direct AD/AP ratio. Actual stats and eligible Cut Down amplification can increase the three-attack/two-Q/one-W recorded physical/magic basis, indirectly increasing the true return. Resolve HP has no matching coefficient or equipped conversion here. Do not apply generic damage amplification to the echo again or assume rune proc damage is recorded.
 
 Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
 
@@ -9804,12 +9806,12 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
-- Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.
+- Legend: Haste: Timing utility only; still exactly three attacks, two Q and one W, with no free casts or Q cooldown assumptions.
+- Cut Down: Can raise eligible physical/magic damage recorded during E while victim HP is above 60%; never multiply the later true echo itself or double-count the stored basis.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Overgrowth: use exactly 150 observed eligible unit deaths for any credited HP; no unlimited growth.
+Preparation: Gathering Storm remains minute 30; Focus requires owner above 70% through each eligible stored damage event. Log actual crit conversion and real action timers. Preserve exactly three attacks, two Q and one W within five seconds. Track target HP per stored packet; Cut Down can stop mid-combo. Compare the actual client-recorded eligible basis and the final true return separately.
 
-Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
+Comparisons: Compare Coup de Grace only in a separately low-health-target trial, or earned Conqueror as separate combat preparation. Keep the legal action budget identical; extra keystone/item damage is included in E storage only after client evidence.
 
 Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Generic finisher amplification is not credited to native true-damage components; Axiom true-ultimate eligibility is a separate explicit test.
 
@@ -9817,7 +9819,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Mourning Mist health chunk (ability-ceiling-e)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Yorick — Mourning Mist health chunk: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: E5=(8+0.03 AP)% target maxHP magic. AP/MR penetration support chunk; its25% armor shred helps ghouls, not E itself. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Void supplies40% MR penetration
 
@@ -9827,10 +9829,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -9859,11 +9861,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Maiden maximum health from one legal summon (r-maiden-maximum-health)
 
-Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Biscuit Delivery → Cosmic Insight. Shards: 5008 / 5001 / 5001.
+Runes: Grasp of the Undying → Font of Life → Conditioning → Overgrowth → Biscuit Delivery → Cosmic Insight. Shards: 5007 / 5001 / 5001.
 
 Yorick — Maiden maximum health from one legal summon: Owner maximum or bonus HP enters this specific helper. Scaling-health shards and finite Overgrowth matter; AP, crit and attack speed cannot be substituted for a health coefficient. Ability basis: The Maiden health helper is a champion-level breakpoint base plus 60% of Yorick bonus HP. Her magic damage uses a separate 50/75/100 + 0.3 bonus AD helper; the mark damage and Mist Walkers are separate effects. This experiment scores Maiden maximum HP, not own
 
-Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Offense haste is delivery/recast utility only. The selected Maiden health helper has no AD/AP ratio, so adaptive force does not increase it. Flex and defense scaling-health shards each grant their actual level-18 HP and feed the explicit bonus-HP coefficient once.
 
 - Grasp of the Undying: Only actually earned permanent HP may feed an HP coefficient; proc damage/healing is separate.
 - Font of Life: Separate conditional recovery; it does not enlarge the named native heal, shield or attack packet.
@@ -9872,7 +9874,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Biscuit Delivery: Three earned consumed/sold biscuits add finite 90 HP; their heal is a separate event.
 - Cosmic Insight: Item/summoner cooldown utility, not direct native ability output.
 
-Preparation: Overgrowth benchmark: exactly 150 nearby eligible unit deaths (18 completed groups), with its real post-120 modifier. No extra Grasp stacks beyond the authored state; a 30-proc Grasp variant is separate and must record melee/ranged HP actually earned.
+Preparation: Preserve exactly 30 already-authored, legally earned Grasp procs and 150 eligible nearby unit deaths (18 completed Overgrowth groups plus its real post-120 modifier). Record actual owner bonus HP at summon, with no further permanent stacks.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -9903,7 +9905,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Arc of Ruin (ability-ceiling-yunara-w)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Yunara — Arc of Ruin: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Yunara lets rip a prayer bead that deals [55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5) × AP] magic damage and Slows by [0.99] decaying over [1.5] seconds. It deals an additional [(55 / 95 / 135 / 175 / 215 + (0.85) × AD[statFormula=2] + (0.5)
 
@@ -9913,10 +9915,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -10014,7 +10016,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Unstable Matter (ability-ceiling-zac-w)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Zac — Unstable Matter: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Zac's body erupts, dealing [40 / 50 / 60 / 70 / 80] + [(4 / 5 / 6 / 7 / 8 + (0.03) × AP) × (0.01)] max Health magic damage to nearby enemies. Absorbing Goo reduces this Ability's Cooldown by 1 second. Deathcap multiplies AP; Void Staff and Shadowflame reduce e
 
@@ -10024,10 +10026,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -10035,7 +10037,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Elastic Slingshot landing (e-slingshot-ap)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Zac — Elastic Slingshot landing: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 E is 240 + 0.8 AP magic damage. Charging changes access and crowd control, not this damage coefficient. Deathcap scales AP; Void and Shadowflame compete with additional AP against MR. Riftmaker's fully ramped 8% damage and HP-to-AP conversion are a cond
 
@@ -10045,10 +10047,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -10056,7 +10058,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Q attachment plus one collision on the original target (q-primary-and-collision)
 
-Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5001 / 5001.
+Runes: Arcane Comet → Nimbus Cloak → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5001 / 5001.
 
 Zac — Q attachment plus one collision on the original target: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Each Q spell packet is 60/90/120/150/180 + 0.30 AP + 3% bonus HP. The original target can receive its attachment packet and one legal collision packet, nominally 360 + 0.60 AP + 6% bonus HP at rank 5.
 
@@ -10066,10 +10068,10 @@ Shard reasoning: Offense adaptive force feeds only the real AD/AP coefficient. F
 - Nimbus Cloak: Summoner-triggered movement utility; not a free damage or stat buff.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 max HP. Equipped Riftmaker converts that real bonus HP into AP; lifesteal is outside the selected native result.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Earn exactly 15 Bloodline legend stacks before this level-18 trial; record its 85 HP and the resulting equipped Riftmaker bonus-health-to-AP conversion once. No new casts or lifesteal packets enter the selected subtotal.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet. Shard comparison: swap only flex scaling health versus adaptive force and read the actual final HP/AD/AP and native output. This is not a claim that health benefits other abilities lacking the coefficient.
 
@@ -10188,7 +10190,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Mega Inferno Bomb (ability-ceiling-ziggs-r)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Ziggs — Mega Inferno Bomb: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Ziggs hurls his ultimate creation, dealing [300 / 500 / 700 + (1) × AP] magic damage in the center of the blast radius, or [(300 / 500 / 700 + (1) × AP) × (0.65)] magic damage at the edge. Deathcap multiplies AP; Void Staff and Shadowflame reduce effective MR
 
@@ -10198,10 +10200,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -10245,7 +10247,7 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility.
 - Revitalize: Native eligible heal/shield modifier; low-HP bonus follows the actual recipient, not automatically the caster.
 
-Preparation: Recipient is ally. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability. Axiom Arcanist is an eligibility candidate for this ultimate heal/shield; verify true source tagging, including Mantra, revive and pet/passive exceptions. Do not infer eligibility from slot R alone. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Recipient is ally. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability. Axiom Arcanist is an eligibility candidate for this ultimate heal/shield; verify true source tagging, including Mantra, revive and pet/passive exceptions. Do not infer eligibility from slot R alone. Gathering Storm fixed at authored minute 30; no extra game time. Revival is its own event class: test Axiom and Revitalize independently on the actual revived HP, with identical target maximum HP. Do not assume ordinary heal modifiers apply to resurrection solely because the tooltip says restoring health.
 
 Comparisons: Compare a real 12-stack Conqueror page with Revitalize at the same recipient state, and AP versus HP shards if missing-health caps limit effective recovery. Extra combat preparation must be logged separately.
 
@@ -10276,7 +10278,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Maximum-distance Paddle Star (ability-ceiling-q)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Zoe — Maximum-distance Paddle Star: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: MaxQ5=2.5*(170+level-dependent base+0.6 AP), hence1.5 AP. Sleep reducesMR30%; E wake true capped230+0.45 AP is separate, not arbitrary doubledQ. Deathcap amplifies AP; Shadowflame supplies15 flat magic penetration/conditional lowHP magic-true amplification; Vo
 
@@ -10286,10 +10288,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -10320,7 +10322,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Stranglethorns (ability-ceiling-zyra-r)
 
-Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Bloodline → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Zyra — Stranglethorns: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Zyra summons the fury of nature, growing a twisted thicket that deals [200 / 300 / 400 + (0.7) × AP] magic damage. After 2 seconds, the vines snap upwards, Knocking Up for [1] second. Zyra's plants within the thicket become enraged, resetting their duration, g
 
@@ -10330,10 +10332,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly15 earned stacks give85HP; equipped Riftmaker converts actual bonus HP into AP for this helper. No additional lifesteal damage or free stacks.
 - Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.
 
-Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.
+Preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline: exactly15 earned legend stacks for85HP; read the actual Riftmaker HP-to-AP result before the scored event.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 
@@ -10341,7 +10343,7 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### four seconds of two enraged Thorn Spitters (passive-two-enraged-plants)
 
-Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
+Runes: Deathfire Touch → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Bloodline → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Zyra — four seconds of two enraged Thorn Spitters: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The plant helper is level-scaled 15 to 75 plus 0.2 AP magic per attack. R says plants gain 50% bonus damage and reset duration, rather than granting a presumed attack-speed multiplier. A level-18 enraged primary hit nominally starts at 112.5 + 0.3 AP before sa
 
@@ -10351,10 +10353,10 @@ Shard reasoning: Offense adaptive force feeds only the actual AD/AP coefficient 
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
 - Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%).
 - Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Legend: Bloodline: Exactly 15 earned stacks grant 85 max HP. Equipped Riftmaker converts that real bonus HP into AP; lifesteal is outside the selected native result.
 - Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Earn exactly 15 Bloodline legend stacks before this level-18 trial; record its 85 HP and the resulting equipped Riftmaker bonus-health-to-AP conversion once. No new casts or lifesteal packets enter the selected subtotal.
 
 Comparisons: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.
 

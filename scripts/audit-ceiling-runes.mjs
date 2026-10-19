@@ -18,6 +18,8 @@ const lines=[
  '',
  'Each authored entry stores its own six runes, three shards, per-rune reasoning, preparation, alternatives and exclusions. Repeated pages can be appropriate for similar coefficients; the selected ability and finite setup determine the reasoning. The app exposes these notes in each build’s test plan and coverage notes, and imports the exact selected page into its test form.',
  '',
+ 'See the [full roster setup audit](ceiling-full-audit.md) for each target’s scaling assessment, corrected/retained decision, source paths and remaining client checks. Its hash-bound ledger detects stale authored setups and changed champion/catalog inputs; it is not a numerical optimization certificate.',
+ '',
  'Preparation is finite: Gathering Storm uses the authored time (usually minute 30); health shards use the recorded level. Overgrowth comparisons specify observed nearby deaths, legend stacks must be earned, and biscuits must actually be received and consumed or sold. Manaflow, item ramp, temporary movement speed, Conqueror and Hail of Blades are never automatically assumed active by these notes. Read the actual client counters and record all preparation when testing. The current damage adapters do not simulate every rune or stat conversion.',
  '',
  'Eligibility matters: generic finishers do not amplify native true damage or stat grants. Axiom is considered for eligible ultimate damage, healing and shielding, not simply every ability in the R slot. Attack speed matters for actual timing/counts or explicit conversions; it does not accelerate fixed-rate attacks. Revitalize is considered against the real heal/shield recipient state. A separate Aery, Guardian, Shield Bash or item packet cannot inflate the native heal/shield/ability measurement.',

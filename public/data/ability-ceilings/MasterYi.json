@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "MasterYi",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-18",
+  "authoredAt": "2026-10-19",
   "builds": [
     {
       "id": "masteryi-ceiling-ability-ceiling-e",
@@ -181,6 +181,96 @@
           "slot": "Q",
           "source": "Characters/MasterYi/Spells/AlphaStrikeAbility/AlphaStrike",
           "formula": "Master Yi becomes Untargetable and teleports to rapidly strike enemies near his target, dealing [20 / 40 / 60 / 80 / 100 + (0.7) × AD] physical damage to all enemies hit after [4] hits. \n\nThis Ability can strike the same enemy repeatedly if there are no other targets, dealing [25]% damage for subsequent hits ([((20 / 40 / 60 / 80 / 100 + (0.7) × AD)) × (0.25)]), for a maximum single target total of [(20 / 40 / 60 / 80 / 100 + (0.7) × AD) × ((1 + (0.25) × ((-1 + 4))))] physical damage."
+        }
+      ]
+    },
+    {
+      "id": "masteryi-ceiling-w-low-health-full-meditate",
+      "champion": "MasterYi",
+      "name": "Meditate: low-health AP recovery",
+      "category": "Ability ceiling",
+      "summary": "Explore high one complete low-health Meditate recovery output under a finite benchmark; compare alternatives without claiming an absolute maximum.",
+      "goal": "Explore high one complete low-health Meditate recovery output under a finite benchmark; compare alternatives without claiming an absolute maximum.",
+      "hypothesis": "W restores 120/200/280/360/440 + 1.0 AP over four seconds, increased by up to 100% based on missing health. Missing health can change during healing, so do not multiply the entire channel by the initial near-double bonus without observing tick rules.",
+      "itemIds": [
+        3089,
+        6621,
+        3504,
+        3107,
+        3222,
+        3065
+      ],
+      "runePage": [
+        8214,
+        8226,
+        8210,
+        8236,
+        8444,
+        8453
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 10000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 10,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "one complete low-health Meditate recovery",
+        "metric": "heal",
+        "damageType": "none",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference victim: 10000 max HP, 100 armor, 50 MR and 100% starting HP. Owner at 10% HP at selected event. No dragons, elixirs or outside allied stat buffs. Record actual final stats and packet eligibility; separate raw from effective output, stop damage at death and cap effective recovery at missing HP. Owner 10% HP at channel start, W rank 5, enough real mana for the initial and per-second costs. Complete one uninterrupted four-second channel with no incoming damage, Grievous Wounds or other heals. Read each tick and actual missing HP.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference victim: 10000 max HP, 100 armor, 50 MR and 100% starting HP. Owner at 10% HP at selected event. No dragons, elixirs or outside allied stat buffs. Record actual final stats and packet eligibility; separate raw from effective output, stop damage at death and cap effective recovery at missing HP. Owner 10% HP at channel start, W rank 5, enough real mana for the initial and per-second costs. Complete one uninterrupted four-second channel with no incoming damage, Grievous Wounds or other heals. Read each tick and actual missing HP.",
+        "Compare AP/heal-power/Visage with HP slots, reporting raw requested healing and capped actual recovery. Track whether scaling snapshots or updates per tick and separate damage reduction from HP restored.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No fixed two-times full-channel multiplier at nonzero HP, healing above max HP counted as effective, incoming damage prevented added as healing, more ticks than the actual cadence or full channel granted after interruption or mana exhaustion."
+      ],
+      "tradeoffs": [
+        "The high recovery requires standing still and may waste much of its raw amount through overheal.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No fixed two-times full-channel multiplier at nonzero HP, healing above max HP counted as effective, incoming damage prevented added as healing, more ticks than the actual cadence or full channel granted after interruption or mana exhaustion.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Meditate",
+          "slot": "W",
+          "source": "Characters/MasterYi/Spells/MeditateAbility/Meditate",
+          "formula": "Master Yi channels, restoring [120 / 200 / 280 / 360 / 440 + (1) × AP] Health over [4] seconds. This healing is increased by up to [100]% based on Master Yi's missing Health.\n\nWhile channeling and for [0.5] seconds afterwards, he takes [(0.45 / 0.475 / 0.5 / 0.525 / 0.55 + 0.25 / 0.225 / 0.2 / 0.175 / 0.15)] reduced damage, decreased to [(0.45 / 0.475 / 0.5 / 0.525 / 0.55) × 100]% after the first [0.5] seconds."
         }
       ]
     }

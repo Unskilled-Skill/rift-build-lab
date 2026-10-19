@@ -1,10 +1,10 @@
-# Ability ceiling review — 2026-10-18
+# Ability ceiling review — 2026-10-19
 
-Patch 26.20: 460 targets across 173 champions.
+Patch 26.20: 476 targets across 173 champions.
 
 All authored targets checked for legal items/resources, source presence, target/form/rank and generated benchmark consistency. Full rune/import contracts are checked by the test suite. This is not numerical certification, a global optimization search, or an in-game test.
 
-The expansion adds 275 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
+The expansion adds 291 targets beyond the first 185. Older authored setups now explicitly carry Gathering Storm time, owner/target HP, finite Heartsteel HP, Rod stacks and item combat preparation into the test form. Ten low-HP damage candidates replace inactive Absolute Focus with an explicitly prepared 12-stack Conqueror/Last Stand alternative; true-damage amplification remains a per-packet eligibility check. Tryndamere's healing experiment uses the healing rune candidate. Form-specific evidence is selected for cougar Takedown instead of the human spear tooltip.
 
 All rows remain candidates. A source expression can still contain unresolved cross-spell helpers; actual proc eligibility, hit order, mitigation, crit inheritance, healing rules and performance in a match require game testing. Inspect the companion JSON for every target's state, source paths and remaining checks. Reproduce with `npm run ability-ceilings && node scripts/audit-ability-ceilings.mjs`.
 
@@ -472,3 +472,19 @@ The current patch reference is [Riot's 26.20 notes](https://www.leagueoflegends.
 | Yuumi | one accelerated Q and five seconds of granted Best Friend on-hits | Q | full-window | speculative | 3 |
 | Senna | one Absolution two-hit current-HP packet | P | single-hit | speculative | 2 |
 | Shyvana | one Inferno Aegis shield with five nearby enemies | W | shield | speculative | 2 |
+| Lucian | one Lightslinger pair with its legally consumed Vigilance procs | P | full-window | speculative | 3 |
+| Braum | armor granted to Braum by one Stand Behind Me | W | stat | speculative | 2 |
+| Kalista | one Sentinel Oathsworn proc on a champion | W | single-hit | speculative | 2 |
+| Gwen | armor and MR granted by one Hallowed Mist | W | stat | speculative | 2 |
+| Lillia | one complete Dream Dust application on a champion | P | full-window | speculative | 3 |
+| Nasus | four seconds of Fury of the Sands aura on one champion | R | full-window | speculative | 3 |
+| Swain | one Ravenous Flock soul recovery | P | heal | speculative | 2 |
+| Vayne | native Silver Bolts damage in four seconds | W | full-window | speculative | 2 |
+| Yone | one Soul Unbound return after a fixed legal sequence | E | single-hit | speculative | 2 |
+| Viego | one Spectral Maw champion hit | W | single-hit | speculative | 1 |
+| MasterYi | one complete low-health Meditate recovery | W | heal | speculative | 2 |
+| Soraka | one Starcall Rejuvenation self-heal | Q | heal | speculative | 2 |
+| Thresh | one Dark Passage shield on Thresh at five hundred souls | W | shield | speculative | 2 |
+| Smolder | one central MMOOOMMMM impact | R | single-hit | speculative | 2 |
+| MissFortune | one complete Make It Rain exposure | E | full-window | speculative | 3 |
+| Riven | one Valor shield while Blade of the Exile is active | E | shield | speculative | 3 |

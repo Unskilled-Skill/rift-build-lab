@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "Vayne",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-18",
+  "authoredAt": "2026-10-19",
   "builds": [
     {
       "id": "vayne-ceiling-ceiling-q-single-hit",
@@ -181,6 +181,96 @@
           "slot": "E",
           "source": "Characters/Vayne/Spells/VayneCondemnAbility/VayneCondemn",
           "formula": "Vayne fires a bolt that Knocks Back and deals [50 / 85 / 120 / 155 / 190 + (0.5) × AD[statFormula=2]] physical damage. If the target collides with terrain, they take [(50 / 85 / 120 / 155 / 190 + (0.5) × AD[statFormula=2]) × (1.5)] bonus physical damage and become Stunned for [1.5] seconds."
+        }
+      ]
+    },
+    {
+      "id": "vayne-ceiling-w-four-second-silver-bolt-rate",
+      "champion": "Vayne",
+      "name": "Silver Bolts: four-second proc rate",
+      "category": "Ability ceiling",
+      "summary": "Explore high native Silver Bolts damage in four seconds output under a finite benchmark; compare alternatives without claiming an absolute maximum.",
+      "goal": "Explore high native Silver Bolts damage in four seconds output under a finite benchmark; compare alternatives without claiming an absolute maximum.",
+      "hypothesis": "Rank-5 W procs for 10% enemy maximum HP true damage, with a 100-damage minimum in source. There is no direct AD or AP ratio; items instead change actual proc cadence and possibly counter behavior. Penetration does not improve the native true packet.",
+      "itemIds": [
+        3124,
+        3091,
+        3046,
+        3085,
+        3115,
+        3006
+      ],
+      "runePage": [
+        8008,
+        9111,
+        9104,
+        8014,
+        8429,
+        8451
+      ],
+      "shards": [
+        5005,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 4,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "W",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "normal"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "W",
+        "targetName": "native Silver Bolts damage in four seconds",
+        "metric": "full-window",
+        "damageType": "true",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference victim: 20000 max HP, 100 armor, 50 MR and 100% starting HP. Owner at 100% HP at selected event. No dragons, elixirs or outside allied stat buffs. Record actual final stats and packet eligibility; separate raw from effective output, stop damage at death and cap effective recovery at missing HP. W rank 5, fresh target counter at zero, one 20000-max-HP enemy champion. Prepare six real Lethal Tempo stacks, ten earned Alacrity stacks and four Rageblade stacks on other units, logging and matching Phantom Hit cycle phase. Attack the benchmark for exactly four seconds with real attack timers. R, Q and E inactive.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference victim: 20000 max HP, 100 armor, 50 MR and 100% starting HP. Owner at 100% HP at selected event. No dragons, elixirs or outside allied stat buffs. Record actual final stats and packet eligibility; separate raw from effective output, stop damage at death and cap effective recovery at missing HP. W rank 5, fresh target counter at zero, one 20000-max-HP enemy champion. Prepare six real Lethal Tempo stacks, ten earned Alacrity stacks and four Rageblade stacks on other units, logging and matching Phantom Hit cycle phase. Attack the benchmark for exactly four seconds with real attack timers. R, Q and E inactive.",
+        "Count actual attacks, counter changes and W packets; compare attack-speed and Rageblade slots at identical prepared state and real elapsed time. Verify Phantom Hit behavior in client. Separate physical attacks and item damage from W-only true damage.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No item AP ratio invented for Silver Bolts, all on-hits assumed to advance W, three target bolts combined onto one victim, free starting two W stacks, monster cap applied to champions or true damage amplified by ordinary penetration. Respect the actual attack-speed cap; surplus attack speed cannot create extra attacks."
+      ],
+      "tradeoffs": [
+        "The high native-W total requires sustained target access and the fragile speed inventory may be unsafe.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No item AP ratio invented for Silver Bolts, all on-hits assumed to advance W, three target bolts combined onto one victim, free starting two W stacks, monster cap applied to champions or true damage amplified by ordinary penetration. Respect the actual attack-speed cap; surplus attack speed cannot create extra attacks.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Silver Bolts",
+          "slot": "W",
+          "source": "Characters/Vayne/Spells/VayneSilveredBoltsAbility/VayneSilveredBolts",
+          "formula": "Passive: Every third consecutive Attack or Ability against an enemy deals an additional [0.04 / 0.055 / 0.07 / 0.085 / 0.1] max Health true damage."
         }
       ]
     }

@@ -18,6 +18,7 @@ import conditionalTargets from '../scripts/ability-ceilings/group-18.json';
 import preparationTargets from '../scripts/ability-ceilings/group-19.json';
 import extendedTargets from '../scripts/ability-ceilings/group-20.json';
 import supportProcTargets from '../scripts/ability-ceilings/group-21.json';
+import resistanceTargets from '../scripts/ability-ceilings/group-22.json';
 import {execFileSync} from 'node:child_process';
 import {parseChatBuilds,toTestSave} from '../src/chat-builds';
 import type {Catalog} from '../src/types';
@@ -25,6 +26,34 @@ import catalog from '../public/data/catalog.json';
 import resources from '../scripts/champion-resources.json';
 import {validateCeilings,ceilingBuild} from '../scripts/ability-ceilings.mjs';
 const candidate={champion:'Blitzcrank',key:'e-punch',name:'E punch',targetSlot:'E',targetName:'Power Fist',metric:'single-hit',damageType:'physical',objective:'One E hit',mechanic:'AD attack',itemIds:[3031,3508,6676,3036,3072,3142],pageKey:'ceilingAD',finiteState:'Level18, rank5, game30min, armor100',test:'Isolate E from proc packets',limits:'No verified absolute maximum',tradeoff:'No boots',confidence:'plausible'};
+it('preserves resistance, sustain and timed true-damage benchmarks in the next ceiling batch',()=>{
+ const data=catalog as unknown as Catalog;
+ expect(validateCeilings(resistanceTargets,data,resources,false)).toHaveLength(16);
+ for(const entry of resistanceTargets){
+  const published=JSON.parse(fs.readFileSync(`public/data/ability-ceilings/${entry.champion}.json`,'utf8'));
+  const b=parseChatBuilds(JSON.stringify(published),data).find(b=>b.id===`${entry.champion.toLowerCase()}-ceiling-${entry.key}`)!;
+  expect(b).toBeDefined();
+  const saved=toTestSave(b,data);
+  expect(saved.scenario).toMatchObject(entry.conditions);
+  expect(saved.requiresManualTest).toBe(true);
+  expect(b.ceiling).toMatchObject({metric:entry.metric,damageType:entry.damageType,verification:'candidate'});
+  if(entry.champion==='Lillia'){
+   const raw=published.builds.find((v:{id:string})=>v.id===b.id) as {kitEvidence:{ability:string;source:string;formula:string}[]};
+   const kit=JSON.parse(fs.readFileSync('public/data/champions/Lillia.json','utf8'));
+   const spell=kit.allSpellRecords.find((v:{internalName:string})=>v.internalName==='LilliaP');
+   expect(raw.kitEvidence).toHaveLength(1);
+   expect(raw.kitEvidence[0]).toMatchObject({ability:entry.targetName,source:spell.path});
+   expect(raw.kitEvidence[0].formula).toContain(`DotPercentTooltip: ${spell.calculations.DotPercentTooltip.expression}`);
+  }
+ }
+ const read=(c:string)=>resistanceTargets.find(e=>e.champion===c)!;
+ expect(read('Vayne')).toMatchObject({metric:'full-window',damageType:'true',conditions:{duration:4,targetHP:20000}});
+ expect(read('Yone')).toMatchObject({metric:'single-hit',damageType:'true',conditions:{duration:5,critMode:'critical'}});
+ expect(read('Riven')).toMatchObject({metric:'shield',damageType:'none',conditions:{healthPercent:30,heartsteelHP:500,duration:1.5}});
+ for(const c of ['Swain','MasterYi'])expect(read(c)).toMatchObject({metric:'heal',conditions:{healthPercent:10}});
+ for(const c of ['Braum','Gwen'])expect(read(c)).toMatchObject({metric:'stat',damageType:'none'});
+ expect(read('Kalista').conditions.combatSeconds).toBe(4);
+});
 it('loads ally-proc, capped-shield and alternate-form experiments with their original evidence and conditions',()=>{
  const data=catalog as unknown as Catalog;
  expect(validateCeilings(supportProcTargets,data,resources,false)).toHaveLength(16);

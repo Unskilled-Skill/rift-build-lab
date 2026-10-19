@@ -3,7 +3,7 @@
   "patch": "26.20",
   "champion": "Lucian",
   "author": "ChatGPT",
-  "authoredAt": "2026-10-18",
+  "authoredAt": "2026-10-19",
   "builds": [
     {
       "id": "lucian-ceiling-ability-ceiling-r",
@@ -181,6 +181,96 @@
           "slot": "Q",
           "source": "Characters/Lucian/Spells/LucianQAbility/LucianQ",
           "formula": "Lucian shoots a bolt of piercing light, dealing [90 / 130 / 170 / 210 / 250 + (1) × AD[statFormula=2]] physical damage."
+        }
+      ]
+    },
+    {
+      "id": "lucian-ceiling-p-vigilance-critical-double-shot",
+      "champion": "Lucian",
+      "name": "Lightslinger: crit pair and Vigilance",
+      "category": "Ability ceiling",
+      "summary": "Explore high one Lightslinger pair with its legally consumed Vigilance procs output under a finite benchmark; compare alternatives without claiming an absolute maximum.",
+      "goal": "Explore high one Lightslinger pair with its legally consumed Vigilance procs output under a finite benchmark; compare alternatives without claiming an absolute maximum.",
+      "hypothesis": "At level 18 the second shot helper is 60% total AD physical damage, separate from the first attack. Vigilance adds 5 + 0.15 total AD magic damage to qualifying attacks after a real ally heal/shield or nearby immobilization. Verify whether the two shots consume two charges and inherit crit/procs independently.",
+      "itemIds": [
+        3031,
+        3508,
+        6676,
+        3036,
+        3072,
+        6697
+      ],
+      "runePage": [
+        8369,
+        8321,
+        8345,
+        8347,
+        8233,
+        8236
+      ],
+      "shards": [
+        5008,
+        5008,
+        5011
+      ],
+      "conditions": {
+        "level": 18,
+        "rank": 5,
+        "eRank": 5,
+        "mana": 1500,
+        "duration": 2,
+        "mr": 50,
+        "armor": 100,
+        "targetHP": 20000,
+        "heartsteelHP": 0,
+        "conquerorStacks": 0,
+        "combatSeconds": 0,
+        "objectiveSlot": "P",
+        "gatheringMinutes": 30,
+        "healthPercent": 100,
+        "targetHealthPercent": 100,
+        "rodStacks": 0,
+        "critMode": "critical"
+      },
+      "requiresManualTest": true,
+      "ceiling": {
+        "targetSlot": "P",
+        "targetName": "one Lightslinger pair with its legally consumed Vigilance procs",
+        "metric": "full-window",
+        "damageType": "mixed",
+        "finiteState": "Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference victim: 20000 max HP, 100 armor, 50 MR and 100% starting HP. Owner at 100% HP at selected event. No dragons, elixirs or outside allied stat buffs. Record actual final stats and packet eligibility; separate raw from effective output, stop damage at death and cap effective recovery at missing HP. Exactly 10 earned Hubris kills with temporary buff active. Use one legal non-damaging E to ready Lightslinger and one ordinary ally Lulu E shield without stat-granting item/rune buffs to prepare Vigilance. Fire exactly one two-shot attack within the 3.5-second passive window. Inventory actual crit chance is 100%; no Q/W/R or next attack in scoring.",
+        "verification": "candidate"
+      },
+      "testPlan": [
+        "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference victim: 20000 max HP, 100 armor, 50 MR and 100% starting HP. Owner at 100% HP at selected event. No dragons, elixirs or outside allied stat buffs. Record actual final stats and packet eligibility; separate raw from effective output, stop damage at death and cap effective recovery at missing HP. Exactly 10 earned Hubris kills with temporary buff active. Use one legal non-damaging E to ready Lightslinger and one ordinary ally Lulu E shield without stat-granting item/rune buffs to prepare Vigilance. Fire exactly one two-shot attack within the 3.5-second passive window. Inventory actual crit chance is 100%; no Q/W/R or next attack in scoring.",
+        "Log first physical shot, second physical shot, actual Vigilance magic events and item/rune procs separately. Compare full crit/AD against raw AD or penetration and verify both second-shot crit scaling and real Vigilance charge consumption.",
+        "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
+        "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
+      ],
+      "failureConditions": [
+        "The candidate loses the intended packet gain after real mitigation, charge restrictions, proc behavior or buff eligibility is measured.",
+        "No minion 100%-AD second-shot rule on champions, ordinary attack core added twice, two Vigilance procs granted merely from wording, magic packets given physical penetration or one Spellblade cooldown ignored across shots."
+      ],
+      "tradeoffs": [
+        "The full pair requires a prepared passive and legitimate external Vigilance trigger and may lose value when a shot is blocked.",
+        "Confidence: speculative. This is a finite-condition ceiling candidate, not a solver-certified global maximum or a recommended match build."
+      ],
+      "buyOrder": [
+        "This is a late six-item ceiling loadout. Compare individual item swaps at fixed level, earned stacks and target conditions; the displayed order is not a lane shopping order.",
+        "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
+      ],
+      "coverageNotes": [
+        "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
+        "No minion 100%-AD second-shot rule on champions, ordinary attack core added twice, two Vigilance procs granted merely from wording, magic packets given physical penetration or one Spellblade cooldown ignored across shots.",
+        "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
+      ],
+      "author": "ChatGPT",
+      "kitEvidence": [
+        {
+          "ability": "Lightslinger",
+          "slot": "Passive",
+          "source": "Characters/Lucian/Spells/LucianPassiveAbility/LucianPassive",
+          "formula": "After using an Ability, Lucian's next Attack within [3.5] seconds will fire two shots. The second shot deals [(characterLevelBreakpoints(start=0.5, perLevel=0, changes=[{\"mLevel\": 7, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 13, \"mAdditionalBonusAtThisLevel\": 0.05000000074505806, \"__type\": \"Breakpoint\"}, {\"mLevel\": 19, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}, {\"mLevel\": 25, \"mAdditionalBonusAtThisLevel\": 0.10000000149011612, \"__type\": \"Breakpoint\"}])) × AD] physical damage to the target, increased to [(1) × AD] against minions.\n\nVigilance: When Lucian is directly healed or shielded by an ally, or when a nearby enemy Champion is Immobilized, his pistols become Overcharged with energy, causing his next [2] basic attacks to deal an additional [5 + (0.15) × AD] magic damage."
         }
       ]
     }

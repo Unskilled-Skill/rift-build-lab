@@ -20,10 +20,11 @@ function List({title,items,ordered}:{title:string;items:string[];ordered?:boolea
  return <SourceDetails className="plan-detail" summary={title}>{()=> <Tag>{items.map((line,n)=><li key={n}>{line}</li>)}</Tag>}</SourceDetails>;
 }
 // Header, then the actions bar, then the order beside the rune page, then the reasoning behind disclosures.
-export default function BuildPlanView({data,plan,actions,children}:{data:Catalog;plan:BuildPlan;actions?:ReactNode;children?:ReactNode}){
+// layout 'timeline' lays stages out as cards above a full-width rune row; hideFinal skips the final grid when the caller shows its own.
+export default function BuildPlanView({data,plan,actions,children,lead,hideFinal,layout='columns'}:{data:Catalog;plan:BuildPlan;actions?:ReactNode;children?:ReactNode;lead?:ReactNode;hideFinal?:boolean;layout?:'columns'|'timeline'}){
  const heading=useId(),champion=data.champions.find(c=>c.alias===plan.champion)?.name||plan.champion;
- const final=plan.stages.find(s=>s.id==='final'),stages=plan.stages.filter(s=>s.id!=='final');
- return <article className="plan-view" aria-labelledby={heading}>
+ const final=hideFinal?undefined:plan.stages.find(s=>s.id==='final'),stages=plan.stages.filter(s=>s.id!=='final');
+ return <article className={`plan-view is-${layout}`} aria-labelledby={heading}>
   <header className="plan-header">
    <p className="plan-chips"><span className="plan-chip is-category">{plan.category}</span><span className="plan-chip">{champion} · {roleLabels[plan.role]}</span><span className="plan-chip">Patch {plan.patch}</span></p>
    <h3 id={heading}>{plan.name}</h3>
@@ -31,6 +32,7 @@ export default function BuildPlanView({data,plan,actions,children}:{data:Catalog
    {plan.summary!==plan.goal&&<p className="plan-summary">{plan.summary}</p>}
    <p className="plan-meta">{plan.checkedAt&&<>Checked {plan.checkedAt} · </>}Items {provenanceLabels[plan.provenance.items].toLowerCase()} · Runes {provenanceLabels[plan.provenance.runes].toLowerCase()}{plan.sourceURL&&<> · <a href={plan.sourceURL} target="_blank" rel="noreferrer">Source<ExternalLink size={12} aria-hidden="true"/></a></>}</p>
   </header>
+  {lead}
   {actions}
   <div className="plan-body">
    <section className="plan-order" aria-label="Purchase order">

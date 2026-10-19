@@ -96,3 +96,41 @@ it('distinguishes ultimate eligibility, fixed attack rates, health conversions a
  expect(find('Pyke','R').runePlan.shards).toEqual([5008,5001,5001]);
  expect(find('Shen','R').runePlan.shards.slice(1)).toEqual([5001,5001]);
 });
+
+it('keeps the AP coefficient on native true damage instead of treating the packet as rune-invariant',()=>{
+ const e=entries.find(e=>e.champion==='Velkoz'&&e.key==='passive-three-stack-true');
+ const kit=JSON.parse(fs.readFileSync('public/data/champions/Velkoz.json','utf8'));
+ const source=kit.allSpellRecords.find((s:{internalName:string})=>s.internalName==='VelkozPassive');
+ expect(source.calculations.TotalDamage.expression).toContain('(0.6) × AP');
+ expect(e.runePlan.runes).toEqual([8229,8226,8233,8236,8345,8316]);
+ expect(e.runePlan.shards).toEqual([5008,5008,5001]);
+ expect(e.runePlan.runeReasons.find((r:string)=>r.startsWith('Gathering Storm:'))).toContain('0.6 AP');
+ expect(e.runePlan.exclusions.join(' ')).not.toContain('rune-invariant');
+ expect(e.runePlan.alternatives.join(' ')).toContain('do not grant twelve free stacks');
+ const build=ceilingBuild(e,kit,catalog,resources) as {kitEvidence:{formula:string}[]};
+ expect(build.kitEvidence.some(s=>s.formula===source.tooltipWithSymbolicValues)).toBe(true);
+});
+
+it('uses direct adaptive scaling for hybrid AP/resistance hits while preserving health scaling on Galio W',()=>{
+ const targets=[
+  ['Taric','ability-ceiling-e'],
+  ['Malphite','w-armor-first-hit'],
+  ['Malphite','e-armor-ap-shield-state'],
+  ['Malphite','e-armor-ap-hybrid'],
+  ['Galio','r-bonus-mr-landing'],
+  ['Galio','passive-ad-mr-crossover']
+ ];
+ for(const [champion,key] of targets){
+  const e=entries.find(e=>e.champion===champion&&e.key===key);
+  expect(e.runePlan.shards,`${champion}/${key}`).toEqual([5008,5008,5001]);
+  expect(e.runePlan.shardReason).toMatch(/AP/);
+ }
+ const reduction=entries.find(e=>e.champion==='Galio'&&e.key==='w-ap-mr-hp-damage-reduction');
+ expect(reduction.runePlan.shards).toEqual([5008,5001,5001]);
+ expect(reduction.runePlan.shardReason).toContain('0.0004 AP');
+ expect(reduction.runePlan.shardReason).toContain('0.0001 bonus-HP');
+ // Armor-only and flat-percent packets must not inherit these AP shard choices.
+ expect(find('Taric','P').runePlan.shards[0]).toBe(5007);
+ expect(find('Rammus','W').runePlan.shards[0]).toBe(5007);
+ expect(find('JarvanIV','P').runePlan.shards[0]).toBe(5007);
+});

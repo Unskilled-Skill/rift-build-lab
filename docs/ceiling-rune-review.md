@@ -10,6 +10,8 @@ Preparation is finite: Gathering Storm uses the authored time (usually minute 30
 
 Eligibility matters: generic finishers do not amplify native true damage or stat grants. Axiom is considered for eligible ultimate damage, healing and shielding, not simply every ability in the R slot. Attack speed matters for actual timing/counts or explicit conversions; it does not accelerate fixed-rate attacks. Revitalize is considered against the real heal/shield recipient state. A separate Aery, Guardian, Shield Bash or item packet cannot inflate the native heal/shield/ability measurement.
 
+Coefficient follow-up: Vel’Koz Deconstruction explicitly includes 0.6 AP; its true damage therefore benefits from AP stats even though penetration and generic damage finishers do not apply. Galio P/R, Malphite W/E and Taric E use adaptive offense/flex shards for their actual AP/AD terms alongside resistance scaling. Galio W uses adaptive offense for its AP term while retaining health flex for its independent bonus-HP term. Pure resistance or flat-percent objectives retain their distinct utility choices; this is not a uniform adaptive-shard rule.
+
 Sources: detailed coefficients and rune text use the repository’s extracted catalog and champion snapshot. Riot references: [26.20 patch](https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-20-notes/), [Axiom changes in 25.5](https://www.leagueoflegends.com/en-au/news/game-updates/patch-25-05-notes/), [Press the Attack changes in 14.10](https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-10-notes/), and [Azir / Hail of Blades in 26.16](https://www.leagueoflegends.com/en-gb/news/game-updates/league-of-legends-patch-26-16-notes/). Unresolved pet, true-damage, transformed ability and snapshot interactions remain explicit manual checks.
 
 Reproduce: `npm run ability-ceilings`, `node scripts/audit-ability-ceilings.mjs`, `node scripts/audit-ceiling-runes.mjs`. Full structured plans are also in [the companion audit JSON](ability-ceiling-review.json).
@@ -2276,11 +2278,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Colossal Smash magic attack event (passive-ad-mr-crossover)
 
-Runes: Summon Aery → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5007 / 5001 / 5001.
+Runes: Summon Aery → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Galio — Colossal Smash magic attack event: The baseline has no prior active Aftershock; some authored setups explicitly forbid it. AP/adaptive stats and an eligible health-state modifier can improve the stated hybrid helper without granting an extra immobilization event. Axiom is used only for the eligible R landing. Ability basis: Colossal Smash contains a level-based base plus total AD + 0.4 AP + 0.6 bonus MR as magic damage. Flat AD therefore directly competes with AP and bonus MR for the chosen hit. Banshee supports both AP and MR terms; Jak'Sho requires earned ramp. The total-AD ter
 
-Shard reasoning: Offense haste is utility for this stat/flat-coefficient objective; it is not extra damage per hit. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Colossal Smash uses total AD, 0.4 AP and 0.6 bonus MR. Both adaptive shards feed the actual client-selected AD/AP term; this mixed inventory must use the observed adaptive type, not both conversions. Haste and health do not directly scale this one packet. Defense scaling health is utility.
 
 - Summon Aery: Aery damage/shield is a separate packet; do not fold it into native ability capacity or damage.
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
@@ -2297,11 +2299,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Hero's Entrance landing impact (r-bonus-mr-landing)
 
-Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5007 / 5001 / 5001.
+Runes: Arcane Comet → Axiom Arcanist → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Galio — one Hero's Entrance landing impact: The baseline has no prior active Aftershock; some authored setups explicitly forbid it. AP/adaptive stats and an eligible health-state modifier can improve the stated hybrid helper without granting an extra immobilization event. Axiom is used only for the eligible R landing. Ability basis: The landing helper is 150/250/350 + 0.70 AP + 1.0 bonus magic resist as magic damage. Defensive MR can therefore feed this offensive packet, while the ally magic shield is a different output.
 
-Shard reasoning: Offense haste is utility for this stat/flat-coefficient objective; it is not extra damage per hit. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: The landing has a 0.70 AP coefficient in addition to bonus MR. Offense and flex adaptive force feed that AP term in this AP inventory. Neither haste nor health is a direct landing coefficient; defense scaling health is utility. Keep the ally shield and any rune proc outside this damage packet.
 
 - Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison.
 - Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone.
@@ -2318,11 +2320,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Shield of Durand magic-damage reduction percentage (w-ap-mr-hp-damage-reduction)
 
-Runes: Aftershock → Font of Life → Conditioning → Overgrowth → Absolute Focus → Gathering Storm. Shards: 5007 / 5001 / 5001.
+Runes: Aftershock → Font of Life → Conditioning → Overgrowth → Absolute Focus → Gathering Storm. Shards: 5008 / 5001 / 5001.
 
 Galio — Shield of Durand magic-damage reduction percentage: This stat uses AP, bonus MR and bonus HP. Conditioning, finite Overgrowth and adaptive AP each feed those explicit coefficients. W own taunt can trigger Aftershock only after release; any resulting reduction change is measured in the real linger, not credited during the earlier charge. Ability basis: Rank-5 magic reduction helper is 0.45 + 0.0004 AP + 0.0008 bonus MR + 0.0001 bonus HP. Physical reduction is half the corresponding magic helper. These three scaling axes can produce high raw values, but caps, actual damage rules and modifier order must be mea
 
-Shard reasoning: Offense haste is utility for this stat/flat-coefficient objective; it is not extra damage per hit. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Offense adaptive force supplies AP to the 0.0004 AP reduction coefficient; haste does not directly increase that percentage. Flex and defense scaling health feed the separate 0.0001 bonus-HP coefficient at the recorded level. Also record actual bonus MR, eligibility of Aftershock after release, and client caps.
 
 - Aftershock: Only real, timely immobilization grants the capped resist buff; do not improve its own triggering hit retroactively.
 - Font of Life: Separate conditional recovery; it does not enlarge the named native heal, shield or attack packet.
@@ -4943,11 +4945,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Ground Slam armor and AP hit (e-armor-ap-hybrid)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5007 / 5001 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Coup de Grace. Shards: 5008 / 5008 / 5001.
 
 Malphite — Ground Slam armor and AP hit: The baseline has no prior active Aftershock; some authored setups explicitly forbid it. AP/adaptive stats and an eligible health-state modifier can improve the stated hybrid helper without granting an extra immobilization event. Axiom is used only for the eligible R landing. Ability basis: Rank-5 E is 200 + 0.4 total armor + 0.6 AP magic damage. Zhonya combines armor and AP; Frozen Heart and Thornmail test armor slots against pure AP, while Deathcap multiplies the AP portion. Void and Shadowflame are magic penetration because armor scaling does
 
-Shard reasoning: Offense haste is utility for this stat/flat-coefficient objective; it is not extra damage per hit. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Ground Slam uses 0.6 AP plus 0.4 total armor. Offense and flex adaptive force increase AP in this Deathcap inventory; health and haste do not directly raise one E hit. Defense scaling health is survival utility. Do not multiply observed final armor a second time.
 
 - Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison.
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
@@ -4964,11 +4966,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Thunderclap initial attack bonus (w-armor-first-hit)
 
-Runes: Summon Aery → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5007 / 5001 / 5001.
+Runes: Summon Aery → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Malphite — one Thunderclap initial attack bonus: The baseline has no prior active Aftershock; some authored setups explicitly forbid it. AP/adaptive stats and an eligible health-state modifier can improve the stated hybrid helper without granting an extra immobilization event. Axiom is used only for the eligible R landing. Ability basis: The initial W attack bonus is 30/40/50/60/70 + 0.2 AP + 0.15 total armor physical. W also increases armor, tripling that passive increase while Granite Shield is active. Use the resulting observed armor once; do not multiply it again. The directional aftershoc
 
-Shard reasoning: Offense haste is utility for this stat/flat-coefficient objective; it is not extra damage per hit. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: The selected initial W bonus has a 0.2 AP coefficient as well as 0.15 total armor. Zhonya supplies AP in this inventory; verify that adaptive force resolves to AP. Both adaptive shards feed that AP term, while haste and health cannot directly enlarge this one bonus. The ordinary delivery attack and directional aftershock remain separate.
 
 - Summon Aery: Aery damage/shield is a separate packet; do not fold it into native ability capacity or damage.
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
@@ -4985,11 +4987,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Ground Slam with Granite Shield active (e-armor-ap-shield-state)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5007 / 5001 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Malphite — one Ground Slam with Granite Shield active: The baseline has no prior active Aftershock; some authored setups explicitly forbid it. AP/adaptive stats and an eligible health-state modifier can improve the stated hybrid helper without granting an extra immobilization event. Axiom is used only for the eligible R landing. Ability basis: E deals 60/95/130/165/200 + 0.40 total armor + 0.60 AP magic damage. Armor can therefore raise offense; W and Granite Shield can change actual armor, so measure final armor in the real shield state.
 
-Shard reasoning: Offense haste is utility for this stat/flat-coefficient objective; it is not extra damage per hit. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Ground Slam uses 0.6 AP plus 0.4 total armor, with no native HP coefficient. Offense and flex adaptive force increase the AP term in this AP inventory. Haste affects cooldown rather than this one hit; defense scaling health is survival utility. Record the actual W/Granite Shield armor state separately.
 
 - Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison.
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
@@ -8314,11 +8316,11 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### Bastion Dazzle beam (ability-ceiling-e)
 
-Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5007 / 5001 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Legend: Haste → Cut Down. Shards: 5008 / 5008 / 5001.
 
 Taric — Bastion Dazzle beam: The baseline has no prior active Aftershock; some authored setups explicitly forbid it. AP/adaptive stats and an eligible health-state modifier can improve the stated hybrid helper without granting an extra immobilization event. Axiom is used only for the eligible R landing. Ability basis: E5=250+0.5 AP+0.5 bonusArmor magic. Zhonya funds both ratios; JakSho/armor fund bonusArmor; MR penetration supports delivery. Zhonya105 AP/50 armor feeds both E ratios; Deathcap amplifies AP; JakSho ramps bonusArmor; Thornmail/FrozenHeart75 armor each; Void im
 
-Shard reasoning: Offense haste is utility for this stat/flat-coefficient objective; it is not extra damage per hit. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.
+Shard reasoning: Dazzle has a 0.5 AP coefficient as well as bonus-armor scaling. Offense and flex adaptive force resolve to AP in this AP inventory and raise one native E hit; haste and health have no direct coefficient in that hit. Defense scaling health remains survival utility.
 
 - Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison.
 - Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
@@ -9054,24 +9056,24 @@ Limits: No numerical/global optimum is certified; unsupported rune interactions 
 
 ### one Organic Deconstruction true-damage packet (passive-three-stack-true)
 
-Runes: Stormraider's Surge → Manaflow Band → Transcendence → Gathering Storm → Presence of Mind → Legend: Haste. Shards: 5007 / 5001 / 5001.
+Runes: Arcane Comet → Manaflow Band → Absolute Focus → Gathering Storm → Biscuit Delivery → Jack Of All Trades. Shards: 5008 / 5008 / 5001.
 
-Velkoz — one Organic Deconstruction true-damage packet: The named threshold, stun duration or level-only true packet has no matching rune-stat coefficient. This legal utility page does not claim to raise that number. Ability basis: The third Deconstruction stack deals a level-scaled 35 to 180 plus 0.6 AP true damage. Attacks refresh the stack duration but do not add a new stack. Magic penetration does not increase the selected true packet; AP and mana-to-AP stat conversions are the exper
+Velkoz — one Organic Deconstruction true-damage packet: The source helper is level-scaled base plus 0.6 AP, so this is not rune-invariant. Absolute Focus, fixed-time Gathering Storm and earned Jack adaptive force raise the AP term. Earned Manaflow can contribute through the equipped Seraph conversion. Magic penetration and generic damage finishers do not enlarge this native true packet.
 
-Shard reasoning: Shards are resource/survival utility for this fixed metric, not a claim of a higher threshold or longer stun.
+Shard reasoning: Offense and flex adaptive force resolve to AP in this AP inventory and directly feed the 0.6 AP passive coefficient. Haste and scaling-health flex do not directly enlarge one detonation. Defense scaling health remains survival utility. Apply actual Deathcap and Seraph conversion rules once, using observed final AP.
 
-- Stormraider's Surge: Movement is utility unless the selected helper really converts speed into stats; trigger must be earned.
-- Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats.
-- Transcendence: Haste/recast utility; no free cooldown refund or extra hit in a fixed action budget.
-- Gathering Storm: Does not change this fixed metric; retain only as utility for other kit damage.
-- Presence of Mind: Resource uptime; no direct damage coefficient or free mana/energy refill.
-- Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.
+- Arcane Comet: Separate proc damage; do not add Comet to the selected native Deconstruction number.
+- Manaflow Band: Only actually earned maximum mana can feed the equipped Seraph mana-to-AP conversion; record final AP.
+- Absolute Focus: Owner starts at 100% HP; AP applies only while health stays above 70%, including at detonation.
+- Gathering Storm: Minute-30 adaptive AP feeds the 0.6 AP native true-damage ratio; it is not a damage amplifier.
+- Biscuit Delivery: Earned biscuit health is survival utility here, not an AP or passive true-damage coefficient.
+- Jack Of All Trades: Count actual purchased stat types; grant only the observed 5/10-stat threshold adaptive bonus, not free ten-stack force.
 
-Preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.
+Preparation: Keep the two legitimate existing Deconstruction stacks inside their seven-second duration and trigger one real third application. Read final AP and owner HP at the detonation; exclude setup and delivery spell damage. Keep Gathering Storm at minute 30 and Rod at the authored ten earned stacks. Earn Manaflow procs before crediting any mana-to-AP increase; inspect the actual Seraph and Jack counters. Record only actually received and consumed/sold biscuits. Their healing and Comet damage are separate events, outside native passive output.
 
-Comparisons: Changing damage keystones can change separate hits or make an execute easier to reach, but cannot change this recorded threshold/duration/base true packet. Verify the metric itself before counting a gain.
+Comparisons: Compare Conqueror/Presence of Mind/Legend: Haste/Coup de Grace with Absolute Focus/Gathering Storm secondary. Log the stacks actually earned by the setup and triggering spell, their timing and adaptive AP at detonation; do not grant twelve free stacks or amplify true damage with Coup de Grace. Use a penetration-only change as a negative control: native true damage should not gain from penetration. Compare with the same rank, level, final AP and one detonation, keeping all additional rune/item procs separate.
 
-Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Generic finisher amplification is not credited to native true-damage components; Axiom true-ultimate eligibility is a separate explicit test. A different legal page does not change this rune-invariant metric at fixed level/stacks/lethality.
+Limits: No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Native Deconstruction has an AP ratio. Generic damage amplifiers, magic penetration, Axiom and separate proc damage are not multipliers on that true packet. Ability-applied stacks are not attacks; auto attacks refresh existing Deconstruction duration without creating a new stack. Count any Conqueror preparation separately from Deconstruction stacks.
 
 ## Vex
 

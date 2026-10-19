@@ -9,4 +9,5 @@ import './improvements.css';
 import './meta.css';
 import './taste.css';
 import './comparison-lab.css';
+import './build-redesign.css';
 createRoot(document.getElementById('root')!).render(<React.StrictMode><ProviderRefreshProvider><App/></ProviderRefreshProvider></React.StrictMode>);

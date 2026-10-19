@@ -27,10 +27,15 @@ it('renders the build header, goal, purchase stages, runes and authored detail i
  for(const line of authored.tradeoffs)expect(t).toContain(line.slice(0,40));
  expect(html).toContain('aria-labelledby');
 });
+it('puts the actions bar between the header and the purchase order',()=>{
+ const t=text(renderToString(<BuildPlanView data={data} plan={authored} actions={<p>ACTIONS</p>}/>));
+ expect(t.indexOf(authored.goal)).toBeLessThan(t.indexOf('ACTIONS'));expect(t.indexOf('ACTIONS')).toBeLessThan(t.indexOf('Purchase order'));
+ expect(t.indexOf('Final build')).toBeLessThan(t.indexOf('Purchase order'));
+});
 it('states unavailable stages plainly instead of inventing starting or recall items',()=>{
  const t=text(renderToString(<PurchaseStages data={data} stages={authored.stages}/>));
- expect(t).toMatch(/Starting purchase.*Not available for this build/);expect(t).toMatch(/First recall options.*Inferred.*Tear of the Goddess/);
- const t2=text(renderToString(<BuildPlanView data={data} plan={ceiling}/>));expect(t2).toContain('Ability ceiling');expect(t2).toContain('Not available for this build');
+ expect(t).toMatch(/Starting purchase.*not available for this build/);expect(t.match(/not available for this build/g)).toHaveLength(1);expect(t).toMatch(/First recall options.*Inferred.*Tear of the Goddess/);
+ const t2=text(renderToString(<BuildPlanView data={data} plan={ceiling}/>));expect(t2).toContain('Ability ceiling');expect(t2).toContain('not available for this build');
 });
 it('renders choose-one options as alternatives and counts repeated consumables',()=>{
  const t=text(renderToString(<PurchaseStages data={data} stages={meta.stages}/>));

@@ -6,6 +6,7 @@ import type {BuildPlan} from './build-plan';
 import PurchaseStages,{provenanceLabels} from './PurchaseStages';
 import RunePreview from './RunePreview';
 import SourceDetails from './SourceDetails';
+import {appPath} from './hosting';
 import './build-plan.css';
 const roleLabels:Record<BuildPlan['role'],string>={top:'Top',jungle:'Jungle',mid:'Mid',adc:'Bot',support:'Support',unspecified:'Any role'};
 const orderNotes:Record<BuildPlan['provenance']['order'],string>={
@@ -18,22 +19,34 @@ function List({title,items,ordered}:{title:string;items:string[];ordered?:boolea
  if(!items.length)return null;const Tag=ordered?'ol':'ul';
  return <SourceDetails className="plan-detail" summary={title}>{()=> <Tag>{items.map((line,n)=><li key={n}>{line}</li>)}</Tag>}</SourceDetails>;
 }
-export default function BuildPlanView({data,plan,actions}:{data:Catalog;plan:BuildPlan;actions?:ReactNode}){
+// Header, then the actions bar, then the order beside the rune page, then the reasoning behind disclosures.
+export default function BuildPlanView({data,plan,actions,children}:{data:Catalog;plan:BuildPlan;actions?:ReactNode;children?:ReactNode}){
  const heading=useId(),champion=data.champions.find(c=>c.alias===plan.champion)?.name||plan.champion;
+ const final=plan.stages.find(s=>s.id==='final'),stages=plan.stages.filter(s=>s.id!=='final');
  return <article className="plan-view" aria-labelledby={heading}>
   <header className="plan-header">
-   <p className="eyebrow">{champion} · {roleLabels[plan.role]} · {plan.category}</p>
+   <p className="plan-chips"><span className="plan-chip is-category">{plan.category}</span><span className="plan-chip">{champion} · {roleLabels[plan.role]}</span><span className="plan-chip">Patch {plan.patch}</span></p>
    <h3 id={heading}>{plan.name}</h3>
-   <p className="plan-meta">Patch {plan.patch}{plan.checkedAt&&<> · Checked {plan.checkedAt}</>} · Items {provenanceLabels[plan.provenance.items].toLowerCase()} · Runes {provenanceLabels[plan.provenance.runes].toLowerCase()}{plan.sourceURL&&<> · <a href={plan.sourceURL} target="_blank" rel="noreferrer">Source<ExternalLink size={12} aria-hidden="true"/></a></>}</p>
    <p className="plan-goal">{plan.goal}</p>
    {plan.summary!==plan.goal&&<p className="plan-summary">{plan.summary}</p>}
+   <p className="plan-meta">{plan.checkedAt&&<>Checked {plan.checkedAt} · </>}Items {provenanceLabels[plan.provenance.items].toLowerCase()} · Runes {provenanceLabels[plan.provenance.runes].toLowerCase()}{plan.sourceURL&&<> · <a href={plan.sourceURL} target="_blank" rel="noreferrer">Source<ExternalLink size={12} aria-hidden="true"/></a></>}</p>
   </header>
-  <section aria-label="Purchase order"><h4 className="plan-section-title">Purchase order</h4><p className="footnote">{orderNotes[plan.provenance.order]}</p><PurchaseStages data={data} stages={plan.stages}/></section>
-  <section aria-label="Rune page"><h4 className="plan-section-title">Rune page</h4><RunePreview data={data} runes={plan.runePage} shards={plan.shards}/></section>
   {actions}
-  <List title="Why these items and runes" items={plan.rationale}/>
-  <List title="Authored priorities" items={plan.authoredPriorities} ordered/>
-  <List title="Tradeoffs" items={plan.tradeoffs}/>
-  <List title="Calculator and coverage limits" items={plan.limits}/>
+  <div className="plan-body">
+   <section className="plan-order" aria-label="Purchase order">
+    {final&&<div className="plan-final"><div className="plan-section-row"><h4 className="plan-section-title">Final build</h4>{final.cumulativeGold!==undefined&&<small className="plan-gold">{final.cumulativeGold.toLocaleString('en-US')}g total</small>}</div>
+     <ul className="plan-final-items" aria-label="Final build items">{final.buy.map((id,n)=>{const item=data.items.find(i=>i.id===id);return <li key={`${id}-${n}`} title={item?.name}><img src={item?.iconUrl||appPath('/item-placeholder.svg')} alt="" width={44} height={44} loading="lazy"/><span>{item?.name||`Unknown item ${id}`}</span></li>})}</ul></div>}
+    <div className="plan-section-row"><h4 className="plan-section-title">Purchase order</h4><span className="footnote">{orderNotes[plan.provenance.order]}</span></div>
+    <PurchaseStages data={data} stages={stages} provenance={plan.provenance.order==='inferred'?undefined:plan.provenance.items}/>
+   </section>
+   <section className="plan-runes" aria-label="Rune page"><h4 className="plan-section-title">Rune page</h4><RunePreview data={data} runes={plan.runePage} shards={plan.shards}/></section>
+  </div>
+  <div className="plan-details">
+   <List title="Why these items and runes" items={plan.rationale}/>
+   <List title="Authored priorities" items={plan.authoredPriorities} ordered/>
+   <List title="Tradeoffs" items={plan.tradeoffs}/>
+   <List title="Calculator and coverage limits" items={plan.limits}/>
+   {children}
+  </div>
  </article>;
 }

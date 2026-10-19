@@ -22,17 +22,17 @@
         6694
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
-        8233,
-        8236
+        8439,
+        8463,
+        8429,
+        8242,
+        9105,
+        8014
       ],
       "shards": [
-        5008,
-        5008,
-        5011
+        5007,
+        5001,
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -64,6 +64,10 @@
       "testPlan": [
         "Finite benchmark: Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Legal self masterwork recorded; JakSho/Force of Nature ramped. Loaded form: owner 100% HP, target 30% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 5s, Gathering Storm minute 30.",
         "Same-patch practice/custom test with exact state: record Searing Charge collision tooltip, observed AP/AD/HP/mana/resists, per-packet damage/protection and final targetHP. Compare one legal item swap at a time, separating setup damage, rune/item procs and ordinary attack. Verify raw helper/statFormula mappings and conditional multipliers before treating result as established.",
+        "Rune reasoning: Ornn — Searing Charge collision: The selected helper uses armor and/or MR. Conditioning is direct resistance value at minute 30. Aftershock and Unflinching are conditional resistance variants; AP/AD, attack speed and Shield Bash are not substitutes for the resist coefficient. Ability basis: E5 is260+0.4 bonusArmor+0.4 bonusMR via Stat1/6[statFormula=2]. Ornn passive/ramped JakSho increase these; Serylda applies armor penetration to physical E. JakSho boosts bonus resists after5s combat; fully stacked Force of Nature adds70MR. Randuin/Thornmail ea Aftershock: Only real, timely immobilization grants the capped resist buff; do not improve its own triggering hit retroactively. Font of Life: Separate conditional recovery; it does not enlarge the named native heal, shield or attack packet. Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility. Unflinching: Conditional resistances require actual incoming CC and a matching timer; no permanently active bonus. Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark. Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.",
+        "Rune preparation: Conditioning is active after minute 12. Baseline receives no Aftershock or Unflinching resistances unless the authored events really trigger them. A prepared comparison needs real immobilization before scoring and/or actual incoming CC inside the short buff timers. Same-hit Aftershock is not assumed to improve the hit that triggers it.",
+        "Rune comparison: Compare an Absolute Focus/Gathering Storm page when AP or AD also scales this helper, versus the real prepared resistance page. Measure client stats and caps instead of recursively multiplying resistance buffs.",
+        "Stat shards: Offense haste is utility for this stat/flat-coefficient objective; it is not extra damage per hit. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -80,6 +84,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native single-hit benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "Charge and shockwave do not both damage same victim; no arbitrary masterworks/stat mapping. Raw statFormula=2/Stat identifiers remain source evidence until runtime mapping confirmed; no unspecified stats/stacks granted.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
@@ -111,17 +116,17 @@
         3020
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
+        8229,
+        8226,
         8233,
-        8236
+        8236,
+        9105,
+        8017
       ],
       "shards": [
         5008,
         5008,
-        5011
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -154,6 +159,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, maximum selected ability rank, minute 30. Enemy benchmark is 3000 max HP, 100 armor and 50 MR before named debuffs. No dragons, elixirs, allied stat buffs or free permanent stacks. Read actual stats and item/rune states from the client. Report raw potential separately from damage actually dealt; no post-death packets. Target remains in W for 0.75s, then one legal Ornn attack consumes Brittle. Abyssal range maintained. Riftmaker pre-ramped on separate combat; Shojin uses only a legally observed stack count, not an assumed four stacks. No ally CC, masterwork stat allocations or free upgrades. Loaded owner HP 100%, target HP 100%, prior champion combat 4s; Gathering Storm minute 30 if selected. Earned Heartsteel HP is 0.",
         "Separate W ticks, Brittle magic and physical delivery. Compare Void against a pure AP slot to demonstrate the absence of AP scaling, then Shojin with reachable stacks versus an alternative access item. Repeat at low/high MR and above/below 40% target HP; record which amplifiers actually affect Brittle.",
+        "Rune reasoning: Ornn — Bellows Breath plus one Brittle detonation: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-5 W deals 16% enemy max HP over 0.75s; level-18 Brittle adds the source's level-scaled max-HP magic packet when legally detonated. Neither has a direct AP coefficient. Magic penetration, nearby Abyssal Mask and verified conditional amplifiers can improve Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison. Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats. Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%). Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark. Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.",
+        "Rune preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.",
+        "Rune comparison: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -170,6 +179,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native full-window benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "Do not count Brittle twice, grant full Shojin without a legal setup, apply armor penetration to magic or call two-event damage a single hit. Masterwork stat amplification requires earned upgrades and observed actual stats.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
@@ -201,17 +211,17 @@
         3102
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
+        8229,
+        8224,
         8233,
-        8236
+        8236,
+        9105,
+        8017
       ],
       "shards": [
         5008,
         5008,
-        5011
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -244,6 +254,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Reference enemy: 20000 maximum HP, 100 armor, 50 MR, starting current HP 100%. Owner starts at 100% HP. No dragons, elixirs or external allied buffs. Record actual final stats and eligible rune modifiers. Stop at target death and keep raw and effective output separate. Seraph is legitimately transformed. Rod has exactly 10 earned stacks. One incoming elemental and one successfully redirected elemental both contact the same surviving champion in a five-second observation. No pre-existing Brittle, attacks, W, allied CC or Masterwork item upgrades.",
         "Compare one and two native impacts, then AP/penetration swaps. Log Brittle consumption/reapplication and any damage it causes separately so a full legal combo can be compared alongside the R-only subtotal.",
+        "Rune reasoning: Ornn — two native Call of the Forge God impacts: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Each elemental pass deals 125/175/225 + 0.20 AP magic damage. Rank-3 two-pass native total is 450 + 0.40 AP. The incoming pass applies Brittle, and the redirected knock-up can interact with it; any Brittle detonation is a separately recorded max-HP packet. Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison. Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone. Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%). Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark. Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.",
+        "Rune preparation: Axiom targets eligible native ultimate output. Check single-target versus area classification, and pet/on-hit/transform/true-damage exceptions. Its takedown refund is not extra damage inside one fixed cast. Gathering Storm fixed at authored minute 30; no extra game time.",
+        "Rune comparison: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -260,6 +274,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native full-window benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "No Brittle percentage treated as AP scaling, free third pass, headbutt auto counted as a third native impact or two Brittle detonations assumed without distinct legal consumption events.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."

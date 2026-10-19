@@ -22,17 +22,17 @@
         6696
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
+        8229,
+        8226,
         8233,
-        8236
+        8236,
+        8345,
+        8316
       ],
       "shards": [
         5008,
-        5008,
-        5011
+        5001,
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -64,6 +64,10 @@
       "testPlan": [
         "Finite benchmark: Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Level18;10 Hubris kills active; one cast. Hubris exactly10 credited kills, buff active90s; unbounded kills/time have no finite global maximum. Loaded form: owner 100% HP, target 30% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 0s, Gathering Storm minute 30.",
         "Same-patch practice/custom test with exact state: record Death from Below threshold tooltip, observed AP/AD/HP/mana/resists, per-packet damage/protection and final targetHP. Compare one legal item swap at a time, separating setup damage, rune/item procs and ordinary attack. Verify raw helper/statFormula mappings and conditional multipliers before treating result as established.",
+        "Rune reasoning: Pyke — Death from Below threshold: The threshold uses bonus AD and lethality. Focus/Gathering Storm and actual Jack adaptive force can raise AD, while finite biscuit health can pass through Pyke HP-to-AD conversion. Damage amplifiers, Comet and Axiom are not threshold HP. Ability basis: R threshold is source level-breakpoint base+0.8 bonusAD+1.5 lethality(Stat29). AD/lethality directly raise HP threshold; passive converts Edge health to AD. Bloodthirster adds80AD; Hubris has exactly10 kills. Profane/Youmuu/Edge/Axiom Arc supply lethality; Edg Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison. Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats. Absolute Focus: Adaptive stats only while the owner stays above 70% HP (starts at 100%). Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Biscuit Delivery: Three earned consumed/sold biscuits add finite 90 HP; their heal is a separate event. Jack Of All Trades: Actual purchased-item stat variety grants adaptive force only at the observed 5/10 thresholds; read the real client stack count.",
+        "Rune preparation: Exactly three earned consumed/sold biscuits for 90 raw bonus HP, converted by actual Pyke passive rules. Scaling-health shards are also read through that conversion; do not grant retained HP as well. Read the actual Jack purchased-stat counter and award 8 adaptive force at five or 20 at ten only when present. Keep minute 30 and above-70% owner HP for Focus.",
+        "Rune comparison: Compare a separately earned twelve-stack Conqueror threshold with Focus/Gathering Storm. Extra combat preparation is outside this unchanged baseline. Keep item lethality and threshold AD fixed while toggling damage runes: a larger R damage packet is not a higher execute threshold.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -80,6 +84,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native execute-threshold benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "Threshold not damage; above-threshold physical hit50% threshold; no crit/armorpen multiplier; uncapped Hubris/time has no finite global max. Raw statFormula=2/Stat identifiers remain source evidence until runtime mapping confirmed; no unspecified stats/stacks granted.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
@@ -111,17 +116,17 @@
         3142
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
-        8233,
-        8236
+        8230,
+        8226,
+        8210,
+        8236,
+        8009,
+        9105
       ],
       "shards": [
-        5008,
-        5008,
-        5011
+        5007,
+        5001,
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -154,6 +159,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. One real E phantom crosses one champion with zero tenacity, no CC immunity, cleanse or spell shield. Record actual lethality at impact and stun start/end times. No Hubris kill buff or additional AD needed for this stat baseline; item damage procs and E health damage remain outside the selected duration.",
         "Swap a lethality item against AD-only or utility and compare nominal duration. Repeat with known target tenacity as a separate observed-duration test. Check whether the dash path actually allows the returning phantom to connect.",
+        "Rune reasoning: Pyke — Phantom Undertow nominal stun duration: The named threshold, stun duration or level-only true packet has no matching rune-stat coefficient. This legal utility page does not claim to raise that number. Ability basis: E stun duration is 1.25 + 0.01 times lethality seconds in the source helper. Its physical damage instead uses 100/150/200/250/300 + 1.0 bonus AD. This experiment targets crowd-control duration, so more AD, AP or removed shield health is not added as seconds. Stormraider's Surge: Movement is utility unless the selected helper really converts speed into stats; trigger must be earned. Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats. Transcendence: Haste/recast utility; no free cooldown refund or extra hit in a fixed action budget. Gathering Storm: Does not change this fixed metric; retain only as utility for other kit damage. Presence of Mind: Resource uptime; no direct damage coefficient or free mana/energy refill. Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark.",
+        "Rune preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.",
+        "Rune comparison: Changing damage keystones can change separate hits or make an execute easier to reach, but cannot change this recorded threshold/duration/base true packet. Verify the metric itself before counting a gain.",
+        "Stat shards: Shards are resource/survival utility for this fixed metric, not a claim of a higher threshold or longer stun.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -170,6 +179,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native stat benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. A different legal page does not change this rune-invariant metric at fixed level/stacks/lethality. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "No infinite lethality, AD-to-stun conversion, E damage added as duration or target tenacity ignored when claiming observed CC. Bastionbreaker and other item procs do not extend the stun by their damage.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."

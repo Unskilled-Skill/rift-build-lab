@@ -22,17 +22,17 @@
         4633
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
+        8229,
+        8226,
         8233,
-        8236
+        8236,
+        9105,
+        8014
       ],
       "shards": [
         5008,
         5008,
-        5011
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -64,6 +64,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready. Loaded form: owner 100% HP, target 29% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 5s, Gathering Storm minute 30.",
         "Apply exactly six poison stacks, E once; exclude poison ticks and test physical versus magic packet splits. Log raw kit packet(s), post-mitigation damage and separate item/rune packets; repeat at 100% target HP and swap one item at a time. First Strike must be ready and champion initiates; compare eligible bonus separately.",
+        "Rune reasoning: Twitch — Contaminate: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Deals [20 / 30 / 40 / 50 / 60] physical damage to all nearby enemies affected by Deadly Venom, plus an additional [15 / 20 / 25 / 30 / 35 + (0.35) × AD[statFormula=2]] physical damage and [(0.35) × AP] magical damage per stack of Deadly Venom. Max Damage: [20 Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison. Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats. Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%). Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark. Coup de Grace: Eligible non-true damage only below 40% victim HP; not active on a healthy first hit.",
+        "Rune preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.",
+        "Rune comparison: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -80,6 +84,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native single-hit benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Generic finisher amplification is not credited to native true-damage components; Axiom true-ultimate eligibility is a separate explicit test. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "Highest-number candidate, not proof of mathematical maximum. Stored helper/statFormula or symbolic fields remain unresolved: validate live stat meanings/tick rules, do not silently infer. Unlimited game time changes Gathering Storm; no finite global maximum over unrestricted time. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
@@ -111,17 +116,17 @@
         3102
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
+        8992,
+        8226,
         8233,
-        8236
+        8236,
+        8429,
+        8451
       ],
       "shards": [
         5008,
         5008,
-        5011
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -154,6 +159,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 6s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers. Gathering Storm at minute 30 if selected; no free permanent stacks. Stop observed damage scoring on death, cap observed healing at missing HP, and report raw output separately. Exactly six legally applied stacks, with the duration freshly refreshed at the observation start; setup attack/W damage excluded. Seraph transformed and Rod exactly 10 earned stacks. A 10000-max-HP victim survives the whole six seconds. Record health after preparation and adjust the loaded start health if needed. No attacks or E inside the scored window.",
         "Count actual ticks and stack expiry, comparing one versus six stacks. Swap a mana/AP slot for another AP slot using real Seraph conversion. Use a magic-penetration-only change as a negative core-damage control. Report First Strike or other proc packets separately.",
+        "Rune reasoning: Twitch — six seconds of six-stack Deadly Venom: Native true damage uses its stated AD/AP/HP coefficient. Absolute Focus/Gathering Storm can change those stats; ordinary penetration and generic finishers are not credited as true-damage multipliers. Ability basis: Each Venom stack deals a level-breakpoint base + 0.03 AP true damage per second for six seconds, up to six stacks. At level 18 the base is 5 per stack, so a nominal six-second, six-stack window is 180 + 1.08 AP before actual tick timing and expiry. Magic penet Deathfire Touch: Burn is a separate packet with real refresh/ramp rules, not extra native ticks. Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats. Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%). Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility. Overgrowth: Finite 150 nearby-unit benchmark; HP helps only matching coefficients or real item conversions.",
+        "Rune preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion. Overgrowth: use exactly 150 observed eligible unit deaths for any credited HP; no unlimited growth.",
+        "Rune comparison: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -170,6 +179,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native full-window benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. Generic finisher amplification is not credited to native true-damage components; Axiom true-ultimate eligibility is a separate explicit test. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "No six stacks granted without setup, damage before the scored window repeated in the total, unlimited refresh duration or generic amplification automatically applied to true damage. Luden's supplies AP/mana here; its separate damage proc is not part of the true poison score.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."

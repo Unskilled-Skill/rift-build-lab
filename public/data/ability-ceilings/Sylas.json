@@ -26,13 +26,13 @@
         8226,
         8210,
         8236,
-        8444,
+        8429,
         8453
       ],
       "shards": [
         5008,
-        5008,
-        5011
+        5001,
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -64,6 +64,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, selected ability max rank; minute 30, no external ally buffs or dragons, 3000 max-HP target with 1500 bonus HP, 100 armor/50 MR and 29% starting HP unless objective overrides. Heartsteel exactly 500 earned HP if present; self 10% HP for Bloodmail. Seraph earned from fully stacked Tear. Rune gathering time fixed at 30min; item combat ramps ready. Loaded form: owner 10% HP, target 29% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 0s, Gathering Storm minute 30.",
         "Self starts at 10% HP, W champion once with enough missing HP; score W heal separately from rune/item healing. Log raw kit packet(s), post-mitigation damage and separate item/rune packets; repeat at 100% target HP and swap one item at a time. First Strike must be ready and champion initiates; compare eligible bonus separately.",
+        "Rune reasoning: Sylas — Kingslayer: AP or adaptive stats enter the native heal/shield helper. Gathering Storm is fixed at minute 30; Absolute Focus is selected only above 70% owner HP. Revitalize is tested on the actual recipient rather than assuming low owner HP means low ally HP. Ability basis: Sylas lunges at an enemy with magical force dealing [75 / 110 / 145 / 180 / 215 + (0.6) × AP] magic damage. Against champions, Sylas restores between [20 / 40 / 60 / 80 / 100 + (0.3) × AP + (0.05) × Stat(12)[statFormula=2]] and [(20 / 40 / 60 / 80 / 100 + (0.3 Summon Aery: Aery damage/shield is a separate packet; do not fold it into native ability capacity or damage. Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats. Transcendence: Haste/recast utility; no free cooldown refund or extra hit in a fixed action budget. Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility. Revitalize: Native eligible heal/shield modifier; low-HP bonus follows the actual recipient, not automatically the caster.",
+        "Rune preparation: Recipient is self. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability. Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.",
+        "Rune comparison: Compare a real 12-stack Conqueror page with Revitalize at the same recipient state, and AP versus HP shards if missing-health caps limit effective recovery. Extra combat preparation must be logged separately.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex scaling health adds finite max HP; only a recorded HP coefficient or equipped conversion turns that into native output. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -80,6 +84,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native heal benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "Highest-number candidate, not proof of mathematical maximum. Stored helper/statFormula or symbolic fields remain unresolved: validate live stat meanings/tick rules, do not silently infer. Unlimited game time changes Gathering Storm; no finite global maximum over unrestricted time. Damage cannot exceed remaining HP as an observed health loss; record theoretical packet separately. Crit does not automatically multiply spells/pets/procs.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
@@ -111,17 +116,17 @@
         3102
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
+        8229,
+        8226,
         8233,
-        8236
+        8236,
+        9105,
+        8017
       ],
       "shards": [
         5008,
         5008,
-        5011
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -154,6 +159,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, selected ability maximum learned rank, minute 30. Enemy champion: 3000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 100%, observation 3.5s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; no free permanent stacks. Gathering Storm at minute 30 if selected. Stop observed scoring on death and report raw overkill separately. Seraph legally transformed. Opening dash legally used, followed by one chain within its 3.5-second recast window. The scored champion is the first enemy hit; no minion or other enemy blocks the chain. No passive attacks or stolen ultimate included.",
         "Compare raw AP and penetration slots at fixed MR. Record whether the chain hit the intended victim, a minion, or nothing. Measure the passive attack after E only as a separately labeled combo.",
+        "Rune reasoning: Sylas — one Abduct chain hit: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: The E recast deals 80/130/180/230/280 + 0.8 AP magic to the first enemy hit. The opening dash enables the recast but does not supply another full damaging E packet. Petricite Burst attacks are separate effects. Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison. Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats. Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%). Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark. Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.",
+        "Rune preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.",
+        "Rune comparison: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -170,6 +179,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native single-hit benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "No E1 damage invented, chain passing through intervening units, or passive attacks counted as core Abduct. The broad E slot in a partial calculator cannot certify the delivery and all item effects.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
@@ -202,8 +212,8 @@
       ],
       "runePage": [
         8010,
-        9111,
-        9105,
+        8009,
+        9103,
         8299,
         8210,
         8236
@@ -211,7 +221,7 @@
       "shards": [
         5008,
         5008,
-        5011
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -244,6 +254,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Enemy champion: 10000 maximum HP, 100 armor and 50 MR. Owner HP 30%, target HP 100%, observation 3s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Exactly one legal passive charge prepared by an actual available spell. Exactly 10 earned Hubris kills with temporary buff, 500 earned Heartsteel HP, owner 30% and 12 earned Conqueror stacks. Record actual total AD/AP and Bloodmail conversion. One primary target, no delivery spell damage or surrounding-victim sum included.",
         "Swap AD, AP and magic-penetration slots at fixed MR. Compare primary versus nearby secondary victim as separate targets. Test ordinary and critical attack interactions through actual observations rather than granting an entire-helper multiplier; item on-hits remain separate.",
+        "Rune reasoning: Sylas — one primary-target Petricite Burst attack: This setup already records 12 earned Conqueror stacks. Keep their real adaptive stats for the coefficient rather than inactive Absolute Focus or a new unearned burst proc. Ability basis: The primary passive attack helper is 1.3 total AD + 0.3 AP magic, while surrounding enemies use only 0.4 total AD + 0.2 AP. The primary helper already replaces the ordinary attack contribution; it is not a full physical basic attack plus that magic amount. AD Conqueror: Adaptive stats enter matching coefficients only at the actual recorded stack count; no free full ramp. Presence of Mind: Resource uptime; no direct damage coefficient or free mana/energy refill. Legend: Bloodline: 15 earned stacks grant 85 max HP; relevant only to real HP scaling/conversion. Lifesteal remains separate. Last Stand: Owner HP is 30%; apply only eligible non-true damage and re-evaluate if HP changes. Transcendence: Haste/recast utility; no free cooldown refund or extra hit in a fixed action budget. Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling.",
+        "Rune preparation: Conqueror: exactly 12 already-authored, earned stacks before the scored event; log expiry during long windows. Gathering Storm fixed at authored minute 30; no extra game time. Bloodline HP is credited only after 15 earned legend stacks; log it separately from healing.",
+        "Rune comparison: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -260,6 +274,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native single-hit benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "No extra physical basic attack added, secondary target given the primary ratio, free passive charges or ordinary crit inheritance presumed. Native attack-speed bonus affects cadence, not a one-hit damage multiplier.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."

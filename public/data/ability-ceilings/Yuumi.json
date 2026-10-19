@@ -24,15 +24,15 @@
       "runePage": [
         8214,
         8226,
-        8210,
+        8233,
         8236,
-        8444,
+        8429,
         8453
       ],
       "shards": [
         5008,
         5008,
-        5011
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -64,6 +64,10 @@
       "testPlan": [
         "Finite benchmark: Benchmark game30min,level18,max target rank,no elixirs/dragons/unlisted allied buffs. Enemy3000maxHP,900currentHP,100armor,50MR,1500bonusHP before legal debuffs; record raw overkill separately. Attached to established Best Friend,W5,allybelow40%HP,Staff active. Loaded form: owner 100% HP, target 30% HP, Heartsteel earned HP 0, Rod stacks 0, prior champion combat 0s, Gathering Storm minute 30.",
         "Same-patch practice/custom test with exact state: record Best Friend Zoomies shield tooltip, observed AP/AD/HP/mana/resists, per-packet damage/protection and final targetHP. Compare one legal item swap at a time, separating setup damage, rune/item procs and ordinary attack. Verify raw helper/statFormula mappings and conditional multipliers before treating result as established.",
+        "Rune reasoning: Yuumi — Best Friend Zoomies shield: AP or adaptive stats enter the native heal/shield helper. Gathering Storm is fixed at minute 30; Absolute Focus is selected only above 70% owner HP. Revitalize is tested on the actual recipient rather than assuming low owner HP means low ally HP. Ability basis: E5 shield165+0.4AP; Best Friend W5 grants8% heal/shield power. AP/Staff prebuff/heal power increase one shield; Revitalize low allyHP tested. Deathcap/Zhonya/Banshee increase AP ratio. Staff suppliesAP plus pretriggered40AP Rapids; Redemption/Mikael supply22% Summon Aery: Aery damage/shield is a separate packet; do not fold it into native ability capacity or damage. Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats. Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%). Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility. Revitalize: Native eligible heal/shield modifier; low-HP bonus follows the actual recipient, not automatically the caster.",
+        "Rune preparation: Recipient is ally. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability. Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.",
+        "Rune comparison: Compare a real 12-stack Conqueror page with Revitalize at the same recipient state, and AP versus HP shards if missing-health caps limit effective recovery. Extra combat preparation must be logged separately.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -80,6 +84,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native shield benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "Mana/AS buff separate; Aery excluded; no Moonstone chain on sole ally. Raw statFormula=2/Stat identifiers remain source evidence until runtime mapping confirmed; no unspecified stats/stacks granted.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
@@ -112,16 +117,16 @@
       ],
       "runePage": [
         8214,
-        8226,
-        8210,
+        8224,
+        8233,
         8236,
-        8444,
+        8429,
         8453
       ],
       "shards": [
         5008,
         5008,
-        5011
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -154,6 +159,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Recipient ally: 6000 maximum HP, 100 armor and 50 MR. Owner HP 100%, target HP 30%, observation 3.5s. No dragons, elixirs or allied stat buffs. Record actual AD/AP, HP and resist modifiers; Gathering Storm at minute 30 if selected. No free permanent stacks. Stop damage at death, cap healing at recipient missing HP, and report raw output separately. Best Friend status genuinely earned and verified. Yuumi attached to that friend, W learned rank 5 and its actual 8% heal/shield-power bonus recorded. Seraph transformed. Recipient at 30% of 6000 maximum HP, all five waves actually contact them over 3.5 seconds. No recipient Visage, on-hit healing attacks, E or other recovery during score.",
         "Compare ordinary ally and Best Friend controls, reading the real enhancement rather than guessing from an unresolved helper. Log all five heals and recipient HP before each, changing low-health rune eligibility as HP rises. Record excess-heal shields separately.",
+        "Rune reasoning: Yuumi — five Final Chapter heals on one Best Friend: AP or adaptive stats enter the native heal/shield helper. Gathering Storm is fixed at minute 30; Absolute Focus is selected only above 70% owner HP. Revitalize is tested on the actual recipient rather than assuming low owner HP means low ally HP. Ability basis: Ordinary per-wave healing is 30/50/70 + 0.12 AP, giving rank-3 nominal five-wave baseline 350 + 0.6 AP. Best Friend healing has an unresolved enhancement helper, so its actual multiplier must be measured. Attached W can also grant heal-and-shield power; this i Summon Aery: Aery damage/shield is a separate packet; do not fold it into native ability capacity or damage. Axiom Arcanist: Eligibility-tested ultimate modifier; classification and true/pet/on-hit/revive exceptions are not inferred from slot alone. Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%). Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Conditioning: Minute-12 armor/MR; direct only for matching resistance scaling, otherwise survival utility. Revitalize: Native eligible heal/shield modifier; low-HP bonus follows the actual recipient, not automatically the caster.",
+        "Rune preparation: Recipient is ally. Revitalize bonus below 40% is conditional on that recipient at application; do not silently grant it at full HP. Aery/Guardian/Font heals or shields remain separate from the named ability. Axiom Arcanist is an eligibility candidate for this ultimate heal/shield; verify true source tagging, including Mantra, revive and pet/passive exceptions. Do not infer eligibility from slot R alone. Gathering Storm fixed at authored minute 30; no extra game time.",
+        "Rune comparison: Compare a real 12-stack Conqueror page with Revitalize at the same recipient state, and AP versus HP shards if missing-health caps limit effective recovery. Extra combat preparation must be logged separately.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -170,6 +179,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native heal benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "No five full enemy-damage packets treated as healing, invented Best Friend multiplier, starting missing HP reused after prior heals or healing plus overheal shield reported as the same recovery. Attachment and W bonus must be legal.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."
@@ -201,17 +211,17 @@
         3102
       ],
       "runePage": [
-        8369,
-        8321,
-        8345,
-        8347,
+        8229,
+        8226,
         8233,
-        8236
+        8236,
+        9105,
+        8017
       ],
       "shards": [
         5008,
         5008,
-        5011
+        5001
       ],
       "conditions": {
         "level": 18,
@@ -244,6 +254,10 @@
       "testPlan": [
         "Finite benchmark: Level 18, selected ability maximum learned rank unless explicitly overridden, minute 30. Benchmark victim: 20000 max HP, 100 armor, 50 MR and 100% starting HP. Owner HP 100%. No dragons, elixirs or external allied stat buffs. Record actual final stats, eligible modifiers and event order; separate raw output from effective output and stop effective scoring at death. Seraph legitimately transformed. Exactly 10 earned Rod stacks. Q rank 6, legitimately established Best Friend relationship and Yuumi attached. One accelerated projectile actually hits. Keep the same legally built level-18 ally with recorded 100% crit chance and actual attack speed across comparisons, then count only real attacks during the five seconds after buff application. Ally ordinary damage is excluded.",
         "Log Q impact, buff start/expiry, real ally attacks and each granted magic packet. Compare Yuumi AP/penetration slots with fixed ally inventory, and separately compare lower ally crit chance. Verify damage-owner penetration/amplification and multi-hit eligibility rather than borrowing caster and ally modifiers together.",
+        "Rune reasoning: Yuumi — one accelerated Q and five seconds of granted Best Friend on-hits: Use adaptive stats for the actual damage helper and a finisher matching the starting enemy/owner HP. The keystone proc is measured separately; damage type alone does not justify attack speed, crit, or an ultimate modifier. Ability basis: Rank-6 accelerated Q deals 355 + 0.30 AP magic damage. Hitting a champion while attached to a Best Friend grants that ally a five-second magic on-hit of 20 + 0.05 Yuumi AP, increased by up to 75% based on ally crit chance. This is crit-chance scaling, not an o Arcane Comet: Comet is separate damage and can miss; target movement and range affect the comparison. Manaflow Band: Earned maximum mana/resource utility; only actual mana conversions can turn it into offensive stats. Absolute Focus: Adaptive stats only while owner stays above 70% HP (starts at 100%). Gathering Storm: Fixed minute-30 adaptive stats (or the authored time), never an infinite-time ceiling. Legend: Haste: Cooldown utility; no extra casts inside a one-cast benchmark. Cut Down: Eligible non-true damage only while victim is above 60% HP; re-evaluate each packet.",
+        "Rune preparation: Gathering Storm fixed at authored minute 30; no extra game time. Manaflow: log ten actually earned procs if using its 250 bonus mana; never invent full stacks or mana-to-AP conversion.",
+        "Rune comparison: Compare a real prepared Conqueror page versus the selected page without changing target defenses, HP, earned item stacks, rank or time. Additional rune preparation must be its own recorded trial. Compare First Strike or a damage keystone only in a separately reported total-hit result; proc damage is outside the named native packet.",
+        "Stat shards: Offense adaptive force feeds only the actual AD/AP coefficient and uses real adaptive-type conversion. Flex adaptive force targets the stated AD/AP coefficient. Defense scaling health is 180 HP at level 18, rather than the old 65-HP shard.",
         "Isolate the named ability/passive packet from item procs, rune damage and the rest of the combo. Record raw versus post-resistance damage, actual crit outcome, charge, rank and target state. Healing/shield/execute thresholds are separate metrics, not damage.",
         "Use the stated benchmark, not free infinite stacks or allied buffs. The form loads the recorded target slot and any explicit benchmark overrides; other fields are editable defaults (level18, target3000HP/100armor/50MR). Adjust them and record every other requirement before measuring."
       ],
@@ -260,6 +274,7 @@
         "Keep boots and role starters during the actual game. A damage-slot boot replacement requires a deliberate late benchmark and may make the ability impossible to land."
       ],
       "coverageNotes": [
+        "Rune review (2026-10-19): Optimize the named native full-window benchmark; report rune proc output separately. No numerical/global optimum is certified; unsupported rune interactions and stat conversions require client tests. Separate all keystone, Scorch, Shield Bash, Font, and item proc output from the selected native metric. These are reasoned choices and comparison candidates; not a complete numerical rune solver or in-game verification.",
         "These targets are manual experiments. Partial damage adapters do not certify these whole loadouts, omitted item/rune effects or global maxima. Select the exact supported form before using a separate calculator comparison.",
         "No five-second buff assumed to mean five attacks, 75% crit amp granted without actual ally crit, ordinary crit applied a second time, extra on-hits beyond expiry or ally attack damage labeled Yuumi Q damage.",
         "Unbounded stacks, game time or target health prevent a universal finite maximum; keep their chosen caps explicit."

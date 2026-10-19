@@ -40,6 +40,7 @@ export function combatStatBonuses(champion:Champion,items:Item[],s:Scenario):Com
  if(has(9923)){if(e.hailOfBladesActive===true)out.bonusAS+=isRanged?.6:.9;mark('Hail of Blades',`Hail of Blades AS is ${e.hailOfBladesActive===true?'explicitly active':'inactive'}; no free pre-channel attack, no unlimited 3-hit buff duration, no native-ability true damage credit.`)}
  if(items.some(i=>i.id===6697)){const n=count(e.hubrisKills,1000);if(e.hubrisActive===true&&n>0)out.bonusAD+=12+3*n;mark('Hubris',`Hubris: ${n} earned qualifying kills, 90-second Eminence buff ${e.hubrisActive===true&&n>0?'active':'inactive'}; active bonus is 12 + 3 per earned kill.`)}
  if(items.some(i=>i.id===3053)){const base=(champion.stats.attackdamage||0)+(champion.stats.attackdamageperlevel||0)*growth(level);out.bonusAD+=.5*base;mark("Sterak's Gage","Sterak: 50% of level-grown base AD as bonus AD (official patch 26.16). Lifeline shielding is separate.")}
+ if(items.some(i=>i.id===3124)){const n=count(s.effects?.ragebladeStacks,4);out.bonusAS+=.08*n;mark('Guinsoo Seething Strike',`Rageblade: ${n}/4 explicitly prepared stacks, 8% bonus attack speed each. Phantom Hit and stack generation are excluded.`)}
  if(champion.alias==='Hecarim'){
   // Hecarim.json HecarimPassive BonusAD: .12 + .02 at each of 3/6/9/12/15/18,
   // multiplied by Stat(7)[statFormula=2] (bonus move speed). Official 10.24

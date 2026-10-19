@@ -98,6 +98,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const cast=abilityModel(champion.alias,s.mode);
  if(cast){
   const castRank=Math.min(cast.rankCap,Math.max(1,Math.round(s.rank))),cost=cast.cost[castRank-1];
+  limitations.push('Adapter notes describe native ability packets only. Shared rune/item procs are added separately when the coverage list marks them included. Combined attack/ability packets still need separate client checks for bonus-only amplification.');
   limitations.push(cast.notes,`Source: patch 26.20 / Data Dragon 16.20.1; ${cast.sourcePath}. Single cast on one champion. No automatic repeats or additional passive/item/rune triggers beyond the selected packets.`);
   const availableHealth=hp*Math.max(0,Math.min(100,s.healthPercent))/100;
   if(cast.healthCost&&availableHealth<1)limitations.push('Not enough living health to cast this health-cost ability.');
@@ -149,7 +150,7 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  const startHP=s.targetHP*Math.max(0,Math.min(100,s.targetHealthPercent??100))/100;
  let remainingHP=startHP,nativeDamage=0,procDamage=0;
  const resolved:Result['events']=[],groups=new Map<number,Result['events'][number]>();
- type Queued={time:number;name:string;type:'physical'|'magic'|'true';raw:number;origin:'native'|'rune'|'item';amplification?:'none'|'general';index:number;group?:number;periodic?:boolean};
+ type Queued={time:number;name:string;type:'physical'|'magic'|'true';raw:number;origin:'native'|'rune'|'item';amplification?:'none'|'general';index:number;group?:number;periodic?:boolean;currentHPRatio?:number;activatesPTA?:boolean;excludePTA?:boolean};
  const pending:Queued[]=[];
  for(let index=0;index<events.length;index++){
   const event=events[index];
@@ -160,27 +161,33 @@ export function calculate(champion:Champion,items:Item[],s:Scenario):Result{
  }
  const physicalFlat=stat('Lethality')+stat('Armor Penetration','flat')+(alias==='Aphelios'?4.5*Math.floor(Math.min(6,Math.max(0,s.apheliosLethalityRanks??0))):0);
  const ownerHP=Math.max(0,s.healthPercent-(healthSpent/hp)*100);
- let order=pending.length;
+ let ptaUntil=-Infinity;
  while(pending.length){
   pending.sort((a,b)=>a.time-b.time||a.index-b.index);const event=pending.shift()!;
   if(event.time>s.duration||event.raw<=0||(s.effects?.stopAtDeath&&remainingHP<=0))continue;
   const tags=effectTags(alias,s.mode,event.name),before=100*remainingHP/s.targetHP;
   const periodic=event.periodic===true;
   const native=event.origin==='native';
-  const raw=event.raw*(event.amplification==='none'?1:damageEffects.multiplier({...tags,kind:native?tags.kind:'proc',ultimate:native?tags.ultimate:false,type:event.type,time:event.time,periodic},before,ownerHP));
+  const baseRaw=event.currentHPRatio===undefined?event.raw:remainingHP*event.currentHPRatio;
+  if(baseRaw<=0)continue;
+  const raw=baseRaw*(event.amplification==='none'?1:damageEffects.multiplier({...tags,kind:native?tags.kind:'proc',ultimate:native?tags.ultimate:false,type:event.type,time:event.time,periodic,ptaEligible:!event.excludePTA},before,ownerHP,event.time<ptaUntil));
   const damage=event.type==='true'?raw:mitigate(raw,event.type==='magic'?s.mr:damageEffects.targetArmor(s.armor),event.type==='magic'?stats.percentPen:armorPen,event.type==='magic'?stats.flatPen:physicalFlat);
   const previous=event.group===undefined?undefined:groups.get(event.group);
   if(previous){previous.raw+=raw;previous.damage+=damage;}
   else {const result={time:event.time,name:event.name,type:event.type,raw,damage,origin:event.origin};resolved.push(result);if(event.group!==undefined)groups.set(event.group,result);}
   remainingHP=Math.max(0,remainingHP-damage);
+  if(event.activatesPTA)ptaUntil=event.time+5;
   if(native){
+   if(event.time<ptaUntil)ptaUntil=event.time+5;
    nativeDamage+=damage;
-   for(const proc of procs.onHit({...tags,castId:alias==='Cassiopeia'?`${event.name}@${events[event.group??0]?.time??event.time}`:tags.kind==='attack'?`attack-${event.group}`:'selected-cast',spellEffects:tags.spellEffects,appliesOnHit:tags.appliesOnHit,periodic,time:event.time,type:event.type,raw,damage,targetHealthPercent:before}))pending.push({...proc,index:order++});
+   // Same-time procs resolve after their own native packet, before the next
+   // native packet, so newly activated buffs cannot affect earlier deliveries.
+   for(const proc of procs.onHit({...tags,castId:alias==='Cassiopeia'?`${event.name}@${events[event.group??0]?.time??event.time}`:'selected-cast',spellEffects:tags.spellEffects,appliesOnHit:tags.appliesOnHit,periodic,time:event.time,type:event.type,raw,damage,targetHealthPercent:before}))pending.push({...proc,index:event.index});
   }else procDamage+=damage;
  }
  if(procDamage>0)limitations.push('Proc damage is reported separately from the native ability. Recursive proc triggers are excluded; general damage modifiers apply once to eligible proc packets, while First Strike is not amplified a second time; this is not a complete fight simulator.');
  if(!s.effects?.stopAtDeath)limitations.push('Damage is uncapped potential over the selected action window; later native packets may exceed remaining target HP. Enable stop-at-death for a finite target trial.');
- const includedRuneIds=new Set([8010,8236,9103,9104,9105,8226,8345,8451,8437,8233,8316,8210,8232,8008,9923,8429,8242,8439,8017,8014,8299,8005,8224,8229,8214,8237,8128,8369,8992]);
+ const includedRuneIds=new Set([8010,8236,9103,9104,9105,8226,8345,8451,8437,8233,8316,8210,8232,8008,9923,8429,8242,8439,8017,8014,8299,8005,8224,8229,8214,8237,8128,8369,8992,8112,8126,8143]);
  for(const id of s.runePage)if(!includedRuneIds.has(id))limitations.push(`Rune ${id}: movement, economy, healing, shielding or other conditional effects are not simulated by this damage objective.`);
  const implemented=[...new Set([...prepared.implemented,...defense.implemented,...damageEffects.implemented,...procs.implemented])];
  return {healthSpent,resource:{kind:resource.kind,maximum:resourceMaximum,spent:resource.kind==='mana'?manaSpent:castResourceSpent},damage:nativeDamage+procDamage,nativeDamage,procDamage,effectiveDamage:Math.min(startHP,nativeDamage+procDamage),events:resolved,stats,manaSpent,grit,cost:items.reduce((n,i)=>n+i.gold.total,0),effectCoverage:{implemented,omitted:[...new Set(limitations.filter(note=>/omitted|excluded|unmodeled|outside|unverified|not simulated|unresolved|approximate|unknown/i.test(note)))]},limitations:[...new Set(limitations)]};

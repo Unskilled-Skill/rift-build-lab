@@ -9,6 +9,7 @@ export default function CombatPreparation({scenario:s,items,update}:{scenario:Sc
  const check=(key:keyof CombatEffects,label:string)=><label className="check" key={key}><input type="checkbox" checked={e[key]===true} onChange={event=>set(key,event.target.checked)}/>{label}</label>;
  return <details className="advanced combat-preparation"><summary>Rune &amp; item interactions</summary>
   <p className="footnote">Enter preparation you can actually earn. The calculator separates native damage from proc damage. Unlisted mechanics and attack timing remain partial; check the result’s coverage notes.</p>
+  {(rune(8005)||rune(8112))&&<p className="footnote">Prior-hit counters are anchored at trial time zero on this target. Their setup damage is excluded. A multi-hit action counts once for Electrocute, while eligible deliveries can count separately for PTA.</p>}
   <div className="fields">
    <NumberField label="Owner health (%)" value={s.healthPercent} min={1} max={100} step={.1} onChange={v=>update('healthPercent',v)}/>
    <NumberField label="Target health before first hit (%)" value={s.targetHealthPercent??100} max={100} step={.1} onChange={v=>update('targetHealthPercent',v)}/>
@@ -21,6 +22,9 @@ export default function CombatPreparation({scenario:s,items,update}:{scenario:Sc
    {rune(8437)&&number('graspStacks','Previously earned Grasp procs',100000)}
    {rune(8316)&&number('jackStacks','Observed Jack purchased-stat types',10)}
    {rune(8008)&&number('lethalTempoStacks','Lethal Tempo stacks before hit',6)}
+   {rune(8005)&&number('ptaHitsBefore','PTA hits already on this target',2)}
+   {rune(8112)&&number('electrocuteHitsBefore','Distinct Electrocute actions already landed',2)}
+   {has(3124)&&number('ragebladeStacks','Rageblade stacks before hit',4)}
    {rune(8128)&&number('darkHarvestStacks','Earned Dark Harvest souls',1000)}
    {has(6697)&&number('hubrisKills','Earned Hubris qualifying kills',1000)}
    {has(3161)&&number('shojinStacks','Shojin stacks before hit',4)}
@@ -31,7 +35,7 @@ export default function CombatPreparation({scenario:s,items,update}:{scenario:Sc
    {has(3302)&&number('terminusDarkStacks','Terminus Dark stacks before hit',3)}
    {rune(8229)&&number('cometDistance','Comet distance (game units)',750)}
    {s.champion==='Hecarim'&&number('movementSpeed','Observed movement speed after soft caps',3000)}
-   {(rune(8437)||rune(8008)||rune(9923))&&<label className="field"><span>Form when preparation was earned</span><select value={e.attackForm??''} onChange={event=>set('attackForm',event.target.value||undefined)}><option value="">Use modeled form</option><option value="melee">Melee</option><option value="ranged">Ranged</option></select></label>}
+   {(rune(8437)||rune(8008)||rune(9923)||items.some(i=>[3153,3748,3042,3161].includes(i.id)))&&<label className="field"><span>Attack form (also used for recorded Grasp procs)</span><select value={e.attackForm??''} onChange={event=>set('attackForm',event.target.value||undefined)}><option value="">Use source attack range</option><option value="melee">Melee</option><option value="ranged">Ranged</option></select></label>}
    {rune(8224)&&<label className="field"><span>Axiom packet classification</span><select value={e.axiomMode??'auto'} onChange={event=>set('axiomMode',event.target.value)}><option value="auto">Use known source classification</option><option value="off">No Axiom amplification</option><option value="single">Confirmed single-target ultimate</option><option value="area">Confirmed area ultimate</option></select></label>}
   </div>
   <div className="fields">
@@ -46,6 +50,9 @@ export default function CombatPreparation({scenario:s,items,update}:{scenario:Sc
    {rune(8242)&&check('unflinchingActive','Unflinching incoming-CC window is active')}
    {rune(9923)&&check('hailOfBladesActive','Hail of Blades attack-speed window is active')}
    {rune(8005)&&check('ptaActive','PTA amplification was activated before the hit')}
+   {rune(8437)&&check('graspReady','Grasp is charged before this delivery')}
+   {rune(8126)&&check('targetImpaired','Target is movement-impaired at scored impacts')}
+   {rune(8143)&&check('suddenImpactArmed','Sudden Impact was armed at trial time zero')}
    {rune(8232)&&check('inRiver','Owner is in the river for Waterwalking')}
    {has(6697)&&check('hubrisActive','Earned Hubris temporary AD buff is active')}
    {has(6665)&&check('jakshoActive','Jak’Sho was activated before this cast')}

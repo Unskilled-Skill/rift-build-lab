@@ -15,6 +15,7 @@ const effectCoverage:Record<number,string>={
  4645:'Live low-health magic/true amplification',3071:'Prepared armor shred; no automatic stacks',8020:'Explicit in-range magic vulnerability',
  3036:'Giant Slayer from entered target bonus HP',3053:'Base-AD conversion; shield omitted',6697:'Earned kills with explicitly active AD buff',6665:'Prepared bonus resistances; shield omitted',
  3094:'One ready Energized actual attack',3748:'Primary on-hit; active and splash omitted',3302:'Full on-hit and prepared Light/Dark states',
+ 3153:'Current-HP on-hit term; exact client ordering and floor unverified',3091:'45 magic damage on eligible on-hit deliveries',3124:'30 magic on-hit and prepared AS stacks; Phantom Hit omitted',
 };
 export function ItemPicker({items,selected,scenario,onAdd}:{items:Item[];selected:Item[];scenario:Scenario;onAdd:(id:number)=>void}){
  const [query,setQuery]=useState(''),[category,setCategory]=useState<'completed'|'components'|'all'>('completed');

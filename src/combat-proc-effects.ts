@@ -1,10 +1,11 @@
 import type { Champion, Item, Result, Scenario } from './types';
+import {createAttackEffects} from './combat-attack-effects';
 
 export interface ProcHit {
  castId?:string|number;time:number;type:'magic'|'physical'|'true';raw:number;damage:number;
  kind:'ability'|'attack'|'on-hit';periodic?:boolean;aoe?:boolean;spellEffects?:boolean;appliesOnHit?:boolean;onHitMultiplier?:number;targetHealthPercent:number;
 }
-export interface ProcPacket {time:number;name:string;type:ProcHit['type'];raw:number;origin:'rune'|'item';amplification?:'none'|'general'}
+export interface ProcPacket {time:number;name:string;type:ProcHit['type'];raw:number;origin:'rune'|'item';amplification?:'none'|'general';currentHPRatio?:number;activatesPTA?:boolean;excludePTA?:boolean}
 
 // Rune coefficients: public/data/catalog.json, patch 26.20, effectValuesRaw and
 // calculationRaw (Summoner's Rift, not gameModeOverrides). No catalog is bundled.
@@ -12,6 +13,9 @@ export interface ProcPacket {time:number;name:string;type:ProcHit['type'];raw:nu
 // mItemCalculations; compact provenance lives in scripts/combat-source-evidence.json.
 export function createProcEffects(champion:Champion,items:Item[],s:Scenario,stats:Result['stats']) {
  const notes:string[]=[],implemented:string[]=[];
+ const attacks=createAttackEffects(champion,items,s,stats);
+ notes.push(...attacks.notes);implemented.push(...attacks.implemented);
+ const attackActions=new Set<string|number>();
  const e=s.effects??{},runes=new Set(s.runePage),ids=new Set(items.map(i=>i.id));
  const ready=e.runeProcsReady===true,itemReady=e.itemProcsReady===true;
  const clamp=(n:number|undefined,min:number,max:number,fallback=0)=>Number.isFinite(n)?Math.min(max,Math.max(min,n!)):fallback;
@@ -53,6 +57,9 @@ export function createProcEffects(champion:Champion,items:Item[],s:Scenario,stat
    if(time<=horizon+1e-9&&time>=0&&Number.isFinite(raw)&&raw>0)out.push({time:Math.min(time,horizon),name,type,raw,origin,...(name==='First Strike'?{amplification:'none' as const}:{})});
   };
   const spell=hit.spellEffects??(hit.kind==='ability'),attack=hit.kind==='attack',delivery=hit.appliesOnHit??(attack||hit.kind==='on-hit');
+  const action=hit.castId??(attack?`attack@${hit.time}`:'selected-cast'),freshAttack=attack&&!attackActions.has(action);
+  if(attack)attackActions.add(action);
+  out.push(...attacks.onHit(hit));
   const onHit=clamp(hit.onHitMultiplier,0,1,1);
   if(ready&&runes.has(8229)&&spell&&hit.time>=cometAt&&e.cometHit!==false){
    emit(hit.time,'Arcane Comet',adaptive(hit),(lerp(15,100)+.05*ap+.1*ad)*(1+clamp(e.cometDistance,0,750)/750),'rune');
@@ -71,7 +78,7 @@ export function createProcEffects(champion:Champion,items:Item[],s:Scenario,stat
    strikeStart??=hit.time;
    if(hit.time<strikeStart+3)emit(hit.time,'First Strike','true',hit.damage*.07,'rune');
   }
-  if(ready&&runes.has(9923)&&attack){
+  if(ready&&runes.has(9923)&&freshAttack){
    if(hailCount===0){hailStart=hit.time;hailCount=1;}
    else if(hit.time-hailLast<=3&&hailCount<3)hailCount++;
    else if(hit.time>=hailStart+10){hailStart=hit.time;hailCount=1;}

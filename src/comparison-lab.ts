@@ -5,7 +5,7 @@ export type DefenseAxis='mr'|'armor'|'targetHP';
 export interface TargetComparison {experiment:Result;baseline:Result;delta:number;percent:number|null;spendingGap:number}
 export function compareAtTarget(champion:Champion,experiment:Item[],baseline:Item[],scenario:Scenario,baselineScenario:Scenario):TargetComparison {
  // A baseline supplies its rune choices, never a different target or cast setup.
- const reference={...scenario,runePage:baselineScenario.runePage,shards:baselineScenario.shards,effects:{...baselineScenario.effects,targetBonusHP:scenario.effects?.targetBonusHP,stopAtDeath:scenario.effects?.stopAtDeath},conquerorStacks:baselineScenario.conquerorStacks,spellbladeReady:baselineScenario.spellbladeReady,firstStrikeReady:baselineScenario.firstStrikeReady};
+ const reference={...scenario,runePage:baselineScenario.runePage,shards:baselineScenario.shards,effects:{...baselineScenario.effects,targetBonusHP:scenario.effects?.targetBonusHP,stopAtDeath:scenario.effects?.stopAtDeath,targetImpaired:scenario.effects?.targetImpaired??false},conquerorStacks:baselineScenario.conquerorStacks,spellbladeReady:baselineScenario.spellbladeReady,firstStrikeReady:baselineScenario.firstStrikeReady};
  const a=calculate(champion,experiment,scenario),b=calculate(champion,baseline,reference);
  const delta=a.damage-b.damage;
  return {experiment:a,baseline:b,delta,percent:b.damage>0?100*delta/b.damage:null,spendingGap:a.cost-b.cost};

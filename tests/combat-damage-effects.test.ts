@@ -63,6 +63,8 @@ describe('source-scoped native damage effects',()=>{
   const prepared=scenario([],{shojinStacks:4});
   expect(createDamageEffects(ranged,[item(3161)],prepared).multiplier(packet,100,100)).toBe(1.06);
   expect(createDamageEffects(melee,[item(3161)],prepared).multiplier(packet,100,100)).toBe(1.12);
+  expect(createDamageEffects(ranged,[item(3161)],scenario([],{shojinStacks:4,attackForm:'melee'})).multiplier(packet,100,100)).toBe(1.12);
+  expect(createDamageEffects(melee,[item(3161)],scenario([],{shojinStacks:4,attackForm:'ranged'})).multiplier(packet,100,100)).toBe(1.06);
  });
  it('applies general proc modifiers once without inheriting native Shojin amplification',()=>{
   expect(factor(scenario([8014],{shojinStacks:4,abyssalInRange:true},5),[3161,6653,4633,4645,8020],{...packet,kind:'proc',ultimate:false},20)).toBeCloseTo(1.08*1.06*1.08*1.2*1.12);

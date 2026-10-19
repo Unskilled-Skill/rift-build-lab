@@ -2,7 +2,7 @@ import {abilityModel,abilityModels} from './ability-models';
 import type {Scenario} from './types';
 /** Coverage is an objective contract, not a claim of full champion simulation. */
 // Bump whenever engine or ability formulas change; desktop builds refuse data published for a different value.
-export const FORMULA_COMPAT=1;
+export const FORMULA_COMPAT=2;
 export const modeledChampions = ['Cassiopeia', 'Sett', 'Blitzcrank', 'TahmKench',...Object.keys(abilityModels)];
 const objectives: Record<string, Record<string, string>> = {
  Cassiopeia: {q:'Q poison',e:'Twin Fang',qe:'Q + poisoned E',sequence:'Repeated Q/E'},

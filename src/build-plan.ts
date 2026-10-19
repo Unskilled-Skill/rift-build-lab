@@ -5,6 +5,7 @@ import {purchaseCheckpoints} from './purchase-checkpoints';
 import {earnedPrerequisites} from './league-export';
 import {legalBuild} from './build-rules';
 import {validRunePage} from './storage';
+import {purchaseTiming} from './purchase-timing';
 // One presentation/export contract for authored builds, ceilings, experiments, meta references and generated meta plans.
 export type Provenance='source-observed'|'authored'|'inferred'|'calculator';
 export type StageId='start'|'early-recall'|'first-core'|'boots'|'later-core'|'situational'|'final';
@@ -52,12 +53,13 @@ export function planFromChatBuild(data:Catalog,build:ChatBuild,collection:'autho
  validate(data,build.champion,build.itemIds,build.runePage,build.shards);
  const isBoot=(id:number)=>data.items.find(i=>i.id===id)!.tags.includes('Boots');
  const observed=new Set(build.meta?.observedCoreItemIds||[]);
- const firstFinal=build.itemIds.find(id=>!isBoot(id)&&!finalQuests.includes(id))??build.itemIds.find(id=>!isBoot(id));
+ const timing=purchaseTiming(data,build.itemIds);
+ const firstFinal=timing.coreIds.find(id=>!finalQuests.includes(id))??timing.coreIds[0];
  const own:Provenance='authored';
- const boots=build.itemIds.filter(isBoot),later=build.itemIds.filter(id=>id!==firstFinal&&!isBoot(id));
+ const boots=build.itemIds.filter(isBoot),later=timing.coreIds.filter(id=>id!==firstFinal);
  const stages:PurchaseStage[]=[
   unavailable('start','Starting purchase','No reviewed starting purchase is recorded for this build. Choose a standard start for the lane and resource.'),
-  unavailable('early-recall','First recall options','No reviewed recall script is recorded for this build. Buy components toward the first core.'),
+  timing.tearEarly?{id:'early-recall',title:'First recall options',buy:[],chooseOne:[3070],note:'Consider an early Tear to begin earning mana charges. Buy it when the lane allows; this is a component option, not a second full core purchase.',provenance:'inferred',available:true}:unavailable('early-recall','First recall options','No reviewed recall script is recorded for this build. Buy components toward the first core.'),
   firstFinal===undefined?unavailable('first-core','First core target','This build has no non-boot item to prioritize.'):{id:'first-core',title:'First core target',buy:[earnedPrerequisites[firstFinal]||firstFinal],chooseOne:[],note:earnedPrerequisites[firstFinal]?'Buy the prerequisite item and earn its upgrade through the required stacks or quest.':'First listed core item in the authored build.',provenance:observed.has(firstFinal)?'source-observed':own,available:true},
   boots.length?{id:'boots',title:'Boots window',buy:boots,chooseOne:[],note:'Buy boots when movement or defensive needs justify it; their inventory position is not a buy-order requirement.',provenance:own,available:true}:unavailable('boots','Boots window','This build does not include boots.'),
   later.length?{id:'later-core',title:'After the core',buy:later,chooseOne:[],note:'Remaining items in authored inventory order. Recheck the match before each major buy.',provenance:own,available:true}:unavailable('later-core','After the core','No further items after the first core.'),
@@ -69,8 +71,8 @@ export function planFromChatBuild(data:Catalog,build:ChatBuild,collection:'autho
   name:build.name,category:build.category||(collection==='ceiling'?'Ability ceiling':collection==='meta-reference'?'Current meta reference':'Experiment'),goal:build.goal,summary:build.summary||build.hypothesis,
   patch:data.patch,dataVersion:data.version,checkedAt:build.meta?.checkedAt,sourceURL:build.meta?.sourceURL,
   finalItemIds:[...build.itemIds],runePage:[...build.runePage],shards:[...build.shards],
-  stages:finish(data,stages),authoredPriorities:[...build.buyOrder],rationale:[build.hypothesis],tradeoffs:[...build.tradeoffs],
-  provenance:{items:collection==='meta-reference'?'source-observed':own,runes:runesObserved?'source-observed':own,order:own},
+  stages:finish(data,stages.map(stage=>stage.id==='first-core'&&firstFinal!==undefined&&timing.stackingIds.includes(firstFinal)?{...stage,note:timing.notes.filter(n=>n.startsWith(data.items.find(i=>i.id===firstFinal)?.name||'')).join(' ')||timing.notes[0],provenance:'inferred'}:stage)),authoredPriorities:[...build.buyOrder],rationale:[build.hypothesis,...timing.notes],tradeoffs:[...build.tradeoffs],
+  provenance:{items:collection==='meta-reference'?'source-observed':own,runes:runesObserved?'source-observed':own,order:timing.stackingIds.length?'inferred':own},
   limits:[...build.coverageNotes],
  };
 }
@@ -80,7 +82,7 @@ export function metaStages(data:Catalog,build:FullMetaBuild):PurchaseStage[]{
  const stages:PurchaseStage[]=purchaseCheckpoints(data,build).map(point=>{
   const id=metaStageIds[point.title];if(!id)throw new BuildPlanError('stage-overlap',`Unknown purchase checkpoint ${point.title}.`);
   const buy=[...point.itemIds],chooseOne=[...(point.choiceIds||[])];
-  return {id,title:point.title,buy,chooseOne,note:point.note,provenance:id==='first-core'&&buy.every(observed)?'source-observed':'inferred',available:buy.length+chooseOne.length>0};
+  return {id,title:point.title,buy,chooseOne,note:point.note,provenance:id==='first-core'&&!point.note.startsWith('Inferred timing priority')&&buy.every(observed)?'source-observed':'inferred',available:buy.length+chooseOne.length>0};
  });
  stages.push({id:'final',title:'Final build',buy:[...build.itemIds],chooseOne:[],note:'Observed source core completed with reviewed inferred items. Earned upgrades export their buyable prerequisite.',provenance:'source-observed',available:true});
  return finish(data,stages);

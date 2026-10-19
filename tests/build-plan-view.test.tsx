@@ -29,7 +29,7 @@ it('renders the build header, goal, purchase stages, runes and authored detail i
 });
 it('states unavailable stages plainly instead of inventing starting or recall items',()=>{
  const t=text(renderToString(<PurchaseStages data={data} stages={authored.stages}/>));
- expect(t).toMatch(/Starting purchase.*Not available for this build/);expect(t).toMatch(/First recall options.*Not available for this build/);
+ expect(t).toMatch(/Starting purchase.*Not available for this build/);expect(t).toMatch(/First recall options.*Inferred.*Tear of the Goddess/);
  const t2=text(renderToString(<BuildPlanView data={data} plan={ceiling}/>));expect(t2).toContain('Ability ceiling');expect(t2).toContain('Not available for this build');
 });
 it('renders choose-one options as alternatives and counts repeated consumables',()=>{

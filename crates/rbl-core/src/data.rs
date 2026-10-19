@@ -22,7 +22,7 @@ use crate::fsx::atomic_write_json;
 use crate::json::parse_strict;
 
 /// Must equal `FORMULA_COMPAT` in `src/model-support.ts`; data for another value needs an app update.
-pub const FORMULA_COMPAT: u32 = 1;
+pub const FORMULA_COMPAT: u32 = 2;
 pub const DATA_BASE: &str = "https://unskilled-skill.github.io/rift-build-lab/data/";
 pub const MANIFEST_URL: &str = "https://unskilled-skill.github.io/rift-build-lab/data/desktop/manifest.json";
 pub const CHECK_INTERVAL: Duration = Duration::from_secs(6 * 3600);

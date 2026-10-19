@@ -4,7 +4,18 @@ import type {Item,Scenario} from './types';
 import {itemBlockReason,pickerItems} from './item-selection';
 import {objectiveSupport} from './model-support';
 
-const effectCoverage:Record<number,string>={3089:'AP multiplier modeled',3083:'Bonus item health modeled; healing omitted',3084:'Entered earned HP modeled; attack proc omitted',6657:'Entered stacks modeled',3161:'Basic ability haste modeled; damage amplification omitted',2501:'HP conversion and entered AD bonus modeled; missing-health curve omitted',4633:'HP conversion and applicable timed amplification modeled',3042:'Mana-to-AD conversion modeled; Shock proc omitted'};
+const effectCoverage:Record<number,string>={
+ 3089:'AP multiplier modeled',3083:'Bonus item health modeled; healing omitted',
+ 3084:'Earned HP and one explicitly ready attack proc; no automatic growth',6657:'Entered stacks modeled',
+ 3161:'Basic haste and prepared ability amplification; no automatic stacks',
+ 2501:'HP conversion and entered AD bonus; missing-health curve unresolved',4633:'HP conversion and timed amplification; healing omitted',
+ 3042:'Mana-to-AD and Shock on eligible modeled casts; proc ordering approximate',3040:'Bonus-mana-to-AP conversion; shielding omitted',
+ 3115:'On-hit damage on modeled full deliveries',3100:'One explicitly armed Spellblade delivery',3078:'One explicitly armed Spellblade delivery',3508:'One explicitly armed Spellblade delivery',
+ 6655:'Explicit ready Echoes on isolated target',6653:'Timed amplification and ready spell burn',
+ 4645:'Live low-health magic/true amplification',3071:'Prepared armor shred; no automatic stacks',8020:'Explicit in-range magic vulnerability',
+ 3036:'Giant Slayer from entered target bonus HP',3053:'Base-AD conversion; shield omitted',6697:'Earned kills with explicitly active AD buff',6665:'Prepared bonus resistances; shield omitted',
+ 3094:'One ready Energized actual attack',3748:'Primary on-hit; active and splash omitted',3302:'Full on-hit and prepared Light/Dark states',
+};
 export function ItemPicker({items,selected,scenario,onAdd}:{items:Item[];selected:Item[];scenario:Scenario;onAdd:(id:number)=>void}){
  const [query,setQuery]=useState(''),[category,setCategory]=useState<'completed'|'components'|'all'>('completed');
  const searchId=useId(),helpId=useId();

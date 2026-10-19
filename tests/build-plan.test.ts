@@ -46,7 +46,7 @@ it('keeps an available starting purchase within 500 gold',()=>{
  for(const p of plans){const s=p.stages.find(s=>s.id==='start');if(!s?.available)continue;expect(s.buy.reduce((n,id)=>n+item(id).gold.total,0),p.id).toBeLessThanOrEqual(500);for(const id of s.chooseOne)expect(item(id).gold.total).toBeLessThanOrEqual(500)}
 });
 it('marks unknown starting and recall stages unavailable for authored builds instead of inventing them',()=>{
- for(const p of plans.filter(p=>p.collection!=='meta')){for(const id of ['start','early-recall'] as const){const s=p.stages.find(s=>s.id===id)!;expect(s.available,p.id).toBe(false);expect(s.buy).toEqual([]);expect(s.chooseOne).toEqual([])}}
+ for(const p of plans.filter(p=>p.collection!=='meta')){for(const id of ['start','early-recall'] as const){const s=p.stages.find(s=>s.id===id)!;if(id==='early-recall'&&s.available){expect(s.provenance).toBe('inferred');expect(s.chooseOne).toEqual([3070]);expect(p.finalItemIds.some(id=>[3040,3042,3121,2530,3003,3004,3119,2526].includes(id))).toBe(true)}else{expect(s.available,p.id).toBe(false);expect(s.chooseOne).toEqual([])}expect(s.buy).toEqual([])}}
  const meta=plans.filter(p=>p.collection==='meta');expect(meta.length).toBeGreaterThanOrEqual(173);for(const p of meta)expect(p.stages.find(s=>s.id==='start')!.available,p.id).toBe(true);
 });
 it('labels provenance honestly: authored order for authored builds, inferred stages for meta plans, never calculator by default',()=>{

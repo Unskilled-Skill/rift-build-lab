@@ -1,10 +1,11 @@
 import {calculate} from './engine';
+import {targetCombatEffects} from './combat-effects';
 import type {Champion,Item,Result,Scenario} from './types';
 export type DefenseAxis='mr'|'armor'|'targetHP';
 export interface TargetComparison {experiment:Result;baseline:Result;delta:number;percent:number|null;spendingGap:number}
 export function compareAtTarget(champion:Champion,experiment:Item[],baseline:Item[],scenario:Scenario,baselineScenario:Scenario):TargetComparison {
  // A baseline supplies its rune choices, never a different target or cast setup.
- const reference={...scenario,runePage:baselineScenario.runePage,shards:baselineScenario.shards};
+ const reference={...scenario,runePage:baselineScenario.runePage,shards:baselineScenario.shards,effects:{...baselineScenario.effects,targetBonusHP:scenario.effects?.targetBonusHP,stopAtDeath:scenario.effects?.stopAtDeath},conquerorStacks:baselineScenario.conquerorStacks,spellbladeReady:baselineScenario.spellbladeReady,firstStrikeReady:baselineScenario.firstStrikeReady};
  const a=calculate(champion,experiment,scenario),b=calculate(champion,baseline,reference);
  const delta=a.damage-b.damage;
  return {experiment:a,baseline:b,delta,percent:b.damage>0?100*delta/b.damage:null,spendingGap:a.cost-b.cost};
@@ -24,7 +25,7 @@ export function progressionRows(champion:Champion,experiment:Item[],baseline:Ite
   return base;
  });
  const a=normalize(experiment).slice(0,scenario.slots),b=normalize(baseline).slice(0,scenario.slots);
- const stage=(s:Scenario):Scenario=>earned?s:{...s,rodStacks:0,heartsteelHP:0,gatheringMinutes:0};
+ const stage=(s:Scenario):Scenario=>earned?s:{...s,effects:targetCombatEffects(s.effects),rodStacks:0,heartsteelHP:0,gatheringMinutes:0,conquerorStacks:0,spellbladeReady:false,firstStrikeReady:false};
  return [...new Set(budgets)].sort((x,y)=>x-y).map(budget=>{
   const left=purchaseAtBudget(a,budget),right=purchaseAtBudget(b,budget);
   return {...compareAtTarget(champion,left.items,right.items,stage(scenario),stage(baselineScenario)),budget,experimentIds:left.items.map(i=>i.id),baselineIds:right.items.map(i=>i.id),experimentUnspent:left.unspent,baselineUnspent:right.unspent};

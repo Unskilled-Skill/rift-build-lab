@@ -5,9 +5,10 @@ import {parseChatBuilds} from './chat-builds';
 import {legalBuild} from './build-rules';
 import {parseSave,validRunePage} from './storage';
 import type {Save} from './storage';
-export interface Baseline {ids:number[];names:string[];runePage?:number[];shards?:number[];source?:{provider:string;role:string;patch:string;checkedAt:string;matches:number;kind:'observed-core'}}
+import type {CombatEffects} from './combat-effects';
+export interface Baseline {ids:number[];names:string[];runePage?:number[];shards?:number[];effects?:CombatEffects;conquerorStacks?:number;spellbladeReady?:boolean;firstStrikeReady?:boolean;source?:{provider:string;role:string;patch:string;checkedAt:string;matches:number;kind:'observed-core'}}
 export interface WorkspaceDraft {version:1;save:Save;tab:string;activeBuild?:ChatBuild;baseline?:Baseline|null;manualOnly?:boolean}
-export function comparisonScenario(scenario:Scenario,baseline:Baseline):Scenario{return {...scenario,runePage:baseline.runePage||scenario.runePage,shards:baseline.shards||scenario.shards}}
+export function comparisonScenario(scenario:Scenario,baseline:Baseline):Scenario{return {...scenario,runePage:baseline.runePage||scenario.runePage,shards:baseline.shards||scenario.shards,effects:{...structuredClone(baseline.effects??{}),...(scenario.effects?.targetBonusHP===undefined?{}:{targetBonusHP:scenario.effects.targetBonusHP}),...(scenario.effects?.stopAtDeath===undefined?{}:{stopAtDeath:scenario.effects.stopAtDeath})},conquerorStacks:baseline.conquerorStacks??0,spellbladeReady:baseline.spellbladeReady??false,firstStrikeReady:baseline.firstStrikeReady??false}}
 export function comparisonReady(scenario:Scenario,ids:number[],baseline:Baseline,data:Catalog):boolean{
  const legal=(values:number[])=>{const items=values.map(id=>data.items.find(i=>i.id===id));return items.every(Boolean)&&legalBuild(items as Catalog['items'],scenario.budget,scenario.slots,scenario.champion)};
  return ids.length===baseline.ids.length&&legal(ids)&&legal(baseline.ids)&&validRunePage(scenario.runePage,data.trees)&&validRunePage(baseline.runePage||scenario.runePage,data.trees);
@@ -26,9 +27,9 @@ export function parseWorkspaceDraft(text:string,data:Catalog):WorkspaceDraft{
  let activeBuild:ChatBuild|undefined;
  if(input.activeBuild){activeBuild=parseChatBuilds(JSON.stringify({version:1,patch:data.patch,builds:[input.activeBuild]}),data)[0];if(activeBuild.champion!==save.scenario.champion)throw new Error('Draft champion and proposal disagree.');}
  let baseline:Baseline|undefined;
- if(input.baseline){const b=input.baseline;const parsed=parseSave(JSON.stringify({...save,items:b.ids,scenario:{...save.scenario,budget:100000,slots:6,runePage:b.runePage||save.scenario.runePage,shards:b.shards||save.scenario.shards}}),data.champions,data.items);if(!validRunePage(parsed.scenario.runePage,data.trees))throw new Error('Invalid baseline rune page.');
+ if(input.baseline){const b=input.baseline;const parsed=parseSave(JSON.stringify({...save,items:b.ids,scenario:{...save.scenario,budget:100000,slots:6,runePage:b.runePage||save.scenario.runePage,shards:b.shards||save.scenario.shards,effects:b.effects??{},conquerorStacks:b.conquerorStacks??0,spellbladeReady:b.spellbladeReady??false,firstStrikeReady:b.firstStrikeReady??false}}),data.champions,data.items);if(!validRunePage(parsed.scenario.runePage,data.trees))throw new Error('Invalid baseline rune page.');
   if(b.source&&(!['OP.GG','Lolalytics'].includes(b.source.provider)||b.source.kind!=='observed-core'||typeof b.source.role!=='string'||typeof b.source.patch!=='string'||typeof b.source.checkedAt!=='string'||!Number.isInteger(b.source.matches)||b.source.matches<0))throw new Error('Invalid baseline provenance.');
-  baseline={ids:parsed.items,names:parsed.items.map(id=>data.items.find(i=>i.id===id)!.name),runePage:parsed.scenario.runePage,shards:parsed.scenario.shards,...(b.source?{source:b.source}:{})};
+  baseline={ids:parsed.items,names:parsed.items.map(id=>data.items.find(i=>i.id===id)!.name),runePage:parsed.scenario.runePage,shards:parsed.scenario.shards,effects:parsed.scenario.effects,conquerorStacks:parsed.scenario.conquerorStacks,spellbladeReady:parsed.scenario.spellbladeReady,firstStrikeReady:parsed.scenario.firstStrikeReady,...(b.source?{source:b.source}:{})};
  }
  return {version:1,save,tab:input.tab,...(activeBuild?{activeBuild}:{}),...(baseline?{baseline}:{}),...(input.manualOnly===undefined?{}:{manualOnly:input.manualOnly})};
 }

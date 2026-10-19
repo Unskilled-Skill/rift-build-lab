@@ -2,6 +2,7 @@ import {castModes,abilityModel,penetrationRules} from './ability-models';
 import type {Catalog,Champion,Item,RuneTree,Scenario} from './types';
 import {defaultScenario} from './scenario';
 import {legalBuild} from './build-rules';
+import {parseCombatEffects} from './combat-effects';
 export interface Save {version:1;patch:'26.20';scenario:Scenario;items:number[];notes?:string;requiresManualTest?:boolean}
 export function validRunePage(ids:number[],trees:RuneTree[]){if(ids.length!==6||new Set(ids).size!==6)return false;const primary=trees.find(t=>t.slots[0].runes.some(r=>r.id===ids[0]));if(!primary||!ids.slice(0,4).every((id,n)=>primary.slots[n].runes.some(r=>r.id===id)))return false;const secondary=trees.find(t=>t.id!==primary.id&&t.slots.slice(1).some(slot=>slot.runes.some(r=>r.id===ids[4])));if(!secondary)return false;const rows=ids.slice(4).map(id=>secondary.slots.findIndex(slot=>slot.runes.some(r=>r.id===id)));return rows.every(n=>n>0)&&rows[0]!==rows[1];}
 export function parseSave(text:string,champions:Champion[],items:Item[]):Save{
@@ -16,6 +17,7 @@ export function parseSave(text:string,champions:Champion[],items:Item[]):Save{
  if((s.champion==='Sett'&&s.mode!=='w')||(s.champion==='Cassiopeia'&&!['q','e','qe','sequence'].includes(s.mode))||(s.mode==='blitz-e'&&s.champion!=='Blitzcrank')||(s.mode.startsWith('tahm-')&&s.champion!=='TahmKench'))throw new Error('Ability mode does not match the champion.');
  if(s.mode.startsWith('cast-')&&!abilityModel(s.champion,s.mode))throw new Error('Ability mode does not match the champion.');
  const optional:Record<string,unknown>={};
+ if(s.effects!==undefined)optional.effects=parseCombatEffects(s.effects);
  for(const key of ['spellbladeReady','procReady','firstStrikeReady'])if(s[key]!==undefined){if(typeof s[key]!=='boolean')throw new Error(`Invalid ${key}.`);optional[key]=s[key];}
  for(const [key,max] of [['gatheringMinutes',120],['targetHealthPercent',100],['extraArmor',10000],['extraMR',10000],['extraAS',500]] as const)if(s[key]!==undefined){if(typeof s[key]!=='number'||!Number.isFinite(s[key])||s[key]<0||s[key]>max)throw new Error(`Invalid ${key}.`);optional[key]=s[key];}
  for(const [key,max] of [['traitRank',5],['apheliosLethalityRanks',6]] as const)if(s[key]!==undefined){if(typeof s[key]!=='number'||!Number.isInteger(s[key])||s[key]<0||s[key]>max)throw new Error(`Invalid ${key}.`);optional[key]=s[key];}

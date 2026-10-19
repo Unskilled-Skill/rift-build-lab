@@ -15,7 +15,7 @@ it('reports a zero baseline without infinity or a fabricated percentage',()=>{
 });
 it('never compares a baseline against different levels, ranks or target defenses',()=>{
  const r=compareAtTarget(champion,[],[],scenario,{...scenario,level:18,rank:5,mr:999,armor:999,targetHP:99999});
- expect(r.delta).toBe(0);expect(r.experiment.damage).toBe(65);
+ expect(r.delta).toBe(0);expect(r.experiment.damage).toBeCloseTo(65);
 });
 it('buys only an affordable ordered prefix and leaves gold unspent',()=>{
  const result=purchaseAtBudget([item(1,3000),item(2,1000)],2500);

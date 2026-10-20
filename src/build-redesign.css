@@ -148,3 +148,69 @@
 .bench-tools [role=tabpanel]>section+section{margin-top:28px;padding-top:24px;border-top:1px solid #253338}
 @media(max-width:1100px){.bench-workspace{grid-template-columns:1fr}.bench-result{position:static}.bench-result .stat-strip{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:600px){.bench-setup>.build-editor,.bench-setup>.rune-page,.bench-tools [role=tabpanel]{padding:16px}.bench-tabs{padding:0 8px}.bench-tabs button{flex:1 1 auto;padding:0 10px}.bench-result .stat-strip{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Fit the window: on wide screens the page itself never scrolls. Fixed chrome stays put and each
+   screen's columns scroll inside their own panel. Narrow or short windows keep normal page scrolling. */
+@media(min-width:1101px) and (min-height:640px){
+ html,body{height:100%;overflow:hidden}
+ .app{height:100vh;display:flex;flex-direction:column;overflow:hidden}
+ .app>*{flex:none}
+ .app>.workspace{flex:1 1 auto;min-height:0;width:100%;grid-template-rows:minmax(0,1fr)}
+ .workspace>.champion-rail{position:static;height:auto;min-height:0;overflow:hidden}
+ .workspace>.main{min-height:0;display:flex;flex-direction:column;overflow:hidden;padding-bottom:0}
+ .main>*{flex:none}
+ .main>.tabs{height:52px}
+ .main>.champion-heading{padding:12px 0;gap:14px}
+ .main>.champion-heading>img{width:48px;height:48px}
+ .main>.champion-heading h1{font-size:26px}
+ .main>.champion-heading p{margin-top:2px;font-size:12px}
+ .main>.tab-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding-bottom:8px}
+ .tab-body>.footer{padding:16px 0}
+
+ /* Panel screens: the tab body stops scrolling and hands the scrolling to its columns. */
+ .tab-body:has(.plan-library),.tab-body:has(.meta-layout),.tab-body:has(.bench-workspace){overflow:hidden;display:flex;flex-direction:column;padding-bottom:0}
+ .tab-body:has(.plan-library)>*,.tab-body:has(.meta-layout)>*,.tab-body:has(.bench-workspace)>*{flex:none}
+ .tab-body:has(.plan-library)>.footer,.tab-body:has(.meta-layout)>.footer,.tab-body:has(.bench-workspace)>.footer{display:none}
+ :is(.plan-list-column,.plan-detail-pane,.meta-main,.meta-side,.bench-setup,.bench-result)>*{flex-shrink:0}
+ .panel-scroll,.plan-list-column,.plan-detail-pane,.meta-main,.meta-side,.bench-setup,.bench-result{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+
+ /* Builds */
+ .tab-body>.chat-inbox{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:0 0 12px;margin:0}
+ .chat-inbox>*{flex:none}
+ .chat-inbox>.library-heading{padding-top:10px}
+ .chat-inbox>.library-heading{flex-wrap:nowrap}
+ .chat-inbox>.library-heading>.collection-note{order:1;flex:1 1 0;min-width:0;font-size:12px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .chat-inbox>.library-heading>.library-refresh{order:2}
+ .chat-inbox>.library-count{display:none}
+ .chat-inbox>.plan-library{margin-top:12px}
+ .chat-inbox>.plan-library{flex:1 1 auto;min-height:0;grid-template-rows:minmax(0,1fr);align-items:stretch}
+ .plan-library>.plan-list-column{position:static;padding-right:4px}
+ .chat-inbox>.request-disclosure{margin-top:10px;padding-top:4px;max-height:40vh;overflow:auto}
+ .chat-inbox:has(>.provider-references){overflow:auto;overscroll-behavior:contain}
+ .chat-inbox:has(>.provider-references)>.plan-library{flex:none}
+ .chat-inbox:has(>.provider-references) :is(.plan-list-column,.plan-detail-pane,.meta-main,.meta-side){overflow:visible}
+
+ /* Meta & teams */
+ .tab-body>.provider-references{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;margin:12px 0 0;padding-bottom:12px}
+ .provider-references>*{flex:none}
+ .provider-references>.meta-layout{flex:1 1 auto;min-height:0;grid-template-rows:minmax(0,1fr);align-items:stretch;padding-top:0}
+ .meta-layout>.meta-side{position:static}
+ .meta-main{padding-right:4px}
+ .provider-references>.provider-observation-details{margin-top:10px;max-height:40vh;overflow:auto}
+
+ /* Test bench */
+ .tab-body:has(.bench-workspace){display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto minmax(0,1fr);align-items:center;column-gap:20px}
+ .tab-body:has(.bench-workspace)>*:not(.bench-heading,.objective-chooser,.working-draft-actions){grid-column:1/-1}
+ .tab-body:has(.bench-workspace)>.bench-heading{padding:10px 0;margin:0;border:0}
+ .tab-body:has(.bench-workspace)>.bench-heading h2{font-size:20px;margin:0}
+ .tab-body:has(.bench-workspace)>.bench-heading p,.tab-body:has(.bench-workspace)>.bench-heading button,.tab-body:has(.bench-workspace)>.objective-chooser .footnote,.tab-body:has(.bench-workspace)>.working-draft-actions .footnote{display:none}
+ .tab-body:has(.bench-workspace)>.objective-chooser{margin:0;padding:0;border:0;display:block}
+ .tab-body:has(.bench-workspace)>.objective-chooser .field{flex-direction:row;align-items:center;gap:10px;max-width:520px}
+ .tab-body:has(.bench-workspace)>.objective-chooser .field>span{white-space:nowrap}
+ .tab-body:has(.bench-workspace)>.working-draft-actions{margin:0;padding:0;border:0}
+ .bench-result .model-boundary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+ .tab-body>.bench-workspace{min-height:0;height:100%;margin:0 0 12px;align-self:stretch;grid-template-rows:minmax(0,1fr);align-items:stretch}
+ .bench-workspace>.bench-result{position:static}
+ .bench-setup{padding-right:4px}
+ .bench-setup>.bench-tools{margin-top:8px}
+}

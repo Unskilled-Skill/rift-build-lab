@@ -21,7 +21,7 @@ function records(base) {
 
 export function itemTiming(sources, itemIds) {
   const add = (map, id, slot, weight) => { if (!itemIds.has(id) || !(weight > 0)) return; const e = map.get(id) || { sum: 0, weight: 0 }; e.sum += slot * weight; e.weight += weight; map.set(id, e); };
-  const global = new Map(), champions = new Map(), seen = new Set(), roles = new Map();
+  const global = new Map(), champions = new Map(), seen = new Set(), roles = new Map(), keystones = new Map();
   let games = 0;
   for (const s of sources) {
     if (s?.status !== 'available' || !Array.isArray(s.observedCoreItemIds)) continue;
@@ -33,6 +33,8 @@ export function itemTiming(sources, itemIds) {
     played[s.role] = Math.max(played[s.role] || 0, s.matches || core);
     roles.set(s.champion, played);
     games += s.matches || 0;
+    const keystone = Array.isArray(s.observedRunePage) ? s.observedRunePage[0] : undefined;
+    if (keystone) { const k = keystones.get(s.champion) || {}; k[keystone] = (k[keystone] || 0) + (s.keystoneMatches || core); keystones.set(s.champion, k); }
     const own = champions.get(s.champion) || new Map();
     champions.set(s.champion, own);
     s.observedCoreItemIds.forEach((id, n) => { add(global, id, n + 1, core); add(own, id, n + 1, core); });
@@ -40,7 +42,7 @@ export function itemTiming(sources, itemIds) {
   }
   const flatten = (map) => Object.fromEntries([...map].sort((a, b) => a[0] - b[0]).map(([id, e]) => [id, { slot: Math.round(e.sum / e.weight * 100) / 100, matches: Math.round(e.weight) }]));
   const ranked = Object.fromEntries([...roles].sort().map(([c, r]) => [c, Object.entries(r).sort((a, b) => b[1] - a[1]).map(([role, matches]) => ({ role, matches }))]));
-  return { global: flatten(global), champions: Object.fromEntries([...champions].sort().map(([c, m]) => [c, flatten(m)])), roles: ranked, sources: seen.size, games };
+  return { global: flatten(global), champions: Object.fromEntries([...champions].sort().map(([c, m]) => [c, flatten(m)])), roles: ranked, keystones: Object.fromEntries([...keystones].sort().map(([c, k]) => [c, Object.entries(k).sort((a, b) => b[1] - a[1]).map(([id, matches]) => ({ id: Number(id), matches }))])), sources: seen.size, games };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

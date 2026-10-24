@@ -6,6 +6,8 @@ import {earnedPrerequisites} from './league-export';
 import {legalBuild} from './build-rules';
 import {validRunePage} from './storage';
 import {purchaseTiming} from './purchase-timing';
+import {buildProof} from './build-proof';
+import type {BuildProof} from './build-proof';
 // One presentation/export contract for authored builds, ceilings, experiments, meta references and generated meta plans.
 export type Provenance='source-observed'|'authored'|'inferred'|'calculator';
 export type StageId='start'|'early-recall'|'first-core'|'boots'|'later-core'|'situational'|'final';
@@ -21,6 +23,7 @@ export interface BuildPlan {
  rationale:string[];tradeoffs:string[]; // item/rune reasoning and authored tradeoffs, shown below the stages
  provenance:{items:Provenance;runes:Provenance;order:Provenance};
  limits:string[];
+ proof?:BuildProof; // how close the build is to ranked play; absent without ranked timing data
 }
 export class BuildPlanError extends Error {
  constructor(public code:'unknown-champion'|'illegal-items'|'illegal-runes'|'stage-overlap',message:string){super(message);this.name='BuildPlanError'}
@@ -49,6 +52,7 @@ function finish(data:Catalog,stages:PurchaseStage[]):PurchaseStage[]{
  });
 }
 const unavailable=(id:StageId,title:string,note:string):PurchaseStage=>({id,title,buy:[],chooseOne:[],note,provenance:'authored',available:false});
+const withProof=(data:Catalog,champion:string,ids:number[],runes:number[],ranked:boolean)=>{const proof=buildProof(data,champion,ids,runes,ranked);return proof?{proof}:{}};
 export function planFromChatBuild(data:Catalog,build:ChatBuild,collection:'authored'|'ceiling'|'experiment'|'meta-reference'):BuildPlan{
  validate(data,build.champion,build.itemIds,build.runePage,build.shards);
  const isBoot=(id:number)=>data.items.find(i=>i.id===id)!.tags.includes('Boots');
@@ -80,6 +84,7 @@ export function planFromChatBuild(data:Catalog,build:ChatBuild,collection:'autho
   stages:finish(data,stages.map(stage=>stage.id==='first-core'&&firstFinal!==undefined&&timing.stackingIds.includes(firstFinal)?{...stage,note:timing.notes.filter(n=>n.startsWith(data.items.find(i=>i.id===firstFinal)?.name||'')).join(' ')||timing.notes[0],provenance:'inferred'}:stage)),authoredPriorities:[...build.buyOrder],rationale:[build.hypothesis,...timing.notes.filter(n=>n!==observedNote)],tradeoffs:[...build.tradeoffs],
   provenance:{items:collection==='meta-reference'||build.ranked?'source-observed':own,runes:runesObserved?'source-observed':own,order:timing.stackingIds.length||timing.reordered?'inferred':own},
   limits:[...build.coverageNotes],
+  ...withProof(data,build.champion,inBuyOrder,build.runePage,!!build.ranked),
  };
 }
 // Practical meta stages from the reviewed checkpoint rules; shared by planFromMeta and the existing meta purchase guide.
@@ -104,6 +109,7 @@ export function planFromMeta(data:Catalog,build:FullMetaBuild):BuildPlan{
   stages:metaStages(data,build),authoredPriorities:[],rationale:build.reasons.map(r=>`${data.items.find(i=>i.id===r.itemId)?.name||r.itemId}: ${r.reason}`),tradeoffs:[],
   provenance:{items:'source-observed',runes:'source-observed',order:'inferred'},
   limits:[...build.warnings],
+  ...withProof(data,build.champion,build.itemIds,build.runePage,true),
  };
 }
 export function planFromWorkspace(data:Catalog,champion:string,ids:number[],runes:number[],shards:number[],name:string,options:{order?:'authored'|'calculator'}={}):BuildPlan{
@@ -114,6 +120,7 @@ export function planFromWorkspace(data:Catalog,champion:string,ids:number[],rune
   stages:finish(data,[{id:'final',title:'Final build',buy:[...ids],chooseOne:[],note:order==='calculator'?'Damage-calculated order for the selected objective, not a practical match order.':'Current equipped order.',provenance:order,available:true}]),
   authoredPriorities:[],rationale:[],tradeoffs:[],provenance:{items:'authored',runes:'authored',order},
   limits:order==='calculator'?['Order maximizes the selected objective only; component stats, defensive utility and most procs are excluded.']:[],
+  ...withProof(data,champion,ids,runes,false),
  };
 }
 export function filterPlans(plans:BuildPlan[],filter:{collection?:PlanCollection;role?:PlanRole|'all'}):BuildPlan[]{

@@ -5,6 +5,7 @@ import BuildPlanView from './BuildPlanView';
 import {filterPlans,planFromChatBuild} from './build-plan';
 import type {BuildPlan,PlanRole} from './build-plan';
 import BuildActions from './BuildActions';
+import {proofLabels} from './build-proof';
 import ProviderReferences from './ProviderReferences';
 import {ArrowLeft,ArrowRight,Check,Copy,Download,RefreshCw,Save,X} from 'lucide-react';
 import type {Catalog,Champion,Scenario} from './types';
@@ -67,7 +68,7 @@ export default function BuildLibrary({onSelection,request,data,champion,scenario
   {loading&&!visible.length?<div className="build-skeletons" aria-hidden="true">{[0,1,2,3].map(n=><div key={n}><div/><div/><div/></div>)}</div>:!visible.length&&!error?(collection==='meta'?null:<div className="chat-empty"><h3>{collection==='meta'?'No authored six-item completion yet':'No builds in this collection yet'}</h3><p>{collection==='meta'?'Use the provider cores above as a reference. The four-build collection contains testable six-item proposals for every champion.':'Choose “Four builds per champion” above, or open the request section to ask for an experiment.'}</p></div>):<div className="plan-library">
    <div className="plan-list-column">{roles.length>1&&<label className="field plan-role-filter"><span>Role</span><select value={role} onChange={e=>setRole(e.target.value as PlanRole|'all')}><option value="all">All roles</option>{roles.map(r=><option key={r} value={r}>{roleNames[r]}</option>)}</select></label>}
    <ul className="plan-list" ref={listRef} aria-label={`${champion.name} builds`}>{shown.map(({build:b,plan})=><li key={b.id}><button className="plan-row" aria-current={selected?.build.id===b.id?'true':undefined} onClick={()=>select(b.id)}>
-    <span className="plan-row-title"><strong>{title(b)}</strong><small>{plan.category}{plan.role!=='unspecified'&&` · ${roleNames[plan.role]}`}</small></span>
+    <span className="plan-row-title"><strong>{title(b)}</strong><small>{plan.category}{plan.role!=='unspecified'&&` · ${roleNames[plan.role]}`}{plan.proof&&<span className={`proof-badge is-${plan.proof.level}`}>{proofLabels[plan.proof.level]}</span>}</small></span>
     <span className="plan-row-items" aria-hidden="true">{plan.finalItemIds.map(id=><img key={id} src={data.items.find(i=>i.id===id)?.iconUrl} alt="" width={26} height={26} loading="lazy"/>)}</span>
     <span className="plan-row-facts"><span>{data.runes.find(r=>r.id===plan.runePage[0])?.name}</span><span>{cost(plan).toLocaleString('en-US')}g</span>{activeBuildId===b.id&&<span className="active-label"><Check size={12} aria-hidden="true"/>Active</span>}{counts[b.id]>0&&<span>{counts[b.id]} {counts[b.id]===1?'test':'tests'}</span>}</span>
    </button></li>)}</ul>{!shown.length&&<p className="footnote">No builds match this role.</p>}</div>

@@ -7,6 +7,7 @@ import PurchaseStages,{provenanceLabels} from './PurchaseStages';
 import RunePreview from './RunePreview';
 import SourceDetails from './SourceDetails';
 import {appPath} from './hosting';
+import {proofLabels,proofSummary} from './build-proof';
 import './build-plan.css';
 const roleLabels:Record<BuildPlan['role'],string>={top:'Top',jungle:'Jungle',mid:'Mid',adc:'Bot',support:'Support',unspecified:'Any role'};
 const orderNotes:Record<BuildPlan['provenance']['order'],string>={
@@ -26,10 +27,11 @@ export default function BuildPlanView({data,plan,actions,children,lead,hideFinal
  const final=hideFinal?undefined:plan.stages.find(s=>s.id==='final'),stages=plan.stages.filter(s=>s.id!=='final');
  return <article className={`plan-view is-${layout}`} aria-labelledby={heading}>
   <header className="plan-header">
-   <p className="plan-chips"><span className="plan-chip is-category">{plan.category}</span><span className="plan-chip">{champion} · {roleLabels[plan.role]}</span><span className="plan-chip">Patch {plan.patch}</span></p>
+   <p className="plan-chips"><span className="plan-chip is-category">{plan.category}</span><span className="plan-chip">{champion} · {roleLabels[plan.role]}</span><span className="plan-chip">Patch {plan.patch}</span>{plan.proof&&<span className={`plan-chip proof is-${plan.proof.level}`}>{proofLabels[plan.proof.level]}</span>}</p>
    <h3 id={heading}>{plan.name}</h3>
    <p className="plan-goal">{plan.goal}</p>
    {plan.summary!==plan.goal&&<p className="plan-summary">{plan.summary}</p>}
+   {plan.proof&&<p className={`plan-proof ${plan.proof.keystone?'':'is-warning'}`}>{proofSummary(data,plan.champion,plan.proof)}</p>}
    <p className="plan-meta">{plan.checkedAt&&<>Checked {plan.checkedAt} · </>}Items {provenanceLabels[plan.provenance.items].toLowerCase()} · Runes {provenanceLabels[plan.provenance.runes].toLowerCase()}{plan.sourceURL&&<> · <a href={plan.sourceURL} target="_blank" rel="noreferrer">Source<ExternalLink size={12} aria-hidden="true"/></a></>}</p>
   </header>
   {lead}

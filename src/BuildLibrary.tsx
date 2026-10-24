@@ -5,7 +5,7 @@ import BuildPlanView from './BuildPlanView';
 import {filterPlans,planFromChatBuild} from './build-plan';
 import type {BuildPlan,PlanRole} from './build-plan';
 import BuildActions from './BuildActions';
-import {proofLabels} from './build-proof';
+import {proofLabels,rankedSafeVariant} from './build-proof';
 import ProviderReferences from './ProviderReferences';
 import {ArrowLeft,ArrowRight,Check,Copy,Download,RefreshCw,Save,X} from 'lucide-react';
 import type {Catalog,Champion,Scenario} from './types';
@@ -24,7 +24,7 @@ function readRecords(data:Catalog){try{return parseTestRecords(localStorage.getI
 export default function BuildLibrary({onSelection,request,data,champion,scenario,items,activeBuildId,onTest,onBaseline}:Props){
  const [builds,setBuilds]=useState<ChatBuild[]>([]),[error,setError]=useState(''),[goal,setGoal]=useState(''),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
  const [collection,setCollection]=useState(()=>{try{const saved=sessionStorage.getItem('rift-build-collection');return ['four','earlier','ceilings','meta'].includes(saved||'')?saved!:'four'}catch{return 'four'}}),[loading,setLoading]=useState(true),[counts,setCounts]=useState<Record<string,number>>({});
- const [selectedId,setSelectedId]=useState<string>(),[role,setRole]=useState<PlanRole|'all'>('all');
+ const [selectedId,setSelectedId]=useState<string>(),[role,setRole]=useState<PlanRole|'all'>('all'),[safeIds,setSafeIds]=useState<Set<string>>(()=>new Set());
  useEffect(()=>{if(request&&request.champion===champion.alias){setCollection(request.collection);setSelectedId(request.buildId);setRole('all')}},[request?.nonce]);
  const controller=useRef<AbortController|null>(null),goalRef=useRef<HTMLTextAreaElement>(null),detailRef=useRef<HTMLElement>(null),listRef=useRef<HTMLUListElement>(null);
  const refresh=async(initial=false)=>{
@@ -72,12 +72,20 @@ export default function BuildLibrary({onSelection,request,data,champion,scenario
     <span className="plan-row-items" aria-hidden="true">{plan.finalItemIds.map(id=><img key={id} src={data.items.find(i=>i.id===id)?.iconUrl} alt="" width={26} height={26} loading="lazy"/>)}</span>
     <span className="plan-row-facts"><span>{data.runes.find(r=>r.id===plan.runePage[0])?.name}</span><span>{cost(plan).toLocaleString('en-US')}g</span>{activeBuildId===b.id&&<span className="active-label"><Check size={12} aria-hidden="true"/>Active</span>}{counts[b.id]>0&&<span>{counts[b.id]} {counts[b.id]===1?'test':'tests'}</span>}</span>
    </button></li>)}</ul>{!shown.length&&<p className="footnote">No builds match this role.</p>}</div>
-   {selected&&(()=>{const b=selected.build;return <section className={`plan-detail-pane ${activeBuildId===b.id?'is-active':''}`} ref={detailRef} tabIndex={-1} aria-label="Selected build">
+   {selected&&(()=>{const written=selected.build;
+    // Ranked-safe version: same idea items, ranked items in the other slots and a ranked page when the keystone is off-path.
+    const variant=rankedSafeVariant(data,written.champion,written.itemIds,written.runePage,written.shards),safe=!!variant&&safeIds.has(written.id);
+    const b=safe?{...written,id:`${written.id}-safe`,name:`${written.name} (ranked-safe)`,itemIds:variant!.itemIds,runePage:variant!.runePage,shards:variant!.shards}:written;
+    const shownPlan=safe?planFromChatBuild(data,b,kind):selected.plan;
+    const toggle=(on:boolean)=>setSafeIds(ids=>{const next=new Set(ids);if(on)next.add(written.id);else next.delete(written.id);return next});
+    const item=(id:number)=>data.items.find(i=>i.id===id)?.name||String(id);
+    const versions=variant&&<div className="safe-switch"><div className="collection-switch" role="group" aria-label="Build version"><button aria-pressed={!safe} onClick={()=>toggle(false)}>As written</button><button aria-pressed={safe} onClick={()=>toggle(true)}>Ranked-safe</button></div><p className="footnote">{safe?'Ranked-safe':'Ranked-safe version'}: {[...variant.swaps.map(w=>`${item(w.from)} → ${item(w.to)}`),...(variant.runesChanged?[`ranked ${data.runes.find(r=>r.id===variant.runePage[0])?.name} page`]:[])].join(' · ')}. Keeps the build’s idea items; grades {proofLabels[variant.proof.level]}.</p></div>;
+    return <section className={`plan-detail-pane ${activeBuildId===b.id?'is-active':''}`} ref={detailRef} tabIndex={-1} aria-label="Selected build">
     {!isDesktop&&<button className="quiet plan-back" onClick={()=>listRef.current?.querySelector<HTMLButtonElement>('[aria-current]')?.focus()}><ArrowLeft size={14} aria-hidden="true"/>Back to build list</button>}
     {b.ceiling&&<div className="ceiling-brief"><strong>{b.ceiling.targetSlot} · {b.ceiling.targetName}</strong><p>{metricLabels[b.ceiling.metric]} · {b.ceiling.damageType==='none'?'non-damage number':`${b.ceiling.damageType} packet`}</p><p className="footnote">Benchmark: {b.ceiling.finiteState}</p><span className="warning">Ceiling candidate · not solver verified</span></div>}
     {b.meta&&<div className="ceiling-brief"><strong>{b.meta.role.toUpperCase()} · observed source reference</strong><p>Early core: {b.meta.observedCoreItemIds.map(id=>data.items.find(i=>i.id===id)?.name).join(' + ')}</p><p className="footnote">{b.meta.inferredItemIds.length?`Our substitutions: ${b.meta.inferredItemIds.map(id=>data.items.find(i=>i.id===id)?.name).join(', ')}`:'All six representative items appear in the source full-build list.'}</p><details><summary>Source & provenance</summary><p><a href={b.meta.sourceURL} target="_blank" rel="noreferrer">{b.meta.sourceTitle}</a> · checked {b.meta.checkedAt}</p><p>{b.meta.matches.toLocaleString()} champion-role matches; not a six-item build sample.</p><p className="footnote">{b.meta.sourceScope}</p><p>Source full-build list: {b.meta.observedFullItemIds.map(id=>data.items.find(i=>i.id===id)?.name).join(' · ')}</p><p className="footnote">Items and rune identities come from the source. The playstyle rationale and tradeoffs below are our interpretation.</p></details></div>}
     {b.champion==='Cassiopeia'&&b.itemIds.some(id=>data.items.find(i=>i.id===id)?.tags.includes('Boots'))&&<p className="warning">Boots are eligible after the 26.1 passive rework. Their movement benefit is outside this damage model.</p>}
-    <BuildPlanView data={data} plan={selected.plan} actions={<BuildActions data={data} plan={selected.plan} onTest={()=>onTest(b)} testLabel={activeBuildId===b.id?'Continue test':'Load into test bench'} testState={<>{activeBuildId===b.id?<span className="active-label"><Check size={14} aria-hidden="true"/>Active build</span>:null}{counts[b.id]>0&&<span>{counts[b.id]} recorded {counts[b.id]===1?'test':'tests'}</span>}</>}/>}><details className="plan-detail"><summary>How to test it</summary><h4>Test plan</h4><ol>{b.testPlan.map((step,n)=><li key={n}>{step}</li>)}</ol><h4>What would disprove it?</h4><ul>{b.failureConditions.map((f,n)=><li key={n}>{f}</li>)}</ul><p className="footnote">Starting conditions: {Object.entries(b.conditions).map(([k,v])=>`${k}: ${v}`).join(' · ')}</p></details></BuildPlanView>
+    <BuildPlanView data={data} plan={shownPlan} lead={versions} actions={<BuildActions data={data} plan={shownPlan} onTest={()=>onTest(b)} testLabel={activeBuildId===b.id?'Continue test':'Load into test bench'} testState={<>{activeBuildId===b.id?<span className="active-label"><Check size={14} aria-hidden="true"/>Active build</span>:null}{counts[b.id]>0&&<span>{counts[b.id]} recorded {counts[b.id]===1?'test':'tests'}</span>}</>}/>}><details className="plan-detail"><summary>How to test it</summary><h4>Test plan</h4><ol>{b.testPlan.map((step,n)=><li key={n}>{step}</li>)}</ol><h4>What would disprove it?</h4><ul>{b.failureConditions.map((f,n)=><li key={n}>{f}</li>)}</ul><p className="footnote">Starting conditions: {Object.entries(b.conditions).map(([k,v])=>`${k}: ${v}`).join(' · ')}</p></details></BuildPlanView>
 
    </section>})()}
   </div>}

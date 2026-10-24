@@ -31,8 +31,9 @@ const MAX_MANIFEST: usize = 2 * 1024 * 1024;
 const MAX_FILE: u64 = 16 * 1024 * 1024;
 const MAX_TOTAL: u64 = 64 * 1024 * 1024;
 const MAX_FILES: usize = 5000;
-const ALLOWED: [&str; 11] = [
+const ALLOWED: [&str; 12] = [
     "catalog.json",
+    "item-timing.json",
     "chatgpt-builds.json",
     "champion-meta-plans.json",
     "meta-baselines.json",

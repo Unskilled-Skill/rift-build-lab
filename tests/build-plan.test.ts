@@ -70,7 +70,7 @@ it('produces the same item set as the existing meta export for the same checkpoi
  const bundle=createBundleFromPlan(data,plan);expect(bundle.championAlias).toBe('Ahri');expect(bundle.runePage.selectedPerkIds).toEqual([...plan.runePage,...plan.shards]);
 });
 it('preserves authored buy-order prose verbatim and never derives item IDs from it',()=>{
- for(const b of authored.slice(0,40)){const p=planFromChatBuild(data,b,'authored');expect(p.authoredPriorities).toEqual(b.buyOrder);expect(p.finalItemIds).toEqual(b.itemIds)}
+ for(const b of authored.slice(0,40)){const p=planFromChatBuild(data,b,'authored');expect(p.authoredPriorities).toEqual(b.buyOrder);expect([...p.finalItemIds].sort()).toEqual([...b.itemIds].sort())}
 });
 it('maps earned first-core items to their buyable prerequisite with an earn note',()=>{
  const b=authored.find(b=>b.itemIds.find(id=>!item(id).tags.includes('Boots'))===3040)??authored.find(b=>b.itemIds.includes(3040))!;

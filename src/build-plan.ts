@@ -53,26 +53,28 @@ export function planFromChatBuild(data:Catalog,build:ChatBuild,collection:'autho
  validate(data,build.champion,build.itemIds,build.runePage,build.shards);
  const isBoot=(id:number)=>data.items.find(i=>i.id===id)!.tags.includes('Boots');
  const observed=new Set(build.meta?.observedCoreItemIds||[]);
- const timing=purchaseTiming(data,build.itemIds);
+ const timing=purchaseTiming(data,build.itemIds,false,build.champion);
+ const observedNote=timing.observed?timing.notes[0]:'';
  const firstFinal=timing.coreIds.find(id=>!finalQuests.includes(id))??timing.coreIds[0];
  const own:Provenance='authored';
  const boots=build.itemIds.filter(isBoot),later=timing.coreIds.filter(id=>id!==firstFinal);
+ const inBuyOrder=[...(firstFinal===undefined?[]:[firstFinal]),...boots,...later];
  const stages:PurchaseStage[]=[
   unavailable('start','Starting purchase','No reviewed starting purchase is recorded for this build. Choose a standard start for the lane and resource.'),
   timing.tearEarly?{id:'early-recall',title:'First recall options',buy:[],chooseOne:[3070],note:'Consider an early Tear to begin earning mana charges. Buy it when the lane allows; this is a component option, not a second full core purchase.',provenance:'inferred',available:true}:unavailable('early-recall','First recall options','No reviewed recall script is recorded for this build. Buy components toward the first core.'),
-  firstFinal===undefined?unavailable('first-core','First core target','This build has no non-boot item to prioritize.'):{id:'first-core',title:'First core target',buy:[earnedPrerequisites[firstFinal]||firstFinal],chooseOne:[],note:earnedPrerequisites[firstFinal]?'Buy the prerequisite item and earn its upgrade through the required stacks or quest.':'First listed core item in the authored build.',provenance:observed.has(firstFinal)?'source-observed':own,available:true},
+  firstFinal===undefined?unavailable('first-core','First core target','This build has no non-boot item to prioritize.'):{id:'first-core',title:'First core target',buy:[earnedPrerequisites[firstFinal]||firstFinal],chooseOne:[],note:earnedPrerequisites[firstFinal]?'Buy the prerequisite item and earn its upgrade through the required stacks or quest.':timing.observed?'First completed item in the order ranked players buy these items.':'First listed core item in the authored build.',provenance:observed.has(firstFinal)?'source-observed':own,available:true},
   boots.length?{id:'boots',title:'Boots window',buy:boots,chooseOne:[],note:'Buy boots when movement or defensive needs justify it; their inventory position is not a buy-order requirement.',provenance:own,available:true}:unavailable('boots','Boots window','This build does not include boots.'),
-  later.length?{id:'later-core',title:'After the core',buy:later,chooseOne:[],note:'Remaining items in authored inventory order. Recheck the match before each major buy.',provenance:own,available:true}:unavailable('later-core','After the core','No further items after the first core.'),
-  {id:'final',title:'Final build',buy:[...build.itemIds],chooseOne:[],note:'Six-item target. Earned upgrades export their buyable prerequisite.',provenance:collection==='meta-reference'?'source-observed':own,available:true},
+  later.length?{id:'later-core',title:'After the core',buy:later,chooseOne:[],provenance:timing.observed||timing.reordered?'inferred':own,note:`${timing.observed?`Remaining items in the order ranked players buy them. ${observedNote}`:'Remaining items in authored inventory order.'} Recheck the match before each major buy.`.replace(/\s+/g,' ').trim(),available:true}:unavailable('later-core','After the core','No further items after the first core.'),
+  {id:'final',title:collection==='ceiling'?'Ceiling loadout':'Final build',buy:inBuyOrder,chooseOne:[],note:collection==='ceiling'?'Late-game loadout scored under the ceiling benchmark. The stages above are a practical way to reach it, not part of the benchmark.':'Six-item target. Earned upgrades export their buyable prerequisite.',provenance:collection==='meta-reference'?'source-observed':own,available:true},
  ];
  const runesObserved=!!build.meta?.crosschecks?.some(c=>c.observedRunePage.join()===build.runePage.join());
  return {
   id:`${collection}:${build.champion}:${build.id}`,collection,champion:build.champion,role:build.meta?normalizeRole(build.meta.role):'unspecified',
   name:build.name,category:build.category||(collection==='ceiling'?'Ability ceiling':collection==='meta-reference'?'Current meta reference':'Experiment'),goal:build.goal,summary:build.summary||build.hypothesis,
   patch:data.patch,dataVersion:data.version,checkedAt:build.meta?.checkedAt,sourceURL:build.meta?.sourceURL,
-  finalItemIds:[...build.itemIds],runePage:[...build.runePage],shards:[...build.shards],
-  stages:finish(data,stages.map(stage=>stage.id==='first-core'&&firstFinal!==undefined&&timing.stackingIds.includes(firstFinal)?{...stage,note:timing.notes.filter(n=>n.startsWith(data.items.find(i=>i.id===firstFinal)?.name||'')).join(' ')||timing.notes[0],provenance:'inferred'}:stage)),authoredPriorities:[...build.buyOrder],rationale:[build.hypothesis,...timing.notes],tradeoffs:[...build.tradeoffs],
-  provenance:{items:collection==='meta-reference'?'source-observed':own,runes:runesObserved?'source-observed':own,order:timing.stackingIds.length?'inferred':own},
+  finalItemIds:[...inBuyOrder],runePage:[...build.runePage],shards:[...build.shards],
+  stages:finish(data,stages.map(stage=>stage.id==='first-core'&&firstFinal!==undefined&&timing.stackingIds.includes(firstFinal)?{...stage,note:timing.notes.filter(n=>n.startsWith(data.items.find(i=>i.id===firstFinal)?.name||'')).join(' ')||timing.notes[0],provenance:'inferred'}:stage)),authoredPriorities:[...build.buyOrder],rationale:[build.hypothesis,...timing.notes.filter(n=>n!==observedNote)],tradeoffs:[...build.tradeoffs],
+  provenance:{items:collection==='meta-reference'?'source-observed':own,runes:runesObserved?'source-observed':own,order:timing.stackingIds.length||timing.reordered?'inferred':own},
   limits:[...build.coverageNotes],
  };
 }

@@ -12,7 +12,7 @@ const roleLabels:Record<BuildPlan['role'],string>={top:'Top',jungle:'Jungle',mid
 const orderNotes:Record<BuildPlan['provenance']['order'],string>={
  'source-observed':'Order follows observed provider purchases.',
  'authored':'Order follows the authored build. Adapt it to the match.',
- 'inferred':'Stages are inferred from the source core and reviewed rules, not an observed buy script.',
+ 'inferred':'Order follows when ranked Emerald+ players buy these items (OP.GG and Lolalytics) and the source core, not a fixed buy script.',
  'calculator':'Damage-calculated order for the selected objective only. It is not a practical match order.',
 };
 function List({title,items,ordered}:{title:string;items:string[];ordered?:boolean}){
@@ -36,7 +36,7 @@ export default function BuildPlanView({data,plan,actions,children,lead,hideFinal
   {actions}
   <div className="plan-body">
    <section className="plan-order" aria-label="Purchase order">
-    {final&&<div className="plan-final"><div className="plan-section-row"><h4 className="plan-section-title">Final build</h4>{final.cumulativeGold!==undefined&&<small className="plan-gold">{final.cumulativeGold.toLocaleString('en-US')}g total</small>}</div>
+    {final&&<div className="plan-final"><div className="plan-section-row"><h4 className="plan-section-title">{final.title}</h4>{final.cumulativeGold!==undefined&&<small className="plan-gold">{final.cumulativeGold.toLocaleString('en-US')}g total</small>}</div>
      <ul className="plan-final-items" aria-label="Final build items">{final.buy.map((id,n)=>{const item=data.items.find(i=>i.id===id);return <li key={`${id}-${n}`} title={item?.name}><img src={item?.iconUrl||appPath('/item-placeholder.svg')} alt="" width={44} height={44} loading="lazy"/><span>{item?.name||`Unknown item ${id}`}</span></li>})}</ul></div>}
     <div className="plan-section-row"><h4 className="plan-section-title">Purchase order</h4><span className="footnote">{orderNotes[plan.provenance.order]}</span></div>
     <PurchaseStages data={data} stages={stages} provenance={plan.provenance.order==='inferred'?undefined:plan.provenance.items}/>

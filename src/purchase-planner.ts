@@ -7,7 +7,7 @@ export function planPurchases(data:Catalog,champion:Champion,scenario:Scenario,i
  const items=ids.map(id=>data.items.find(i=>i.id===(earned[id]||id))!);
  if(!items.length||items.some(i=>!i)||!legalBuild(items,100000,6,champion.alias))throw Error('Equip one to six legal items to plan their order.');
  const s={...scenario,effects:targetCombatEffects(scenario.effects),rodStacks:0,heartsteelHP:0,gatheringMinutes:0,conquerorStacks:0,spellbladeReady:false,firstStrikeReady:false};
- const timing=purchaseTiming(data,items.map(i=>i.id),options.earlyKills);
+ const timing=purchaseTiming(data,items.map(i=>i.id),options.earlyKills,champion.alias);
  const priority=options.prioritizeStacks?[...timing.stackingIds]:[];
  if(options.earlyKills&&items.some(i=>i.id===6676)){
   if(!priority.length&&timing.coreIds[0]!==6676&&timing.coreIds[0]!==undefined)priority.push(timing.coreIds[0]);

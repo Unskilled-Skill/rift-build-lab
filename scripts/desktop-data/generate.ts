@@ -15,7 +15,7 @@ import {FORMULA_COMPAT} from '../../src/model-support';
 export interface MetaBundleFile {version:1;patch:string;dataVersion:string;champion:string;roles:Record<string,{planId:string;bundle:CompanionBundle}>}
 export interface ManifestFile {path:string;bytes:number;sha256:string}
 export interface Manifest {schema:1;formulaCompat:number;revision:string;patch:string;dataVersion:string;generatedAt:string;sourceCheckedAt:{providers:string;roles:string};files:ManifestFile[]}
-const allowed=['catalog.json','chatgpt-builds.json','champion-meta-plans.json','meta-baselines.json','champions/','champion-builds/','ability-ceilings/','interaction-audit/','provider-research/','provider-roles/','desktop/meta-bundles/'];
+const allowed=['catalog.json','item-timing.json','chatgpt-builds.json','champion-meta-plans.json','meta-baselines.json','champions/','champion-builds/','ability-ceilings/','interaction-audit/','provider-research/','provider-roles/','desktop/meta-bundles/'];
 const json=(file:string)=>JSON.parse(fs.readFileSync(file,'utf8'));
 export function isManifestPath(p:string):boolean{
  return /^[A-Za-z0-9._/-]+$/.test(p)&&!p.endsWith('/')&&!p.split('/').some(part=>part===''||part==='.'||part==='..')&&allowed.some(a=>a.endsWith('/')?p.startsWith(a):p===a);

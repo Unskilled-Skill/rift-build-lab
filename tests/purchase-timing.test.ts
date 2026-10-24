@@ -16,13 +16,18 @@ it('brings owned stacking items forward without changing the final inventory',()
  expect(timing.notes.join(' ')).toContain('do not grant health');
 });
 it('makes early Collector income conditional and starts Tear preparation early',()=>{
- const normal=purchaseTiming(data,[3031,3036,6676,3042]);
- const snowball=purchaseTiming(data,[3031,3036,6676,3042],true);
- expect(normal.coreIds).toEqual([3031,3036,6676,3042]);
- expect(snowball.coreIds).toEqual([3031,6676,3036,3042]);
+ const normal=purchaseTiming(data,[3031,3046,6676,3042]);
+ const snowball=purchaseTiming(data,[3031,3046,6676,3042],true);
+ expect(normal.coreIds).toEqual([3031,3046,6676,3042]);
+ expect(snowball.coreIds).toEqual([3031,6676,3046,3042]);
  expect(normal.tearEarly).toBe(true);
  expect(normal.notes.join(' ')).toContain('25 bonus gold');
  expect(normal.notes.join(' ')).toContain('assists give no Taxes gold');
+});
+it('holds armor penetration until a third-item slot when no purchase data is loaded',()=>{
+ const timing=purchaseTiming(data,[3031,3036,6676,3042]);
+ expect(timing.coreIds).toEqual([3031,6676,3036,3042]);
+ expect(timing.notes.join(' ')).toMatch(/Lord Dominik's Regards only pays off once enemies buy armor/);
 });
 it('constrains the damage order only when practical timing priorities are requested',()=>{
  const champion=data.champions.find(c=>c.alias==='Cassiopeia')!,s=defaultScenario(champion.alias);

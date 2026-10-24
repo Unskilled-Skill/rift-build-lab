@@ -7,6 +7,9 @@ const intents=new Map(fs.readFileSync('scripts/champion-build-intents.txt','utf8
 if(intents.size!==catalog.champions.length)throw new Error('Intent table must match the exact roster.');
 const out='public/data/champion-builds';fs.mkdirSync(out,{recursive:true});
 const types=['Reference','Damage interaction','Situational adaptation','Experiment'];
+// Reference builds come from ranked data when scripts/ranked-references.json exists (npm run ranked-references).
+const rankedPath='scripts/ranked-references.json',ranked=fs.existsSync(rankedPath)?JSON.parse(fs.readFileSync(rankedPath,'utf8')):null;
+if(ranked&&ranked.patch!==catalog.patch)throw new Error('Ranked references belong to another patch; run npm run ranked-references.');
 const index={version:1,patch:catalog.patch,authoredAt:'2026-10-13',author:'ChatGPT',method:'Individually reviewed kit-interaction candidates plus reference/matchup packages; full authored overrides preserved; unvalidated hypotheses.',champions:[]};
 const item=id=>{const i=catalog.items.find(i=>i.id===id);if(!i)throw new Error(`Unknown item ${id}`);return i};
 for(const champion of catalog.champions){
@@ -59,6 +62,14 @@ for(const champion of catalog.champions){
   for(const original of [builds[0],builds[2],builds[1],builds[3]])if(selected.length<4&&!selected.some(b=>signature(b)===signature(original)))selected.push(original);
   if(selected.length!==4)throw new Error(`${champion.alias}: four distinct routes unavailable.`);
   builds=[selected[2],selected[0],selected[3],selected[1]];
+ }
+ const rankedReference=ranked?.references?.[champion.alias];
+ if(rankedReference){
+  // Replace a route the ranked build duplicates, else the Reference, else the Damage interaction route.
+  const sig=b=>[...b.itemIds].sort((x,y)=>x-y).join(','),find=c=>builds.findIndex(b=>b.category===c);
+  const dupe=builds.findIndex(b=>sig(b)===sig(rankedReference));
+  const at=dupe>=0?dupe:find('Reference')>=0?find('Reference'):Math.max(0,find('Damage interaction')),old=builds[at];
+  builds=[{id:`${champion.alias.toLowerCase()}-ranked-reference`,champion:champion.alias,...rankedReference,conditions:old.conditions,author:'Rift Build Lab ranked data',category:'Reference',resourceType:old.resourceType,kitEvidence:old.kitEvidence},...builds.filter((_,n)=>n!==at)];
  }
  fs.writeFileSync(path.join(out,champion.alias+'.json'),JSON.stringify({version:1,patch:catalog.patch,author:'ChatGPT',authoredAt:override?.authoredAt||'2026-10-13',...(override?.method?{method:override.method}:{}),builds},null,2)+'\n');
  index.champions.push({alias:champion.alias,name:champion.name,count:4});

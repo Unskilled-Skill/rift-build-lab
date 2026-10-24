@@ -12,7 +12,7 @@ import type {NativeBuildActions} from '../src/platform/types';
 const data=catalog as unknown as Catalog;
 const read=(path:string)=>fs.readFileSync(path,'utf8');
 const text=(html:string)=>html.replace(/<!-- -->/g,'').replace(/<[^>]+>/g,' ').replace(/&#x27;/g,"'").replace(/&amp;/g,'&').replace(/\s+/g,' ');
-const authored=planFromChatBuild(data,parseChatBuilds(read('public/data/champion-builds/Cassiopeia.json'),data)[0],'authored');
+const authored=planFromChatBuild(data,parseChatBuilds(read('public/data/champion-builds/Cassiopeia.json'),data).find(b=>!b.ranked)!,'authored');
 const index=JSON.parse(read('public/data/provider-research/index.json'));
 const full=buildFullMeta(data,'Ahri',JSON.parse(read(`public/data/provider-research/${index.recordsDirectory}/Ahri.json`)).sources,parseMetaPlans(JSON.parse(read('public/data/champion-meta-plans.json')),data).find(p=>p.champion==='Ahri')!);
 const meta=planFromMeta(data,full);

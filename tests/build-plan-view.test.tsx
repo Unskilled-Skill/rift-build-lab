@@ -12,7 +12,7 @@ import PurchaseGuide from '../src/PurchaseGuide';
 const data=catalog as unknown as Catalog;
 const read=(path:string)=>fs.readFileSync(path,'utf8');
 const text=(html:string)=>html.replace(/<!-- -->/g,'').replace(/<[^>]+>/g,' ').replace(/&#x27;/g,"'").replace(/&amp;/g,'&').replace(/\s+/g,' ');
-const authored=planFromChatBuild(data,parseChatBuilds(read('public/data/champion-builds/Cassiopeia.json'),data)[0],'authored');
+const authored=planFromChatBuild(data,parseChatBuilds(read('public/data/champion-builds/Cassiopeia.json'),data).find(b=>!b.ranked)!,'authored');
 const ceiling=planFromChatBuild(data,parseChatBuilds(read('public/data/ability-ceilings/Blitzcrank.json'),data)[0],'ceiling');
 const index=JSON.parse(read('public/data/provider-research/index.json'));
 const metaPlan=parseMetaPlans(JSON.parse(read('public/data/champion-meta-plans.json')),data).find(p=>p.champion==='Ahri')!;

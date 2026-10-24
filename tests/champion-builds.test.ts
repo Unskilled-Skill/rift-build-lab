@@ -35,6 +35,8 @@ it('preserves individually authored collections when roster interactions are reg
  for(const file of fs.readdirSync('scripts/champion-build-overrides')){
   const authored=JSON.parse(fs.readFileSync(`scripts/champion-build-overrides/${file}`,'utf8'));
   const published=JSON.parse(fs.readFileSync(`public/data/champion-builds/${file}`,'utf8'));
-  expect(published.builds).toEqual(authored.builds);
+  // The ranked Reference replaces one authored route; the other three stay exactly as written.
+  const kept=published.builds.filter((b:{ranked?:unknown})=>!b.ranked);
+  expect(kept).toHaveLength(3);for(const b of kept)expect(authored.builds).toContainEqual(b);
  }
 });

@@ -5,33 +5,68 @@
   "authoredAt": "2026-10-13",
   "builds": [
     {
-      "id": "sivir-four-1",
+      "id": "sivir-ranked-reference",
       "champion": "Sivir",
-      "name": "Reference: Multi-target carry",
-      "goal": "Reference for Sivir: establish a repeatable reference",
-      "hypothesis": "A ranged teamfight attacker who clears through ricochets, blocks one spell and uses team speed to maintain contact. Compare ricochet waves/attacks with Q poke and spell-shield timing. Crit/lethality affect different parts of the kit; actual bounce eligibility must be confirmed. Runaan asks whether real multi-target attacks improve teamfight output.",
-      "summary": "Runaan asks whether real multi-target attacks improve teamfight output.",
+      "name": "Reference: Ranked bot core",
+      "goal": "Reference for Sivir: the core and runes ranked Emerald+ bot players use most (8,312 ranked Emerald+ games with this core on OP.GG, patch 16.20, 58.3% win rate).",
+      "hypothesis": "A ranged teamfight attacker who clears through ricochets, blocks one spell and uses team speed to maintain contact. The current adc provider core anchors this plan; later slots are observed options or reviewed kit completions. Core in purchase order: Yun Tal Wildarrows → Infinity Edge → Navori Flickerblade. Lethal Tempo keystone as played in those games. Remaining slots: Berserker's Greaves, Lord Dominik's Regards, Bloodthirster.",
+      "summary": "The proven bot baseline: Yun Tal Wildarrows → Infinity Edge → Navori Flickerblade, with Lethal Tempo.",
       "itemIds": [
         3032,
-        3085,
         3031,
+        6675,
+        3006,
         3036,
-        3072,
-        3006
+        3072
       ],
       "runePage": [
         8008,
-        9111,
-        9104,
-        8014,
-        8429,
-        8451
+        8009,
+        9103,
+        8017,
+        8313,
+        8321
       ],
       "shards": [
         5005,
         5008,
-        5001
+        5011
       ],
+      "testPlan": [
+        "Play it in bot as your control build. Follow the purchase order; the core (Yun Tal Wildarrows → Infinity Edge → Navori Flickerblade) is what ranked players complete first.",
+        "Record kills, deaths, damage dealt and the minute you finish each core item, then compare other builds against these numbers in similar games.",
+        "Adapt the last two items to the enemy team: armor or magic resist against fed carries, anti-heal against healing, penetration once enemies stack resists."
+      ],
+      "failureConditions": [
+        "Your results with this build fall clearly below the 58.3% ranked baseline over several games in the same role.",
+        "The enemy team composition makes the core items poor answers; swap the flexible slots before abandoning the core."
+      ],
+      "tradeoffs": [
+        "Proven and predictable, so opponents know what to expect. It is a starting point, not the best build for every matchup.",
+        "The observed core and individual options do not establish six-item build statistics. Late slots are kit-based inferences.",
+        "Six-slot completion is our kit-based inference, not an observed six-item win-rate build.  Situational options replace an appropriate slot; they are not added as a seventh item."
+      ],
+      "buyOrder": [
+        "Core in purchase order: Yun Tal Wildarrows → Infinity Edge → Navori Flickerblade.",
+        "Boots after the first item unless the lane needs them earlier."
+      ],
+      "coverageNotes": [
+        "Source: OP.GG ranked Emerald+ solo/duo, patch 16.20, checked 2026-10-14. Core items and rune page are observed; later slots are observed options or reviewed completions. Win rates describe those games, not a prediction for yours."
+      ],
+      "ranked": {
+        "provider": "opgg",
+        "role": "adc",
+        "sourceURL": "https://op.gg/open-source/opgg-mcp",
+        "sourcePatch": "16.20",
+        "checkedAt": "2026-10-14",
+        "games": 8312,
+        "winRate": 58.3,
+        "observedCoreItemIds": [
+          3032,
+          3031,
+          6675
+        ]
+      },
       "conditions": {
         "level": 18,
         "rank": 5,
@@ -45,35 +80,7 @@
         "conquerorStacks": 0,
         "combatSeconds": 0
       },
-      "testPlan": [
-        "Kit question for Sivir: Compare ricochet waves/attacks with Q poke and spell-shield timing. Crit/lethality affect different parts of the kit; actual bounce eligibility must be confirmed.",
-        "Start with the early core (Yun Tal, then Runaan) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Runaan asks whether real multi-target attacks improve teamfight output. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Sivir hurls her crossblade like a boomerang, dealing damage each way. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
-      ],
-      "failureConditions": [
-        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
-        "The route fails Sivir's stated kit question: Compare ricochet waves/attacks with Q poke and spell-shield timing. Crit/lethality affect different parts of the kit; actual bounce eligibility must be confirmed.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
-      ],
-      "tradeoffs": [
-        "Do not assume bolts reproduce every champion effect; isolate the interaction.",
-        "Full cost 16,950 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
-      ],
-      "buyOrder": [
-        "Yun Tal, then Runaan. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Infinity Edge, Lord Dominik's Regards, Bloodthirster are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
-      ],
-      "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
-      ],
-      "author": "ChatGPT",
+      "author": "Rift Build Lab ranked data",
       "category": "Reference",
       "resourceType": "Mana",
       "kitEvidence": [

@@ -5,25 +5,25 @@
   "authoredAt": "2026-10-13",
   "builds": [
     {
-      "id": "kogmaw-four-1",
+      "id": "kogmaw-ranked-reference",
       "champion": "KogMaw",
-      "name": "Reference: Repeated on-hit",
-      "goal": "Reference for Kog'Maw: establish a repeatable reference",
-      "hypothesis": "A stationary ranged damage engine who either exploits W's long-range max-health attacks or uses spells to soften enemies beyond attack range. Separate W's max-health attacks from R artillery and rising mana cost. Confirm phantom/bolt applications and Q shred rather than assigning full item damage to every spell. Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
-      "summary": "Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration.",
+      "name": "Reference: Ranked bot core",
+      "goal": "Reference for Kog'Maw: the core and runes ranked Emerald+ bot players use most (3,163 ranked Emerald+ games with this core on OP.GG, patch 16.20, 57.1% win rate).",
+      "hypothesis": "A stationary ranged damage engine who either exploits W's long-range max-health attacks or uses spells to soften enemies beyond attack range. The current adc provider core anchors this plan; later slots are observed options or reviewed kit completions. Core in purchase order: Guinsoo's Rageblade → Navori Flickerblade → Terminus. Lethal Tempo keystone as played in those games. Remaining slots: Berserker's Greaves, Wit's End, Blade of The Ruined King.",
+      "summary": "The proven bot baseline: Guinsoo's Rageblade → Navori Flickerblade → Terminus, with Lethal Tempo.",
       "itemIds": [
-        3153,
         3124,
+        6675,
         3302,
+        3006,
         3091,
-        3026,
-        3006
+        3153
       ],
       "runePage": [
         8008,
         9111,
-        9104,
-        8014,
+        9103,
+        8299,
         8429,
         8451
       ],
@@ -32,6 +32,41 @@
         5008,
         5001
       ],
+      "testPlan": [
+        "Play it in bot as your control build. Follow the purchase order; the core (Guinsoo's Rageblade → Navori Flickerblade → Terminus) is what ranked players complete first.",
+        "Record kills, deaths, damage dealt and the minute you finish each core item, then compare other builds against these numbers in similar games.",
+        "Adapt the last two items to the enemy team: armor or magic resist against fed carries, anti-heal against healing, penetration once enemies stack resists."
+      ],
+      "failureConditions": [
+        "Your results with this build fall clearly below the 57.1% ranked baseline over several games in the same role.",
+        "The enemy team composition makes the core items poor answers; swap the flexible slots before abandoning the core."
+      ],
+      "tradeoffs": [
+        "Proven and predictable, so opponents know what to expect. It is a starting point, not the best build for every matchup.",
+        "The observed core and individual options do not establish six-item build statistics. Late slots are kit-based inferences.",
+        "Six-slot completion is our kit-based inference, not an observed six-item win-rate build.  Situational options replace an appropriate slot; they are not added as a seventh item."
+      ],
+      "buyOrder": [
+        "Core in purchase order: Guinsoo's Rageblade → Navori Flickerblade → Terminus.",
+        "Boots after the first item unless the lane needs them earlier."
+      ],
+      "coverageNotes": [
+        "Source: OP.GG ranked Emerald+ solo/duo, patch 16.20, checked 2026-10-14. Core items and rune page are observed; later slots are observed options or reviewed completions. Win rates describe those games, not a prediction for yours."
+      ],
+      "ranked": {
+        "provider": "opgg",
+        "role": "adc",
+        "sourceURL": "https://op.gg/open-source/opgg-mcp",
+        "sourcePatch": "16.20",
+        "checkedAt": "2026-10-14",
+        "games": 3163,
+        "winRate": 57.1,
+        "observedCoreItemIds": [
+          3124,
+          6675,
+          3302
+        ]
+      },
       "conditions": {
         "level": 18,
         "rank": 5,
@@ -45,35 +80,7 @@
         "conquerorStacks": 0,
         "combatSeconds": 0
       },
-      "testPlan": [
-        "Kit question for Kog'Maw: Separate W's max-health attacks from R artillery and rising mana cost. Confirm phantom/bolt applications and Q shred rather than assigning full item damage to every spell.",
-        "Start with the early core (BotRK, then Rageblade) plus appropriate boots at matched gold. Record level, actual ability ranks, forms, resource and item transformations; six-item results do not establish lane strength. Use your intended lane or jungle role; jungle starters and early consumables are outside the final six slots.",
-        "Use this as the control for the other three routes. Run three repeatable trials of a short trade and a ten-second fight. Record damage actually landed, attacks/casts, misses, remaining resource and survival. Record available/max mana and any transformed mana-item state.",
-        "Measure the actual interaction before granting item/rune procs: Actual attacks can combine on-hit effects, attack speed and stacked defenses/penetration. Test once stationary, then with a moving opponent and a fixed incoming damage pattern. ",
-        "Q evidence: Kog'Maw launches a corrosive projectile which deals magic damage and corrodes the target's armor and magic resist for a short time. Kog'Maw also gains additional attack speed. Keep finite champion/item/rune stacks explicit. Use Practice Tool, a custom match or your own replay; no numerical adapter is available for this champion."
-      ],
-      "failureConditions": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "The route fails Kog'Maw's stated kit question: Separate W's max-health attacks from R artillery and rising mana cost. Confirm phantom/bolt applications and Q shred rather than assigning full item damage to every spell.",
-        "Higher dummy damage is offset by fewer landed actions, deaths before the useful window, or worse ally utility. "
-      ],
-      "tradeoffs": [
-        "Ramp and target contact are required; on-attack effects are not all copied by phantom hits.",
-        "Full cost 16,300 gold; delayed items, resource starvation and the two-item spike must be judged separately.",
-        "The reference is a research control, not a claim of the current highest-win-rate build."
-      ],
-      "buyOrder": [
-        "BotRK, then Rageblade. Adapt component timing to lane/jungle pressure; do not blindly follow the displayed six-item order.",
-        "Keep appropriate boots while building the early core; swap boots only when the measured matchup justifies it.",
-        "Terminus, Wit's End, Guardian Angel are later or conditional slots; do not postpone necessary protection for a six-item ceiling.",
-        "Record available/max mana and any transformed mana-item state."
-      ],
-      "coverageNotes": [
-        "No numerical damage or survival adapter exists for this champion. Loading this proposal opens a manual test sheet, not calculated damage.",
-        "Source formulas remain in Champion kit. Symbolic values, unresolved tokens and helper records are evidence to inspect, not a certified executable simulator.",
-        "Legal source item/rune references were checked; retained map flags cannot prove every live-shop condition. Confirm shop eligibility, exact on-hit/on-attack rules and real proc cooldowns in game."
-      ],
-      "author": "ChatGPT",
+      "author": "Rift Build Lab ranked data",
       "category": "Reference",
       "resourceType": "Mana",
       "kitEvidence": [

@@ -45,14 +45,21 @@ it('never lists one item as both a purchase and a choose-one alternative, and en
 it('keeps an available starting purchase within 500 gold',()=>{
  for(const p of plans){const s=p.stages.find(s=>s.id==='start');if(!s?.available)continue;expect(s.buy.reduce((n,id)=>n+item(id).gold.total,0),p.id).toBeLessThanOrEqual(500);for(const id of s.chooseOne)expect(item(id).gold.total).toBeLessThanOrEqual(500)}
 });
-it('marks unknown starting and recall stages unavailable for authored builds instead of inventing them',()=>{
- for(const p of plans.filter(p=>p.collection!=='meta')){for(const id of ['start','early-recall'] as const){const s=p.stages.find(s=>s.id===id)!;if(id==='early-recall'&&s.available){expect(s.provenance).toBe('inferred');expect(s.chooseOne).toEqual([3070]);expect(p.finalItemIds.some(id=>[3040,3042,3121,2530,3003,3004,3119,2526].includes(id))).toBe(true)}else{expect(s.available,p.id).toBe(false);expect(s.chooseOne).toEqual([])}expect(s.buy).toEqual([])}}
+it('gives every build with a known role an inferred start and recall menu, and states the gap when the role is unknown',()=>{
+ for(const p of plans.filter(p=>p.collection!=='meta')){
+  const start=p.stages.find(s=>s.id==='start')!,recall=p.stages.find(s=>s.id==='early-recall')!;
+  if(p.role==='unspecified'){expect(start.available,p.id).toBe(false);expect(start.buy).toEqual([])}
+  else{expect(start.available,p.id).toBe(true);expect(start.provenance).toBe('inferred');expect([...start.buy,...start.chooseOne].length).toBeGreaterThan(0)}
+  if(recall.available){expect(recall.provenance,p.id).toBe('inferred');expect(recall.buy).toEqual([]);for(const id of recall.chooseOne)expect(id===3070||item(id).gold.total>=250&&item(id).gold.total<=1300,`${p.id} ${id}`).toBe(true)}
+ }
+ const support=plans.find(p=>p.collection!=='meta'&&p.role==='support');if(support)expect(support.stages.find(s=>s.id==='start')!.buy).toContain(3865);
  const meta=plans.filter(p=>p.collection==='meta');expect(meta.length).toBeGreaterThanOrEqual(173);for(const p of meta)expect(p.stages.find(s=>s.id==='start')!.available,p.id).toBe(true);
 });
 it('labels provenance honestly: authored order for authored builds, inferred stages for meta plans, never calculator by default',()=>{
  for(const p of plans){expect(p.provenance.order).not.toBe('calculator');for(const s of p.stages)expect(s.provenance).not.toBe('calculator')}
  const meta=plans.find(p=>p.collection==='meta')!;expect(meta.stages.find(s=>s.id==='start')!.provenance).toBe('inferred');expect(meta.provenance.items).toBe('source-observed');
- const own=plans.find(p=>p.collection==='authored')!;expect(own.provenance).toEqual({items:'authored',runes:'authored',order:'authored'});
+ const own=plans.find(p=>p.collection==='authored'&&!p.id.endsWith('-ranked-reference')&&!p.stages.some(s=>s.provenance==='inferred'&&['first-core','later-core'].includes(s.id)))!;expect(own.provenance).toEqual({items:'authored',runes:'authored',order:'authored'});
+ const ranked=plans.find(p=>p.id.endsWith('-ranked-reference'))!;expect(ranked.provenance.items).toBe('source-observed');expect(ranked.provenance.runes).toBe('source-observed');expect(ranked.sourceURL).toMatch(/^https:\/\/(op\.gg|lolalytics\.com)\//);
 });
 it('exports plans with only Summoner’s Rift shop items and buyable prerequisites for earned upgrades',()=>{
  const earned=[3040,3042,3121,2530,3869,3870,3871,3876,3877];
@@ -61,7 +68,8 @@ it('exports plans with only Summoner’s Rift shop items and buyable prerequisit
 it('exports plan stages in order, skips unavailable stages and keeps choose-one alternatives in their own block',()=>{
  const meta=plans.find(p=>p.collection==='meta'&&p.stages.some(s=>s.id==='early-recall'&&s.chooseOne.length))!;const set=createLeagueItemSetFromPlan(data,meta);
  const titles=set.blocks.map(b=>b.type);expect(titles[0]).toBe('Starting purchase (inferred)');expect(titles).toContain('First recall options — choose one option');expect(titles.at(-1)).toBe('Final build — buy prerequisites; earn upgrades');
- const own=plans.find(p=>p.collection==='authored')!;expect(createLeagueItemSetFromPlan(data,own).blocks.map(b=>b.type).some(t=>/Starting|recall/i.test(t))).toBe(false);
+ const own=plans.find(p=>p.collection==='authored'&&p.role==='unspecified')!;expect(createLeagueItemSetFromPlan(data,own).blocks.map(b=>b.type).some(t=>/Starting/i.test(t))).toBe(false);
+ const ranked=plans.find(p=>p.id.endsWith('-ranked-reference'))!;expect(createLeagueItemSetFromPlan(data,ranked).blocks[0].type).toMatch(/^Starting purchase/);
 });
 it('produces the same item set as the existing meta export for the same checkpoints',async()=>{
  const p=parseMetaPlans(JSON.parse(read('public/data/champion-meta-plans.json')),data).find(p=>p.champion==='Ahri')!;const index=JSON.parse(read('public/data/provider-research/index.json'));
